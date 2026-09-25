@@ -39,7 +39,7 @@
 
 ### 환경 설정
 
-- Node.js 24 (`.nvmrc`)
+- Node.js 24.21.0 (`.nvmrc`). 의존성은 npm 11.19.0으로 설치한다 (`docs/stack.md`)
 
 ```bash
 npm install

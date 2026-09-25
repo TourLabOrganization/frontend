@@ -9,7 +9,14 @@
 | 다국어      | next-intl 4                                                  | URL에 언어 코드 없이 쿠키로 고른다                          |
 | 포맷·린트   | Prettier(+ Tailwind 클래스 정렬), ESLint(eslint-config-next) |                                                             |
 | 배포        | Vercel                                                       |                                                             |
-| 런타임      | Node.js 24 (`.nvmrc`)                                        |                                                             |
+| 런타임      | Node.js 24.21.0 (`.nvmrc`) · npm 11.19.0                     | CI도 `.nvmrc`의 버전을 쓴다                                 |
+
+## 의존성 설치
+
+- `package-lock.json`은 `.nvmrc`의 Node에 딸린 npm(11.19.0)으로 갱신한다.
+  낮은 npm으로 만든 lockfile은 CI의 `npm ci`가 `Missing: ... from lock file`로 거부한다
+- 로컬 Node 버전이 다르면 `npx -y npm@11.19.0 install <패키지>`로 설치한다
+- Node를 올릴 때는 `.nvmrc`와 이 표의 버전을 함께 고친다
 
 ## 필요해지면 이것을 쓴다
 
