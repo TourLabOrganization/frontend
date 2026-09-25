@@ -1,0 +1,4 @@
+package-lock.json
+# next dev가 관리 블록을 원문 그대로 비교한다. 포매터가 건드리면 블록이 다시 써진다
+AGENTS.md
+CLAUDE.md

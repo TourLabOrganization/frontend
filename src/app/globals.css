@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/*
+ * 디자인 토큰 — 임시값. PoC(Tour-Navigator-App)의 팔레트·서체를 그대로 옮겨 두었다.
+ * 디자인이 확정되면 이 블록과 docs/ui.md를 함께 고친다.
+ */
+@theme {
+  --color-ink: #153b3d;
+  --color-accent: #b8431c;
+  --color-cream: #f2ece0;
+}
+
+/* next/font가 <html>에 심는 변수를 참조하므로 inline으로 둔다 */
+@theme inline {
+  --font-sans: var(--font-archivo), var(--font-gowun-dodum), sans-serif;
+}
