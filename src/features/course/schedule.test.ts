@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import gyeongjuNation from "./fixtures/gyeongju-nation.json";
-import { DETOUR } from "./params";
+import { DETOUR, EARTH_RADIUS_KM } from "./params";
 import {
   makeLegFn,
   ORIGINS,
@@ -14,6 +14,7 @@ import {
   autoCourse,
   dayWindows,
   fmtStay,
+  legInfo,
   openHours,
   straightKm,
   timeline,
@@ -56,6 +57,81 @@ describe("체류 · 운영시간 (설명서 2 · 3장)", () => {
     expect(openHours({ hrs: "상시 개방 · 무료" })).toBeNull();
     expect(openHours({ hrs: "15:00 IN / 11:00 OUT" })).toBeNull();
     expect(openHours({})).toBeNull();
+  });
+});
+
+describe("시내 이동 legInfo (설명서 4장)", () => {
+  // 같은 시군의 두 점. 도로 거리(직선 × DETOUR)가 roadKm이 되게 북쪽으로 옮긴다
+  const pair = (roadKm: number) => {
+    const p = { id: "p", lat: 37.5, lng: 127, locKo: "서울" };
+    const dLat = (roadKm / DETOUR / EARTH_RADIUS_KM) * (180 / Math.PI);
+    return [p, { ...p, id: "q", lat: p.lat + dLat }] as const;
+  };
+
+  it("대중교통: 3km 이하 max(10, 11 × d), 넘으면 15 + 3.6 × d", () => {
+    for (const [d, min] of [
+      [0.5, 10],
+      [2.9, 32],
+      [3.1, 26],
+    ] as const) {
+      const leg = legInfo(...pair(d), "transit");
+      expect(leg.km).toBeCloseTo(d, 6);
+      expect(leg.min).toBe(min);
+    }
+  });
+
+  it("구간 최소 8분: 100m를 차로 가도 8분", () => {
+    expect(legInfo(...pair(0.1), "driving").min).toBe(8);
+    expect(legInfo(...pair(0.1), "own").min).toBe(8);
+  });
+});
+
+describe("autoCourse 개장 대기 반영 (waitAware)", () => {
+  // 같은 시군 세 곳. A에서 B는 가깝지만 16:00에 열고, C는 조금 멀지만 지금 열려 있다
+  const base = { locKo: "영월", cat: "herit", min: 60, off: false, yt: false };
+  const A = {
+    ...base,
+    id: "A",
+    ko: "A",
+    n: 1,
+    lat: 37.2,
+    lng: 128.46,
+    hrs: "09:00–18:00",
+  };
+  const B = {
+    ...base,
+    id: "B",
+    ko: "B",
+    n: 2,
+    lat: 37.203,
+    lng: 128.46,
+    hrs: "16:00–24:00",
+  };
+  const C = {
+    ...base,
+    id: "C",
+    ko: "C",
+    n: 3,
+    lat: 37.215,
+    lng: 128.46,
+    hrs: "09:00–18:00",
+  };
+  const opts = {
+    days: 1,
+    windows: [600],
+    legFn: makeLegFn("transit"),
+    accIn: 60,
+  };
+
+  it("원본은 이동만 보고 개장 전인 가까운 곳을 먼저 골라 기다린다", () => {
+    expect(autoCourse([A, B, C], opts).map((p) => p.id)).toEqual(["A", "B"]);
+  });
+
+  it("waitAware면 대기도 비용으로 쳐서 열린 곳을 먼저 들르고, 여는 시각에 맞춰 간다", () => {
+    const ids = autoCourse([A, B, C], { ...opts, waitAware: true }).map(
+      (p) => p.id,
+    );
+    expect(ids).toEqual(["A", "C", "B"]);
   });
 });
 

@@ -219,7 +219,7 @@ export type TripOptions = {
   hasTrip?: boolean;
 };
 
-const toMin = (t: string) => {
+export const toMin = (t: string) => {
   const [h, m] = t.split(":").map(Number);
   return h * 60 + m;
 };
@@ -377,6 +377,12 @@ export type AutoCourseOptions = {
   accIn?: number;
   hasTrip?: boolean;
   cityKo?: string;
+  /**
+   * 4단계 순위에 개장 대기도 넣는다. 원본(false)은 이동만 보고 골라, 개장 전인 식당을 아침 첫 장소로 골라
+   * 몇 시간씩 기다리게 할 수 있다(예: 16:00에 여는 곳을 09:00에 골라 대기 420분).
+   * 원본 재현 테스트가 있어 기본값은 원본대로 두고, 코스 3안(scenarios.ts)만 켠다
+   */
+  waitAware?: boolean;
 };
 
 /**
@@ -400,6 +406,7 @@ export function autoCourse<T extends SchedulePlace>(
     accIn = 0,
     hasTrip = true,
     cityKo = "",
+    waitAware = false,
   }: AutoCourseOptions,
 ): T[] {
   const regOf = (p: T) => p.locKo || cityKo;
@@ -459,10 +466,16 @@ export function autoCourse<T extends SchedulePlace>(
             (Number(x.n) || NO_ORDER) - (Number(y.n) || NO_ORDER),
         );
     const from: T = cur;
+    const wait = (x: T) => {
+      const oh = waitAware ? openHours(x) : null;
+      const arrive = clock + legFn(from, x).min;
+      return oh && arrive < oh.open ? oh.open - arrive : 0;
+    };
     const cost = (x: T) =>
       legFn(from, x).min +
       (x.off ? OFF_LIST_PENALTY : 0) +
-      (x.yt ? -VIDEO_BONUS : 0);
+      (x.yt ? -VIDEO_BONUS : 0) +
+      wait(x);
     return g.slice().sort((x, y) => cost(x) - cost(y));
   };
   let clock = dayStartClock(0, { depTime, accIn, hasTrip });

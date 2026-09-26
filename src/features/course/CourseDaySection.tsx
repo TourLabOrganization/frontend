@@ -56,7 +56,7 @@ export function CourseDaySection({ day, transport }: CourseDaySectionProps) {
                     {stop.wait > 0 && (
                       <span className="flex items-center gap-2">
                         <Hourglass size={20} aria-hidden />
-                        {t("wait", { minutes: stop.wait })}
+                        {t("wait", { duration: duration(stop.wait) })}
                       </span>
                     )}
                   </div>

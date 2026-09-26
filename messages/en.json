@@ -52,7 +52,7 @@
       },
       "q3": {
         "title": "What pace do you like?",
-        "help": "This sets how full each day is",
+        "help": "Pick your usual travel pace",
         "options": {
           "packed": "Packed",
           "moderate": "Balanced",
@@ -108,7 +108,7 @@
       },
       "q8": {
         "title": "When are you most active?",
-        "help": "We'll fit your schedule to it",
+        "help": "Pick when you usually get going",
         "options": {
           "morning": "Early mornings",
           "daytime": "Mostly daytime",
@@ -128,7 +128,7 @@
       },
       "q10": {
         "title": "When are you leaving?",
-        "help": "We'll pick routes for the season and festivals",
+        "help": "Pick when you plan to leave",
         "options": {
           "this-weekend": "This weekend",
           "this-month": "This month",
@@ -156,7 +156,7 @@
       },
       "q13": {
         "title": "How much can you walk a day?",
-        "help": "We'll size the route to fit",
+        "help": "Pick how long you can walk in a day",
         "options": {
           "under-1h": "Up to 1 hour",
           "1-3h": "1–3 hours",
@@ -179,7 +179,7 @@
     "mixedTagline": "A mix of two styles",
     "typeShare": "{name} {percent}%",
     "recommendedThemes": "Themes for you",
-    "evidenceLabel": "Backed by DataLab",
+    "evidenceLabel": "Why we picked it",
     "fitRankType": "#{rank} for {type}",
     "fitRankMixed": "#{rank} for your mix",
     "fitRank": "#{rank} match",
@@ -192,7 +192,7 @@
       "local-food": "local food",
       "nature": "sea & scenery"
     },
-    "source": "Scores based on the 2025 National Travel Survey and International Visitor Survey · Korea Tourism DataLab",
+    "source": "Question scores follow a table built on the 2025 national travel and inbound visitor surveys (Korea Tourism Data Lab); place shares are counted from the app's place categories",
     "compareCourses": "Compare 3 routes"
   },
   "Clusters": {
@@ -267,15 +267,13 @@
       },
       "quiet": {
         "name": "Quiet",
-        "description": "Skips landmarks and on-screen spots, and puts the area's healing and nature spots first."
+        "description": "Skips landmarks and on-screen spots, and puts the area's nature and healing spots first."
       }
     },
     "sameAsClassic": "Under these conditions, this plan matches the Classic route",
     "fallbackNotice": "Once crowd and search-trend data is connected, these plans will switch to the weights in the strategy document",
-    "tripBasis": "Based on leaving Seoul Station at {depTime} and heading home at {retTime} on the last day",
+    "tripBasis": "Based on leaving Seoul Station at {depTime} and leaving the destination at {retTime} on the last day",
     "accessibleNotice": "Only places with barrier-free information are included",
-    "ignoredNotice": "{conditions} isn't reflected yet because we don't have place data for it",
-    "walkNotice": "Your daily walking limit ({walk}) isn't reflected yet because we don't have walking-difficulty data for places",
     "dayTrip": "Day trip",
     "nightsDays": "{nights, plural, one {# night} other {# nights}}, {days} days",
     "placeCount": "{count, plural, one {# place} other {# places}}",
@@ -285,7 +283,7 @@
     "arrive": "Arrive",
     "leave": "Leave",
     "move": "{duration} to next stop",
-    "wait": "{minutes} min wait for opening",
+    "wait": "{duration} wait for opening",
     "stay": "Stay {duration}",
     "videoBadge": "On screen",
     "k100Badge": "Korea's Top 100",
@@ -305,7 +303,13 @@
     },
     "empty": "No places match your conditions, so we couldn't build a route",
     "emptyHelp": "Try again with different conditions",
-    "emptyDay": "No places fit into this day"
+    "emptyDay": "No places fit into this day",
+    "unappliedNotice": "Not reflected yet (no data): {conditions}",
+    "condition": "{name} ({value})",
+    "conditionNames": {
+      "when": "Travel dates",
+      "walk": "Daily walking"
+    }
   },
   "Regions": {
     "seoul": "Seoul",

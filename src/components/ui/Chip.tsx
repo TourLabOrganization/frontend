@@ -4,7 +4,7 @@ type ChipProps = {
   children: React.ReactNode;
 };
 
-// 짧은 정보 조각. 데이터랩 근거 배지, 거리·시간 같은 메타 정보에 쓴다
+// 짧은 정보 조각. 추천 근거 배지, 거리·시간 같은 메타 정보에 쓴다
 export function Chip({ icon, tone = "neutral", children }: ChipProps) {
   return (
     <span

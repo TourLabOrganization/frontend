@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { DAY_END, DAY_START, DEFAULT_DEP, MAX_STOPS } from "./params";
+import {
+  DAY_END,
+  DAY_START,
+  DEFAULT_DEP,
+  DEFAULT_RET,
+  MAX_STOPS,
+} from "./params";
 import {
   getThemePlaces,
   makeLegFn,
@@ -24,6 +30,7 @@ import {
   dayStartClock,
   dayWindows,
   openHours,
+  toMin,
 } from "./schedule";
 
 const SLUGS = Object.keys(PLACES_BY_THEME);
@@ -93,7 +100,7 @@ describe("이동수단 매핑", () => {
 });
 
 describe("3안 후보 규칙", () => {
-  it("정석은 100선 · 유네스코를 영상 장소처럼 우대한 autoCourse 결과 순서를 쓴다", () => {
+  it("정석은 100선 · 유네스코를 영상 장소처럼 우대하고 개장 대기를 순위에 넣은 autoCourse 결과 순서를 쓴다", () => {
     for (const slug of SLUGS) {
       for (const days of [1, 2, 3]) {
         const s = buildScenario(slug, "classic", trip(days, "public-transit"));
@@ -106,6 +113,7 @@ describe("3안 후보 규칙", () => {
           windows,
           legFn: makeLegFn("transit"),
           accIn: s.accIn,
+          waitAware: true,
         });
         const ids = s.days.flatMap((d) => d.stops.map((x) => x.id));
         expect(raw.slice(0, ids.length).map((p) => p.id)).toEqual(ids);
@@ -175,6 +183,18 @@ describe("3안 후보 규칙", () => {
 });
 
 describe("시각", () => {
+  it("개장 전인 식당을 아침 첫 장소로 골라 몇 시간씩 기다리게 하지 않는다 (RESCENE 정석 · 대중교통 · 3일)", () => {
+    // 원본 순위(이동만 봄)로는 2일차가 "09:00부터 420분 대기 → 16:00 양곱창 전골" 한 곳이었다
+    const s = buildScenario(
+      "rescene-route",
+      "classic",
+      trip(3, "public-transit"),
+    );
+    const waits = s.days.flatMap((d) => d.stops.map((x) => x.wait));
+    expect(Math.max(...waits)).toBeLessThan(420);
+    expect(s.days[1].stops.length).toBeGreaterThan(1);
+  });
+
   it("광역 접근 시간은 첫 시군 관문 기준이다 (영월 · KTX)", () => {
     const s = buildScenario(
       "kings-warden",
@@ -205,6 +225,9 @@ describe("시각", () => {
               const end = dayEndClock(s, i);
               expect(start).toBeGreaterThanOrEqual(DAY_START);
               expect(end).toBeLessThanOrEqual(DAY_END);
+              // 마지막 날은 19:00에 여행지를 떠난다 (당일 여행에 늦게 도착해도)
+              if (i === days - 1)
+                expect(end).toBeLessThanOrEqual(toMin(DEFAULT_RET));
               let prev = start;
               d.stops.forEach((x, k) => {
                 expect(x.day, where).toBe(i + 1);

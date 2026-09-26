@@ -77,9 +77,6 @@ export function findTheme(slug: string): Theme | undefined {
   return THEMES.find((theme) => theme.slug === slug);
 }
 
-/** 야경 배지를 보이는 기준. night가 이 값 이상일 때만 보인다 */
-export const NIGHT_BADGE_MIN = 0.1;
-
 // ── 최종 점수 ───────────────────────────────────────────────────────
 // 출처: Tour-Navigator-App/테마 추천 알고리즘/src/calc2.py 26~33행
 //   최종(t, c) = fit[t][c] + 0.5 × (Σ share[t][i] (i ∈ 고른 관심사의 분류) + (야경을 골랐으면 night[t])) + 지역보정(t, c)
@@ -189,7 +186,7 @@ export type ThemeEvidence = {
   rank: number;
   /** 최종 점수 구성 (섞을 때는 확률 가중 평균) */
   breakdown: ScoreBreakdown;
-  /** 야경 장소 비율. NIGHT_BADGE_MIN 미만이면 null */
+  /** 야경 장소 비율. 야경을 고른 사람에게만 보인다(calc2.py도 이때만 night를 점수에 더한다). 0이면 null */
   night: number | null;
   /**
    * 보여 줄 카테고리 구성비.
@@ -242,7 +239,7 @@ export function rankThemes<T extends ThemeFit & { slug: string }>(
         fitClusters,
         rank: index + 1,
         breakdown,
-        night: theme.night >= NIGHT_BADGE_MIN ? theme.night : null,
+        night: profile.night && theme.night > 0 ? theme.night : null,
         category: pickCategory(theme.share, profile.interests),
       },
     }));

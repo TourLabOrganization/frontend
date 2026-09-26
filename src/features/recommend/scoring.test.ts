@@ -154,11 +154,14 @@ describe("rankThemes", () => {
     }
   });
 
-  it("야경 배지는 night 0.1 이상일 때만 붙는다", () => {
-    const { themes } = getRecommendation(DOC_EXAMPLE, "ko");
-    for (const t of themes) {
+  it("야경 배지는 야경을 고른 사람에게만, 야경 장소가 있는 테마에 붙는다", () => {
+    for (const t of getRecommendation(DOC_EXAMPLE, "ko").themes)
+      expect(t.evidence.night).toBeNull();
+
+    const nightLover = { ...DOC_EXAMPLE, q4: ["history", "night"] };
+    for (const t of getRecommendation(nightLover, "ko").themes) {
       const source = THEMES.find((s) => s.slug === t.slug)!;
-      expect(t.evidence.night).toBe(source.night >= 0.1 ? source.night : null);
+      expect(t.evidence.night).toBe(source.night > 0 ? source.night : null);
     }
   });
 });

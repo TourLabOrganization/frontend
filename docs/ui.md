@@ -62,7 +62,7 @@
 | `BottomBar`             | 아래 고정 버튼 영역. 내용이 버튼 뒤로 숨지 않게 자리를 자동으로 비운다         |
 | `Button` · `ButtonLink` | `primary`·`secondary`·`ghost`, `lg`(56px)·`md`(48px). 화면 이동은 `ButtonLink` |
 | `OptionItem`            | 문항의 보기. 하나 고르기(radio)·여러 개 고르기(checkbox)                       |
-| `Chip`                  | 데이터랩 근거 배지, 메타 정보                                                  |
+| `Chip`                  | 추천 근거 배지, 메타 정보                                                      |
 | `ProgressBar`           | 문항 진행                                                                      |
 | `SegmentedControl`      | 링크형 탭(`?plan=` 같은 쿼리를 바꾼다). `nav` + `aria-current`. 코스 3안 비교  |
 
@@ -70,7 +70,7 @@
 
 ## 아이콘과 이미지
 
-- 아이콘은 lucide-react만 쓴다. 크기는 20·24, 기본 굵기. 이모지를 아이콘 대신 쓰지 않는다. 장식용 아이콘에는 `aria-hidden`
+- 아이콘은 lucide-react만 쓴다. 크기는 20·24(칩 안에서는 16), 기본 굵기. 이모지를 아이콘 대신 쓰지 않는다. 장식용 아이콘에는 `aria-hidden`
 - 이미지는 `next/image`로 넣는다. 외부 도메인 이미지는 `next.config.ts`의 `images.remotePatterns`에 도메인을 추가한다
 - 사진은 한국관광공사 사진 서비스처럼 이용 허락이 분명한 것만 쓴다. 영화·드라마 포스터는 저작권이 있어 쓰지 않는다
 

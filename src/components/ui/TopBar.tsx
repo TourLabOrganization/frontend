@@ -24,7 +24,7 @@ export function TopBar({ title, onBack, right }: TopBarProps) {
         onClick={onBack ?? (() => router.back())}
         className="flex size-11 items-center justify-center justify-self-start rounded-full transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
       >
-        <ChevronLeft size={26} aria-hidden />
+        <ChevronLeft size={24} aria-hidden />
       </button>
       {title ? (
         <h1 className="text-body-lg font-semibold">{title}</h1>

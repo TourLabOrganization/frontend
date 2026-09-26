@@ -52,7 +52,7 @@ export default function HomePage() {
       <BottomBar>
         <ButtonLink href="/recommend" block>
           {t("cta")}
-          <ArrowRight size={18} aria-hidden />
+          <ArrowRight size={20} aria-hidden />
         </ButtonLink>
       </BottomBar>
     </Screen>

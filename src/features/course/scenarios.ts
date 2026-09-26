@@ -29,12 +29,14 @@ import {
   stayMin,
   timeline,
   type TimelineStop,
+  toMin,
   type TravelMode,
 } from "./schedule";
 
 // 테마 코스 3안 (A 정석 · B 트렌드 · C 한적).
 //
-// 전략 문서의 3안은 장소별 검색 추세(트렌드)와 혼잡도 데이터로 autoCourse의 순위 가중치를 바꾸는 방식이다.
+// 전략 문서(Tour-Navigator-App/테마 추천 알고리즘/docs/01_고도화_전략.md 434행)의 3안은 같은 후보군에서
+// 관광지 점수의 가중치만 바꾼다: A 정석(기본) · B 트렌드(Trend × 2) · C 한적(Crowd × 2, Local × 2).
 // 그 데이터가 아직 연결되지 않았다. 그래서 지금은 places.json에 이미 있는 필드만으로 안을 나눈다.
 // 숫자(가중치 · 분)는 새로 만들지 않고 params.ts의 기존 값(VIDEO_BONUS 14, OFF_LIST_PENALTY 26, HOP 45 …)만 쓴다.
 // 데이터가 연결되면 이 파일의 후보 · 순위 규칙을 전략 문서의 가중치로 바꾼다. 화면에도 같은 안내를 보인다.
@@ -42,18 +44,23 @@ import {
 //  | 안      | 후보                                                     | 순위                                                 |
 //  | classic | 테마의 자동 코스 후보(auto) 전체                          | autoCourse. 100선 · 유네스코도 영상 장소처럼 우대     |
 //  | trend   | 영상 장소(yt)만. 날짜가 남으면 정석 후보로 나머지를 채움   | autoCourse → 남는 시간을 fillCourse로 채움            |
-//  | quiet   | 한국관광100선(k100) · 유네스코(un) · 영상 장소를 뺀 후보   | autoCourse. 힐링·생태(heal) · 해양·자연(sea) 우대     |
+//  | quiet   | 한국관광100선(k100) · 유네스코(un) · 영상 장소를 뺀 후보   | autoCourse. 힐링·생태(heal) 우대                      |
 //
-// - 정석: 전략 문서가 유네스코 · 한국관광 100선을 "A안(정석) 시나리오의 필수 후보"로 둔다.
+// - 정석: 전략 문서가 유네스코 · 한국관광 100선을 "A안(정석) 시나리오의 필수 후보"로 둔다(275행).
 // - 트렌드: 인기(검색 추세) 대신 "영상 속 장소"를 트렌드의 대리 지표로 쓴다.
 // - 한적: 혼잡도 대신 "많이 알려진 명소(100선 · 유네스코)"와 "영상 속 장소(테마를 보고 오는 사람이 몰리는 곳)"를
 //   붐빌 곳의 대리 지표로 보고 뺀다. 남는 후보는 테마 지역의 확장 장소다.
+//   우대하는 분류는 힐링·생태뿐이다. 전략 문서가 낮은 혼잡도와 엮은 분류가 이것이다(228 · 264행).
 // - 우대는 autoCourse가 영상 장소에 주는 우대(yt)를 빌려 준다(prioritize).
 //   그래서 −14분 순위 우대뿐 아니라 시군 가중치(영상 수 × 2)와 시군 진입 직후 순서(영상 먼저)에도 같이 반영된다.
-// - 장소가 적은 테마는 조건에 따라 트렌드가 정석과 같아진다(영월 · 부산 당일). 화면이 그 사실을 알린다(sameCourse).
+// - 장소가 적은 테마는 조건에 따라 트렌드가 정석과 같아진다(영월 · 부산의 자가용 · 단체버스 일부, 60개 조건 중 6개).
+//   화면이 그 사실을 알린다(sameCourse).
 // - 공통 필터: Q14 무장애(accessible)면 무장애(bf) 장소만. 반려동물 · 실내는 장소 데이터가 없어 반영하지 않는다.
-//   Q13 하루 걷기도 같다. 전략 문서는 장소별 걷기 난이도 태그로 거르는데 그 태그가 아직 없다.
-// - 출발지 서울역 · 08:00 출발 · 마지막 날 19:00 귀가 (체류시간 산정 설명서의 기본값).
+//   Q13 하루 걷기도 같다. 전략 문서는 장소별 걷기 난이도 태그로 거르는데(284행) 그 태그가 아직 없다.
+//   Q10 출발 시기(계절 · 축제 필터)도 계절 지수 · 축제 데이터가 없어 반영하지 않는다. 화면이 반영하지 않은 조건을 알린다.
+// - 출발지 서울역 · 08:00 출발 · 마지막 날 19:00 여행지 출발(귀가) (체류시간 산정 설명서의 기본값).
+// - 순위에 개장 대기를 넣는다(autoCourse waitAware). 원본 순위는 이동만 봐서 16:00에 여는 식당을 09:00에 골라
+//   420분을 기다리게 했다(RESCENE 정석 · 대중교통 · 1박 이상).
 
 export const PLAN_IDS = ["classic", "trend", "quiet"] as const;
 export type PlanId = (typeof PLAN_IDS)[number];
@@ -71,8 +78,8 @@ const TRANSPORTS: readonly Transport[] = [
   "tour-bus",
 ];
 
-/** 한적 안에서 우대하는 분류: 힐링·생태(heal), 해양·자연(sea) */
-export const QUIET_CATEGORIES: readonly string[] = ["heal", "sea"];
+/** 한적 안에서 우대하는 분류: 힐링·생태(heal). 전략 문서가 낮은 혼잡도와 엮은 분류 */
+export const QUIET_CATEGORIES: readonly string[] = ["heal"];
 
 /** 출발지. ORIGINS 키 (서울역) */
 export const ORIGIN_KEY = "seoul";
@@ -88,7 +95,13 @@ export type TripInput = {
    * 장소 데이터에 그 태그가 아직 없어 코스에는 반영하지 않고 화면에 안내만 한다
    */
   walk?: Walk;
+  /** Q10 출발 시기. 계절 지수 · 축제 데이터가 없어 코스에는 반영하지 않고 화면에 안내만 한다 */
+  when?: When;
 };
+
+/** Q10 보기 id */
+export type When = "this-weekend" | "this-month" | "later";
+const WHENS: readonly When[] = ["this-weekend", "this-month", "later"];
 
 /** Q13 보기 id */
 export type Walk = "under-1h" | "1-3h" | "over-3h";
@@ -102,6 +115,7 @@ const DAYS_BY_Q11: Readonly<Record<string, number>> = {
 };
 
 export function tripFromAnswers(answers: Answers): TripInput {
+  const q10 = answers.q10?.[0];
   const q11 = answers.q11?.[0];
   const q12 = answers.q12?.[0];
   const q13 = answers.q13?.[0];
@@ -116,6 +130,7 @@ export function tripFromAnswers(answers: Answers): TripInput {
       (o): o is "pet" | "indoor-rain" => o === "pet" || o === "indoor-rain",
     ),
     walk: WALKS.includes(q13 as Walk) ? (q13 as Walk) : undefined,
+    when: WHENS.includes(q10 as When) ? (q10 as When) : undefined,
   };
 }
 
@@ -221,7 +236,7 @@ type Context = {
  *    21:00을 넘기는 날이 생긴다(예: 대기 60분이 낀 날). 그래서 담을 때 timeline과 같은 시계로 잰다:
  *    그날 첫 장소는 이동 0, 개장 전이면 개장까지 대기, 체류를 마친 시각이 그날 끝이나 폐장을 넘으면 다음 날.
  *    (폐장 검사는 autoCourse 5단계와 같은 규칙이다. autoCourse는 날 첫 장소에도 이동을 더해 시계가 조금 다르다)
- *  - 그날 끝 = 그날 시작 시각 + 그날 창(dayWindows), 21:00 상한.
+ *  - 그날 끝은 dayEnd (그날 시작 + 그날 창, 21:00 상한, 마지막 날은 19:00 여행지 출발까지).
  * 시각은 원본 timeline이 붙인다. 이 함수는 날짜 경계만 정한다.
  */
 export function splitDays(
@@ -232,7 +247,7 @@ export function splitDays(
   const buckets: number[][] = Array.from({ length: days }, () => []);
   const startOf = (d: number) =>
     dayStartClock(d, { depTime: ctx.depTime, accIn: ctx.accIn });
-  const endOf = (d: number) => Math.min(startOf(d) + ctx.windows[d], DAY_END);
+  const endOf = (d: number) => dayEnd(d, ctx);
   let d = 0,
     clock = startOf(0),
     keep = 0;
@@ -343,7 +358,7 @@ export function fillCourse(
  * autoCourse에 넘길 우대 표시. autoCourse는 영상 장소(yt)를 먼저 담고(−14분 · 시군 가중치 · 시군 진입 순서)
  * 확장 장소(off)에 +26분을 준다. 안마다 이 두 표시만 바꿔 같은 순위 규칙을 다시 쓴다.
  *  - 정석: 100선 · 유네스코도 영상 장소와 같이 우대한다 (전략 문서 "유네스코·한국관광 100선: A안(정석) 시나리오의 필수 후보")
- *  - 한적: 힐링·생태 · 해양·자연 장소를 우대한다 (후보에서 영상 장소는 이미 빠져 있다. planPool)
+ *  - 한적: 힐링·생태 장소를 우대한다 (후보에서 영상 장소는 이미 빠져 있다. planPool)
  *  - 트렌드: 표시는 그대로 두고 후보를 영상 장소로 좁힌다 (planCourse)
  */
 function prioritize(plan: PlanId, p: Place): Place {
@@ -365,6 +380,7 @@ function planCourse(
     legFn: ctx.legFn,
     depTime: ctx.depTime,
     accIn: ctx.accIn,
+    waitAware: true,
   };
   if (plan === "trend") {
     const videos = pool.filter((p) => p.yt);
@@ -447,11 +463,25 @@ export function sameCourse(a: Scenario, b: Scenario): boolean {
   return key(a) === key(b);
 }
 
-/** 그날 끝 시각(분) = 그날 시작 + 그날 창, 21:00 상한. splitDays와 같은 기준 */
+/** 그날 끝 시각(분). splitDays와 같은 기준(dayEnd) */
 export function dayEndClock(scenario: Scenario, dayIdx: number): number {
-  return Math.min(
-    dayStartClock(dayIdx, { depTime: DEFAULT_DEP, accIn: scenario.accIn }) +
-      scenario.windows[dayIdx],
-    DAY_END,
-  );
+  return dayEnd(dayIdx, {
+    depTime: DEFAULT_DEP,
+    accIn: scenario.accIn,
+    windows: scenario.windows,
+  });
+}
+
+/**
+ * 그날 끝 시각(분) = 그날 시작 + 그날 창, 21:00 상한. 마지막 날은 여행지 출발(귀가) 시각 19:00도 넘지 않는다.
+ * 원본 dayWindows는 마지막 날 창을 "09:00부터 귀가 출발까지의 길이"로 잡는다. 그래서 첫날이 곧 마지막 날인 당일 여행에
+ * 늦게 도착하면(부산 자가용 13:45) 창이 21:00까지 남는다. 원본 설명("마지막날은 귀가시간을 미리 확보")대로 끝 시각으로 자른다
+ */
+function dayEnd(
+  d: number,
+  ctx: Pick<Context, "depTime" | "accIn" | "windows">,
+): number {
+  const start = dayStartClock(d, { depTime: ctx.depTime, accIn: ctx.accIn });
+  const end = Math.min(start + ctx.windows[d], DAY_END);
+  return d === ctx.windows.length - 1 ? Math.min(end, toMin(DEFAULT_RET)) : end;
 }

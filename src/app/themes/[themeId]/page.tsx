@@ -62,6 +62,21 @@ export default async function ThemePage({
     tq(`q12.options.${trip.transport}`),
   ].join(" · ");
 
+  // 골랐지만 데이터가 없어 코스에 넣지 못한 조건 (Q10 · Q13 · Q14 반려동물 · 실내)
+  const unapplied = [
+    trip.when &&
+      t("condition", {
+        name: t("conditionNames.when"),
+        value: tq(`q10.options.${trip.when}`),
+      }),
+    trip.walk &&
+      t("condition", {
+        name: t("conditionNames.walk"),
+        value: tq(`q13.options.${trip.walk}`),
+      }),
+    ...trip.ignored.map((o) => tq(`q14.options.${o}`)),
+  ].filter((c): c is string => Boolean(c));
+
   const empty = scenario.placeCount === 0;
 
   return (
@@ -106,18 +121,9 @@ export default async function ThemePage({
               {t("accessibleNotice")}
             </p>
           )}
-          {trip.ignored.length > 0 && (
+          {unapplied.length > 0 && (
             <p className="mt-1 text-micro text-fg-subtle">
-              {t("ignoredNotice", {
-                conditions: trip.ignored
-                  .map((o) => tq(`q14.options.${o}`))
-                  .join(" · "),
-              })}
-            </p>
-          )}
-          {trip.walk && (
-            <p className="mt-1 text-micro text-fg-subtle">
-              {t("walkNotice", { walk: tq(`q13.options.${trip.walk}`) })}
+              {t("unappliedNotice", { conditions: unapplied.join(" · ") })}
             </p>
           )}
           {!empty && (

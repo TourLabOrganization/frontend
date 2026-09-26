@@ -38,12 +38,7 @@ export function OptionItem({
         )}
       </span>
       {selected && (
-        <Check
-          size={20}
-          strokeWidth={3}
-          className="shrink-0 text-primary-bright"
-          aria-hidden
-        />
+        <Check size={20} className="shrink-0 text-primary-bright" aria-hidden />
       )}
     </button>
   );
