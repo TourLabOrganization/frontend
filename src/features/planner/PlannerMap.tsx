@@ -1,28 +1,18 @@
 "use client";
 
-import {
-  AdvancedMarker,
-  APIProvider,
-  CollisionBehavior,
-  Map as GoogleMap,
-  useMap,
-} from "@vis.gl/react-google-maps";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { CATEGORY_DOT } from "./category";
+import { AdvancedMarker, CollisionBehavior } from "@vis.gl/react-google-maps";
+import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
+import { categoryDot } from "./category";
 
-// 투어 플래너 지도 (@vis.gl/react-google-maps). 키 · mapId는 테마 화면 지도(features/theme/ThemeMap.tsx)와 같다.
+// 투어 플래너 지도. 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
 // 전국 보기는 권역 묶음, 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
 // 묶음은 「수도권 218」처럼 이름과 장소 수를 두 줄로 적은 둥근 표시이고, 누르면 쓰는 쪽이 주소를 바꾼다.
 // 도시 묶음은 가까운 도시끼리 겹치므로 겹치면 장소가 적은 쪽을 숨긴다(확대하면 다시 보인다).
 
-const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAP_ID ?? "DEMO_MAP_ID";
-/** 가장자리 표시가 잘리지 않게 두는 여백(px) */
-const BOUNDS_PADDING = 48;
-/** 점이 하나뿐일 때 확대 수준 (fitBounds는 한 점이면 최대로 확대한다) */
+/** 점이 하나뿐일 때 확대 수준 */
 const SINGLE_POINT_ZOOM = 13;
-
-type LatLng = { lat: number; lng: number };
+/** 맞출 점이 없을 때의 처음 화면 */
+const EMPTY_VIEW = { center: { lat: 36.3, lng: 127.8 }, zoom: 6 };
 
 export type MapBubble = LatLng & {
   id: string;
@@ -59,20 +49,6 @@ type PlannerMapProps = {
   onPin?: (id: string) => void;
 };
 
-function boundsOf(points: readonly LatLng[]) {
-  let north = -90;
-  let south = 90;
-  let east = -180;
-  let west = 180;
-  for (const p of points) {
-    north = Math.max(north, p.lat);
-    south = Math.min(south, p.lat);
-    east = Math.max(east, p.lng);
-    west = Math.min(west, p.lng);
-  }
-  return { north, south, east, west };
-}
-
 export function PlannerMap({
   apiKey,
   label,
@@ -85,128 +61,66 @@ export function PlannerMap({
   onBubble,
   onPin,
 }: PlannerMapProps) {
-  const t = useTranslations("Common");
-  const locale = useLocale();
-  // 지도 스크립트를 받지 못했을 때(네트워크 등). 키가 없을 때와 같은 모양으로 안내한다
-  const [failed, setFailed] = useState(false);
-  const initial = fitPoints.length > 0 ? boundsOf(fitPoints) : null;
   const selected = pins.find((p) => p.id === selectedId) ?? null;
 
-  if (failed) {
-    return (
-      <p
-        role="note"
-        className="flex h-full items-center justify-center px-6 text-center text-label text-fg-muted"
-      >
-        {t("mapLoadError")}
-      </p>
-    );
-  }
-
   return (
-    <div role="region" aria-label={label} className="h-full w-full">
-      <APIProvider
-        apiKey={apiKey}
-        // 지도 글자를 화면 언어로. 스크립트는 한 번만 불러와서, 언어를 바꾸면 LocaleSwitch가 새로고침한다
-        language={locale}
-        region="KR"
-        onError={() => setFailed(true)}
-      >
-        <GoogleMap
-          mapId={MAP_ID}
-          defaultBounds={
-            initial ? { ...initial, padding: BOUNDS_PADDING } : undefined
+    <MapFrame
+      apiKey={apiKey}
+      label={label}
+      fitPoints={fitPoints}
+      fitKey={fitKey}
+      focus={selected}
+      singlePointZoom={SINGLE_POINT_ZOOM}
+      emptyView={EMPTY_VIEW}
+    >
+      {pins.map((p) => {
+        const on = p.id === selectedId;
+        return (
+          <AdvancedMarker
+            key={p.id}
+            position={{ lat: p.lat, lng: p.lng }}
+            title={p.title}
+            anchorLeft="-50%"
+            anchorTop="-50%"
+            zIndex={on ? 1000 : undefined}
+            onClick={onPin ? () => onPin(p.id) : undefined}
+          >
+            {/* 누르는 자리는 44px, 보이는 점은 16px(고른 핀은 24px) */}
+            <span className="flex size-11 items-center justify-center">
+              <span
+                className={`block rounded-full ring-2 ring-surface transition-[width,height] duration-150 motion-reduce:transition-none ${categoryDot(
+                  p.cat,
+                )} ${on ? "size-6" : "size-4"}`}
+              />
+            </span>
+          </AdvancedMarker>
+        );
+      })}
+      {bubbles.map((b) => (
+        <AdvancedMarker
+          key={b.id}
+          position={{ lat: b.lat, lng: b.lng }}
+          title={b.title}
+          anchorLeft={b.offset === "northwest" ? "-100%" : "-50%"}
+          anchorTop={b.offset === "northwest" ? "-100%" : "-50%"}
+          zIndex={b.count}
+          collisionBehavior={
+            hideOverlapping
+              ? CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY
+              : CollisionBehavior.REQUIRED
           }
-          defaultCenter={initial ? undefined : { lat: 36.3, lng: 127.8 }}
-          defaultZoom={initial ? undefined : 6}
-          gestureHandling="cooperative"
-          disableDefaultUI
-          zoomControl
-          clickableIcons={false}
-          className="h-full w-full"
+          onClick={onBubble ? () => onBubble(b.id) : undefined}
         >
-          {pins.map((p) => {
-            const on = p.id === selectedId;
-            return (
-              <AdvancedMarker
-                key={p.id}
-                position={{ lat: p.lat, lng: p.lng }}
-                title={p.title}
-                anchorLeft="-50%"
-                anchorTop="-50%"
-                zIndex={on ? 1000 : undefined}
-                onClick={onPin ? () => onPin(p.id) : undefined}
-              >
-                {/* 누르는 자리는 44px, 보이는 점은 16px(고른 핀은 24px) */}
-                <span className="flex size-11 items-center justify-center">
-                  <span
-                    className={`block rounded-full ring-2 ring-surface transition-[width,height] duration-150 motion-reduce:transition-none ${
-                      CATEGORY_DOT[p.cat] ?? "bg-fg-subtle"
-                    } ${on ? "size-6" : "size-4"}`}
-                  />
-                </span>
-              </AdvancedMarker>
-            );
-          })}
-          {bubbles.map((b) => (
-            <AdvancedMarker
-              key={b.id}
-              position={{ lat: b.lat, lng: b.lng }}
-              title={b.title}
-              anchorLeft={b.offset === "northwest" ? "-100%" : "-50%"}
-              anchorTop={b.offset === "northwest" ? "-100%" : "-50%"}
-              zIndex={b.count}
-              collisionBehavior={
-                hideOverlapping
-                  ? CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY
-                  : CollisionBehavior.REQUIRED
-              }
-              onClick={onBubble ? () => onBubble(b.id) : undefined}
-            >
-              <span className="flex min-h-11 max-w-24 min-w-11 flex-col items-center justify-center rounded-2xl bg-primary px-2.5 py-1 text-center text-white ring-2 ring-surface">
-                <span className="text-micro leading-tight font-semibold">
-                  {b.label}
-                </span>
-                <span className="text-caption leading-tight font-bold tabular-nums">
-                  {b.count}
-                </span>
-              </span>
-            </AdvancedMarker>
-          ))}
-          <MapCamera fitKey={fitKey} fitPoints={fitPoints} focus={selected} />
-        </GoogleMap>
-      </APIProvider>
-    </div>
+          <span className="flex min-h-11 max-w-24 min-w-11 flex-col items-center justify-center rounded-2xl bg-primary px-2.5 py-1 text-center text-white ring-2 ring-surface">
+            <span className="text-micro leading-tight font-semibold">
+              {b.label}
+            </span>
+            <span className="text-caption leading-tight font-bold tabular-nums">
+              {b.count}
+            </span>
+          </span>
+        </AdvancedMarker>
+      ))}
+    </MapFrame>
   );
-}
-
-/** 범위(fitKey)가 바뀌면 다시 맞추고, 장소가 열리면 그 자리로 옮긴다 */
-function MapCamera({
-  fitKey,
-  fitPoints,
-  focus,
-}: {
-  fitKey: string;
-  fitPoints: readonly LatLng[];
-  focus: LatLng | null;
-}) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!map || fitPoints.length === 0) return;
-    if (fitPoints.length === 1) {
-      map.setCenter(fitPoints[0]);
-      map.setZoom(SINGLE_POINT_ZOOM);
-    } else {
-      map.fitBounds(boundsOf(fitPoints), BOUNDS_PADDING);
-    }
-    // fitKey가 같으면 같은 점 묶음이다
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, fitKey]);
-
-  useEffect(() => {
-    if (map && focus) map.panTo(focus);
-  }, [map, focus?.lat, focus?.lng]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return null;
 }

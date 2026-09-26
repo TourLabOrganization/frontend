@@ -11,8 +11,9 @@ import {
   type TravelMode,
 } from "../course/schedule";
 import type { PlannerSettings, WideMode } from "./course-store";
-import { CITY_HUBS, PLANNER_ORIGINS, type PlannerPlace } from "./data";
+import type { PlannerPlace } from "./data";
 import { tripDays } from "./dates";
+import { CITY_HUBS, PLANNER_ORIGINS } from "./regions";
 
 // 투어 플래너 코스 탭의 일정 계산. 순수 함수만 둔다. 화면(PlannerCourseTab)은 이 결과만 그린다.
 //
@@ -29,14 +30,7 @@ import { tripDays } from "./dates";
 //  - 요약: 경유지 수 · 총 거리(같은 날 앞 장소 → 이 장소 구간 legInfo km 합, 소수 1자리) · 예상 시간(이동 + 대기 + 체류)
 
 /** 광역 교통 칸. 목업 순서(버스 · 기차 · 항공 / 배 · 지하철 · 자가용) */
-export const WIDE_CHOICES = [
-  "bus",
-  "rail",
-  "air",
-  "ship",
-  "metro",
-  "own",
-] as const;
+const WIDE_CHOICES = ["bus", "rail", "air", "ship", "metro", "own"] as const;
 export type WideChoice = (typeof WIDE_CHOICES)[number];
 
 /** 고를 수 없는 이유. noCity 도착 도시 없음 · origin 출발지에 없음 · hub 도착 관문에 없음 · island 섬(자가용) */
@@ -60,7 +54,7 @@ const AUTO_ORDER: readonly WideChoice[] = [
 const LAND_MODES: readonly string[] = ["metro", "ktx", "srt", "bus"];
 
 /** 기차 칸의 수단. 출발지가 SRT역(srt만 있음)이면 srt, 아니면 ktx */
-export function railMode(originModes: readonly string[]): "ktx" | "srt" {
+function railMode(originModes: readonly string[]): "ktx" | "srt" {
   return originModes.includes("srt") && !originModes.includes("ktx")
     ? "srt"
     : "ktx";
@@ -123,7 +117,7 @@ export function resolveWide(
 }
 
 /** 실제로 쓸 현지 이동(legInfo 모드). 광역이 자가용이면 자가용 */
-export function resolveLocal(
+function resolveLocal(
   wide: WideMode | null,
   chosen: PlannerSettings["localMode"],
 ): TravelMode {
@@ -132,12 +126,12 @@ export function resolveLocal(
 }
 
 /** 투어 플래너의 구간 함수. 관문은 플래너 데이터(regions.json hubs)를 쓴다 */
-export function plannerLegFn(mode: TravelMode): LegFn {
+function plannerLegFn(mode: TravelMode): LegFn {
   return (p, q) => legInfo(p, q, mode, CITY_HUBS, METRO_CITY);
 }
 
 /** 광역 교통이 닿는 도시: 코스 첫 장소의 도시, 없으면 고른 도시 */
-export function destinationCity(
+function destinationCity(
   places: readonly PlannerPlace[],
   fallback: string | null,
 ): string | null {
@@ -158,7 +152,7 @@ export type TripPlan = {
 };
 
 /** 설정과 도착 도시로 일정 창 · 이동수단을 정한다 */
-export function planTrip(
+function planTrip(
   settings: PlannerSettings,
   destination: string | null,
 ): TripPlan {

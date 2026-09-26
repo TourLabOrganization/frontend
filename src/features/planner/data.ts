@@ -2,14 +2,10 @@ import type { Place } from "@/features/course/places";
 import placesData from "./data/places.json";
 import { REGION_KEYS, REGIONS, type Region, type RegionKey } from "./regions";
 
-export * from "./regions";
-
-// 투어 플래너의 장소 · 권역 · 도시 데이터.
-// data/places.json:  Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그)와
-//                    Tour Planner.dc.html DATA(설명 · 사진)를 id로 합친 장소 1,171곳
-// data/regions.json: Tour Planner.dc.html의 REG(권역 7개) · CITY_NAME(도시 영어 이름) · REGION_HUB(관문) · ORIGINS(출발지 61곳),
-//                    도시 가운데 좌표(장소 좌표 평균)
-// 둘 다 scripts/build-planner.mjs로 만든다. 손으로 고치지 않는다.
+// 투어 플래너의 장소와 장소로 계산하는 값(도시별 장소 수 · 도시 묶음 · 권역 가운데). 권역 · 도시 이름 · 관문 · 출발지는 regions.ts.
+// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그)와
+//                   Tour Planner.dc.html DATA(설명 · 사진)를 id로 합친 장소 1,171곳
+// scripts/build-planner.mjs로 만든다. 손으로 고치지 않는다.
 // 장소 필드는 course/places.ts의 Place와 같아서 일정 모듈(course/schedule.ts)이 그대로 쓴다.
 
 export type PlannerPlace = Place & {

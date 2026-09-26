@@ -505,16 +505,16 @@
       "course": "Course",
       "info": "Travel info"
     },
-    "courseBadge": "{count} places added",
-    "regionChip": "{region} · {count} places",
-    "regionChipClear": "{region} · {count} places, clear",
+    "courseBadge": "{count, plural, one {# place added} other {# places added}}",
+    "regionChip": "{region} · {count, plural, one {# place} other {# places}}",
+    "regionChipClear": "{region} · {count, plural, one {# place} other {# places}}, clear",
     "picker": {
       "title": "Choose a city",
       "close": "Close",
       "searchLabel": "Search cities",
       "searchPlaceholder": "City name (Korean or English)",
-      "regionCities": "{count} cities",
-      "placeCount": "{count} places",
+      "regionCities": "{count, plural, one {# city} other {# cities}}",
+      "placeCount": "{count, plural, one {# place} other {# places}}",
       "empty": "No matching cities",
       "otherRegions": "Other regions"
     },
@@ -523,8 +523,8 @@
       "all": "All",
       "mapLabel": "Tour planner map",
       "noKey": "The map couldn't load because no map key is set. The place list below still works",
-      "regionMarker": "{region} · {count} places",
-      "cityMarker": "{city} · {count} places",
+      "regionMarker": "{region} · {count, plural, one {# place} other {# places}}",
+      "cityMarker": "{city} · {count, plural, one {# place} other {# places}}",
       "listHeading": "Places · {count}",
       "more": "Show more ({count} left)",
       "empty": "No places in this category",
@@ -538,7 +538,7 @@
     },
     "confirm": {
       "title": "This place is in another city",
-      "body": "A course can only hold places from one city. Clear the {count} places from {from} and start again in {to}?",
+      "body": "A course can only hold places from one city. Clear the {count, plural, one {# place} other {# places}} from {from} and start again in {to}?",
       "cancel": "Cancel",
       "confirm": "Clear and add"
     },
@@ -627,23 +627,23 @@
         "recommendHint": "Fills the course with suggested places in {source}",
         "recommendNoScope": "Pick a city or region to load a suggested course",
         "recommendEmpty": "No places fit these settings. Try other dates or times",
-        "recommended": "Loaded a suggested course with {count} places",
+        "recommended": "Loaded a suggested course with {count, plural, one {# place} other {# places}}",
         "clear": "Clear course",
         "cleared": "Course cleared"
       },
       "confirmRecommend": {
         "title": "Replace with the suggested course?",
-        "body": "This removes your {count} places and loads the suggested course for {source}",
+        "body": "This removes your {count, plural, one {# place} other {# places}} and loads the suggested course for {source}",
         "confirm": "Replace"
       },
       "confirmClear": {
         "title": "Clear the course?",
-        "body": "This removes all {count} places. Your dates and starting point stay",
+        "body": "{count, plural, one {This removes the # place} other {This removes all # places}}. Your dates and starting point stay",
         "confirm": "Clear"
       },
       "confirmLoad": {
         "title": "Open the saved plan?",
-        "body": "This replaces your {count} places with “{name}” ({planCount} places)",
+        "body": "This replaces your {count, plural, one {# place} other {# places}} with “{name}” ({planCount, plural, one {# place} other {# places}})",
         "confirm": "Open"
       },
       "cancel": "Cancel",
@@ -692,7 +692,7 @@
         "metro": "Metro rail"
       },
       "tipsHeading": "Getting around",
-      "tips": "Set your dates, starting point and times in the Course tab, and the places you've added are split into a day-by-day route with arrival, departure and travel times for each stop. Long-distance transport only offers modes found at both your starting point and the destination's gateway, so Jeju is reached by flight or ferry. The last day ends at your departure time from the destination, and booking links for KTX, SRT, buses, rental cars and stays are at the bottom of the Course tab.",
+      "tips": "Set your dates, starting point and times in the Course tab, and the places you've added are split into a day-by-day route with arrival, departure and travel times for each stop. Apart from your own car, long-distance transport only offers modes found at both your starting point and the destination's gateway, so Jeju is reached by flight or ferry. The last day ends at your departure time from the destination, and booking links for KTX, SRT, buses, rental cars and stays are at the bottom of the Course tab.",
       "linksHeading": "Regional tourism guides",
       "newWindow": "(opens in a new window)"
     }

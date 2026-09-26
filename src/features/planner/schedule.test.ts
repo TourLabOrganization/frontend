@@ -6,8 +6,9 @@ import {
   type LocalMode,
   type PlannerSettings,
 } from "./course-store";
-import { PLANNER_ORIGINS, placesInScope } from "./data";
+import { placesInScope } from "./data";
 import { addDays, dateError, tripDays } from "./dates";
+import { CITY_HUBS, PLANNER_ORIGINS } from "./regions";
 import {
   buildPlannerSchedule,
   recommendCourse,
@@ -15,7 +16,6 @@ import {
   suggestOrigin,
   wideOptions,
 } from "./schedule";
-import { CITY_HUBS } from "./data";
 
 const START = "2026-09-27";
 

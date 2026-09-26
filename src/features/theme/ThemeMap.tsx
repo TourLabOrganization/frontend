@@ -1,24 +1,15 @@
 "use client";
 
-import {
-  AdvancedMarker,
-  APIProvider,
-  Map as GoogleMap,
-  Polyline,
-  useMap,
-} from "@vis.gl/react-google-maps";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { AdvancedMarker, Polyline, useMap } from "@vis.gl/react-google-maps";
+import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
 
-// 테마 화면의 Google 지도 (@vis.gl/react-google-maps). 지도 탭과 코스 탭이 함께 쓴다.
-// 키는 NEXT_PUBLIC_GOOGLE_MAPS_KEY(브라우저 노출 키, docs/security.md). 키가 없을 때의 안내는 쓰는 쪽이 그린다.
-// mapId는 AdvancedMarker에 필요하다. 따로 만든 지도 스타일이 없으면 구글의 DEMO_MAP_ID를 쓴다.
+// 테마 화면의 Google 지도. 지도 탭과 코스 탭이 함께 쓴다.
+// 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다. 키가 없을 때의 안내는 쓰는 쪽이 그린다.
 
-const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAP_ID ?? "DEMO_MAP_ID";
-/** 핀이 하나뿐일 때 확대 수준 (fitBounds는 한 점이면 최대로 확대한다) */
+/** 핀이 하나뿐일 때 확대 수준 */
 const SINGLE_PIN_ZOOM = 14;
-/** 가장자리 핀이 잘리지 않게 두는 여백(px) */
-const BOUNDS_PADDING = 48;
+/** 핀이 없을 때의 처음 화면 */
+const EMPTY_VIEW = { center: { lat: 36.5, lng: 127.8 }, zoom: 7 };
 
 export type MapPin = {
   id: string;
@@ -29,8 +20,6 @@ export type MapPin = {
   /** 번호 핀의 숫자. 없으면 작은 점 */
   label?: number;
 };
-
-type LatLng = { lat: number; lng: number };
 
 type ThemeMapProps = {
   apiKey: string;
@@ -44,15 +33,6 @@ type ThemeMapProps = {
   onSelect?: (id: string) => void;
 };
 
-function boundsOf(points: readonly LatLng[]) {
-  return {
-    north: Math.max(...points.map((p) => p.lat)),
-    south: Math.min(...points.map((p) => p.lat)),
-    east: Math.max(...points.map((p) => p.lng)),
-    west: Math.min(...points.map((p) => p.lng)),
-  };
-}
-
 export function ThemeMap({
   apiKey,
   label,
@@ -61,89 +41,57 @@ export function ThemeMap({
   focus,
   onSelect,
 }: ThemeMapProps) {
-  const t = useTranslations("Common");
-  const locale = useLocale();
-  // 지도 스크립트를 받지 못했을 때(네트워크 등). 키가 없을 때와 같은 모양으로 안내한다
-  const [failed, setFailed] = useState(false);
   // 번호 핀이 다 보이게 맞춘다. 번호 핀이 없으면 모든 핀
   const numbered = pins.filter((p) => p.label !== undefined);
   const fitPoints = numbered.length > 0 ? numbered : pins;
-  const fitKey = fitPoints.map((p) => p.id).join("|");
-  const initial = fitPoints.length > 0 ? boundsOf(fitPoints) : null;
-
-  if (failed) {
-    return (
-      <p
-        role="note"
-        className="flex h-full items-center justify-center px-6 text-center text-label text-fg-muted"
-      >
-        {t("mapLoadError")}
-      </p>
-    );
-  }
 
   return (
-    <div role="region" aria-label={label} className="h-full w-full">
-      <APIProvider
-        apiKey={apiKey}
-        // 지도 글자를 화면 언어로. 스크립트는 한 번만 불러와서, 언어를 바꾸면 LocaleSwitch가 새로고침한다
-        language={locale}
-        region="KR"
-        onError={() => setFailed(true)}
-      >
-        <GoogleMap
-          mapId={MAP_ID}
-          defaultBounds={
-            initial ? { ...initial, padding: BOUNDS_PADDING } : undefined
-          }
-          defaultCenter={initial ? undefined : { lat: 36.5, lng: 127.8 }}
-          defaultZoom={initial ? undefined : 7}
-          gestureHandling="cooperative"
-          disableDefaultUI
-          zoomControl
-          clickableIcons={false}
-          className="h-full w-full"
+    <MapFrame
+      apiKey={apiKey}
+      label={label}
+      fitPoints={fitPoints}
+      fitKey={fitPoints.map((p) => p.id).join("|")}
+      focus={focus}
+      singlePointZoom={SINGLE_PIN_ZOOM}
+      emptyView={EMPTY_VIEW}
+    >
+      {pins
+        .filter((p) => p.label === undefined)
+        .map((p) => (
+          <AdvancedMarker
+            key={p.id}
+            position={{ lat: p.lat, lng: p.lng }}
+            title={p.title}
+            anchorLeft="-50%"
+            anchorTop="-50%"
+            onClick={onSelect ? () => onSelect(p.id) : undefined}
+          >
+            {/* 누르는 자리는 44px, 보이는 점은 10px */}
+            <span className="flex size-11 items-center justify-center">
+              <span className="block size-2.5 rounded-full bg-fg-subtle ring-2 ring-surface" />
+            </span>
+          </AdvancedMarker>
+        ))}
+      {numbered.map((p) => (
+        <AdvancedMarker
+          key={p.id}
+          position={{ lat: p.lat, lng: p.lng }}
+          title={p.title}
+          anchorLeft="-50%"
+          anchorTop="-50%"
+          zIndex={1000 - (p.label ?? 0)}
+          onClick={onSelect ? () => onSelect(p.id) : undefined}
         >
-          {pins
-            .filter((p) => p.label === undefined)
-            .map((p) => (
-              <AdvancedMarker
-                key={p.id}
-                position={{ lat: p.lat, lng: p.lng }}
-                title={p.title}
-                anchorLeft="-50%"
-                anchorTop="-50%"
-                onClick={onSelect ? () => onSelect(p.id) : undefined}
-              >
-                {/* 누르는 자리는 44px, 보이는 점은 10px */}
-                <span className="flex size-11 items-center justify-center">
-                  <span className="block size-2.5 rounded-full bg-fg-subtle ring-2 ring-surface" />
-                </span>
-              </AdvancedMarker>
-            ))}
-          {numbered.map((p) => (
-            <AdvancedMarker
-              key={p.id}
-              position={{ lat: p.lat, lng: p.lng }}
-              title={p.title}
-              anchorLeft="-50%"
-              anchorTop="-50%"
-              zIndex={1000 - (p.label ?? 0)}
-              onClick={onSelect ? () => onSelect(p.id) : undefined}
-            >
-              {/* 누르는 자리는 44px, 보이는 번호 원은 26px */}
-              <span className="flex size-11 items-center justify-center">
-                <span className="flex size-[26px] items-center justify-center rounded-full bg-primary text-caption font-bold text-white tabular-nums ring-2 ring-surface">
-                  {p.label}
-                </span>
-              </span>
-            </AdvancedMarker>
-          ))}
-          <RoutePaths paths={paths} />
-          <MapCamera fitKey={fitKey} fitPoints={fitPoints} focus={focus} />
-        </GoogleMap>
-      </APIProvider>
-    </div>
+          {/* 누르는 자리는 44px, 보이는 번호 원은 26px */}
+          <span className="flex size-11 items-center justify-center">
+            <span className="flex size-[26px] items-center justify-center rounded-full bg-primary text-caption font-bold text-white tabular-nums ring-2 ring-surface">
+              {p.label}
+            </span>
+          </span>
+        </AdvancedMarker>
+      ))}
+      <RoutePaths paths={paths} />
+    </MapFrame>
   );
 }
 
@@ -169,35 +117,4 @@ function RoutePaths({ paths }: { paths: readonly (readonly LatLng[])[] }) {
       />
     ) : null,
   );
-}
-
-/** 걸러진 핀이 바뀌면 다시 맞추고, 장소가 열리면 그 자리로 옮긴다 */
-function MapCamera({
-  fitKey,
-  fitPoints,
-  focus,
-}: {
-  fitKey: string;
-  fitPoints: readonly LatLng[];
-  focus?: LatLng | null;
-}) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!map || fitPoints.length === 0) return;
-    if (fitPoints.length === 1) {
-      map.setCenter(fitPoints[0]);
-      map.setZoom(SINGLE_PIN_ZOOM);
-    } else {
-      map.fitBounds(boundsOf(fitPoints), BOUNDS_PADDING);
-    }
-    // fitKey가 같으면 같은 핀 묶음이다
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, fitKey]);
-
-  useEffect(() => {
-    if (map && focus) map.panTo(focus);
-  }, [map, focus?.lat, focus?.lng]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return null;
 }

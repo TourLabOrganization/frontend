@@ -1,8 +1,8 @@
 import type { Origin, RegionHub } from "@/features/course/places";
 import regionsData from "./data/regions.json";
 
-// 투어 플래너의 권역 · 도시 이름 · 관문 · 출발지. data/regions.json만 불러와서 가볍다.
-// 장소 목록(data/places.json, 약 470KB)이 필요 없는 곳(ME · 테마 화면 · 코스 저장소)은 data.ts 대신 이 파일을 쓴다.
+// 투어 플래너의 권역 · 도시(이름 · 가운데 좌표) · 관문 · 출발지. data/regions.json만 불러와서 가볍다.
+// 장소 목록(data/places.json, 1,171곳 · 약 760KB)이 필요 없는 곳(ME · 테마 화면 · 코스 저장소 · 일정 계산)은 data.ts 대신 이 파일을 쓴다.
 // data/regions.json은 scripts/build-planner.mjs가 Tour Planner.dc.html의 REG · CITY_NAME · REGION_HUB · ORIGINS로 만든다.
 
 /** 권역 key. Tour Planner.dc.html REG 순서 */

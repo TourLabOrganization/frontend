@@ -2,9 +2,9 @@ import { ExternalLink } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { buttonClassName } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
-import { CITY_HUBS } from "./data";
 import { PLANNER_LINKS } from "./data/info";
 import { InfoCitySelect } from "./InfoCitySelect";
+import { CITY_HUBS } from "./regions";
 
 const MODE_KEYS = ["ktx", "srt", "bus", "air", "ship", "metro"] as const;
 type ModeKey = (typeof MODE_KEYS)[number];

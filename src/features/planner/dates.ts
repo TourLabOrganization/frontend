@@ -7,7 +7,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const isoTime = (iso: string) => Date.parse(`${iso}T00:00:00Z`);
 
 /** 두 날짜(YYYY-MM-DD)의 날 수 차이 */
-export function daysBetween(start: string, end: string): number {
+function daysBetween(start: string, end: string): number {
   return Math.round((isoTime(end) - isoTime(start)) / DAY_MS);
 }
 

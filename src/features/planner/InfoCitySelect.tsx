@@ -3,8 +3,9 @@
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { cityName, PLACE_COUNT_BY_CITY, REGIONS, regionName } from "./data";
+import { PLACE_COUNT_BY_CITY } from "./data";
 import { plannerHref } from "./query";
+import { cityName, REGIONS, regionName } from "./regions";
 
 // 여행 정보 탭의 「선택한 지역」. 도시를 고르면 ?city=를 바꿔 그 도시의 관문을 보인다(여행 정보 탭 그대로).
 // 도시는 권역별 optgroup으로 묶고, 장소가 있는 도시만 넣는다

@@ -5,15 +5,9 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 import { segmentClassName } from "@/components/ui/SegmentedControl";
-import {
-  CITY_GROUPS,
-  CITY_INFO,
-  cityName,
-  MAJOR_CITIES,
-  PLACE_COUNT_BY_CITY,
-  regionName,
-} from "./data";
+import { CITY_GROUPS, PLACE_COUNT_BY_CITY } from "./data";
 import { type PlannerTab, plannerHref } from "./query";
+import { CITY_INFO, cityName, MAJOR_CITIES, regionName } from "./regions";
 
 type CityPickerProps = {
   /** 지금 보고 있는 도시. 지역 탭의 전국 · 서울 · 부산 · 제주가 아니면 버튼에 이름을 적는다 */

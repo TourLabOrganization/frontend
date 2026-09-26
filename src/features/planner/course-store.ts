@@ -12,10 +12,10 @@ import { PLANNER_ORIGINS } from "./regions";
 // local-store의 useSyncExternalStore 구독(useLocalValue)으로 읽는다.
 // 코스 설정(날짜 · 출발지 · 시각 · 이동수단)은 같은 값에 함께 둔다. 코스를 비워도 설정은 남는다.
 
-export const PLANNER_COURSE_KEY = "tn.planner.course";
+const PLANNER_COURSE_KEY = "tn.planner.course";
 
 /** 광역 교통. 기차는 출발지에 따라 ktx · srt */
-export const WIDE_MODES = [
+const WIDE_MODES = [
   "bus",
   "ktx",
   "srt",
@@ -27,7 +27,7 @@ export const WIDE_MODES = [
 export type WideMode = (typeof WIDE_MODES)[number];
 
 /** 현지 이동. driving 렌트카 · transit 대중교통 · own 자가용(광역이 자가용일 때만) */
-export const LOCAL_MODES = ["driving", "transit", "own"] as const;
+const LOCAL_MODES = ["driving", "transit", "own"] as const;
 export type LocalMode = (typeof LOCAL_MODES)[number];
 
 export type PlannerSettings = {
@@ -55,7 +55,7 @@ export type PlannerCourse = PlannerSettings & {
   placeIds: string[];
 };
 
-export const DEFAULT_ORIGIN = "seoul";
+const DEFAULT_ORIGIN = "seoul";
 
 export const DEFAULT_SETTINGS: PlannerSettings = {
   name: "",
@@ -74,7 +74,7 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_RE = /^\d{2}:\d{2}$/;
 
 /** YYYY-MM-DD가 실제 있는 날짜인지 */
-export function isIsoDate(value: unknown): value is string {
+function isIsoDate(value: unknown): value is string {
   if (typeof value !== "string" || !DATE_RE.test(value)) return false;
   const d = new Date(`${value}T00:00:00Z`);
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === value;
@@ -119,7 +119,7 @@ export function pickSettings(v: PlannerSettings): PlannerSettings {
   };
 }
 
-export function parseCourse(raw: string | null): PlannerCourse {
+function parseCourse(raw: string | null): PlannerCourse {
   if (!raw) return EMPTY;
   try {
     const v: unknown = JSON.parse(raw);

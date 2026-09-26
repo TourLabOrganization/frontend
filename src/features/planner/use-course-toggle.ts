@@ -3,7 +3,8 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { needsCityChange, usePlannerCourse } from "./course-store";
-import { cityName, type PlannerPlace } from "./data";
+import type { PlannerPlace } from "./data";
+import { cityName } from "./regions";
 import { placeName } from "@/features/theme/place-meta";
 
 /**

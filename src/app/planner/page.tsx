@@ -8,13 +8,7 @@ import { TabBar } from "@/components/ui/TabBar";
 import { TopBar } from "@/components/ui/TopBar";
 import { CityPicker } from "@/features/planner/CityPicker";
 import { CourseCountBadge } from "@/features/planner/CourseCountBadge";
-import {
-  cityName,
-  FEATURED_CITIES,
-  findRegion,
-  placesInScope,
-  regionName,
-} from "@/features/planner/data";
+import { placesInScope } from "@/features/planner/data";
 import { PlannerCourseTab } from "@/features/planner/PlannerCourseTab";
 import { PlannerInfoTab } from "@/features/planner/PlannerInfoTab";
 import { PlannerMapTab } from "@/features/planner/PlannerMapTab";
@@ -24,6 +18,12 @@ import {
   plannerHref,
   scopeHref,
 } from "@/features/planner/query";
+import {
+  cityName,
+  FEATURED_CITIES,
+  findRegion,
+  regionName,
+} from "@/features/planner/regions";
 
 // 투어 플래너. 지역 탭(전국 · 서울 · 부산 · 제주 · 도시 ▾)으로 범위를 고르고, 하단 탭 3개(지도 · 코스 · 여행 정보)를 ?tab=으로 고른다.
 // 주소 규칙은 features/planner/query.ts 머리 주석에 있다. 장소 · 코스 담기는 클라이언트 컴포넌트가 그린다

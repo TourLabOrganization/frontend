@@ -1,4 +1,5 @@
-import { isPlannerCity, isRegionKey, type RegionKey, type Scope } from "./data";
+import { isPlannerCity, type Scope } from "./data";
+import { isRegionKey, type RegionKey } from "./regions";
 
 // 투어 플래너 주소 규칙.
 //   /planner?city=<도시 한국어 이름>&region=<권역 key>&tab=map|course|info&place=<장소 id>
@@ -7,7 +8,7 @@ import { isPlannerCity, isRegionKey, type RegionKey, type Scope } from "./data";
 //   - tab이 없거나 모르는 값이면 map
 //   - place는 지도 탭에서 그 장소 시트를 연 채로 시작한다
 
-export const PLANNER_TABS = ["map", "course", "info"] as const;
+const PLANNER_TABS = ["map", "course", "info"] as const;
 export type PlannerTab = (typeof PLANNER_TABS)[number];
 
 export function parsePlannerTab(value: unknown): PlannerTab {

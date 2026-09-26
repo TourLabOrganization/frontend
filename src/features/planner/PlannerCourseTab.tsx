@@ -25,7 +25,7 @@ import {
   SAVED_PLANS_KEY,
   useLocalValue,
 } from "@/lib/local-store";
-import { CATEGORY_DOT } from "./category";
+import { categoryDot } from "./category";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { CourseBookingLinks } from "./CourseBookingLinks";
 import { CourseTransport } from "./CourseTransport";
@@ -38,19 +38,21 @@ import {
   useToday,
 } from "./course-store";
 import {
-  CITY_INFO,
-  cityName,
   findPlace,
-  findRegion,
   isPlannerCity,
-  PLANNER_ORIGINS,
   type PlannerPlace,
   placesInScope,
-  regionName,
   type Scope,
 } from "./data";
 import { addDays, dateError, MAX_TRIP_DAYS } from "./dates";
 import { plannerHref, scopeHref } from "./query";
+import {
+  CITY_INFO,
+  cityName,
+  findRegion,
+  PLANNER_ORIGINS,
+  regionName,
+} from "./regions";
 import {
   buildPlannerSchedule,
   recommendCourse,
@@ -66,6 +68,8 @@ const ICON_BUTTON =
 const FIELD =
   "h-12 w-full min-w-0 rounded-xl bg-fill px-4 text-body text-fg placeholder:text-fg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright aria-invalid:ring-2 aria-invalid:ring-danger";
 const SELECT = `${FIELD} appearance-none pr-10`;
+// 날짜 칸은 눌러서 달력을 열 때도 테두리가 보이게 focus로 둔다
+const DATE_FIELD = `${FIELD} px-3 focus:outline-2 focus:outline-offset-2 focus:outline-primary-bright`;
 const LABEL = "text-label font-semibold text-fg-muted";
 const CARD = "rounded-card p-4 ring-1 ring-line";
 // aria-disabled 버튼(이유를 읽게 초점은 남긴다)의 모양
@@ -208,6 +212,12 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   // 주소의 플랜이 저장 목록에 없다(ME에서 지웠거나 다른 기기의 주소)
   const planMissing = planId !== undefined && pendingPlan === null;
   const dialogKind: ConfirmKind | null = loadOpen ? "load" : confirm;
+  const confirmKey =
+    dialogKind === "load"
+      ? "confirmLoad"
+      : dialogKind === "clear"
+        ? "confirmClear"
+        : "confirmRecommend";
 
   const heading = course.city ?? (scope.kind === "city" ? scope.city : null);
   const headingName = heading ? cityName(heading, locale) : tp("nation");
@@ -412,7 +422,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                 onChange={(e) =>
                   store.setSettings({ startDate: e.target.value || null })
                 }
-                className={`${FIELD} mt-1 px-3 focus:outline-2 focus:outline-offset-2 focus:outline-primary-bright`}
+                className={`${DATE_FIELD} mt-1`}
               />
             </div>
             <div className="min-w-0">
@@ -433,7 +443,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                 onChange={(e) =>
                   store.setSettings({ endDate: e.target.value || null })
                 }
-                className={`${FIELD} mt-1 px-3 focus:outline-2 focus:outline-offset-2 focus:outline-primary-bright`}
+                className={`${DATE_FIELD} mt-1`}
               />
             </div>
           </div>
@@ -626,7 +636,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                     <span className="flex items-center gap-2 text-body-lg font-semibold">
                       <span
                         aria-hidden
-                        className={`size-2.5 shrink-0 rounded-full ${CATEGORY_DOT[p.cat] ?? "bg-fg-subtle"}`}
+                        className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
                       />
                       <span className="min-w-0">{name}</span>
                     </span>
@@ -788,13 +798,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
 
       <ConfirmDialog
         open={dialogKind !== null}
-        title={
-          dialogKind === "load"
-            ? t("confirmLoad.title")
-            : dialogKind === "clear"
-              ? t("confirmClear.title")
-              : t("confirmRecommend.title")
-        }
+        title={t(`${confirmKey}.title`)}
         body={
           dialogKind === "load" && pendingPlan
             ? t("confirmLoad.body", {
@@ -810,13 +814,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                 })
         }
         cancelLabel={t("cancel")}
-        confirmLabel={
-          dialogKind === "load"
-            ? t("confirmLoad.confirm")
-            : dialogKind === "clear"
-              ? t("confirmClear.confirm")
-              : t("confirmRecommend.confirm")
-        }
+        confirmLabel={t(`${confirmKey}.confirm`)}
         onConfirm={() => {
           if (dialogKind === "load" && pendingPlan) {
             setDismissedPlan(planId ?? null);

@@ -15,22 +15,24 @@ import {
   placeName,
   placePhoto,
 } from "@/features/theme/place-meta";
-import { CATEGORY_DOT } from "./category";
+import { categoryDot } from "./category";
 import { ConfirmDialog } from "./ConfirmDialog";
 import {
-  CITY_INFO,
-  cityName,
-  findRegion,
   type PlannerPlace,
   placesInScope,
-  type RegionKey,
   REGION_CENTER,
-  REGIONS,
-  regionName,
   type Scope,
 } from "./data";
 import { type MapBubble, type MapPin, PlannerMap } from "./PlannerMap";
 import { plannerHref } from "./query";
+import {
+  CITY_INFO,
+  cityName,
+  findRegion,
+  type RegionKey,
+  REGIONS,
+  regionName,
+} from "./regions";
 import { useCourseToggle } from "./use-course-toggle";
 
 /** 목록을 한 번에 그리는 수. 전국 1,171곳을 한꺼번에 그리지 않는다 */
@@ -229,7 +231,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               {c !== "all" && (
                 <span
                   aria-hidden
-                  className={`size-2.5 shrink-0 rounded-full ${CATEGORY_DOT[c]}`}
+                  className={`size-2.5 shrink-0 rounded-full ${categoryDot(c)}`}
                 />
               )}
               {c === "all" ? t("all") : tc(`categories.${c}`)}
@@ -289,7 +291,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                   >
                     <span
                       aria-hidden
-                      className={`size-2.5 shrink-0 rounded-full ${CATEGORY_DOT[p.cat] ?? "bg-fg-subtle"}`}
+                      className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
                     />
                     <span className="min-w-0 flex-1">
                       <span className="block text-body-lg font-semibold">

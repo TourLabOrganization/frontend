@@ -1,15 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   CITY_GROUPS,
-  CITY_HUBS,
-  CITY_INFO,
   PLACE_COUNT_BY_CITY,
-  PLANNER_ORIGINS,
   PLANNER_PLACES,
   placesInScope,
+} from "./data";
+import {
+  CITY_HUBS,
+  CITY_INFO,
+  PLANNER_ORIGINS,
   REGION_KEYS,
   REGIONS,
-} from "./data";
+} from "./regions";
 
 // Tour Planner.dc.html cityGroups의 REG: 권역별 도시 수
 const REG_CITY_COUNT = {

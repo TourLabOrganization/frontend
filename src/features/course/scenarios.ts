@@ -481,7 +481,7 @@ export function dayEndClock(scenario: Scenario, dayIdx: number): number {
  * 원본 dayWindows는 마지막 날 창을 "09:00부터 귀가 출발까지의 길이"로 잡는다. 그래서 첫날이 곧 마지막 날인 당일 여행에
  * 늦게 도착하면(부산 자가용 13:45) 창이 21:00까지 남는다. 원본 설명("마지막날은 귀가시간을 미리 확보")대로 끝 시각으로 자른다
  */
-export function dayEnd(
+function dayEnd(
   d: number,
   ctx: Pick<Context, "depTime" | "accIn" | "windows" | "retTime">,
 ): number {
