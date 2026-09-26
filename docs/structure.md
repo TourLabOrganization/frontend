@@ -9,10 +9,11 @@ src/
     providers.tsx       클라이언트 Provider (TanStack Query)
     api/**/route.ts     Route Handler. 키가 필요한 외부 API를 대신 부른다
   components/           여러 기능이 함께 쓰는 컴포넌트
-  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/planner)
+  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course)
   lib/                  화면과 무관한 코드 (api 클라이언트, 유틸)
   i18n/                 다국어 설정
 messages/               화면 문구 (ko.json · en.json)
+scripts/                데이터 생성 스크립트 (원천 파일 경로를 인자로 받는다)
 public/                 정적 파일
 ```
 
