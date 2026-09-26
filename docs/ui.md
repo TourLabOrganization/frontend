@@ -64,6 +64,7 @@
 | `OptionItem`            | 문항의 보기. 하나 고르기(radio)·여러 개 고르기(checkbox)                       |
 | `Chip`                  | 추천 근거 배지, 메타 정보                                                      |
 | `ProgressBar`           | 문항 진행                                                                      |
+| `LocaleSwitch`          | 언어 전환 버튼(한국어 ↔ English). 홈 · 결과 · 코스 화면 오른쪽 위              |
 | `SegmentedControl`      | 링크형 탭(`?plan=` 같은 쿼리를 바꾼다). `nav` + `aria-current`. 코스 3안 비교  |
 
 새 부품이 필요하면 이 표에서 먼저 찾고, 없으면 같은 폴더에 만들어 표에 추가한다.

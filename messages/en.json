@@ -8,7 +8,8 @@
     "back": "Back",
     "skip": "Skip",
     "next": "Next",
-    "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB."
+    "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
+    "localeSwitch": "한국어"
   },
   "Home": {
     "title": "Travel through the scenes you love",

@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Chip } from "@/components/ui/Chip";
 import { Screen } from "@/components/ui/Screen";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
+import { LocaleSwitch } from "@/components/ui/LocaleSwitch";
 import { TopBar } from "@/components/ui/TopBar";
 import { CourseDaySection } from "@/features/course/CourseDaySection";
 import { formatDuration } from "@/features/course/format-duration";
@@ -80,7 +81,7 @@ export default async function ThemePage({
 
   return (
     <Screen>
-      <TopBar />
+      <TopBar right={<LocaleSwitch />} />
       <main className="flex flex-1 flex-col pb-16">
         <section className="px-6 pt-2">
           <h1 className="text-title font-bold">{tt(`${theme.slug}.name`)}</h1>

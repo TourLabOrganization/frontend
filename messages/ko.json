@@ -8,7 +8,8 @@
     "back": "뒤로",
     "skip": "건너뛰기",
     "next": "다음",
-    "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요"
+    "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
+    "localeSwitch": "English"
   },
   "Home": {
     "title": "영상 속 장소를 따라 걷는 여행",
