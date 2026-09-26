@@ -245,12 +245,64 @@
     }
   },
   "Themes": {
-    "preparing": "코스 화면을 준비하고 있어요",
     "kings-warden": { "name": "왕과 사는 남자" },
     "kpop-demon-hunters": { "name": "케이팝 데몬 헌터스" },
     "rescene-route": { "name": "RESCENE Route" },
     "jeju-k-drama": { "name": "제주 K-Drama" },
     "busan-film-trip": { "name": "부산 영화 기행" }
+  },
+  "Course": {
+    "planTabsLabel": "코스 3안",
+    "plans": {
+      "classic": {
+        "name": "정석",
+        "description": "영상 속 장소와 대표 명소(한국관광 100선·유네스코)를 함께 담은 기본 코스예요."
+      },
+      "trend": {
+        "name": "트렌드",
+        "description": "영상 속 장소부터 담고, 남는 시간은 기본 후보로 채워요."
+      },
+      "quiet": {
+        "name": "한적",
+        "description": "대표 명소와 영상 속 장소를 빼고, 테마 지역의 힐링·자연 장소를 먼저 담아요."
+      }
+    },
+    "sameAsClassic": "이 조건에서는 정석과 같은 코스가 나와요",
+    "fallbackNotice": "혼잡도·검색 추세 데이터가 연결되면 전략 문서의 가중치로 바뀌어요",
+    "tripBasis": "서울역 {depTime} 출발 · 마지막 날 {retTime} 귀가 기준이에요",
+    "accessibleNotice": "무장애 정보가 있는 장소만 담았어요",
+    "ignoredNotice": "{conditions} 조건은 아직 장소 데이터가 없어 반영하지 않았어요",
+    "walkNotice": "하루 걷기({walk}) 조건은 장소별 걷기 난이도 데이터가 아직 없어 반영하지 않았어요",
+    "dayTrip": "당일",
+    "nightsDays": "{nights}박 {days}일",
+    "placeCount": "장소 {count}곳",
+    "stayTotal": "체류 {duration}",
+    "moveTotal": "이동 {duration}",
+    "day": "{day}일차",
+    "arrive": "도착",
+    "leave": "출발",
+    "move": "이동 {duration}",
+    "wait": "개장 대기 {minutes}분",
+    "stay": "체류 {duration}",
+    "videoBadge": "영상 속 장소",
+    "k100Badge": "한국관광 100선",
+    "unescoBadge": "유네스코",
+    "categories": {
+      "herit": "역사·문화",
+      "heal": "힐링·생태",
+      "activity": "테마파크·액티비티",
+      "food": "로컬·먹거리",
+      "sea": "해양·자연",
+      "stay": "숙박"
+    },
+    "duration": {
+      "m": "{m}분",
+      "h": "{h}시간",
+      "hm": "{h}시간 {m}분"
+    },
+    "empty": "조건에 맞는 장소가 없어 코스를 만들지 못했어요",
+    "emptyHelp": "조건을 바꿔 다시 찾아보세요",
+    "emptyDay": "이 날은 담을 수 있는 장소가 없어요"
   },
   "Regions": {
     "seoul": "서울",

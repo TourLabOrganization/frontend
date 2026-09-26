@@ -1,0 +1,97 @@
+import { Bus, Car, Hourglass, TramFront } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { Chip } from "@/components/ui/Chip";
+import { formatDuration } from "./format-duration";
+import type { CourseDay, Transport } from "./scenarios";
+
+// 시내 구간을 다니는 수단의 아이콘. 비행기는 관문까지만 타고 현지에서는 대중교통이다
+const MOVE_ICON = {
+  car: Car,
+  "public-transit": TramFront,
+  flight: TramFront,
+  "tour-bus": Bus,
+} as const satisfies Record<Transport, unknown>;
+
+const CATEGORY_KEYS = ["herit", "heal", "activity", "food", "sea", "stay"];
+
+type CourseDaySectionProps = {
+  day: CourseDay;
+  transport: Transport;
+};
+
+// 하루 일정. 장소마다 왼쪽에 도착·출발 시각, 오른쪽에 이름과 배지. 장소 사이에 이동·개장 대기
+export function CourseDaySection({ day, transport }: CourseDaySectionProps) {
+  const t = useTranslations("Course");
+  const locale = useLocale();
+  const MoveIcon = MOVE_ICON[transport];
+  const duration = (min: number) =>
+    formatDuration((key, values) => t(key, values), min);
+  const headingId = `day-${day.day}`;
+
+  return (
+    <section className="mt-10 px-5" aria-labelledby={headingId}>
+      <h2 id={headingId} className="px-1 text-headline font-bold">
+        {t("day", { day: day.day })}
+      </h2>
+      {day.stops.length === 0 ? (
+        <p className="mt-3 px-1 text-body text-fg-muted">{t("emptyDay")}</p>
+      ) : (
+        <ol className="mt-4">
+          {day.stops.map((stop, k) => {
+            const { place } = stop;
+            const name = locale === "ko" ? place.ko : place.en || place.ko;
+            const category = CATEGORY_KEYS.includes(place.cat)
+              ? t(`categories.${place.cat as "herit"}`)
+              : null;
+            return (
+              <li key={stop.id}>
+                {(k > 0 || stop.wait > 0) && (
+                  <div className="ml-8 flex flex-col gap-1 border-l-2 border-line py-3 pl-[calc(2.5rem-2px)] text-label text-fg-subtle">
+                    {k > 0 && (
+                      <span className="flex items-center gap-2">
+                        <MoveIcon size={20} aria-hidden />
+                        {t("move", { duration: duration(stop.move) })}
+                      </span>
+                    )}
+                    {stop.wait > 0 && (
+                      <span className="flex items-center gap-2">
+                        <Hourglass size={20} aria-hidden />
+                        {t("wait", { minutes: stop.wait })}
+                      </span>
+                    )}
+                  </div>
+                )}
+                <div className="grid grid-cols-[3.5rem_1fr] gap-3 px-1">
+                  <p className="flex flex-col text-label tabular-nums">
+                    <span className="font-semibold text-fg">
+                      <span className="sr-only">{t("arrive")} </span>
+                      {stop.arrive}
+                    </span>
+                    <span className="text-fg-subtle">
+                      <span className="sr-only">{t("leave")} </span>
+                      {stop.leave}
+                    </span>
+                  </p>
+                  <div className="min-w-0">
+                    <h3 className="text-body-lg font-semibold">{name}</h3>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {place.yt && (
+                        <Chip tone="primary">{t("videoBadge")}</Chip>
+                      )}
+                      {category && <Chip>{category}</Chip>}
+                      <Chip>
+                        {t("stay", { duration: duration(stop.stay) })}
+                      </Chip>
+                      {place.k100 && <Chip>{t("k100Badge")}</Chip>}
+                      {place.un && <Chip>{t("unescoBadge")}</Chip>}
+                    </div>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </section>
+  );
+}

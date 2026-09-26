@@ -245,12 +245,64 @@
     }
   },
   "Themes": {
-    "preparing": "We're getting the routes ready",
     "kings-warden": { "name": "The King's Warden" },
     "kpop-demon-hunters": { "name": "KPop Demon Hunters" },
     "rescene-route": { "name": "RESCENE Route" },
     "jeju-k-drama": { "name": "Jeju K-Drama" },
     "busan-film-trip": { "name": "Busan Film Trip" }
+  },
+  "Course": {
+    "planTabsLabel": "Three route plans",
+    "plans": {
+      "classic": {
+        "name": "Classic",
+        "description": "The standard route, mixing on-screen spots with landmarks (Korea's Top 100 and UNESCO)."
+      },
+      "trend": {
+        "name": "Trending",
+        "description": "On-screen spots first, with any spare time filled from the standard list."
+      },
+      "quiet": {
+        "name": "Quiet",
+        "description": "Skips landmarks and on-screen spots, and puts the area's healing and nature spots first."
+      }
+    },
+    "sameAsClassic": "Under these conditions, this plan matches the Classic route",
+    "fallbackNotice": "Once crowd and search-trend data is connected, these plans will switch to the weights in the strategy document",
+    "tripBasis": "Based on leaving Seoul Station at {depTime} and heading home at {retTime} on the last day",
+    "accessibleNotice": "Only places with barrier-free information are included",
+    "ignoredNotice": "{conditions} isn't reflected yet because we don't have place data for it",
+    "walkNotice": "Your daily walking limit ({walk}) isn't reflected yet because we don't have walking-difficulty data for places",
+    "dayTrip": "Day trip",
+    "nightsDays": "{nights, plural, one {# night} other {# nights}}, {days} days",
+    "placeCount": "{count, plural, one {# place} other {# places}}",
+    "stayTotal": "{duration} at places",
+    "moveTotal": "{duration} on the move",
+    "day": "Day {day}",
+    "arrive": "Arrive",
+    "leave": "Leave",
+    "move": "{duration} to next stop",
+    "wait": "{minutes} min wait for opening",
+    "stay": "Stay {duration}",
+    "videoBadge": "On screen",
+    "k100Badge": "Korea's Top 100",
+    "unescoBadge": "UNESCO",
+    "categories": {
+      "herit": "History & culture",
+      "heal": "Nature & healing",
+      "activity": "Theme parks & activities",
+      "food": "Local food",
+      "sea": "Sea & scenery",
+      "stay": "Stay"
+    },
+    "duration": {
+      "m": "{m} min",
+      "h": "{h} hr",
+      "hm": "{h} hr {m} min"
+    },
+    "empty": "No places match your conditions, so we couldn't build a route",
+    "emptyHelp": "Try again with different conditions",
+    "emptyDay": "No places fit into this day"
   },
   "Regions": {
     "seoul": "Seoul",
