@@ -12,7 +12,10 @@
   "Home": {
     "title": "영상 속 장소를 따라 걷는 여행",
     "description": "드라마·영화·K-팝 촬영지를 잇는 여행 코스",
-    "cta": "나에게 맞는 테마 찾기"
+    "cta": "나에게 맞는 테마 찾기",
+    "themesHeading": "테마로 바로 떠나기",
+    "placeStats": "장소 {places}곳 · 영상 속 장소 {videos}곳",
+    "source": "장소 수는 Tour Navigator 테마별 장소 목록에서 센 값이에요"
   },
   "Recommend": {
     "progressLabel": "질문 진행",

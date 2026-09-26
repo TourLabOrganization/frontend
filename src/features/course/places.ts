@@ -84,3 +84,12 @@ export const METRO_CITY: Readonly<Record<string, 1>> = Object.fromEntries(
 export function makeLegFn(mode: TravelMode = "transit"): LegFn {
   return (p, q) => legInfo(p, q, mode, REGION_HUB, METRO_CITY);
 }
+
+/** 테마의 장소 수와 영상 장소 수. places.json에서 센다 */
+export function themePlaceStats(slug: string): {
+  places: number;
+  videos: number;
+} {
+  const list = getThemePlaces(slug);
+  return { places: list.length, videos: list.filter((p) => p.yt).length };
+}

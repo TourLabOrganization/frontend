@@ -26,16 +26,18 @@
 | 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                  |
 | 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                  |
 | 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                      |
-| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 버튼, 보기, 배지, 진행 막대                    |
+| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 버튼, 보기, 배지, 진행 막대, 링크형 탭         |
 | CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`) |
 | 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                        |
 
 ## 들어 있지 않은 것
 
-실제 화면(홈 · 테마 코스 · 투어 플래너), 지도, 로그인 화면, 외부 API Route Handler.
+지도, 로그인 화면, 투어 플래너(직접 고르는 코스), 외부 API Route Handler.
 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
 
-홈은 제목만 있는 자리표시 화면이다. 디자인이 확정되면 만든다 (`docs/ui.md`).
+홈(`/`), 테마 추천(`/recommend`), 테마 코스 3안(`/themes/[themeId]`)은 있다.
+코스 3안은 트렌드·혼잡도 데이터가 아직 없어 장소 데이터만으로 만든 대체 규칙을 쓴다 (`src/features/course/scenarios.ts`).
+사진 자리는 토큰 색 자리표시다. 사진은 이용 허락이 분명한 것만 넣는다 (`docs/ui.md`).
 
 ## 실행 방법
 
