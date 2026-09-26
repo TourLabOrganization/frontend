@@ -3,7 +3,7 @@ import type { ThemeSlug } from "./themes";
 
 // 테마의 대표 영상 작품과 TMDB 이미지.
 // 작품은 PoC 테마 화면의 WORKS 첫 작품이다(Tour-Navigator-App/*.dc.html).
-//   제주는 폭싹 속았수다 · 우리들의 블루스, 부산은 해운대 · 국제시장 · 변호인 중 첫 작품.
+//   제주는 폭싹 속았수다 · 우리들의 블루스 중 첫 작품. 부산은 예외(아래 주석).
 //   RESCENE Route는 가수 뮤직비디오 테마라 TMDB에 작품이 없어, PoC 목업 홈 타일의 로고 이미지를 쓴다(THEME_LOCAL_IMAGE).
 // 이미지 경로는 TMDB 작품 페이지(ko-KR · en-US)의 포스터 · 배경 이미지를 2026-09-27에 확인한 값이다.
 // 키 없이 TMDB 이미지 서버에서 불러오고, 화면에는 TMDB 출처를 표기한다(Common.tmdbCredit)
@@ -45,14 +45,16 @@ export const THEME_WORK: Partial<Record<ThemeSlug, Work>> = {
     },
     backdrop: "/a9qlroMOHewiDsUR93PYMVfpbF5.jpg",
   },
+  // 부산은 PoC WORKS(해운대 · 국제시장 · 변호인) 대신 부산행(Train to Busan)으로 둔다.
+  // 해외에서 훨씬 널리 알려진 작품이라서다(대표 결정 2026-09-27)
   "busan-film-trip": {
     type: "movie",
-    tmdbId: 33196,
+    tmdbId: 396535,
     poster: {
-      ko: "/AgWRG68qAT63wDybxNAebnbstts.jpg",
-      en: "/1mE5jde5SJqUnZ58MAweW9GuhzK.jpg",
+      ko: "/6XvEZVBFFjybvb1yQd1qfOC6F2S.jpg",
+      en: "/vNVFt6dtcqnI7hqa6LFBUibuFiw.jpg",
     },
-    backdrop: "/uAfPjNvfHjFuvdtSa8J3iuD1CkI.jpg",
+    backdrop: "/brnfCYyz8EMbBrHgmh8sCwBi5i1.jpg",
   },
 };
 
