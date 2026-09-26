@@ -51,21 +51,23 @@
 
 - 모든 화면은 `<Screen>`으로 감싼다. 모바일은 전체 폭, 넓은 화면에서는 가운데 480px 기둥이다
 - 위는 `<TopBar>`, 화면의 주요 버튼은 `<BottomBar>`에 넣는다. 한 화면에 주요 버튼은 하나
+- 홈 · ME처럼 주요 버튼 없이 여러 화면으로 갈라지는 화면은 `<BottomBar>` 대신 `<BottomNav>`(하단 탭)를 둔다
 - 모바일(390px)부터 만든다. 지도·플래너처럼 넓은 화면에서 이점이 큰 화면만 `md:` 이상에서 두 단으로 편다
 
 ## 공통 부품 (`src/components/ui`)
 
-| 부품                    | 쓰임                                                                           |
-| ----------------------- | ------------------------------------------------------------------------------ |
-| `Screen`                | 화면 틀                                                                        |
-| `TopBar`                | 뒤로 가기 + 제목 + 오른쪽 동작(건너뛰기 등)                                    |
-| `BottomBar`             | 아래 고정 버튼 영역. 내용이 버튼 뒤로 숨지 않게 자리를 자동으로 비운다         |
-| `Button` · `ButtonLink` | `primary`·`secondary`·`ghost`, `lg`(56px)·`md`(48px). 화면 이동은 `ButtonLink` |
-| `OptionItem`            | 문항의 보기. 하나 고르기(radio)·여러 개 고르기(checkbox)                       |
-| `Chip`                  | 추천 근거 배지, 메타 정보                                                      |
-| `ProgressBar`           | 문항 진행                                                                      |
-| `LocaleSwitch`          | 언어 전환 버튼(한국어 ↔ English). 홈 · 결과 · 코스 화면 오른쪽 위              |
-| `SegmentedControl`      | 링크형 탭(`?plan=` 같은 쿼리를 바꾼다). `nav` + `aria-current`. 코스 3안 비교  |
+| 부품                    | 쓰임                                                                                                                    |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `Screen`                | 화면 틀                                                                                                                 |
+| `TopBar`                | 뒤로 가기 + 제목 + 오른쪽 동작(건너뛰기 등)                                                                             |
+| `BottomBar`             | 아래 고정 버튼 영역. 내용이 버튼 뒤로 숨지 않게 자리를 자동으로 비운다                                                  |
+| `Button` · `ButtonLink` | `primary`·`secondary`·`ghost`, `lg`(56px)·`md`(48px). 화면 이동은 `ButtonLink`                                          |
+| `OptionItem`            | 문항의 보기. 하나 고르기(radio)·여러 개 고르기(checkbox)                                                                |
+| `Chip`                  | 추천 근거 배지, 메타 정보                                                                                               |
+| `ProgressBar`           | 문항 진행                                                                                                               |
+| `LocaleSwitch`          | 언어 전환 버튼(한국어 ↔ English). 홈 · 결과 · 코스 · ME 화면 오른쪽 위                                                  |
+| `SegmentedControl`      | 링크형 탭(`?plan=` 같은 쿼리를 바꾼다). `nav` + `aria-current`. 코스 3안 비교                                           |
+| `BottomNav`             | 하단 탭(홈 · 내 코스 고르기 · ME). 홈 · ME 화면에만. 쓰는 화면의 `main`에 `pb-[calc(5rem+env(safe-area-inset-bottom))]` |
 
 새 부품이 필요하면 이 표에서 먼저 찾고, 없으면 같은 폴더에 만들어 표에 추가한다.
 

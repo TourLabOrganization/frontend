@@ -14,6 +14,7 @@ import {
   QUESTIONS,
 } from "@/features/recommend/questions";
 import { getRecommendation } from "@/features/recommend/recommend";
+import { RememberRecommendation } from "@/features/recommend/RememberRecommendation";
 import { ThemeCard } from "@/features/recommend/ThemeCard";
 import type { RankedTheme, ThemeSlug } from "@/features/recommend/themes";
 import { themeBackdrop } from "@/features/recommend/works";
@@ -91,6 +92,7 @@ export default async function RecommendResultPage({
 
   return (
     <Screen>
+      <RememberRecommendation a={encodeAnswers(answers)} />
       <TopBar right={<LocaleSwitch />} />
       <main className="flex flex-1 flex-col">
         <section className="px-6 pt-2">

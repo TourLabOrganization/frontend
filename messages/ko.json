@@ -11,14 +11,86 @@
     "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
     "localeSwitch": "English"
   },
+  "Splash": {
+    "title": {
+      "first": "우리 이제",
+      "second": "같이 떠나는 사이!"
+    },
+    "description": "영상 속 그 장면으로, 테마별 여행을 시작해 보세요!",
+    "skip": "건너뛰기"
+  },
   "Home": {
-    "title": "영상 속 장소를 따라 걷는 여행",
-    "description": "드라마·영화·K-팝 촬영지를 잇는 여행 코스",
-    "cta": "나에게 맞는 테마 찾기",
-    "themesHeading": "테마로 바로 떠나기",
-    "placeCount": "장소 {count}곳",
-    "videoCount": "영상 속 장소 {count}곳",
-    "source": "장소 수는 Tour Navigator 테마별 장소 목록에서 센 값이에요"
+    "source": "장소 수는 Tour Navigator 테마별 장소 목록에서 센 값이에요",
+    "tabsLabel": "홈 화면",
+    "tabs": {
+      "myThemes": "내 테마",
+      "planner": "투어 플래너"
+    },
+    "carouselLabel": "추천 테마",
+    "slideLabel": "{current} / {total}",
+    "pause": "배너 자동 넘김 멈추기",
+    "play": "배너 자동 넘김 다시 시작",
+    "goToSlide": "{current}번째 배너 보기",
+    "banners": {
+      "rescene-route": {
+        "kicker": "RESCENE ROUTE",
+        "titleFirst": "영상 속 그 길을",
+        "titleSecond": "그대로 걷다",
+        "description": "촬영지와 이동 경로를 한 번에 계획해 보세요"
+      },
+      "kings-warden": {
+        "kicker": "왕과 사는 남자",
+        "titleFirst": "단종이 걸은 길을",
+        "titleSecond": "영월에서 만나다",
+        "description": "청령포에서 장릉까지, 유배의 동선을 따라"
+      },
+      "kpop-demon-hunters": {
+        "kicker": "케이팝 데몬 헌터스",
+        "titleFirst": "헌트릭스의 서울을",
+        "titleSecond": "발로 따라가다",
+        "description": "낙산공원 성곽길에서 잠실 최종 무대까지"
+      },
+      "jeju-k-drama": {
+        "kicker": "제주 K-DRAMA",
+        "titleFirst": "두 편의 드라마가",
+        "titleSecond": "지나간 해안선",
+        "description": "폭싹 속았수다와 우리들의 블루스, 같은 섬 다른 시간"
+      },
+      "busan-film-trip": {
+        "kicker": "부산 영화 기행",
+        "titleFirst": "영화가 가장 많이",
+        "titleSecond": "찍힌 도시",
+        "description": "감천에서 해운대까지, 스크린 속 부산을 걷다"
+      }
+    },
+    "myThemesHeading": "나의 테마",
+    "pickCourseHeading": "내 코스 고르기",
+    "pickCourseTitle": "나에게 맞는 테마와 코스를 골라 드려요",
+    "pickCourseMeta": "{total}개 문항 · 필수 {required}개 · 약 1분",
+    "coursesHeading": "추천 코스",
+    "courseTitle": "{region} {duration}",
+    "courseMeta": "장소 {places}곳 · 촬영지 {videos}곳 · {transport}"
+  },
+  "Nav": {
+    "label": "주 메뉴",
+    "home": "홈",
+    "recommend": "내 코스 고르기",
+    "me": "ME"
+  },
+  "Me": {
+    "title": "ME",
+    "recommendedHeading": "추천받은 나의 테마",
+    "lastType": "나의 여행 유형 · {type}",
+    "lastTheme": "1위 테마 {theme}",
+    "lastAction": "추천 결과 다시 보기",
+    "emptyTitle": "나에게 맞는 테마를 찾아 드려요",
+    "emptyMeta": "아직 추천받은 테마가 없어요 · {total}개 문항",
+    "savedHeading": "저장된 플랜",
+    "savedCount": "{count}개",
+    "savedAt": "{date} 저장",
+    "remove": "{name} 삭제",
+    "savedEmpty": "저장된 플랜이 없어요. 테마의 코스 화면에서 [코스 저장]을 눌러 보세요.",
+    "openPlanner": "투어 플래너 열기"
   },
   "Recommend": {
     "progressLabel": "질문 진행",
@@ -312,7 +384,9 @@
     "conditionNames": {
       "when": "출발 시기",
       "walk": "하루 걷기"
-    }
+    },
+    "savePlan": "코스 저장",
+    "saved": "저장됨"
   },
   "Regions": {
     "seoul": "서울",

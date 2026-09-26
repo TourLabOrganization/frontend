@@ -7,6 +7,7 @@ import { LocaleSwitch } from "@/components/ui/LocaleSwitch";
 import { TopBar } from "@/components/ui/TopBar";
 import { CourseDaySection } from "@/features/course/CourseDaySection";
 import { formatDuration } from "@/features/course/format-duration";
+import { SavePlanButton } from "@/features/course/SavePlanButton";
 import { DEFAULT_DEP, DEFAULT_RET } from "@/features/course/params";
 import {
   buildScenario,
@@ -123,6 +124,11 @@ export default async function ThemePage({
             <p className="mt-1 text-micro text-fg-subtle">
               {t("unappliedNotice", { conditions: unapplied.join(" · ") })}
             </p>
+          )}
+          {!empty && (
+            <div className="mt-4">
+              <SavePlanButton slug={theme.slug} a={a ?? ""} plan={plan} />
+            </div>
           )}
           {!empty && (
             <div className="mt-4 flex flex-wrap gap-1.5">

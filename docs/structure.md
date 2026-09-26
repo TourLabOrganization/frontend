@@ -9,8 +9,8 @@ src/
     providers.tsx       클라이언트 Provider (TanStack Query)
     api/**/route.ts     Route Handler. 키가 필요한 외부 API를 대신 부른다
   components/           여러 기능이 함께 쓰는 컴포넌트
-  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course)
-  lib/                  화면과 무관한 코드 (api 클라이언트, 유틸)
+  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/home, features/me)
+  lib/                  화면과 무관한 코드 (api 클라이언트, 여러 기능이 쓰는 localStorage 값 local-store.ts, 유틸)
   i18n/                 다국어 설정
 messages/               화면 문구 (ko.json · en.json)
 scripts/                데이터 생성 스크립트 (원천 파일 경로를 인자로 받는다)
@@ -20,6 +20,16 @@ public/                 정적 파일
 - 새 코드는 `features/<기능>/`에서 시작한다
 - 두 번째 기능이 실제로 import하게 되면 그때 `components/`나 `lib/`로 올린다.
   미리 올려 두지 않는다
+
+## 화면 경로
+
+| 경로                | 화면                                                      | 코드                                               |
+| ------------------- | --------------------------------------------------------- | -------------------------------------------------- |
+| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스) | `app/page.tsx`, `features/home`                    |
+| `/recommend`        | 테마 추천 14문항                                          | `app/recommend/page.tsx`, `features/recommend`     |
+| `/recommend/result` | 추천 결과                                                 | `app/recommend/result/page.tsx`                    |
+| `/themes/[themeId]` | 테마 코스 3안 · 코스 저장                                 | `app/themes/[themeId]/page.tsx`, `features/course` |
+| `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                      | `app/me/page.tsx`, `features/me`                   |
 
 ## 서버 컴포넌트와 클라이언트 컴포넌트
 

@@ -11,14 +11,86 @@
     "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
     "localeSwitch": "한국어"
   },
+  "Splash": {
+    "title": {
+      "first": "From now on,",
+      "second": "we travel together!"
+    },
+    "description": "Step into the scenes you love and start a trip by theme!",
+    "skip": "Skip"
+  },
   "Home": {
-    "title": "Travel through the scenes you love",
-    "description": "Routes that connect K-drama, film, and K-pop filming locations",
-    "cta": "Find my theme",
-    "themesHeading": "Jump into a theme",
-    "placeCount": "{count, plural, one {# place} other {# places}}",
-    "videoCount": "{count} on screen",
-    "source": "Place counts come from the Tour Navigator place list for each theme"
+    "source": "Place counts come from the Tour Navigator place list for each theme",
+    "tabsLabel": "Home views",
+    "tabs": {
+      "myThemes": "My themes",
+      "planner": "Tour planner"
+    },
+    "carouselLabel": "Featured themes",
+    "slideLabel": "{current} / {total}",
+    "pause": "Pause banner rotation",
+    "play": "Resume banner rotation",
+    "goToSlide": "Show banner {current}",
+    "banners": {
+      "rescene-route": {
+        "kicker": "RESCENE ROUTE",
+        "titleFirst": "Walk the road",
+        "titleSecond": "you saw on screen",
+        "description": "Plan filming spots and the route between them in one go"
+      },
+      "kings-warden": {
+        "kicker": "THE KING'S WARDEN",
+        "titleFirst": "Meet King Danjong's path",
+        "titleSecond": "in Yeongwol",
+        "description": "From Cheongnyeongpo to Jangneung, along the route of his exile"
+      },
+      "kpop-demon-hunters": {
+        "kicker": "KPOP DEMON HUNTERS",
+        "titleFirst": "Follow HUNTR/X's Seoul",
+        "titleSecond": "on foot",
+        "description": "From the Naksan Park fortress wall to the final stage in Jamsil"
+      },
+      "jeju-k-drama": {
+        "kicker": "JEJU K-DRAMA",
+        "titleFirst": "The coastline",
+        "titleSecond": "two dramas passed by",
+        "description": "When Life Gives You Tangerines and Our Blues: one island, two times"
+      },
+      "busan-film-trip": {
+        "kicker": "BUSAN FILM TRIP",
+        "titleFirst": "The city where",
+        "titleSecond": "the most films were shot",
+        "description": "From Gamcheon to Haeundae, walk the Busan of the big screen"
+      }
+    },
+    "myThemesHeading": "My themes",
+    "pickCourseHeading": "Pick my route",
+    "pickCourseTitle": "We'll pick the theme and route that suit you",
+    "pickCourseMeta": "{total} questions · {required} required · about 1 min",
+    "coursesHeading": "Suggested routes",
+    "courseTitle": "{region}, {duration}",
+    "courseMeta": "{places, plural, one {# place} other {# places}} · {videos} on screen · {transport}"
+  },
+  "Nav": {
+    "label": "Main menu",
+    "home": "Home",
+    "recommend": "Pick my route",
+    "me": "ME"
+  },
+  "Me": {
+    "title": "ME",
+    "recommendedHeading": "My recommended theme",
+    "lastType": "My travel type · {type}",
+    "lastTheme": "Top theme: {theme}",
+    "lastAction": "See my results again",
+    "emptyTitle": "We'll find the theme that suits you",
+    "emptyMeta": "No recommendation yet · {total} questions",
+    "savedHeading": "Saved plans",
+    "savedCount": "{count}",
+    "savedAt": "Saved {date}",
+    "remove": "Delete {name}",
+    "savedEmpty": "No saved plans yet. Tap [Save route] on a theme's route screen.",
+    "openPlanner": "Open tour planner"
   },
   "Recommend": {
     "progressLabel": "Question progress",
@@ -312,7 +384,9 @@
     "conditionNames": {
       "when": "Travel dates",
       "walk": "Daily walking"
-    }
+    },
+    "savePlan": "Save route",
+    "saved": "Saved"
   },
   "Regions": {
     "seoul": "Seoul",
