@@ -1,6 +1,8 @@
-import type { Origin, Place, RegionHub } from "@/features/course/places";
+import type { Place } from "@/features/course/places";
 import placesData from "./data/places.json";
-import regionsData from "./data/regions.json";
+import { REGION_KEYS, REGIONS, type Region, type RegionKey } from "./regions";
+
+export * from "./regions";
 
 // 투어 플래너의 장소 · 권역 · 도시 데이터.
 // data/places.json:  Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그)와
@@ -9,22 +11,6 @@ import regionsData from "./data/regions.json";
 //                    도시 가운데 좌표(장소 좌표 평균)
 // 둘 다 scripts/build-planner.mjs로 만든다. 손으로 고치지 않는다.
 // 장소 필드는 course/places.ts의 Place와 같아서 일정 모듈(course/schedule.ts)이 그대로 쓴다.
-
-/** 권역 key. Tour Planner.dc.html REG 순서 */
-export const REGION_KEYS = [
-  "capital",
-  "gangwon",
-  "chungcheong",
-  "daegyeong",
-  "dongnam",
-  "honam",
-  "jeju",
-] as const;
-export type RegionKey = (typeof REGION_KEYS)[number];
-
-export function isRegionKey(value: unknown): value is RegionKey {
-  return (REGION_KEYS as readonly unknown[]).includes(value);
-}
 
 export type PlannerPlace = Place & {
   /** 권역 key */
@@ -42,50 +28,7 @@ export type PlannerPlace = Place & {
   imgCredit?: string;
 };
 
-export type Region = {
-  key: RegionKey;
-  ko: string;
-  en: string;
-  /** 권역의 도시(한국어 이름). REG 순서 그대로. 장소가 없는 도시도 들어 있다 */
-  cities: readonly string[];
-};
-
-export type CityInfo = {
-  /** 영어 이름. CITY_NAME에 없으면 빈 문자열 */
-  en: string;
-  /** 장소 좌표 평균. 장소가 없는 도시는 없다 */
-  lat?: number;
-  lng?: number;
-};
-
 export const PLANNER_PLACES = placesData as readonly PlannerPlace[];
-export const REGIONS = regionsData.regions as readonly Region[];
-export const CITY_INFO = regionsData.cities as Readonly<
-  Record<string, CityInfo>
->;
-/** 도시 → 광역 관문. Tour Planner.dc.html REGION_HUB 중 장소가 있는 도시 */
-export const CITY_HUBS = regionsData.hubs as Readonly<
-  Record<string, RegionHub>
->;
-
-/** 출발지(역 · 터미널 · 공항 · 항구). Tour Planner.dc.html ORIGINS 순서 그대로 */
-export const PLANNER_ORIGINS = regionsData.origins as Readonly<
-  Record<string, Origin & { route?: string }>
->;
-
-/** 지역 탭에 따로 칸이 있는 도시 (목업: 전국 · 서울 · 부산 · 제주 · 도시 ▾) */
-export const FEATURED_CITIES = ["서울", "부산", "제주"] as const;
-
-/** 도시 고르기에서 칩을 강조하는 주요 도시 (Tour Planner.dc.html cityGroups GOLD) */
-export const MAJOR_CITIES: ReadonlySet<string> = new Set([
-  "서울",
-  "강릉",
-  "경주",
-  "부산",
-  "전주",
-  "제주",
-]);
-
 /** 권역 대표 도시. 도시 고르기의 권역 묶음에서 맨 앞에 둔다 (cityGroups PIN) */
 const REGION_PIN: Readonly<Record<RegionKey, string>> = {
   capital: "서울",
@@ -137,19 +80,6 @@ export const CITY_GROUPS: readonly CityGroup[] = (() => {
 /** 장소가 하나 이상 있는 도시인지 (?city= 검사) */
 export function isPlannerCity(value: unknown): value is string {
   return typeof value === "string" && PLACE_COUNT_BY_CITY.has(value);
-}
-
-export function findRegion(key: RegionKey): Region {
-  return REGIONS.find((r) => r.key === key)!;
-}
-
-/** 화면 언어의 도시 이름. 영어 이름이 없으면 한국어 */
-export function cityName(city: string, locale: string): string {
-  return locale === "ko" ? city : CITY_INFO[city]?.en || city;
-}
-
-export function regionName(region: Pick<Region, "ko" | "en">, locale: string) {
-  return locale === "ko" ? region.ko : region.en;
 }
 
 /** 권역 묶음 표시 자리: 권역 장소 좌표 평균 */

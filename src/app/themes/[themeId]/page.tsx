@@ -16,7 +16,7 @@ import {
 import { InfoTab } from "@/features/theme/InfoTab";
 import { MapTab, type SceneLink } from "@/features/theme/MapTab";
 import { corePlaces, pad2, placeName } from "@/features/theme/place-meta";
-import { cityName } from "@/features/planner/data";
+import { cityName } from "@/features/planner/regions";
 import { StampTab } from "@/features/theme/StampTab";
 import { parseTab, themeHref, type ThemeQuery } from "@/features/theme/tabs";
 import {

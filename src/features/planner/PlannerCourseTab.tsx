@@ -49,12 +49,10 @@ import {
   regionName,
   type Scope,
 } from "./data";
+import { addDays, dateError, MAX_TRIP_DAYS } from "./dates";
 import { plannerHref, scopeHref } from "./query";
 import {
-  addDays,
   buildPlannerSchedule,
-  dateError,
-  MAX_TRIP_DAYS,
   recommendCourse,
   resolveWide,
   suggestOrigin,
@@ -303,7 +301,13 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       <header className="px-5">
         <p className="text-caption font-semibold text-primary">{t("kicker")}</p>
         <h2 className="mt-1 text-title font-bold">
-          {t("title", { city: headingName })}
+          {plan.dayCount === 1
+            ? t("title", { city: headingName })
+            : t("titleTrip", {
+                city: headingName,
+                nights: plan.dayCount - 1,
+                days: plan.dayCount,
+              })}
         </h2>
       </header>
       {planMissing && (
@@ -601,7 +605,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               return (
                 <li
                   key={p.id}
-                  className="flex items-center gap-1 py-2 pr-3 pl-5"
+                  className="flex items-center gap-2 py-2 pr-3 pl-5"
                 >
                   <span
                     aria-hidden
@@ -617,7 +621,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                     }
                     replace
                     scroll={false}
-                    className="ml-2 flex min-h-11 min-w-0 flex-1 flex-col justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+                    className="ml-1 flex min-h-11 min-w-0 flex-1 flex-col justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
                   >
                     <span className="flex items-center gap-2 text-body-lg font-semibold">
                       <span

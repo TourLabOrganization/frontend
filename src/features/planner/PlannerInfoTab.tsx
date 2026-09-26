@@ -3,7 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { buttonClassName } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { CITY_HUBS } from "./data";
-import { PLANNER_LINKS, PLANNER_TIPS } from "./data/info";
+import { PLANNER_LINKS } from "./data/info";
 import { InfoCitySelect } from "./InfoCitySelect";
 
 const MODE_KEYS = ["ktx", "srt", "bus", "air", "ship", "metro"] as const;
@@ -12,7 +12,7 @@ const isModeKey = (m: string): m is ModeKey =>
   (MODE_KEYS as readonly string[]).includes(m);
 
 // 투어 플래너 여행 정보 탭. 선택한 지역(도시)의 광역 관문 · 이동 요령 · 지역별 관광 안내 링크.
-// 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 문단 · 링크는 data/info.ts
+// 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 이동 요령 문단은 messages(Planner.info.tips), 링크는 data/info.ts
 export async function PlannerInfoTab({ city }: { city: string | null }) {
   const t = await getTranslations("Planner.info");
   const locale = await getLocale();
@@ -90,9 +90,7 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
         <h3 id="planner-tips-heading" className="px-1 text-headline font-bold">
           {t("tipsHeading")}
         </h3>
-        <p className="mt-2 px-1 text-body text-fg-muted">
-          {PLANNER_TIPS[lang]}
-        </p>
+        <p className="mt-2 px-1 text-body text-fg-muted">{t("tips")}</p>
       </section>
 
       <section aria-labelledby="planner-links-heading">

@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { DEFAULT_DEP, DEFAULT_RET } from "../course/params";
 import { readLocal, useLocalValue, writeLocal } from "../../lib/local-store";
-import { PLANNER_ORIGINS } from "./data";
+import { PLANNER_ORIGINS } from "./regions";
 
 // 투어 플래너에서 코스에 담은 장소와 코스 설정. localStorage `tn.planner.course`에 JSON으로 둔다.
 //   { city: "경주", placeIds: ["gj2", …],   (담은 순서 = 코스 탭 순서)

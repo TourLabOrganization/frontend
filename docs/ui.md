@@ -92,7 +92,7 @@
 ## 아이콘과 이미지
 
 - 서비스 로고는 `LogoMark`로만 그린다(lucide 아이콘으로 대신하지 않는다).
-- 아이콘은 lucide-react만 쓴다. 크기는 20·24(칩 안에서는 16), 기본 굵기. 이모지를 아이콘 대신 쓰지 않는다. 장식용 아이콘에는 `aria-hidden`
+- 아이콘은 lucide-react만 쓴다. 크기는 20·24, 기본 굵기. 글자 옆에 붙는 작은 표시(칩 안 · 새 창 · 고름 체크 · 펼침 화살표 · 오류 문구 앞)만 16. 이모지를 아이콘 대신 쓰지 않는다. 장식용 아이콘에는 `aria-hidden`
 - 이미지는 `next/image`로 넣는다. 외부 도메인 이미지는 `next.config.ts`의 `images.remotePatterns`에 도메인을 추가한다
 - 장소 사진(Wikimedia Commons)은 `unoptimized`로 브라우저가 Wikimedia에서 바로 받는다. Wikimedia가 이미지 최적화 서버의 요청에 429를 돌려준다.
   사진 아래에 출처(「사진: Wikimedia Commons」)를 적는다

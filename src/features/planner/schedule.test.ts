@@ -6,15 +6,13 @@ import {
   type LocalMode,
   type PlannerSettings,
 } from "./course-store";
-import { placesInScope } from "./data";
+import { PLANNER_ORIGINS, placesInScope } from "./data";
+import { addDays, dateError, tripDays } from "./dates";
 import {
-  addDays,
   buildPlannerSchedule,
-  dateError,
   recommendCourse,
   resolveWide,
   suggestOrigin,
-  tripDays,
   wideOptions,
 } from "./schedule";
 import { CITY_HUBS } from "./data";
@@ -67,6 +65,10 @@ describe("투어 플래너 일정 (buildPlannerSchedule)", () => {
           });
         });
 
+        it(`${label}: 추천 코스는 불러오자마자 잘리지 않는다(dropped 0)`, () => {
+          expect(plan.dropped.map((p) => p.id)).toEqual([]);
+        });
+
         it(`${label}: 요약 합 = 일정 합, 잘린 장소 + 담긴 장소 = 코스`, () => {
           const stops = plan.days.flatMap((d) => d.stops);
           expect(plan.stops).toBe(stops.length);
@@ -97,6 +99,22 @@ describe("투어 플래너 일정 (buildPlannerSchedule)", () => {
     const plan = buildPlannerSchedule(pool, settingsFor(1, "transit"), "서울");
     expect(plan.dropped.length).toBeGreaterThan(0);
     expect(plan.stops + plan.dropped.length).toBe(pool.length);
+  });
+
+  // 마지막 날은 여행지 출발 시각에서 끝나서, 창 길이만 보고 채운 추천이 넘치기 쉬운 곳은 당일이다
+  it("당일 추천 코스는 출발지 · 출발 시각이 달라도 잘리지 않는다", () => {
+    for (const city of CITIES)
+      for (const origin of Object.keys(PLANNER_ORIGINS))
+        for (const depTime of ["06:00", "08:00", "12:00"]) {
+          const settings = { ...settingsFor(1, "transit"), origin, depTime };
+          const pool = placesInScope({ kind: "city", city });
+          const plan = buildPlannerSchedule(
+            recommendCourse(pool, settings, city),
+            settings,
+            city,
+          );
+          expect(plan.dropped, `${city} · ${origin} · ${depTime}`).toEqual([]);
+        }
   });
 
   it("빈 코스는 경유지 0 · 거리 0 · 시간 0", () => {

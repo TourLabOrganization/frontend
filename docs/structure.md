@@ -23,14 +23,14 @@ public/                 정적 파일
 
 ## 화면 경로
 
-| 경로                | 화면                                                            | 코드                                                                 |
-| ------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스)       | `app/page.tsx`, `features/home`                                      |
-| `/recommend`        | 테마 추천 14문항                                                | `app/recommend/page.tsx`, `features/recommend`                       |
-| `/recommend/result` | 추천 결과                                                       | `app/recommend/result/page.tsx`                                      |
-| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보) | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course` |
-| `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)     | `app/planner/page.tsx`, `features/planner`                           |
-| `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                            | `app/me/page.tsx`, `features/me`                                     |
+| 경로                | 화면                                                            | 코드                                                                                                        |
+| ------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스)       | `app/page.tsx`, `features/home`                                                                             |
+| `/recommend`        | 테마 추천 14문항                                                | `app/recommend/page.tsx`, `features/recommend`                                                              |
+| `/recommend/result` | 추천 결과                                                       | `app/recommend/result/page.tsx`                                                                             |
+| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보) | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
+| `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)     | `app/planner/page.tsx`, `features/planner`                                                                  |
+| `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                            | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
 
 ### 테마 화면 주소 (`/themes/[themeId]`)
 

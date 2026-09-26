@@ -545,6 +545,7 @@
     "course": {
       "kicker": "Course builder",
       "title": "{city} · Today's route",
+      "titleTrip": "{city} · {days}-day route",
       "plan": {
         "label": "My plan",
         "labelSuffix": "name",
@@ -616,7 +617,6 @@
         "heading": "Places · {count}",
         "empty": "No places yet. Add places on the map, or load a suggested course below"
       },
-      "empty": "No places yet. Add places from the map",
       "goMap": "Add places on the map",
       "moveUp": "Move {name} up",
       "moveDown": "Move {name} down",
@@ -692,6 +692,7 @@
         "metro": "Metro rail"
       },
       "tipsHeading": "Getting around",
+      "tips": "Set your dates, starting point and times in the Course tab, and the places you've added are split into a day-by-day route with arrival, departure and travel times for each stop. Long-distance transport only offers modes found at both your starting point and the destination's gateway, so Jeju is reached by flight or ferry. The last day ends at your departure time from the destination, and booking links for KTX, SRT, buses, rental cars and stays are at the bottom of the Course tab.",
       "linksHeading": "Regional tourism guides",
       "newWindow": "(opens in a new window)"
     }
