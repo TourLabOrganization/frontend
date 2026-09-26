@@ -57,7 +57,7 @@ export default async function HomePage() {
       .filter((s) => s.place.yt).length;
     return {
       slug,
-      href: `/themes/${slug}?a=${a}&plan=${plan}`,
+      href: `/themes/${slug}?tab=course&a=${a}&plan=${plan}`,
       title: t("courseTitle", {
         region: theme.regions.map((r) => tr(r)).join(" · "),
         duration:
@@ -160,6 +160,9 @@ export default async function HomePage() {
             ))}
           </ul>
           <p className="mt-6 text-micro text-fg-subtle">{t("source")}</p>
+          <p className="mt-1 text-micro text-fg-subtle">
+            {t("bannerPhotoCredit")}
+          </p>
           <p className="mt-1 text-micro text-fg-subtle">
             {common("tmdbCredit")}
           </p>

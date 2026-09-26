@@ -111,7 +111,7 @@ export function MePanel() {
             {plans.map((p) => {
               const name = tt(`${p.slug}.name`);
               const planName = tp(`${p.plan}.name`);
-              const href = `/themes/${p.slug}?${p.a ? `a=${p.a}&` : ""}plan=${p.plan}`;
+              const href = `/themes/${p.slug}?tab=course&${p.a ? `a=${p.a}&` : ""}plan=${p.plan}`;
               return (
                 <li
                   key={`${p.slug}|${p.a}|${p.plan}`}

@@ -12,6 +12,7 @@
 | 스타일      | Tailwind CSS 4                                |
 | 서버 데이터 | TanStack Query 5                              |
 | 다국어      | next-intl 4 (ko · en)                         |
+| 지도        | @vis.gl/react-google-maps (Google Maps)       |
 | 코드 포맷   | Prettier · ESLint                             |
 | 테스트      | Vitest                                        |
 | 배포        | Vercel                                        |
@@ -32,12 +33,12 @@
 
 ## 들어 있지 않은 것
 
-지도, 로그인 화면, 투어 플래너(`/planner`, 직접 고르는 코스 — 3단계 예정), 외부 API Route Handler.
+로그인 화면, 투어 플래너(`/planner`, 직접 고르는 코스 — 3단계 예정), 외부 API Route Handler.
 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
 
 홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
-테마 코스 3안(`/themes/[themeId]`, 코스 저장), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
-추천 결과와 저장한 코스는 로그인 없이 이 브라우저의 localStorage에만 둔다 (`src/lib/local-store.ts`).
+테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, Google 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
+추천 결과, 저장한 코스, 테마별 북마크 · 스탬프는 로그인 없이 이 브라우저의 localStorage에만 둔다 (`src/lib/local-store.ts`).
 코스 3안은 트렌드·혼잡도 데이터가 아직 없어 장소 데이터만으로 만든 대체 규칙을 쓴다 (`src/features/course/scenarios.ts`).
 홈 타일은 작품 포스터, 추천 결과 카드는 작품 스틸(TMDB 이미지)이다. 작품이 없는 테마(RESCENE)는 토큰 색 자리표시다. 이미지 규칙은 `docs/ui.md`.
 
@@ -58,6 +59,7 @@ cp .env.example .env.local
 | ----------------------------- | ------------------------------------------------------------------------ |
 | `NEXT_PUBLIC_API_BASE_URL`    | 백엔드 주소. 로컬 백엔드는 `http://localhost:8080`                       |
 | `NEXT_PUBLIC_GOOGLE_MAPS_KEY` | Google Maps 키. 브라우저에 노출되므로 도메인 제한을 건 키만 쓴다         |
+| `NEXT_PUBLIC_GOOGLE_MAP_ID`   | Google 지도 ID. 비우면 `DEMO_MAP_ID`(번호 핀에 필요)                     |
 | `DATA_GO_KR_KEY` 외           | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md` |
 
 ### 실행

@@ -9,7 +9,7 @@ src/
     providers.tsx       클라이언트 Provider (TanStack Query)
     api/**/route.ts     Route Handler. 키가 필요한 외부 API를 대신 부른다
   components/           여러 기능이 함께 쓰는 컴포넌트
-  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/home, features/me)
+  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/theme, features/home, features/me)
   lib/                  화면과 무관한 코드 (api 클라이언트, 여러 기능이 쓰는 localStorage 값 local-store.ts, 유틸)
   i18n/                 다국어 설정
 messages/               화면 문구 (ko.json · en.json)
@@ -23,13 +23,26 @@ public/                 정적 파일
 
 ## 화면 경로
 
-| 경로                | 화면                                                      | 코드                                               |
-| ------------------- | --------------------------------------------------------- | -------------------------------------------------- |
-| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스) | `app/page.tsx`, `features/home`                    |
-| `/recommend`        | 테마 추천 14문항                                          | `app/recommend/page.tsx`, `features/recommend`     |
-| `/recommend/result` | 추천 결과                                                 | `app/recommend/result/page.tsx`                    |
-| `/themes/[themeId]` | 테마 코스 3안 · 코스 저장                                 | `app/themes/[themeId]/page.tsx`, `features/course` |
-| `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                      | `app/me/page.tsx`, `features/me`                   |
+| 경로                | 화면                                                            | 코드                                                                 |
+| ------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스)       | `app/page.tsx`, `features/home`                                      |
+| `/recommend`        | 테마 추천 14문항                                                | `app/recommend/page.tsx`, `features/recommend`                       |
+| `/recommend/result` | 추천 결과                                                       | `app/recommend/result/page.tsx`                                      |
+| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보) | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course` |
+| `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                            | `app/me/page.tsx`, `features/me`                                     |
+
+### 테마 화면 주소 (`/themes/[themeId]`)
+
+| 쿼리    | 값                                           | 쓰임                                                              |
+| ------- | -------------------------------------------- | ----------------------------------------------------------------- |
+| `tab`   | `map` · `course` · `film` · `stamp` · `info` | 고른 탭. 없거나 모르는 값이면 `map`                               |
+| `a`     | 추천 답(Q10~Q14, `encodeAnswers`)            | 코스 탭의 조건. 코스 탭의 일정 · 이동수단 칸이 q11 · q12만 바꾼다 |
+| `plan`  | `classic` · `trend` · `quiet`                | 코스 3안                                                          |
+| `place` | 장소 id                                      | 지도 탭에서 그 장소 시트를 연 채로 시작                           |
+
+- 탭을 바꿔도 `a` · `plan`은 주소에 남긴다. 주소는 `features/theme/tabs.ts`의 `themeHref`로 만든다
+- 영화 탭의 장면 카드는 `id`가 장면 id라 `?tab=film#{장면 id}`로 바로 간다
+- 추천 결과 · ME 저장된 플랜 · 홈 추천 코스는 `tab=course`로, 홈 포스터 타일 · 배너는 기본(지도)으로 들어온다
 
 ## 서버 컴포넌트와 클라이언트 컴포넌트
 

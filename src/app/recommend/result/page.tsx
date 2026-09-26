@@ -48,7 +48,7 @@ export default async function RecommendResultPage({
   );
   const filterQuery = encodeAnswers(filterAnswers);
   const themeHref = (slug: string) =>
-    `/themes/${slug}${filterQuery ? `?a=${filterQuery}` : ""}`;
+    `/themes/${slug}?tab=course${filterQuery ? `&a=${filterQuery}` : ""}`;
 
   // 화면의 숫자는 모두 theme-fit.json(calc2 발췌)과 계산 결과에서 나온다.
   // 적합도 순위는 calc2.py 최종 점수(fit + 관심사 가산 + 지역보정) 순위다

@@ -52,6 +52,7 @@
 - 모든 화면은 `<Screen>`으로 감싼다. 모바일은 전체 폭, 넓은 화면에서는 가운데 480px 기둥이다
 - 위는 `<TopBar>`, 화면의 주요 버튼은 `<BottomBar>`에 넣는다. 한 화면에 주요 버튼은 하나
 - 홈 · ME처럼 주요 버튼 없이 여러 화면으로 갈라지는 화면은 `<BottomBar>` 대신 `<BottomNav>`(하단 탭)를 둔다
+- 테마 화면은 `BottomNav`와 같은 모양의 자기 하단 탭(`features/theme/ThemeTabBar`, 지도 · 코스 · 영화 · 스탬프 · 여행 정보)을 둔다
 - 모바일(390px)부터 만든다. 지도·플래너처럼 넓은 화면에서 이점이 큰 화면만 `md:` 이상에서 두 단으로 편다
 
 ## 공통 부품 (`src/components/ui`)
@@ -65,6 +66,7 @@
 | `OptionItem`            | 문항의 보기. 하나 고르기(radio)·여러 개 고르기(checkbox)                                                                |
 | `Chip`                  | 추천 근거 배지, 메타 정보                                                                                               |
 | `ProgressBar`           | 문항 진행                                                                                                               |
+| `LogoMark`              | 서비스 로고(목업 종이비행기 도형, 색은 `currentColor`). 시작 화면 · 앱 아이콘(`src/app/icon.svg`)과 같은 도형           |
 | `LocaleSwitch`          | 언어 전환 버튼(한국어 ↔ English). 홈 · 결과 · 코스 · ME 화면 오른쪽 위                                                  |
 | `SegmentedControl`      | 링크형 탭(`?plan=` 같은 쿼리를 바꾼다). `nav` + `aria-current`. 코스 3안 비교                                           |
 | `BottomNav`             | 하단 탭(홈 · 내 코스 고르기 · ME). 홈 · ME 화면에만. 쓰는 화면의 `main`에 `pb-[calc(5rem+env(safe-area-inset-bottom))]` |
@@ -73,8 +75,11 @@
 
 ## 아이콘과 이미지
 
+- 서비스 로고는 `LogoMark`로만 그린다(lucide 아이콘으로 대신하지 않는다).
 - 아이콘은 lucide-react만 쓴다. 크기는 20·24(칩 안에서는 16), 기본 굵기. 이모지를 아이콘 대신 쓰지 않는다. 장식용 아이콘에는 `aria-hidden`
 - 이미지는 `next/image`로 넣는다. 외부 도메인 이미지는 `next.config.ts`의 `images.remotePatterns`에 도메인을 추가한다
+- 장소 사진(Wikimedia Commons)은 `unoptimized`로 브라우저가 Wikimedia에서 바로 받는다. Wikimedia가 이미지 최적화 서버의 요청에 429를 돌려준다.
+  사진 아래에 출처(「사진: Wikimedia Commons」)를 적는다
 - 영상 작품의 포스터 · 스틸은 TMDB 이미지(`src/features/recommend/works.ts`)를 쓰고, 그 화면에 TMDB 출처(`Common.tmdbCredit`)를 표기한다.
   포스터 저작권은 배급사 · 제작사에 있다. 2025 공모요강은 타인 저작권에 저촉되면 심사 제외 · 수상 취소라서, 공모전 제출물에 쓰기 전에 팀에서 확인한다
 - 그 밖의 사진은 한국관광공사 사진 서비스처럼 이용 허락이 분명한 것만 쓴다

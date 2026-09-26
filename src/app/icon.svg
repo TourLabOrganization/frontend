@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 서비스 로고(components/ui/LogoMark와 같은 도형). 배경은 primary 토큰 값 -->
+  <rect width="32" height="32" rx="8" fill="#1D6CE3"/>
+  <g transform="translate(4 4)" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M3 11.5 21 4l-7.5 17-2-7.5z"/>
+    <path d="M11.5 13.5 21 4"/>
+  </g>
+</svg>

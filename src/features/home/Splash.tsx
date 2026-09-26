@@ -1,8 +1,8 @@
 "use client";
 
-import { Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
+import { LogoMark } from "@/components/ui/LogoMark";
 import { SPLASH_COOKIE } from "./splash-cookie";
 
 /** 막대를 다 채우는 시간(목업 값). 막대의 duration-[1900ms]와 같다 */
@@ -67,29 +67,27 @@ export function Splash() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-fill-weak transition-opacity duration-200 motion-reduce:transition-none ${
+      className={`fixed inset-0 z-50 bg-surface transition-opacity duration-200 motion-reduce:transition-none ${
         phase === "fading" ? "opacity-0" : "opacity-100"
       }`}
     >
-      <div className="relative mx-auto flex h-full w-full max-w-[480px] flex-col bg-primary text-white">
+      <div className="relative mx-auto flex h-full w-full max-w-[480px] flex-col bg-surface text-fg">
         <div className="flex flex-1 items-center justify-center pt-[env(safe-area-inset-top)]">
-          <div className="flex size-28 items-center justify-center rounded-card bg-white">
-            <Send size={48} className="text-primary" aria-hidden />
-          </div>
+          <LogoMark size={120} strokeWidth={1.2} className="text-primary" />
         </div>
         <div className="px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))]">
           <p className="text-caption font-semibold tracking-[0.12em]">
             {common("brand")}
           </p>
-          <div className="mt-3 border-t border-white/40" />
+          <div className="mt-3 border-t border-line" />
           <p className="mt-5 text-display font-bold">
             <span className="block">{t("title.first")}</span>
             <span className="block">{t("title.second")}</span>
           </p>
-          <p className="mt-3 text-body text-white/85">{t("description")}</p>
-          <div className="mt-10 h-1 w-full overflow-hidden rounded-full bg-white/30">
+          <p className="mt-3 text-body text-fg-muted">{t("description")}</p>
+          <div className="mt-10 h-1 w-full overflow-hidden rounded-full bg-fill">
             <div
-              className={`h-full origin-left rounded-full bg-white transition-transform duration-[1900ms] ease-linear motion-reduce:transition-none ${
+              className={`h-full origin-left rounded-full bg-fg transition-transform duration-[1900ms] ease-linear motion-reduce:transition-none ${
                 filled ? "scale-x-100" : "scale-x-0"
               }`}
             />
@@ -100,7 +98,7 @@ export function Splash() {
           type="button"
           aria-label={t("skip")}
           onClick={close}
-          className="absolute inset-0 cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
+          className="absolute inset-0 cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-primary-bright"
         />
       </div>
     </div>

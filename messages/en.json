@@ -21,6 +21,7 @@
   },
   "Home": {
     "source": "Place counts come from the Tour Navigator place list for each theme",
+    "bannerPhotoCredit": "Banner photo: Donggung Palace and Wolji Pond · Wikimedia Commons",
     "tabsLabel": "Home views",
     "tabs": {
       "myThemes": "My themes",
@@ -323,11 +324,21 @@
     }
   },
   "Themes": {
-    "kings-warden": { "name": "The King's Warden" },
-    "kpop-demon-hunters": { "name": "KPop Demon Hunters" },
-    "rescene-route": { "name": "RESCENE Route" },
-    "jeju-k-drama": { "name": "Jeju K-Drama" },
-    "busan-film-trip": { "name": "Busan Film Trip" }
+    "kings-warden": {
+      "name": "The King's Warden"
+    },
+    "kpop-demon-hunters": {
+      "name": "KPop Demon Hunters"
+    },
+    "rescene-route": {
+      "name": "RESCENE Route"
+    },
+    "jeju-k-drama": {
+      "name": "Jeju K-Drama"
+    },
+    "busan-film-trip": {
+      "name": "Busan Film Trip"
+    }
   },
   "Course": {
     "planTabsLabel": "Three route plans",
@@ -387,6 +398,87 @@
     },
     "savePlan": "Save route",
     "saved": "Saved"
+  },
+  "Theme": {
+    "tabsLabel": "Theme tabs",
+    "tabs": {
+      "map": "Map",
+      "course": "Course",
+      "film": "Film",
+      "stamp": "Stamps",
+      "info": "Travel info"
+    },
+    "stats": "{region} · {places} places · {videos} on screen",
+    "map": {
+      "categoriesLabel": "Place categories",
+      "all": "All",
+      "mapLabel": "Map of theme places",
+      "noKey": "The map couldn't load because no map key is set",
+      "listHeading": "Places · {count}",
+      "showOff": "Show {count} more places"
+    },
+    "sheet": {
+      "close": "Close",
+      "photoCredit": "Photo: {credit}",
+      "hours": "Opening hours",
+      "directions": "Directions",
+      "save": "Save",
+      "stamp": "Stamp",
+      "newWindow": "(opens in a new window)"
+    },
+    "course": {
+      "daysLabel": "Trip length",
+      "transportLabel": "Getting around",
+      "mapLabel": "Course map"
+    },
+    "film": {
+      "kicker": "Film scenes",
+      "kickerVideo": "Video scenes",
+      "title": "Where the scenes were shot",
+      "titleVideo": "Where the videos were shot",
+      "sortLabel": "Sort",
+      "sortAsc": "Scene order",
+      "sortDesc": "Reverse",
+      "searchLabel": "Search scenes and places",
+      "searchPlaceholder": "Scene title or place name",
+      "sceneLabel": "Scene {number}",
+      "places": "Places in this scene",
+      "watch": "Find this scene",
+      "play": "Play video: {title}",
+      "videoTitle": "Video: {title}",
+      "empty": "No scenes match your search",
+      "newWindow": "(opens in a new window)"
+    },
+    "stamp": {
+      "kicker": "Check-in",
+      "title": "{region} · Stamp book",
+      "progressLabel": "Stamps collected",
+      "progress": "{count} / {total} collected · {percent}%",
+      "done": "Collected",
+      "notDone": "Not yet",
+      "openMap": "Show {name} on the map",
+      "savedHeading": "Saved places · {count}",
+      "savedEmpty": "No saved places yet",
+      "remove": "Remove {name}"
+    },
+    "info": {
+      "title": "Travel info",
+      "workKicker": "The work",
+      "linksHeading": "Learn more",
+      "newWindow": "(opens in a new window)",
+      "kings-warden": {
+        "workTitle": "The King's Warden (2026)"
+      },
+      "kpop-demon-hunters": {
+        "workTitle": "KPop Demon Hunters (2025)"
+      },
+      "jeju-k-drama": {
+        "workTitle": "When Life Gives You Tangerines (2025)"
+      },
+      "busan-film-trip": {
+        "workTitle": "Train to Busan (2016)"
+      }
+    }
   },
   "Regions": {
     "seoul": "Seoul",
