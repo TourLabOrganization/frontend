@@ -191,7 +191,7 @@ export type ThemeEvidence = {
   /**
    * 보여 줄 카테고리 구성비.
    * 고른 관심사에 대응하는 분류가 있으면 그중 이 테마 구성비가 가장 큰 분류(matched = true),
-   * 없으면 이 테마에서 가장 큰 분류.
+   * 없거나 그 분류의 장소가 0%면 이 테마에서 가장 큰 분류.
    */
   category: { id: CategoryId; share: number; matched: boolean };
 };
@@ -263,6 +263,8 @@ function pickCategory(
   const candidates = interests.length > 0 ? interests : share.map((_, i) => i);
   let best = candidates[0];
   for (const i of candidates) if (share[i] > share[best]) best = i;
+  // 고른 관심사 분류의 장소가 이 테마에 없으면(0%) 근거가 되지 않는다. 테마에서 가장 큰 분류를 보인다
+  if (interests.length > 0 && share[best] === 0) return pickCategory(share, []);
   return {
     id: CATEGORY_IDS[best],
     share: share[best],

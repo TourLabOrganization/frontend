@@ -154,6 +154,15 @@ describe("rankThemes", () => {
     }
   });
 
+  it("고른 관심사 분류의 장소가 없는 테마(0%)에는 테마에서 가장 큰 분류를 보인다", () => {
+    const seaLover = { ...DOC_EXAMPLE, q4: ["sea"] };
+    const kings = getRecommendation(seaLover, "ko").themes.find(
+      (t) => t.slug === "kings-warden",
+    )!;
+    expect(kings.evidence.category.matched).toBe(false);
+    expect(kings.evidence.category.share).toBeGreaterThan(0);
+  });
+
   it("야경 배지는 야경을 고른 사람에게만, 야경 장소가 있는 테마에 붙는다", () => {
     for (const t of getRecommendation(DOC_EXAMPLE, "ko").themes)
       expect(t.evidence.night).toBeNull();
