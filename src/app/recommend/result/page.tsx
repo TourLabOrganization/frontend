@@ -15,6 +15,7 @@ import {
 import { getRecommendation } from "@/features/recommend/recommend";
 import { ThemeCard } from "@/features/recommend/ThemeCard";
 import type { RankedTheme, ThemeSlug } from "@/features/recommend/themes";
+import { THEME_WORK, tmdbImage } from "@/features/recommend/works";
 
 const percent = (value: number) => Math.round(value * 100);
 
@@ -31,6 +32,7 @@ export default async function RecommendResultPage({
   const tc = await getTranslations("Clusters");
   const tt = await getTranslations("Themes");
   const tr = await getTranslations("Regions");
+  const common = await getTranslations("Common");
 
   const types = clusters.slice(0, mixed ? 2 : 1);
   const [primary] = types;
@@ -45,6 +47,11 @@ export default async function RecommendResultPage({
   const filterQuery = encodeAnswers(filterAnswers);
   const themeHref = (slug: string) =>
     `/themes/${slug}${filterQuery ? `?a=${filterQuery}` : ""}`;
+  // 카드 사진은 테마 대표 작품의 장면 스틸(TMDB). 작품이 없는 테마는 자리표시
+  const backdropOf = (slug: string) => {
+    const work = THEME_WORK[slug as ThemeSlug];
+    return work && tmdbImage(work.backdrop, "w780");
+  };
 
   // 화면의 숫자는 모두 theme-fit.json(calc2 발췌)과 계산 결과에서 나온다.
   // 적합도 순위는 calc2.py 최종 점수(fit + 관심사 가산 + 지역보정) 순위다
@@ -80,6 +87,7 @@ export default async function RecommendResultPage({
       regionLabel={theme.regions.map((r) => tr(r)).join(" · ")}
       badges={badges(theme, featured)}
       featured={featured}
+      backdrop={backdropOf(theme.slug)}
     />
   );
 
@@ -146,6 +154,9 @@ export default async function RecommendResultPage({
               </div>
             )}
             <p className="mt-6 text-micro text-fg-subtle">{t("source")}</p>
+            <p className="mt-1 text-micro text-fg-subtle">
+              {common("tmdbCredit")}
+            </p>
           </section>
         )}
       </main>

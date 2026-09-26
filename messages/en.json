@@ -7,14 +7,16 @@
     "brand": "TOUR NAVIGATOR",
     "back": "Back",
     "skip": "Skip",
-    "next": "Next"
+    "next": "Next",
+    "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB."
   },
   "Home": {
     "title": "Travel through the scenes you love",
     "description": "Routes that connect K-drama, film, and K-pop filming locations",
     "cta": "Find my theme",
     "themesHeading": "Jump into a theme",
-    "placeStats": "{places} places · {videos} on screen",
+    "placeCount": "{count, plural, one {# place} other {# places}}",
+    "videoCount": "{count} on screen",
     "source": "Place counts come from the Tour Navigator place list for each theme"
   },
   "Recommend": {

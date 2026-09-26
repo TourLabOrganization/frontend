@@ -6,9 +6,10 @@ import { Screen } from "@/components/ui/Screen";
 import { themePlaceStats } from "@/features/course/places";
 import { ThemeTile } from "@/features/home/ThemeTile";
 import { THEMES } from "@/features/recommend/themes";
+import { THEME_WORK, tmdbImage } from "@/features/recommend/works";
 
 // 홈. 테마 추천(주요 버튼)과 테마 5개로 바로 가는 타일.
-// 타일의 숫자는 features/course/data/places.json에서 센 값이다
+// 타일의 숫자는 features/course/data/places.json에서 센 값이고, 포스터는 TMDB 이미지다(features/recommend/works.ts)
 export default function HomePage() {
   const t = useTranslations("Home");
   const common = useTranslations("Common");
@@ -33,6 +34,8 @@ export default function HomePage() {
           <ul className="mt-4 grid grid-cols-2 gap-x-3 gap-y-6">
             {THEMES.map((theme) => {
               const { slug } = theme;
+              const work = THEME_WORK[slug];
+              const stats = themePlaceStats(slug);
               return (
                 <li key={slug}>
                   <ThemeTile
@@ -40,13 +43,18 @@ export default function HomePage() {
                     href={`/themes/${slug}`}
                     name={tt(`${slug}.name`)}
                     regionLabel={theme.regions.map((r) => tr(r)).join(" · ")}
-                    stats={t("placeStats", themePlaceStats(slug))}
+                    places={t("placeCount", { count: stats.places })}
+                    videos={t("videoCount", { count: stats.videos })}
+                    poster={work && tmdbImage(work.poster, "w500")}
                   />
                 </li>
               );
             })}
           </ul>
           <p className="mt-6 px-1 text-micro text-fg-subtle">{t("source")}</p>
+          <p className="mt-1 px-1 text-micro text-fg-subtle">
+            {common("tmdbCredit")}
+          </p>
         </section>
       </main>
       <BottomBar>
