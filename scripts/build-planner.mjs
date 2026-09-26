@@ -16,8 +16,13 @@
 //   - 도시(locKo) = DATA 키가 도시(gyeongju · geoje · yeongwol · seoul · jeju · busan)면 그 도시 이름,
 //     nation이면 장소의 locKo, 없으면 CSV 「시군」
 //   - 권역(macro) = 도시가 들어 있는 REG 권역 key
+//   - 도시 고르기 도시(pickCity) = Tour Planner.dc.html cityRows 규칙. 전용 화면(nation 밖 DATA 키)을 먼저 그 화면 이름으로,
+//     그다음 nation 장소를 locKo로 묶은 도시를 더하되 이름이 같은 도시는 먼저 나온 것(전용 화면)만 남긴다.
+//     그래서 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 nation 장소는 pickCity가 없다(전국 보기에만 들어간다).
+//     nation 장소에 locKo가 없어도 pickCity가 없다(PoC byLoc이 locKo만 본다)
 //   - 값이 없으면 비운다(지어내지 않는다). 두 원천이 다르면 개수를 출력한다
-//   - 출발지는 여기서 만들지 않는다. src/features/course/data/hubs.json의 origins를 쓴다(scripts/build-places.mjs)
+//   - 출발지(origins) = Tour Planner.dc.html ORIGINS 그대로(61곳). regions.json에 넣는다.
+//     course/data/hubs.json의 origins는 테마 코스용이라 따로 둔다(scripts/build-places.mjs)
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -120,6 +125,7 @@ function evalReg() {
 const DATA = evalConst("DATA");
 const CITY_NAME = evalConst("CITY_NAME");
 const REGION_HUB = evalConst("REGION_HUB");
+const ORIGINS = evalConst("ORIGINS");
 const REG = evalReg();
 
 const macroOf = new Map();
@@ -159,6 +165,13 @@ const mismatch = {
   noMacro: 0,
 };
 
+// 전용 화면 도시 이름. cityRows는 이 도시들을 먼저 넣고, 같은 이름의 nation 도시는 버린다
+const screenCities = new Set(
+  Object.entries(DATA)
+    .filter(([key]) => key !== "nation")
+    .map(([, group]) => group.ko),
+);
+
 const places = [];
 const seen = new Set();
 for (const [key, group] of Object.entries(DATA)) {
@@ -182,6 +195,12 @@ for (const [key, group] of Object.entries(DATA)) {
     if (!city) mismatch.noCity++;
     const macro = macroOf.get(city);
     if (!macro) mismatch.noMacro++;
+    const pickCity =
+      key !== "nation"
+        ? group.ko
+        : p.locKo && !screenCities.has(p.locKo)
+          ? p.locKo
+          : undefined;
 
     const open = hmToMin(r["개장(파싱)"]);
     let close = hmToMin(r["폐장(파싱)"]);
@@ -211,6 +230,7 @@ for (const [key, group] of Object.entries(DATA)) {
       auto: yn(r["자동코스후보"]),
       macro: macro ?? "",
     };
+    if (pickCity) place.pickCity = pickCity;
     const desc = {};
     if (present(p.bKo)) desc.ko = p.bKo;
     if (present(p.bEn)) desc.en = p.bEn;
@@ -251,6 +271,7 @@ const regions = {
   })),
   cities,
   hubs,
+  origins: ORIGINS,
 };
 
 // ── 쓰기 ────────────────────────────────────────────────────────────
@@ -288,3 +309,13 @@ console.log(
     .map(([c]) => c),
 );
 console.log("관문 있는 도시", Object.keys(hubs).length, "/", usedCities.size);
+const byPick = {};
+for (const p of places)
+  if (p.pickCity) byPick[p.pickCity] = (byPick[p.pickCity] ?? 0) + 1;
+console.log(
+  "도시 고르기 장소 수(전용 화면)",
+  Object.fromEntries([...screenCities].map((c) => [c, byPick[c]])),
+  "전국에만 속한 장소",
+  places.filter((p) => !p.pickCity).length,
+);
+console.log("출발지", Object.keys(ORIGINS).length);

@@ -26,6 +26,7 @@ import {
   dayWindows,
   type LegFn,
   openHours,
+  type SchedulePlace,
   stayMin,
   timeline,
   type TimelineStop,
@@ -191,7 +192,7 @@ function basePool(places: readonly Place[], trip: TripInput): Place[] {
 }
 
 /** autoCourse가 체인의 첫 시군으로 고를 시군. 광역 접근 시간(accIn)을 정하는 데 쓴다 (Tour Planner와 같은 규칙) */
-function leadRegion(pool: readonly Place[]): string | null {
+export function leadRegion(pool: readonly Place[]): string | null {
   const groups: Record<string, Place[]> = {};
   pool.forEach((p) => {
     (groups[p.locKo] = groups[p.locKo] || []).push(p);
@@ -222,11 +223,13 @@ export type Scenario = {
   moveTotal: number;
 };
 
-type Context = {
+export type Context = {
   legFn: LegFn;
-  windows: number[];
+  windows: readonly number[];
   depTime: string;
   accIn: number;
+  /** 마지막 날 여행지 출발(귀가) 시각. 없으면 DEFAULT_RET(19:00). 테마 코스는 늘 기본값이고 투어 플래너가 바꾼다 */
+  retTime?: string;
 };
 
 /**
@@ -238,9 +241,10 @@ type Context = {
  *    (폐장 검사는 autoCourse 5단계와 같은 규칙이다. autoCourse는 날 첫 장소에도 이동을 더해 시계가 조금 다르다)
  *  - 그날 끝은 dayEnd (그날 시작 + 그날 창, 21:00 상한, 마지막 날은 19:00 여행지 출발까지).
  * 시각은 원본 timeline이 붙인다. 이 함수는 날짜 경계만 정한다.
+ * 투어 플래너 코스 탭(features/planner/schedule.ts)도 이 함수로 날짜를 나눈다.
  */
-function splitDays(
-  items: readonly Place[],
+export function splitDays<T extends SchedulePlace>(
+  items: readonly T[],
   ctx: Context,
 ): { buckets: number[][]; keep: number } {
   const days = ctx.windows.length;
@@ -477,11 +481,13 @@ export function dayEndClock(scenario: Scenario, dayIdx: number): number {
  * 원본 dayWindows는 마지막 날 창을 "09:00부터 귀가 출발까지의 길이"로 잡는다. 그래서 첫날이 곧 마지막 날인 당일 여행에
  * 늦게 도착하면(부산 자가용 13:45) 창이 21:00까지 남는다. 원본 설명("마지막날은 귀가시간을 미리 확보")대로 끝 시각으로 자른다
  */
-function dayEnd(
+export function dayEnd(
   d: number,
-  ctx: Pick<Context, "depTime" | "accIn" | "windows">,
+  ctx: Pick<Context, "depTime" | "accIn" | "windows" | "retTime">,
 ): number {
   const start = dayStartClock(d, { depTime: ctx.depTime, accIn: ctx.accIn });
   const end = Math.min(start + ctx.windows[d], DAY_END);
-  return d === ctx.windows.length - 1 ? Math.min(end, toMin(DEFAULT_RET)) : end;
+  return d === ctx.windows.length - 1
+    ? Math.min(end, toMin(ctx.retTime ?? DEFAULT_RET))
+    : end;
 }

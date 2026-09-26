@@ -97,8 +97,9 @@
     "savedCount": "{count}",
     "savedAt": "Saved {date}",
     "remove": "Delete {name}",
-    "savedEmpty": "No saved plans yet. Tap [Save route] on a theme's route screen.",
-    "openPlanner": "Open tour planner"
+    "savedEmpty": "No saved plans yet. Tap [Save route] on a theme route screen or [Save course] in the tour planner.",
+    "openPlanner": "Open tour planner",
+    "plannerMeta": "{city} · {duration} · {count, plural, one {# place} other {# places}}"
   },
   "Recommend": {
     "progressLabel": "Question progress",
@@ -513,7 +514,8 @@
       "searchPlaceholder": "City name (Korean or English)",
       "regionCities": "{count} cities",
       "placeCount": "{count} places",
-      "empty": "No matching cities"
+      "empty": "No matching cities",
+      "otherRegions": "Other regions"
     },
     "map": {
       "categoriesLabel": "Place categories",
@@ -540,12 +542,134 @@
       "confirm": "Clear and add"
     },
     "course": {
-      "heading": "{city} · {count} places added",
+      "kicker": "Course builder",
+      "title": "{city} · Today's route",
+      "plan": {
+        "label": "My plan",
+        "labelSuffix": "name",
+        "placeholder": "e.g. Autumn 3 days",
+        "save": "Save course",
+        "saved": "Saved",
+        "savedStatus": "Saved “{name}”. You can find it in ME",
+        "nameRequired": "Enter a plan name",
+        "emptyCourse": "No places yet. Add places before saving"
+      },
+      "dates": {
+        "heading": "Dates",
+        "start": "Departure date",
+        "end": "Return date",
+        "tripLabel": "Trip length",
+        "dayTrip": "Day trip",
+        "nights": "{days} days, {nights, plural, one {# night} other {# nights}}",
+        "errorOrder": "The return date must be on or after the departure date",
+        "errorTooLong": "You can plan up to {max} days"
+      },
+      "trip": {
+        "heading": "Start · times",
+        "origin": "Starting point",
+        "depTime": "Depart (origin)",
+        "retTime": "Depart (destination)",
+        "retHint": "Plans on the last day end by this time"
+      },
+      "wide": {
+        "heading": "Long-distance transport",
+        "modes": {
+          "bus": "Bus",
+          "rail": "Train",
+          "air": "Flight",
+          "ship": "Ferry",
+          "metro": "Subway",
+          "own": "Own car"
+        },
+        "short": {
+          "origin": "Not from origin",
+          "hub": "Not at destination",
+          "island": "No road access"
+        },
+        "reason": {
+          "origin": "No {mode} service leaves from {origin}",
+          "hub": "{hub} has no {mode} service",
+          "island": "It is an island, so you cannot drive there",
+          "noCity": "Pick a city or add places to choose transport"
+        },
+        "access": "{origin} → {hub} · about {duration}",
+        "none": "No long-distance transport reaches {city} from this starting point, so travel time there is left out. Try another starting point"
+      },
+      "local": {
+        "heading": "Getting around",
+        "driving": "Driving (rental)",
+        "transit": "Transit",
+        "own": "Own car",
+        "ownNote": "With your own car, you drive it locally too"
+      },
+      "summary": {
+        "label": "Course summary",
+        "stops": "Stops",
+        "stopsValue": "{count}",
+        "km": "Distance",
+        "kmValue": "{km} km",
+        "time": "Est. time"
+      },
+      "list": {
+        "heading": "Places · {count}",
+        "empty": "No places yet. Add places on the map, or load a suggested course below"
+      },
       "empty": "No places yet. Add places from the map",
       "goMap": "Add places on the map",
       "moveUp": "Move {name} up",
       "moveDown": "Move {name} down",
-      "remove": "Remove {name} from course"
+      "remove": "Remove {name} from course",
+      "removed": "Removed from course: {name}",
+      "actions": {
+        "recommend": "Load suggested course",
+        "recommendHint": "Fills the course with suggested places in {source}",
+        "recommendNoScope": "Pick a city or region to load a suggested course",
+        "recommendEmpty": "No places fit these settings. Try other dates or times",
+        "recommended": "Loaded a suggested course with {count} places",
+        "clear": "Clear course",
+        "cleared": "Course cleared"
+      },
+      "confirmRecommend": {
+        "title": "Replace with the suggested course?",
+        "body": "This removes your {count} places and loads the suggested course for {source}",
+        "confirm": "Replace"
+      },
+      "confirmClear": {
+        "title": "Clear the course?",
+        "body": "This removes all {count} places. Your dates and starting point stay",
+        "confirm": "Clear"
+      },
+      "confirmLoad": {
+        "title": "Open the saved plan?",
+        "body": "This replaces your {count} places with “{name}” ({planCount} places)",
+        "confirm": "Open"
+      },
+      "cancel": "Cancel",
+      "load": {
+        "loaded": "Opened “{name}”",
+        "missing": "We couldn't find that saved plan. It may have been deleted"
+      },
+      "schedule": {
+        "heading": "Day-by-day plan",
+        "dayDate": "{weekday}, {monthName} {day}",
+        "dropped": "{count, plural, one {# place didn't} other {# places didn't}} fit in the time available",
+        "droppedHint": "Add days or change the order"
+      },
+      "booking": {
+        "heading": "Bookings",
+        "ktx": "Book KTX",
+        "srt": "Book SRT",
+        "bus": "Book a bus",
+        "rent": "Rent a car",
+        "stay": "Book a stay",
+        "lotte": "Lotte Rent-a-car",
+        "socar": "SOCAR",
+        "yanolja": "Yanolja",
+        "goodchoice": "Goodchoice",
+        "agoda": "Agoda",
+        "bookingCom": "Booking.com",
+        "newWindow": "(opens in a new window)"
+      }
     },
     "info": {
       "title": "Travel info",

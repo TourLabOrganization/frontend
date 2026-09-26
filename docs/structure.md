@@ -47,17 +47,31 @@ public/                 정적 파일
 
 ### 투어 플래너 주소 (`/planner`)
 
-| 쿼리     | 값                         | 쓰임                                                                                 |
-| -------- | -------------------------- | ------------------------------------------------------------------------------------ |
-| `city`   | 도시 한국어 이름(`경주`)   | 도시 보기. 없거나 장소가 없는 도시면 전국 보기                                       |
-| `region` | 권역 key(`capital` 등 7개) | 전국 보기에서 고른 권역. 지도는 그 권역에 맞추고 목록을 거른다. `city`가 있으면 무시 |
-| `tab`    | `map` · `course` · `info`  | 고른 탭. 없거나 모르는 값이면 `map`                                                  |
-| `place`  | 장소 id                    | 지도 탭에서 그 장소 시트를 연 채로 시작                                              |
+| 쿼리     | 값                         | 쓰임                                                                                               |
+| -------- | -------------------------- | -------------------------------------------------------------------------------------------------- |
+| `city`   | 도시 한국어 이름(`경주`)   | 도시 보기. 없거나 장소가 없는 도시면 전국 보기                                                     |
+| `plan`   | 저장된 플래너 플랜 id      | 코스 탭에서 그 플랜을 코스로 불러온다(담은 코스가 있고 다르면 먼저 묻는다). 불러오면 주소에서 뗀다 |
+| `region` | 권역 key(`capital` 등 7개) | 전국 보기에서 고른 권역. 지도는 그 권역에 맞추고 목록을 거른다. `city`가 있으면 무시               |
+| `tab`    | `map` · `course` · `info`  | 고른 탭. 없거나 모르는 값이면 `map`                                                                |
+| `place`  | 장소 id                    | 지도 탭에서 그 장소 시트를 연 채로 시작                                                            |
 
 - 주소는 `features/planner/query.ts`의 `plannerHref` · `scopeHref`로 만든다. 기본값(전국 · `map`)은 주소에 적지 않는다
 - 지역 탭 · 도시 고르기는 탭을 남기고 범위만 바꾸고, 하단 탭은 범위를 남기고 탭만 바꾼다
 - 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG`)에 있다
-- 코스에 담은 장소는 주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`)
+- 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
+  그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)
+- 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동)은
+  주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`). 없는 필드는 기본값(오늘 · 당일 · 서울역 · 08:00 · 19:00)
+- 한 코스는 한 도시(`locKo`)의 장소만 담는다. 권역에서 불러온 추천 코스만 여러 도시가 섞일 수 있다
+- 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
+  날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
+
+### 저장된 플랜 (`tn.savedPlans`)
+
+- 테마 코스 `{ slug, a, plan, savedAt }`와 투어 플래너 코스 `{ kind: "planner", id, name, city, placeIds, settings, savedAt }`가 한 배열에 산다.
+  `kind`가 없으면 테마 코스다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlans` · `parsePlannerPlans` · `writeSavedPlans` · `writePlannerPlans`)만 쓰고,
+  한쪽을 쓸 때 다른 쪽 항목은 그대로 둔다
+- ME는 둘을 저장한 순서대로 보인다. 플래너 플랜은 「{이름} · {도시} · {n박 m일} · {n}곳」, 누르면 `/planner?tab=course&plan={id}`
 
 ## 서버 컴포넌트와 클라이언트 컴포넌트
 

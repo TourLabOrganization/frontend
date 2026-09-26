@@ -150,7 +150,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       ];
     });
   } else if (scope.kind === "nation" && scope.region !== null) {
-    const byCity = count((p) => p.locKo);
+    const byCity = count((p) => p.pickCity ?? "");
     bubbles = findRegion(scope.region).cities.flatMap((c) => {
       const n = byCity.get(c) ?? 0;
       const info = CITY_INFO[c];

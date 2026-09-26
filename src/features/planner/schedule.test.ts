@@ -1,0 +1,150 @@
+import { describe, expect, it } from "vitest";
+import { DAY_END, DAY_START } from "../course/params";
+import { toMin } from "../course/schedule";
+import {
+  DEFAULT_SETTINGS,
+  type LocalMode,
+  type PlannerSettings,
+} from "./course-store";
+import { placesInScope } from "./data";
+import {
+  addDays,
+  buildPlannerSchedule,
+  dateError,
+  recommendCourse,
+  resolveWide,
+  tripDays,
+  wideOptions,
+} from "./schedule";
+import { CITY_HUBS } from "./data";
+
+const START = "2026-09-27";
+
+function settingsFor(days: number, localMode: LocalMode): PlannerSettings {
+  return {
+    ...DEFAULT_SETTINGS,
+    startDate: START,
+    endDate: addDays(START, days - 1),
+    localMode,
+  };
+}
+
+const CITIES = ["경주", "서울", "제주"];
+const DAYS = [1, 2, 3];
+const LOCALS: LocalMode[] = ["transit", "driving"];
+
+describe("투어 플래너 일정 (buildPlannerSchedule)", () => {
+  for (const city of CITIES)
+    for (const days of DAYS)
+      for (const local of LOCALS) {
+        const label = `${city} · ${days}일 · ${local}`;
+        const settings = settingsFor(days, local);
+        const pool = placesInScope({ kind: "city", city });
+        const course = recommendCourse(pool, settings, city);
+        const plan = buildPlannerSchedule(course, settings, city);
+
+        it(`${label}: 추천 코스는 그 도시 장소만, 한 곳 이상`, () => {
+          expect(course.length).toBeGreaterThan(0);
+          expect(course.every((p) => p.pickCity === city)).toBe(true);
+          expect(new Set(course.map((p) => p.id)).size).toBe(course.length);
+        });
+
+        it(`${label}: 일수만큼 날이 있고 시각이 창 안이며 겹치지 않는다`, () => {
+          expect(plan.days).toHaveLength(days);
+          const ret = toMin(settings.retTime);
+          plan.days.forEach((d, i) => {
+            let prevLeave = -Infinity;
+            for (const s of d.stops) {
+              expect(s.arriveMin, s.id).toBeGreaterThanOrEqual(DAY_START);
+              expect(s.leaveMin, s.id).toBeLessThanOrEqual(DAY_END);
+              if (i === days - 1)
+                expect(s.leaveMin, s.id).toBeLessThanOrEqual(ret);
+              expect(s.arriveMin).toBeGreaterThanOrEqual(prevLeave + s.move);
+              expect(s.leaveMin).toBe(s.arriveMin + s.stay);
+              prevLeave = s.leaveMin;
+            }
+          });
+        });
+
+        it(`${label}: 요약 합 = 일정 합, 잘린 장소 + 담긴 장소 = 코스`, () => {
+          const stops = plan.days.flatMap((d) => d.stops);
+          expect(plan.stops).toBe(stops.length);
+          expect(plan.minutes).toBe(
+            stops.reduce((a, s) => a + s.move + s.wait + s.stay, 0),
+          );
+          expect(plan.stops + plan.dropped.length).toBe(course.length);
+          expect(plan.km).toBeGreaterThanOrEqual(0);
+          expect(Math.round(plan.km * 10)).toBe(plan.km * 10);
+          if (stops.length > 1) expect(plan.km).toBeGreaterThan(0);
+        });
+      }
+
+  it("현지 이동을 바꾸면 구간 시간이 바뀐다", () => {
+    const pool = placesInScope({ kind: "city", city: "경주" });
+    const course = recommendCourse(pool, settingsFor(2, "transit"), "경주");
+    const a = buildPlannerSchedule(course, settingsFor(2, "transit"), "경주");
+    const b = buildPlannerSchedule(course, settingsFor(2, "driving"), "경주");
+    expect(a.local).toBe("transit");
+    expect(b.local).toBe("driving");
+    expect(a.minutes).not.toBe(b.minutes);
+  });
+
+  it("창을 넘치는 장소는 dropped로 남는다", () => {
+    const pool = placesInScope({ kind: "city", city: "서울" }).filter(
+      (p) => p.min > 0,
+    );
+    const plan = buildPlannerSchedule(pool, settingsFor(1, "transit"), "서울");
+    expect(plan.dropped.length).toBeGreaterThan(0);
+    expect(plan.stops + plan.dropped.length).toBe(pool.length);
+  });
+
+  it("빈 코스는 경유지 0 · 거리 0 · 시간 0", () => {
+    const plan = buildPlannerSchedule([], settingsFor(3, "transit"), null);
+    expect(plan.days).toHaveLength(3);
+    expect(plan).toMatchObject({ stops: 0, km: 0, minutes: 0, wide: null });
+  });
+});
+
+describe("날짜 · 광역 교통", () => {
+  it("일수 = 날짜 차 + 1, 잘못된 날짜는 당일", () => {
+    expect(tripDays(START, START)).toBe(1);
+    expect(tripDays(START, "2026-09-29")).toBe(3);
+    expect(tripDays(START, "2026-09-26")).toBe(1);
+    expect(tripDays(null, null)).toBe(1);
+    expect(dateError(START, "2026-09-26")).toBe("order");
+    expect(dateError(START, addDays(START, 14))).toBe("tooLong");
+    expect(dateError(START, addDays(START, 13))).toBeNull();
+    expect(addDays("2026-12-31", 1)).toBe("2027-01-01");
+  });
+
+  it("서울역 → 경주: 기차(KTX)만 되고 버스는 출발지에 없어 막힌다", () => {
+    const opts = wideOptions("seoul", CITY_HUBS["경주"]);
+    const by = Object.fromEntries(opts.map((o) => [o.choice, o]));
+    expect(by.rail).toMatchObject({ mode: "ktx", block: null });
+    expect(by.bus.block).toBe("origin");
+    expect(by.air.block).toBe("origin");
+    expect(by.own.block).toBeNull();
+    expect(resolveWide(null, opts)).toBe("ktx");
+    expect(resolveWide("bus", opts)).toBe("ktx");
+    expect(resolveWide("own", opts)).toBe("own");
+  });
+
+  it("수서역은 기차가 SRT, 제주는 자가용이 막힌다", () => {
+    const suseo = wideOptions("suseo", CITY_HUBS["경주"]);
+    expect(suseo.find((o) => o.choice === "rail")).toMatchObject({
+      mode: "srt",
+      block: null,
+    });
+    const jeju = wideOptions("gimpoAirF", CITY_HUBS["제주"]);
+    const by = Object.fromEntries(jeju.map((o) => [o.choice, o]));
+    expect(by.own.block).toBe("island");
+    expect(by.air.block).toBeNull();
+    expect(by.rail.block).toBe("origin");
+  });
+
+  it("도착 도시가 없으면 모두 막힌다", () => {
+    expect(
+      wideOptions("seoul", undefined).every((o) => o.block === "noCity"),
+    ).toBe(true);
+  });
+});

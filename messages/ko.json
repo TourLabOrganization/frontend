@@ -97,8 +97,9 @@
     "savedCount": "{count}개",
     "savedAt": "{date} 저장",
     "remove": "{name} 삭제",
-    "savedEmpty": "저장된 플랜이 없어요. 테마의 코스 화면에서 [코스 저장]을 눌러 보세요.",
-    "openPlanner": "투어 플래너 열기"
+    "savedEmpty": "저장된 플랜이 없어요. 테마의 코스 화면이나 투어 플래너 코스 탭에서 [코스 저장]을 눌러 보세요.",
+    "openPlanner": "투어 플래너 열기",
+    "plannerMeta": "{city} · {duration} · {count}곳"
   },
   "Recommend": {
     "progressLabel": "질문 진행",
@@ -513,7 +514,8 @@
       "searchPlaceholder": "도시 이름 (한국어·영어)",
       "regionCities": "도시 {count}곳",
       "placeCount": "장소 {count}곳",
-      "empty": "찾는 도시가 없어요"
+      "empty": "찾는 도시가 없어요",
+      "otherRegions": "기타 지역"
     },
     "map": {
       "categoriesLabel": "장소 분류",
@@ -540,12 +542,134 @@
       "confirm": "비우고 담기"
     },
     "course": {
-      "heading": "{city} · 담은 장소 {count}",
+      "kicker": "코스 빌더",
+      "title": "{city} · 오늘의 동선",
+      "plan": {
+        "label": "내 플랜",
+        "labelSuffix": "이름",
+        "placeholder": "예: 가을 2박 3일",
+        "save": "코스 저장",
+        "saved": "저장됨",
+        "savedStatus": "「{name}」 플랜을 저장했어요. ME에서 볼 수 있어요",
+        "nameRequired": "플랜 이름을 넣어 주세요",
+        "emptyCourse": "담은 장소가 없어요. 장소를 담은 뒤 저장해 주세요"
+      },
+      "dates": {
+        "heading": "날짜",
+        "start": "출발일",
+        "end": "귀가일",
+        "tripLabel": "여행 기간",
+        "dayTrip": "당일",
+        "nights": "{nights}박 {days}일",
+        "errorOrder": "귀가일은 출발일과 같거나 늦어야 해요",
+        "errorTooLong": "여행은 {max}일까지 계획할 수 있어요"
+      },
+      "trip": {
+        "heading": "출발지 · 시각",
+        "origin": "출발지",
+        "depTime": "출발 시각 (출발지)",
+        "retTime": "여행지 출발 시각",
+        "retHint": "마지막 날은 이 시각까지 일정을 마쳐요"
+      },
+      "wide": {
+        "heading": "광역 교통",
+        "modes": {
+          "bus": "버스",
+          "rail": "기차",
+          "air": "항공",
+          "ship": "배",
+          "metro": "지하철(도시철도)",
+          "own": "자가용"
+        },
+        "short": {
+          "origin": "출발지에 없음",
+          "hub": "도착지에 없음",
+          "island": "차로 못 가요"
+        },
+        "reason": {
+          "origin": "{origin}에서 출발하는 {mode} 노선이 없어요",
+          "hub": "{hub}에는 {mode} 노선이 없어요",
+          "island": "섬 지역이라 자가용으로 갈 수 없어요",
+          "noCity": "도시를 고르거나 장소를 담으면 광역 교통을 고를 수 있어요"
+        },
+        "access": "{origin} → {hub} · 약 {duration}",
+        "none": "이 출발지에서 {city}에 닿는 광역 교통이 없어 광역 이동 시간을 빼고 계산했어요. 출발지를 바꿔 보세요"
+      },
+      "local": {
+        "heading": "현지 이동",
+        "driving": "자동차 (렌트카)",
+        "transit": "대중교통",
+        "own": "자가용",
+        "ownNote": "자가용을 고르면 현지에서도 같은 차로 이동해요"
+      },
+      "summary": {
+        "label": "코스 요약",
+        "stops": "경유지",
+        "stopsValue": "{count}곳",
+        "km": "총 거리",
+        "kmValue": "{km}km",
+        "time": "예상 시간"
+      },
+      "list": {
+        "heading": "담은 장소 · {count}",
+        "empty": "아직 담은 장소가 없어요. 지도에서 장소를 담거나 아래에서 추천 코스를 불러오세요"
+      },
       "empty": "담은 장소가 없어요. 지도에서 장소를 담아 보세요",
       "goMap": "지도에서 장소 담기",
       "moveUp": "{name} 위로 옮기기",
       "moveDown": "{name} 아래로 옮기기",
-      "remove": "{name} 코스에서 빼기"
+      "remove": "{name} 코스에서 빼기",
+      "removed": "코스에서 뺐어요: {name}",
+      "actions": {
+        "recommend": "추천 코스 불러오기",
+        "recommendHint": "{source}의 추천 장소로 코스를 채워요",
+        "recommendNoScope": "도시나 권역을 고르면 추천 코스를 불러올 수 있어요",
+        "recommendEmpty": "지금 설정으로는 넣을 수 있는 장소가 없어요. 날짜나 시각을 바꿔 보세요",
+        "recommended": "추천 코스 {count}곳을 불러왔어요",
+        "clear": "코스 비우기",
+        "cleared": "코스를 비웠어요"
+      },
+      "confirmRecommend": {
+        "title": "추천 코스로 바꿀까요?",
+        "body": "담아 둔 {count}곳을 빼고 {source} 추천 코스로 바꿔요",
+        "confirm": "바꾸기"
+      },
+      "confirmClear": {
+        "title": "코스를 비울까요?",
+        "body": "담아 둔 {count}곳을 모두 빼요. 날짜 · 출발지 설정은 남아요",
+        "confirm": "비우기"
+      },
+      "confirmLoad": {
+        "title": "저장된 플랜을 불러올까요?",
+        "body": "지금 담은 {count}곳 대신 「{name}」 플랜({planCount}곳)을 불러와요",
+        "confirm": "불러오기"
+      },
+      "cancel": "취소",
+      "load": {
+        "loaded": "「{name}」 플랜을 불러왔어요",
+        "missing": "저장된 플랜을 찾지 못했어요. 지워졌을 수 있어요"
+      },
+      "schedule": {
+        "heading": "일자별 일정",
+        "dayDate": "{month}월 {day}일({weekday})",
+        "dropped": "시간이 모자라 {count}곳은 일정에 넣지 못했어요",
+        "droppedHint": "날짜를 늘리거나 순서를 바꿔 보세요"
+      },
+      "booking": {
+        "heading": "예매",
+        "ktx": "KTX 예매",
+        "srt": "SRT 예매",
+        "bus": "버스 예매",
+        "rent": "렌트카 예매",
+        "stay": "숙박 예매",
+        "lotte": "롯데렌터카",
+        "socar": "쏘카",
+        "yanolja": "야놀자",
+        "goodchoice": "여기어때",
+        "agoda": "Agoda",
+        "bookingCom": "Booking.com",
+        "newWindow": "(새 창)"
+      }
     },
     "info": {
       "title": "여행 정보",

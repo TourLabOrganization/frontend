@@ -5,26 +5,35 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ButtonLink } from "@/components/ui/Button";
 import { isPlanId } from "@/features/course/scenarios";
+import { parseSettings } from "@/features/planner/course-store";
+import { cityName } from "@/features/planner/data";
+import { tripDays } from "@/features/planner/schedule";
 import { decodeAnswers } from "@/features/recommend/answers";
 import { hasRequiredAnswers, QUESTIONS } from "@/features/recommend/questions";
 import { getRecommendation } from "@/features/recommend/recommend";
 import { findTheme } from "@/features/recommend/themes";
 import {
   LAST_RECOMMENDATION_KEY,
+  type PlannerSavedPlan,
+  parsePlannerPlans,
   parseSavedPlans,
   SAVED_PLANS_KEY,
   samePlan,
   useLocalValue,
+  writePlannerPlans,
   writeSavedPlans,
 } from "@/lib/local-store";
 
 // ME 화면 본문. 추천받은 나의 테마(마지막 추천 결과)와 저장된 플랜을 localStorage에서 읽는다.
+// 저장된 플랜은 테마 코스와 투어 플래너 코스(kind: "planner")가 한 목록에 저장한 순서대로 섞여 있다.
 // 서버 렌더와 하이드레이션 중에는 저장된 값이 없는 것으로 그리고, 그 뒤 저장된 값으로 다시 그린다
 export function MePanel() {
   const t = useTranslations("Me");
   const tt = useTranslations("Themes");
   const tc = useTranslations("Clusters");
   const tp = useTranslations("Course.plans");
+  const td = useTranslations("Planner.course.dates");
+  const tn = useTranslations("Planner");
   const locale = useLocale();
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
@@ -36,13 +45,24 @@ export function MePanel() {
   const lastType = last?.clusters[0];
   const lastTheme = last?.themes[0] ? findTheme(last.themes[0].slug) : null;
 
+  const raw = useLocalValue(SAVED_PLANS_KEY);
   // 모르는 테마 · 안은 버린다(데이터가 바뀌었을 때)
-  const plans = parseSavedPlans(useLocalValue(SAVED_PLANS_KEY)).flatMap((p) => {
+  const themePlans = parseSavedPlans(raw).flatMap((p) => {
     const theme = findTheme(p.slug);
     return theme && isPlanId(p.plan)
       ? [{ ...p, slug: theme.slug, plan: p.plan }]
       : [];
   });
+  const plans: (
+    | { kind: "theme"; plan: (typeof themePlans)[number] }
+    | { kind: "planner"; plan: PlannerSavedPlan }
+  )[] = [
+    ...themePlans.map((plan) => ({ kind: "theme" as const, plan })),
+    ...parsePlannerPlans(raw).map((plan) => ({
+      kind: "planner" as const,
+      plan,
+    })),
+  ].sort((a, b) => a.plan.savedAt - b.plan.savedAt);
   const dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
 
   return (
@@ -108,7 +128,54 @@ export function MePanel() {
           </div>
         ) : (
           <ul className="mt-4 flex flex-col gap-2">
-            {plans.map((p) => {
+            {plans.map((entry) => {
+              if (entry.kind === "planner") {
+                const p = entry.plan;
+                const settings = parseSettings(p.settings);
+                const days = tripDays(settings.startDate, settings.endDate);
+                return (
+                  <li
+                    key={p.id}
+                    className="flex items-center gap-2 rounded-card ring-1 ring-line"
+                  >
+                    <Link
+                      href={`/planner?tab=course&plan=${encodeURIComponent(p.id)}`}
+                      className="flex min-h-16 min-w-0 flex-1 flex-col justify-center rounded-card py-3 pl-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+                    >
+                      <span className="text-caption font-semibold text-primary">
+                        {tn("title")}
+                      </span>
+                      <span className="text-body-lg font-bold">{p.name}</span>
+                      <span className="mt-0.5 text-caption text-fg-subtle">
+                        {t("plannerMeta", {
+                          city: p.city
+                            ? cityName(p.city, locale)
+                            : tn("nation"),
+                          duration:
+                            days === 1
+                              ? td("dayTrip")
+                              : td("nights", { nights: days - 1, days }),
+                          count: p.placeIds.length,
+                        })}{" "}
+                        · {t("savedAt", { date: dateFormat.format(p.savedAt) })}
+                      </span>
+                    </Link>
+                    <button
+                      type="button"
+                      aria-label={t("remove", { name: p.name })}
+                      onClick={() =>
+                        writePlannerPlans(
+                          parsePlannerPlans(raw).filter((q) => q.id !== p.id),
+                        )
+                      }
+                      className="mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-fg-subtle transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+                    >
+                      <Trash2 size={20} aria-hidden />
+                    </button>
+                  </li>
+                );
+              }
+              const p = entry.plan;
               const name = tt(`${p.slug}.name`);
               const planName = tp(`${p.plan}.name`);
               const href = `/themes/${p.slug}?tab=course&${p.a ? `a=${p.a}&` : ""}plan=${p.plan}`;
@@ -131,7 +198,7 @@ export function MePanel() {
                     type="button"
                     aria-label={t("remove", { name: `${name} ${planName}` })}
                     onClick={() =>
-                      writeSavedPlans(plans.filter((q) => !samePlan(q, p)))
+                      writeSavedPlans(themePlans.filter((q) => !samePlan(q, p)))
                     }
                     className="mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-fg-subtle transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                   >

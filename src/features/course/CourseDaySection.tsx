@@ -27,10 +27,16 @@ const isCategoryKey = (cat: string): cat is (typeof CATEGORY_KEYS)[number] =>
 type CourseDaySectionProps = {
   day: CourseDay;
   transport: Transport;
+  /** 날짜 제목 옆에 붙일 실제 날짜(투어 플래너: 「9월 27일(토)」) */
+  date?: string;
 };
 
 // 하루 일정. 장소마다 왼쪽에 도착·출발 시각, 오른쪽에 이름과 배지. 장소 사이에 이동·개장 대기
-export function CourseDaySection({ day, transport }: CourseDaySectionProps) {
+export function CourseDaySection({
+  day,
+  transport,
+  date,
+}: CourseDaySectionProps) {
   const t = useTranslations("Course");
   const locale = useLocale();
   const MoveIcon = MOVE_ICON[transport];
@@ -41,6 +47,11 @@ export function CourseDaySection({ day, transport }: CourseDaySectionProps) {
     <section className="mt-10 px-5" aria-labelledby={headingId}>
       <h2 id={headingId} className="px-1 text-headline font-bold">
         {t("day", { day: day.day })}
+        {date && (
+          <span className="ml-2 text-body font-semibold text-fg-muted">
+            {date}
+          </span>
+        )}
       </h2>
       {day.stops.length === 0 ? (
         <p className="mt-3 px-1 text-body text-fg-muted">{t("emptyDay")}</p>

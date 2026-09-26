@@ -29,6 +29,9 @@
   --color-primary-bright: #3182f6;
   --color-primary-weak: #e8f3ff;
 
+  /* 오류 — 입력 검사 문구 · 잘못된 칸 테두리. 흰 바탕 5.6:1, fill 위 5.1:1 */
+  --color-danger: #c62828;
+
   /* 장소 분류 — 투어 플래너 지도 핀 · 목록 점. 모두 흰 바탕 대비 4.5:1 이상(Course.categories 순서) */
   --color-cat-herit: #b45309;
   --color-cat-heal: #15803d;

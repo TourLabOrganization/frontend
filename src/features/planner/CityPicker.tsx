@@ -6,10 +6,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 import { segmentClassName } from "@/components/ui/SegmentedControl";
 import {
+  CITY_GROUPS,
   CITY_INFO,
   cityName,
+  MAJOR_CITIES,
   PLACE_COUNT_BY_CITY,
-  REGIONS,
   regionName,
 } from "./data";
 import { type PlannerTab, plannerHref } from "./query";
@@ -25,7 +26,8 @@ type CityPickerProps = {
 
 // 지역 탭의 「도시 ▾」 칸과 도시 고르기 패널(목업 1번 캡처).
 // 패널은 아래에서 올라오는 모달 dialog다. showModal()이 초점을 가두고, Esc · 바깥 누르기로 닫힌다.
-// 도시 검색(한국어 · 영어 이름) → 권역별 묶음(권역 이름 · 도시 수) → 도시 칩(이름 · 장소 수). 칩은 ?city= 링크다
+// 도시 검색(한국어 · 영어 이름) → 권역별 묶음(권역 이름 · 도시 수) → 도시 칩(이름 · 장소 수). 칩은 ?city= 링크다.
+// 묶음 · 순서 · 장소 수는 data.ts CITY_GROUPS(PoC cityGroups). 주요 6도시 칩은 테두리로 강조한다
 export function CityPicker({ city, selected, tab }: CityPickerProps) {
   const t = useTranslations("Planner");
   const locale = useLocale();
@@ -35,14 +37,13 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
   const [query, setQuery] = useState("");
 
   const q = query.trim().toLowerCase();
-  const groups = REGIONS.map((r) => ({
-    region: r,
-    cities: r.cities.filter(
+  const groups = CITY_GROUPS.map((g) => ({
+    ...g,
+    cities: g.cities.filter(
       (c) =>
-        PLACE_COUNT_BY_CITY.has(c) &&
-        (!q ||
-          c.includes(q) ||
-          (CITY_INFO[c]?.en ?? "").toLowerCase().includes(q)),
+        !q ||
+        c.includes(q) ||
+        (CITY_INFO[c]?.en ?? "").toLowerCase().includes(q),
     ),
   })).filter((g) => g.cities.length > 0);
 
@@ -124,17 +125,19 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                 {t("picker.empty")}
               </p>
             ) : (
-              groups.map(({ region, cities }) => {
-                const headingId = `${titleId}-${region.key}`;
+              groups.map(({ key, region, cities }) => {
+                const headingId = `${titleId}-${key}`;
                 return (
                   <section
-                    key={region.key}
+                    key={key}
                     aria-labelledby={headingId}
                     className="border-t border-line py-4 first:border-t-0 first:pt-1"
                   >
                     <div className="flex items-baseline justify-between">
                       <h3 id={headingId} className="text-body-lg font-bold">
-                        {regionName(region, locale)}
+                        {region
+                          ? regionName(region, locale)
+                          : t("picker.otherRegions")}
                       </h3>
                       <span className="text-caption text-fg-subtle tabular-nums">
                         {t("picker.regionCities", { count: cities.length })}
@@ -144,6 +147,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                       {cities.map((c) => {
                         const count = PLACE_COUNT_BY_CITY.get(c) ?? 0;
                         const current = c === city;
+                        const major = MAJOR_CITIES.has(c);
                         return (
                           <li key={c}>
                             <Link
@@ -156,7 +160,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                                 current
                                   ? "bg-primary-weak font-semibold text-primary-strong"
                                   : "bg-fill font-medium text-fg active:bg-line"
-                              }`}
+                              } ${major ? "ring-2 ring-primary-bright ring-inset" : ""}`}
                             >
                               {cityName(c, locale)}
                               <span

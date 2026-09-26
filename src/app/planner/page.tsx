@@ -34,6 +34,7 @@ export default async function PlannerPage({
   const tab = parsePlannerTab(query.tab);
   const scope = parseScope(query.city, query.region);
   const place = typeof query.place === "string" ? query.place : undefined;
+  const planId = typeof query.plan === "string" ? query.plan : undefined;
   const t = await getTranslations("Planner");
   const locale = await getLocale();
 
@@ -45,7 +46,7 @@ export default async function PlannerPage({
   function renderTab() {
     switch (tab) {
       case "course":
-        return <PlannerCourseTab scope={scope} />;
+        return <PlannerCourseTab scope={scope} planId={planId} />;
       case "info":
         return <PlannerInfoTab city={city} />;
       case "map":
