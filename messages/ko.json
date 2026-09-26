@@ -3,8 +3,15 @@
     "title": "Tour Navigator",
     "description": "영상 속 장소를 따라 걷는 여행 계획 앱"
   },
+  "Common": {
+    "brand": "TOUR NAVIGATOR",
+    "back": "뒤로",
+    "skip": "건너뛰기",
+    "next": "다음"
+  },
   "Home": {
     "title": "영상 속 장소를 따라 걷는 여행",
-    "description": "드라마·영화·K-팝 촬영지를 잇는 여행 코스"
+    "description": "드라마·영화·K-팝 촬영지를 잇는 여행 코스",
+    "cta": "나에게 맞는 테마 찾기"
   }
 }

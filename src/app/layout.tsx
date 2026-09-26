@@ -1,21 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Gowun_Dodum } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Providers } from "./providers";
+// 한글 글리프를 unicode-range로 나눠 둔 동적 서브셋. 화면에 쓰인 글자 조각만 내려받는다
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
-
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-});
-
-// 한글 글리프는 unicode-range로 나뉘어 필요한 조각만 내려받는다. subsets는 미리 받을 범위다
-const gowunDodum = Gowun_Dodum({
-  variable: "--font-gowun-dodum",
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Metadata");
@@ -26,19 +15,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#f2ece0",
+  themeColor: "#ffffff",
+  // 아이폰 하단 홈 인디케이터 영역을 env(safe-area-inset-*)로 받으려면 cover여야 한다
+  viewportFit: "cover",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const locale = await getLocale();
 
   return (
-    <html
-      lang={locale}
-      className={`${archivo.variable} ${gowunDodum.variable} h-full antialiased`}
-    >
+    <html lang={locale} className="h-full antialiased">
       {/* break-keep: 한글이 음절 단위로 끊기지 않고 단어 단위로 줄바꿈되게 한다 */}
-      <body className="flex min-h-full flex-col bg-cream font-sans break-keep text-ink">
+      <body className="min-h-full bg-fill-weak font-sans break-keep text-fg">
         <NextIntlClientProvider>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>

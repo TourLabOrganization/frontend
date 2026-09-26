@@ -24,7 +24,8 @@
 | 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번 |
 | 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                      |
 | 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                      |
-| 디자인 토큰 | `src/app/globals.css` — PoC 팔레트 · 서체 임시 반영                                    |
+| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)          |
+| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 버튼, 보기, 배지, 진행 막대        |
 | CI          | PR마다 린트 · 타입 검사 · 포맷 검사 · 빌드 (`.github/workflows/ci.yml`)                |
 | 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)            |
 

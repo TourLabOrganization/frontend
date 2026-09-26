@@ -5,6 +5,8 @@
 | 프레임워크  | Next.js 16 (App Router, Turbopack)                           | React 19.2                                                  |
 | 언어        | TypeScript (strict)                                          |                                                             |
 | 스타일      | Tailwind CSS 4                                               | 토큰은 `src/app/globals.css`의 `@theme`                     |
+| 글꼴        | Pretendard (`pretendard` 패키지, 동적 서브셋)                | `layout.tsx`에서 CSS로 불러온다                             |
+| 아이콘      | lucide-react                                                 | 이모지로 아이콘을 대신하지 않는다                           |
 | 서버 데이터 | TanStack Query 5                                             | 백엔드 호출은 `api()`를 `useQuery`·`useMutation`으로 감싼다 |
 | 다국어      | next-intl 4                                                  | URL에 언어 코드 없이 쿠키로 고른다                          |
 | 포맷·린트   | Prettier(+ Tailwind 클래스 정렬), ESLint(eslint-config-next) |                                                             |
@@ -28,7 +30,6 @@
 | 전역 클라이언트 상태 | Zustand                           | Redux, Recoil, Jotai                                       |
 | 폼·검증              | react-hook-form + zod             | Formik, yup                                                |
 | 날짜                 | date-fns                          | moment, dayjs                                              |
-| 아이콘               | lucide-react                      | 이모지로 아이콘 대신하기                                   |
 | HTTP                 | `src/lib/api/client.ts`의 `api()` | axios, 백엔드 직접 `fetch`                                 |
 | 스타일               | Tailwind 클래스                   | styled-components·emotion 같은 CSS-in-JS, CSS Modules 혼용 |
 

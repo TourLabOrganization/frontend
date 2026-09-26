@@ -1,20 +1,29 @@
+import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { BottomBar } from "@/components/ui/BottomBar";
+import { ButtonLink } from "@/components/ui/Button";
+import { Screen } from "@/components/ui/Screen";
 
-// 자리표시 화면. 실제 홈은 디자인 확정 후 만든다.
+// 자리표시 홈. 실제 홈(추천 테마 · 테마 타일)은 테마 추천 흐름 다음에 만든다
 export default function HomePage() {
   const t = useTranslations("Home");
+  const common = useTranslations("Common");
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-5 py-8 md:px-10 md:py-14">
-      <header className="border-b-2 border-ink pb-4">
-        <p className="text-sm font-bold tracking-[0.2em]">TOUR NAVIGATOR</p>
-      </header>
-      <section className="py-10 md:py-16">
-        <h1 className="text-3xl leading-tight font-bold md:text-5xl">
-          {t("title")}
-        </h1>
-        <p className="mt-4 text-base md:text-lg">{t("description")}</p>
-      </section>
-    </main>
+    <Screen>
+      <main className="flex flex-1 flex-col px-6 pt-16">
+        <p className="text-caption font-semibold tracking-[0.12em] text-primary">
+          {common("brand")}
+        </p>
+        <h1 className="mt-3 text-title font-bold">{t("title")}</h1>
+        <p className="mt-2 text-body text-fg-muted">{t("description")}</p>
+      </main>
+      <BottomBar>
+        <ButtonLink href="/recommend" block>
+          {t("cta")}
+          <ArrowRight size={18} aria-hidden />
+        </ButtonLink>
+      </BottomBar>
+    </Screen>
   );
 }

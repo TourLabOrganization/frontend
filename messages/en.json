@@ -3,8 +3,15 @@
     "title": "Tour Navigator",
     "description": "A trip planner that follows the places you saw on screen"
   },
+  "Common": {
+    "brand": "TOUR NAVIGATOR",
+    "back": "Back",
+    "skip": "Skip",
+    "next": "Next"
+  },
   "Home": {
     "title": "Travel through the scenes you love",
-    "description": "Routes that connect K-drama, film, and K-pop filming locations"
+    "description": "Routes that connect K-drama, film, and K-pop filming locations",
+    "cta": "Find my theme"
   }
 }
