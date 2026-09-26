@@ -23,7 +23,7 @@ export function ThemeCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col rounded-card transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-bright active:scale-[0.99] motion-reduce:transition-none"
+      className="flex flex-col rounded-card transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-bright active:scale-[0.99] motion-reduce:transition-none"
     >
       {/* TODO: TourAPI 사진으로 교체. 영화·드라마 포스터는 저작권 때문에 쓰지 않는다 */}
       <div

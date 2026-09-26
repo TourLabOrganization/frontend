@@ -16,7 +16,7 @@ import {
   tripFromAnswers,
 } from "@/features/course/scenarios";
 import { decodeAnswers } from "@/features/recommend/answers";
-import { findTheme, type ThemeSlug } from "@/features/recommend/themes";
+import { findTheme } from "@/features/recommend/themes";
 
 // 테마 코스 3안 비교. 결과 화면이 넘긴 필터(?a=, Q10~Q14)로 일수·이동수단·무장애를 정하고,
 // ?plan=(classic · trend · quiet)으로 안을 고른다. 탭은 ?plan=만 바꾸는 링크라 주소를 그대로 공유할 수 있다.
@@ -44,8 +44,7 @@ export default async function ThemePage({
   const tt = await getTranslations("Themes");
   const tr = await getTranslations("Regions");
   const tq = await getTranslations("Recommend.questions");
-  const duration = (min: number) =>
-    formatDuration((key, values) => t(key, values), min);
+  const duration = (min: number) => formatDuration(t, min);
 
   const planHref = (id: PlanId) => {
     const qs = new URLSearchParams();
@@ -84,9 +83,7 @@ export default async function ThemePage({
       <TopBar />
       <main className="flex flex-1 flex-col pb-16">
         <section className="px-6 pt-2">
-          <h1 className="text-title font-bold">
-            {tt(`${theme.slug as ThemeSlug}.name`)}
-          </h1>
+          <h1 className="text-title font-bold">{tt(`${theme.slug}.name`)}</h1>
           <p className="mt-1 text-label text-fg-muted">{meta}</p>
         </section>
 

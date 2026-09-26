@@ -79,10 +79,10 @@ const TRANSPORTS: readonly Transport[] = [
 ];
 
 /** 한적 안에서 우대하는 분류: 힐링·생태(heal). 전략 문서가 낮은 혼잡도와 엮은 분류 */
-export const QUIET_CATEGORIES: readonly string[] = ["heal"];
+const QUIET_CATEGORIES: readonly string[] = ["heal"];
 
 /** 출발지. ORIGINS 키 (서울역) */
-export const ORIGIN_KEY = "seoul";
+const ORIGIN_KEY = "seoul";
 
 export type TripInput = {
   days: number;
@@ -191,7 +191,7 @@ function basePool(places: readonly Place[], trip: TripInput): Place[] {
 }
 
 /** autoCourse가 체인의 첫 시군으로 고를 시군. 광역 접근 시간(accIn)을 정하는 데 쓴다 (Tour Planner와 같은 규칙) */
-export function leadRegion(pool: readonly Place[]): string | null {
+function leadRegion(pool: readonly Place[]): string | null {
   const groups: Record<string, Place[]> = {};
   pool.forEach((p) => {
     (groups[p.locKo] = groups[p.locKo] || []).push(p);
@@ -239,7 +239,7 @@ type Context = {
  *  - 그날 끝은 dayEnd (그날 시작 + 그날 창, 21:00 상한, 마지막 날은 19:00 여행지 출발까지).
  * 시각은 원본 timeline이 붙인다. 이 함수는 날짜 경계만 정한다.
  */
-export function splitDays(
+function splitDays(
   items: readonly Place[],
   ctx: Context,
 ): { buckets: number[][]; keep: number } {
@@ -296,7 +296,7 @@ function schedule(
  * splitDays로 다시 나눴을 때 이미 담긴 장소의 날짜가 바뀌지 않는다.
  * 시군은 base에 나온 시군만 쓴다.
  */
-export function fillCourse(
+function fillCourse(
   base: readonly Place[],
   extra: readonly Place[],
   ctx: Context,

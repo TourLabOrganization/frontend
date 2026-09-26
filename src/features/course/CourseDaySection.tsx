@@ -12,7 +12,17 @@ const MOVE_ICON = {
   "tour-bus": Bus,
 } as const satisfies Record<Transport, unknown>;
 
-const CATEGORY_KEYS = ["herit", "heal", "activity", "food", "sea", "stay"];
+// 장소 분류 중 messages에 이름이 있는 것 (Course.categories)
+const CATEGORY_KEYS = [
+  "herit",
+  "heal",
+  "activity",
+  "food",
+  "sea",
+  "stay",
+] as const;
+const isCategoryKey = (cat: string): cat is (typeof CATEGORY_KEYS)[number] =>
+  (CATEGORY_KEYS as readonly string[]).includes(cat);
 
 type CourseDaySectionProps = {
   day: CourseDay;
@@ -24,8 +34,7 @@ export function CourseDaySection({ day, transport }: CourseDaySectionProps) {
   const t = useTranslations("Course");
   const locale = useLocale();
   const MoveIcon = MOVE_ICON[transport];
-  const duration = (min: number) =>
-    formatDuration((key, values) => t(key, values), min);
+  const duration = (min: number) => formatDuration(t, min);
   const headingId = `day-${day.day}`;
 
   return (
@@ -40,8 +49,8 @@ export function CourseDaySection({ day, transport }: CourseDaySectionProps) {
           {day.stops.map((stop, k) => {
             const { place } = stop;
             const name = locale === "ko" ? place.ko : place.en || place.ko;
-            const category = CATEGORY_KEYS.includes(place.cat)
-              ? t(`categories.${place.cat as "herit"}`)
+            const category = isCategoryKey(place.cat)
+              ? t(`categories.${place.cat}`)
               : null;
             return (
               <li key={stop.id}>

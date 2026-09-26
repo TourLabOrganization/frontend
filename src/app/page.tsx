@@ -5,7 +5,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Screen } from "@/components/ui/Screen";
 import { themePlaceStats } from "@/features/course/places";
 import { ThemeTile } from "@/features/home/ThemeTile";
-import { THEMES, type ThemeSlug } from "@/features/recommend/themes";
+import { THEMES } from "@/features/recommend/themes";
 
 // 홈. 테마 추천(주요 버튼)과 테마 5개로 바로 가는 타일.
 // 타일의 숫자는 features/course/data/places.json에서 센 값이다
@@ -32,7 +32,7 @@ export default function HomePage() {
           </h2>
           <ul className="mt-4 grid grid-cols-2 gap-x-3 gap-y-6">
             {THEMES.map((theme) => {
-              const slug = theme.slug as ThemeSlug;
+              const { slug } = theme;
               return (
                 <li key={slug}>
                   <ThemeTile

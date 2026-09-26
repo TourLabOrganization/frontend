@@ -43,7 +43,7 @@ export type ThemeFit = {
 };
 
 export type Theme = {
-  slug: string;
+  slug: ThemeSlug;
   /** calc2.json의 키 */
   key: string;
   /** 출처: Tour-Navigator-App/테마 추천 알고리즘/data/derived/survey.json TREG */

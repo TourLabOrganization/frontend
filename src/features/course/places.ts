@@ -76,7 +76,7 @@ export const REGION_HUB = hubsData.regionHubs as Readonly<
 export const ORIGINS = hubsData.origins as Readonly<Record<string, Origin>>;
 
 /** 전철권 시군. Tour Planner.dc.html METRO_NET → METRO_CITY */
-export const METRO_CITY: Readonly<Record<string, 1>> = Object.fromEntries(
+const METRO_CITY: Readonly<Record<string, 1>> = Object.fromEntries(
   hubsData.metroCities.map((c) => [c, 1 as const]),
 );
 
