@@ -9,7 +9,8 @@
     "skip": "Skip",
     "next": "Next",
     "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
-    "localeSwitch": "한국어"
+    "localeSwitch": "한국어",
+    "mapLoadError": "The map couldn't load. The place list below still works"
   },
   "PlaceSheet": {
     "close": "Close",
@@ -421,7 +422,7 @@
       "categoriesLabel": "Place categories",
       "all": "All",
       "mapLabel": "Map of theme places",
-      "noKey": "The map couldn't load because no map key is set",
+      "noKey": "The map couldn't load because no map key is set. The place list below still works",
       "listHeading": "Places · {count}",
       "showOff": "Show {count} more places"
     },
@@ -593,7 +594,8 @@
           "noCity": "Pick a city or add places to choose transport"
         },
         "access": "{origin} → {hub} · about {duration}",
-        "none": "No long-distance transport reaches {city} from this starting point, so travel time there is left out. Try another starting point"
+        "none": "No long-distance transport reaches {city} from this starting point, so travel time there is left out. Try another starting point",
+        "useOrigin": "Start from {origin}"
       },
       "local": {
         "heading": "Getting around",
@@ -653,7 +655,9 @@
         "heading": "Day-by-day plan",
         "dayDate": "{weekday}, {monthName} {day}",
         "dropped": "{count, plural, one {# place didn't} other {# places didn't}} fit in the time available",
-        "droppedHint": "Add days or change the order"
+        "droppedHint": "Add days or change the order",
+        "emptyDay": "Nothing planned for this day yet",
+        "refill": "Reload the suggested course for {days} days"
       },
       "booking": {
         "heading": "Bookings",
@@ -691,5 +695,10 @@
       "linksHeading": "Regional tourism guides",
       "newWindow": "(opens in a new window)"
     }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "This address may have changed or doesn't exist. Try again from home",
+    "home": "Go home"
   }
 }

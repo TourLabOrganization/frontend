@@ -25,11 +25,19 @@ type ThemeTileProps = {
   name: string;
   /** 작품 포스터 주소(TMDB). 없으면 토큰 색 자리표시 */
   poster?: string;
+  /** 첫 화면에 보이는 첫 줄 타일이면 true. 포스터를 미루지 않고 바로 받는다(LCP) */
+  eager?: boolean;
 };
 
 // 홈 「나의 테마」 3열 격자의 타일. 작품 포스터(세로 2:3) 아래에 테마 이름만(두 줄까지).
 // 포스터가 없으면 어두운 바탕에 아이콘과 이름을 얹어 포스터처럼 보이게 한다
-export function ThemeTile({ slug, href, name, poster }: ThemeTileProps) {
+export function ThemeTile({
+  slug,
+  href,
+  name,
+  poster,
+  eager = false,
+}: ThemeTileProps) {
   const Icon = THEME_ICON[slug];
   return (
     <Link
@@ -43,6 +51,7 @@ export function ThemeTile({ slug, href, name, poster }: ThemeTileProps) {
             alt=""
             fill
             sizes="(min-width: 480px) 140px, 30vw"
+            loading={eager ? "eager" : "lazy"}
             className="object-cover"
           />
         ) : (

@@ -29,6 +29,10 @@ type CourseDaySectionProps = {
   transport: Transport;
   /** 날짜 제목 옆에 붙일 실제 날짜(투어 플래너: 「9월 27일(토)」) */
   date?: string;
+  /** 빈 날에 기본 문구(「이 날은 담을 수 있는 장소가 없어요」) 대신 그릴 내용 (투어 플래너: 아직 일정 없음 + 다시 불러오기) */
+  empty?: React.ReactNode;
+  /** 날짜 제목 단계. 위에 「일자별 일정」 같은 h2가 있으면 3(투어 플래너). 장소 이름은 그 아래 단계 */
+  headingLevel?: 2 | 3;
 };
 
 // 하루 일정. 장소마다 왼쪽에 도착·출발 시각, 오른쪽에 이름과 배지. 장소 사이에 이동·개장 대기
@@ -36,7 +40,11 @@ export function CourseDaySection({
   day,
   transport,
   date,
+  empty,
+  headingLevel = 2,
 }: CourseDaySectionProps) {
+  const DayHeading = headingLevel === 3 ? "h3" : "h2";
+  const PlaceHeading = headingLevel === 3 ? "h4" : "h3";
   const t = useTranslations("Course");
   const locale = useLocale();
   const MoveIcon = MOVE_ICON[transport];
@@ -45,16 +53,18 @@ export function CourseDaySection({
 
   return (
     <section className="mt-10 px-5" aria-labelledby={headingId}>
-      <h2 id={headingId} className="px-1 text-headline font-bold">
+      <DayHeading id={headingId} className="px-1 text-headline font-bold">
         {t("day", { day: day.day })}
         {date && (
           <span className="ml-2 text-body font-semibold text-fg-muted">
             {date}
           </span>
         )}
-      </h2>
+      </DayHeading>
       {day.stops.length === 0 ? (
-        <p className="mt-3 px-1 text-body text-fg-muted">{t("emptyDay")}</p>
+        (empty ?? (
+          <p className="mt-3 px-1 text-body text-fg-muted">{t("emptyDay")}</p>
+        ))
       ) : (
         <ol className="mt-4">
           {day.stops.map((stop, k) => {
@@ -93,7 +103,9 @@ export function CourseDaySection({
                     </span>
                   </p>
                   <div className="min-w-0">
-                    <h3 className="text-body-lg font-semibold">{name}</h3>
+                    <PlaceHeading className="text-body-lg font-semibold">
+                      {name}
+                    </PlaceHeading>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {place.yt && (
                         <Chip tone="primary">{t("videoBadge")}</Chip>

@@ -7,7 +7,8 @@ import {
   Polyline,
   useMap,
 } from "@vis.gl/react-google-maps";
-import { useEffect } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 // 테마 화면의 Google 지도 (@vis.gl/react-google-maps). 지도 탭과 코스 탭이 함께 쓴다.
 // 키는 NEXT_PUBLIC_GOOGLE_MAPS_KEY(브라우저 노출 키, docs/security.md). 키가 없을 때의 안내는 쓰는 쪽이 그린다.
@@ -60,15 +61,36 @@ export function ThemeMap({
   focus,
   onSelect,
 }: ThemeMapProps) {
+  const t = useTranslations("Common");
+  const locale = useLocale();
+  // 지도 스크립트를 받지 못했을 때(네트워크 등). 키가 없을 때와 같은 모양으로 안내한다
+  const [failed, setFailed] = useState(false);
   // 번호 핀이 다 보이게 맞춘다. 번호 핀이 없으면 모든 핀
   const numbered = pins.filter((p) => p.label !== undefined);
   const fitPoints = numbered.length > 0 ? numbered : pins;
   const fitKey = fitPoints.map((p) => p.id).join("|");
   const initial = fitPoints.length > 0 ? boundsOf(fitPoints) : null;
 
+  if (failed) {
+    return (
+      <p
+        role="note"
+        className="flex h-full items-center justify-center px-6 text-center text-label text-fg-muted"
+      >
+        {t("mapLoadError")}
+      </p>
+    );
+  }
+
   return (
     <div role="region" aria-label={label} className="h-full w-full">
-      <APIProvider apiKey={apiKey}>
+      <APIProvider
+        apiKey={apiKey}
+        // 지도 글자를 화면 언어로. 스크립트는 한 번만 불러와서, 언어를 바꾸면 LocaleSwitch가 새로고침한다
+        language={locale}
+        region="KR"
+        onError={() => setFailed(true)}
+      >
         <GoogleMap
           mapId={MAP_ID}
           defaultBounds={
@@ -89,9 +111,14 @@ export function ThemeMap({
                 key={p.id}
                 position={{ lat: p.lat, lng: p.lng }}
                 title={p.title}
+                anchorLeft="-50%"
+                anchorTop="-50%"
                 onClick={onSelect ? () => onSelect(p.id) : undefined}
               >
-                <span className="block size-2.5 rounded-full bg-fg-subtle ring-2 ring-surface" />
+                {/* 누르는 자리는 44px, 보이는 점은 10px */}
+                <span className="flex size-11 items-center justify-center">
+                  <span className="block size-2.5 rounded-full bg-fg-subtle ring-2 ring-surface" />
+                </span>
               </AdvancedMarker>
             ))}
           {numbered.map((p) => (
@@ -99,11 +126,16 @@ export function ThemeMap({
               key={p.id}
               position={{ lat: p.lat, lng: p.lng }}
               title={p.title}
+              anchorLeft="-50%"
+              anchorTop="-50%"
               zIndex={1000 - (p.label ?? 0)}
               onClick={onSelect ? () => onSelect(p.id) : undefined}
             >
-              <span className="flex size-[26px] items-center justify-center rounded-full bg-primary text-caption font-bold text-white tabular-nums ring-2 ring-surface">
-                {p.label}
+              {/* 누르는 자리는 44px, 보이는 번호 원은 26px */}
+              <span className="flex size-11 items-center justify-center">
+                <span className="flex size-[26px] items-center justify-center rounded-full bg-primary text-caption font-bold text-white tabular-nums ring-2 ring-surface">
+                  {p.label}
+                </span>
               </span>
             </AdvancedMarker>
           ))}

@@ -56,6 +56,9 @@ import {
   dateError,
   MAX_TRIP_DAYS,
   recommendCourse,
+  resolveWide,
+  suggestOrigin,
+  wideOptions,
 } from "./schedule";
 
 // 맨 위 · 맨 아래에서 옮기기 버튼은 disabled 대신 aria-disabled로 둔다. 옮긴 뒤 초점이 사라지지 않게
@@ -113,6 +116,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const id = useId();
   const nameRef = useRef<HTMLInputElement>(null);
   const listHeadingRef = useRef<HTMLHeadingElement>(null);
+  const scheduleHeadingRef = useRef<HTMLHeadingElement>(null);
+  // 빈 날의 「다시 불러오기」로 추천을 불렀는지. 그 버튼은 채운 뒤 사라지므로 초점을 일정 제목으로 옮긴다
+  const refillFocus = useRef(false);
 
   const [confirm, setConfirm] = useState<ConfirmKind | null>(null);
   const [dismissedPlan, setDismissedPlan] = useState<string | null>(null);
@@ -235,6 +241,17 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   };
 
   const canRecommend = sourceName !== null && autoPool.length > 0;
+
+  // 지금 출발지에서 닿는 광역 수단이 없으면 닿는 첫 출발지를 제안한다
+  const suggestedKey = !plan.wide && plan.hub ? suggestOrigin(plan.hub) : null;
+  const useSuggestedOrigin = () => {
+    if (!suggestedKey || !plan.hub) return;
+    store.setSettings({
+      origin: suggestedKey,
+      wideMode: resolveWide(null, wideOptions(suggestedKey, plan.hub)),
+    });
+  };
+  const firstEmptyDay = plan.days.findIndex((d) => d.stops.length === 0);
 
   const doRecommend = () => {
     const list = recommendCourse(autoPool, settings, leadCity);
@@ -391,7 +408,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                 onChange={(e) =>
                   store.setSettings({ startDate: e.target.value || null })
                 }
-                className={`${FIELD} mt-1 px-3`}
+                className={`${FIELD} mt-1 px-3 focus:outline-2 focus:outline-offset-2 focus:outline-primary-bright`}
               />
             </div>
             <div className="min-w-0">
@@ -412,7 +429,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                 onChange={(e) =>
                   store.setSettings({ endDate: e.target.value || null })
                 }
-                className={`${FIELD} mt-1 px-3`}
+                className={`${FIELD} mt-1 px-3 focus:outline-2 focus:outline-offset-2 focus:outline-primary-bright`}
               />
             </div>
           </div>
@@ -517,6 +534,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
             plan.destination ? cityName(plan.destination, locale) : null
           }
           accessDuration={plan.wide ? duration(plan.accIn) : null}
+          suggestedOrigin={suggestedKey ? originName(suggestedKey) : null}
+          onUseOrigin={useSuggestedOrigin}
           onWide={(mode) => store.setSettings({ wideMode: mode })}
           onLocal={(mode) => store.setSettings({ localMode: mode })}
         />
@@ -694,7 +713,12 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       {/* 일자별 일정 */}
       {places.length > 0 && (
         <section aria-labelledby={`${id}-schedule`} className="mt-10">
-          <h2 id={`${id}-schedule`} className="px-5 text-headline font-bold">
+          <h2
+            ref={scheduleHeadingRef}
+            id={`${id}-schedule`}
+            tabIndex={-1}
+            className="px-5 text-headline font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          >
             {t("schedule.heading")}
           </h2>
           {plan.dropped.length > 0 && (
@@ -719,10 +743,32 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           )}
           {plan.days.map((day, i) => (
             <CourseDaySection
+              headingLevel={3}
               key={day.day}
               day={day}
               transport={plan.local === "transit" ? "public-transit" : "car"}
               date={dayDate(i)}
+              empty={
+                // 담은 장소보다 날이 많을 때. 담을 수 없는 게 아니라 아직 안 담은 날이다
+                <div className="mt-3 px-1">
+                  <p className="text-body text-fg-muted">
+                    {t("schedule.emptyDay")}
+                  </p>
+                  {i === firstEmptyDay && canRecommend && (
+                    <Button
+                      variant="secondary"
+                      size="md"
+                      className="mt-3"
+                      onClick={() => {
+                        refillFocus.current = true;
+                        setConfirm("recommend");
+                      }}
+                    >
+                      {t("schedule.refill", { days: plan.dayCount })}
+                    </Button>
+                  )}
+                </div>
+              }
             />
           ))}
         </section>
@@ -782,9 +828,14 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           } else {
             setConfirm(null);
             doRecommend();
+            if (refillFocus.current) {
+              refillFocus.current = false;
+              scheduleHeadingRef.current?.focus();
+            }
           }
         }}
         onCancel={() => {
+          refillFocus.current = false;
           if (dialogKind === "load") {
             setDismissedPlan(planId ?? null);
             leavePlanUrl(null);

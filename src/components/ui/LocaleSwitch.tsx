@@ -17,7 +17,13 @@ export function LocaleSwitch() {
   return (
     <button
       type="button"
-      onClick={() => startTransition(() => setLocale(next))}
+      onClick={() =>
+        startTransition(async () => {
+          await setLocale(next);
+          // 구글 지도 스크립트는 처음 불러온 언어로 굳어서, 지도가 있는 화면은 새로고침해 새 언어로 다시 불러온다
+          if ("google" in window) window.location.reload();
+        })
+      }
       disabled={pending}
       className="inline-flex min-h-11 items-center gap-1.5 rounded-xl px-3 text-label font-semibold text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill disabled:opacity-50 motion-reduce:transition-none"
     >

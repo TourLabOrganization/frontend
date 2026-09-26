@@ -16,6 +16,7 @@ import {
 import { InfoTab } from "@/features/theme/InfoTab";
 import { MapTab, type SceneLink } from "@/features/theme/MapTab";
 import { corePlaces, pad2, placeName } from "@/features/theme/place-meta";
+import { cityName } from "@/features/planner/data";
 import { StampTab } from "@/features/theme/StampTab";
 import { parseTab, themeHref, type ThemeQuery } from "@/features/theme/tabs";
 import {
@@ -129,10 +130,12 @@ export default async function ThemePage({
           name: placeName(p, locale),
           mapHref: mapHref(p.id),
         });
+        // 스탬프 북 제목: 테마 장소가 한 도시면 그 도시(「영월 · 스탬프 북」, 목업과 같다), 여러 도시면 지역
+        const cities = [...new Set(places.map((p) => p.locKo))];
         return (
           <StampTab
             slug={slug}
-            region={region}
+            region={cities.length === 1 ? cityName(cities[0], locale) : region}
             core={corePlaces(places).map(toStamp)}
             all={places.map(toStamp)}
           />

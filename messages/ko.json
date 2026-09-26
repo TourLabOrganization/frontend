@@ -9,7 +9,8 @@
     "skip": "건너뛰기",
     "next": "다음",
     "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
-    "localeSwitch": "English"
+    "localeSwitch": "English",
+    "mapLoadError": "지도를 불러오지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요"
   },
   "PlaceSheet": {
     "close": "닫기",
@@ -421,7 +422,7 @@
       "categoriesLabel": "장소 분류",
       "all": "전체",
       "mapLabel": "테마 장소 지도",
-      "noKey": "지도 키가 없어 지도를 표시하지 못했어요",
+      "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
       "listHeading": "장소 목록 · {count}",
       "showOff": "목록 밖 장소 {count}곳 보기"
     },
@@ -593,7 +594,8 @@
           "noCity": "도시를 고르거나 장소를 담으면 광역 교통을 고를 수 있어요"
         },
         "access": "{origin} → {hub} · 약 {duration}",
-        "none": "이 출발지에서 {city}에 닿는 광역 교통이 없어 광역 이동 시간을 빼고 계산했어요. 출발지를 바꿔 보세요"
+        "none": "이 출발지에서 {city}에 닿는 광역 교통이 없어 광역 이동 시간을 빼고 계산했어요. 출발지를 바꿔 보세요",
+        "useOrigin": "{origin}에서 출발하기"
       },
       "local": {
         "heading": "현지 이동",
@@ -653,7 +655,9 @@
         "heading": "일자별 일정",
         "dayDate": "{month}월 {day}일({weekday})",
         "dropped": "시간이 모자라 {count}곳은 일정에 넣지 못했어요",
-        "droppedHint": "날짜를 늘리거나 순서를 바꿔 보세요"
+        "droppedHint": "날짜를 늘리거나 순서를 바꿔 보세요",
+        "emptyDay": "아직 이 날 일정이 없어요",
+        "refill": "추천 코스를 {days}일에 맞춰 다시 불러오기"
       },
       "booking": {
         "heading": "예매",
@@ -691,5 +695,10 @@
       "linksHeading": "지역별 관광 안내",
       "newWindow": "(새 창)"
     }
+  },
+  "NotFound": {
+    "title": "페이지를 찾을 수 없어요",
+    "description": "주소가 바뀌었거나 없는 페이지예요. 홈에서 다시 찾아 보세요",
+    "home": "홈으로"
   }
 }

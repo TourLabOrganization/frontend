@@ -13,6 +13,7 @@ import {
   dateError,
   recommendCourse,
   resolveWide,
+  suggestOrigin,
   tripDays,
   wideOptions,
 } from "./schedule";
@@ -140,6 +141,19 @@ describe("날짜 · 광역 교통", () => {
     expect(by.own.block).toBe("island");
     expect(by.air.block).toBeNull();
     expect(by.rail.block).toBe("origin");
+  });
+
+  it("출발지 제안: 광역 수단이 닿는 첫 출발지(ORIGINS 순서)", () => {
+    // 서울역(KTX)에서 제주로는 광역 수단이 없다 → 김포공항
+    expect(
+      wideOptions("seoul", CITY_HUBS["제주"]).some(
+        (o) => o.block === null && o.choice !== "own",
+      ),
+    ).toBe(false);
+    expect(suggestOrigin(CITY_HUBS["제주"])).toBe("gimpoAirF");
+    // 경주는 첫 출발지(서울역)부터 KTX가 닿는다
+    expect(suggestOrigin(CITY_HUBS["경주"])).toBe("seoul");
+    expect(suggestOrigin(undefined)).toBeNull();
   });
 
   it("도착 도시가 없으면 모두 막힌다", () => {

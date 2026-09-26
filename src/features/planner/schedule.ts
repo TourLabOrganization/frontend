@@ -117,6 +117,21 @@ export function wideOptions(
   });
 }
 
+/**
+ * 도착 관문에 닿는 광역 수단(자가용 빼고)이 있는 첫 출발지 key. ORIGINS 순서대로 찾는다.
+ * 지금 출발지에서 쓸 수 있는 광역 수단이 없을 때 「{출발지}에서 출발하기」로 제안한다(제주 → 김포공항)
+ */
+export function suggestOrigin(hub: RegionHub | undefined): string | null {
+  if (!hub) return null;
+  for (const key of Object.keys(PLANNER_ORIGINS)) {
+    const open = wideOptions(key, hub).some(
+      (o) => o.block === null && o.choice !== "own",
+    );
+    if (open) return key;
+  }
+  return null;
+}
+
 /** 실제로 쓸 광역 교통. 고른 수단을 쓸 수 없으면 AUTO_ORDER의 첫 수단, 하나도 없으면 null */
 export function resolveWide(
   chosen: WideMode | null,

@@ -110,7 +110,7 @@ export function MePanel() {
           <h2 id="me-saved" className="text-headline font-bold">
             {t("savedHeading")}
           </h2>
-          <span className="text-caption font-semibold text-fg-subtle">
+          <span className="text-caption font-semibold text-fg-subtle tabular-nums">
             {t("savedCount", { count: plans.length })}
           </span>
         </div>

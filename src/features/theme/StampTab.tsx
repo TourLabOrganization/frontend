@@ -18,7 +18,7 @@ export type StampPlace = {
 
 type StampTabProps = {
   slug: string;
-  /** 지역 이름 (「강원 · 스탬프 북」) */
+  /** 제목 앞 이름. 테마 장소가 한 도시면 도시(「영월 · 스탬프 북」), 여러 도시면 지역(「경북 · 경남 · 스탬프 북」) */
   region: string;
   /** 핵심 장소. 스탬프 북의 칸 */
   core: readonly StampPlace[];

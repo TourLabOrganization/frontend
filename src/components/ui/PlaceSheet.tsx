@@ -3,7 +3,7 @@
 import { Navigation, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { buttonClassName } from "./Button";
 
 export type PlaceSheetPlace = {
@@ -41,6 +41,8 @@ export function PlaceSheet({
   const t = useTranslations("PlaceSheet");
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
+  // 받지 못한 사진 주소. 깨진 사진 칸 대신 사진 없이 보인다
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
 
   useEffect(() => {
     const dialog = ref.current;
@@ -74,7 +76,7 @@ export function PlaceSheet({
             </button>
           </div>
 
-          {place.photo && (
+          {place.photo && place.photo.src !== failedSrc && (
             <figure className="mb-4">
               <div className="relative aspect-[16/10] overflow-hidden rounded-card bg-fill">
                 <Image
@@ -82,6 +84,9 @@ export function PlaceSheet({
                   alt={place.name}
                   fill
                   unoptimized
+                  // 시트가 열려 있을 때만 그려지므로 사진은 늘 보이는 자리다. 미루지 않는다
+                  loading="eager"
+                  onError={() => setFailedSrc(place.photo?.src ?? null)}
                   className="object-cover"
                 />
               </div>

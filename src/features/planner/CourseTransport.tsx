@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useId } from "react";
+import { useId, useRef } from "react";
+import { Button } from "@/components/ui/Button";
 import type { TravelMode } from "@/features/course/schedule";
 import type { LocalMode, WideMode } from "./course-store";
 import type { WideOption } from "./schedule";
@@ -26,6 +27,12 @@ type CourseTransportProps = {
   destinationName: string | null;
   /** 광역 접근 시간 문구(「약 2시간 8분」). 광역 교통이 없으면 null */
   accessDuration: string | null;
+  /**
+   * 지금 출발지에서 닿는 광역 수단이 없을 때 제안할 출발지(이름).
+   * 누르면 onUseOrigin으로 출발지 · 광역 교통을 바꾼다. 없으면 null
+   */
+  suggestedOrigin: string | null;
+  onUseOrigin: () => void;
   onWide: (mode: WideMode) => void;
   onLocal: (mode: LocalMode) => void;
 };
@@ -39,6 +46,8 @@ export function CourseTransport({
   hubName,
   destinationName,
   accessDuration,
+  suggestedOrigin,
+  onUseOrigin,
   onWide,
   onLocal,
 }: CourseTransportProps) {
@@ -48,11 +57,18 @@ export function CourseTransport({
   const localHeading = `${id}-local`;
   const noCityId = `${id}-nocity`;
   const noCity = options.every((o) => o.block === "noCity");
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const showNone = !wide && destinationName !== null && !noCity;
 
   return (
     <>
       <section aria-labelledby={wideHeading}>
-        <h3 id={wideHeading} className="text-body-lg font-bold">
+        <h3
+          id={wideHeading}
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-body-lg font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+        >
           <span aria-hidden className="mr-2 text-primary tabular-nums">
             01
           </span>
@@ -126,10 +142,24 @@ export function CourseTransport({
                 hub: hubName,
                 duration: accessDuration,
               })
-            : !wide && destinationName && !noCity
+            : showNone
               ? t("wide.none", { city: destinationName })
               : ""}
         </p>
+        {showNone && suggestedOrigin && (
+          <Button
+            variant="secondary"
+            size="md"
+            className="mt-3"
+            onClick={() => {
+              onUseOrigin();
+              // 누른 버튼이 사라지므로 초점을 광역 교통 제목으로 옮긴다(바뀐 칸 · 안내를 이어 읽는다)
+              headingRef.current?.focus();
+            }}
+          >
+            {t("wide.useOrigin", { origin: suggestedOrigin })}
+          </Button>
+        )}
       </section>
 
       <section aria-labelledby={localHeading} className="mt-6">

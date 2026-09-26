@@ -154,6 +154,11 @@ export function HeroCarousel() {
                   aria-hidden
                   className="absolute inset-0 bg-gradient-to-b from-fg/80 via-fg/20 to-fg/70"
                 />
+                {/* 아래 조작(번호 · 멈춤 · 점 줄) 뒤를 더 진하게 덮는다. 영상 아래쪽에 박힌 자막이 점 줄 아래로 비치지 않게 */}
+                <div
+                  aria-hidden
+                  className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-fg from-25% via-fg/75 via-60% to-fg/0"
+                />
                 <Link
                   href={`/themes/${slug}`}
                   draggable={false}

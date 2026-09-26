@@ -101,13 +101,15 @@ export default async function HomePage() {
             {t("myThemesHeading")}
           </h2>
           <ul className="mt-4 grid grid-cols-3 gap-x-3 gap-y-5">
-            {HOME_THEME_ORDER.map((slug) => (
+            {HOME_THEME_ORDER.map((slug, i) => (
               <li key={slug}>
                 <ThemeTile
                   slug={slug}
                   href={`/themes/${slug}`}
                   name={tt(`${slug}.name`)}
                   poster={themePoster(slug, locale)}
+                  // 3열 격자의 첫 줄은 390px 첫 화면에 보인다
+                  eager={i < 3}
                 />
               </li>
             ))}

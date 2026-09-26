@@ -40,6 +40,9 @@ export function ThemeCard({
                 ? "(min-width: 480px) 440px, 90vw"
                 : "(min-width: 480px) 214px, 45vw"
             }
+            // 1위 카드는 첫 화면에 보인다(LCP). 나머지는 미룬다
+            loading={featured ? "eager" : "lazy"}
+            fetchPriority={featured ? "high" : "auto"}
             className="object-cover"
           />
         ) : (
