@@ -29,6 +29,14 @@
   --color-primary-bright: #3182f6;
   --color-primary-weak: #e8f3ff;
 
+  /* 장소 분류 — 투어 플래너 지도 핀 · 목록 점. 모두 흰 바탕 대비 4.5:1 이상(Course.categories 순서) */
+  --color-cat-herit: #b45309;
+  --color-cat-heal: #15803d;
+  --color-cat-activity: #7c3aed;
+  --color-cat-food: #db2777;
+  --color-cat-sea: #0e7490;
+  --color-cat-stay: #475569;
+
   /* 글자 크기 — 이름 그대로 클래스가 된다 (text-title, text-body-lg …) */
   --text-display: 1.75rem;
   --text-display--line-height: 1.3;

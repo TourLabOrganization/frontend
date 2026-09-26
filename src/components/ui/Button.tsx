@@ -17,7 +17,8 @@ const SIZE: Record<Size, string> = {
 
 type StyleProps = { variant?: Variant; size?: Size; block?: boolean };
 
-function buttonClassName({
+/** Button과 같은 모양의 클래스. 새 창 링크(<a target="_blank">)처럼 Button · ButtonLink를 쓸 수 없는 곳에 쓴다 */
+export function buttonClassName({
   variant = "primary",
   size = "lg",
   block = false,

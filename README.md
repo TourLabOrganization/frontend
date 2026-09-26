@@ -21,24 +21,26 @@
 
 ## 들어 있는 것
 
-| 영역        | 내용                                                                                                |
-| ----------- | --------------------------------------------------------------------------------------------------- |
-| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번              |
-| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                   |
-| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                   |
-| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                       |
-| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 버튼, 보기, 배지, 진행 막대, 링크형 탭 |
-| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)  |
-| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                         |
+| 영역        | 내용                                                                                                                          |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번                                        |
+| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                                             |
+| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                                             |
+| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                                                 |
+| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 화면 안 탭 바, 버튼, 보기, 배지, 진행 막대, 링크형 탭, 장소 시트 |
+| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)                            |
+| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                                                   |
 
 ## 들어 있지 않은 것
 
-로그인 화면, 투어 플래너(`/planner`, 직접 고르는 코스 — 3단계 예정), 외부 API Route Handler.
+로그인 화면, 투어 플래너의 코스 빌더(날짜 · 출발지 · 일정 계산 — US-203 예정), 외부 API Route Handler.
 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
 
 홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
 테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, Google 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
-추천 결과, 저장한 코스, 테마별 북마크 · 스탬프는 로그인 없이 이 브라우저의 localStorage에만 둔다 (`src/lib/local-store.ts`).
+투어 플래너(`/planner` — 전국 · 도시별 장소 1,171곳 지도와 목록, 권역 묶음, 도시 고르기, 코스에 담기, 여행 정보)도 있다.
+플래너의 코스 탭은 아직 담은 장소 목록(순서 · 빼기)만 있다.
+추천 결과, 저장한 코스, 테마별 북마크 · 스탬프, 플래너에 담은 장소는 로그인 없이 이 브라우저의 localStorage에만 둔다 (`src/lib/local-store.ts`).
 코스 3안은 트렌드·혼잡도 데이터가 아직 없어 장소 데이터만으로 만든 대체 규칙을 쓴다 (`src/features/course/scenarios.ts`).
 홈 타일은 작품 포스터, 추천 결과 카드는 작품 스틸(TMDB 이미지)이다. 작품이 없는 테마(RESCENE)는 토큰 색 자리표시다. 이미지 규칙은 `docs/ui.md`.
 

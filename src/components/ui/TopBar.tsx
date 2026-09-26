@@ -8,11 +8,13 @@ type TopBarProps = {
   title?: string;
   /** 없으면 브라우저 뒤로 가기 */
   onBack?: () => void;
+  /** 뒤로 가기 대신 갈 주소 (서버 컴포넌트에서 함수 대신 넘긴다). 예: 투어 플래너 → 홈 */
+  backHref?: string;
   /** 오른쪽 자리 (건너뛰기 버튼 등) */
   right?: React.ReactNode;
 };
 
-export function TopBar({ title, onBack, right }: TopBarProps) {
+export function TopBar({ title, onBack, backHref, right }: TopBarProps) {
   const router = useRouter();
   const t = useTranslations("Common");
 
@@ -21,7 +23,10 @@ export function TopBar({ title, onBack, right }: TopBarProps) {
       <button
         type="button"
         aria-label={t("back")}
-        onClick={onBack ?? (() => router.back())}
+        onClick={
+          onBack ??
+          (backHref ? () => router.push(backHref) : () => router.back())
+        }
         className="flex size-11 items-center justify-center justify-self-start rounded-full transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
       >
         <ChevronLeft size={24} aria-hidden />

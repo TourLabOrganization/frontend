@@ -6,8 +6,8 @@ import {
   Route,
   Stamp,
 } from "lucide-react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { TabBar } from "@/components/ui/TabBar";
 import { type TabId, themeHref, type ThemeQuery } from "./tabs";
 
 const ITEMS: readonly { id: TabId; icon: LucideIcon }[] = [
@@ -24,38 +24,21 @@ type ThemeTabBarProps = {
   current: TabId;
 };
 
-// 테마 화면 하단 탭(지도 · 코스 · 영화 · 스탬프 · 여행 정보). 모양은 BottomNav와 같다.
-// 칸은 주소의 ?tab=만 바꾸는 링크다(a · plan은 유지). 뒤로 가기 기록을 쌓지 않고 스크롤 위치를 지킨다.
-// 쓰는 화면의 main에 pb-[calc(5rem+env(safe-area-inset-bottom))]를 줘서 내용이 탭 뒤로 숨지 않게 한다
+// 테마 화면 하단 탭(지도 · 코스 · 영화 · 스탬프 · 여행 정보). 공통 TabBar에 칸을 채운다.
+// 칸은 주소의 ?tab=만 바꾸는 링크다(a · plan은 유지)
 export function ThemeTabBar({ slug, query, current }: ThemeTabBarProps) {
   const t = useTranslations("Theme");
 
   return (
-    <nav
-      aria-label={t("tabsLabel")}
-      className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[480px] border-t border-line bg-surface pb-[env(safe-area-inset-bottom)]"
-    >
-      <ul className="grid grid-cols-5">
-        {ITEMS.map(({ id, icon: Icon }) => {
-          const selected = id === current;
-          return (
-            <li key={id}>
-              <Link
-                href={themeHref(slug, query, id)}
-                replace
-                scroll={false}
-                aria-current={selected ? "page" : undefined}
-                className={`flex min-h-14 flex-col items-center justify-center gap-1 text-micro transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none ${
-                  selected ? "font-semibold text-primary" : "text-fg-subtle"
-                }`}
-              >
-                <Icon size={20} aria-hidden />
-                {t(`tabs.${id}`)}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <TabBar
+      label={t("tabsLabel")}
+      current={current}
+      items={ITEMS.map(({ id, icon }) => ({
+        id,
+        icon,
+        href: themeHref(slug, query, id),
+        label: t(`tabs.${id}`),
+      }))}
+    />
   );
 }

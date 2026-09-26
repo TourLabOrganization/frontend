@@ -11,6 +11,13 @@
     "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
     "localeSwitch": "English"
   },
+  "PlaceSheet": {
+    "close": "닫기",
+    "photoCredit": "사진: {credit}",
+    "hours": "운영시간",
+    "directions": "길찾기",
+    "newWindow": "(새 창)"
+  },
   "Splash": {
     "title": {
       "first": "우리 이제",
@@ -418,13 +425,8 @@
       "showOff": "목록 밖 장소 {count}곳 보기"
     },
     "sheet": {
-      "close": "닫기",
-      "photoCredit": "사진: {credit}",
-      "hours": "운영시간",
-      "directions": "길찾기",
       "save": "저장",
-      "stamp": "스탬프",
-      "newWindow": "(새 창)"
+      "stamp": "스탬프"
     },
     "course": {
       "daysLabel": "일정",
@@ -487,5 +489,83 @@
     "gyeongbuk": "경북",
     "gyeongnam": "경남",
     "jeju": "제주"
+  },
+  "Planner": {
+    "title": "투어 플래너",
+    "scopesLabel": "지역",
+    "nation": "전국",
+    "cityButton": "도시",
+    "cityButtonLabel": "도시 고르기",
+    "cityButtonCurrentLabel": "{city}, 다른 도시 고르기",
+    "tabsLabel": "투어 플래너 탭",
+    "tabs": {
+      "map": "지도",
+      "course": "코스",
+      "info": "여행 정보"
+    },
+    "courseBadge": "담은 장소 {count}곳",
+    "regionChip": "{region} · {count}곳",
+    "regionChipClear": "{region} · {count}곳, 선택 해제",
+    "picker": {
+      "title": "도시 고르기",
+      "close": "닫기",
+      "searchLabel": "도시 검색",
+      "searchPlaceholder": "도시 이름 (한국어·영어)",
+      "regionCities": "도시 {count}곳",
+      "placeCount": "장소 {count}곳",
+      "empty": "찾는 도시가 없어요"
+    },
+    "map": {
+      "categoriesLabel": "장소 분류",
+      "all": "전체",
+      "mapLabel": "투어 플래너 지도",
+      "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
+      "regionMarker": "{region} · 장소 {count}곳",
+      "cityMarker": "{city} · 장소 {count}곳",
+      "listHeading": "장소 목록 · {count}",
+      "more": "더 보기(남은 {count}곳)",
+      "empty": "이 분류에 맞는 장소가 없어요",
+      "add": "{name} 코스에 담기",
+      "addedStatus": "코스에 담았어요: {name}",
+      "removedStatus": "코스에서 뺐어요: {name}"
+    },
+    "sheet": {
+      "add": "코스에 담기",
+      "remove": "코스에서 빼기"
+    },
+    "confirm": {
+      "title": "다른 도시의 장소예요",
+      "body": "코스에는 한 도시의 장소만 담을 수 있어요. 담아 둔 {from} 장소 {count}곳을 비우고 {to}에서 새로 담을까요?",
+      "cancel": "취소",
+      "confirm": "비우고 담기"
+    },
+    "course": {
+      "heading": "{city} · 담은 장소 {count}",
+      "empty": "담은 장소가 없어요. 지도에서 장소를 담아 보세요",
+      "goMap": "지도에서 장소 담기",
+      "moveUp": "{name} 위로 옮기기",
+      "moveDown": "{name} 아래로 옮기기",
+      "remove": "{name} 코스에서 빼기"
+    },
+    "info": {
+      "title": "여행 정보",
+      "selectLabel": "선택한 지역",
+      "selectPlaceholder": "도시를 고르세요",
+      "hubHeading": "광역 관문",
+      "hubNone": "관문 정보가 없어요",
+      "hubPick": "도시를 고르면 그 도시의 광역 관문이 보여요",
+      "modesLabel": "이동 수단",
+      "modes": {
+        "ktx": "KTX",
+        "srt": "SRT",
+        "bus": "고속버스",
+        "air": "항공",
+        "ship": "배",
+        "metro": "광역전철"
+      },
+      "tipsHeading": "이동 요령",
+      "linksHeading": "지역별 관광 안내",
+      "newWindow": "(새 창)"
+    }
   }
 }

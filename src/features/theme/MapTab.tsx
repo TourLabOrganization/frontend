@@ -15,7 +15,7 @@ import {
   placeName,
   placePhoto,
 } from "./place-meta";
-import { PlaceSheet } from "./PlaceSheet";
+import { ThemePlaceSheet } from "./ThemePlaceSheet";
 import { type MapPin, ThemeMap } from "./ThemeMap";
 import type { PlaceExtra } from "./theme-data";
 
@@ -207,7 +207,7 @@ export function MapTab({
         )}
       </section>
 
-      <PlaceSheet
+      <ThemePlaceSheet
         slug={slug}
         place={selected}
         extra={selected ? extras[selected.id] : undefined}

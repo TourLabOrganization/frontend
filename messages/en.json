@@ -11,6 +11,13 @@
     "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
     "localeSwitch": "한국어"
   },
+  "PlaceSheet": {
+    "close": "Close",
+    "photoCredit": "Photo: {credit}",
+    "hours": "Opening hours",
+    "directions": "Directions",
+    "newWindow": "(opens in a new window)"
+  },
   "Splash": {
     "title": {
       "first": "From now on,",
@@ -418,13 +425,8 @@
       "showOff": "Show {count} more places"
     },
     "sheet": {
-      "close": "Close",
-      "photoCredit": "Photo: {credit}",
-      "hours": "Opening hours",
-      "directions": "Directions",
       "save": "Save",
-      "stamp": "Stamp",
-      "newWindow": "(opens in a new window)"
+      "stamp": "Stamp"
     },
     "course": {
       "daysLabel": "Trip length",
@@ -487,5 +489,83 @@
     "gyeongbuk": "Gyeongbuk",
     "gyeongnam": "Gyeongnam",
     "jeju": "Jeju"
+  },
+  "Planner": {
+    "title": "Tour Planner",
+    "scopesLabel": "Region",
+    "nation": "All",
+    "cityButton": "City",
+    "cityButtonLabel": "Choose a city",
+    "cityButtonCurrentLabel": "{city}, choose another city",
+    "tabsLabel": "Tour planner tabs",
+    "tabs": {
+      "map": "Map",
+      "course": "Course",
+      "info": "Travel info"
+    },
+    "courseBadge": "{count} places added",
+    "regionChip": "{region} · {count} places",
+    "regionChipClear": "{region} · {count} places, clear",
+    "picker": {
+      "title": "Choose a city",
+      "close": "Close",
+      "searchLabel": "Search cities",
+      "searchPlaceholder": "City name (Korean or English)",
+      "regionCities": "{count} cities",
+      "placeCount": "{count} places",
+      "empty": "No matching cities"
+    },
+    "map": {
+      "categoriesLabel": "Place categories",
+      "all": "All",
+      "mapLabel": "Tour planner map",
+      "noKey": "The map couldn't load because no map key is set. The place list below still works",
+      "regionMarker": "{region} · {count} places",
+      "cityMarker": "{city} · {count} places",
+      "listHeading": "Places · {count}",
+      "more": "Show more ({count} left)",
+      "empty": "No places in this category",
+      "add": "Add {name} to course",
+      "addedStatus": "Added to course: {name}",
+      "removedStatus": "Removed from course: {name}"
+    },
+    "sheet": {
+      "add": "Add to course",
+      "remove": "Remove from course"
+    },
+    "confirm": {
+      "title": "This place is in another city",
+      "body": "A course can only hold places from one city. Clear the {count} places from {from} and start again in {to}?",
+      "cancel": "Cancel",
+      "confirm": "Clear and add"
+    },
+    "course": {
+      "heading": "{city} · {count} places added",
+      "empty": "No places yet. Add places from the map",
+      "goMap": "Add places on the map",
+      "moveUp": "Move {name} up",
+      "moveDown": "Move {name} down",
+      "remove": "Remove {name} from course"
+    },
+    "info": {
+      "title": "Travel info",
+      "selectLabel": "Selected area",
+      "selectPlaceholder": "Choose a city",
+      "hubHeading": "Gateway",
+      "hubNone": "No gateway information",
+      "hubPick": "Choose a city to see its gateway",
+      "modesLabel": "Transport",
+      "modes": {
+        "ktx": "KTX",
+        "srt": "SRT",
+        "bus": "Express bus",
+        "air": "Flights",
+        "ship": "Ferry",
+        "metro": "Metro rail"
+      },
+      "tipsHeading": "Getting around",
+      "linksHeading": "Regional tourism guides",
+      "newWindow": "(opens in a new window)"
+    }
   }
 }
