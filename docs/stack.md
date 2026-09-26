@@ -10,6 +10,7 @@
 | 서버 데이터 | TanStack Query 5                                             | 백엔드 호출은 `api()`를 `useQuery`·`useMutation`으로 감싼다 |
 | 다국어      | next-intl 4                                                  | URL에 언어 코드 없이 쿠키로 고른다                          |
 | 포맷·린트   | Prettier(+ Tailwind 클래스 정렬), ESLint(eslint-config-next) |                                                             |
+| 테스트      | Vitest                                                       | `npm run test`. 순수 함수 단위 테스트 (`*.test.ts`)         |
 | 배포        | Vercel                                                       |                                                             |
 | 런타임      | Node.js 24.21.0 (`.nvmrc`) · npm 11.19.0                     | CI도 `.nvmrc`의 버전을 쓴다                                 |
 

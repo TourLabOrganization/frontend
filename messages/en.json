@@ -13,5 +13,251 @@
     "title": "Travel through the scenes you love",
     "description": "Routes that connect K-drama, film, and K-pop filming locations",
     "cta": "Find my theme"
+  },
+  "Recommend": {
+    "progressLabel": "Question progress",
+    "counter": "{current} / {total}",
+    "next": "Next",
+    "seeResult": "See my result",
+    "limitReached": "You've picked 2, the maximum. Deselect one to change it.",
+    "questions": {
+      "q1": {
+        "title": "How old are you?",
+        "help": "We match you with travelers like you",
+        "options": {
+          "teens": "Teens",
+          "20s": "20s",
+          "30s": "30s",
+          "40s": "40s",
+          "50s": "50s",
+          "60s": "60s",
+          "70s-plus": "70 or older"
+        }
+      },
+      "q2": {
+        "title": "Who are you traveling with?",
+        "help": "Pick who you travel with most often",
+        "options": {
+          "solo": "Just me",
+          "friends": "Friends",
+          "couple": "My partner",
+          "spouse": "My spouse",
+          "kids-family": "Family with kids",
+          "parents": "My parents",
+          "social-group": "A club or group"
+        }
+      },
+      "q3": {
+        "title": "What pace do you like?",
+        "help": "This sets how full each day is",
+        "options": {
+          "packed": "Packed",
+          "moderate": "Balanced",
+          "relaxed": "Slow and easy"
+        }
+      },
+      "q4": {
+        "title": "What are you into?",
+        "help": "Pick up to 2",
+        "options": {
+          "drama": "K-drama & K-pop locations",
+          "performance": "Shows & concerts",
+          "history": "History & heritage",
+          "nature": "Nature & forest trails",
+          "sea": "The sea",
+          "food-market": "Food & markets",
+          "activity": "Hands-on activities",
+          "night": "Night views",
+          "shopping-beauty": "Shopping, beauty & spa"
+        }
+      },
+      "q5": {
+        "title": "What kind of vibe?",
+        "help": "Pick the feel of places you want to visit",
+        "options": {
+          "trending": "Trending hot spots",
+          "landmark": "Must-see landmarks",
+          "quiet": "Quiet, off the beaten path"
+        }
+      },
+      "q6": {
+        "title": "Where are you visiting from?",
+        "help": "This changes budget ranges and travel types",
+        "options": {
+          "domestic": "I live in Korea",
+          "overseas": "I'm visiting from abroad"
+        }
+      },
+      "q7": {
+        "title": "What's your budget per person?",
+        "help": "Per person, for the whole trip",
+        "helpOverseas": "Per person, per day, in US dollars",
+        "options": {
+          "under-70k": "Under ₩70,000",
+          "70k-150k": "₩70,000–150,000",
+          "150k-250k": "₩150,000–250,000",
+          "over-250k": "₩250,000 or more",
+          "usd-under-100": "$100 or less a day",
+          "usd-100-300": "$100–300 a day",
+          "usd-300-500": "$300–500 a day",
+          "usd-over-500": "Over $500 a day"
+        }
+      },
+      "q8": {
+        "title": "When are you most active?",
+        "help": "We'll fit your schedule to it",
+        "options": {
+          "morning": "Early mornings",
+          "daytime": "Mostly daytime",
+          "evening": "Into the evening"
+        }
+      },
+      "q9": {
+        "title": "Where do you get travel tips?",
+        "help": "Pick the source you rely on most",
+        "options": {
+          "been-before": "I've been before",
+          "word-of-mouth": "Friends' recommendations",
+          "internet": "Websites & apps",
+          "social-media": "Social media & YouTube",
+          "no-info": "I just go"
+        }
+      },
+      "q10": {
+        "title": "When are you leaving?",
+        "help": "We'll pick routes for the season and festivals",
+        "options": {
+          "this-weekend": "This weekend",
+          "this-month": "This month",
+          "later": "Next month or later"
+        }
+      },
+      "q11": {
+        "title": "How long is your trip?",
+        "help": "If you skip, we'll plan a day trip",
+        "options": {
+          "day-trip": "Day trip",
+          "1-night": "2 days, 1 night",
+          "2-nights-plus": "3 days or more"
+        }
+      },
+      "q12": {
+        "title": "How will you get around?",
+        "help": "If you skip, we'll assume a car",
+        "options": {
+          "car": "Car",
+          "public-transit": "Public transit",
+          "flight": "Plane",
+          "tour-bus": "Tour bus"
+        }
+      },
+      "q13": {
+        "title": "How much can you walk a day?",
+        "help": "We'll size the route to fit",
+        "options": {
+          "under-1h": "Up to 1 hour",
+          "1-3h": "1–3 hours",
+          "over-3h": "3 hours or more"
+        }
+      },
+      "q14": {
+        "title": "Anything we should plan around?",
+        "help": "Pick as many as you need",
+        "options": {
+          "pet": "Traveling with a pet",
+          "accessible": "Step-free access",
+          "indoor-rain": "Mostly indoors if it rains"
+        }
+      }
+    }
+  },
+  "Result": {
+    "badge": "My travel type",
+    "mixedTagline": "A mix of two styles",
+    "typeShare": "{name} {percent}%",
+    "recommendedThemes": "Themes for you",
+    "evidenceLabel": "Backed by DataLab",
+    "fitRankType": "#{rank} for {type}",
+    "fitRankMixed": "#{rank} for your mix",
+    "fitRank": "#{rank} match",
+    "night": "{percent}% night-view spots",
+    "categoryShare": "{percent}% {category}",
+    "categories": {
+      "history": "history & culture",
+      "healing": "nature & healing",
+      "activity": "theme parks & activities",
+      "local-food": "local food",
+      "nature": "sea & scenery"
+    },
+    "source": "Scores based on the 2025 National Travel Survey and International Visitor Survey · Korea Tourism DataLab",
+    "compareCourses": "Compare 3 routes"
+  },
+  "Clusters": {
+    "C1": {
+      "name": "Trend Seeker",
+      "tagline": "First to find what's new",
+      "description": "You like hunting down trending neighborhoods and cafés with friends and keeping busy well into the night."
+    },
+    "C2": {
+      "name": "Romantic Duo",
+      "tagline": "Views and nights for two",
+      "description": "Scenic viewpoints, city lights, and a great meal make your perfect day together."
+    },
+    "C3": {
+      "name": "Family Adventurer",
+      "tagline": "Hands-on fun with the kids",
+      "description": "Activities the kids can dive into, beaches, and camping suit your trips best."
+    },
+    "C4": {
+      "name": "Active Explorer",
+      "tagline": "Walk, look, and take it all in",
+      "description": "Walking through nature and taking your time at historic places suits you best."
+    },
+    "C5": {
+      "name": "Solo Recharger",
+      "tagline": "A quiet break on your own",
+      "description": "Walking and resting at your own pace, somewhere green and uncrowded, suits you best."
+    },
+    "C6": {
+      "name": "Local Foodie",
+      "tagline": "Travel for the local flavors",
+      "description": "Old-school eateries and markets where you can taste the region suit you best."
+    },
+    "C7": {
+      "name": "K-Culture Explorer",
+      "tagline": "Step into K-pop and K-drama",
+      "description": "Filming locations, live shows, and shopping — getting close to Korean pop culture suits you best."
+    },
+    "C8": {
+      "name": "Wellness Traveler",
+      "tagline": "Rest, shop, and indulge",
+      "description": "Beauty and spa time, shopping, and good food at an easy pace suit you best."
+    },
+    "C9": {
+      "name": "Nature Wanderer",
+      "tagline": "Out of the city, into nature",
+      "description": "Taking your time in regions known for their landscapes, like Jeju, suits you best."
+    },
+    "C10": {
+      "name": "Heritage Explorer",
+      "tagline": "Discover Korea's past",
+      "description": "Palaces, museums, and regional cities where tradition is still alive suit you best."
+    }
+  },
+  "Themes": {
+    "preparing": "We're getting the routes ready",
+    "kings-warden": { "name": "The King's Warden" },
+    "kpop-demon-hunters": { "name": "KPop Demon Hunters" },
+    "rescene-route": { "name": "RESCENE Route" },
+    "jeju-k-drama": { "name": "Jeju K-Drama" },
+    "busan-film-trip": { "name": "Busan Film Trip" }
+  },
+  "Regions": {
+    "seoul": "Seoul",
+    "busan": "Busan",
+    "gangwon": "Gangwon",
+    "gyeongbuk": "Gyeongbuk",
+    "gyeongnam": "Gyeongnam",
+    "jeju": "Jeju"
   }
 }
