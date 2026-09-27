@@ -1,5 +1,5 @@
 // 지원 언어. 추가할 때는 messages/<언어>.json도 같이 만든다 (docs/i18n.md)
-export const locales = ["ko", "en"] as const;
+export const locales = ["ko", "en", "zh", "ja", "es"] as const;
 
 export type AppLocale = (typeof locales)[number];
 

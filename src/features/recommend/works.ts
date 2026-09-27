@@ -11,8 +11,8 @@ export type Work = {
   type: "movie" | "tv";
   /** themoviedb.org/{type}/{tmdbId} */
   tmdbId: number;
-  /** 언어별 포스터 (세로 2:3) */
-  poster: Record<AppLocale, string>;
+  /** 언어별 포스터 (세로 2:3). 한국어 · 영어만 있고 중 · 일 · 스페인어 화면은 영어 포스터를 쓴다(posterPath) */
+  poster: Record<"ko" | "en", string>;
   /** 장면 스틸 (가로) */
   backdrop: string;
 };
@@ -72,6 +72,11 @@ const THEME_LOCAL_IMAGE: Partial<
   },
 };
 
+/** 화면 언어의 포스터 경로. 한국어 말고는 영어 포스터 */
+export function posterPath(work: Work, locale: AppLocale): string {
+  return locale === "ko" ? work.poster.ko : work.poster.en;
+}
+
 /** TMDB 이미지 주소. 포스터는 w500, 스틸은 w780 */
 export function tmdbImage(path: string, size: "w500" | "w780"): string {
   return `https://image.tmdb.org/t/p/${size}${path}`;
@@ -84,7 +89,7 @@ export function themePoster(
 ): string | undefined {
   const work = THEME_WORK[slug];
   return work
-    ? tmdbImage(work.poster[locale], "w500")
+    ? tmdbImage(posterPath(work, locale), "w500")
     : THEME_LOCAL_IMAGE[slug]?.poster;
 }
 

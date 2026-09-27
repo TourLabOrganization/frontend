@@ -16,6 +16,7 @@ const isModeKey = (m: string): m is ModeKey =>
 export async function PlannerInfoTab({ city }: { city: string | null }) {
   const t = await getTranslations("Planner.info");
   const locale = await getLocale();
+  // 관문 이름은 한국어 · 영어만 있다. 중 · 일 · 스페인어 화면은 영어 이름
   const lang = locale === "ko" ? "ko" : "en";
   const hub = city ? CITY_HUBS[city] : undefined;
 
@@ -106,7 +107,7 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
                 rel="noopener noreferrer"
                 className={`${buttonClassName({ variant: "secondary", size: "md" })} w-full text-center`}
               >
-                {link.label[lang]}
+                {link.label[locale]}
                 <ExternalLink size={16} className="shrink-0" aria-hidden />
                 <span className="sr-only">{t("newWindow")}</span>
               </a>

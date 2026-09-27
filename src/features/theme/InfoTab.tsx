@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { AppLocale } from "@/i18n/locales";
 import type { ThemeSlug } from "@/features/recommend/themes";
-import { THEME_WORK, tmdbImage } from "@/features/recommend/works";
+import { posterPath, THEME_WORK, tmdbImage } from "@/features/recommend/works";
 import { DatalabSection } from "./DatalabSection";
 import { THEME_INFO } from "./data/info";
 import { SECONDARY_LINK_CLASS } from "./place-meta";
@@ -18,7 +18,6 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
   const t = await getTranslations("Theme.info");
   const common = await getTranslations("Common");
   const locale = (await getLocale()) as AppLocale;
-  const lang = locale === "ko" ? "ko" : "en";
   const work = THEME_WORK[slug];
   const info = THEME_INFO[slug];
 
@@ -32,7 +31,7 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
             rel="noopener noreferrer"
             className={`${SECONDARY_LINK_CLASS} w-full text-center`}
           >
-            {link.label[lang]}
+            {link.label[locale]}
             <ExternalLink size={16} className="shrink-0" aria-hidden />
             <span className="sr-only">{t("newWindow")}</span>
           </a>
@@ -75,7 +74,7 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
           <div className="flex gap-4 rounded-card p-4 ring-1 ring-line">
             <div className="relative aspect-[2/3] w-24 shrink-0 overflow-hidden rounded-xl bg-fill">
               <Image
-                src={tmdbImage(work.poster[locale], "w500")}
+                src={tmdbImage(posterPath(work, locale), "w500")}
                 alt=""
                 fill
                 sizes="96px"
@@ -100,13 +99,13 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
       {info.festival && (
         <section className="rounded-card bg-primary-weak p-5">
           <p className="text-caption font-semibold text-primary-strong">
-            {info.festival.label[lang]}
+            {info.festival.label[locale]}
           </p>
           <h3 className="mt-1 text-body-lg font-bold">
-            {info.festival.title[lang]}
+            {info.festival.title[locale]}
           </h3>
           <p className="mt-2 text-body text-fg-muted">
-            {info.festival.body[lang]}
+            {info.festival.body[locale]}
           </p>
         </section>
       )}
