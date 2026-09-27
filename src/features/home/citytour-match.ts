@@ -9,13 +9,16 @@ export type MatchPlace = {
   ko: string;
   cat: string;
   locKo: string;
-  /** 도시 고르기 도시(전용 화면 장소만 전용 화면 도시 이름) */
+  /** 도시 고르기 도시(planner data.ts pickCity. 전용 화면 도시는 그 도시의 전국 목록 장소도 이 값을 갖는다) */
   pickCity?: string;
   /** 시티투어 경유지로 추가된 장소 */
   ct?: boolean;
 };
 
-/** 전용 화면이 있는 도시. 목업은 이 도시의 노선이면 그 화면 장소만 후보로 본다 */
+/**
+ * 전용 화면이 있는 도시. 목업은 이 도시의 노선이면 그 화면 장소만 후보로 본다.
+ * 앱은 pickCity를 그 도시의 전국 목록 장소에도 주므로(scripts/build-planner.mjs) 후보가 도시 고르기 목록과 같다
+ */
 export const DEDICATED_CITIES: readonly string[] = [
   "경주",
   "거제",
@@ -56,7 +59,7 @@ const NOT_SIGHT =
   /(시청|군청|구청|도청|청사|주민센터|역$|공항|터미널|정류장|정류소|승강장|주차장|휴게소|중식|점심|석식|조식|식당|자유시간|휴식|하차|승차|환승|출발|도착|호텔|리조트|숙소|귀가|해산|집결|탑승)/;
 
 /**
- * 노선의 후보 장소. 전용 화면 도시면 그 화면 장소(pickCity),
+ * 노선의 후보 장소. 전용 화면 도시면 도시 고르기 목록 장소(pickCity),
  * 아니면 그 시군(locKo) 장소, 그것도 없으면 전체 장소(목업 places() · inReg 규칙)
  */
 export function stopPool<T extends MatchPlace>(

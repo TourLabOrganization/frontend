@@ -12,7 +12,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bc3", "bcx22"]
+    "placeIds": ["ro4", "ro226", "bcx22", "ctu1", "nax764"]
   },
   {
     "region": "부산",
@@ -27,7 +27,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bc1", "bcx8"]
+    "placeIds": ["bc1", "ctu2", "bcx8"]
   },
   {
     "region": "부산",
@@ -41,8 +41,8 @@
     "tel": "051-464-9898",
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
-    "city": null,
-    "placeIds": []
+    "city": "부산",
+    "placeIds": ["ro4", "ctt2"]
   },
   {
     "region": "부산",
@@ -57,7 +57,19 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bc1", "bcx11", "bcx47", "bcx8", "bc5", "bcx12"]
+    "placeIds": [
+      "ctt2",
+      "ctt3",
+      "bc1",
+      "nax763",
+      "bcx11",
+      "bcx47",
+      "bcx8",
+      "ctt1",
+      "ctt4",
+      "bc5",
+      "bcx12"
+    ]
   },
   {
     "region": "부산",
@@ -72,7 +84,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bc7", "bc6", "bc12", "bcx4"]
+    "placeIds": ["bc7", "bc6", "ctt5", "bc12", "bcx4", "ctt6", "ctt2", "ctt7"]
   },
   {
     "region": "부산",
@@ -87,7 +99,18 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bcx17", "bcx43", "bcx42", "bc3", "bcx29", "bcx41", "bcx35"]
+    "placeIds": [
+      "ctt8",
+      "bcx17",
+      "ro4",
+      "bcx43",
+      "ro177",
+      "bc3",
+      "bcx29",
+      "bcx41",
+      "ctt6",
+      "bcx35"
+    ]
   },
   {
     "region": "제주",
@@ -102,7 +125,7 @@
     "url": "http://www.jejucitybus.com/",
     "date": "2026-07-31",
     "city": "제주",
-    "placeIds": ["jdx40", "jdx36"]
+    "placeIds": ["jdx40", "ctu3", "ctu4", "jdx36"]
   },
   {
     "region": "제주",
@@ -4283,8 +4306,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "서울",
+    "placeIds": ["ctu67"]
   },
   {
     "region": "서울",
@@ -4358,7 +4381,7 @@
     "tel": "070-4818-1914",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "서울",
+    "placeIds": ["ctu69"]
   }
 ]
