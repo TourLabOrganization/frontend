@@ -47,6 +47,22 @@ export function inCity(place: Pick<Place, "locKo">, city: string | null) {
   return city === null || place.locKo === city;
 }
 
+/**
+ * 여러 도시 테마(RESCENE)의 전국 목록 순서. 도시 칩 순서(data/cities.json — 거제 · 경주)대로 묶고,
+ * 칩에 없는 도시는 원래 순서대로 뒤에 둔다. 같은 도시 안의 순서(장소 번호)는 그대로다
+ */
+export function orderByCities<T extends Pick<Place, "locKo">>(
+  places: readonly T[],
+  cities: readonly Pick<ThemeCity, "ko">[],
+): T[] {
+  const rank = (p: T) => {
+    const i = cities.findIndex((c) => c.ko === p.locKo);
+    return i === -1 ? cities.length : i;
+  };
+  // Array.prototype.sort는 안정 정렬이라 같은 순위끼리는 원래 순서가 유지된다
+  return [...places].sort((a, b) => rank(a) - rank(b));
+}
+
 /** 목록 순서대로 도시별 장소 수. 「경주 · 7개 장소」 묶음 머리에 쓴다 */
 export function cityGroups(
   places: readonly Pick<Place, "locKo">[],

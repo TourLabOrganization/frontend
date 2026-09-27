@@ -8,6 +8,7 @@ import {
   hasViews,
   haversineKm,
   inCity,
+  orderByCities,
   scopeCity,
   searchCards,
   sortCards,
@@ -76,6 +77,28 @@ describe("cityGroups", () => {
 
   it("빈 목록은 빈 묶음", () => {
     expect(cityGroups([])).toEqual([]);
+  });
+});
+
+describe("orderByCities", () => {
+  it("RESCENE 전국 목록은 도시 칩 순서(거제 · 경주)로, 칩에 없는 도시는 원래 순서대로 뒤에", () => {
+    const core = corePlaces(getThemePlaces("rescene-route"));
+    const ordered = orderByCities(core, RESCENE);
+    const groups = cityGroups(ordered);
+    expect(groups.slice(0, 2)).toEqual([
+      { city: "거제", count: 14 },
+      { city: "경주", count: 7 },
+    ]);
+    // 칩에 없는 도시(수원 · 정선 …)는 원래 순서 그대로
+    expect(groups.slice(2)).toEqual(cityGroups(core).slice(2));
+    // 같은 도시 안에서는 번호 순서 그대로
+    expect(ordered.slice(0, 3).map((p) => p.n)).toEqual([8, 9, 10]);
+    expect(ordered).toHaveLength(core.length);
+  });
+
+  it("칩이 없거나 한 도시면 순서를 바꾸지 않는다", () => {
+    const core = corePlaces(getThemePlaces("rescene-route"));
+    expect(orderByCities(core, [])).toEqual(core);
   });
 });
 

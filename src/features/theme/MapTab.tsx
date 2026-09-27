@@ -15,6 +15,7 @@ import {
   cityGroups,
   distanceLabel,
   inCity,
+  orderByCities,
   scopeCity,
   type ThemeCity,
 } from "./place-list";
@@ -137,8 +138,11 @@ export function MapTab({
     inScope(p) &&
     (filter === "all" || p.cat === filter) &&
     matchesQuery([p.ko, p.en, placeName(p, locale, names)], query);
-  const core = corePlaces(places).filter(inFilter);
-  const off = places.filter((p) => p.off && inFilter(p));
+  // 여러 도시 테마(RESCENE)는 목록을 도시 칩 순서(거제 · 경주)로 묶는다
+  const byCity = (list: Place[]) =>
+    multiCity ? orderByCities(list, cities) : list;
+  const core = byCity(corePlaces(places).filter(inFilter));
+  const off = byCity(places.filter((p) => p.off && inFilter(p)));
   const selected = places.find((p) => p.id === selectedId) ?? null;
   const rows = [...core, ...(showOff ? off : [])];
   const visible = rows.slice(0, shown);
