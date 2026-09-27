@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { PlaceSheet } from "@/components/ui/PlaceSheet";
+import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
 import {
   CATEGORY_KEYS,
@@ -33,9 +34,12 @@ import {
   REGIONS,
   regionName,
 } from "./regions";
+import { matchesQuery } from "@/lib/text-search";
 import { useCourseToggle } from "./use-course-toggle";
 
-/** 목록을 한 번에 그리는 수. 전국 1,171곳을 한꺼번에 그리지 않는다 */
+/** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
+const INITIAL_ROWS = 10;
+/** 「더 보기」 한 번에 더 보이는 수. 전국 1,171곳을 한꺼번에 그리지 않는다 */
 const PAGE_SIZE = 60;
 
 type Filter = "all" | CategoryKey;
@@ -67,7 +71,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   const scopePlaces = useMemo(() => placesInScope(scope), [scope]);
   const [filter, setFilter] = useState<Filter>("all");
-  const [shown, setShown] = useState(PAGE_SIZE);
+  const [query, setQuery] = useState("");
+  const [shown, setShown] = useState(INITIAL_ROWS);
   const [selectedId, setSelectedId] = useState<string | null>(
     initialPlace && scopePlaces.some((p) => p.id === initialPlace)
       ? initialPlace
@@ -92,9 +97,15 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         : compare(name(a), name(b)),
     );
   }, [scopePlaces, locale, nation]);
+  // 분류 칩과 검색어로 거른다(지도 표시와 목록이 같이 쓴다). 검색은 장소 이름(한 · 영)과 도시 이름(한 · 영)
   const filtered = useMemo(
-    () => (filter === "all" ? sorted : sorted.filter((p) => p.cat === filter)),
-    [sorted, filter],
+    () =>
+      sorted.filter(
+        (p) =>
+          (filter === "all" || p.cat === filter) &&
+          matchesQuery([p.ko, p.en, p.locKo, cityName(p.locKo, "en")], query),
+      ),
+    [sorted, filter, query],
   );
   const visible = filtered.slice(0, shown);
   const selected = scopePlaces.find((p) => p.id === selectedId) ?? null;
@@ -113,7 +124,13 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   const changeFilter = (c: Filter) => {
     setFilter(c);
-    setShown(PAGE_SIZE);
+    setShown(INITIAL_ROWS);
+    setFocusIndex(null);
+  };
+
+  const changeQuery = (q: string) => {
+    setQuery(q);
+    setShown(INITIAL_ROWS);
     setFocusIndex(null);
   };
 
@@ -271,10 +288,23 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         >
           {t("listHeading", { count: filtered.length })}
         </h2>
+        <SearchField
+          value={query}
+          onChange={changeQuery}
+          label={t("searchLabel")}
+          placeholder={t("searchPlaceholder")}
+          clearLabel={t("searchClear")}
+          className="mx-5 mt-3"
+        />
+        <p role="status" className="sr-only">
+          {query.trim() ? t("searchStatus", { count: filtered.length }) : ""}
+        </p>
 
         {filtered.length === 0 ? (
           <p className="px-5 py-10 text-center text-body text-fg-muted">
-            {t("empty")}
+            {query.trim()
+              ? t("searchEmpty", { query: query.trim() })
+              : t("empty")}
           </p>
         ) : (
           <ul ref={listRef} className="mt-2">

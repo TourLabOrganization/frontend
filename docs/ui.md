@@ -86,6 +86,7 @@
 | `TabBar`                | 한 화면 안의 하단 탭(`?tab=` 링크, `aria-current="page"`). 칸 수만큼 나뉜다. `badge`로 숫자 배지를 붙인다(플래너 코스 탭). 쓰는 화면의 `main`에 `pb-[calc(6rem+env(safe-area-inset-bottom))]`                                                                                           |
 | `PlaceSheet`            | 장소 시트(아래에서 올라오는 모달 dialog). 사진 · 분류 · 운영시간 · 설명 · 「길찾기」. 옆 버튼은 `actions`로 받는다(테마: 저장 · 스탬프, 플래너: 코스에 담기)                                                                                                                            |
 | `MapFrame`              | 카카오 지도 틀(키 · SDK 불러오기 · 불러오기 실패 안내 · 점 묶음에 맞추기 · 열린 장소로 옮기기 · 확대 버튼). 바탕 지도 글자는 늘 한국어(카카오는 영문 지도가 없다). 핀 · 묶음 · 선은 `children`으로 넣는다(테마 `ThemeMap`, 플래너 `PlannerMap`). 키가 없을 때의 안내는 쓰는 쪽이 그린다 |
+| `SearchField`           | 목록 검색 입력(돋보기 · 지우기 버튼 44px · 화면 읽기용 이름). 검색 규칙은 `lib/text-search.ts`의 `matchesQuery`(띄어쓰기 · 대소문자 무시). 플래너 · 테마 지도 탭 장소 목록                                                                                                              |
 | `BottomNav`             | 하단 탭(홈 · 내 코스 고르기 · ME). 홈 · ME 화면에만. 쓰는 화면의 `main`에 `pb-[calc(5rem+env(safe-area-inset-bottom))]`                                                                                                                                                                 |
 
 새 부품이 필요하면 이 표에서 먼저 찾고, 없으면 같은 폴더에 만들어 표에 추가한다.
