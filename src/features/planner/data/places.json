@@ -65778,8 +65778,7 @@
     "un": false,
     "bf": true,
     "auto": true,
-    "macro": "jeju",
-    "pickCity": "제주"
+    "macro": "jeju"
   },
   {
     "id": "jdx6",
@@ -66321,8 +66320,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju",
-    "pickCity": "제주"
+    "macro": "jeju"
   },
   {
     "id": "jdx30",

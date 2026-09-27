@@ -49,7 +49,7 @@ describe("플래너 데이터", () => {
     ).toEqual({
       서울: 262,
       부산: 182,
-      제주: 173,
+      제주: 171,
       영월: 28,
       경주: 70,
       거제: 45,
@@ -60,8 +60,8 @@ describe("플래너 데이터", () => {
     const sum = [...PLACE_COUNT_BY_CITY.values()].reduce((a, b) => a + b, 0);
     const nationOnly = PLANNER_PLACES.filter((p) => !p.pickCity).length;
     expect(PLACE_COUNT_BY_CITY.size).toBe(124);
-    expect(sum).toBe(3106);
-    expect(nationOnly).toBe(12);
+    expect(sum).toBe(3104);
+    expect(nationOnly).toBe(14);
     expect(sum + nationOnly).toBe(3118);
     for (const [city, n] of PLACE_COUNT_BY_CITY) {
       const list = placesInScope({ kind: "city", city });
@@ -98,7 +98,7 @@ describe("플래너 데이터", () => {
     });
   });
 
-  it("도시 고르기 묶음별 도시 수는 목업과 같고, 장소 수는 권역 장소 수와 같다(같은 장소 중복 12곳 제외)", () => {
+  it("도시 고르기 묶음별 도시 수는 목업과 같고, 장소 수는 권역 장소 수와 같다(같은 장소 중복 14곳 제외)", () => {
     expect(
       Object.fromEntries(
         CITY_GROUPS.map((g) => [
@@ -116,7 +116,7 @@ describe("플래너 데이터", () => {
       daegyeong: [16, 366],
       dongnam: [19, 637],
       honam: [30, 432],
-      jeju: [1, 173],
+      jeju: [1, 171],
     });
   });
 
@@ -226,7 +226,7 @@ describe("도시별 장소 수(regions.json placeCounts)", () => {
 
 describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목록 장소도 그 도시에", () => {
   // 전용 화면 묶음과 전국 목록에 함께 있는 같은 장소(scripts/build-planner.mjs samePlace). [남긴 id, 도시에서 뺀 id]
-  // 전용 화면 쪽을 남기고, 인기 순위가 전국 목록 쪽에만 있으면(서울스카이) 전국 목록 쪽을 남긴다
+  // 전용 화면 쪽을 남기고, 인기 순위가 전국 목록 쪽에만 있으면(서울스카이 · 올레시장 · 사려니숲길) 전국 목록 쪽을 남긴다
   const SAME: readonly [string, string][] = [
     ["bc10", "ctt7"], // 부산 BIFF 광장 = BIFF광장
     ["ywx1", "ro106"], // 고씨굴 = 영월 고씨굴
@@ -235,6 +235,8 @@ describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목�
     ["yw2", "ro188"], // 영월 장릉 = 장릉
     ["bcx28", "ro226"], // 달맞이길 문탠로드 = 해운대달맞이길
     ["ro666", "kd5"], // 서울스카이(인기 78위) = 롯데월드타워 서울스카이
+    ["ro15", "jdx29"], // 서귀포매일올레시장(인기 3위) = 제주 올레시장
+    ["ro261", "jdx5"], // 한라산둘레길 사려니숲길(인기 15위) = 사려니숲길
     ["bcx31", "ro762"], // 부산 F1963 = F1963
     ["gjx19", "rs60"], // 힐튼 경주 = 힐튼호텔 경주
     ["kdx26", "nax701"], // 서울숲 = 서울숲
