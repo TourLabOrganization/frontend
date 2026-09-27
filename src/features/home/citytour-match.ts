@@ -79,6 +79,17 @@ const FOOD = "food";
 const FOOD_STOP = /(시장|골목|거리)$/;
 
 /**
+ * 규칙보다 먼저 쓰는 경유지 대조 표. 「지역|정규화 경유지 이름」 → 장소 이름(ko). 눈으로 보고 고정한 곳만 둔다(대표 결정 2026-09-28)
+ */
+export const CITYTOUR_MATCH: Readonly<Record<string, string>> = {
+  // 으능정이 스카이로드는 분류가 먹거리이고 경유지 이름이 장소 이름의 앞부분이라, 식당을 막는 규칙(pickPlace)에 함께 막힌다.
+  // 으능정이 거리의 LED 천장(관광지)이라 되살린다
+  "대전|으능정이": "으능정이 스카이로드",
+  // 정림사지박물관과 정림사지5층석탑이 둘 다 후보인데, 이름 길이로는 박물관이 골라진다. 정림사지를 대표하는 것은 석탑이다
+  "부여|정림사지": "정림사지5층석탑",
+};
+
+/**
  * 경유지 하나(정규화 이름 key)에 맞는 장소. 없거나 애매하면 null, 숙박 장소와 같은 이름이면 "stay"
  *  1) 이름이 같은 장소(숙박이면 담지 않는다)
  *  2) 이름이 서로를 품는 장소(숙박 제외). 관광지(먹거리 밖)가 있으면 관광지 중에서만 고른다.
@@ -126,7 +137,7 @@ function pickPlace<T extends MatchPlace>(
 }
 
 /**
- * 경유지마다 pickPlace로 장소를 찾는다. 숙박 장소는 담지 않는다. 같은 장소는 한 번만. 찾지 못한(애매한) 경유지는 missed에 모은다.
+ * 경유지마다 CITYTOUR_MATCH 표를 먼저 보고, 없으면 pickPlace로 장소를 찾는다. 숙박 장소는 담지 않는다. 같은 장소는 한 번만. 찾지 못한(애매한) 경유지는 missed에 모은다.
  * 목업(이름이 같은 장소 → 시티투어 경유 장소 중 이름을 품은 것 → 이름이 서로를 품는 첫 장소)과 다른 점:
  *  - 노선 지역 이름과 같은 경유지(「서울 → … → 서울」의 서울)는 출발 · 도착 도시라서 대조하지 않는다.
  *    목업 규칙대로 두면 이름에 「서울」이 든 장소(남산서울타워)가 대부도 · 광명 노선에도 담긴다
@@ -144,7 +155,10 @@ export function matchStops<T extends MatchPlace>(
   for (const stop of splitStops(route)) {
     const key = normalizeName(stop);
     if (key.length < 2 || NOT_SIGHT.test(stop) || key === regionKey) continue;
-    const hit = pickPlace(key, pool);
+    const fixed = CITYTOUR_MATCH[`${region}|${key}`];
+    const hit = fixed
+      ? (pool.find((p) => p.ko === fixed) ?? null)
+      : pickPlace(key, pool);
     if (hit === null) missed.push(stop);
     else if (hit !== "stay" && !ids.includes(hit.id)) ids.push(hit.id);
   }

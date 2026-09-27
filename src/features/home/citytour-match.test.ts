@@ -129,4 +129,16 @@ describe("matchStops", () => {
       missed: ["평화광장"],
     });
   });
+
+  it("대조 표(CITYTOUR_MATCH)가 규칙보다 먼저다", () => {
+    const daejeon = [
+      place("r", "으능정이 스카이로드", "대전", { cat: "food" }),
+    ];
+    expect(matchStops("으능정이", daejeon, "대전").ids).toEqual(["r"]);
+    const buyeo = [
+      place("m", "정림사지박물관", "부여"),
+      place("t", "정림사지5층석탑", "부여"),
+    ];
+    expect(matchStops("정림사지", buyeo, "부여").ids).toEqual(["t"]);
+  });
 });
