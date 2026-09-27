@@ -38,7 +38,18 @@ export function roundCoord(value: number): number {
 }
 
 /**
- * 쿼리의 lat · lng를 검사한다. 숫자가 아니거나 범위(위도 −90–90, 경도 −180–180)를 벗어나면 null.
+ * 날씨를 받는 좌표 범위(한국). 장소 시트는 한국 장소만 부르므로 그 밖은 받지 않는다(Route Handler를 전 세계 날씨 중계로 쓰지 못하게).
+ * 플래너 · 테마 장소 좌표가 모두 이 안인지는 weather.test.ts가 확인한다(가장 남쪽 마라도 33.12, 가장 동쪽 독도 131.87)
+ */
+export const KOREA_BOUNDS = {
+  minLat: 33,
+  maxLat: 39,
+  minLng: 124,
+  maxLng: 132,
+} as const;
+
+/**
+ * 쿼리의 lat · lng를 검사한다. 숫자가 아니거나 한국 범위(KOREA_BOUNDS, 위도 33–39 · 경도 124–132)를 벗어나면 null.
  * 통과하면 소수 2자리로 반올림한 좌표를 돌려준다
  */
 export function parseWeatherQuery(
@@ -50,7 +61,9 @@ export function parseWeatherQuery(
   const la = Number(lat);
   const ln = Number(lng);
   if (!Number.isFinite(la) || !Number.isFinite(ln)) return null;
-  if (la < -90 || la > 90 || ln < -180 || ln > 180) return null;
+  const b = KOREA_BOUNDS;
+  if (la < b.minLat || la > b.maxLat || ln < b.minLng || ln > b.maxLng)
+    return null;
   return { lat: roundCoord(la), lng: roundCoord(ln) };
 }
 

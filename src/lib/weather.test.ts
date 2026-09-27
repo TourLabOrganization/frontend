@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import themePlaces from "../features/course/data/places.json";
+import plannerPlaces from "../features/planner/data/places.json";
 import {
   addDays,
   openMeteoUrl,
@@ -53,8 +55,9 @@ describe("parseWeatherQuery", () => {
     });
   });
 
-  it("경계값은 받는다", () => {
-    expect(parseWeatherQuery("-90", "180")).toEqual({ lat: -90, lng: 180 });
+  it("한국 범위(위도 33–39, 경도 124–132)의 경계값은 받는다", () => {
+    expect(parseWeatherQuery("33", "124")).toEqual({ lat: 33, lng: 124 });
+    expect(parseWeatherQuery("39", "132")).toEqual({ lat: 39, lng: 132 });
   });
 
   it("빠졌거나 숫자가 아니면 null", () => {
@@ -67,11 +70,29 @@ describe("parseWeatherQuery", () => {
     expect(parseWeatherQuery("Infinity", "129")).toBeNull();
   });
 
-  it("범위를 벗어나면 null", () => {
+  it("한국 범위를 벗어나면 null", () => {
     expect(parseWeatherQuery("90.01", "129")).toBeNull();
     expect(parseWeatherQuery("-91", "129")).toBeNull();
     expect(parseWeatherQuery("35", "180.5")).toBeNull();
     expect(parseWeatherQuery("35", "-181")).toBeNull();
+    // 세계 다른 곳(도쿄 · 뉴욕 · 시드니)
+    expect(parseWeatherQuery("35.68", "139.69")).toBeNull();
+    expect(parseWeatherQuery("40.71", "-74.01")).toBeNull();
+    expect(parseWeatherQuery("-33.87", "151.21")).toBeNull();
+    // 경계 바로 밖
+    expect(parseWeatherQuery("32.99", "126.5")).toBeNull();
+    expect(parseWeatherQuery("39.01", "127")).toBeNull();
+    expect(parseWeatherQuery("37", "123.99")).toBeNull();
+    expect(parseWeatherQuery("37", "132.01")).toBeNull();
+  });
+
+  it("플래너 · 테마 장소 좌표는 모두 한국 범위 안이다", () => {
+    const all = [...plannerPlaces, ...Object.values(themePlaces).flat()];
+    expect(all.length).toBeGreaterThan(0);
+    const outside = all.filter(
+      (p) => parseWeatherQuery(String(p.lat), String(p.lng)) === null,
+    );
+    expect(outside.map((p) => p.id)).toEqual([]);
   });
 });
 
