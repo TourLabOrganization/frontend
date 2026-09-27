@@ -36,13 +36,19 @@ type CategoryIconProps = {
   cat: string;
   /** 목록 20, 칩 안 16 (docs/ui.md 아이콘 규칙) */
   size?: 16 | 20;
+  /** 분류 색 바탕 위의 흰 아이콘(지도 핀). 모르는 분류는 아이콘 없이 바탕만 */
+  inverse?: boolean;
 };
 
 /** 분류 아이콘(분류 색). 모르는 분류는 회색 점 */
-export function CategoryIcon({ cat, size = 20 }: CategoryIconProps) {
+export function CategoryIcon({
+  cat,
+  size = 20,
+  inverse = false,
+}: CategoryIconProps) {
   const Icon = CATEGORY_ICON[cat];
   if (!Icon)
-    return (
+    return inverse ? null : (
       <span
         aria-hidden
         className="size-2.5 shrink-0 rounded-full bg-fg-subtle"
@@ -52,7 +58,7 @@ export function CategoryIcon({ cat, size = 20 }: CategoryIconProps) {
     <Icon
       size={size}
       aria-hidden
-      className={`shrink-0 ${CATEGORY_TEXT[cat]}`}
+      className={`shrink-0 ${inverse ? "text-white" : CATEGORY_TEXT[cat]}`}
     />
   );
 }
