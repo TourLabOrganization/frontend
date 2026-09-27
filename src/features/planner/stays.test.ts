@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 import { straightKm } from "../course/schedule";
 import { DEFAULT_SETTINGS, type PlannerSettings } from "./course-store";
 import { findPlace, PLANNER_PLACES, placesInScope } from "./data";
-import { addLocalDays, stayBookingLinks, tripStayDates } from "./data/booking";
+import {
+  addLocalDays,
+  rentBookingLinks,
+  stayBookingLinks,
+  tripStayDates,
+} from "./data/booking";
 import { addDays } from "./dates";
 import { buildPlannerSchedule, recommendCourse } from "./schedule";
 import {
@@ -260,5 +265,22 @@ describe("예약 링크 (날짜 · 검색어 · 언어)", () => {
     expect(sampleMapUrl(s, "zh")).toBe(
       `https://www.google.com/maps/search/${encodeURIComponent("hanok stay Hwangnam-dong Gyeongju")}?hl=zh-CN`,
     );
+  });
+});
+
+describe("rentBookingLinks (PoC rentSites)", () => {
+  it("롯데 · SK · 쏘카 · Rentalcars, Rentalcars는 preflang", () => {
+    expect(rentBookingLinks("ko").map((l) => l.label)).toEqual([
+      "lotte",
+      "skRent",
+      "socar",
+      "rentalcars",
+    ]);
+    const pref = (locale: string) => rentBookingLinks(locale)[3].href;
+    expect(pref("ko")).toBe("https://www.rentalcars.com/?preflang=en");
+    expect(pref("en")).toBe("https://www.rentalcars.com/?preflang=en");
+    expect(pref("zh")).toBe("https://www.rentalcars.com/?preflang=zh");
+    expect(pref("ja")).toBe("https://www.rentalcars.com/?preflang=ja");
+    expect(pref("es")).toBe("https://www.rentalcars.com/?preflang=es");
   });
 });

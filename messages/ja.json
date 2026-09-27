@@ -888,7 +888,9 @@
         "ship": "旅客船予約",
         "metro": "電車時刻表",
         "airbnb": "Airbnb",
-        "tripCom": "Trip.com"
+        "tripCom": "Trip.com",
+        "skRent": "SKレンタカー",
+        "rentalcars": "Rentalcars"
       },
       "stay": {
         "dec": "{name}の滞在時間を15分減らす",

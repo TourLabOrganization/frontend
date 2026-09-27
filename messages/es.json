@@ -888,7 +888,9 @@
         "ship": "Reservar ferry",
         "metro": "Horario de tren",
         "airbnb": "Airbnb",
-        "tripCom": "Trip.com"
+        "tripCom": "Trip.com",
+        "skRent": "SK Rent-a-car",
+        "rentalcars": "Rentalcars"
       },
       "stay": {
         "dec": "15 minutos menos en {name}",

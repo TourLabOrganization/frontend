@@ -888,7 +888,9 @@
         "ship": "Book ferry",
         "metro": "Metro timetable",
         "airbnb": "Airbnb",
-        "tripCom": "Trip.com"
+        "tripCom": "Trip.com",
+        "skRent": "SK Rent-a-car",
+        "rentalcars": "Rentalcars"
       },
       "stay": {
         "dec": "15 minutes less at {name}",

@@ -888,7 +888,9 @@
         "ship": "预订轮渡",
         "metro": "城铁时刻表",
         "airbnb": "Airbnb",
-        "tripCom": "Trip.com"
+        "tripCom": "Trip.com",
+        "skRent": "SK租车",
+        "rentalcars": "Rentalcars"
       },
       "stay": {
         "dec": "{name}停留时间减少15分钟",

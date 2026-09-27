@@ -11,7 +11,9 @@ export type BookingLink = {
     | "ship"
     | "metro"
     | "lotte"
+    | "skRent"
     | "socar"
+    | "rentalcars"
     | "yanolja"
     | "goodchoice"
     | "agoda"
@@ -46,13 +48,29 @@ export function wideBookingLink(mode: string): BookingLink | null {
   return null;
 }
 
-export const RENT_LINKS: readonly BookingLink[] = [
-  {
-    label: "lotte",
-    href: "https://www.lotterentacar.net/hp/kor/reserve/short/reserve.do",
-  },
-  { label: "socar", href: "https://www.socar.kr/" },
-];
+/**
+ * 렌트카 예매 4곳(PoC rentSites 순서): 롯데렌터카 · SK렌터카 · 쏘카 · Rentalcars.
+ * Rentalcars는 화면 언어를 preflang으로 넘긴다(PoC: 중 · 일 · 스페인어는 그 언어, 나머지는 en)
+ */
+export function rentBookingLinks(locale: string): BookingLink[] {
+  const preflang =
+    locale === "zh" || locale === "ja" || locale === "es" ? locale : "en";
+  return [
+    {
+      label: "lotte",
+      href: "https://www.lotterentacar.net/hp/kor/reserve/short/reserve.do",
+    },
+    {
+      label: "skRent",
+      href: "https://www.skcarrental.com/rent/short/main.do",
+    },
+    { label: "socar", href: "https://www.socar.kr/" },
+    {
+      label: "rentalcars",
+      href: `https://www.rentalcars.com/?preflang=${preflang}`,
+    },
+  ];
+}
 
 /** YYYY-MM-DD에 n일을 더한 로컬 날짜. toISOString은 쓰지 않는다(한국 시간 자정이 UTC 전날이라 하루 밀린다) */
 export function addLocalDays(iso: string, n: number): string {

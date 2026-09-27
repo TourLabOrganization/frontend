@@ -888,7 +888,9 @@
         "ship": "여객선 예매",
         "metro": "전철 노선·시간표",
         "airbnb": "Airbnb",
-        "tripCom": "Trip.com"
+        "tripCom": "Trip.com",
+        "skRent": "SK렌터카",
+        "rentalcars": "Rentalcars"
       },
       "stay": {
         "dec": "{name} 체류 시간 15분 줄이기",
