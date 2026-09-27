@@ -7,8 +7,10 @@ export type BannerVideo = {
   start: number;
   /** 영상이 뜨기 전과 움직임 줄이기 설정일 때 보이는 썸네일 */
   poster: string;
-  /** iframe 제목(영상 제목) */
+  /** 영상 원제목(참고용. 화면에는 쓰지 않는다) */
   title: string;
+  /** iframe 제목의 messages 키(Home.bannerVideo.*). 원제목은 한국어뿐이라 화면 언어 문구로 붙인다 */
+  titleKey: "resceneGeoje";
 };
 
 // 배너 슬라이드 배경 영상. 영상이 없는 슬라이드는 작품 스틸(features/recommend/works.ts)을 쓴다.
@@ -26,6 +28,7 @@ export const BANNER_VIDEO: Partial<Record<ThemeSlug, BannerVideo>> = {
       "https://commons.wikimedia.org/wiki/Special:FilePath/KOCIS_Korea_Haegeumgang_08_%2810011695603%29.jpg?width=960",
     title:
       "거제의 딸 원이가 인정한 거제 핫플 풀코스 여행 [원이 & 미나미] | 절친소 EP1",
+    titleKey: "resceneGeoje",
   },
 };
 

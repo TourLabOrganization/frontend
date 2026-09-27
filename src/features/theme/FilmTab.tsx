@@ -81,9 +81,12 @@ export function FilmTab({ cards, video }: FilmTabProps) {
         <h2 className="mt-1 text-title font-bold">
           {video ? t("titleVideo") : t("title")}
         </h2>
-        {/* 장면 제목은 원천이 한국어뿐이라 옮기지 않고, 외국어 화면에만 안내한다(작품명은 work-titles.ts로 옮긴다) */}
+        {/* 장면 제목은 원천이 한국어뿐이라 서버가 앱 번역(features/translations)으로 옮겨 넘긴다. 외국어 화면에만 그 안내를 둔다
+            (작품명은 work-titles.ts의 공식 제목) */}
         {locale !== "ko" && (
-          <p className="mt-2 text-caption text-fg-subtle">{t("koreanNote")}</p>
+          <p className="mt-2 text-caption text-fg-subtle">
+            {t("translatedNote")}
+          </p>
         )}
       </section>
 

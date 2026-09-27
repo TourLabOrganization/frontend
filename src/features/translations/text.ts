@@ -3,6 +3,7 @@ import { type CityTour, tourFare } from "../home/citytour";
 import plannerPlaces from "../planner/data/places.json";
 import type { InfoCenter } from "../planner/tic";
 import { workTitle } from "../theme/work-titles";
+import { hasHangul } from "../../lib/hangul";
 import { krUnits } from "../../lib/kr-units";
 import addressesEn from "./data/addresses.en.json";
 import categoriesEn from "./data/categories.en.json";
@@ -22,12 +23,8 @@ import sources from "./data/sources.json";
 export type DataLocale = "en" | "zh" | "ja" | "es";
 type Localized = Readonly<Record<DataLocale, string>>;
 
-const HANGUL = /[ㄱ-ㆎ가-힣]/;
-
-/** 한글이 들어 있는지 */
-export function hasHangul(text: string): boolean {
-  return HANGUL.test(text);
-}
+/** 한글이 들어 있는지(lib/hangul.ts) */
+export { hasHangul };
 
 const PHRASES = phrases as Readonly<Record<string, Localized>>;
 const SOURCES = sources as Readonly<Record<string, Localized>>;

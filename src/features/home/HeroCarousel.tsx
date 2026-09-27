@@ -283,11 +283,12 @@ function SlideBackground({
 
 // 배경 영상. 띄울 때마다 새로 그려져서, 플레이어가 준비될 때까지 투명했다가 썸네일 위로 나타난다
 function BackgroundVideo({ video }: { video: BannerVideo }) {
+  const t = useTranslations("Home.bannerVideo");
   const [shown, setShown] = useState(false);
   return (
     <iframe
       src={bannerVideoSrc(video)}
-      title={video.title}
+      title={t(video.titleKey)}
       allow="autoplay; encrypted-media; picture-in-picture"
       tabIndex={-1}
       onLoad={() =>

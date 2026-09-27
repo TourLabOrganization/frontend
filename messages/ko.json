@@ -28,7 +28,11 @@
       "insecure": "HTTPS 연결에서만 위치를 쓸 수 있어요",
       "denied": "위치 권한이 꺼져 있어요. 브라우저 설정에서 허용해 주세요",
       "unavailable": "위치를 가져오지 못했어요. 잠시 뒤 다시 눌러 주세요",
-      "myLocation": "내 위치"
+      "myLocation": "내 위치",
+      "zoomLabel": "확대 · 축소",
+      "zoomIn": "확대",
+      "zoomOut": "축소",
+      "kakaoLogo": "Kakao 맵으로 이동(새창열림)"
     }
   },
   "PlaceSheet": {
@@ -77,7 +81,8 @@
         "unknown": "날씨 정보 없음"
       }
     },
-    "badges": "배지"
+    "badges": "배지",
+    "appTranslated": "이름 · 설명 일부는 앱이 번역했어요."
   },
   "Splash": {
     "title": {
@@ -206,6 +211,9 @@
       "ship": "배",
       "metro": "전철",
       "own": "자가용"
+    },
+    "bannerVideo": {
+      "resceneGeoje": "RESCENE 거제 영상"
     }
   },
   "Nav": {
@@ -621,7 +629,7 @@
       "views": "조회수 {count, number}회",
       "searchClear": "검색어 지우기",
       "searchStatus": "검색 결과 {count}개",
-      "koreanNote": "장면 제목은 원문(한국어)으로 보여요."
+      "translatedNote": "장면 제목은 앱이 번역했어요."
     },
     "stamp": {
       "kicker": "체크인",

@@ -32,6 +32,13 @@ import { LegacyBookmarksMigration } from "@/features/theme/LegacyBookmarksMigrat
 import { workTitle } from "@/features/theme/work-titles";
 import { themeNameTable } from "@/features/theme/theme-name-table";
 import { loadNameTable } from "@/features/names/server";
+import type { ThemePlaceText } from "@/features/theme/ThemePlaceSheet";
+import {
+  hasHangul,
+  phraseText,
+  sceneText,
+  sourceText,
+} from "@/features/translations/text";
 
 // 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)를 ?tab=으로 고르고, 고른 탭 하나만 그린다.
 // 주소 규칙은 features/theme/tabs.ts 머리 주석에 있다. 코스 탭은 결과 화면이 넘긴 필터(?a=, Q10~Q14)와 ?plan=을 쓴다.
@@ -92,14 +99,17 @@ export default async function ThemePage({
             kind: "film",
             id: s.id,
             number: sceneNumber(s.label),
-            title: s.title,
+            title: sceneText(s.title, locale),
             query: s.query,
-            sceneTitle: first?.sceneTitle,
+            sceneTitle:
+              first?.sceneTitle && sceneText(first.sceneTitle, locale),
             work: first?.work && workTitle(first.work, locale),
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
             texts: [
               s.title,
+              sceneText(s.title, locale),
               first?.sceneTitle,
+              first?.sceneTitle && sceneText(first.sceneTitle, locale),
               ...ps.flatMap((p) => [p.ko, p.en, placeName(p, locale, names)]),
             ].filter((x): x is string => !!x),
           };
@@ -113,12 +123,13 @@ export default async function ThemePage({
             id: s.id,
             date: s.date,
             views: s.views,
-            sceneTitle,
+            sceneTitle: sceneTitle && sceneText(sceneTitle, locale),
             start: extra.find((e) => e?.ytAt)?.ytAt,
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
             texts: [
               s.date,
               sceneTitle,
+              sceneTitle && sceneText(sceneTitle, locale),
               ...ps.flatMap((p) => [p.ko, p.en, placeName(p, locale, names)]),
             ].filter((x): x is string => !!x),
           };
@@ -157,16 +168,36 @@ export default async function ThemePage({
         const film = new Map(getFilmScenes(slug).map((s) => [s.id, s]));
         const video = new Map(getVideoScenes(slug).map((s) => [s.id, s]));
         const sceneLinks: Record<string, SceneLink> = {};
+        // 외국어 화면의 옮긴 글: 운영시간 · 좌표 기준(한국어 주소를 뺀다) · 앱이 옮긴 장면 제목이 보이는지(시트 안내 한 줄)
+        const texts: Record<string, ThemePlaceText> = {};
+        if (locale !== "ko")
+          for (const p of places)
+            texts[p.id] = {
+              hours: phraseText(p.hrs, locale),
+              source: sourceText(extras[p.id]?.src, locale),
+            };
         for (const p of places) {
           const e = extras[p.id];
           if (!e?.scene) continue;
           const f = film.get(e.scene);
           const v = video.get(e.scene);
+          const title = f ? f.title : v ? e.sceneTitle : undefined;
           const row = f
-            ? [t("film.sceneLabel", { number: sceneNumber(f.label) }), f.title]
+            ? [
+                t("film.sceneLabel", { number: sceneNumber(f.label) }),
+                sceneText(f.title, locale),
+              ]
             : v
-              ? [v.date, e.sceneTitle]
+              ? [v.date, e.sceneTitle && sceneText(e.sceneTitle, locale)]
               : [];
+          // 작품명(work-titles.ts 공식 제목)은 앱 번역이 아니다
+          if (
+            locale !== "ko" &&
+            title &&
+            hasHangul(title) &&
+            workTitle(title, locale) === title
+          )
+            texts[p.id] = { ...texts[p.id], appTranslated: true };
           if (row.length === 0) continue;
           sceneLinks[p.id] = {
             text: [...row, f && e.work ? workTitle(e.work, locale) : undefined]
@@ -199,6 +230,7 @@ export default async function ThemePage({
             cityLabels={cityLabels}
             video={slug === VIDEO_THEME}
             initialPlace={place}
+            texts={texts}
           />
         );
       }

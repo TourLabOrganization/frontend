@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { krUnits } from "@/lib/kr-units";
+import type { InfoCenterText } from "@/features/translations/text";
 import {
   cityInfoCenters,
   type InfoCenter,
@@ -24,8 +25,9 @@ type InfoCentersProps = {
   cityLabel: string;
   /** 도시를 고르지 않아 기본 지역(서울)을 보이는 중이면 true(PoC _dflt) */
   isDefault: boolean;
-  /** 그 도시의 관광안내소(원천 순서). 정렬 · 거르기는 여기서 한다 */
-  centers: readonly InfoCenter[];
+  /** 그 도시의 관광안내소(원천 순서). 정렬 · 거르기는 여기서 한다.
+   * text: 외국어 화면에서 보일 글(이름 · 주소 · 운영 · 휴무, 서버가 번역 표로 만든다). 한국어 화면은 없다 */
+  centers: readonly (InfoCenter & { text?: InfoCenterText })[];
 };
 
 const LINK_CLASS =
@@ -33,7 +35,7 @@ const LINK_CLASS =
 
 // 플래너 여행 정보 탭 「{도시} 관광안내소」(PoC ticTitle · ticMeta · hot · ticFlt · ticList · ticMore · ticSrc).
 // 순서: 제목 · 개수 → 1330 관광통역안내 → (외국어 화면) 내 언어 안내 가능한 곳만 토글 → 목록 → 더 보기 → 출처.
-// 이름 · 주소는 원문(한국어), 운영 · 휴무는 외국어 화면에서 PoC KR_UNIT 치환(lib/kr-units.ts)만 한다
+// 한국어 화면은 원문. 외국어 화면은 서버가 옮긴 이름 · 주소 · 운영 · 휴무(text)를 보인다
 export function InfoCenters({
   city,
   cityLabel,
@@ -126,7 +128,9 @@ export function InfoCenters({
                 className="rounded-card p-4 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <h4 className="text-body-lg font-bold">{c.name}</h4>
+                  <h4 className="text-body-lg font-bold">
+                    {c.text?.name ?? c.name}
+                  </h4>
                   {langs.length > 0 && (
                     <span
                       className={`mt-0.5 shrink-0 rounded-lg px-2 py-0.5 text-caption font-semibold whitespace-nowrap ${
@@ -140,7 +144,9 @@ export function InfoCenters({
                   )}
                 </div>
                 {c.addr && (
-                  <p className="mt-1 text-label text-fg-muted">{c.addr}</p>
+                  <p className="mt-1 text-label text-fg-muted">
+                    {c.text?.addr ?? c.addr}
+                  </p>
                 )}
                 {(c.hours || c.closed) && (
                   <dl className="mt-2 flex flex-col gap-0.5 text-caption text-fg-subtle">
@@ -150,7 +156,7 @@ export function InfoCenters({
                           {t("tic.hours")}
                         </dt>
                         <dd className="tabular-nums">
-                          {krUnits(c.hours, locale)}
+                          {c.text?.hours ?? krUnits(c.hours, locale)}
                         </dd>
                       </div>
                     )}
@@ -159,7 +165,7 @@ export function InfoCenters({
                         <dt className="shrink-0 font-semibold">
                           {t("tic.closed")}
                         </dt>
-                        <dd>{krUnits(c.closed, locale)}</dd>
+                        <dd>{c.text?.closed ?? krUnits(c.closed, locale)}</dd>
                       </div>
                     )}
                   </dl>

@@ -25,10 +25,12 @@ export type PlaceSheetPlace = {
   photo?: { src: string; credit?: string } | null;
   /** 길찾기(카카오맵) 주소. 새 창으로 연다 */
   directionsHref: string;
+  /** 앱이 옮긴 이름 · 설명(원천에 그 언어가 없던 값)이 보이면 true. 상세 표 아래에 안내 한 줄을 둔다 */
+  appTranslated?: boolean;
 };
 
 export type PlaceFacts = {
-  /** 운영시간 원문 */
+  /** 운영시간(화면 언어로 옮긴 글. 한국어 화면은 원문) */
   hours?: string;
   /** 권장 체류 (「1시간 30분」처럼 화면 언어로 만든 글) */
   stay?: string;
@@ -38,7 +40,7 @@ export type PlaceFacts = {
   scene?: string;
   lat: number;
   lng: number;
-  /** 좌표 기준 (화면 언어에 맞춰 고른 원문) */
+  /** 좌표 기준 (화면 언어로 옮긴 글. 외국어 화면은 한국어 주소를 뺀다) */
   source?: string;
   /** 카카오맵 장소 페이지 */
   kakaoUrl?: string;
@@ -161,6 +163,11 @@ export function PlaceSheet({
           {children}
 
           <PlaceFactsTable facts={place.facts} />
+          {place.appTranslated && (
+            <p className="mt-2 text-micro text-fg-subtle">
+              {t("appTranslated")}
+            </p>
+          )}
 
           {/* PoC 순서: 상세 표 다음, 길찾기 앞. 장소가 바뀌면 그 좌표로 새로 부른다 */}
           <PlaceWeather lat={place.facts.lat} lng={place.facts.lng} />

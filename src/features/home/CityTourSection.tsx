@@ -18,8 +18,11 @@ import {
 import { CityTourCard, useCityTourAdd } from "./CityTourCard";
 import toursData from "./data/citytour.json";
 import { useNameTable } from "@/features/names/NamesProvider";
+import type { CityTourText } from "@/features/translations/text";
 
 const TOURS = toursData as CityTour[];
+/** 노선 → data/citytour.json 순서(서버가 넘기는 옮긴 글 texts와 같은 순서) */
+const TOUR_INDEX = new Map(TOURS.map((tour, i) => [tour, i]));
 const COUNTS = regionCounts(TOURS);
 /** 처음 고른 지역(목업과 같다) */
 const DEFAULT_REGION = "서울";
@@ -41,7 +44,12 @@ function compare(a: string, b: string) {
 // 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 유형으로 목업 규칙(citytour.ts recommendTours)을 돌린다.
 // 추천 기록이 있으면 내 유형 추천이, 없으면 지역별 검색(서울)이 먼저 열린다(목업과 같다).
 // 카드와 「코스빌더에 넣기」는 CityTourCard.tsx(플래너 여행 정보 탭과 함께 쓴다)
-export function CityTourSection() {
+export function CityTourSection({
+  texts,
+}: {
+  /** 외국어 화면에서 보일 글(data/citytour.json 순서, 홈 페이지가 서버에서 번역 표로 만든다). 한국어 화면은 없다 */
+  texts?: readonly (CityTourText | undefined)[];
+}) {
   const t = useTranslations("Home.citytour");
   const tc = useTranslations("Clusters");
   const locale = useLocale();
@@ -257,14 +265,18 @@ export function CityTourSection() {
 
         {list.length > 0 && (
           <ul ref={listRef} className="mt-3 flex flex-col gap-3">
-            {visible.map((tour, i) => (
-              <CityTourCard
-                key={`${tour.region}|${tour.name}|${i}`}
-                tour={tour}
-                rank={mode === "rec" ? i + 1 : undefined}
-                onAdd={() => onAdd(tour)}
-              />
-            ))}
+            {visible.map((tour, i) => {
+              const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
+              return (
+                <CityTourCard
+                  key={`${tour.region}|${tour.name}|${i}`}
+                  tour={tour}
+                  text={text}
+                  rank={mode === "rec" ? i + 1 : undefined}
+                  onAdd={() => onAdd(tour, text?.name)}
+                />
+              );
+            })}
           </ul>
         )}
 

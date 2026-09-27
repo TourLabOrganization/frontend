@@ -25,6 +25,8 @@ import type { ThemeSlug } from "@/features/recommend/themes";
 import { themePoster } from "@/features/recommend/works";
 import type { AppLocale } from "@/i18n/locales";
 import { loadNameTable } from "@/features/names/server";
+import toursData from "@/features/home/data/citytour.json";
+import { cityTourText } from "@/features/translations/text";
 
 // 지금 인기 코스 2장(목업 「UNESCO 경주 2박 3일」 · 「COAST 거제 1박 2일」). 인기 데이터가 아직 없어 목업 카드의 조건
 // (기간 · 이동수단)을 고정했고, 지역 · 촬영지 수 · 광역 수단은 buildScenario로 계산한다.
@@ -116,7 +118,13 @@ export default async function HomePage() {
 
         <HeroCarousel />
 
-        <CityTourSection />
+        <CityTourSection
+          texts={
+            locale === "ko"
+              ? undefined
+              : toursData.map((tour) => cityTourText(tour, locale))
+          }
+        />
 
         <section className="mt-8 px-5" aria-labelledby="home-themes">
           <h2 id="home-themes" className="text-headline font-bold">

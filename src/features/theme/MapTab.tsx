@@ -27,7 +27,7 @@ import {
   placeName,
   placePhoto,
 } from "./place-meta";
-import { ThemePlaceSheet } from "./ThemePlaceSheet";
+import { ThemePlaceSheet, type ThemePlaceText } from "./ThemePlaceSheet";
 import { type MapPin, ThemeMap } from "./ThemeMap";
 import type { PlaceExtra } from "./theme-data";
 import type { NameTable } from "@/features/names/names";
@@ -59,6 +59,8 @@ type MapTabProps = {
   video: boolean;
   /** ?place= 로 들어왔을 때 처음부터 열어 둘 장소 */
   initialPlace?: string;
+  /** 장소 id → 화면 언어로 옮긴 운영시간 · 좌표 기준(서버가 만든다). 한국어 화면은 비운다 */
+  texts?: Readonly<Record<string, ThemePlaceText>>;
 };
 
 type Filter = "all" | CategoryKey;
@@ -96,6 +98,7 @@ export function MapTab({
   cityLabels,
   video,
   initialPlace,
+  texts,
 }: MapTabProps) {
   const t = useTranslations("Theme.map");
   const tc = useTranslations("Course");
@@ -427,6 +430,7 @@ export function MapTab({
         place={selected}
         extra={selected ? extras[selected.id] : undefined}
         scene={selected ? sceneLinks[selected.id] : undefined}
+        text={selected ? texts?.[selected.id] : undefined}
         onClose={() => setSelectedId(null)}
       />
     </>
