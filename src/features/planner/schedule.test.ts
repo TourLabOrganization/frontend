@@ -10,6 +10,7 @@ import { placesInScope } from "./data";
 import { addDays, dateError, tripDays } from "./dates";
 import { PLANNER_ORIGINS } from "./regions";
 import { buildPlannerSchedule, recommendCourse } from "./schedule";
+import { isStay } from "./stays";
 
 const START = "2026-09-27";
 
@@ -90,8 +91,9 @@ describe("투어 플래너 일정 (buildPlannerSchedule)", () => {
   });
 
   it("창을 넘치는 장소는 dropped로 남는다", () => {
+    // 숙박 장소는 일정 계산에서 빠지므로(splitStays) 넣지 않는다. 서울 목록에 전국 목록의 호텔이 들어와서다
     const pool = placesInScope({ kind: "city", city: "서울" }).filter(
-      (p) => p.min > 0,
+      (p) => p.min > 0 && !isStay(p),
     );
     const plan = buildPlannerSchedule(pool, settingsFor(1, "transit"), "서울");
     expect(plan.dropped.length).toBeGreaterThan(0);

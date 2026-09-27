@@ -31,10 +31,13 @@
 //     nation이면 장소의 locKo, 없으면 CSV 「시군」 (목업 regionKeyOf와 같다)
 //   - 권역(macro) = MACRO_OF[도시]. 목업 지도의 권역 묶음(경북권 · 경남권 · 전라권 …)이 이 값으로 센다.
 //     권역의 도시 목록 = REG 도시 + MACRO_OF에만 있는 도시(목업 _mcExtra 순서). 권역 이름은 목업 지도가 그리는 MACRO_REGION 이름
-//   - 도시 고르기 도시(pickCity) = Tour Planner.dc.html cityRows 규칙. 전용 화면(nation 밖 DATA 키)을 먼저 그 화면 이름으로,
-//     그다음 nation 장소를 locKo로 묶은 도시를 더하되 이름이 같은 도시는 먼저 나온 것(전용 화면)만 남긴다.
-//     그래서 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 nation 장소는 pickCity가 없다(전국 보기에만 들어간다).
-//     nation 장소에 locKo가 없어도 pickCity가 없다(PoC byLoc이 locKo만 본다)
+//   - 도시 고르기 도시(pickCity) = 전용 화면(nation 밖 DATA 키) 장소는 그 화면 도시 이름, nation 장소는 장소의 locKo.
+//     PoC cityRows는 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 nation 장소를 버려서 그 447곳이
+//     전국 보기에만 들어갔는데(예: 경주 분황사 · 경주중앙시장), 앱은 「도시를 고르면 그 도시(locKo)의 장소가 전부 나와야 한다」
+//     (대표 결정 2026-09-28, 장소 3,000여 곳을 앱에 다 싣는다)에 따라 그 장소에도 pickCity = locKo를 준다.
+//     단 같은 도시 · 같은 이름(공백 · 가운뎃점 · 괄호 무시) · 좌표 200m 이내 장소가 전용 화면 묶음에 이미 있으면
+//     그 nation 장소는 pickCity를 주지 않는다(같은 장소가 도시 목록에 두 번 나오지 않게, 예: 서울숲). 뺀 장소를 출력한다.
+//     nation 장소에 locKo가 없으면 pickCity가 없다(PoC byLoc이 locKo만 본다)
 //   - 값이 없으면 비운다(지어내지 않는다). 원천끼리 다르면 개수를 출력한다
 //   - 영어 이름이 없는 장소(en = ko)는 앱이 만든 영어 이름 표(src/features/translations/data/place-names.en.json)로 채운다(scripts/place-names.mjs)
 //   - 관문(hubs) · 출발지(origins)의 모양은 REGION_HUB · ORIGINS 그대로(항공 · 배 좌표, 울릉 항로 등). 지역거점.csv · 출발지.csv에
@@ -243,12 +246,49 @@ const derivedMismatch = {
   off: 0,
 };
 
-// 전용 화면 도시 이름. cityRows는 이 도시들을 먼저 넣고, 같은 이름의 nation 도시는 버린다
+// 전용 화면 도시 이름(대조 출력용)
 const screenCities = new Set(
   Object.entries(DATA)
     .filter(([key]) => key !== "nation")
     .map(([, group]) => group.ko),
 );
+
+// 같은 장소 판정: 이름에서 공백 · 가운뎃점 · 괄호(와 그 안)를 빼고 비교, 좌표는 200m 이내
+const sameNameKey = (name) =>
+  (name ?? "")
+    .replace(/\([^)]*\)|（[^）]*）/g, "")
+    .replace(/[\s·ㆍ・•()（）]/g, "");
+const DUP_METERS = 200;
+function meters(aLat, aLng, bLat, bLng) {
+  const rad = Math.PI / 180;
+  const dLat = (bLat - aLat) * rad;
+  const dLng = (bLng - aLng) * rad;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(aLat * rad) * Math.cos(bLat * rad) * Math.sin(dLng / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(h));
+}
+// 전용 화면 묶음 장소를 「도시|이름」으로 모은다. nation 장소가 이 중 200m 이내 것과 겹치면 pickCity를 주지 않는다
+const screenPlaces = new Map();
+for (const [key, group] of Object.entries(DATA)) {
+  if (key === "nation") continue;
+  for (const p of group.places) {
+    const r = csvById.get(p.id);
+    const ko = r ? r["장소명"] : p.ko;
+    const lat = r ? Number(r["위도"]) : p.lat;
+    const lng = r ? Number(r["경도"]) : p.lng;
+    const k = `${group.ko}|${sameNameKey(ko)}`;
+    if (!screenPlaces.has(k)) screenPlaces.set(k, []);
+    screenPlaces.get(k).push({ id: p.id, ko, lat, lng });
+  }
+}
+/** nation 장소와 같은 장소가 전용 화면 묶음에 있으면 그 장소 */
+function screenDuplicate(city, ko, lat, lng) {
+  return (screenPlaces.get(`${city}|${sameNameKey(ko)}`) ?? []).find(
+    (s) => meters(lat, lng, s.lat, s.lng) <= DUP_METERS,
+  );
+}
+const cityDuplicates = [];
 
 const places = [];
 const details = {};
@@ -277,12 +317,19 @@ for (const [key, group] of Object.entries(DATA)) {
     if (!city) mismatch.noCity++;
     const macro = regKeyOfMacro[MACRO_OF[city]];
     if (!macro) mismatch.noMacro++;
-    const pickCity =
-      key !== "nation"
-        ? group.ko
-        : p.locKo && !screenCities.has(p.locKo)
-          ? p.locKo
-          : undefined;
+    let pickCity = key !== "nation" ? group.ko : p.locKo || undefined;
+    if (key === "nation" && pickCity && screenCities.has(pickCity)) {
+      const dup = screenDuplicate(
+        pickCity,
+        r["장소명"],
+        Number(r["위도"]),
+        Number(r["경도"]),
+      );
+      if (dup) {
+        cityDuplicates.push(`${r.id} ${r["장소명"]} = ${dup.id} ${dup.ko}`);
+        pickCity = undefined;
+      }
+    }
 
     const open = hmToMin(r["개장(파싱)"]);
     let close = hmToMin(r["폐장(파싱)"]);
@@ -519,6 +566,11 @@ console.log(
   Object.fromEntries([...screenCities].map((c) => [c, byPick[c]])),
   "전국에만 속한 장소",
   places.filter((p) => !p.pickCity).length,
+);
+console.log(
+  "전용 화면 묶음과 같은 장소라 도시에 넣지 않은 nation 장소",
+  cityDuplicates.length,
+  cityDuplicates,
 );
 console.log("배지", {
   un: places.filter((p) => p.un).length,

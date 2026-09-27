@@ -6,6 +6,7 @@ import {
   placesInScope,
 } from "./data";
 import { BADGE_KEYS, hasBadge } from "./badges";
+import { sortPlaces } from "./list-order";
 import {
   CITY_HUBS,
   CITY_INFO,
@@ -16,7 +17,9 @@ import {
 } from "./regions";
 
 // 숫자는 PoC(Tour-Navigator-App main f44eb97) Tour Planner.dc.html을 목업 규칙대로 계산한 값이다
-// (지도 권역 묶음 = MACRO_OF, 도시 고르기 = cityRows · cityGroups). 목업(2026-09-27 12:57 내보내기) 화면 숫자와 같다.
+// (지도 권역 묶음 = MACRO_OF, 도시 고르기 묶음 = cityGroups). 목업(2026-09-27 12:57 내보내기) 화면 숫자와 같다.
+// 도시별 장소 수만 목업과 다르다: 전용 화면 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 전국 목록 장소도 그 도시에 넣는다
+// (대표 결정 2026-09-28, scripts/build-planner.mjs). 목업 cityRows는 그 447곳을 전국 보기에만 넣었다.
 
 // 권역별 도시 수: REG 도시 + MACRO_OF에만 있는 도시(_mcExtra)
 const REGION_CITY_COUNT = {
@@ -35,7 +38,7 @@ describe("플래너 데이터", () => {
     expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(3118);
   });
 
-  it("도시 고르기 장소 수가 목업(PoC cityRows)과 같다", () => {
+  it("도시 고르기 장소 수: 전용 화면 도시는 전용 화면 장소 + 같은 도시의 전국 목록 장소", () => {
     expect(
       Object.fromEntries(
         ["서울", "부산", "제주", "영월", "경주", "거제"].map((c) => [
@@ -44,12 +47,12 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      서울: 87,
-      부산: 72,
-      제주: 86,
-      영월: 18,
-      경주: 40,
-      거제: 22,
+      서울: 263,
+      부산: 186,
+      제주: 173,
+      영월: 31,
+      경주: 73,
+      거제: 45,
     });
   });
 
@@ -57,8 +60,8 @@ describe("플래너 데이터", () => {
     const sum = [...PLACE_COUNT_BY_CITY.values()].reduce((a, b) => a + b, 0);
     const nationOnly = PLANNER_PLACES.filter((p) => !p.pickCity).length;
     expect(PLACE_COUNT_BY_CITY.size).toBe(124);
-    expect(sum).toBe(2671);
-    expect(nationOnly).toBe(447);
+    expect(sum).toBe(3117);
+    expect(nationOnly).toBe(1);
     expect(sum + nationOnly).toBe(3118);
     for (const [city, n] of PLACE_COUNT_BY_CITY) {
       const list = placesInScope({ kind: "city", city });
@@ -95,7 +98,7 @@ describe("플래너 데이터", () => {
     });
   });
 
-  it("도시 고르기 묶음별 도시 수 · 장소 수가 목업과 같다", () => {
+  it("도시 고르기 묶음별 도시 수는 목업과 같고, 장소 수는 권역 장소 수와 같다(서울숲 중복 1곳 제외)", () => {
     expect(
       Object.fromEntries(
         CITY_GROUPS.map((g) => [
@@ -107,13 +110,13 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      capital: [21, 513],
-      gangwon: [18, 359],
+      capital: [21, 689],
+      gangwon: [18, 372],
       chungcheong: [19, 441],
-      daegyeong: [16, 336],
-      dongnam: [19, 504],
+      daegyeong: [16, 369],
+      dongnam: [19, 641],
       honam: [30, 432],
-      jeju: [1, 86],
+      jeju: [1, 173],
     });
   });
 
@@ -218,5 +221,65 @@ describe("도시별 장소 수(regions.json placeCounts)", () => {
       Object.fromEntries(m),
     );
     expect(REGION_PLACE_COUNTS).toBe(PLACE_COUNT_BY_CITY);
+  });
+});
+
+describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목록 장소도 그 도시에", () => {
+  // 전국 목록 장소 중 같은 도시 · 같은 이름(공백 · 가운뎃점 · 괄호 무시) · 200m 이내 장소가 전용 화면에 있어 도시에 넣지 않은 것
+  const DUPLICATES = ["nax701"]; // 서울숲(= 서울 화면 kdx26)
+  const SCREEN_CITIES = ["서울", "부산", "제주", "영월", "경주", "거제"];
+
+  it("도시 장소 수 = 그 도시(locKo) 장소 수 − 중복으로 뺀 장소 수", () => {
+    for (const city of SCREEN_CITIES) {
+      const inCity = PLANNER_PLACES.filter((p) => p.locKo === city);
+      const dup = inCity.filter((p) => DUPLICATES.includes(p.id)).length;
+      expect(PLACE_COUNT_BY_CITY.get(city), city).toBe(inCity.length - dup);
+    }
+    expect(PLACE_COUNT_BY_CITY.get("경주")).toBe(
+      PLANNER_PLACES.filter((p) => p.locKo === "경주").length,
+    );
+  });
+
+  it("pickCity가 있으면 locKo와 같고, 없는 장소는 중복으로 뺀 장소뿐", () => {
+    for (const p of PLANNER_PLACES)
+      if (p.pickCity) expect(p.pickCity, p.id).toBe(p.locKo);
+    expect(PLANNER_PLACES.filter((p) => !p.pickCity).map((p) => p.id)).toEqual(
+      DUPLICATES,
+    );
+  });
+
+  it("서울숲은 서울 목록에 한 번만 나오고, 전국 보기에는 두 곳 다 남는다", () => {
+    const seoul = placesInScope({ kind: "city", city: "서울" });
+    expect(seoul.filter((p) => p.ko === "서울숲").map((p) => p.id)).toEqual([
+      "kdx26",
+    ]);
+    expect(
+      placesInScope({ kind: "nation", region: null }).filter(
+        (p) => p.ko === "서울숲",
+      ),
+    ).toHaveLength(2);
+  });
+
+  it("전에는 전국 보기에만 있던 경주 장소(분황사 · 경주중앙시장)가 경주 목록에 있다", () => {
+    const names = placesInScope({ kind: "city", city: "경주" }).map(
+      (p) => p.ko,
+    );
+    expect(names).toEqual(expect.arrayContaining(["분황사", "경주중앙시장"]));
+  });
+
+  it("경주 목록은 데이터랩 인기 순서대로(경주중앙시장 19위가 분황사 50위보다 앞)", () => {
+    const list = sortPlaces(placesInScope({ kind: "city", city: "경주" }), {
+      nation: false,
+      name: (p) => p.ko,
+      city: (p) => p.locKo,
+    });
+    const ranked = list.filter((p) => p.popRank !== undefined);
+    expect(list.slice(0, ranked.length)).toEqual(ranked);
+    const ranks = ranked.map((p) => p.popRank!);
+    expect(ranks).toEqual([...ranks].sort((x, y) => x - y));
+    const at = (ko: string) => list.findIndex((p) => p.ko === ko);
+    expect(list[at("경주중앙시장")].popRank).toBe(19);
+    expect(list[at("분황사")].popRank).toBe(50);
+    expect(at("경주중앙시장")).toBeLessThan(at("분황사"));
   });
 });
