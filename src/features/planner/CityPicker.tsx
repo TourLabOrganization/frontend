@@ -5,9 +5,16 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 import { segmentClassName } from "@/components/ui/SegmentedControl";
-import { CITY_GROUPS, PLACE_COUNT_BY_CITY } from "./data";
 import { type PlannerTab, plannerHref } from "./query";
-import { CITY_INFO, cityName, MAJOR_CITIES, regionName } from "./regions";
+import {
+  CITY_GROUPS,
+  CITY_INFO,
+  cityName,
+  MAJOR_CITIES,
+  PLACE_COUNT_BY_CITY,
+  regionName,
+} from "./regions";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 type CityPickerProps = {
   /** 지금 보고 있는 도시. 지역 탭의 전국 · 서울 · 부산 · 제주가 아니면 버튼에 이름을 적는다 */
@@ -21,10 +28,11 @@ type CityPickerProps = {
 // 지역 탭의 「도시 ▾」 칸과 도시 고르기 패널(목업 1번 캡처).
 // 패널은 아래에서 올라오는 모달 dialog다. showModal()이 초점을 가두고, Esc · 바깥 누르기로 닫힌다.
 // 도시 검색(한국어 · 영어 이름) → 권역별 묶음(권역 이름 · 도시 수) → 도시 칩(이름 · 장소 수). 칩은 ?city= 링크다.
-// 묶음 · 순서 · 장소 수는 data.ts CITY_GROUPS(PoC cityGroups). 주요 6도시 칩은 테두리로 강조한다
+// 묶음 · 순서 · 장소 수는 regions.ts CITY_GROUPS(PoC cityGroups, 장소 수는 regions.json placeCounts). 주요 6도시 칩은 테두리로 강조한다
 export function CityPicker({ city, selected, tab }: CityPickerProps) {
   const t = useTranslations("Planner");
   const locale = useLocale();
+  const names = useNameTable();
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const searchId = useId();
@@ -37,7 +45,8 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
       (c) =>
         !q ||
         c.includes(q) ||
-        (CITY_INFO[c]?.en ?? "").toLowerCase().includes(q),
+        (CITY_INFO[c]?.en ?? "").toLowerCase().includes(q) ||
+        cityName(c, locale, names).toLowerCase().includes(q),
     ),
   })).filter((g) => g.cities.length > 0);
 
@@ -50,14 +59,16 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
         aria-haspopup="dialog"
         aria-label={
           selected && city
-            ? t("cityButtonCurrentLabel", { city: cityName(city, locale) })
+            ? t("cityButtonCurrentLabel", {
+                city: cityName(city, locale, names),
+              })
             : t("cityButtonLabel")
         }
         onClick={() => ref.current?.showModal()}
         className={`${segmentClassName(selected)} flex-auto gap-0.5`}
       >
         <span className="truncate">
-          {selected && city ? cityName(city, locale) : t("cityButton")}
+          {selected && city ? cityName(city, locale, names) : t("cityButton")}
         </span>
         <ChevronDown size={16} className="shrink-0" aria-hidden />
       </button>
@@ -130,7 +141,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                     <div className="flex items-baseline justify-between">
                       <h3 id={headingId} className="text-body-lg font-bold">
                         {region
-                          ? regionName(region, locale)
+                          ? regionName(region, locale, names)
                           : t("picker.otherRegions")}
                       </h3>
                       <span className="text-caption text-fg-subtle tabular-nums">
@@ -156,7 +167,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                                   : "bg-fill font-medium text-fg active:bg-line"
                               } ${major ? "ring-2 ring-primary-bright ring-inset" : ""}`}
                             >
-                              {cityName(c, locale)}
+                              {cityName(c, locale, names)}
                               <span
                                 aria-hidden
                                 className={`text-caption tabular-nums ${current ? "text-primary-strong" : "text-fg-muted"}`}

@@ -1,0 +1,48 @@
+{
+  "kings-warden": [
+    {
+      "ko": "영월",
+      "en": "Yeongwol",
+      "lat": 37.195,
+      "lng": 128.462
+    }
+  ],
+  "kpop-demon-hunters": [
+    {
+      "ko": "서울",
+      "en": "Seoul",
+      "lat": 37.556,
+      "lng": 127.01
+    }
+  ],
+  "jeju-k-drama": [
+    {
+      "ko": "제주",
+      "en": "Jeju",
+      "lat": 33.399,
+      "lng": 126.545
+    }
+  ],
+  "busan-film-trip": [
+    {
+      "ko": "부산",
+      "en": "Busan",
+      "lat": 35.135,
+      "lng": 129.07
+    }
+  ],
+  "rescene-route": [
+    {
+      "ko": "거제",
+      "en": "Geoje",
+      "lat": 34.855,
+      "lng": 128.645
+    },
+    {
+      "ko": "경주",
+      "en": "Gyeongju",
+      "lat": 35.858,
+      "lng": 129.235
+    }
+  ]
+}

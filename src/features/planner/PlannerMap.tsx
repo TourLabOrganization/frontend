@@ -196,7 +196,8 @@ function BubbleLayer({
             off ? "invisible" : ""
           }`}
         >
-          <span className="text-micro leading-tight font-semibold">
+          {/* 중 · 일 화면은 body에 break-keep이 없어 「首都 / 圈」처럼 한 글자씩 끊긴다. 이름은 단어 단위로만 줄바꿈한다 */}
+          <span className="text-micro leading-tight font-semibold break-keep">
             {b.label}
           </span>
           <span className="text-caption leading-tight font-bold tabular-nums">

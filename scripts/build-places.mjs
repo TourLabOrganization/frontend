@@ -4,35 +4,45 @@
 // 경주 2박3일 예시 재현 테스트용 목록(src/features/course/fixtures/gyeongju-nation.json)도 함께 만든다.
 //
 // 사용법:
-//   node scripts/build-places.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <RESCENE Route.dc.html>
+//   node scripts/build-places.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <RESCENE Route.dc.html> [data-server 폴더]
+//   (data-server 폴더를 빼면 DATA_SERVER_DIR 환경변수, 그것도 없으면 ../data-server. places.json이 없으면 멈춘다)
 //   npm run format   # JSON을 리포 포맷으로 맞춘다
 //
-// 원천 (Tour-Navigator-App, 원천 파일은 이 리포에 넣지 않는다):
-//   - 체류시간 산정/체류시간_장소별.csv   장소 1,433곳 (UTF-8 BOM, 따옴표 칸 있음)
+// 원천 (Tour-Navigator-App main f44eb97 · 2026-09-27, 원천 파일은 이 리포에 넣지 않는다):
+//   - 체류시간 산정/체류시간_장소별.csv   장소 3,118곳 (UTF-8 BOM, 따옴표 칸 있음. 목록 밖은 「목록외」, 무장애는 「열린관광지」 열)
 //   - Tour Planner.dc.html                 REGION_HUB · ORIGINS · METRO_NET 상수
 //   - RESCENE Route.dc.html                DATA (RESCENE 장소 id)
+//   - data-server data/derived/places.json (develop ac9eb34 · 2026-09-28) 테마 장소의 cat ← catFinal, en ← nameEn(다를 때),
+//                                          vz ← zone, popRank. 규칙은 scripts/data-server.mjs. 만든 커밋을 끝에 출력한다
+//     (테마 코스 3안의 「한적」은 분류가 heal인 장소를 우대하므로 분류가 바뀌면 코스가 바뀔 수 있다)
 //
 // 테마 ↔ CSV `화면` 열:
 //   kings-warden → yeongwol, kpop-demon-hunters → seoul, jeju-k-drama → jeju,
 //   busan-film-trip → busan, rescene-route → nation 중 RESCENE 장소
+//   (목록 · 목록 밖 = 5 · 13, 11 · 76, 11 · 75, 12 · 60, 36 · 56. 테마 화면 파일 DATA의 off와 같다)
 //
 // RESCENE 장소 기준:
 //   `RESCENE Route.dc.html`의 `const DATA = {…}` 블록(gyeongju · geoje · nation 목록)에 있는 id 92개.
-//   CSV nation 화면에 92개가 모두 있고, 테마 추천 알고리즘의
-//   data/derived/classified.json rows 중 themes가 "RESCENE Route"인 92곳과 장소명이 1:1로 같다.
-//   (CSV nation의 경주 46곳 중 nax771 · nax772 · nax773 · nax824 · nax825 · nax826 6곳은
-//    RESCENE 장소가 아니라 전국 확장 목록이라 places.json에는 넣지 않는다.
-//    경주 예시 재현에는 이 6곳도 필요해서 fixtures/gyeongju-nation.json에 따로 둔다.)
+//   CSV nation 화면에 92개가 모두 있어야 한다(없으면 멈춘다).
+// 경주 2박3일 예시 재현(course/schedule.test.ts)은 PoC export_stay_csv.js처럼 nation 전체에서 경주 장소를 고르므로,
+// CSV nation 화면에서 시군이 경주인 장소(RESCENE 밖 장소 포함)를 fixtures/gyeongju-nation.json에 따로 둔다.
+// 이 목록은 PoC 출력 재현용이라 data-server 값을 합치지 않는다(PoC가 쓴 CSV 값 그대로).
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
+import {
+  loadDataServer,
+  mergeDataServer,
+  resolveDataServerDir,
+} from "./data-server.mjs";
 
-const [csvPath, plannerPath, rescenePath] = process.argv.slice(2);
+const [csvPath, plannerPath, rescenePath, dataServerArg] =
+  process.argv.slice(2);
 if (!csvPath || !plannerPath || !rescenePath) {
   console.error(
-    "사용법: node scripts/build-places.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <RESCENE Route.dc.html>",
+    "사용법: node scripts/build-places.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <RESCENE Route.dc.html> [data-server 폴더]",
   );
   process.exit(1);
 }
@@ -40,6 +50,7 @@ if (!csvPath || !plannerPath || !rescenePath) {
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = resolve(ROOT, "src/features/course/data");
 const FIXTURE_DIR = resolve(ROOT, "src/features/course/fixtures");
+const dataServer = loadDataServer(resolveDataServerDir(ROOT, dataServerArg));
 
 // ── CSV ──────────────────────────────────────────────────────────────
 /** RFC 4180 CSV. 따옴표 칸 안의 쉼표 · 줄바꿈 · "" 를 처리한다 */
@@ -114,10 +125,10 @@ function toPlace(r) {
     open: r["운영시간적용"] === "Y" ? open : null,
     close: r["운영시간적용"] === "Y" ? close : null,
     yt: yn(r["영상장소"]),
-    off: yn(r["확장장소"]),
+    off: yn(r["목록외"]),
     k100: yn(r["한국관광100선"]),
     un: yn(r["유네스코"]),
-    bf: yn(r["무장애"]),
+    bf: yn(r["열린관광지"]),
     auto: yn(r["자동코스후보"]),
   };
 }
@@ -149,13 +160,23 @@ const THEME_SCREENS = [
 ];
 
 const themes = {};
+const dsChanged = {};
 for (const [slug, screen] of THEME_SCREENS) {
   const rows = records.filter(
     (r) =>
       r["화면"] === screen &&
       (slug !== "rescene-route" || resceneIds.has(r.id)),
   );
-  themes[slug] = rows.map(toPlace);
+  dsChanged[slug] = { cat: 0, en: 0 };
+  themes[slug] = rows.map((r) => {
+    const { place, changed } = mergeDataServer(
+      toPlace(r),
+      dataServer.byId.get(r.id),
+    );
+    if (changed.cat) dsChanged[slug].cat++;
+    if (changed.en) dsChanged[slug].en++;
+    return place;
+  });
 }
 const resceneCount = themes["rescene-route"].length;
 if (resceneCount !== resceneIds.size)
@@ -218,3 +239,4 @@ write(
 for (const [slug, list] of Object.entries(themes))
   console.log(slug, list.length);
 console.log("regionHubs", Object.keys(regionHubs).join(" "));
+console.log("data-server", dataServer.commit, "테마별 바뀐 값", dsChanged);

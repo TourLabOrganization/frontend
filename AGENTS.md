@@ -64,7 +64,7 @@ Next.js 16 (App Router) / React 19 / TypeScript / Tailwind CSS 4. 모바일부�
 ### 4. 화면 문구는 `messages/*.json`에 둔다
 
 - 컴포넌트에 한국어·영어 문장을 직접 쓰지 않는다. `useTranslations`·`getTranslations`로 꺼낸다
-- 키를 추가하면 `ko.json`과 `en.json`을 함께 고친다
+- 키를 추가하면 5개 언어 파일(`ko` · `en` · `zh` · `ja` · `es`)을 함께 고친다. 빠지면 `src/i18n/messages.test.ts`가 실패한다
 
 ### 5. 모바일부터 만든다
 

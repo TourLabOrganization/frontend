@@ -1,15 +1,18 @@
 import type { Place } from "@/features/course/places";
 import placesData from "./data/places.json";
-import { REGION_KEYS, REGIONS, type Region, type RegionKey } from "./regions";
+import { REGION_KEYS, type RegionKey } from "./regions";
 
 // 투어 플래너의 장소와 장소로 계산하는 값(도시별 장소 수 · 도시 묶음 · 권역 가운데). 권역 · 도시 이름 · 관문 · 출발지는 regions.ts.
-// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그)와
-//                   Tour Planner.dc.html DATA(설명 · 사진)를 id로 합친 장소 1,171곳
+// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그 · 배지)와
+//                   Tour Planner.dc.html DATA · 파생 데이터/장소.csv를 id로 합친 장소 3,118곳의 가벼운 필드.
+//                   분류(cat) · 영어 이름 · 지정구역(vz) · 데이터랩 인기 순위(popRank)는 data-server places.json 값이다(scripts/data-server.mjs)
+// 설명 · 사진 · 중일 이름 · 좌표 근거 · 카카오 장소 URL 같은 무거운 필드는 data/place-details.json에 따로 두고,
+// 장소 시트를 열 때 Route Handler(/api/planner/places/[id])로 받는다(use-place-detail.ts). 이 파일은 그 JSON을 import하지 않는다.
 // scripts/build-planner.mjs로 만든다. 손으로 고치지 않는다.
 // 장소 필드는 course/places.ts의 Place와 같아서 일정 모듈(course/schedule.ts)이 그대로 쓴다.
 
 export type PlannerPlace = Place & {
-  /** 권역 key */
+  /** 권역 key (PoC MACRO_OF) */
   macro: RegionKey;
   /**
    * 도시 고르기에서 속한 도시(Tour Planner.dc.html cityRows 규칙). 전국에만 속한 장소는 없다.
@@ -18,65 +21,21 @@ export type PlannerPlace = Place & {
    * 일정 계산 · 코스의 도시는 실제 도시(locKo)를 쓴다
    */
   pickCity?: string;
-  desc?: { ko?: string; en?: string };
-  /** 사진 주소 (Wikimedia, 폭 960) */
-  img?: string;
-  imgCredit?: string;
+  /** 관광특구 · 관광단지 · 지정관광지 문구 (예: 「경주시 관광단지 (2008 지정)」, data-server zone). 관광특구 · 관광단지 배지가 쓴다 */
+  vz?: string;
+  /** 한국관광 데이터랩 인기관광지 순위(1~100, data-server popRank). 6개 지역 173곳만 있다 */
+  popRank?: number;
 };
 
 export const PLANNER_PLACES = placesData as readonly PlannerPlace[];
-/** 권역 대표 도시. 도시 고르기의 권역 묶음에서 맨 앞에 둔다 (cityGroups PIN) */
-const REGION_PIN: Readonly<Record<RegionKey, string>> = {
-  capital: "서울",
-  gangwon: "강릉",
-  chungcheong: "대전",
-  daegyeong: "대구",
-  dongnam: "부산",
-  honam: "전주",
-  jeju: "제주",
-};
-
-/** 도시 고르기의 도시별 장소 수 (pickCity 기준. 전국에만 속한 장소는 세지 않는다) */
-export const PLACE_COUNT_BY_CITY: ReadonlyMap<string, number> = (() => {
-  const m = new Map<string, number>();
-  for (const p of PLANNER_PLACES)
-    if (p.pickCity) m.set(p.pickCity, (m.get(p.pickCity) ?? 0) + 1);
-  return m;
-})();
-
-export type CityGroup = {
-  /** 권역 key. 권역에 없는 도시 묶음은 "etc" */
-  key: RegionKey | "etc";
-  region: Region | null;
-  /** 장소가 있는 도시. 권역 대표 도시 먼저, 나머지는 장소 수 많은 순(같으면 REG 순서) */
-  cities: readonly string[];
-};
-
-/** 도시 고르기 묶음 (Tour Planner.dc.html cityGroups). 장소가 없는 권역은 빠진다 */
-export const CITY_GROUPS: readonly CityGroup[] = (() => {
-  const placed = new Set<string>();
-  const out: CityGroup[] = [];
-  for (const r of REGIONS) {
-    const cities = r.cities.filter(
-      (c) => PLACE_COUNT_BY_CITY.has(c) && !placed.has(c),
-    );
-    cities.forEach((c) => placed.add(c));
-    const pin = REGION_PIN[r.key];
-    const count = (c: string) => PLACE_COUNT_BY_CITY.get(c) ?? 0;
-    const sorted = [...cities].sort((a, b) =>
-      a === pin ? -1 : b === pin ? 1 : count(b) - count(a),
-    );
-    if (sorted.length > 0) out.push({ key: r.key, region: r, cities: sorted });
-  }
-  const rest = [...PLACE_COUNT_BY_CITY.keys()].filter((c) => !placed.has(c));
-  if (rest.length > 0) out.push({ key: "etc", region: null, cities: rest });
-  return out;
-})();
-
-/** 장소가 하나 이상 있는 도시인지 (?city= 검사) */
-export function isPlannerCity(value: unknown): value is string {
-  return typeof value === "string" && PLACE_COUNT_BY_CITY.has(value);
-}
+// 도시별 장소 수 · 도시 묶음 · 도시 검사는 regions.ts로 옮겼다(regions.json의 placeCounts로 센다).
+// 도시 고르기 · 여행 정보 탭이 이 파일(places.json)을 import하지 않게 하려고서다. 예전 import 경로를 위해 다시 내보낸다
+export {
+  CITY_GROUPS,
+  type CityGroup,
+  isPlannerCity,
+  PLACE_COUNT_BY_CITY,
+} from "./regions";
 
 /** 권역 묶음 표시 자리: 권역 장소 좌표 평균 */
 export const REGION_CENTER: Readonly<
@@ -109,4 +68,11 @@ export function placesInScope(scope: Scope): readonly PlannerPlace[] {
 
 export function findPlace(id: string): PlannerPlace | undefined {
   return PLANNER_PLACES.find((p) => p.id === id);
+}
+
+const PLACE_IDS: ReadonlySet<string> = new Set(PLANNER_PLACES.map((p) => p.id));
+
+/** 장소 데이터에 있는 id인지. 담은 코스에서 데이터에서 빠진 장소를 거를 때 쓴다(course-store usePlannerCourse) */
+export function isPlannerPlace(id: string): boolean {
+  return PLACE_IDS.has(id);
 }

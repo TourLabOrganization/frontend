@@ -112,20 +112,115 @@ const datalabInit = () => ({
   next: { revalidate: DATALAB_REVALIDATE_SECONDS },
 });
 
+const isObject = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
+const isNum = (v: unknown): v is number =>
+  typeof v === "number" && Number.isFinite(v);
+const strings = (v: unknown): string[] =>
+  Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+const text = (v: unknown): string =>
+  typeof v === "string" ? v : isNum(v) ? String(v) : "";
+const numOrNull = (v: unknown): number | null => (isNum(v) ? v : null);
+
+// 응답 모양 검사. 화면이 쓰는 필드(배열 · 객체)가 틀리면 null이고, 부르는 함수가 실패로 던진다.
+// 없어도 되는 필드는 빈 값으로 채운다. 백엔드 응답이 조금 달라도 페이지 전체가 500이 되지 않게 한다
+
+/** TFI 응답 검사. themes(문자열 배열) · tfi(지역 → 테마 → 숫자 객체)가 틀리면 null */
+export function parseTfi(data: unknown): TfiResponse | null {
+  if (!isObject(data) || !Array.isArray(data.themes) || !isObject(data.tfi))
+    return null;
+  const tfi: Record<string, Record<string, number>> = {};
+  for (const [region, row] of Object.entries(data.tfi)) {
+    if (!isObject(row)) return null;
+    tfi[region] = Object.fromEntries(
+      Object.entries(row).filter((e): e is [string, number] => isNum(e[1])),
+    );
+  }
+  const labels: Record<string, string> = {};
+  if (isObject(data.themeLabels)) {
+    for (const [k, v] of Object.entries(data.themeLabels))
+      if (typeof v === "string") labels[k] = v;
+  }
+  return {
+    themes: strings(data.themes),
+    themeLabels: labels,
+    regions: strings(data.regions),
+    tfi,
+  };
+}
+
+/** 체류시간 응답 검사. regions(배열, 행마다 region 문자열 · stayMinutes · index 숫자)가 틀리면 null */
+export function parseStayTime(data: unknown): StayTimeResponse | null {
+  if (!isObject(data) || !Array.isArray(data.regions)) return null;
+  const regions: StayTimeRegionResponse[] = [];
+  for (const r of data.regions as unknown[]) {
+    if (
+      !isObject(r) ||
+      typeof r.region !== "string" ||
+      !isNum(r.stayMinutes) ||
+      !isNum(r.index)
+    )
+      return null;
+    regions.push({
+      region: r.region,
+      tier: text(r.tier),
+      subUnits: isNum(r.subUnits) ? r.subUnits : 0,
+      subUnitNames: strings(r.subUnitNames),
+      stayMinutes: r.stayMinutes,
+      lodgingDays: isNum(r.lodgingDays) ? r.lodgingDays : 0,
+      index: r.index,
+      appPlaces: isNum(r.appPlaces) ? r.appPlaces : 0,
+      appStayMinSum: numOrNull(r.appStayMinSum),
+      appStayMinMean: numOrNull(r.appStayMinMean),
+      visitsToSeeAll: numOrNull(r.visitsToSeeAll),
+    });
+  }
+  return {
+    latestYear: text(data.latestYear),
+    source: text(data.source),
+    regions,
+  };
+}
+
+/** 코스 목록 응답 검사. courses(배열, 코스마다 courseId 문자열)가 틀리면 null. 코스의 regions가 없으면 빈 배열 */
+export function parseCourseList(data: unknown): CourseListResponse | null {
+  if (!isObject(data) || !Array.isArray(data.courses)) return null;
+  const courses: CourseResponse[] = [];
+  for (const c of data.courses as unknown[]) {
+    if (!isObject(c) || typeof c.courseId !== "string") return null;
+    courses.push({
+      courseId: c.courseId,
+      title: text(c.title),
+      file: text(c.file),
+      regions: strings(c.regions),
+      count: isNum(c.count) ? c.count : 0,
+      stayMinSum: isNum(c.stayMinSum) ? c.stayMinSum : 0,
+    });
+  }
+  return { count: isNum(data.count) ? data.count : courses.length, courses };
+}
+
+/** 받은 값을 검사하고, 모양이 틀리면 던진다(부르는 쪽의 .catch · try가 실패 문구로 바꾼다) */
+async function checked<T>(
+  path: string,
+  parse: (data: unknown) => T | null,
+): Promise<T> {
+  const parsed = parse(await api<unknown>(path, datalabInit()));
+  if (parsed === null) throw new Error(`Unexpected response: ${path}`);
+  return parsed;
+}
+
 // /api/v1/tfi?region=… 는 백엔드에서 502가 난다(2026-09-27). 지역 없이 전체를 받아 쓰는 쪽에서 고른다
 export function getTfi(): Promise<TfiResponse> {
-  return api<TfiResponse>("/api/v1/tfi", datalabInit());
+  return checked("/api/v1/tfi", parseTfi);
 }
 
 export function getStayTime(): Promise<StayTimeResponse> {
-  return api<StayTimeResponse>("/api/v1/staytime", datalabInit());
+  return checked("/api/v1/staytime", parseStayTime);
 }
 
 export function getCourses(): Promise<CourseListResponse> {
-  return api<CourseListResponse>(
-    "/api/v1/courses?withPlaces=false",
-    datalabInit(),
-  );
+  return checked("/api/v1/courses?withPlaces=false", parseCourseList);
 }
 
 /** 한 지역의 TFI 테마 강도. 테마 순서는 TfiResponse.themes. 지역이 없으면 null */
@@ -153,4 +248,28 @@ export function datalabRegionsOfCourse(
   return course.regions.filter(
     (r) => tfi.tfi[r] && stay.regions.some((s) => s.region === r),
   );
+}
+
+/** 여행 정보 탭 데이터랩 블록의 지역 한 줄: TFI 막대 · 체류시간 행 */
+export type DatalabRow = {
+  region: string;
+  bars: TfiBar[];
+  stay: StayTimeRegionResponse;
+};
+
+/**
+ * 테마 코스(courseId)가 지나는 지역 중 TFI · 체류시간이 모두 있는 지역마다 막대와 체류시간 행을 묶는다(코스 순서 그대로).
+ * 코스가 없거나 맞는 지역이 없으면 빈 배열
+ */
+export function datalabRows(
+  courseId: string,
+  courses: CourseListResponse,
+  tfi: TfiResponse,
+  stay: StayTimeResponse,
+): DatalabRow[] {
+  const course = courses.courses.find((c) => c.courseId === courseId);
+  return datalabRegionsOfCourse(course, tfi, stay).flatMap((region) => {
+    const row = stay.regions.find((s) => s.region === region);
+    return row ? [{ region, bars: tfiBars(tfi, region) ?? [], stay: row }] : [];
+  });
 }

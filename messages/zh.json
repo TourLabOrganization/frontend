@@ -1,0 +1,1217 @@
+{
+  "Metadata": {
+    "title": "Tour Navigator",
+    "description": "跟着影像中的地点去旅行的行程规划应用"
+  },
+  "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "从头开始",
+    "brand": "TOUR NAVIGATOR",
+    "back": "返回",
+    "skip": "跳过",
+    "next": "下一步",
+    "tmdbCredit": "海报与剧照：TMDB。本服务未获 TMDB 认可或认证",
+    "mapLoadError": "地图加载失败。下方的地点列表仍可正常使用",
+    "localeMenu": {
+      "first": "Multi",
+      "second": "Language",
+      "current": "选择语言，当前为{name}",
+      "listLabel": "语言"
+    },
+    "map": {
+      "typeLabel": "地图类型",
+      "roadmap": "地图",
+      "satellite": "卫星",
+      "locate": "我的位置",
+      "locating": "正在查找你的位置…",
+      "located": "已移动到你的位置",
+      "insecure": "需要安全连接（HTTPS）才能使用位置",
+      "denied": "位置权限已关闭，请在浏览器设置中允许",
+      "unavailable": "无法获取位置，请稍后再试",
+      "myLocation": "我的位置"
+    }
+  },
+  "PlaceSheet": {
+    "close": "关闭",
+    "photoCredit": "照片：{credit}",
+    "hours": "营业时间",
+    "directions": "路线",
+    "newWindow": "（新窗口）",
+    "stay": "建议停留",
+    "work": "作品",
+    "scene": "场景",
+    "lat": "纬度",
+    "lng": "经度",
+    "source": "坐标依据",
+    "kakao": "Kakao 地图",
+    "kakaoOpen": "打开地点页面",
+    "video": "观看该地点的影片",
+    "factsLabel": "地点信息",
+    "save": "收藏",
+    "saved": "已收藏",
+    "savedStatus": "已加入收藏的地点",
+    "unsavedStatus": "已从收藏的地点移除",
+    "weather": {
+      "title": "天气",
+      "today": "今天",
+      "yesterday": "昨天",
+      "tomorrow": "明天",
+      "loading": "正在加载天气",
+      "error": "无法加载天气",
+      "retry": "重试",
+      "credit": "天气：Open-Meteo（CC BY 4.0）",
+      "max": "最高气温",
+      "rain": "降水量",
+      "kinds": {
+        "clear": "晴",
+        "cloudy": "多云",
+        "fog": "雾",
+        "drizzle": "毛毛雨",
+        "rain": "雨",
+        "snow": "雪",
+        "showers": "阵雨",
+        "snowShowers": "阵雪",
+        "thunderstorm": "雷雨",
+        "unknown": "无数据"
+      }
+    },
+    "badges": "徽章"
+  },
+  "Splash": {
+    "title": {
+      "first": "现在我们",
+      "second": "一起出发吧！"
+    },
+    "description": "走进影像中的那一幕，开始主题旅行吧！",
+    "skip": "跳过"
+  },
+  "Home": {
+    "source": "地点数量按 Tour Navigator 各主题的地点列表统计",
+    "bannerPhotoCredit": "横幅照片：东宫与月池 · Wikimedia Commons",
+    "tabsLabel": "首页视图",
+    "tabs": {
+      "myThemes": "我的主题",
+      "planner": "行程规划"
+    },
+    "carouselLabel": "推荐主题",
+    "slideLabel": "{current} / {total}",
+    "pause": "暂停横幅自动轮播",
+    "play": "恢复横幅自动轮播",
+    "goToSlide": "查看第{current}个横幅",
+    "prevSlide": "上一个横幅",
+    "nextSlide": "下一个横幅",
+    "banners": {
+      "rescene-route": {
+        "kicker": "RESCENE ROUTE",
+        "titleFirst": "走进影像中的",
+        "titleSecond": "那条路",
+        "description": "一次规划拍摄地与移动路线"
+      },
+      "kings-warden": {
+        "kicker": "与王同住的男人",
+        "titleFirst": "端宗走过的路",
+        "titleSecond": "在宁越相遇",
+        "description": "从清泠浦到庄陵，沿着流放之路"
+      },
+      "kpop-demon-hunters": {
+        "kicker": "K-POP猎魔女团",
+        "titleFirst": "跟随HUNTR/X",
+        "titleSecond": "走遍首尔",
+        "description": "从骆山公园城郭路到蚕室最终舞台"
+      },
+      "jeju-k-drama": {
+        "kicker": "济州 K-DRAMA",
+        "titleFirst": "两部剧",
+        "titleSecond": "走过的海岸线",
+        "description": "《苦尽柑来遇见你》与《我们的蓝调》，同一座岛，不同时光"
+      },
+      "busan-film-trip": {
+        "kicker": "釜山电影之旅",
+        "titleFirst": "拍摄电影",
+        "titleSecond": "最多的城市",
+        "description": "从甘川到海云台，走进银幕中的釜山"
+      }
+    },
+    "myThemesHeading": "我的主题",
+    "pickCourseHeading": "挑选我的路线",
+    "pickCourseTitle": "为你挑选合适的主题和路线",
+    "pickCourseMeta": "{total}道题 · 必答{required}道 · 约1分钟",
+    "courseTitle": "{region} {duration}",
+    "citytour": {
+      "heading": "各地城市观光巴士",
+      "meta": "{regions}个地区 · {tours}条路线",
+      "tabsLabel": "城市观光巴士视图",
+      "tabRec": "按我的类型推荐",
+      "tabRecCount": "按我的类型推荐 {count}",
+      "tabRegion": "按地区查找",
+      "recEmpty": "完成主题推荐后，我们会挑选适合你旅行者类型的路线",
+      "recEmptyAction": "获取主题推荐",
+      "recHeading": "适合{type}旅行者的{count}条路线",
+      "searchLabel": "搜索地区",
+      "searchPlaceholder": "搜索地区名称（如：丽水、春川）",
+      "searchClear": "清除搜索内容",
+      "searchStatus": "找到{count}个地区",
+      "regionsLabel": "地区",
+      "regionChip": "{region}，{count}条路线",
+      "noRegion": "没有匹配的地区",
+      "regionHeading": "{region} · {count}条路线",
+      "rank": "第{rank}名",
+      "kind": {
+        "loop": "循环型",
+        "fixed": "固定路线型"
+      },
+      "tags": {
+        "history": "历史",
+        "nature": "自然",
+        "activity": "体验",
+        "food": "美食",
+        "sea": "大海",
+        "night": "夜景"
+      },
+      "board": "上车",
+      "hours": "运营",
+      "fare": "票价",
+      "homepage": "官网",
+      "newWindow": "（新窗口）",
+      "call": "致电",
+      "add": "加入行程编排",
+      "addHint": "将途经点中应用内已有的{count}处地点加入行程规划",
+      "addDisabled": "途经点中没有与应用内地点匹配的地方，无法加入行程编排",
+      "more": "查看更多（还有{count}条）",
+      "date": "基准日 {date}",
+      "dataNote": "路线名称、途经点和票价按官方发布的韩语原文显示，各路线的基准日也不同。城市观光巴士按班车时刻运行，行程编排中的时间仅供参考",
+      "confirm": {
+        "title": "要替换已添加的行程吗？",
+        "body": "将用「{name}」的{placeCount}处途经点替换行程规划中已添加的{count}处地点",
+        "cancel": "取消",
+        "confirm": "替换"
+      },
+      "routeExpand": "查看完整路线",
+      "routeCollapse": "收起路线"
+    },
+    "addTheme": "添加主题",
+    "popularHeading": "当前热门路线",
+    "popular": {
+      "gyeongju": "UNESCO",
+      "geoje": "COAST"
+    },
+    "popularMeta": "{videos}处拍摄地 · {transport}",
+    "access": {
+      "ktx": "KTX",
+      "srt": "SRT",
+      "bus": "巴士",
+      "air": "飞机",
+      "ship": "轮渡",
+      "metro": "地铁",
+      "own": "自驾"
+    }
+  },
+  "Nav": {
+    "label": "主菜单",
+    "home": "首页",
+    "recommend": "挑选我的路线",
+    "me": "ME"
+  },
+  "Me": {
+    "title": "ME",
+    "lastTheme": "排名第一的主题：{theme}",
+    "lastAction": "再次查看推荐结果",
+    "emptyTitle": "为你找到合适的主题",
+    "emptyMeta": "还没有推荐主题 · {total}道题",
+    "savedHeading": "已保存的行程",
+    "savedCount": "{count}个",
+    "savedAt": "{date} 保存",
+    "remove": "删除{name}",
+    "savedEmpty": "还没有保存的行程。请在主题的路线页面点击[保存路线]，或在行程规划的行程标签页点击[保存行程]。",
+    "openPlanner": "打开行程规划",
+    "plannerMeta": "{city} · {duration} · {count}处",
+    "typeHeading": "我的旅行者类型",
+    "typeName": "{type}旅行者",
+    "retry": "重新推荐",
+    "placesHeading": "收藏的地点",
+    "placesCount": "{count}处",
+    "placesEmpty": "还没有收藏的地点。请在地点详情中点击[收藏]。"
+  },
+  "Recommend": {
+    "progressLabel": "答题进度",
+    "counter": "{current} / {total}",
+    "next": "下一步",
+    "seeResult": "查看结果",
+    "limitReached": "最多只能选2项。如需更换，请先取消一项。",
+    "questions": {
+      "q1": {
+        "title": "请选择你的年龄段",
+        "help": "我们会参考相似旅行者的数据来判断旅行类型",
+        "options": {
+          "teens": "10多岁",
+          "20s": "20多岁",
+          "30s": "30多岁",
+          "40s": "40多岁",
+          "50s": "50多岁",
+          "60s": "60多岁",
+          "70s-plus": "70岁以上"
+        }
+      },
+      "q2": {
+        "title": "和谁一起出发？",
+        "help": "请选择最常同行的人",
+        "options": {
+          "solo": "独自一人",
+          "friends": "朋友",
+          "couple": "恋人",
+          "spouse": "配偶",
+          "kids-family": "带孩子的家庭",
+          "parents": "陪父母",
+          "social-group": "朋友聚会团体"
+        }
+      },
+      "q3": {
+        "title": "喜欢什么样的旅行节奏？",
+        "help": "请选择你平时的旅行节奏",
+        "options": {
+          "packed": "紧凑充实",
+          "moderate": "张弛有度",
+          "relaxed": "悠闲慢游"
+        }
+      },
+      "q4": {
+        "title": "对什么感兴趣？",
+        "help": "最多可选2项",
+        "options": {
+          "drama": "韩剧·K-POP拍摄地",
+          "performance": "演出·演唱会",
+          "history": "历史·古迹",
+          "nature": "自然·林间步道",
+          "sea": "大海",
+          "food-market": "美食·市场",
+          "activity": "体验",
+          "night": "夜景",
+          "shopping-beauty": "购物·美容·SPA"
+        }
+      },
+      "q5": {
+        "title": "喜欢什么样的氛围？",
+        "help": "请选择想去的地方的感觉",
+        "options": {
+          "trending": "当下热门打卡地",
+          "landmark": "代表性景点",
+          "quiet": "清静的地方"
+        }
+      },
+      "q6": {
+        "title": "你从哪里来？",
+        "help": "预算区间和推荐类型会随之变化",
+        "options": {
+          "domestic": "韩国国内",
+          "overseas": "从海外来访"
+        }
+      },
+      "q7": {
+        "title": "人均预算大约多少？",
+        "help": "一次旅行的人均花费",
+        "helpOverseas": "按每人每天的花费（美元）计算",
+        "options": {
+          "under-70k": "7万韩元以下",
+          "70k-150k": "7万～15万韩元",
+          "150k-250k": "15万～25万韩元",
+          "over-250k": "25万韩元以上",
+          "usd-under-100": "每天$100以下",
+          "usd-100-300": "每天$100～300",
+          "usd-300-500": "每天$300～500",
+          "usd-over-500": "每天$500以上"
+        }
+      },
+      "q8": {
+        "title": "通常什么时候出门活动？",
+        "help": "请选择你平时活动的时间段",
+        "options": {
+          "morning": "一大早",
+          "daytime": "以白天为主",
+          "evening": "一直到晚上"
+        }
+      },
+      "q9": {
+        "title": "从哪里获取旅行信息？",
+        "help": "请选择最常参考的来源",
+        "options": {
+          "been-before": "以前去过",
+          "word-of-mouth": "熟人推荐",
+          "internet": "网络·应用",
+          "social-media": "社交媒体·YouTube",
+          "no-info": "不做功课"
+        }
+      },
+      "q10": {
+        "title": "什么时候出发？",
+        "help": "请选择打算出发的时间",
+        "options": {
+          "this-weekend": "本周末",
+          "this-month": "本月",
+          "later": "下个月以后"
+        }
+      },
+      "q11": {
+        "title": "旅行多长时间？",
+        "help": "不选则按一日游安排",
+        "options": {
+          "day-trip": "一日游",
+          "1-night": "2天1夜",
+          "2-nights-plus": "3天2夜及以上"
+        }
+      },
+      "q12": {
+        "title": "用什么交通方式？",
+        "help": "不选则按自驾安排",
+        "options": {
+          "car": "自驾",
+          "public-transit": "公共交通",
+          "flight": "飞机",
+          "tour-bus": "团体巴士"
+        }
+      },
+      "q13": {
+        "title": "一天能走多久？",
+        "help": "请选择一天能步行的时间",
+        "options": {
+          "under-1h": "1小时以内",
+          "1-3h": "1～3小时",
+          "over-3h": "3小时以上"
+        }
+      },
+      "q14": {
+        "title": "有需要考虑的条件吗？",
+        "help": "可多选",
+        "options": {
+          "pet": "携带宠物",
+          "accessible": "无障碍",
+          "indoor-rain": "雨天以室内为主"
+        }
+      },
+      "q15": {
+        "title": "打算去哪个地区旅行？",
+        "help": "选择后，会用韩国观光数据实验室的地区数据调整推荐",
+        "options": {
+          "seoul": "首尔",
+          "busan": "釜山",
+          "gyeongju": "庆州",
+          "jeju": "济州",
+          "geoje": "巨济",
+          "yeongwol": "宁越"
+        }
+      }
+    }
+  },
+  "Result": {
+    "badge": "我的旅行类型",
+    "mixedTagline": "兼具两种魅力的",
+    "typeShare": "{name} {percent}%",
+    "recommendedThemes": "推荐主题",
+    "evidenceLabel": "推荐依据",
+    "fitRankType": "{type}匹配度第{rank}名",
+    "fitRank": "匹配度第{rank}名",
+    "night": "夜景地点 {percent}%",
+    "categoryShare": "{category}地点 {percent}%",
+    "categories": {
+      "history": "历史·文化",
+      "healing": "疗愈·生态",
+      "activity": "主题公园·活动",
+      "local-food": "本地·美食",
+      "nature": "海洋·自然"
+    },
+    "compareCourses": "比较3条路线方案",
+    "rankBasis": "按首选类型（{type}）排序",
+    "datalabHeading": "韩国观光数据实验室 · {region}",
+    "datalabAdjusted": "已根据该地区的实际优势调整推荐分数",
+    "regionHint": "在第15题选择旅行地区后，会纳入韩国观光数据实验室的数据",
+    "sources": "来源 · {sources}",
+    "loadFailed": "无法连接推荐服务器",
+    "retry": "重试"
+  },
+  "Clusters": {
+    "C1": {
+      "name": "潮流探索型",
+      "tagline": "抢先打卡新热门的",
+      "description": "适合和朋友一起寻找最近走红的街区和咖啡馆，一直玩到深夜的充实旅行。"
+    },
+    "C2": {
+      "name": "情侣浪漫型",
+      "tagline": "两人共享美景与夜色的",
+      "description": "适合用景观好的地方、夜景和一顿美食填满两人专属一天的旅行。"
+    },
+    "C3": {
+      "name": "亲子家庭型",
+      "tagline": "和孩子一起享受体验的",
+      "description": "适合有亲身体验、大海和露营，能和孩子一起动起来的旅行。"
+    },
+    "C4": {
+      "name": "活力乐龄型",
+      "tagline": "边走边看、细细品味的",
+      "description": "适合漫步自然、慢慢游览历史悠久之地的旅行。"
+    },
+    "C5": {
+      "name": "独自疗愈型",
+      "tagline": "一个人安静休息的",
+      "description": "适合在不拥挤的大自然中按自己的节奏散步、休息的旅行。"
+    },
+    "C6": {
+      "name": "本地美食型",
+      "tagline": "寻找当地风味的",
+      "description": "适合逛老字号餐馆和市场、品尝当地风味的旅行。"
+    },
+    "C7": {
+      "name": "K文化探访型",
+      "tagline": "走进K-POP与韩剧世界的",
+      "description": "适合走访K-POP·韩剧拍摄地、观看演出、尽情购物，近距离感受韩国流行文化的旅行。"
+    },
+    "C8": {
+      "name": "高端康养型",
+      "tagline": "从容享受休憩与购物的",
+      "description": "适合通过美容·SPA、购物和美食从容放松的旅行。"
+    },
+    "C9": {
+      "name": "自然风光型",
+      "tagline": "走出城市、寻访自然的",
+      "description": "适合像济州这样自然景观出众的地区，悠闲游览的旅行。"
+    },
+    "C10": {
+      "name": "历史传统探访型",
+      "tagline": "探寻韩国往昔风貌的",
+      "description": "适合游览古宫、博物馆以及传统文化依然鲜活的地方城市的旅行。"
+    }
+  },
+  "Themes": {
+    "kings-warden": {
+      "name": "与王同住的男人"
+    },
+    "kpop-demon-hunters": {
+      "name": "K-POP猎魔女团"
+    },
+    "rescene-route": {
+      "name": "RESCENE Route"
+    },
+    "jeju-k-drama": {
+      "name": "济州 K-Drama"
+    },
+    "busan-film-trip": {
+      "name": "釜山电影之旅"
+    }
+  },
+  "Course": {
+    "planTabsLabel": "3条路线方案",
+    "plans": {
+      "classic": {
+        "name": "经典",
+        "description": "兼顾影像中的地点与代表性景点（韩国观光100选·世界遗产）的基本路线。"
+      },
+      "trend": {
+        "name": "潮流",
+        "description": "优先安排影像中的地点，剩余时间用基本候选地点补足。"
+      },
+      "quiet": {
+        "name": "清静",
+        "description": "去掉代表性景点和影像中的地点，优先安排主题地区的疗愈·生态地点。"
+      }
+    },
+    "sameAsClassic": "在此条件下，路线与经典方案相同",
+    "fallbackNotice": "接入拥挤度与搜索趋势数据后，将改用策略文档中的权重",
+    "tripBasis": "按{depTime}从首尔站出发、最后一天{retTime}离开旅行地计算",
+    "accessibleNotice": "只收录了有无障碍信息的地点",
+    "dayTrip": "一日游",
+    "nightsDays": "{days}天{nights}夜",
+    "placeCount": "{count}处地点",
+    "stayTotal": "停留{duration}",
+    "moveTotal": "移动{duration}",
+    "day": "第{day}天",
+    "arrive": "到达",
+    "leave": "出发",
+    "move": "移动{duration}",
+    "wait": "等待开放{duration}",
+    "stay": "停留{duration}",
+    "videoBadge": "影像中的地点",
+    "k100Badge": "韩国观光100选",
+    "unescoBadge": "世界遗产",
+    "categories": {
+      "herit": "文化遗产·传统体验",
+      "heal": "疗愈·生态·体验",
+      "activity": "主题公园·体验",
+      "food": "本地商圈·美食",
+      "sea": "海洋·自然景观",
+      "stay": "住宿"
+    },
+    "duration": {
+      "m": "{m}分钟",
+      "h": "{h}小时",
+      "hm": "{h}小时{m}分钟"
+    },
+    "empty": "没有符合条件的地点，无法生成路线",
+    "emptyHelp": "请更改条件后重新查找",
+    "emptyDay": "这一天没有可安排的地点",
+    "unappliedNotice": "因暂无数据而未纳入的条件：{conditions}",
+    "condition": "{name}（{value}）",
+    "conditionNames": {
+      "when": "出发时间",
+      "walk": "每日步行"
+    },
+    "savePlan": "保存路线",
+    "saved": "已保存"
+  },
+  "Theme": {
+    "tabsLabel": "主题页面标签",
+    "tabs": {
+      "map": "地图",
+      "course": "路线",
+      "film": "电影",
+      "stamp": "集章",
+      "info": "旅行信息"
+    },
+    "stats": "{region} · {places}处地点 · {videos}处影像地点",
+    "map": {
+      "categoriesLabel": "地点分类",
+      "all": "全部",
+      "mapLabel": "主题地点地图",
+      "noKey": "未设置地图密钥，无法显示地图。下方的地点列表仍可正常使用",
+      "listHeading": "地点列表 · {count}",
+      "searchLabel": "搜索地点",
+      "searchPlaceholder": "按地点名称查找",
+      "searchClear": "清除搜索内容",
+      "searchEmpty": "没有找到“{query}”的结果",
+      "searchStatus": "找到{count}处地点",
+      "more": "查看更多（还有{count}处）",
+      "showOff": "查看列表外的{count}处地点",
+      "regionsLabel": "地区",
+      "nation": "全国",
+      "regionCount": "{city} · {count}处地点",
+      "distance": "{km} km",
+      "filmLink": "电影",
+      "videoLink": "影片",
+      "filmLinkLabel": "查看{name}的场景"
+    },
+    "sheet": {
+      "stamp": "盖章",
+      "stamped": "已盖章",
+      "stampedStatus": "已盖章",
+      "unstampedStatus": "已取消盖章"
+    },
+    "course": {
+      "daysLabel": "行程天数",
+      "transportLabel": "交通方式",
+      "mapLabel": "路线地图"
+    },
+    "film": {
+      "kicker": "电影中的场景",
+      "kickerVideo": "影片中的场景",
+      "title": "电影里的那个地方",
+      "titleVideo": "影片里的那个地方",
+      "sortLabel": "排序",
+      "sortAsc": "场景顺序",
+      "sortDesc": "倒序",
+      "searchLabel": "搜索场景·地点",
+      "searchPlaceholder": "场景标题或地点名称",
+      "sceneLabel": "场景 {number}",
+      "places": "出现地点",
+      "watch": "查找这个场景",
+      "play": "播放{title}影片",
+      "videoTitle": "{title}影片",
+      "empty": "没有找到相关场景",
+      "newWindow": "（新窗口）",
+      "sortPopular": "热门顺序",
+      "sortLatest": "最新顺序",
+      "views": "{count, number}次观看",
+      "searchClear": "清除搜索内容",
+      "searchStatus": "找到{count}条结果",
+      "koreanNote": "场景标题为韩文。"
+    },
+    "stamp": {
+      "kicker": "打卡",
+      "title": "{region} · 集章册",
+      "progressLabel": "集章进度",
+      "progress": "已收集 {count} / {total} · {percent}%",
+      "done": "已获得",
+      "notDone": "未获得",
+      "openMap": "在地图上查看{name}",
+      "savedHeading": "收藏的地点 · {count}",
+      "savedEmpty": "还没有收藏的地点",
+      "remove": "移除{name}"
+    },
+    "info": {
+      "title": "旅行信息",
+      "workKicker": "作品",
+      "linksHeading": "了解更多",
+      "newWindow": "（新窗口）",
+      "kings-warden": {
+        "workTitle": "与王同住的男人（2026）"
+      },
+      "kpop-demon-hunters": {
+        "workTitle": "K-POP猎魔女团（2025）"
+      },
+      "jeju-k-drama": {
+        "workTitle": "苦尽柑来遇见你（2025）"
+      },
+      "busan-film-trip": {
+        "workTitle": "釜山行（2016）"
+      },
+      "datalabHeading": "数据实验室眼中的{region}",
+      "stayPerVisit": "每次到访停留{duration}",
+      "stayIndex": "为全国平均的{index}倍",
+      "visitsToSeeAll": "看完应用内所有地点需要到访{visits}次",
+      "datalabSource": "来源 · 韩国观光数据实验室 · 全国数据 · 截至{year}年",
+      "datalabFailed": "无法加载数据实验室信息",
+      "datalabLoading": "正在加载数据实验室信息",
+      "fanHeading": "粉丝交流渠道",
+      "fanBody": "通过官方社区和交流渠道，与粉丝们一起互动吧。",
+      "fullSchedule": "查看全部日程"
+    },
+    "tabsVideo": {
+      "film": "影片",
+      "info": "粉丝交流"
+    }
+  },
+  "Regions": {
+    "seoul": "首尔",
+    "busan": "釜山",
+    "gangwon": "江原",
+    "gyeongbuk": "庆北",
+    "gyeongnam": "庆南",
+    "jeju": "济州"
+  },
+  "Planner": {
+    "title": "行程规划",
+    "scopesLabel": "地区",
+    "nation": "全国",
+    "cityButton": "城市",
+    "cityButtonLabel": "选择城市",
+    "cityButtonCurrentLabel": "{city}，选择其他城市",
+    "tabsLabel": "行程规划标签",
+    "tabs": {
+      "map": "地图",
+      "course": "行程",
+      "info": "旅行信息"
+    },
+    "courseBadge": "已添加{count}处地点",
+    "regionChip": "{region} · {count}处",
+    "regionChipClear": "{region} · {count}处，取消选择",
+    "picker": {
+      "title": "选择城市",
+      "close": "关闭",
+      "searchLabel": "搜索城市",
+      "searchPlaceholder": "城市名称（韩语·英语）",
+      "regionCities": "{count}座城市",
+      "placeCount": "{count}处地点",
+      "empty": "没有找到该城市",
+      "otherRegions": "其他地区"
+    },
+    "map": {
+      "categoriesLabel": "地点分类",
+      "all": "全部",
+      "badgesLabel": "标签",
+      "badges": {
+        "pop": "数据实验室人气",
+        "un": "世界遗产",
+        "k100": "韩国观光100选",
+        "bf": "无障碍旅游地",
+        "zone": "旅游特区 · 旅游园区"
+      },
+      "mapLabel": "行程规划地图",
+      "noKey": "未设置地图密钥，无法显示地图。下方的地点列表仍可正常使用",
+      "regionMarker": "{region} · {count}处地点",
+      "cityMarker": "{city} · {count}处地点",
+      "listHeading": "地点列表 · {count}",
+      "popNote": "优先显示韩国观光数据实验室热门景点排名中的地点",
+      "searchLabel": "搜索地点",
+      "searchPlaceholder": "按地点·城市名称查找",
+      "searchClear": "清除搜索内容",
+      "searchEmpty": "没有找到“{query}”的结果",
+      "searchStatus": "找到{count}处地点",
+      "more": "查看更多（还有{count}处）",
+      "empty": "该分类下没有地点",
+      "add": "将{name}加入行程",
+      "addedStatus": "已加入行程：{name}",
+      "removedStatus": "已从行程移除：{name}",
+      "popRank": "数据实验室人气第{rank}名"
+    },
+    "sheet": {
+      "add": "加入行程",
+      "remove": "从行程移除",
+      "detailLoading": "正在加载介绍和照片",
+      "detailError": "无法加载介绍和照片",
+      "detailRetry": "重试",
+      "setStay": "设为行程住宿",
+      "unsetStay": "取消住宿"
+    },
+    "confirm": {
+      "title": "这是其他城市的地点",
+      "body": "一个行程只能包含同一座城市的地点。要清空已添加的{from}的{count}处地点，改为在{to}重新添加吗？",
+      "cancel": "取消",
+      "confirm": "清空并添加"
+    },
+    "course": {
+      "kicker": "行程编排",
+      "title": "{city} · 今日路线",
+      "titleTrip": "{city} · {days}天{nights}夜路线",
+      "plan": {
+        "label": "我的行程",
+        "labelSuffix": "名称",
+        "placeholder": "例：秋季3天2夜",
+        "save": "保存行程",
+        "saved": "已保存",
+        "savedStatus": "已保存行程「{name}」，可在ME中查看",
+        "nameRequired": "请输入行程名称",
+        "emptyCourse": "还没有添加地点。请先添加地点再保存"
+      },
+      "dates": {
+        "heading": "日期",
+        "start": "出发日期",
+        "end": "返程日期",
+        "tripLabel": "旅行天数",
+        "dayTrip": "一日游",
+        "nights": "{days}天{nights}夜",
+        "errorOrder": "返程日期不能早于出发日期",
+        "errorTooLong": "最多可规划{max}天的旅行",
+        "calendar": "旅行日期日历",
+        "prevMonth": "上个月",
+        "nextMonth": "下个月",
+        "hintStart": "依次选择出发日与返程日，行程将按天分配。",
+        "hintEnd": "请再选择返程日期。",
+        "endPending": "选择中",
+        "notSet": "今天",
+        "mark": {
+          "today": "今天",
+          "start": "出发日",
+          "end": "返程日",
+          "single": "出发日",
+          "inside": "旅行期间",
+          "blocked": "不能超过{max}天"
+        }
+      },
+      "trip": {
+        "heading": "出发 · 返程",
+        "origin": "出发地",
+        "depTime": "出发时间（出发地）",
+        "retTime": "返程出发时间（旅行地）",
+        "retHint": "最后一天的行程会在此时间前结束",
+        "originEnd": "返程地",
+        "originSame": "与出发地相同"
+      },
+      "wide": {
+        "heading": "城际交通",
+        "modes": {
+          "bus": "巴士",
+          "rail": "火车",
+          "air": "飞机",
+          "ship": "轮渡",
+          "metro": "地铁（城市轨道交通）",
+          "own": "私家车"
+        },
+        "short": {
+          "hub": "目的地无此线路",
+          "island": "无法驾车前往",
+          "islandMetro": "仅可乘船"
+        },
+        "reason": {
+          "hub": "{hub}没有{mode}线路",
+          "island": "位于海岛，无法驾驶私家车前往",
+          "islandMetro": "位于海岛，无法乘地铁前往。请选择乘船",
+          "noCity": "选择城市或添加地点后，即可选择城际交通"
+        },
+        "access": "{origin} → {hub} · 约{duration}"
+      },
+      "local": {
+        "heading": "当地出行",
+        "driving": "自驾（租车）",
+        "transit": "公共交通",
+        "own": "私家车",
+        "ownNote": "选择私家车后，在当地也会用同一辆车出行"
+      },
+      "summary": {
+        "label": "行程概要",
+        "stops": "途经点",
+        "stopsValue": "{count}处",
+        "km": "总距离",
+        "kmValue": "{km}km",
+        "time": "预计时间"
+      },
+      "list": {
+        "heading": "已添加的地点 · {count}",
+        "empty": "还没有添加地点。请在地图上添加地点，或在下方载入推荐行程",
+        "stay": "已设为住宿"
+      },
+      "goMap": "在地图上添加地点",
+      "moveUp": "将{name}上移",
+      "moveDown": "将{name}下移",
+      "remove": "将{name}从行程移除",
+      "removed": "已从行程移除：{name}",
+      "actions": {
+        "recommend": "载入推荐行程",
+        "recommendHint": "用{source}的推荐地点填充行程",
+        "recommendNoScope": "选择城市或地区后，即可载入推荐行程",
+        "recommendEmpty": "按当前设置没有可添加的地点。请尝试更改日期或时间",
+        "recommended": "已载入含{count}处地点的推荐行程",
+        "clear": "清空行程",
+        "cleared": "已清空行程"
+      },
+      "confirmRecommend": {
+        "title": "要换成推荐行程吗？",
+        "body": "将移除已添加的{count}处地点，换成{source}的推荐行程",
+        "confirm": "替换"
+      },
+      "confirmClear": {
+        "title": "要清空行程吗？",
+        "body": "将移除已添加的全部{count}处地点。日期 · 出发地设置会保留",
+        "confirm": "清空"
+      },
+      "confirmLoad": {
+        "title": "要载入已保存的行程吗？",
+        "body": "将用「{name}」行程（{planCount}处）替换当前已添加的{count}处地点",
+        "confirm": "载入"
+      },
+      "cancel": "取消",
+      "load": {
+        "loaded": "已载入行程「{name}」",
+        "missing": "找不到已保存的行程，可能已被删除"
+      },
+      "schedule": {
+        "heading": "每日行程",
+        "dayDate": "{month}月{day}日（{weekday}）",
+        "dropped": "时间不足，有{count}处地点未能排入行程",
+        "droppedHint": "请尝试增加天数或调整顺序",
+        "emptyDay": "这一天还没有安排",
+        "refill": "按{days}天重新载入推荐行程"
+      },
+      "booking": {
+        "heading": "预订",
+        "ktx": "KTX预订",
+        "srt": "SRT预订",
+        "bus": "巴士预订",
+        "rent": "租车预订",
+        "stay": "住宿预订",
+        "lotte": "乐天租车",
+        "socar": "SOCAR",
+        "yanolja": "Yanolja",
+        "goodchoice": "Goodchoice",
+        "agoda": "Agoda",
+        "bookingCom": "Booking.com",
+        "newWindow": "（新窗口）",
+        "air": "预订机票",
+        "ship": "预订轮渡",
+        "metro": "城铁时刻表",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com",
+        "skRent": "SK租车",
+        "rentalcars": "Rentalcars"
+      },
+      "stay": {
+        "dec": "{name}停留时间减少15分钟",
+        "inc": "{name}停留时间增加15分钟",
+        "rec": "推荐{duration}",
+        "reset": "恢复推荐",
+        "resetLabel": "将{name}的停留时间恢复为推荐值",
+        "changed": "{name}停留{duration}"
+      },
+      "dayAdd": {
+        "open": "添加地点",
+        "openLabel": "向第{day}天添加地点",
+        "search": "搜索当天要加入的地点",
+        "clear": "清除",
+        "results": "搜索结果",
+        "cityPlaces": "{city}景点",
+        "none": "没有匹配的地点。",
+        "hint": "加在当天最后一个地点之后。时间不够时会顺延到第二天",
+        "added": "已加入第{day}天：{name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km}公里",
+        "modes": {
+          "transit": "公共交通",
+          "driving": "租车",
+          "own": "自驾",
+          "wide": "跨市郡移动"
+        },
+        "out": "去程",
+        "back": "返程",
+        "route": "{from} → {to}",
+        "access": "{mode} · 约{duration}"
+      },
+      "nightStay": {
+        "label": "住宿",
+        "labelFor": "第{day}天晚上的住宿：",
+        "picked": "已指定",
+        "generic": "住宿 {letter}",
+        "genericMeta": "{area} 附近 · 未指定",
+        "sample": "示例",
+        "sampleNote": "这是示例住宿区域，并非真实预订信息。",
+        "nearby": "附近住宿",
+        "ownHeading": "设为当晚住宿",
+        "samplesHeading": "示例住宿区域 · 地图搜索",
+        "place": "地点",
+        "setAsStay": "已设为住宿",
+        "distance": "{km} km",
+        "mapNewWindow": "（地图搜索，新窗口）",
+        "book": "预订住宿",
+        "setStatus": "已将{name}设为第{day}天晚上的住宿",
+        "unsetStatus": "已取消{name}的住宿指定"
+      },
+      "metro": {
+        "start": "出发地 · 线路 → 车站",
+        "city": "出发地铁站",
+        "end": "返回地 · 线路 → 车站",
+        "line": "线路",
+        "station": "车站",
+        "linePlaceholder": "选择线路",
+        "stationPlaceholder": "选择车站",
+        "endPlaceholder": "与出发站相同",
+        "lineChanged": "已更换线路，车站已清空。请重新选择车站。",
+        "lineNo": "{n}号线",
+        "cityLineNo": "{city}{n}号线",
+        "cities": {
+          "incheon": "仁川",
+          "busan": "釜山",
+          "daegu": "大邱",
+          "daejeon": "大田",
+          "gwangju": "光州"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "地铁",
+          "bus": "长途巴士",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "航班",
+          "ship": "轮渡",
+          "own": "私家车",
+          "car": "出租车·汽车",
+          "carferry": "汽车轮渡"
+        },
+        "depart": "出发",
+        "leave": "离开旅行地",
+        "ride": "乘{mode}{duration}后抵达",
+        "wait": "等候{duration} → {time} 乘坐{mode}",
+        "transfer": "换乘{duration} → {time} 乘坐{mode}",
+        "board": "乘坐{mode}",
+        "arrive": "到达枢纽",
+        "home": "到家",
+        "note": "时间为按距离估算，实际班次请在预订页面确认。",
+        "gateway": "换乘枢纽",
+        "routeChange": "更改路线",
+        "alt": "其他城际路线{count}条",
+        "arrivalTag": "抵达后",
+        "arrivalSub": "≈ {mode}{duration} · {km}公里",
+        "arrivalModes": {
+          "transit": "公共交通",
+          "driving": "驾车"
+        },
+        "directions": "路线",
+        "directionsLabel": "从{from}到{to}的路线（新窗口）"
+      },
+      "route": {
+        "kickerIn": "选择城际路线",
+        "kickerOut": "选择返程路线",
+        "titleIn": "{origin} → {city} 有{count}条路线",
+        "titleOut": "{city} → {origin} 有{count}条返程路线",
+        "body": "请选择一条城际路线。将按所选路线重新计算换乘枢纽和日程时间。",
+        "foot": "关闭后使用默认路线（高亮项）。可随时在行程卡片的“更改路线”中修改。",
+        "direct": "{mode} · 直达",
+        "transfers": "{mode} · 换乘{count}次",
+        "times": "{dep}出发 → {arr}抵达",
+        "current": "当前路线",
+        "close": "关闭",
+        "picked": "已改为{mode}路线",
+        "modes": {
+          "bus": "长途巴士",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "航班",
+          "ship": "轮渡",
+          "metro": "城际地铁"
+        }
+      },
+      "jejuOwn": {
+        "kicker": "私家车 · 济州",
+        "title": "济州是岛屿，仅靠私家车无法到达。您是济州居民吗？",
+        "resident": "是，济州居民 — 仅私家车",
+        "ferry": "否 — 乘汽车轮渡",
+        "residentNote": "居民 — 仅在岛内驾驶私家车出行。没有城际移动，第一天从出发时间开始安排行程。",
+        "ferryNote": "从木浦、莞岛、丽水、釜山等地用汽车轮渡载车进岛。请在下方船班时刻中选择港口。车辆一般需在开船前1小时完成装船。"
+      },
+      "ulleung": {
+        "kicker": "郁陵航线",
+        "title": "郁陵岛只能乘船前往",
+        "body": "岛上没有铁路、长途巴士或航班，因此出发地与返程地只按开往郁陵的四个港口计算。出发地已设为浦项旅客船码头，可自行更换。",
+        "portsLabel": "可出发港口 · 时长",
+        "foot": "时长为各航线固定航行时间加40分钟登船手续。到达港因航次而异（道洞·苧洞·沙洞），恶劣天气可能停航。",
+        "ok": "知道了",
+        "close": "关闭"
+      },
+      "ferry": {
+        "title": {
+          "jeju": "济州船班时刻",
+          "ulleung": "郁陵岛船班时刻"
+        },
+        "port": "出发港口",
+        "rows": {
+          "op": "船公司",
+          "dur": "航行时间",
+          "day": "班次",
+          "first": "首班",
+          "last": "末班",
+          "arr": "到达港"
+        },
+        "note": "以大陆出发为准的参考时间，班次会随星期、季节和天气变动或停航，预订前请确认船公司时刻表。",
+        "book": "预订船票",
+        "operator": "船公司时刻表",
+        "stat": {
+          "label": "运航实绩 · {route}",
+          "range": "{from}–{to} · {n}航次",
+          "yearly": "全年停航率",
+          "tripMonth": "{month}月停航率（出行月）",
+          "worst": "最差月份",
+          "monthPct": "{month}月 {pct}",
+          "bars": "各月停航率",
+          "barTrip": "{label} · 出行月",
+          "times": "近一年主要出港",
+          "warn": "{month}月该航线停航率为{pct}，偏高。为防停航，请同时准备航班或预留一天。",
+          "src": "来源：KOMSA 航线运航记录"
+        }
+      }
+    },
+    "info": {
+      "title": "旅行信息",
+      "selectLabel": "所选地区",
+      "selectPlaceholder": "请选择城市",
+      "hubHeading": "城际交通枢纽",
+      "hubNone": "暂无枢纽信息",
+      "hubPick": "选择城市后，会显示该城市的城际交通枢纽",
+      "modesLabel": "交通方式",
+      "modes": {
+        "ktx": "KTX",
+        "srt": "SRT",
+        "bus": "长途巴士",
+        "air": "航班",
+        "ship": "轮渡",
+        "metro": "城际地铁"
+      },
+      "linksHeading": "各地旅游指南",
+      "newWindow": "（新窗口）",
+      "defaultRegion": "默认地区",
+      "more": "查看更多 ({shown} / {total})",
+      "call": "电话",
+      "citytour": {
+        "title": "{city} 城市观光巴士",
+        "meta": "{count}条路线",
+        "empty": "该地区没有登记的城市观光巴士。",
+        "source": "来源：全国城市观光标准数据 · {date} · 路线信息为韩文。"
+      },
+      "tic": {
+        "title": "{city} 旅游咨询处",
+        "meta": "{count}处",
+        "hotline": "1330 旅游咨询热线 · 24小时",
+        "hotlineSub": "提供中文、英语、日语等翻译服务",
+        "onlyMine": "仅显示中文服务 ({count})",
+        "emptyMine": "此地区没有标注中文服务的咨询处，请拨打1330。",
+        "empty": "该地区没有登记的旅游咨询处。",
+        "hours": "营业",
+        "closed": "休息",
+        "map": "地图",
+        "source": "来源：韩国观光公社 · 名称为韩文"
+      }
+    },
+    "howTo": {
+      "heading": "出行要领",
+      "steps": {
+        "wide": "先选择长途交通（巴士、火车、航班、轮渡、地铁、自驾）。只会显示与所选方式相符的客运站、车站、机场或港口作为出发地和返程地。",
+        "origin": "选择地铁时，按线路 → 站名的顺序选择。",
+        "route": "如果到目的地有两条以上路线（例如 KTX / 高速巴士），请在提示窗口中选择路线。从家到客运站或车站的路段也会一并计算。",
+        "local": "当地交通可在租车和公共交通中选择。设定日期和出发时间后，会计算每天的路线和地点之间的移动时间，停留时间可按地点修改。",
+        "stay": "住一晚以上时，每天会附上住宿候选和预订按钮。住宿地点不计入观光时间。",
+        "jeju": "济州只能选择航班、轮渡或自驾（当地居民，或随轮渡运车）。"
+      }
+    }
+  },
+  "NotFound": {
+    "title": "找不到页面",
+    "description": "地址可能已更改或页面不存在。请回到首页重新查找",
+    "home": "返回首页"
+  },
+  "Error": {
+    "title": "页面加载出错",
+    "description": "请稍后再试",
+    "retry": "重试",
+    "home": "返回首页"
+  },
+  "Datalab": {
+    "regions": {
+      "seoul": "首尔",
+      "busan": "釜山",
+      "gyeongju": "庆州",
+      "jeju": "济州",
+      "geoje": "巨济",
+      "yeongwol": "宁越"
+    },
+    "sources": {
+      "nationalTravel": "国民旅行调查",
+      "inbound": "入境游客调查",
+      "datalabTfi": "韩国观光数据实验室（地区×主题强度 TFI）"
+    },
+    "tfiLabel": "地区×主题强度（TFI）",
+    "themes": {
+      "herit": "历史·文化遗产",
+      "heal": "自然·疗愈",
+      "activity": "体验·活动",
+      "food": "美食"
+    }
+  },
+  "Header": {
+    "search": "查找地点（行程规划）"
+  },
+  "Notifications": {
+    "button": "通知",
+    "buttonUnread": "通知，{count}条未读",
+    "heading": "通知",
+    "markAll": "全部标为已读",
+    "empty": "没有新通知",
+    "unread": "未读：",
+    "recommend": {
+      "title": "主题推荐结果已出炉",
+      "body": "我的旅行者类型 · {type}"
+    },
+    "planner": {
+      "title": "行程规划中有已添加的地点",
+      "body": "{count}处 · 可在行程标签页继续规划"
+    },
+    "saved": {
+      "title": "有已保存的行程",
+      "body": "{count}个 · 可在ME中再次打开"
+    },
+    "citytour": {
+      "title": "可以查看各地城市观光巴士",
+      "body": "{regions}个地区 · {tours}条路线 · 数据截至{date}"
+    }
+  },
+  "Plans": {
+    "label": "我的行程",
+    "labelSuffix": "名称",
+    "placeholder": "行程名称（选填）",
+    "store": "查看已保存 ({count})",
+    "storeEmpty": "还没有保存的行程",
+    "overwrite": "覆盖保存「{name}」",
+    "overwritten": "已更新已保存的行程「{name}」",
+    "load": "载入",
+    "loadLabel": "载入{name}",
+    "loaded": "已载入「{name}」",
+    "current": "正在查看",
+    "deleteLabel": "删除{name}",
+    "deleted": "已删除「{name}」",
+    "savedStatus": "行程已保存，可在ME中查看",
+    "cancel": "取消",
+    "confirmOverwrite": {
+      "title": "要覆盖这个行程吗？",
+      "body": "将已保存的行程「{name}」替换为当前路线",
+      "confirm": "覆盖"
+    },
+    "confirmDelete": {
+      "title": "删除此行程？",
+      "body": "将从已保存中删除「{name}」，删除后无法恢复",
+      "confirm": "删除"
+    }
+  }
+}

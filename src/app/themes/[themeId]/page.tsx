@@ -22,11 +22,16 @@ import { parseTab, themeHref, type ThemeQuery } from "@/features/theme/tabs";
 import {
   getFilmScenes,
   getPlaceExtras,
+  getThemeCities,
   getVideoScenes,
   sceneNumber,
   VIDEO_THEME,
 } from "@/features/theme/theme-data";
 import { ThemeTabBar } from "@/features/theme/ThemeTabBar";
+import { LegacyBookmarksMigration } from "@/features/theme/LegacyBookmarksMigration";
+import { workTitle } from "@/features/theme/work-titles";
+import { themeNameTable } from "@/features/theme/theme-name-table";
+import { loadNameTable } from "@/features/names/server";
 
 // 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)를 ?tab=으로 고르고, 고른 탭 하나만 그린다.
 // 주소 규칙은 features/theme/tabs.ts 머리 주석에 있다. 코스 탭은 결과 화면이 넘긴 필터(?a=, Q10~Q14)와 ?plan=을 쓴다.
@@ -53,6 +58,7 @@ export default async function ThemePage({
   const tr = await getTranslations("Regions");
   const t = await getTranslations("Theme");
   const locale = await getLocale();
+  const names = await loadNameTable(locale);
 
   const slug = theme.slug;
   const region = theme.regions.map((r) => tr(r)).join(" · ");
@@ -63,7 +69,7 @@ export default async function ThemePage({
   const scenePlace = (id: string): ScenePlace | null => {
     const p = places.find((x) => x.id === id);
     if (!p) return null;
-    const name = placeName(p, locale);
+    const name = placeName(p, locale, names);
     return {
       id,
       label: p.n === null ? name : `${pad2(p.n)} ${name}`,
@@ -89,16 +95,13 @@ export default async function ThemePage({
             title: s.title,
             query: s.query,
             sceneTitle: first?.sceneTitle,
-            work: first?.work,
+            work: first?.work && workTitle(first.work, locale),
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
-            haystack: [
+            texts: [
               s.title,
               first?.sceneTitle,
-              ...ps.flatMap((p) => [p.ko, p.en]),
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase(),
+              ...ps.flatMap((p) => [p.ko, p.en, placeName(p, locale, names)]),
+            ].filter((x): x is string => !!x),
           };
         });
         const video: VideoCard[] = getVideoScenes(slug).map((s) => {
@@ -109,13 +112,15 @@ export default async function ThemePage({
             kind: "video",
             id: s.id,
             date: s.date,
+            views: s.views,
             sceneTitle,
             start: extra.find((e) => e?.ytAt)?.ytAt,
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
-            haystack: [s.date, sceneTitle, ...ps.flatMap((p) => [p.ko, p.en])]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase(),
+            texts: [
+              s.date,
+              sceneTitle,
+              ...ps.flatMap((p) => [p.ko, p.en, placeName(p, locale, names)]),
+            ].filter((x): x is string => !!x),
           };
         });
         return (
@@ -127,7 +132,7 @@ export default async function ThemePage({
         const toStamp = (p: (typeof places)[number]) => ({
           id: p.id,
           n: p.n,
-          name: placeName(p, locale),
+          name: placeName(p, locale, names),
           mapHref: mapHref(p.id),
         });
         // 스탬프 북 제목: 테마 장소가 한 도시면 그 도시(「영월 · 스탬프 북」, 목업과 같다), 여러 도시면 지역
@@ -135,7 +140,9 @@ export default async function ThemePage({
         return (
           <StampTab
             slug={slug}
-            region={cities.length === 1 ? cityName(cities[0], locale) : region}
+            region={
+              cities.length === 1 ? cityName(cities[0], locale, names) : region
+            }
             core={corePlaces(places).map(toStamp)}
             all={places.map(toStamp)}
           />
@@ -155,21 +162,32 @@ export default async function ThemePage({
           if (!e?.scene) continue;
           const f = film.get(e.scene);
           const v = video.get(e.scene);
-          const parts = f
-            ? [
-                t("film.sceneLabel", { number: sceneNumber(f.label) }),
-                f.title,
-                e.work,
-              ]
+          const row = f
+            ? [t("film.sceneLabel", { number: sceneNumber(f.label) }), f.title]
             : v
               ? [v.date, e.sceneTitle]
               : [];
-          if (parts.length === 0) continue;
+          if (row.length === 0) continue;
           sceneLinks[p.id] = {
-            text: parts.filter(Boolean).join(" · "),
+            text: [...row, f && e.work ? workTitle(e.work, locale) : undefined]
+              .filter(Boolean)
+              .join(" · "),
             href: themeHref(slug, keep, "film", { hash: e.scene }),
+            row: row.filter(Boolean).join(" · "),
+            // 이 장소가 나오는 영상: 뮤직비디오는 그 영상(시작 시각), 영화 · 드라마는 영화 탭과 같은 장면 검색
+            video: !p.yt
+              ? undefined
+              : f
+                ? `https://www.youtube.com/results?search_query=${encodeURIComponent(f.query)}`
+                : `https://youtu.be/${e.scene}${e.ytAt ? `?t=${e.ytAt}` : ""}`,
           };
         }
+        const cityLabels = Object.fromEntries(
+          [...new Set(places.map((p) => p.locKo))].map((c) => [
+            c,
+            cityName(c, locale, names),
+          ]),
+        );
         return (
           <MapTab
             key={place ?? ""}
@@ -177,6 +195,9 @@ export default async function ThemePage({
             places={places}
             extras={extras}
             sceneLinks={sceneLinks}
+            cities={getThemeCities(slug)}
+            cityLabels={cityLabels}
+            video={slug === VIDEO_THEME}
             initialPlace={place}
           />
         );
@@ -195,6 +216,7 @@ export default async function ThemePage({
         })}
       </p>
       <main className="flex flex-1 flex-col pb-[calc(6rem+env(safe-area-inset-bottom))]">
+        <LegacyBookmarksMigration names={themeNameTable([slug])} />
         {renderTab()}
       </main>
       <ThemeTabBar slug={slug} query={keep} current={tab} />

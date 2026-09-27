@@ -1,6 +1,9 @@
 import type { CategoryKey } from "@/features/theme/place-meta";
 
-/** 분류 색 점 클래스 (globals.css --color-cat-*). Tailwind가 찾을 수 있게 클래스 이름을 통째로 적는다 */
+/**
+ * 분류 색 점 클래스 (globals.css --color-cat-*). Tailwind가 찾을 수 있게 클래스 이름을 통째로 적는다.
+ * 지도 핀(PlannerMap)만 쓴다. 목록 · 칩 · 담은 장소는 분류 아이콘(CategoryIcon.tsx)
+ */
 const CATEGORY_DOT: Readonly<Record<string, string>> = {
   herit: "bg-cat-herit",
   heal: "bg-cat-heal",

@@ -1,5 +1,5 @@
-import { isPlannerCity, type Scope } from "./data";
-import { isRegionKey, type RegionKey } from "./regions";
+import type { Scope } from "./data";
+import { isPlannerCity, isRegionKey, type RegionKey } from "./regions";
 
 // 투어 플래너 주소 규칙.
 //   /planner?city=<도시 한국어 이름>&region=<권역 key>&tab=map|course|info&place=<장소 id>

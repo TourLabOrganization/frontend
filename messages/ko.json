@@ -11,15 +11,71 @@
     "skip": "건너뛰기",
     "next": "다음",
     "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
-    "localeSwitch": "English",
-    "mapLoadError": "지도를 불러오지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요"
+    "mapLoadError": "지도를 불러오지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
+    "localeMenu": {
+      "first": "Multi",
+      "second": "Language",
+      "current": "언어 선택, 지금 {name}",
+      "listLabel": "언어"
+    },
+    "map": {
+      "typeLabel": "지도 종류",
+      "roadmap": "지도",
+      "satellite": "위성",
+      "locate": "내 위치",
+      "locating": "내 위치를 찾는 중이에요",
+      "located": "내 위치로 옮겼어요",
+      "insecure": "HTTPS 연결에서만 위치를 쓸 수 있어요",
+      "denied": "위치 권한이 꺼져 있어요. 브라우저 설정에서 허용해 주세요",
+      "unavailable": "위치를 가져오지 못했어요. 잠시 뒤 다시 눌러 주세요",
+      "myLocation": "내 위치"
+    }
   },
   "PlaceSheet": {
     "close": "닫기",
     "photoCredit": "사진: {credit}",
     "hours": "운영시간",
     "directions": "길찾기",
-    "newWindow": "(새 창)"
+    "newWindow": "(새 창)",
+    "stay": "권장 체류",
+    "work": "작품",
+    "scene": "장면",
+    "lat": "위도",
+    "lng": "경도",
+    "source": "좌표 기준",
+    "kakao": "카카오맵",
+    "kakaoOpen": "장소 페이지 열기",
+    "video": "이 장소가 나오는 영상",
+    "factsLabel": "장소 정보",
+    "save": "저장",
+    "saved": "저장됨",
+    "savedStatus": "저장한 장소에 넣었어요",
+    "unsavedStatus": "저장한 장소에서 뺐어요",
+    "weather": {
+      "title": "날씨",
+      "today": "오늘",
+      "yesterday": "어제",
+      "tomorrow": "내일",
+      "loading": "날씨를 불러오는 중이에요",
+      "error": "날씨를 불러오지 못했어요",
+      "retry": "다시 시도",
+      "credit": "날씨: Open-Meteo (CC BY 4.0)",
+      "max": "최고 기온",
+      "rain": "강수량",
+      "kinds": {
+        "clear": "맑음",
+        "cloudy": "구름",
+        "fog": "안개",
+        "drizzle": "이슬비",
+        "rain": "비",
+        "snow": "눈",
+        "showers": "소나기",
+        "snowShowers": "눈 소나기",
+        "thunderstorm": "뇌우",
+        "unknown": "날씨 정보 없음"
+      }
+    },
+    "badges": "배지"
   },
   "Splash": {
     "title": {
@@ -80,9 +136,75 @@
     "pickCourseHeading": "내 코스 고르기",
     "pickCourseTitle": "나에게 맞는 테마와 코스를 골라 드려요",
     "pickCourseMeta": "{total}개 문항 · 필수 {required}개 · 약 1분",
-    "coursesHeading": "추천 코스",
     "courseTitle": "{region} {duration}",
-    "courseMeta": "장소 {places}곳 · 촬영지 {videos}곳 · {transport}"
+    "citytour": {
+      "heading": "지역 시티투어",
+      "meta": "{regions}개 지역 · {tours}개 코스",
+      "tabsLabel": "시티투어 보기",
+      "tabRec": "내 유형 추천",
+      "tabRecCount": "내 유형 추천 {count}",
+      "tabRegion": "지역별 검색",
+      "recEmpty": "테마 추천을 받으면 내 유형에 맞는 코스를 골라 드려요",
+      "recEmptyAction": "테마 추천 받기",
+      "recHeading": "{type} 여행자에게 맞는 코스 {count}개",
+      "searchLabel": "지역 검색",
+      "searchPlaceholder": "지역 이름 검색 (예: 여수, 춘천)",
+      "searchClear": "검색어 지우기",
+      "searchStatus": "일치하는 지역 {count}곳",
+      "regionsLabel": "지역",
+      "regionChip": "{region}, 코스 {count}개",
+      "noRegion": "일치하는 지역이 없어요",
+      "regionHeading": "{region} · {count}개 코스",
+      "rank": "{rank}위",
+      "kind": {
+        "loop": "순환형",
+        "fixed": "코스형"
+      },
+      "tags": {
+        "history": "역사",
+        "nature": "자연",
+        "activity": "체험",
+        "food": "먹거리",
+        "sea": "바다",
+        "night": "야경"
+      },
+      "board": "탑승",
+      "hours": "운행",
+      "fare": "요금",
+      "homepage": "홈페이지",
+      "newWindow": "(새 창)",
+      "call": "전화",
+      "add": "코스빌더에 넣기",
+      "addHint": "경유지 중 앱에 있는 장소 {count}곳을 투어 플래너 코스에 담아요",
+      "addDisabled": "경유지 중 앱 장소와 맞는 곳이 없어 코스빌더에 넣을 수 없어요",
+      "more": "더 보기(남은 {count}개)",
+      "date": "기준일 {date}",
+      "dataNote": "노선 정보는 코스마다 기준일이 달라요. 시티투어는 버스 시간에 맞춰 움직여서 코스빌더의 일정 시간은 참고용이에요",
+      "confirm": {
+        "title": "담은 코스를 바꿀까요?",
+        "body": "투어 플래너에 담아 둔 {count}곳 대신 「{name}」 경유지 {placeCount}곳을 담아요",
+        "cancel": "취소",
+        "confirm": "바꾸기"
+      },
+      "routeExpand": "경로 전체 보기",
+      "routeCollapse": "경로 접기"
+    },
+    "addTheme": "테마 추가",
+    "popularHeading": "지금 인기 코스",
+    "popular": {
+      "gyeongju": "UNESCO",
+      "geoje": "COAST"
+    },
+    "popularMeta": "촬영지 {videos}곳 · {transport}",
+    "access": {
+      "ktx": "KTX",
+      "srt": "SRT",
+      "bus": "버스",
+      "air": "항공",
+      "ship": "배",
+      "metro": "전철",
+      "own": "자가용"
+    }
   },
   "Nav": {
     "label": "주 메뉴",
@@ -92,8 +214,6 @@
   },
   "Me": {
     "title": "ME",
-    "recommendedHeading": "추천받은 나의 테마",
-    "lastType": "나의 여행 유형 · {type}",
     "lastTheme": "1위 테마 {theme}",
     "lastAction": "추천 결과 다시 보기",
     "emptyTitle": "나에게 맞는 테마를 찾아 드려요",
@@ -104,7 +224,13 @@
     "remove": "{name} 삭제",
     "savedEmpty": "저장된 플랜이 없어요. 테마의 코스 화면이나 투어 플래너 코스 탭에서 [코스 저장]을 눌러 보세요.",
     "openPlanner": "투어 플래너 열기",
-    "plannerMeta": "{city} · {duration} · {count}곳"
+    "plannerMeta": "{city} · {duration} · {count}곳",
+    "typeHeading": "나의 여행자 유형",
+    "typeName": "{type} 여행자",
+    "retry": "다시 추천받기",
+    "placesHeading": "저장한 장소",
+    "placesCount": "{count}곳",
+    "placesEmpty": "저장한 장소가 없어요. 장소 시트에서 [저장]을 눌러 보세요."
   },
   "Recommend": {
     "progressLabel": "질문 진행",
@@ -405,11 +531,11 @@
     "k100Badge": "한국관광 100선",
     "unescoBadge": "유네스코",
     "categories": {
-      "herit": "역사·문화",
-      "heal": "힐링·생태",
+      "herit": "문화유산·전통체험",
+      "heal": "힐링·생태·체험",
       "activity": "테마파크·액티비티",
-      "food": "로컬·먹거리",
-      "sea": "해양·자연",
+      "food": "로컬상권·먹거리",
+      "sea": "해양·자연경관",
       "stay": "숙박"
     },
     "duration": {
@@ -451,11 +577,20 @@
       "searchEmpty": "‘{query}’ 검색 결과가 없어요",
       "searchStatus": "검색 결과 {count}곳",
       "more": "더 보기(남은 {count}곳)",
-      "showOff": "목록 밖 장소 {count}곳 보기"
+      "showOff": "목록 밖 장소 {count}곳 보기",
+      "regionsLabel": "지역",
+      "nation": "전국",
+      "regionCount": "{city} · {count}개 장소",
+      "distance": "{km} km",
+      "filmLink": "영화",
+      "videoLink": "영상",
+      "filmLinkLabel": "{name} 장면 보기"
     },
     "sheet": {
-      "save": "저장",
-      "stamp": "스탬프"
+      "stamp": "스탬프 찍기",
+      "stamped": "스탬프 완료",
+      "stampedStatus": "스탬프를 찍었어요",
+      "unstampedStatus": "스탬프를 지웠어요"
     },
     "course": {
       "daysLabel": "일정",
@@ -478,7 +613,13 @@
       "play": "{title} 영상 재생",
       "videoTitle": "{title} 영상",
       "empty": "찾는 장면이 없어요",
-      "newWindow": "(새 창)"
+      "newWindow": "(새 창)",
+      "sortPopular": "인기순",
+      "sortLatest": "최신순",
+      "views": "조회수 {count, number}회",
+      "searchClear": "검색어 지우기",
+      "searchStatus": "검색 결과 {count}개",
+      "koreanNote": "장면 제목은 원문(한국어)으로 보여요."
     },
     "stamp": {
       "kicker": "체크인",
@@ -514,7 +655,15 @@
       "stayIndex": "전국 평균의 {index}배",
       "visitsToSeeAll": "앱 장소를 다 보는 데 필요한 방문 {visits}회",
       "datalabSource": "출처 · 한국관광 데이터랩 · {source} · {year}년 기준",
-      "datalabFailed": "데이터랩 정보를 불러오지 못했어요"
+      "datalabFailed": "데이터랩 정보를 불러오지 못했어요",
+      "datalabLoading": "데이터랩 정보를 불러오는 중",
+      "fanHeading": "팬소통 채널",
+      "fanBody": "공식 커뮤니티 및 소통 채널을 통해 팬들과 함께하세요.",
+      "fullSchedule": "전체 일정 보기"
+    },
+    "tabsVideo": {
+      "film": "영상",
+      "info": "팬소통"
     }
   },
   "Regions": {
@@ -554,11 +703,20 @@
     "map": {
       "categoriesLabel": "장소 분류",
       "all": "전체",
+      "badgesLabel": "배지",
+      "badges": {
+        "pop": "데이터랩 인기",
+        "un": "유네스코",
+        "k100": "한국관광 100선",
+        "bf": "열린관광지",
+        "zone": "관광특구 · 관광단지"
+      },
       "mapLabel": "투어 플래너 지도",
       "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
       "regionMarker": "{region} · 장소 {count}곳",
       "cityMarker": "{city} · 장소 {count}곳",
       "listHeading": "장소 목록 · {count}",
+      "popNote": "한국관광 데이터랩 인기관광지 순위가 있는 곳을 먼저 보여요",
       "searchLabel": "장소 검색",
       "searchPlaceholder": "장소 · 도시 이름으로 찾기",
       "searchClear": "검색어 지우기",
@@ -568,11 +726,17 @@
       "empty": "이 분류에 맞는 장소가 없어요",
       "add": "{name} 코스에 담기",
       "addedStatus": "코스에 담았어요: {name}",
-      "removedStatus": "코스에서 뺐어요: {name}"
+      "removedStatus": "코스에서 뺐어요: {name}",
+      "popRank": "데이터랩 인기 {rank}위"
     },
     "sheet": {
       "add": "코스에 담기",
-      "remove": "코스에서 빼기"
+      "remove": "코스에서 빼기",
+      "detailLoading": "설명과 사진을 불러오는 중이에요",
+      "detailError": "설명과 사진을 불러오지 못했어요",
+      "detailRetry": "다시 시도",
+      "setStay": "코스 숙소로 지정",
+      "unsetStay": "숙소 지정 해제"
     },
     "confirm": {
       "title": "다른 도시의 장소예요",
@@ -602,14 +766,31 @@
         "dayTrip": "당일",
         "nights": "{nights}박 {days}일",
         "errorOrder": "귀가일은 출발일과 같거나 늦어야 해요",
-        "errorTooLong": "여행은 {max}일까지 계획할 수 있어요"
+        "errorTooLong": "여행은 {max}일까지 계획할 수 있어요",
+        "calendar": "여행 날짜 달력",
+        "prevMonth": "이전 달",
+        "nextMonth": "다음 달",
+        "hintStart": "출발일과 귀가일을 차례로 선택하면 n박 m일 일정으로 나뉘어요",
+        "hintEnd": "귀가일을 한 번 더 선택하세요",
+        "endPending": "선택 중",
+        "notSet": "오늘",
+        "mark": {
+          "today": "오늘",
+          "start": "출발일",
+          "end": "귀가일",
+          "single": "출발일",
+          "inside": "여행 기간",
+          "blocked": "{max}일을 넘어 고를 수 없어요"
+        }
       },
       "trip": {
-        "heading": "출발지 · 시각",
+        "heading": "출발 · 귀가",
         "origin": "출발지",
         "depTime": "출발 시각 (출발지)",
         "retTime": "여행지 출발 시각",
-        "retHint": "마지막 날은 이 시각까지 일정을 마쳐요"
+        "retHint": "마지막 날은 이 시각까지 일정을 마쳐요",
+        "originEnd": "귀가지",
+        "originSame": "출발지와 동일"
       },
       "wide": {
         "heading": "광역 교통",
@@ -622,19 +803,17 @@
           "own": "자가용"
         },
         "short": {
-          "origin": "출발지에 없음",
           "hub": "도착지에 없음",
-          "island": "차로 못 가요"
+          "island": "차로 못 가요",
+          "islandMetro": "배로만 가요"
         },
         "reason": {
-          "origin": "{origin}에서 출발하는 {mode} 노선이 없어요",
           "hub": "{hub}에는 {mode} 노선이 없어요",
           "island": "섬 지역이라 자가용으로 갈 수 없어요",
+          "islandMetro": "섬 지역이라 지하철로 이어 갈 수 없어요. 배를 골라 주세요",
           "noCity": "도시를 고르거나 장소를 담으면 광역 교통을 고를 수 있어요"
         },
-        "access": "{origin} → {hub} · 약 {duration}",
-        "none": "이 출발지에서 {city}에 닿는 광역 교통이 없어 광역 이동 시간을 빼고 계산했어요. 출발지를 바꿔 보세요",
-        "useOrigin": "{origin}에서 출발하기"
+        "access": "{origin} → {hub} · 약 {duration}"
       },
       "local": {
         "heading": "현지 이동",
@@ -653,7 +832,8 @@
       },
       "list": {
         "heading": "담은 장소 · {count}",
-        "empty": "아직 담은 장소가 없어요. 지도에서 장소를 담거나 아래에서 추천 코스를 불러오세요"
+        "empty": "아직 담은 장소가 없어요. 지도에서 장소를 담거나 아래에서 추천 코스를 불러오세요",
+        "stay": "숙소로 지정됨"
       },
       "goMap": "지도에서 장소 담기",
       "moveUp": "{name} 위로 옮기기",
@@ -710,7 +890,188 @@
         "goodchoice": "여기어때",
         "agoda": "Agoda",
         "bookingCom": "Booking.com",
-        "newWindow": "(새 창)"
+        "newWindow": "(새 창)",
+        "air": "항공권 예매",
+        "ship": "여객선 예매",
+        "metro": "전철 노선·시간표",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com",
+        "skRent": "SK렌터카",
+        "rentalcars": "Rentalcars"
+      },
+      "stay": {
+        "dec": "{name} 체류 시간 15분 줄이기",
+        "inc": "{name} 체류 시간 15분 늘리기",
+        "rec": "추천 {duration}",
+        "reset": "추천값으로",
+        "resetLabel": "{name} 체류 시간을 추천값으로 되돌리기",
+        "changed": "{name} 체류 시간 {duration}"
+      },
+      "dayAdd": {
+        "open": "장소 추가",
+        "openLabel": "{day}일차에 장소 추가",
+        "search": "이 날에 넣을 장소 검색",
+        "clear": "지우기",
+        "results": "검색 결과",
+        "cityPlaces": "{city} 여행지",
+        "none": "일치하는 장소가 없어요",
+        "hint": "그날 마지막 장소 뒤에 넣어요. 시간이 모자라면 다음 날로 넘어가요",
+        "added": "{day}일차에 넣었어요: {name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km}km",
+        "modes": {
+          "transit": "대중교통",
+          "driving": "렌트카",
+          "own": "자가용",
+          "wide": "광역 이동"
+        },
+        "out": "가는 길",
+        "back": "돌아오는 길",
+        "route": "{from} → {to}",
+        "access": "{mode} · 약 {duration}"
+      },
+      "nightStay": {
+        "label": "숙박",
+        "labelFor": "{day}일차 밤 숙소:",
+        "picked": "직접 지정",
+        "generic": "숙소 {letter}",
+        "genericMeta": "{area} 근처 · 숙소 미지정",
+        "sample": "예시",
+        "sampleNote": "예시 숙소 지역이에요. 실제 예약 정보가 아니에요",
+        "nearby": "주변 숙소",
+        "ownHeading": "그날 밤 숙소로 지정",
+        "samplesHeading": "예시 숙소 지역 · 지도 검색",
+        "place": "장소",
+        "setAsStay": "숙소로 지정됨",
+        "distance": "{km} km",
+        "mapNewWindow": "(지도 검색, 새 창)",
+        "book": "숙박 예약",
+        "setStatus": "{day}일차 밤 숙소를 {name}(으)로 지정했어요",
+        "unsetStatus": "{name} 숙소 지정을 해제했어요"
+      },
+      "metro": {
+        "start": "출발지 · 호선 → 역명",
+        "city": "출발 전철역 (광역전철 구간)",
+        "end": "귀가지 · 호선 → 역명",
+        "line": "호선",
+        "station": "역명",
+        "linePlaceholder": "호선 선택",
+        "stationPlaceholder": "역 선택",
+        "endPlaceholder": "출발역과 동일",
+        "lineChanged": "호선을 바꿔 역 선택을 비웠어요. 역을 다시 고르세요",
+        "lineNo": "{n}호선",
+        "cityLineNo": "{city}{n}호선",
+        "cities": {
+          "incheon": "인천",
+          "busan": "부산",
+          "daegu": "대구",
+          "daejeon": "대전",
+          "gwangju": "광주"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "전철",
+          "bus": "고속·시외버스",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "항공",
+          "ship": "여객선",
+          "own": "자가용",
+          "car": "택시·차량",
+          "carferry": "카페리(차량 선적)"
+        },
+        "depart": "출발",
+        "leave": "여행지 출발",
+        "ride": "{mode} {duration} 후 도착",
+        "wait": "대기 {duration} → {time} {mode} 탑승",
+        "transfer": "환승 {duration} → {time} {mode} 탑승",
+        "board": "{mode} 탑승",
+        "arrive": "도착 관문",
+        "home": "귀가 도착",
+        "note": "시각은 거리 기반 예상치예요. 예매할 때 실제 시간표를 확인하세요",
+        "gateway": "환승 관문",
+        "routeChange": "경로 변경",
+        "alt": "다른 광역교통 경로 {count}개",
+        "arrivalTag": "도착 후",
+        "arrivalSub": "≈ {mode} {duration} · {km} km",
+        "arrivalModes": {
+          "transit": "대중교통",
+          "driving": "차량"
+        },
+        "directions": "길찾기",
+        "directionsLabel": "{from}에서 {to}까지 길찾기 (새 창)"
+      },
+      "route": {
+        "kickerIn": "광역교통 경로 선택",
+        "kickerOut": "귀가 경로 선택",
+        "titleIn": "{origin} → {city} 경로가 {count}가지 있어요",
+        "titleOut": "{city} → {origin} 귀가 경로가 {count}가지 있어요",
+        "body": "이용할 광역교통을 하나 고르세요. 고른 경로로 환승 관문과 일정 시각을 다시 계산해요",
+        "foot": "닫으면 기본 경로(강조된 항목)를 써요. 코스 카드의 「경로 변경」에서 언제든 바꿀 수 있어요",
+        "direct": "{mode} · 직행",
+        "transfers": "{mode} · 환승 {count}회",
+        "times": "{dep} 출발 → {arr} 도착",
+        "current": "지금 경로",
+        "close": "닫기",
+        "picked": "{mode} 경로로 바꿨어요",
+        "modes": {
+          "bus": "고속·시외버스",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "항공",
+          "ship": "여객선",
+          "metro": "광역전철"
+        }
+      },
+      "jejuOwn": {
+        "kicker": "자가용 · 제주",
+        "title": "제주는 섬이라 자가용만으로는 갈 수 없어요. 제주도민인가요?",
+        "resident": "예, 제주도민 — 자가용만",
+        "ferry": "아니요 — 차를 배에 싣고 (카페리)",
+        "residentNote": "도민 기준 — 섬 안에서 자가용으로만 이동해요. 광역 이동이 없어 첫날은 출발 시각부터 일정을 시작해요.",
+        "ferryNote": "목포·완도·여수·부산 등에서 카페리로 차를 싣고 들어가요. 아래 배편 시간표에서 항구를 고르세요. 차량 선적은 출항 1시간 전까지가 일반적이에요."
+      },
+      "ulleung": {
+        "kicker": "울릉 항로",
+        "title": "울릉은 배로만 들어가요",
+        "body": "철도·고속버스·항공 노선이 없어, 출발지와 귀가지를 울릉행 여객선이 뜨는 네 항구로만 잡아요. 출발지는 포항여객선터미널로 맞춰 두었으니 원하는 항구로 바꿔 주세요.",
+        "portsLabel": "출발 가능 항구 · 소요",
+        "foot": "소요 시간은 항구별 고정 항해시간에 승선 수속 40분을 더한 값이에요. 입항지는 항편에 따라 도동·저동·사동으로 달라지며, 기상에 따라 결항될 수 있어요.",
+        "ok": "알겠습니다",
+        "close": "닫기"
+      },
+      "ferry": {
+        "title": {
+          "jeju": "제주 배편 시간표",
+          "ulleung": "울릉도 배편 시간표"
+        },
+        "port": "출발 항구",
+        "rows": {
+          "op": "운항 선사",
+          "dur": "소요 시간",
+          "day": "운항 횟수",
+          "first": "첫 출항",
+          "last": "막 출항",
+          "arr": "도착 항구"
+        },
+        "note": "본토 출항 기준 참고 시간이에요. 요일·계절·기상에 따라 운항 횟수와 시간이 바뀌거나 결항될 수 있으니 예매 전 선사 시간표를 확인하세요.",
+        "book": "가보고싶은섬 예매",
+        "operator": "선사 시간표 검색",
+        "stat": {
+          "label": "실적 기반 운항 현황 · {route}",
+          "range": "{from}–{to} · {n}항차",
+          "yearly": "연중 통제(결항)율",
+          "tripMonth": "{month}월 통제율 (여행월)",
+          "worst": "가장 궂은 달",
+          "monthPct": "{month}월 {pct}",
+          "bars": "월별 통제율",
+          "barTrip": "{label} · 여행월",
+          "times": "최근 1년 주요 출항",
+          "warn": "{month}월은 이 항로의 통제율이 {pct}로 높은 편이에요. 결항에 대비해 항공편이나 하루 여유 일정을 함께 잡아 두세요.",
+          "src": "출처: 한국해양교통안전공단 항로별 여객선 운항상황 (선박: {ships})"
+        }
       }
     },
     "info": {
@@ -729,15 +1090,52 @@
         "ship": "배",
         "metro": "광역전철"
       },
-      "tipsHeading": "이동 요령",
-      "tips": "코스 탭에서 날짜 · 출발지 · 시각을 정하면 담은 장소가 날짜별 동선으로 나뉘고, 장소마다 도착 · 출발 시각과 이동 시간이 붙어요. 광역 교통은 자가용을 빼면 출발지와 도착 도시 관문에 함께 있는 수단만 고를 수 있어서, 제주는 항공이나 배로 가요. 마지막 날 일정은 여행지 출발 시각에 맞춰 끝나고, KTX · SRT · 버스 · 렌트카 · 숙박 예매 링크는 코스 탭 맨 아래에 있어요.",
       "linksHeading": "지역별 관광 안내",
-      "newWindow": "(새 창)"
+      "newWindow": "(새 창)",
+      "defaultRegion": "기본 지역",
+      "more": "더 보기 ({shown} / {total})",
+      "call": "전화",
+      "citytour": {
+        "title": "{city} 시티투어",
+        "meta": "{count}개 코스",
+        "empty": "이 지역에 등록된 시티투어가 없습니다.",
+        "source": "출처: 전국시티투어정보표준데이터 · {date} 기준"
+      },
+      "tic": {
+        "title": "{city} 관광안내소",
+        "meta": "{count}곳",
+        "hotline": "1330 관광통역안내 · 24시간",
+        "hotlineSub": "한국어·영어·일본어·중국어 등 외국어 통역 안내",
+        "onlyMine": "외국어 안내 가능한 곳만 ({count})",
+        "emptyMine": "외국어 안내가 표시된 안내소가 없습니다. 통역은 1330으로 전화하세요.",
+        "empty": "이 지역에 등록된 관광안내소가 없습니다.",
+        "hours": "운영",
+        "closed": "휴무",
+        "map": "지도",
+        "source": "출처: 한국관광공사 전국관광안내소 정보 · 좌표 카카오"
+      }
+    },
+    "howTo": {
+      "heading": "이동 요령",
+      "steps": {
+        "wide": "광역교통(버스·기차·항공·배·지하철·자가용)을 먼저 고릅니다. 고른 수단에 맞는 터미널·역·공항·항만만 출발지·귀가지로 나옵니다.",
+        "origin": "지하철을 고르면 호선 → 역명 순으로 고릅니다.",
+        "route": "여행지까지 두 가지 이상 경로가 있으면(예: KTX / 고속버스) 안내 창에서 경로를 고릅니다. 집에서 터미널·역까지 가는 구간도 함께 계산됩니다.",
+        "local": "현지 이동은 렌트카 또는 대중교통 중에서 고릅니다. 날짜·출발 시각을 정하면 하루 단위 동선과 장소 사이 이동 시간이 계산되고, 체류 시간은 장소마다 바꿀 수 있습니다.",
+        "stay": "1박 이상이면 날짜마다 숙소 후보와 예약 버튼이 붙습니다. 숙박 장소는 관광 시간 계산에서 빠집니다.",
+        "jeju": "제주는 항공·배·자가용(도민 또는 배와 함께)만 고를 수 있습니다."
+      }
     }
   },
   "NotFound": {
     "title": "페이지를 찾을 수 없어요",
     "description": "주소가 바뀌었거나 없는 페이지예요. 홈에서 다시 찾아 보세요",
+    "home": "홈으로"
+  },
+  "Error": {
+    "title": "화면을 그리지 못했어요",
+    "description": "잠시 뒤에 다시 시도해 주세요",
+    "retry": "다시 시도",
     "home": "홈으로"
   },
   "Datalab": {
@@ -760,6 +1158,60 @@
       "heal": "자연·힐링",
       "activity": "체험·활동",
       "food": "미식"
+    }
+  },
+  "Header": {
+    "search": "장소 찾기 (투어 플래너)"
+  },
+  "Notifications": {
+    "button": "알림",
+    "buttonUnread": "알림, 읽지 않은 알림 {count}개",
+    "heading": "알림",
+    "markAll": "모두 읽음",
+    "empty": "새 알림이 없어요",
+    "unread": "읽지 않음:",
+    "recommend": {
+      "title": "테마 추천 결과가 있어요",
+      "body": "나의 여행자 유형 · {type}"
+    },
+    "planner": {
+      "title": "투어 플래너 코스에 담아 둔 장소가 있어요",
+      "body": "{count}곳 · 코스 탭에서 이어서 짜 보세요"
+    },
+    "saved": {
+      "title": "저장된 플랜이 있어요",
+      "body": "{count}개 · ME에서 다시 열 수 있어요"
+    },
+    "citytour": {
+      "title": "지역 시티투어를 볼 수 있어요",
+      "body": "{regions}개 지역 · {tours}개 코스 · 기준일 {date}까지"
+    }
+  },
+  "Plans": {
+    "label": "내 플랜",
+    "labelSuffix": "이름",
+    "placeholder": "플랜 이름 (선택)",
+    "store": "저장소 보기 ({count})",
+    "storeEmpty": "저장한 플랜이 없어요",
+    "overwrite": "「{name}」 덮어쓰기",
+    "overwritten": "저장소의 「{name}」 플랜을 업데이트했어요",
+    "load": "불러오기",
+    "loadLabel": "{name} 불러오기",
+    "loaded": "「{name}」 플랜을 불러왔어요",
+    "current": "지금 보는 플랜",
+    "deleteLabel": "{name} 삭제",
+    "deleted": "「{name}」 플랜을 삭제했어요",
+    "savedStatus": "플랜을 저장했어요. ME에서 볼 수 있어요",
+    "cancel": "취소",
+    "confirmOverwrite": {
+      "title": "플랜을 덮어쓸까요?",
+      "body": "저장소의 「{name}」 플랜을 지금 코스로 바꿔요",
+      "confirm": "덮어쓰기"
+    },
+    "confirmDelete": {
+      "title": "플랜을 삭제할까요?",
+      "body": "「{name}」 플랜을 저장소에서 지워요. 되돌릴 수 없어요",
+      "confirm": "삭제"
     }
   }
 }

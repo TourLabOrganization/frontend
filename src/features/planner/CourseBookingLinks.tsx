@@ -1,10 +1,9 @@
 import { ChevronDown, ExternalLink } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { buttonClassName } from "@/components/ui/Button";
 import {
   type BookingLink,
-  RENT_LINKS,
-  stayLinks,
+  rentBookingLinks,
   TRANSPORT_LINKS,
 } from "./data/booking";
 
@@ -29,7 +28,8 @@ function NewWindowLink({ link }: { link: BookingLink }) {
   );
 }
 
-function Dropdown({
+/** 펼치면 새 창 링크 목록. 일자별 숙소 카드의 「숙박 예약」도 쓴다 */
+export function Dropdown({
   label,
   links,
   wide = false,
@@ -64,9 +64,15 @@ function Dropdown({
   );
 }
 
-// 코스 탭 아래쪽 예매 링크(목업): KTX · SRT · 버스, 렌트카 ▾ · 숙박 ▾. 모두 새 창
-export function CourseBookingLinks({ cityEn }: { cityEn: string }) {
+// 코스 탭 아래쪽 예매 링크(목업): KTX · SRT · 버스, 렌트카 ▾(PoC rentSites 4곳) · 숙박 ▾. 모두 새 창.
+// 숙박 ▾은 코스 전체 기준(PoC coursePanelBookings, data/booking.ts stayBookingLinks)
+export function CourseBookingLinks({
+  stayLinks,
+}: {
+  stayLinks: readonly BookingLink[];
+}) {
   const t = useTranslations("Planner.course.booking");
+  const locale = useLocale();
   return (
     <section aria-labelledby="planner-booking-heading" className="px-5">
       <h2 id="planner-booking-heading" className="text-headline font-bold">
@@ -79,15 +85,10 @@ export function CourseBookingLinks({ cityEn }: { cityEn: string }) {
           </li>
         ))}
         <li>
-          <Dropdown label={t("rent")} links={RENT_LINKS} />
+          <Dropdown label={t("rent")} links={rentBookingLinks(locale)} />
         </li>
       </ul>
-      <Dropdown
-        label={t("stay")}
-        links={stayLinks(cityEn)}
-        wide
-        className="mt-2"
-      />
+      <Dropdown label={t("stay")} links={stayLinks} wide className="mt-2" />
     </section>
   );
 }

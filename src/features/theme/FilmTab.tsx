@@ -1,10 +1,12 @@
 "use client";
 
-import { ExternalLink, Play, Search } from "lucide-react";
+import { ExternalLink, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
+import { SearchField } from "@/components/ui/SearchField";
+import { hasViews, type SceneSort, searchCards, sortCards } from "./place-list";
 import { SECONDARY_LINK_CLASS } from "./place-meta";
 
 export type ScenePlace = { id: string; label: string; href: string };
@@ -20,8 +22,8 @@ export type FilmCard = {
   sceneTitle?: string;
   work?: string;
   places: ScenePlace[];
-  /** 검색 대상(장면 제목 · 장소 이름)을 소문자로 이은 것 */
-  haystack: string;
+  /** 검색 대상(장면 제목 · 장소 이름 한 · 영) */
+  texts: string[];
 };
 
 /** RESCENE 뮤직비디오 · 영상 카드 */
@@ -30,11 +32,13 @@ export type VideoCard = {
   /** 유튜브 영상 id */
   id: string;
   date: string;
+  /** PoC에 적힌 조회수. 없으면 비운다 */
+  views?: number;
   sceneTitle?: string;
   /** 시작 시각(초) */
   start?: number;
   places: ScenePlace[];
-  haystack: string;
+  texts: string[];
 };
 
 type FilmTabProps = {
@@ -43,16 +47,30 @@ type FilmTabProps = {
   video: boolean;
 };
 
-// 영화 탭. 장면순 · 역순 정렬과 검색(장면 제목 · 장소 이름). 카드 id는 장면 id라 지도 시트의 #장면 링크가 여기로 온다
+// 영화 탭. 정렬(영화 · 드라마: 장면순 · 역순, RESCENE: 인기순 · 최신순)과 검색(장면 제목 · 장소 이름).
+// RESCENE 인기순은 PoC에 적힌 조회수로 줄 세운다. 조회수가 하나도 없으면 인기순 · 최신순 칩을 두지 않는다(게시일순).
+// 카드 id는 장면 id라 지도 시트 · 지도 목록의 #장면 링크가 여기로 온다
 export function FilmTab({ cards, video }: FilmTabProps) {
   const t = useTranslations("Theme.film");
-  const [reverse, setReverse] = useState(false);
+  const locale = useLocale();
+  const sorts: readonly SceneSort[] = video
+    ? hasViews(cards)
+      ? ["popular", "latest"]
+      : []
+    : ["asc", "desc"];
+  const [sort, setSort] = useState<SceneSort>(
+    sorts[0] ?? (video ? "latest" : "asc"),
+  );
   const [query, setQuery] = useState("");
   const [playing, setPlaying] = useState<string | null>(null);
 
-  const q = query.trim().toLowerCase();
-  const shown = cards.filter((c) => !q || c.haystack.includes(q));
-  if (reverse) shown.reverse();
+  const shown = sortCards(searchCards(cards, query), sort);
+  const sortLabel: Record<SceneSort, string> = {
+    asc: t("sortAsc"),
+    desc: t("sortDesc"),
+    popular: t("sortPopular"),
+    latest: t("sortLatest"),
+  };
 
   return (
     <>
@@ -63,41 +81,46 @@ export function FilmTab({ cards, video }: FilmTabProps) {
         <h2 className="mt-1 text-title font-bold">
           {video ? t("titleVideo") : t("title")}
         </h2>
+        {/* 장면 제목은 원천이 한국어뿐이라 옮기지 않고, 외국어 화면에만 안내한다(작품명은 work-titles.ts로 옮긴다) */}
+        {locale !== "ko" && (
+          <p className="mt-2 text-caption text-fg-subtle">{t("koreanNote")}</p>
+        )}
       </section>
 
       <div className="mt-4 flex flex-col gap-3 px-5">
-        <div
-          role="group"
-          aria-label={t("sortLabel")}
-          className="flex gap-1 rounded-2xl bg-fill p-1"
-        >
-          {[false, true].map((rev) => (
-            <button
-              key={String(rev)}
-              type="button"
-              aria-pressed={reverse === rev}
-              onClick={() => setReverse(rev)}
-              className={`flex min-h-11 flex-1 items-center justify-center rounded-xl px-3 text-label transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
-                reverse === rev
-                  ? "bg-surface font-semibold text-fg ring-1 ring-line"
-                  : "font-medium text-fg-muted active:bg-line"
-              }`}
-            >
-              {rev ? t("sortDesc") : t("sortAsc")}
-            </button>
-          ))}
-        </div>
-        <label className="flex min-h-12 items-center gap-2 rounded-2xl bg-fill px-4 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary-bright">
-          <Search size={20} className="shrink-0 text-fg-muted" aria-hidden />
-          <span className="sr-only">{t("searchLabel")}</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={t("searchPlaceholder")}
-            className="min-w-0 flex-1 bg-transparent py-3 text-body text-fg outline-none placeholder:text-fg-muted"
-          />
-        </label>
+        {sorts.length > 0 && (
+          <div
+            role="group"
+            aria-label={t("sortLabel")}
+            className="flex gap-1 rounded-2xl bg-fill p-1"
+          >
+            {sorts.map((key) => (
+              <button
+                key={key}
+                type="button"
+                aria-pressed={sort === key}
+                onClick={() => setSort(key)}
+                className={`flex min-h-11 flex-1 items-center justify-center rounded-xl px-3 text-label transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                  sort === key
+                    ? "bg-surface font-semibold text-fg ring-1 ring-line"
+                    : "font-medium text-fg-muted active:bg-line"
+                }`}
+              >
+                {sortLabel[key]}
+              </button>
+            ))}
+          </div>
+        )}
+        <SearchField
+          value={query}
+          onChange={setQuery}
+          label={t("searchLabel")}
+          placeholder={t("searchPlaceholder")}
+          clearLabel={t("searchClear")}
+        />
+        <p role="status" className="sr-only">
+          {query.trim() ? t("searchStatus", { count: shown.length }) : ""}
+        </p>
       </div>
 
       {shown.length === 0 ? (
@@ -131,8 +154,13 @@ export function FilmTab({ cards, video }: FilmTabProps) {
                     </span>
                   </p>
                 ) : (
-                  <p className="text-label font-semibold text-fg-muted tabular-nums">
-                    {card.date}
+                  <p className="flex flex-wrap gap-x-3 text-label font-semibold text-fg-muted tabular-nums">
+                    {card.views !== undefined && (
+                      <span className="text-primary-strong">
+                        {t("views", { count: card.views })}
+                      </span>
+                    )}
+                    <span>{card.date}</span>
                   </p>
                 )}
                 {card.sceneTitle && (

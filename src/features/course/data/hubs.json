@@ -472,35 +472,84 @@
       "en": "Wando Port (ferry)",
       "lat": 34.3159,
       "lng": 126.755,
-      "modes": ["ship"]
+      "modes": ["ship"],
+      "route": "jeju"
     },
     "mokpoPort": {
       "ko": "목포연안여객터미널 (여객선)",
       "en": "Mokpo Ferry Terminal",
       "lat": 34.7847,
       "lng": 126.382,
-      "modes": ["ship"]
+      "modes": ["ship"],
+      "route": "jeju"
     },
     "nokdongPort": {
       "ko": "녹동항 (여객선)",
       "en": "Nokdong Port (ferry)",
       "lat": 34.5283,
       "lng": 127.13,
-      "modes": ["ship"]
+      "modes": ["ship"],
+      "route": "jeju"
     },
     "yeosuPort": {
       "ko": "여수연안여객터미널 (여객선)",
       "en": "Yeosu Ferry Terminal",
       "lat": 34.7405,
       "lng": 127.743,
-      "modes": ["ship"]
+      "modes": ["ship"],
+      "route": "jeju"
     },
     "busanPort": {
       "ko": "부산항 연안여객터미널 (여객선)",
       "en": "Busan Coastal Ferry Terminal",
       "lat": 35.1015,
       "lng": 129.0405,
-      "modes": ["ship"]
+      "modes": ["ship"],
+      "route": "jeju"
+    },
+    "pohangPort": {
+      "ko": "포항여객선터미널 (울릉 항로)",
+      "en": "Pohang Ferry Terminal (Ulleung)",
+      "lat": 36.0417,
+      "lng": 129.3853,
+      "modes": ["ship"],
+      "route": "ulleung",
+      "sailMin": 200,
+      "arrKo": "도동항·사동항",
+      "arrEn": "Dodong / Sadong Port"
+    },
+    "mukhoPort": {
+      "ko": "묵호항 여객선터미널 (울릉 항로)",
+      "en": "Mukho Ferry Terminal (Ulleung)",
+      "lat": 37.55,
+      "lng": 129.1156,
+      "modes": ["ship"],
+      "route": "ulleung",
+      "sailMin": 160,
+      "arrKo": "도동항·사동항",
+      "arrEn": "Dodong / Sadong Port"
+    },
+    "hupoPort": {
+      "ko": "후포항 여객터미널 (울릉 항로)",
+      "en": "Hupo Ferry Terminal (Ulleung)",
+      "lat": 36.68,
+      "lng": 129.453,
+      "modes": ["ship"],
+      "route": "ulleung",
+      "sailMin": 140,
+      "arrKo": "사동항",
+      "arrEn": "Sadong Port"
+    },
+    "gangneungPort": {
+      "ko": "강릉항 여객터미널 (울릉 항로)",
+      "en": "Gangneung Ferry Terminal (Ulleung)",
+      "lat": 37.7728,
+      "lng": 128.9503,
+      "modes": ["ship"],
+      "route": "ulleung",
+      "sailMin": 180,
+      "arrKo": "저동항·사동항",
+      "arrEn": "Jeodong / Sadong Port"
     },
     "masanStn": {
       "ko": "마산역 (KTX)",

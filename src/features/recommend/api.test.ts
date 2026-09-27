@@ -3,6 +3,7 @@ import ko from "../../../messages/ko.json";
 import {
   API_CATS,
   buildRecommendRequest,
+  parseRecommendResponse,
   pickCategory,
   type RecommendResponse,
   type RecommendThemeResponse,
@@ -238,6 +239,30 @@ describe("fetchRecommendation (가짜 fetch)", () => {
     }
   });
 
+  it("화면이 쓰는 필드가 틀린 응답은 실패로, 없어도 되는 필드는 빈 값으로 돌려준다", async () => {
+    const good = response([item("왕과 사는 남자")]);
+    const cases: [unknown, boolean][] = [
+      [null, false],
+      [{ ...good, themes: null }, false],
+      [{ ...good, themes: [null] }, false],
+      [{ ...good, themes: [{ ...item("왕과 사는 남자"), theme: 3 }] }, false],
+      [{ ...good, sources: undefined }, true],
+      [{ ...good, sources: null }, true],
+    ];
+    for (const [data, ok] of cases) {
+      const { fetchRecommendation } = await load(async () =>
+        json(200, { code: "API_SUCCESS", message: "ok", data }),
+      );
+      const result = await fetchRecommendation({
+        cluster: "C4",
+        interests: [],
+        night: false,
+      });
+      expect(result.ok).toBe(ok);
+      if (result.ok) expect(result.data.sources).toEqual([]);
+    }
+  });
+
   it("주소가 설정되지 않았으면 실패로 돌려준다", async () => {
     vi.stubEnv("NEXT_PUBLIC_API_BASE_URL", "");
     vi.resetModules();
@@ -260,5 +285,59 @@ describe("출처 이름 표", () => {
         "한국관광 데이터랩 (지역×테마 강도 TFI)",
       ].map((name) => SOURCE_KEYS[name]),
     ).toEqual(["nationalTravel", "inbound", "datalabTfi"]);
+  });
+});
+
+describe("parseRecommendResponse", () => {
+  const good = response([item("왕과 사는 남자"), item("부산 영화 기행")]);
+
+  it("정상 응답은 그대로 돌려준다", () => {
+    expect(parseRecommendResponse(good)).toEqual(good);
+  });
+
+  it("themes가 없거나 배열이 아니거나 항목이 틀리면 null", () => {
+    const { themes: _omit, ...noThemes } = good;
+    void _omit;
+    expect(parseRecommendResponse(noThemes)).toBeNull();
+    expect(parseRecommendResponse({ ...good, themes: null })).toBeNull();
+    expect(parseRecommendResponse({ ...good, themes: {} })).toBeNull();
+    expect(parseRecommendResponse({ ...good, themes: [null] })).toBeNull();
+    expect(
+      parseRecommendResponse({ ...good, themes: [{ score: 1 }] }),
+    ).toBeNull();
+    expect(parseRecommendResponse(null)).toBeNull();
+    expect(parseRecommendResponse("x")).toBeNull();
+  });
+
+  it("sources · cats · region · regionApplied · share가 빠지거나 null이면 빈 값", () => {
+    const parsed = parseRecommendResponse({
+      themes: [{ theme: "왕과 사는 남자", share: null }],
+      sources: null,
+      region: 3,
+    });
+    expect(parsed).toEqual({
+      cluster: "",
+      cats: [],
+      region: null,
+      regionApplied: false,
+      sources: [],
+      themes: [
+        {
+          theme: "왕과 사는 남자",
+          fit: 0,
+          interest: 0,
+          region: 0,
+          score: 0,
+          share: {},
+        },
+      ],
+    });
+  });
+
+  it("sources 안의 문자열이 아닌 값은 뺀다", () => {
+    expect(
+      parseRecommendResponse({ ...good, sources: ["국민여행조사", null, 3] })
+        ?.sources,
+    ).toEqual(["국민여행조사"]);
   });
 });

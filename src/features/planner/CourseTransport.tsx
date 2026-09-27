@@ -1,10 +1,10 @@
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useId, useRef } from "react";
-import { Button } from "@/components/ui/Button";
+import { useId } from "react";
 import type { TravelMode } from "@/features/course/schedule";
-import type { LocalMode, WideMode } from "./course-store";
+import type { LocalMode } from "./course-store";
 import type { WideOption } from "./schedule";
+import type { WideChoice } from "./wide-chain";
 
 // 칸 하나. 고른 칸은 파란 면 + 체크 표시(색만으로 나누지 않는다), 고를 수 없는 칸은 회색 면 + 이유.
 // 고를 수 없는 칸도 disabled 대신 aria-disabled로 두어 초점이 닿고 이유(aria-describedby)를 읽게 한다
@@ -18,38 +18,44 @@ const CELL_BLOCKED = "cursor-not-allowed bg-fill font-medium text-fg-muted";
 
 type CourseTransportProps = {
   options: readonly WideOption[];
-  /** 실제로 쓰는 광역 교통. 없으면 null */
-  wide: WideMode | null;
+  /** 강조할 광역 교통 칸. 없으면 null */
+  choice: WideChoice | null;
+  /** 함께 강조할 칸(제주 자가용 카페리면 배, PoC wideOpts). 없으면 null */
+  alsoOn?: WideChoice | null;
+  /**
+   * 제주 자가용일 때 「제주도민인가요?」(PoC jejuOwn*). resident: 고른 답(아직이면 null). 제주 자가용이 아니면 null
+   */
+  jejuOwn?: { resident: boolean | null; onPick: (v: boolean) => void } | null;
   /** 실제로 쓰는 현지 이동 */
   local: TravelMode;
+  /** 체인 출발점 이름(고른 전철역일 수 있다) */
   originName: string;
+  /** 도착 도시 관문 이름(고를 수 없는 이유 문구). 없으면 null */
   hubName: string | null;
-  destinationName: string | null;
-  /** 광역 접근 시간 문구(「약 2시간 8분」). 광역 교통이 없으면 null */
+  /** 가는 체인의 도착 관문 이름. 체인이 없으면 null */
+  accessHub: string | null;
+  /** 가는 체인 소요 문구(「약 2시간 8분」의 시간). 체인이 없으면 null */
   accessDuration: string | null;
-  /**
-   * 지금 출발지에서 닿는 광역 수단이 없을 때 제안할 출발지(이름).
-   * 누르면 onUseOrigin으로 출발지 · 광역 교통을 바꾼다. 없으면 null
-   */
-  suggestedOrigin: string | null;
-  onUseOrigin: () => void;
-  onWide: (mode: WideMode) => void;
+  onWide: (choice: WideChoice) => void;
   onLocal: (mode: LocalMode) => void;
+  /** 01 광역 교통과 02 현지 이동 사이(출발지 · 귀가지 · 시각). PoC처럼 수단을 먼저 고르고 그 관문 중에서 고른다 */
+  children?: React.ReactNode;
 };
 
-// 코스 탭 01 광역 교통 · 02 현지 이동 (목업 순서 · 칸 수 그대로)
+// 코스 탭 01 광역 교통 → 출발지 · 귀가지 → 02 현지 이동 (목업 순서 · 칸 수 그대로)
 export function CourseTransport({
   options,
-  wide,
+  choice,
+  alsoOn = null,
+  jejuOwn = null,
   local,
   originName,
   hubName,
-  destinationName,
+  accessHub,
   accessDuration,
-  suggestedOrigin,
-  onUseOrigin,
   onWide,
   onLocal,
+  children,
 }: CourseTransportProps) {
   const t = useTranslations("Planner.course");
   const id = useId();
@@ -57,18 +63,11 @@ export function CourseTransport({
   const localHeading = `${id}-local`;
   const noCityId = `${id}-nocity`;
   const noCity = options.every((o) => o.block === "noCity");
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const showNone = !wide && destinationName !== null && !noCity;
 
   return (
     <>
       <section aria-labelledby={wideHeading}>
-        <h3
-          id={wideHeading}
-          ref={headingRef}
-          tabIndex={-1}
-          className="text-body-lg font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
-        >
+        <h3 id={wideHeading} className="text-body-lg font-bold">
           <span aria-hidden className="mr-2 text-primary tabular-nums">
             01
           </span>
@@ -86,16 +85,23 @@ export function CourseTransport({
         >
           {options.map((o) => {
             const label = t(`wide.modes.${o.choice}`);
-            const on = wide === o.mode;
+            const on = choice === o.choice || alsoOn === o.choice;
             const reasonId = `${id}-${o.choice}`;
             const reason =
-              o.block === "origin"
-                ? t("wide.reason.origin", { origin: originName, mode: label })
-                : o.block === "hub"
-                  ? t("wide.reason.hub", { hub: hubName ?? "", mode: label })
-                  : o.block === "island"
-                    ? t("wide.reason.island")
-                    : null;
+              o.block === "hub"
+                ? t("wide.reason.hub", { hub: hubName ?? "", mode: label })
+                : o.block === "island"
+                  ? t(
+                      o.choice === "metro"
+                        ? "wide.reason.islandMetro"
+                        : "wide.reason.island",
+                    )
+                  : null;
+            // 섬(울릉)의 지하철 칸은 「차로 못 가요」 대신 「배로만 가요」
+            const short =
+              o.block === "island" && o.choice === "metro"
+                ? "islandMetro"
+                : (o.block as "hub" | "island");
             return (
               <button
                 key={o.choice}
@@ -111,7 +117,7 @@ export function CourseTransport({
                       : undefined
                 }
                 onClick={() => {
-                  if (!o.block) onWide(o.mode);
+                  if (!o.block) onWide(o.choice);
                 }}
                 className={`${CELL} ${o.block ? CELL_BLOCKED : on ? CELL_ON : CELL_OFF}`}
               >
@@ -122,9 +128,7 @@ export function CourseTransport({
                 {reason && (
                   <>
                     <span aria-hidden className="text-micro font-normal">
-                      {t(
-                        `wide.short.${o.block as "origin" | "hub" | "island"}`,
-                      )}
+                      {t(`wide.short.${short}`)}
                     </span>
                     <span id={reasonId} className="sr-only">
                       {reason}
@@ -136,31 +140,18 @@ export function CourseTransport({
           })}
         </div>
         <p aria-live="polite" className="mt-2 text-label text-fg-muted">
-          {wide && accessDuration && hubName
+          {accessDuration && accessHub
             ? t("wide.access", {
                 origin: originName,
-                hub: hubName,
+                hub: accessHub,
                 duration: accessDuration,
               })
-            : showNone
-              ? t("wide.none", { city: destinationName })
-              : ""}
+            : ""}
         </p>
-        {showNone && suggestedOrigin && (
-          <Button
-            variant="secondary"
-            size="md"
-            className="mt-3"
-            onClick={() => {
-              onUseOrigin();
-              // 누른 버튼이 사라지므로 초점을 광역 교통 제목으로 옮긴다(바뀐 칸 · 안내를 이어 읽는다)
-              headingRef.current?.focus();
-            }}
-          >
-            {t("wide.useOrigin", { origin: suggestedOrigin })}
-          </Button>
-        )}
+        {jejuOwn && <JejuOwnQuestion {...jejuOwn} />}
       </section>
+
+      {children}
 
       <section aria-labelledby={localHeading} className="mt-6">
         <h3 id={localHeading} className="text-body-lg font-bold">
@@ -207,5 +198,54 @@ export function CourseTransport({
         )}
       </section>
     </>
+  );
+}
+
+/**
+ * 제주 자가용의 「제주도민인가요?」 두 선택과 안내(PoC jejuOwnKicker · jejuOwnTitle · jejuOwnOpts · jejuOwnNote).
+ * 답이 출발지 목록(항만만 / 없음)과 체인(카페리 / 없음)을 바꾸므로 광역 교통 칸 바로 아래에 둔다
+ */
+function JejuOwnQuestion({
+  resident,
+  onPick,
+}: {
+  resident: boolean | null;
+  onPick: (v: boolean) => void;
+}) {
+  const t = useTranslations("Planner.course.jejuOwn");
+  const id = useId();
+  return (
+    <div
+      role="group"
+      aria-labelledby={`${id}-title`}
+      className="mt-3 rounded-card bg-fill p-4"
+    >
+      <p className="text-caption font-semibold text-primary">{t("kicker")}</p>
+      <p id={`${id}-title`} className="mt-1 text-body font-semibold">
+        {t("title")}
+      </p>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        {([true, false] as const).map((v) => {
+          const on = resident === v;
+          return (
+            <button
+              key={String(v)}
+              type="button"
+              aria-pressed={on}
+              onClick={() => onPick(v)}
+              className={`${CELL} ${on ? CELL_ON : CELL_OFF}`}
+            >
+              <span className="flex items-center gap-1">
+                {on && <Check size={16} className="shrink-0" aria-hidden />}
+                {t(v ? "resident" : "ferry")}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <p aria-live="polite" className="mt-2 text-label text-fg-muted">
+        {resident === null ? "" : t(resident ? "residentNote" : "ferryNote")}
+      </p>
+    </div>
   );
 }

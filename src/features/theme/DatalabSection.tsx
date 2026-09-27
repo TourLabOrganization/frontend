@@ -5,11 +5,10 @@ import { formatDuration } from "@/features/course/format-duration";
 import type { ThemeSlug } from "@/features/recommend/themes";
 import {
   datalabRegionId,
-  datalabRegionsOfCourse,
+  datalabRows,
   getCourses,
   getStayTime,
   getTfi,
-  tfiBars,
 } from "@/lib/api/datalab";
 import { THEME_COURSE_ID } from "./datalab";
 
@@ -21,11 +20,17 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
   const tcourse = await getTranslations("Course");
   const locale = await getLocale();
 
+  // 받기와 가공(코스 찾기 · 지역 고르기 · 막대 만들기)을 모두 실패 처리 안에서 한다.
+  // 응답 모양이 틀려도 이 블록만 실패 문구가 되고 탭의 나머지는 그대로 보인다
   const data = await Promise.all([getCourses(), getTfi(), getStayTime()])
-    .then(([courses, tfi, stay]) => ({ courses, tfi, stay }))
+    .then(([courses, tfi, stay]) => ({
+      rows: datalabRows(THEME_COURSE_ID[slug], courses, tfi, stay),
+      source: stay.source,
+      year: stay.latestYear,
+    }))
     .catch(() => null);
 
-  if (!data) {
+  if (!data || data.rows.length === 0) {
     return (
       <p role="status" className="px-1 text-caption text-fg-subtle">
         {t("datalabFailed")}
@@ -33,19 +38,7 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
     );
   }
 
-  const { courses, tfi, stay } = data;
-  const course = courses.courses.find(
-    (c) => c.courseId === THEME_COURSE_ID[slug],
-  );
-  const regions = datalabRegionsOfCourse(course, tfi, stay);
-  if (regions.length === 0) {
-    return (
-      <p role="status" className="px-1 text-caption text-fg-subtle">
-        {t("datalabFailed")}
-      </p>
-    );
-  }
-
+  const { rows } = data;
   const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
   const regionLabel = (name: string) => {
     const id = datalabRegionId(name);
@@ -53,11 +46,9 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
   };
 
   return (
-    <section aria-label={regions.map(regionLabel).join(" · ")}>
+    <section aria-label={rows.map((r) => regionLabel(r.region)).join(" · ")}>
       <div className="flex flex-col gap-3">
-        {regions.map((region) => {
-          const bars = tfiBars(tfi, region) ?? [];
-          const row = stay.regions.find((s) => s.region === region)!;
+        {rows.map(({ region, bars, stay: row }) => {
           const headingId = `datalab-${datalabRegionId(region) ?? region}`;
           return (
             <div
@@ -103,8 +94,38 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
         })}
       </div>
       <p className="mt-2 px-1 text-micro text-fg-subtle">
-        {t("datalabSource", { source: stay.source, year: stay.latestYear })}
+        {t("datalabSource", { source: data.source, year: data.year })}
       </p>
     </section>
+  );
+}
+
+/**
+ * 데이터랩 블록을 받는 동안의 자리(InfoTab의 Suspense fallback). 백엔드가 느려도(최대 8초) 탭의 나머지를 먼저 보내고,
+ * 지역 카드 한 장(제목 · TFI 막대 4줄 · 체류시간 3줄)과 같은 높이를 잡아 들어올 때 아래 칸이 덜 밀리게 한다
+ */
+export async function DatalabSkeleton() {
+  const t = await getTranslations("Theme.info");
+  const bar = "animate-pulse rounded-lg bg-fill motion-reduce:animate-none";
+  return (
+    <div
+      role="status"
+      aria-busy
+      className="flex flex-col gap-4 rounded-card p-5 ring-1 ring-line"
+    >
+      <span className="sr-only">{t("datalabLoading")}</span>
+      <span aria-hidden className={`block h-6 w-44 ${bar}`} />
+      <div aria-hidden className="flex flex-col gap-2">
+        <span className={`block h-4 w-24 ${bar}`} />
+        {[0, 1, 2, 3].map((i) => (
+          <span key={i} className={`block h-5 ${bar}`} />
+        ))}
+      </div>
+      <div aria-hidden className="flex flex-col gap-2">
+        {[0, 1, 2].map((i) => (
+          <span key={i} className={`block h-5 w-3/4 ${bar}`} />
+        ))}
+      </div>
+    </div>
   );
 }

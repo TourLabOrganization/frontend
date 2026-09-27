@@ -3,15 +3,16 @@
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { PLACE_COUNT_BY_CITY } from "./data";
 import { plannerHref } from "./query";
-import { cityName, REGIONS, regionName } from "./regions";
+import { cityName, PLACE_COUNT_BY_CITY, REGIONS, regionName } from "./regions";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 // 여행 정보 탭의 「선택한 지역」. 도시를 고르면 ?city=를 바꿔 그 도시의 관문을 보인다(여행 정보 탭 그대로).
 // 도시는 권역별 optgroup으로 묶고, 장소가 있는 도시만 넣는다
 export function InfoCitySelect({ city }: { city: string | null }) {
   const t = useTranslations("Planner.info");
   const locale = useLocale();
+  const names = useNameTable();
   const router = useRouter();
 
   return (
@@ -29,12 +30,12 @@ export function InfoCitySelect({ city }: { city: string | null }) {
       >
         <option value="">{t("selectPlaceholder")}</option>
         {REGIONS.map((r) => (
-          <optgroup key={r.key} label={regionName(r, locale)}>
+          <optgroup key={r.key} label={regionName(r, locale, names)}>
             {r.cities
               .filter((c) => PLACE_COUNT_BY_CITY.has(c))
               .map((c) => (
                 <option key={c} value={c}>
-                  {cityName(c, locale)}
+                  {cityName(c, locale, names)}
                 </option>
               ))}
           </optgroup>
