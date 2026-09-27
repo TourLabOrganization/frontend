@@ -25,6 +25,7 @@ import {
   writePlannerPlans,
   writeSavedPlans,
 } from "@/lib/local-store";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 // ME 화면 본문. 나의 여행자 유형(마지막 추천 결과의 유형 · 설명 · 1위 테마)과 저장된 플랜을 localStorage에서 읽는다.
 // 1위 테마는 결과 화면이 저장한 추천 API 1위(tn.lastTopTheme)를 읽기만 한다. 없으면(예전 기록 · 추천 실패) 유형만 보인다.
@@ -38,6 +39,7 @@ export function MePanel() {
   const td = useTranslations("Planner.course.dates");
   const tn = useTranslations("Planner");
   const locale = useLocale();
+  const names = useNameTable();
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
   const lastAnswers = lastA ? decodeAnswers(lastA) : null;
@@ -169,7 +171,7 @@ export function MePanel() {
                       <span className="mt-0.5 text-caption text-fg-subtle">
                         {t("plannerMeta", {
                           city: p.city
-                            ? cityName(p.city, locale)
+                            ? cityName(p.city, locale, names)
                             : tn("nation"),
                           duration:
                             days === 1

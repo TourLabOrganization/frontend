@@ -24,6 +24,7 @@ import { cityName } from "@/features/planner/regions";
 import type { ThemeSlug } from "@/features/recommend/themes";
 import { themePoster } from "@/features/recommend/works";
 import type { AppLocale } from "@/i18n/locales";
+import { loadNameTable } from "@/features/names/server";
 
 // 지금 인기 코스 2장(목업 「UNESCO 경주 2박 3일」 · 「COAST 거제 1박 2일」). 인기 데이터가 아직 없어 목업 카드의 조건
 // (기간 · 이동수단)을 고정했고, 지역 · 촬영지 수 · 광역 수단은 buildScenario로 계산한다.
@@ -56,6 +57,7 @@ const POPULAR: readonly {
 export default async function HomePage() {
   const showSplash = !(await cookies()).has(SPLASH_COOKIE);
   const locale = (await getLocale()) as AppLocale;
+  const names = await loadNameTable(locale);
   const t = await getTranslations("Home");
   const common = await getTranslations("Common");
   const tt = await getTranslations("Themes");
@@ -73,7 +75,7 @@ export default async function HomePage() {
       key,
       href: `/themes/${slug}?tab=course&a=${a}&plan=${plan}`,
       title: t("courseTitle", {
-        region: cities.map((c) => cityName(c, locale)).join(" · "),
+        region: cities.map((c) => cityName(c, locale, names)).join(" · "),
         duration:
           trip.days === 1
             ? tc("dayTrip")

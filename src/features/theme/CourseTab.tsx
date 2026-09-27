@@ -17,6 +17,7 @@ import type { Answers } from "@/features/recommend/questions";
 import { placeName } from "./place-meta";
 import { themeHref } from "./tabs";
 import { ThemeMap } from "./ThemeMap";
+import { loadNameTable } from "@/features/names/server";
 
 // 코스 탭. 조건(일정 · 이동수단) → 3안 탭 → 설명 · 안내 → 저장 · 요약 칩 → 코스 지도 → 일자별 일정.
 // 조건은 ?a=(Q10~Q14 답)의 q11 · q12만 바꾼 링크다. 다른 답은 그대로 둔다.
@@ -59,6 +60,7 @@ export async function CourseTab({ slug, a, plan }: CourseTabProps) {
   const tt = await getTranslations("Theme.course");
   const tq = await getTranslations("Recommend.questions");
   const locale = await getLocale();
+  const names = await loadNameTable(locale);
   const duration = (min: number) => formatDuration(t, min);
 
   const withAnswer = (id: "q11" | "q12", option: string) => {
@@ -92,7 +94,7 @@ export async function CourseTab({ slug, a, plan }: CourseTabProps) {
       id: `${day.day}-${stop.id}`,
       lat: stop.place.lat,
       lng: stop.place.lng,
-      title: placeName(stop.place, locale),
+      title: placeName(stop.place, locale, names),
       label: ++order,
     })),
   );
@@ -212,6 +214,7 @@ export async function CourseTab({ slug, a, plan }: CourseTabProps) {
               key={day.day}
               day={day}
               transport={trip.transport}
+              names={names}
             />
           ))}
         </>

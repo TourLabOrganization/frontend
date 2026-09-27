@@ -38,6 +38,7 @@ import {
 import { matchesQuery } from "@/lib/text-search";
 import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
 const INITIAL_ROWS = 10;
@@ -67,6 +68,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const ts = useTranslations("Planner.sheet");
   const tc = useTranslations("Course");
   const locale = useLocale();
+  const names = useNameTable();
   const router = useRouter();
   const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
   const course = useCourseToggle();
@@ -95,14 +97,16 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   // 전국은 도시 → 이름 순, 도시는 이름 순 (목업과 같다)
   const sorted = useMemo(() => {
-    const name = (p: PlannerPlace) => placeName(p, locale);
+    const name = (p: PlannerPlace) => placeName(p, locale, names);
     return [...scopePlaces].sort((a, b) =>
       nation
-        ? compare(cityName(a.locKo, locale), cityName(b.locKo, locale)) ||
-          compare(name(a), name(b))
+        ? compare(
+            cityName(a.locKo, locale, names),
+            cityName(b.locKo, locale, names),
+          ) || compare(name(a), name(b))
         : compare(name(a), name(b)),
     );
-  }, [scopePlaces, locale, nation]);
+  }, [scopePlaces, locale, names, nation]);
   // 분류 칩 · 배지 칩 · 검색어로 거른다(지도 표시와 목록이 같이 쓴다). 검색은 장소 이름(한 · 영)과 도시 이름(한 · 영)
   const filtered = useMemo(
     () =>
@@ -110,9 +114,19 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         (p) =>
           (filter === "all" || p.cat === filter) &&
           (badge === null || hasBadge(p, badge)) &&
-          matchesQuery([p.ko, p.en, p.locKo, cityName(p.locKo, "en")], query),
+          matchesQuery(
+            [
+              p.ko,
+              p.en,
+              p.locKo,
+              cityName(p.locKo, "en"),
+              placeName(p, locale, names),
+              cityName(p.locKo, locale, names),
+            ],
+            query,
+          ),
       ),
-    [sorted, filter, badge, query],
+    [sorted, filter, badge, query, locale, names],
   );
   const visible = filtered.slice(0, shown);
   const selected = scopePlaces.find((p) => p.id === selectedId) ?? null;
@@ -167,7 +181,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
     bubbles = REGIONS.flatMap((r) => {
       const n = byRegion.get(r.key) ?? 0;
       if (n === 0) return [];
-      const label = regionName(r, locale);
+      const label = regionName(r, locale, names);
       return [
         {
           id: r.key,
@@ -190,7 +204,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       const info = CITY_INFO[c];
       if (n === 0 || info?.lat === undefined || info.lng === undefined)
         return [];
-      const label = cityName(c, locale);
+      const label = cityName(c, locale, names);
       return [
         {
           id: c,
@@ -208,7 +222,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       lat: p.lat,
       lng: p.lng,
       cat: p.cat,
-      title: placeName(p, locale),
+      title: placeName(p, locale, names),
     }));
   }
   // 전국은 권역 가운데들, 권역은 그 권역 도시 가운데들, 도시는 걸러진 핀에 맞춘다.
@@ -352,7 +366,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         ) : (
           <ul ref={listRef} className="mt-2">
             {visible.map((p) => {
-              const name = placeName(p, locale);
+              const name = placeName(p, locale, names);
               const added = course.has(p.id);
               return (
                 <li key={p.id} className="flex items-center gap-2 pr-3">
@@ -376,7 +390,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                     </span>
                     {nation && (
                       <span className="shrink-0 text-caption font-medium text-fg-muted">
-                        {cityName(p.locKo, locale)}
+                        {cityName(p.locKo, locale, names)}
                       </span>
                     )}
                   </button>
@@ -430,9 +444,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       <PlaceSheet
         place={
           selected && {
-            name: placeName(selected, locale),
+            name: placeName(selected, locale, names),
             meta: [
-              cityName(selected.locKo, locale),
+              cityName(selected.locKo, locale, names),
               category(selected) ?? "",
               stay(selected) ?? "",
             ],
@@ -448,7 +462,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               : null,
             directionsHref: directionsUrl(
               selected,
-              placeName(selected, locale),
+              placeName(selected, locale, names),
             ),
           }
         }

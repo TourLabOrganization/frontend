@@ -24,6 +24,7 @@ import {
   typeProfile,
 } from "./citytour";
 import toursData from "./data/citytour.json";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 const TOURS = toursData as CityTour[];
 const COUNTS = regionCounts(TOURS);
@@ -55,6 +56,7 @@ export function CityTourSection() {
   const t = useTranslations("Home.citytour");
   const tc = useTranslations("Clusters");
   const locale = useLocale();
+  const names = useNameTable();
   const router = useRouter();
   const store = usePlannerCourse();
   const id = useId();
@@ -81,9 +83,16 @@ export function CityTourSection() {
   const regions = useMemo(
     () =>
       [...COUNTS.keys()]
-        .filter((r) => matchesQuery([r, cityName(r, "en")], query))
-        .sort((a, b) => compare(cityName(a, locale), cityName(b, locale))),
-    [query, locale],
+        .filter((r) =>
+          matchesQuery(
+            [r, cityName(r, "en"), cityName(r, locale, names)],
+            query,
+          ),
+        )
+        .sort((a, b) =>
+          compare(cityName(a, locale, names), cityName(b, locale, names)),
+        ),
+    [query, locale, names],
   );
   const list =
     mode === "rec" ? rec : TOURS.filter((tour) => tour.region === region);
@@ -213,7 +222,7 @@ export function CityTourSection() {
                 regions.map((r) => {
                   const pressed = r === region;
                   const count = COUNTS.get(r) ?? 0;
-                  const name = cityName(r, locale);
+                  const name = cityName(r, locale, names);
                   return (
                     <button
                       key={r}
@@ -245,7 +254,7 @@ export function CityTourSection() {
             </p>
             <h3 className="mt-5 text-body-lg font-bold tabular-nums">
               {t("regionHeading", {
-                region: cityName(region, locale),
+                region: cityName(region, locale, names),
                 count: COUNTS.get(region) ?? 0,
               })}
             </h3>
@@ -338,6 +347,7 @@ type CityTourCardProps = {
 function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
   const t = useTranslations("Home.citytour");
   const locale = useLocale();
+  const names = useNameTable();
   const hintId = useId();
   const tags = tourTags(tourProfile(tour));
   const hours = tourHours(tour);
@@ -352,7 +362,7 @@ function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
     >
       <p className="text-caption font-semibold text-primary">
         {rank !== undefined &&
-          `${t("rank", { rank })} · ${cityName(tour.region, locale)} · `}
+          `${t("rank", { rank })} · ${cityName(tour.region, locale, names)} · `}
         {t(`kind.${tour.kind}`)}
       </p>
       <h4 className="mt-1 text-body-lg font-bold">{tour.name}</h4>

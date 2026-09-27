@@ -65,7 +65,32 @@
 }
 
 @theme inline {
-  --font-sans:
+  --font-sans: var(--font-stack);
+}
+
+/*
+ * 글꼴 순서. Pretendard에는 한자 · 가나가 없어서 중 · 일 글자는 뒤의 시스템 CJK 글꼴로 그린다(웹폰트를 더 받지 않는다).
+ * 한국어 글꼴(Apple SD Gothic Neo · Noto Sans KR)에도 한자가 있어 중 · 일 화면에서는 그 언어 글꼴을 한국어 글꼴보다 앞에 둔다.
+ * <html lang>이 화면 언어를 따른다(app/layout.tsx)
+ */
+:root {
+  --font-stack:
     "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
-    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "PingFang SC",
+    "Hiragino Sans", "Microsoft YaHei", "Yu Gothic", "Noto Sans CJK SC",
+    "Noto Sans CJK JP", sans-serif;
+}
+:root:lang(zh) {
+  --font-stack:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC",
+    "Hiragino Sans GB", system-ui, "Apple SD Gothic Neo", "Noto Sans KR",
+    sans-serif;
+}
+:root:lang(ja) {
+  --font-stack:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, Meiryo,
+    "Noto Sans CJK JP", "Noto Sans JP", system-ui, "Apple SD Gothic Neo",
+    "Noto Sans KR", sans-serif;
 }

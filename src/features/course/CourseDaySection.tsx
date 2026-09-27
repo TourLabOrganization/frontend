@@ -1,6 +1,8 @@
 import { Bus, Car, Hourglass, TramFront } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Chip } from "@/components/ui/Chip";
+import type { NameTable } from "@/features/names/names";
+import { placeName } from "@/features/theme/place-meta";
 import { formatDuration } from "./format-duration";
 import type { CourseDay, Transport } from "./scenarios";
 
@@ -33,6 +35,8 @@ type CourseDaySectionProps = {
   empty?: React.ReactNode;
   /** 날짜 제목 단계. 위에 「일자별 일정」 같은 h2가 있으면 3(투어 플래너). 장소 이름은 그 아래 단계 */
   headingLevel?: 2 | 3;
+  /** 화면 언어의 이름표(중 · 일 장소 공식 명칭). 서버 · 클라이언트 양쪽에서 그려져서 부모가 넘긴다 */
+  names?: NameTable;
 };
 
 // 하루 일정. 장소마다 왼쪽에 도착·출발 시각, 오른쪽에 이름과 배지. 장소 사이에 이동·개장 대기
@@ -42,6 +46,7 @@ export function CourseDaySection({
   date,
   empty,
   headingLevel = 2,
+  names,
 }: CourseDaySectionProps) {
   const DayHeading = headingLevel === 3 ? "h3" : "h2";
   const PlaceHeading = headingLevel === 3 ? "h4" : "h3";
@@ -69,7 +74,7 @@ export function CourseDaySection({
         <ol className="mt-4">
           {day.stops.map((stop, k) => {
             const { place } = stop;
-            const name = locale === "ko" ? place.ko : place.en || place.ko;
+            const name = placeName(place, locale, names);
             const category = isCategoryKey(place.cat)
               ? t(`categories.${place.cat}`)
               : null;

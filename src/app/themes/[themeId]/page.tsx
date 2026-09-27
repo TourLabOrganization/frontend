@@ -28,6 +28,7 @@ import {
   VIDEO_THEME,
 } from "@/features/theme/theme-data";
 import { ThemeTabBar } from "@/features/theme/ThemeTabBar";
+import { loadNameTable } from "@/features/names/server";
 
 // 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)를 ?tab=으로 고르고, 고른 탭 하나만 그린다.
 // 주소 규칙은 features/theme/tabs.ts 머리 주석에 있다. 코스 탭은 결과 화면이 넘긴 필터(?a=, Q10~Q14)와 ?plan=을 쓴다.
@@ -54,6 +55,7 @@ export default async function ThemePage({
   const tr = await getTranslations("Regions");
   const t = await getTranslations("Theme");
   const locale = await getLocale();
+  const names = await loadNameTable(locale);
 
   const slug = theme.slug;
   const region = theme.regions.map((r) => tr(r)).join(" · ");
@@ -64,7 +66,7 @@ export default async function ThemePage({
   const scenePlace = (id: string): ScenePlace | null => {
     const p = places.find((x) => x.id === id);
     if (!p) return null;
-    const name = placeName(p, locale);
+    const name = placeName(p, locale, names);
     return {
       id,
       label: p.n === null ? name : `${pad2(p.n)} ${name}`,
@@ -95,7 +97,7 @@ export default async function ThemePage({
             texts: [
               s.title,
               first?.sceneTitle,
-              ...ps.flatMap((p) => [p.ko, p.en]),
+              ...ps.flatMap((p) => [p.ko, p.en, placeName(p, locale, names)]),
             ].filter((x): x is string => !!x),
           };
         });
@@ -114,7 +116,7 @@ export default async function ThemePage({
             texts: [
               s.date,
               sceneTitle,
-              ...ps.flatMap((p) => [p.ko, p.en]),
+              ...ps.flatMap((p) => [p.ko, p.en, placeName(p, locale, names)]),
             ].filter((x): x is string => !!x),
           };
         });
@@ -127,7 +129,7 @@ export default async function ThemePage({
         const toStamp = (p: (typeof places)[number]) => ({
           id: p.id,
           n: p.n,
-          name: placeName(p, locale),
+          name: placeName(p, locale, names),
           mapHref: mapHref(p.id),
         });
         // 스탬프 북 제목: 테마 장소가 한 도시면 그 도시(「영월 · 스탬프 북」, 목업과 같다), 여러 도시면 지역
@@ -135,7 +137,9 @@ export default async function ThemePage({
         return (
           <StampTab
             slug={slug}
-            region={cities.length === 1 ? cityName(cities[0], locale) : region}
+            region={
+              cities.length === 1 ? cityName(cities[0], locale, names) : region
+            }
             core={corePlaces(places).map(toStamp)}
             all={places.map(toStamp)}
           />
@@ -173,7 +177,7 @@ export default async function ThemePage({
         const cityLabels = Object.fromEntries(
           [...new Set(places.map((p) => p.locKo))].map((c) => [
             c,
-            cityName(c, locale),
+            cityName(c, locale, names),
           ]),
         );
         return (

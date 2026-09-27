@@ -6,6 +6,7 @@ import { needsCityChange, usePlannerCourse } from "./course-store";
 import type { PlannerPlace } from "./data";
 import { cityName } from "./regions";
 import { placeName } from "@/features/theme/place-meta";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 /**
  * 장소를 코스에 담고 빼는 토글. 지도 탭의 목록 버튼과 장소 시트가 함께 쓴다.
@@ -16,19 +17,20 @@ import { placeName } from "@/features/theme/place-meta";
 export function useCourseToggle() {
   const t = useTranslations("Planner");
   const locale = useLocale();
+  const names = useNameTable();
   const store = usePlannerCourse();
   const [pending, setPending] = useState<PlannerPlace | null>(null);
   const [status, setStatus] = useState("");
 
   const add = (p: PlannerPlace) => {
     store.add(p.id, p.locKo);
-    setStatus(t("map.addedStatus", { name: placeName(p, locale) }));
+    setStatus(t("map.addedStatus", { name: placeName(p, locale, names) }));
   };
 
   const toggle = (p: PlannerPlace) => {
     if (store.has(p.id)) {
       store.remove(p.id);
-      setStatus(t("map.removedStatus", { name: placeName(p, locale) }));
+      setStatus(t("map.removedStatus", { name: placeName(p, locale, names) }));
     } else if (needsCityChange(store.course, p.locKo)) {
       setPending(p);
     } else {
@@ -42,9 +44,9 @@ export function useCourseToggle() {
       ? {
           title: t("confirm.title"),
           body: t("confirm.body", {
-            from: cityName(from, locale),
+            from: cityName(from, locale, names),
             count: store.course.placeIds.length,
-            to: cityName(pending.locKo, locale),
+            to: cityName(pending.locKo, locale, names),
           }),
           cancelLabel: t("confirm.cancel"),
           confirmLabel: t("confirm.confirm"),

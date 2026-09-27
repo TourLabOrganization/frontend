@@ -29,6 +29,8 @@ import {
 import { ThemePlaceSheet } from "./ThemePlaceSheet";
 import { type MapPin, ThemeMap } from "./ThemeMap";
 import type { PlaceExtra } from "./theme-data";
+import type { NameTable } from "@/features/names/names";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 export type SceneLink = { text: string; href: string };
 
@@ -56,12 +58,17 @@ const INITIAL_ROWS = 10;
 /** 「더 보기」 한 번에 더 보이는 수(테마 장소는 이보다 적어 한 번에 모두 보인다) */
 const PAGE_SIZE = 60;
 
-function toPin(p: Place, locale: string, label?: number): MapPin {
+function toPin(
+  p: Place,
+  locale: string,
+  names: NameTable,
+  label?: number,
+): MapPin {
   return {
     id: p.id,
     lat: p.lat,
     lng: p.lng,
-    title: placeName(p, locale),
+    title: placeName(p, locale, names),
     label,
   };
 }
@@ -83,6 +90,7 @@ export function MapTab({
   const t = useTranslations("Theme.map");
   const tc = useTranslations("Course");
   const locale = useLocale();
+  const names = useNameTable();
   const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
 
   const [filter, setFilter] = useState<Filter>("all");
@@ -108,7 +116,8 @@ export function MapTab({
   );
   const multiCity = cities.length > 1;
   const city = scopeCity(cities, picked);
-  const cityLabel = (c: ThemeCity) => (locale === "ko" ? c.ko : c.en);
+  const cityLabel = (c: ThemeCity) =>
+    locale === "ko" ? c.ko : names.cities[c.ko] || c.en;
   const inScope = (p: Place) => inCity(p, multiCity ? picked : null);
   // 지역 줄의 장소 수(목업 cityCount): 분류 · 검색과 무관하게 그 지역의 목록 장소, 목록 밖을 펴면 더한다
   const scopeCount = places.filter(
@@ -118,7 +127,7 @@ export function MapTab({
   const inFilter = (p: Place) =>
     inScope(p) &&
     (filter === "all" || p.cat === filter) &&
-    matchesQuery([p.ko, p.en], query);
+    matchesQuery([p.ko, p.en, placeName(p, locale, names)], query);
   const core = corePlaces(places).filter(inFilter);
   const off = places.filter((p) => p.off && inFilter(p));
   const selected = places.find((p) => p.id === selectedId) ?? null;
@@ -176,7 +185,7 @@ export function MapTab({
   const row = (p: Place) => {
     const img = extras[p.id]?.img;
     const scene = sceneLinks[p.id];
-    const name = placeName(p, locale);
+    const name = placeName(p, locale, names);
     return (
       <li key={p.id} className="flex items-center">
         <button
@@ -306,8 +315,8 @@ export function MapTab({
             apiKey={apiKey}
             label={t("mapLabel")}
             pins={[
-              ...(showOff ? off : []).map((p) => toPin(p, locale)),
-              ...core.map((p) => toPin(p, locale, p.n ?? undefined)),
+              ...(showOff ? off : []).map((p) => toPin(p, locale, names)),
+              ...core.map((p) => toPin(p, locale, names, p.n ?? undefined)),
             ]}
             focus={selected}
             onSelect={setSelectedId}

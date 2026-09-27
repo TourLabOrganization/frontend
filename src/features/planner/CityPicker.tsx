@@ -8,6 +8,7 @@ import { segmentClassName } from "@/components/ui/SegmentedControl";
 import { CITY_GROUPS, PLACE_COUNT_BY_CITY } from "./data";
 import { type PlannerTab, plannerHref } from "./query";
 import { CITY_INFO, cityName, MAJOR_CITIES, regionName } from "./regions";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 type CityPickerProps = {
   /** 지금 보고 있는 도시. 지역 탭의 전국 · 서울 · 부산 · 제주가 아니면 버튼에 이름을 적는다 */
@@ -25,6 +26,7 @@ type CityPickerProps = {
 export function CityPicker({ city, selected, tab }: CityPickerProps) {
   const t = useTranslations("Planner");
   const locale = useLocale();
+  const names = useNameTable();
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const searchId = useId();
@@ -37,7 +39,8 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
       (c) =>
         !q ||
         c.includes(q) ||
-        (CITY_INFO[c]?.en ?? "").toLowerCase().includes(q),
+        (CITY_INFO[c]?.en ?? "").toLowerCase().includes(q) ||
+        cityName(c, locale, names).toLowerCase().includes(q),
     ),
   })).filter((g) => g.cities.length > 0);
 
@@ -50,14 +53,16 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
         aria-haspopup="dialog"
         aria-label={
           selected && city
-            ? t("cityButtonCurrentLabel", { city: cityName(city, locale) })
+            ? t("cityButtonCurrentLabel", {
+                city: cityName(city, locale, names),
+              })
             : t("cityButtonLabel")
         }
         onClick={() => ref.current?.showModal()}
         className={`${segmentClassName(selected)} flex-auto gap-0.5`}
       >
         <span className="truncate">
-          {selected && city ? cityName(city, locale) : t("cityButton")}
+          {selected && city ? cityName(city, locale, names) : t("cityButton")}
         </span>
         <ChevronDown size={16} className="shrink-0" aria-hidden />
       </button>
@@ -130,7 +135,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                     <div className="flex items-baseline justify-between">
                       <h3 id={headingId} className="text-body-lg font-bold">
                         {region
-                          ? regionName(region, locale)
+                          ? regionName(region, locale, names)
                           : t("picker.otherRegions")}
                       </h3>
                       <span className="text-caption text-fg-subtle tabular-nums">
@@ -156,7 +161,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
                                   : "bg-fill font-medium text-fg active:bg-line"
                               } ${major ? "ring-2 ring-primary-bright ring-inset" : ""}`}
                             >
-                              {cityName(c, locale)}
+                              {cityName(c, locale, names)}
                               <span
                                 aria-hidden
                                 className={`text-caption tabular-nums ${current ? "text-primary-strong" : "text-fg-muted"}`}

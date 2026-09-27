@@ -80,6 +80,7 @@ public/                 정적 파일
 | `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                 |
 | `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                |
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
+| `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                      |
 
 플래너 장소 필드
 

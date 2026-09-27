@@ -1,4 +1,5 @@
 import type { Origin, RegionHub } from "@/features/course/places";
+import { EMPTY_NAMES, type NameTable } from "../names/names";
 import regionsData from "./data/regions.json";
 
 // 투어 플래너의 권역 · 도시(이름 · 가운데 좌표) · 관문 · 출발지. data/regions.json만 불러와서 가볍다.
@@ -71,11 +72,22 @@ export function findRegion(key: RegionKey): Region {
   return REGIONS.find((r) => r.key === key)!;
 }
 
-/** 화면 언어의 도시 이름. 영어 이름이 없으면 한국어 */
-export function cityName(city: string, locale: string): string {
-  return locale === "ko" ? city : CITY_INFO[city]?.en || city;
+/** 화면 언어의 도시 이름. 이름표(names)에 그 언어 표기가 없으면 영어, 영어도 없으면 한국어 */
+export function cityName(
+  city: string,
+  locale: string,
+  names: NameTable = EMPTY_NAMES,
+): string {
+  if (locale === "ko") return city;
+  return names.cities[city] || CITY_INFO[city]?.en || city;
 }
 
-export function regionName(region: Pick<Region, "ko" | "en">, locale: string) {
-  return locale === "ko" ? region.ko : region.en;
+/** 화면 언어의 권역 이름. 이름표(names)에 없으면 영어 */
+export function regionName(
+  region: Pick<Region, "key" | "ko" | "en">,
+  locale: string,
+  names: NameTable = EMPTY_NAMES,
+) {
+  if (locale === "ko") return region.ko;
+  return names.regions[region.key] || region.en;
 }

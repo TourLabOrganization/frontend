@@ -21,6 +21,7 @@ import {
 } from "./place-meta";
 import { useIdList } from "./storage";
 import type { PlaceExtra } from "./theme-data";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 type ThemePlaceSheetProps = {
   slug: string;
@@ -43,6 +44,7 @@ export function ThemePlaceSheet({
   const t = useTranslations("Theme.sheet");
   const tc = useTranslations("Course");
   const locale = useLocale();
+  const names = useNameTable();
   const bookmarks = useIdList("bookmarks", slug);
   const stamps = useIdList("stamps", slug);
 
@@ -53,7 +55,7 @@ export function ThemePlaceSheet({
     <PlaceSheet
       place={
         place && {
-          name: placeName(place, locale),
+          name: placeName(place, locale, names),
           meta: [
             isCategoryKey(place.cat) ? tc(`categories.${place.cat}`) : "",
             place.min > 0
@@ -66,7 +68,7 @@ export function ThemePlaceSheet({
           photo: extra?.img
             ? { src: placePhoto(extra.img), credit: extra.imgCredit }
             : null,
-          directionsHref: directionsUrl(place, placeName(place, locale)),
+          directionsHref: directionsUrl(place, placeName(place, locale, names)),
         }
       }
       onClose={onClose}

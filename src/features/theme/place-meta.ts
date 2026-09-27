@@ -1,4 +1,5 @@
 import type { Place } from "@/features/course/places";
+import { EMPTY_NAMES, type NameTable } from "../names/names";
 
 // 탭들이 함께 쓰는 장소 표시 규칙. 데이터 파일을 import하지 않아 클라이언트 컴포넌트에서도 가볍게 쓴다.
 
@@ -17,9 +18,17 @@ export function isCategoryKey(cat: string): cat is CategoryKey {
   return (CATEGORY_KEYS as readonly string[]).includes(cat);
 }
 
-/** 화면 언어의 장소 이름. 영어 이름이 없으면 한국어 */
-export function placeName(place: Pick<Place, "ko" | "en">, locale: string) {
-  return locale === "ko" ? place.ko : place.en || place.ko;
+/**
+ * 화면 언어의 장소 이름. 중 · 일은 이름표(names)의 공식 명칭, 없으면 영어 → 한국어 순으로 떨어진다(PoC 규칙).
+ * 스페인어는 영어 이름을 쓴다
+ */
+export function placeName(
+  place: Pick<Place, "id" | "ko" | "en">,
+  locale: string,
+  names: NameTable = EMPTY_NAMES,
+) {
+  if (locale === "ko") return place.ko;
+  return names.places[place.id] || place.en || place.ko;
 }
 
 /** 핵심 장소(목록 안, off가 아닌 곳)를 순번 순서로 */

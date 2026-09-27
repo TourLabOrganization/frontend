@@ -60,6 +60,7 @@ import {
   suggestOrigin,
   wideOptions,
 } from "./schedule";
+import { useNameTable } from "@/features/names/NamesProvider";
 
 // 맨 위 · 맨 아래에서 옮기기 버튼은 disabled 대신 aria-disabled로 둔다. 옮긴 뒤 초점이 사라지지 않게
 const ICON_BUTTON =
@@ -109,6 +110,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const tp = useTranslations("Planner");
   const tc = useTranslations("Course");
   const locale = useLocale();
+  const names = useNameTable();
   const router = useRouter();
   const hydrated = useHydrated();
   const today = useToday();
@@ -148,9 +150,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     scope.kind === "city" ? scope.city : (leadRegion(autoPool) ?? null);
   const sourceName =
     scope.kind === "city"
-      ? cityName(scope.city, locale)
+      ? cityName(scope.city, locale, names)
       : scope.region
-        ? regionName(findRegion(scope.region), locale)
+        ? regionName(findRegion(scope.region), locale, names)
         : null;
 
   // 날짜: 없으면 오늘 · 당일
@@ -220,7 +222,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         : "confirmRecommend";
 
   const heading = course.city ?? (scope.kind === "city" ? scope.city : null);
-  const headingName = heading ? cityName(heading, locale) : tp("nation");
+  const headingName = heading ? cityName(heading, locale, names) : tp("nation");
   const duration = (min: number) => formatDuration(tc, min);
   const originName = (key: string) => {
     const o = PLANNER_ORIGINS[key];
@@ -545,7 +547,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           originName={originName(course.origin)}
           hubName={hubName}
           destinationName={
-            plan.destination ? cityName(plan.destination, locale) : null
+            plan.destination ? cityName(plan.destination, locale, names) : null
           }
           accessDuration={plan.wide ? duration(plan.accIn) : null}
           suggestedOrigin={suggestedKey ? originName(suggestedKey) : null}
@@ -605,7 +607,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         ) : (
           <ol className="mt-3">
             {places.map((p, i) => {
-              const name = placeName(p, locale);
+              const name = placeName(p, locale, names);
               const meta = [
                 isCategoryKey(p.cat) ? tc(`categories.${p.cat}`) : null,
                 p.min > 0 ? tc("stay", { duration: duration(p.min) }) : null,
@@ -747,7 +749,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               </p>
               <ul className="mt-2 ml-7 list-disc text-label text-fg-muted">
                 {plan.dropped.map((p) => (
-                  <li key={p.id}>{placeName(p, locale)}</li>
+                  <li key={p.id}>{placeName(p, locale, names)}</li>
                 ))}
               </ul>
               <p className="mt-2 ml-7 text-caption text-fg-muted">
@@ -758,6 +760,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           {plan.days.map((day, i) => (
             <CourseDaySection
               headingLevel={3}
+              names={names}
               key={day.day}
               day={day}
               transport={plan.local === "transit" ? "public-transit" : "car"}

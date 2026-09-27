@@ -24,6 +24,7 @@ import {
   findRegion,
   regionName,
 } from "@/features/planner/regions";
+import { loadNameTable } from "@/features/names/server";
 
 // 투어 플래너. 지역 탭(전국 · 서울 · 부산 · 제주 · 도시 ▾)으로 범위를 고르고, 하단 탭 3개(지도 · 코스 · 여행 정보)를 ?tab=으로 고른다.
 // 주소 규칙은 features/planner/query.ts 머리 주석에 있다. 장소 · 코스 담기는 클라이언트 컴포넌트가 그린다
@@ -37,6 +38,7 @@ export default async function PlannerPage({
   const planId = typeof query.plan === "string" ? query.plan : undefined;
   const t = await getTranslations("Planner");
   const locale = await getLocale();
+  const names = await loadNameTable(locale);
 
   const city = scope.kind === "city" ? scope.city : null;
   const featured = (FEATURED_CITIES as readonly string[]).includes(city ?? "");
@@ -74,7 +76,7 @@ export default async function PlannerPage({
             },
             ...FEATURED_CITIES.map((c) => ({
               href: plannerHref({ city: c, tab }),
-              label: cityName(c, locale),
+              label: cityName(c, locale, names),
               selected: city === c,
             })),
           ]}
@@ -92,13 +94,13 @@ export default async function PlannerPage({
               replace
               scroll={false}
               aria-label={t("regionChipClear", {
-                region: regionName(region, locale),
+                region: regionName(region, locale, names),
                 count: placesInScope(scope).length,
               })}
               className="inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-primary-weak pr-2.5 pl-4 text-label font-semibold text-primary-strong tabular-nums transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none"
             >
               {t("regionChip", {
-                region: regionName(region, locale),
+                region: regionName(region, locale, names),
                 count: placesInScope(scope).length,
               })}
               <X size={20} aria-hidden />
