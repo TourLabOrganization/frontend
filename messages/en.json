@@ -405,11 +405,11 @@
     "k100Badge": "Korea's Top 100",
     "unescoBadge": "UNESCO",
     "categories": {
-      "herit": "History & culture",
-      "heal": "Nature & healing",
-      "activity": "Theme parks & activities",
-      "food": "Local food",
-      "sea": "Sea & scenery",
+      "herit": "Heritage & Tradition",
+      "heal": "Healing & Eco",
+      "activity": "Theme Park & Activity",
+      "food": "Local & Food",
+      "sea": "Coast & Nature",
       "stay": "Stay"
     },
     "duration": {
@@ -554,6 +554,13 @@
     "map": {
       "categoriesLabel": "Place categories",
       "all": "All",
+      "badgesLabel": "Badges",
+      "badges": {
+        "un": "UNESCO",
+        "k100": "Korea's Top 100",
+        "bf": "Barrier-free",
+        "zone": "Tourist Zone"
+      },
       "mapLabel": "Tour planner map",
       "noKey": "The map couldn't load because no map key is set. The place list below still works",
       "regionMarker": "{region} · {count, plural, one {# place} other {# places}}",
@@ -572,7 +579,10 @@
     },
     "sheet": {
       "add": "Add to course",
-      "remove": "Remove from course"
+      "remove": "Remove from course",
+      "detailLoading": "Loading the description and photo…",
+      "detailError": "Couldn't load the description and photo",
+      "detailRetry": "Try again"
     },
     "confirm": {
       "title": "This place is in another city",

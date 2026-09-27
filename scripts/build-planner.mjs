@@ -1,27 +1,39 @@
 #!/usr/bin/env node
-// 투어 플래너(/planner)의 장소 데이터(src/features/planner/data/places.json)와
-// 권역 · 도시 데이터(src/features/planner/data/regions.json)를 만든다.
+// 투어 플래너(/planner)의 장소 데이터와 권역 · 도시 데이터를 만든다.
+//   src/features/planner/data/places.json         목록 · 지도 · 코스 · 일정에 쓰는 가벼운 필드 (클라이언트 번들에 들어간다)
+//   src/features/planner/data/place-details.json  장소 시트에서만 쓰는 무거운 필드 (Route Handler만 읽는다. 시트를 열 때 불러온다)
+//   src/features/planner/data/regions.json        권역 7개 · 도시 · 관문 · 출발지
 //
 // 사용법:
-//   node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html>
+//   node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더>
 //   npm run format   # JSON을 리포 포맷으로 맞춘다
 //
-// 원천 (Tour-Navigator-App, 원천 파일은 이 리포에 넣지 않는다):
-//   - 체류시간 산정/체류시간_장소별.csv   장소 1,171곳 (화면별 seoul 87 · busan 72 · jeju 86 · yeongwol 18 · nation 908)
-//   - Tour Planner.dc.html                 DATA(장소 · 설명 · 사진) · CITY_NAME · REGION_HUB · cityGroups 안의 REG(권역 7개)
+// 원천 (Tour-Navigator-App main f44eb97 · 2026-09-27, 원천 파일은 이 리포에 넣지 않는다):
+//   - 체류시간 산정/체류시간_장소별.csv   장소 3,118곳. 체류분 · 운영시간 파싱 · 플래그
+//   - Tour Planner.dc.html                 DATA(장소 · 설명 · 사진, 화면 gyeongju · geoje · nation · yeongwol · seoul · jeju · busan)
+//                                          · CITY_NAME · REGION_HUB · ORIGINS · cityGroups 안의 REG · MACRO_REGION · MACRO_OF
+//   - 파생 데이터/장소.csv                 3,118곳. 중 · 일 장소명 · 지정구역(vz) · 시티투어경유(ct) · 연관관광지(rs) · 카카오장소URL(url)
+//   - 파생 데이터/지역거점.csv (110)        관문 수단(수도권 전철 metro를 더한 화면 실행 값)
+//   - 파생 데이터/출발지.csv (61)           출발지 수단(위와 같다)
 //
 // 규칙:
 //   - 장소 필드 이름은 src/features/course/places.ts의 Place 타입과 같다(일정 모듈이 그대로 먹는다).
-//     체류분 · 운영시간 · 플래그는 CSV 값을 쓰고(id로 조인), 설명(bKo · bEn) · 사진(img · imgCredit)은 DATA에서 가져온다
+//     체류분 · 운영시간 · 플래그 · 배지는 체류시간 CSV 값(id로 조인), 설명(bKo · bEn) · 사진(img · imgCredit) · 좌표근거(srcKo · srcEn)는 DATA,
+//     중 · 일 이름 · 지정구역 · 시티투어경유 · 연관관광지 · 카카오장소URL은 장소.csv에서 가져온다
+//   - 도시 영어 이름 = CITY_NAME, 없으면 장소.csv 「시군(영문)」(장소의 locEn). 둘 다 없으면 빈 문자열(화면은 한국어 이름)
+//   - 가벼운 필드(places.json): Place 필드 + macro · pickCity · vz(지정구역 문구, 관광특구 배지 필터가 쓴다)
+//     무거운 필드(place-details.json, id → 값): desc · img · imgCredit · zh · ja · src · url · ct · rs
 //   - 도시(locKo) = DATA 키가 도시(gyeongju · geoje · yeongwol · seoul · jeju · busan)면 그 도시 이름,
-//     nation이면 장소의 locKo, 없으면 CSV 「시군」
-//   - 권역(macro) = 도시가 들어 있는 REG 권역 key
+//     nation이면 장소의 locKo, 없으면 CSV 「시군」 (목업 regionKeyOf와 같다)
+//   - 권역(macro) = MACRO_OF[도시]. 목업 지도의 권역 묶음(경북권 · 경남권 · 전라권 …)이 이 값으로 센다.
+//     권역의 도시 목록 = REG 도시 + MACRO_OF에만 있는 도시(목업 _mcExtra 순서). 권역 이름은 목업 지도가 그리는 MACRO_REGION 이름
 //   - 도시 고르기 도시(pickCity) = Tour Planner.dc.html cityRows 규칙. 전용 화면(nation 밖 DATA 키)을 먼저 그 화면 이름으로,
 //     그다음 nation 장소를 locKo로 묶은 도시를 더하되 이름이 같은 도시는 먼저 나온 것(전용 화면)만 남긴다.
 //     그래서 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 nation 장소는 pickCity가 없다(전국 보기에만 들어간다).
 //     nation 장소에 locKo가 없어도 pickCity가 없다(PoC byLoc이 locKo만 본다)
-//   - 값이 없으면 비운다(지어내지 않는다). 두 원천이 다르면 개수를 출력한다
-//   - 출발지(origins) = Tour Planner.dc.html ORIGINS 그대로(61곳). regions.json에 넣는다.
+//   - 값이 없으면 비운다(지어내지 않는다). 원천끼리 다르면 개수를 출력한다
+//   - 관문(hubs) · 출발지(origins)의 모양은 REGION_HUB · ORIGINS 그대로(항공 · 배 좌표, 울릉 항로 등). 지역거점.csv · 출발지.csv에
+//     없는 필드가 있어서다. 수단(modes)만 CSV 값(화면이 실행 중에 전철권 metro를 더한 값)으로 바꾸고, 이름 · 좌표는 CSV와 대조해 출력한다.
 //     course/data/hubs.json의 origins는 테마 코스용이라 따로 둔다(scripts/build-places.mjs)
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -29,10 +41,10 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
-const [csvPath, plannerPath] = process.argv.slice(2);
-if (!csvPath || !plannerPath) {
+const [csvPath, plannerPath, derivedDir] = process.argv.slice(2);
+if (!csvPath || !plannerPath || !derivedDir) {
   console.error(
-    "사용법: node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html>",
+    "사용법: node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더>",
   );
   process.exit(1);
 }
@@ -75,14 +87,23 @@ function parseCsv(text) {
   return rows;
 }
 
-const csvText = readFileSync(csvPath, "utf8").replace(/^\uFEFF/, "");
-const [header, ...body] = parseCsv(csvText).filter(
-  (r) => r.length > 1 || r[0] !== "",
-);
-const records = body.map((r) =>
-  Object.fromEntries(header.map((h, i) => [h, r[i] ?? ""])),
-);
+/** CSV 파일 → 헤더 이름을 키로 한 행 객체 목록 */
+function readCsv(path) {
+  const text = readFileSync(path, "utf8").replace(/^\uFEFF/, "");
+  const [header, ...body] = parseCsv(text).filter(
+    (r) => r.length > 1 || r[0] !== "",
+  );
+  return body.map((r) =>
+    Object.fromEntries(header.map((h, i) => [h, r[i] ?? ""])),
+  );
+}
+
+const records = readCsv(csvPath);
 const csvById = new Map(records.map((r) => [r.id, r]));
+const derived = readCsv(resolve(derivedDir, "장소.csv"));
+const derivedById = new Map(derived.map((r) => [r.id, r]));
+const hubRows = readCsv(resolve(derivedDir, "지역거점.csv"));
+const originRows = readCsv(resolve(derivedDir, "출발지.csv"));
 
 const yn = (v) => v === "Y";
 const hmToMin = (v) => {
@@ -122,14 +143,44 @@ function evalReg() {
   );
 }
 
+/** `const MACRO_REGION=` 줄부터 `const METRO_NET=` 앞까지(MACRO_REGION · MACRO_OF · _mcExtra)를 평가한다 */
+function evalMacro() {
+  const start = plannerLines.findIndex((l) =>
+    /^const MACRO_REGION\s*=/.test(l),
+  );
+  const end = plannerLines.findIndex(
+    (l, i) => i > start && /^const METRO_NET\s*=/.test(l),
+  );
+  if (start < 0 || end < 0)
+    throw new Error("Tour Planner.dc.html에 MACRO_REGION 블록이 없습니다");
+  const ctx = vm.createContext({});
+  vm.runInContext(
+    `${plannerLines.slice(start, end).join("\n")}\n;globalThis.__out={MACRO_REGION,MACRO_OF,_mcExtra};`,
+    ctx,
+  );
+  return ctx.__out;
+}
+
 const DATA = evalConst("DATA");
 const CITY_NAME = evalConst("CITY_NAME");
 const REGION_HUB = evalConst("REGION_HUB");
 const ORIGINS = evalConst("ORIGINS");
 const REG = evalReg();
+const { MACRO_REGION, MACRO_OF, _mcExtra } = evalMacro();
 
-const macroOf = new Map();
-for (const r of REG) for (const c of r.cities) macroOf.set(c, r.key);
+// REG key → MACRO_REGION key (목업 _mcExtra의 MK를 뒤집은 것)
+const MACRO_KEY = {
+  capital: "capital",
+  gangwon: "gangwon",
+  chungcheong: "chungcheong",
+  daegyeong: "gyeongbuk",
+  dongnam: "gyeongnam",
+  honam: "jeolla",
+  jeju: "jeju",
+};
+const regKeyOfMacro = Object.fromEntries(
+  Object.entries(MACRO_KEY).map(([reg, macro]) => [macro, reg]),
+);
 
 // ── 사진 주소 ───────────────────────────────────────────────────────
 // scripts/build-theme-extras.mjs의 sizedImage와 같다. 원본 파일(upload.wikimedia.org/…/파일)은 수 MB라
@@ -151,6 +202,7 @@ function sizedImage(url) {
 }
 
 // ── 장소 ────────────────────────────────────────────────────────────
+// 체류시간 CSV ↔ DATA
 const mismatch = {
   csvOnly: 0,
   dataOnly: 0,
@@ -164,6 +216,19 @@ const mismatch = {
   noCity: 0,
   noMacro: 0,
 };
+// 장소.csv ↔ DATA · 체류시간 CSV
+const derivedMismatch = {
+  csvOnly: 0,
+  dataOnly: 0,
+  ko: 0,
+  en: 0,
+  desc: 0,
+  img: 0,
+  vz: 0,
+  url: 0,
+  badge: 0,
+  off: 0,
+};
 
 // 전용 화면 도시 이름. cityRows는 이 도시들을 먼저 넣고, 같은 이름의 nation 도시는 버린다
 const screenCities = new Set(
@@ -173,11 +238,15 @@ const screenCities = new Set(
 );
 
 const places = [];
+const details = {};
 const seen = new Set();
 for (const [key, group] of Object.entries(DATA)) {
   for (const p of group.places) {
+    if (seen.has(p.id)) continue;
     seen.add(p.id);
     const r = csvById.get(p.id);
+    const d = derivedById.get(p.id);
+    if (!d) derivedMismatch.dataOnly++;
     if (!r) {
       mismatch.dataOnly++;
       continue;
@@ -188,12 +257,12 @@ for (const [key, group] of Object.entries(DATA)) {
     if (Number(r["위도"]) !== p.lat || Number(r["경도"]) !== p.lng)
       mismatch.latLng++;
     if (Number(r["권장체류(분)"]) !== p.min) mismatch.min++;
-    if (r["운영시간(원문)"] !== p.hrs) mismatch.hrs++;
+    if (r["운영시간(원문)"] !== (p.hrs ?? "")) mismatch.hrs++;
 
     const city = key === "nation" ? p.locKo || r["시군"] : group.ko;
     if (city !== r["시군"]) mismatch.city++;
     if (!city) mismatch.noCity++;
-    const macro = macroOf.get(city);
+    const macro = regKeyOfMacro[MACRO_OF[city]];
     if (!macro) mismatch.noMacro++;
     const pickCity =
       key !== "nation"
@@ -223,32 +292,76 @@ for (const [key, group] of Object.entries(DATA)) {
       open: applied ? open : null,
       close: applied ? close : null,
       yt: yn(r["영상장소"]),
-      off: yn(r["확장장소"]),
+      off: yn(r["목록외"]),
       k100: yn(r["한국관광100선"]),
       un: yn(r["유네스코"]),
-      bf: yn(r["무장애"]),
+      bf: yn(r["열린관광지"]),
       auto: yn(r["자동코스후보"]),
       macro: macro ?? "",
     };
     if (pickCity) place.pickCity = pickCity;
+    if (d && present(d["지정구역"])) place.vz = d["지정구역"];
+    places.push(place);
+
+    // 시트 전용(무거운) 필드
+    const detail = {};
     const desc = {};
     if (present(p.bKo)) desc.ko = p.bKo;
     if (present(p.bEn)) desc.en = p.bEn;
-    if (Object.keys(desc).length > 0) place.desc = desc;
-    if (present(p.img)) place.img = sizedImage(p.img);
-    if (present(p.imgCredit)) place.imgCredit = p.imgCredit;
-    places.push(place);
+    if (Object.keys(desc).length > 0) detail.desc = desc;
+    if (present(p.img)) detail.img = sizedImage(p.img);
+    if (present(p.imgCredit)) detail.imgCredit = p.imgCredit;
+    const src = {};
+    if (present(p.srcKo)) src.ko = p.srcKo;
+    if (present(p.srcEn)) src.en = p.srcEn;
+    if (Object.keys(src).length > 0) detail.src = src;
+    if (d) {
+      if (present(d["장소명(중문)"])) detail.zh = d["장소명(중문)"];
+      if (present(d["장소명(일문)"])) detail.ja = d["장소명(일문)"];
+      if (present(d["카카오장소URL"])) detail.url = d["카카오장소URL"];
+      if (yn(d["시티투어경유"])) detail.ct = true;
+      if (yn(d["연관관광지"])) detail.rs = true;
+
+      if (d["장소명"] !== p.ko) derivedMismatch.ko++;
+      if (d["장소명(영문)"] !== (p.en ?? "")) derivedMismatch.en++;
+      if (d["설명"] !== (p.bKo ?? "") || d["설명(영문)"] !== (p.bEn ?? ""))
+        derivedMismatch.desc++;
+      if (d["사진URL"] !== (p.img ?? "")) derivedMismatch.img++;
+      if (d["지정구역"] !== (p.vz ?? "")) derivedMismatch.vz++;
+      if (d["카카오장소URL"] !== (p.url ?? "")) derivedMismatch.url++;
+      if (
+        d["한국관광100선"] !== r["한국관광100선"] ||
+        d["유네스코"] !== r["유네스코"] ||
+        d["열린관광지"] !== r["열린관광지"]
+      )
+        derivedMismatch.badge++;
+      if (d["목록외"] !== r["목록외"]) derivedMismatch.off++;
+    }
+    if (Object.keys(detail).length > 0) details[place.id] = detail;
   }
 }
 for (const id of csvById.keys()) if (!seen.has(id)) mismatch.csvOnly++;
+for (const id of derivedById.keys())
+  if (!seen.has(id)) derivedMismatch.csvOnly++;
 
 // ── 권역 · 도시 ─────────────────────────────────────────────────────
 const round4 = (v) => Math.round(v * 1e4) / 1e4;
+const regions = REG.map((r) => ({
+  key: r.key,
+  ko: MACRO_REGION.ko[MACRO_KEY[r.key]],
+  en: MACRO_REGION.en[MACRO_KEY[r.key]],
+  cities: _mcExtra(r.key, r.cities),
+}));
+// 도시 영어 이름: CITY_NAME에 없으면 장소.csv 「시군(영문)」(장소의 locEn)
+const cityEnFromCsv = new Map();
+for (const d of derived)
+  if (present(d["시군(영문)"]) && !cityEnFromCsv.has(d["시군"]))
+    cityEnFromCsv.set(d["시군"], d["시군(영문)"]);
 const cities = {};
-for (const r of REG) {
+for (const r of regions) {
   for (const c of r.cities) {
     const ps = places.filter((p) => p.locKo === c);
-    const entry = { en: CITY_NAME[c]?.en ?? "" };
+    const entry = { en: CITY_NAME[c]?.en ?? cityEnFromCsv.get(c) ?? "" };
     if (ps.length > 0) {
       entry.lat = round4(ps.reduce((s, p) => s + p.lat, 0) / ps.length);
       entry.lng = round4(ps.reduce((s, p) => s + p.lng, 0) / ps.length);
@@ -256,23 +369,48 @@ for (const r of REG) {
     cities[c] = entry;
   }
 }
-// 여행 정보 탭의 관문: 장소가 있는 도시의 REGION_HUB (course/data/hubs.json과 같은 모양)
-const usedCities = new Set(places.map((p) => p.locKo));
-const hubs = Object.fromEntries(
-  Object.entries(REGION_HUB).filter(([c]) => usedCities.has(c)),
-);
 
-const regions = {
-  regions: REG.map((r) => ({
-    key: r.key,
-    ko: r.ko,
-    en: r.en,
-    cities: r.cities,
-  })),
-  cities,
-  hubs,
-  origins: ORIGINS,
-};
+// ── 관문 · 출발지 ───────────────────────────────────────────────────
+const modesOf = (v) => (v ? v.split("|") : []);
+const hubCheck = { csvOnly: 0, htmlOnly: 0, name: 0, latLng: 0, modes: 0 };
+const hubCsv = new Map(hubRows.map((r) => [r["시군"], r]));
+const usedCities = new Set(places.map((p) => p.locKo));
+const hubs = {};
+for (const [c, h] of Object.entries(REGION_HUB)) {
+  const row = hubCsv.get(c);
+  if (!row) {
+    hubCheck.htmlOnly++;
+    continue;
+  }
+  if (row["관문"] !== h.ko || row["관문(영문)"] !== h.en) hubCheck.name++;
+  if (Number(row["위도"]) !== h.lat || Number(row["경도"]) !== h.lng)
+    hubCheck.latLng++;
+  const modes = modesOf(row["수단"]);
+  if (modes.join("|") !== (h.modes ?? []).join("|")) hubCheck.modes++;
+  // 여행 정보 탭 · 일정의 관문: 장소가 있는 도시만
+  if (usedCities.has(c)) hubs[c] = { ...h, modes };
+}
+for (const c of hubCsv.keys()) if (!(c in REGION_HUB)) hubCheck.csvOnly++;
+
+const originCheck = { csvOnly: 0, htmlOnly: 0, name: 0, latLng: 0, modes: 0 };
+const originCsv = new Map(originRows.map((r) => [r["키"], r]));
+const origins = {};
+for (const [k, o] of Object.entries(ORIGINS)) {
+  const row = originCsv.get(k);
+  if (!row) {
+    originCheck.htmlOnly++;
+    origins[k] = o;
+    continue;
+  }
+  if (row["출발지"] !== o.ko || row["출발지(영문)"] !== o.en)
+    originCheck.name++;
+  if (Number(row["위도"]) !== o.lat || Number(row["경도"]) !== o.lng)
+    originCheck.latLng++;
+  const modes = modesOf(row["수단"]);
+  if (modes.join("|") !== (o.modes ?? []).join("|")) originCheck.modes++;
+  origins[k] = { ...o, modes };
+}
+for (const k of originCsv.keys()) if (!(k in ORIGINS)) originCheck.csvOnly++;
 
 // ── 쓰기 ────────────────────────────────────────────────────────────
 mkdirSync(OUT_DIR, { recursive: true });
@@ -281,41 +419,79 @@ const write = (file, data) => {
   console.log("wrote", file);
 };
 write(resolve(OUT_DIR, "places.json"), places);
-write(resolve(OUT_DIR, "regions.json"), regions);
+write(resolve(OUT_DIR, "place-details.json"), details);
+write(resolve(OUT_DIR, "regions.json"), { regions, cities, hubs, origins });
 
 // ── 대조 ────────────────────────────────────────────────────────────
 const byScreen = {};
 for (const r of records) byScreen[r["화면"]] = (byScreen[r["화면"]] ?? 0) + 1;
-console.log("CSV 화면별", byScreen, "합계", records.length);
+console.log("체류시간 CSV 화면별", byScreen, "합계", records.length);
+console.log("장소.csv", derived.length);
 console.log(
   "DATA 키별",
   Object.fromEntries(
     Object.entries(DATA).map(([k, g]) => [k, g.places.length]),
   ),
 );
-console.log("places.json", places.length);
-console.log("CSV · DATA 불일치", mismatch);
+console.log(
+  "places.json",
+  places.length,
+  "place-details.json",
+  Object.keys(details).length,
+);
+console.log("체류시간 CSV · DATA 불일치", mismatch);
+console.log("장소.csv · DATA 불일치", derivedMismatch);
 const byMacro = {};
-for (const p of places) byMacro[p.macro] = (byMacro[p.macro] ?? 0) + 1;
+for (const p of places) {
+  const name = regions.find((r) => r.key === p.macro)?.ko ?? "(없음)";
+  byMacro[name] = (byMacro[name] ?? 0) + 1;
+}
 console.log("권역별 장소", byMacro);
 console.log(
-  "장소 없는 REG 도시",
-  Object.keys(cities).filter((c) => !usedCities.has(c)),
+  "장소 없는 권역 도시",
+  Object.keys(cities).filter((c) => !usedCities.has(c)).length,
 );
 console.log(
-  "영어 이름 없는 REG 도시(CITY_NAME에 없음)",
+  "영어 이름 없는 권역 도시(CITY_NAME · 장소.csv 시군(영문)에 없음)",
   Object.entries(cities)
     .filter(([, v]) => !v.en)
     .map(([c]) => c),
 );
-console.log("관문 있는 도시", Object.keys(hubs).length, "/", usedCities.size);
+console.log(
+  "장소 도시 중 관문 없는 도시",
+  [...usedCities].filter((c) => !hubs[c]),
+);
+console.log(
+  "관문",
+  Object.keys(hubs).length,
+  "/ 지역거점.csv",
+  hubRows.length,
+  hubCheck,
+);
+console.log(
+  "출발지",
+  Object.keys(origins).length,
+  "/ 출발지.csv",
+  originRows.length,
+  originCheck,
+);
 const byPick = {};
 for (const p of places)
   if (p.pickCity) byPick[p.pickCity] = (byPick[p.pickCity] ?? 0) + 1;
 console.log(
-  "도시 고르기 장소 수(전용 화면)",
+  "도시 고르기 도시",
+  Object.keys(byPick).length,
+  "장소",
+  Object.values(byPick).reduce((a, b) => a + b, 0),
+  "전용 화면",
   Object.fromEntries([...screenCities].map((c) => [c, byPick[c]])),
   "전국에만 속한 장소",
   places.filter((p) => !p.pickCity).length,
 );
-console.log("출발지", Object.keys(ORIGINS).length);
+console.log("배지", {
+  un: places.filter((p) => p.un).length,
+  k100: places.filter((p) => p.k100).length,
+  bf: places.filter((p) => p.bf).length,
+  vz: places.filter((p) => p.vz).length,
+  관광특구: places.filter((p) => p.vz?.includes("관광특구")).length,
+});

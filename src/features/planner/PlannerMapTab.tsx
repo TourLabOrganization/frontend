@@ -16,6 +16,7 @@ import {
   placeName,
   placePhoto,
 } from "@/features/theme/place-meta";
+import { BADGE_KEYS, type BadgeKey, hasBadge } from "./badges";
 import { categoryDot } from "./category";
 import { ConfirmDialog } from "./ConfirmDialog";
 import {
@@ -36,10 +37,11 @@ import {
 } from "./regions";
 import { matchesQuery } from "@/lib/text-search";
 import { useCourseToggle } from "./use-course-toggle";
+import { usePlaceDetail } from "./use-place-detail";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
 const INITIAL_ROWS = 10;
-/** 「더 보기」 한 번에 더 보이는 수. 전국 1,171곳을 한꺼번에 그리지 않는다 */
+/** 「더 보기」 한 번에 더 보이는 수. 전국 3,118곳을 한꺼번에 그리지 않는다 */
 const PAGE_SIZE = 60;
 
 type Filter = "all" | CategoryKey;
@@ -57,8 +59,8 @@ function compare(a: string, b: string) {
   return x < y ? -1 : x > y ? 1 : 0;
 }
 
-// 투어 플래너 지도 탭. 분류 칩 → 지도(권역 · 도시 묶음 또는 분류 색 핀) → 장소 목록(60곳씩).
-// 핀이나 목록을 누르면 장소 시트가 열리고, 목록 오른쪽 버튼 · 시트 버튼으로 코스에 담는다.
+// 투어 플래너 지도 탭. 분류 칩 · 배지 칩(둘은 AND) → 지도(권역 · 도시 묶음 또는 분류 색 핀) → 장소 목록(60곳씩).
+// 핀이나 목록을 누르면 장소 시트가 열리고(설명 · 사진은 그때 Route Handler에서 받는다), 목록 오른쪽 버튼 · 시트 버튼으로 코스에 담는다.
 // 범위(도시 · 권역)가 바뀌면 쓰는 쪽이 key를 바꿔 새로 그린다(분류 · 더 보기 초기화)
 export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const t = useTranslations("Planner.map");
@@ -71,6 +73,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   const scopePlaces = useMemo(() => placesInScope(scope), [scope]);
   const [filter, setFilter] = useState<Filter>("all");
+  const [badge, setBadge] = useState<BadgeKey | null>(null);
   const [query, setQuery] = useState("");
   const [shown, setShown] = useState(INITIAL_ROWS);
   const [selectedId, setSelectedId] = useState<string | null>(
@@ -86,6 +89,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const categories = CATEGORY_KEYS.filter((c) =>
     scopePlaces.some((p) => p.cat === c),
   );
+  const badges = BADGE_KEYS.filter((b) =>
+    scopePlaces.some((p) => hasBadge(p, b)),
+  );
 
   // 전국은 도시 → 이름 순, 도시는 이름 순 (목업과 같다)
   const sorted = useMemo(() => {
@@ -97,18 +103,20 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         : compare(name(a), name(b)),
     );
   }, [scopePlaces, locale, nation]);
-  // 분류 칩과 검색어로 거른다(지도 표시와 목록이 같이 쓴다). 검색은 장소 이름(한 · 영)과 도시 이름(한 · 영)
+  // 분류 칩 · 배지 칩 · 검색어로 거른다(지도 표시와 목록이 같이 쓴다). 검색은 장소 이름(한 · 영)과 도시 이름(한 · 영)
   const filtered = useMemo(
     () =>
       sorted.filter(
         (p) =>
           (filter === "all" || p.cat === filter) &&
+          (badge === null || hasBadge(p, badge)) &&
           matchesQuery([p.ko, p.en, p.locKo, cityName(p.locKo, "en")], query),
       ),
-    [sorted, filter, query],
+    [sorted, filter, badge, query],
   );
   const visible = filtered.slice(0, shown);
   const selected = scopePlaces.find((p) => p.id === selectedId) ?? null;
+  const detail = usePlaceDetail(selected?.id ?? null);
 
   useEffect(() => {
     if (focusIndex === null) return;
@@ -124,6 +132,13 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   const changeFilter = (c: Filter) => {
     setFilter(c);
+    setShown(INITIAL_ROWS);
+    setFocusIndex(null);
+  };
+
+  /** 배지 칩. 누른 칩을 다시 누르면 끈다(한 번에 하나) */
+  const toggleBadge = (b: BadgeKey) => {
+    setBadge((cur) => (cur === b ? null : b));
     setShown(INITIAL_ROWS);
     setFocusIndex(null);
   };
@@ -211,7 +226,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           });
   const fitKey = nation
     ? `nation:${scope.region ?? ""}`
-    : `city:${scope.city}:${filter}`;
+    : `city:${scope.city}:${filter}:${badge ?? ""}`;
 
   const onBubble = (id: string) => {
     router.replace(
@@ -226,35 +241,63 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   return (
     <>
-      <div
-        role="group"
-        aria-label={t("categoriesLabel")}
-        className="flex gap-2 overflow-x-auto px-5 py-3"
-      >
-        {(["all", ...categories] as const).map((c) => {
-          const pressed = filter === c;
-          return (
-            <button
-              key={c}
-              type="button"
-              aria-pressed={pressed}
-              onClick={() => changeFilter(c)}
-              className={`flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
-                pressed
-                  ? "bg-primary-weak font-semibold text-primary-strong"
-                  : "bg-fill font-medium text-fg-muted active:bg-line"
-              }`}
-            >
-              {c !== "all" && (
-                <span
-                  aria-hidden
-                  className={`size-2.5 shrink-0 rounded-full ${categoryDot(c)}`}
-                />
-              )}
-              {c === "all" ? t("all") : tc(`categories.${c}`)}
-            </button>
-          );
-        })}
+      <div className="flex gap-2 overflow-x-auto px-5 py-3">
+        <div
+          role="group"
+          aria-label={t("categoriesLabel")}
+          className="flex shrink-0 gap-2"
+        >
+          {(["all", ...categories] as const).map((c) => {
+            const pressed = filter === c;
+            return (
+              <button
+                key={c}
+                type="button"
+                aria-pressed={pressed}
+                onClick={() => changeFilter(c)}
+                className={`flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                  pressed
+                    ? "bg-primary-weak font-semibold text-primary-strong"
+                    : "bg-fill font-medium text-fg-muted active:bg-line"
+                }`}
+              >
+                {c !== "all" && (
+                  <span
+                    aria-hidden
+                    className={`size-2.5 shrink-0 rounded-full ${categoryDot(c)}`}
+                  />
+                )}
+                {c === "all" ? t("all") : tc(`categories.${c}`)}
+              </button>
+            );
+          })}
+        </div>
+        {badges.length > 0 && (
+          <div
+            role="group"
+            aria-label={t("badgesLabel")}
+            className="flex shrink-0 gap-2 border-l border-line pl-2"
+          >
+            {badges.map((b) => {
+              const pressed = badge === b;
+              return (
+                <button
+                  key={b}
+                  type="button"
+                  aria-pressed={pressed}
+                  onClick={() => toggleBadge(b)}
+                  className={`flex min-h-11 shrink-0 items-center rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                    pressed
+                      ? "bg-primary-weak font-semibold text-primary-strong"
+                      : "bg-fill font-medium text-fg-muted active:bg-line"
+                  }`}
+                >
+                  {t(`badges.${b}`)}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="h-[45vh] min-h-72 bg-fill">
@@ -395,10 +438,13 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             ],
             hours: selected.hrs,
             description:
-              selected.desc?.[locale === "ko" ? "ko" : "en"] ??
-              selected.desc?.ko,
-            photo: selected.img
-              ? { src: placePhoto(selected.img), credit: selected.imgCredit }
+              detail.data?.desc?.[locale === "ko" ? "ko" : "en"] ??
+              detail.data?.desc?.ko,
+            photo: detail.data?.img
+              ? {
+                  src: placePhoto(detail.data.img),
+                  credit: detail.data.imgCredit,
+                }
               : null,
             directionsHref: directionsUrl(
               selected,
@@ -428,6 +474,25 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           )
         }
       >
+        {detail.isPending && (
+          <p role="status" className="mt-4 text-label text-fg-subtle">
+            {ts("detailLoading")}
+          </p>
+        )}
+        {detail.isError && (
+          <div role="alert" className="mt-4 flex items-center gap-3">
+            <p className="flex-1 text-label text-fg-muted">
+              {ts("detailError")}
+            </p>
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={() => void detail.refetch()}
+            >
+              {ts("detailRetry")}
+            </Button>
+          </div>
+        )}
         <p role="status" className="sr-only">
           {course.status}
         </p>

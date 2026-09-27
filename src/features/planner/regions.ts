@@ -2,8 +2,9 @@ import type { Origin, RegionHub } from "@/features/course/places";
 import regionsData from "./data/regions.json";
 
 // 투어 플래너의 권역 · 도시(이름 · 가운데 좌표) · 관문 · 출발지. data/regions.json만 불러와서 가볍다.
-// 장소 목록(data/places.json, 1,171곳 · 약 760KB)이 필요 없는 곳(ME · 테마 화면 · 코스 저장소 · 일정 계산)은 data.ts 대신 이 파일을 쓴다.
-// data/regions.json은 scripts/build-planner.mjs가 Tour Planner.dc.html의 REG · CITY_NAME · REGION_HUB · ORIGINS로 만든다.
+// 장소 목록(data/places.json, 3,118곳 · 약 850KB)이 필요 없는 곳(ME · 테마 화면 · 코스 저장소 · 일정 계산)은 data.ts 대신 이 파일을 쓴다.
+// data/regions.json은 scripts/build-planner.mjs가 Tour Planner.dc.html의 REG · MACRO_REGION · MACRO_OF · CITY_NAME · REGION_HUB · ORIGINS와
+// 파생 데이터/지역거점.csv · 출발지.csv(수단)로 만든다.
 
 /** 권역 key. Tour Planner.dc.html REG 순서 */
 export const REGION_KEYS = [
@@ -23,9 +24,10 @@ export function isRegionKey(value: unknown): value is RegionKey {
 
 export type Region = {
   key: RegionKey;
+  /** 권역 이름. 목업 지도가 그리는 MACRO_REGION 이름(경북권 · 경남권 · 전라권 …) */
   ko: string;
   en: string;
-  /** 권역의 도시(한국어 이름). REG 순서 그대로. 장소가 없는 도시도 들어 있다 */
+  /** 권역의 도시(한국어 이름). REG 순서 뒤에 MACRO_OF에만 있는 도시(목업 _mcExtra). 장소가 없는 도시도 들어 있다 */
   cities: readonly string[];
 };
 
@@ -41,12 +43,12 @@ export const REGIONS = regionsData.regions as readonly Region[];
 export const CITY_INFO = regionsData.cities as Readonly<
   Record<string, CityInfo>
 >;
-/** 도시 → 광역 관문. Tour Planner.dc.html REGION_HUB 중 장소가 있는 도시 */
+/** 도시 → 광역 관문. Tour Planner.dc.html REGION_HUB 중 장소가 있는 도시. 수단은 지역거점.csv(전철권 metro 포함). 관문이 없는 도시도 있다 */
 export const CITY_HUBS = regionsData.hubs as Readonly<
   Record<string, RegionHub>
 >;
 
-/** 출발지(역 · 터미널 · 공항 · 항구). Tour Planner.dc.html ORIGINS 순서 그대로 */
+/** 출발지(역 · 터미널 · 공항 · 항구). Tour Planner.dc.html ORIGINS 순서 그대로. 수단은 출발지.csv(전철 metro 포함) */
 export const PLANNER_ORIGINS = regionsData.origins as Readonly<
   Record<string, Origin & { route?: string }>
 >;
@@ -57,6 +59,7 @@ export const FEATURED_CITIES = ["서울", "부산", "제주"] as const;
 /** 도시 고르기에서 칩을 강조하는 주요 도시 (Tour Planner.dc.html cityGroups GOLD) */
 export const MAJOR_CITIES: ReadonlySet<string> = new Set([
   "서울",
+  "인천",
   "강릉",
   "경주",
   "부산",

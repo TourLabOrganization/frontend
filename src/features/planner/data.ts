@@ -3,13 +3,15 @@ import placesData from "./data/places.json";
 import { REGION_KEYS, REGIONS, type Region, type RegionKey } from "./regions";
 
 // 투어 플래너의 장소와 장소로 계산하는 값(도시별 장소 수 · 도시 묶음 · 권역 가운데). 권역 · 도시 이름 · 관문 · 출발지는 regions.ts.
-// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그)와
-//                   Tour Planner.dc.html DATA(설명 · 사진)를 id로 합친 장소 1,171곳
+// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그 · 배지)와
+//                   Tour Planner.dc.html DATA · 파생 데이터/장소.csv(지정구역)를 id로 합친 장소 3,118곳의 가벼운 필드
+// 설명 · 사진 · 중일 이름 · 좌표 근거 · 카카오 장소 URL 같은 무거운 필드는 data/place-details.json에 따로 두고,
+// 장소 시트를 열 때 Route Handler(/api/planner/places/[id])로 받는다(use-place-detail.ts). 이 파일은 그 JSON을 import하지 않는다.
 // scripts/build-planner.mjs로 만든다. 손으로 고치지 않는다.
 // 장소 필드는 course/places.ts의 Place와 같아서 일정 모듈(course/schedule.ts)이 그대로 쓴다.
 
 export type PlannerPlace = Place & {
-  /** 권역 key */
+  /** 권역 key (PoC MACRO_OF) */
   macro: RegionKey;
   /**
    * 도시 고르기에서 속한 도시(Tour Planner.dc.html cityRows 규칙). 전국에만 속한 장소는 없다.
@@ -18,10 +20,8 @@ export type PlannerPlace = Place & {
    * 일정 계산 · 코스의 도시는 실제 도시(locKo)를 쓴다
    */
   pickCity?: string;
-  desc?: { ko?: string; en?: string };
-  /** 사진 주소 (Wikimedia, 폭 960) */
-  img?: string;
-  imgCredit?: string;
+  /** 관광특구 · 관광단지 · 지정관광지 문구 (예: 「경주시 관광단지 (2008 지정)」). 관광특구 배지 필터가 쓴다 */
+  vz?: string;
 };
 
 export const PLANNER_PLACES = placesData as readonly PlannerPlace[];

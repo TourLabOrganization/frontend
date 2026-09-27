@@ -405,11 +405,11 @@
     "k100Badge": "한국관광 100선",
     "unescoBadge": "유네스코",
     "categories": {
-      "herit": "역사·문화",
-      "heal": "힐링·생태",
+      "herit": "문화유산·전통체험",
+      "heal": "힐링·생태·체험",
       "activity": "테마파크·액티비티",
-      "food": "로컬·먹거리",
-      "sea": "해양·자연",
+      "food": "로컬상권·먹거리",
+      "sea": "해양·자연경관",
       "stay": "숙박"
     },
     "duration": {
@@ -554,6 +554,13 @@
     "map": {
       "categoriesLabel": "장소 분류",
       "all": "전체",
+      "badgesLabel": "배지",
+      "badges": {
+        "un": "유네스코",
+        "k100": "한국관광 100선",
+        "bf": "열린관광지",
+        "zone": "관광특구"
+      },
       "mapLabel": "투어 플래너 지도",
       "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
       "regionMarker": "{region} · 장소 {count}곳",
@@ -572,7 +579,10 @@
     },
     "sheet": {
       "add": "코스에 담기",
-      "remove": "코스에서 빼기"
+      "remove": "코스에서 빼기",
+      "detailLoading": "설명과 사진을 불러오는 중이에요",
+      "detailError": "설명과 사진을 불러오지 못했어요",
+      "detailRetry": "다시 시도"
     },
     "confirm": {
       "title": "다른 도시의 장소예요",
