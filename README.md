@@ -21,15 +21,25 @@
 
 ## 들어 있는 것
 
-| 영역        | 내용                                                                                                                          |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번                                        |
-| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                                             |
-| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                                             |
-| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                                                 |
-| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 화면 안 탭 바, 버튼, 보기, 배지, 진행 막대, 링크형 탭, 장소 시트 |
-| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)                            |
-| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                                                   |
+| 영역        | 내용                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번. 데이터랩 조회는 `src/lib/api/datalab.ts` |
+| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                                                |
+| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                                                |
+| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                                                    |
+| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 화면 안 탭 바, 버튼, 보기, 배지, 진행 막대, 링크형 탭, 장소 시트    |
+| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)                               |
+| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                                                      |
+
+## 백엔드 연동 현황
+
+| 화면              | 백엔드 API                                                         | 비고                                                            |
+| ----------------- | ------------------------------------------------------------------ | --------------------------------------------------------------- |
+| 추천 결과         | `POST /api/v1/recommend` · `GET /api/v1/tfi`                       | 테마 순위는 API 결과. 15번 여행 지역을 고르면 데이터랩 TFI 반영 |
+| 테마 여행 정보 탭 | `GET /api/v1/courses` · `GET /api/v1/tfi` · `GET /api/v1/staytime` | 「데이터랩으로 본 {지역}」                                      |
+| 로그인 · 회원가입 | (아직 연결 안 함)                                                  |                                                                 |
+
+공개 API는 서버 컴포넌트에서 부른다(`docs/api.md`). 유형(군집) 판정만 프론트에서 한다.
 
 ## 들어 있지 않은 것
 
@@ -58,11 +68,11 @@ cp .env.example .env.local
 
 `.env.local`에 채울 값:
 
-| 이름                        | 설명                                                                                     |
-| --------------------------- | ---------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_BASE_URL`  | 백엔드 주소. 로컬 백엔드는 `http://localhost:8080`                                       |
-| `NEXT_PUBLIC_KAKAO_MAP_KEY` | 카카오 지도 JavaScript 키. 카카오 앱에 등록한 도메인(`localhost:5173` 등)에서만 동작한다 |
-| `DATA_GO_KR_KEY` 외         | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md`                 |
+| 이름                        | 설명                                                                                          |
+| --------------------------- | --------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL`  | 백엔드 주소. 개발 서버는 `https://3.36.114.238.nip.io`, 로컬 백엔드는 `http://localhost:8080` |
+| `NEXT_PUBLIC_KAKAO_MAP_KEY` | 카카오 지도 JavaScript 키. 카카오 앱에 등록한 도메인(`localhost:5173` 등)에서만 동작한다      |
+| `DATA_GO_KR_KEY` 외         | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md`                      |
 
 ### 실행
 

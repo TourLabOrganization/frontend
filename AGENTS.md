@@ -47,7 +47,12 @@ Next.js 16 (App Router) / React 19 / TypeScript / Tailwind CSS 4. 모바일부�
 - 백엔드를 `fetch`로 직접 부르지 않는다. 응답 껍데기(`{code, message, data}`) 풀기, 토큰 붙이기,
   만료 시 재발급을 `api()`가 한다
 - 실패는 `ApiError`로 던져진다. 분기는 `message`가 아니라 `code`로 한다
-- 컴포넌트에서는 TanStack Query(`useQuery`·`useMutation`)로 감싸서 부른다
+- 로그인 없는 공개 API(추천 · 데이터랩 조회 등)는 서버 컴포넌트에서 `api()`로 바로 부른다.
+  서버끼리 부르므로 CORS와 무관하고(미리보기 배포에서도 동작), 화면이 로딩 없이 그려진다
+- 클라이언트 컴포넌트에서 부를 때(로그인 토큰이 필요한 호출 등)는 TanStack Query(`useQuery`·`useMutation`)로 감싸서 부른다
+- 모든 호출에 시간 제한(`signal: AbortSignal.timeout(8000)`)을 두고, 실패하면 화면에 실패 문구와 다시 시도를 보인다.
+  자주 안 바뀌는 조회는 `next: { revalidate: 3600 }`
+- 추천 점수 · 일정 계산은 data-server가 정본이다. API로 받은 결과는 프론트에서 다시 계산하지 않고 그대로 보여 준다 (`docs/api.md`)
 
 ### 3. API 키를 코드에 적지 않는다
 

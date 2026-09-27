@@ -4,13 +4,15 @@ import { getLocale, getTranslations } from "next-intl/server";
 import type { AppLocale } from "@/i18n/locales";
 import type { ThemeSlug } from "@/features/recommend/themes";
 import { THEME_WORK, tmdbImage } from "@/features/recommend/works";
+import { DatalabSection } from "./DatalabSection";
 import { THEME_INFO } from "./data/info";
 import { SECONDARY_LINK_CLASS } from "./place-meta";
 
 /** 작품 제목이 messages(Theme.info.<slug>.workTitle)에 있는 테마 = TMDB 작품이 있는 테마 */
 type WorkSlug = Exclude<ThemeSlug, "rescene-route">;
 
-// 여행 정보 탭. 작품 카드(TMDB 포스터) · 축제 상자 · 외부 링크 버튼. 축제 · 링크는 data/info.ts(PoC에서 옮김)
+// 여행 정보 탭. 작품 카드(TMDB 포스터) · 축제 상자 · 데이터랩으로 본 지역(백엔드 TFI · 체류시간) · 외부 링크 버튼.
+// 축제 · 링크는 data/info.ts(PoC에서 옮김)
 export async function InfoTab({ slug }: { slug: ThemeSlug }) {
   const t = await getTranslations("Theme.info");
   const common = await getTranslations("Common");
@@ -63,6 +65,8 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
           </p>
         </section>
       )}
+
+      <DatalabSection slug={slug} />
 
       <section aria-labelledby="links-heading">
         <h3 id="links-heading" className="px-1 text-headline font-bold">

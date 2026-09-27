@@ -10,7 +10,7 @@ src/
     api/**/route.ts     Route Handler. 키가 필요한 외부 API를 대신 부른다
   components/           여러 기능이 함께 쓰는 컴포넌트
   features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/theme, features/planner, features/home, features/me)
-  lib/                  화면과 무관한 코드 (api 클라이언트, 여러 기능이 쓰는 localStorage 값 local-store.ts, 유틸)
+  lib/                  화면과 무관한 코드 (api 클라이언트, 데이터랩 조회 api/datalab.ts, 여러 기능이 쓰는 localStorage 값 local-store.ts, 유틸)
   i18n/                 다국어 설정
 messages/               화면 문구 (ko.json · en.json)
 scripts/                데이터 생성 스크립트 (원천 파일 경로를 인자로 받는다)
@@ -26,8 +26,8 @@ public/                 정적 파일
 | 경로                | 화면                                                            | 코드                                                                                                        |
 | ------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스)       | `app/page.tsx`, `features/home`                                                                             |
-| `/recommend`        | 테마 추천 14문항                                                | `app/recommend/page.tsx`, `features/recommend`                                                              |
-| `/recommend/result` | 추천 결과                                                       | `app/recommend/result/page.tsx`                                                                             |
+| `/recommend`        | 테마 추천 15문항                                                | `app/recommend/page.tsx`, `features/recommend`                                                              |
+| `/recommend/result` | 추천 결과(테마 순위는 백엔드 추천 API)                          | `app/recommend/result/page.tsx`, `features/recommend/api.ts`, `lib/api/datalab.ts`                          |
 | `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보) | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
 | `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)     | `app/planner/page.tsx`, `features/planner`                                                                  |
 | `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                            | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
@@ -65,6 +65,15 @@ public/                 정적 파일
 - 한 코스는 한 도시(`locKo`)의 장소만 담는다. 권역에서 불러온 추천 코스만 여러 도시가 섞일 수 있다
 - 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
+
+### 추천과 데이터랩
+
+- 설문 Q1~Q9로 유형(군집)을 판정하는 것(`features/recommend/scoring.ts`의 `classify`)만 프론트에서 한다
+- 테마 순위는 백엔드 `POST /api/v1/recommend` 결과를 그대로 쓴다(`features/recommend/api.ts`).
+  요청은 1순위 군집 · Q4 관심사 index · 야경 · Q15 지역(골랐을 때만), 응답 테마 이름은 `themes.ts`의 `key`로 우리 테마에 잇고 목록에 없는 테마(「[가상] …」)는 뺀다
+- 결과 화면은 API 1위 테마를 localStorage `tn.lastTopTheme`(`{ a, slug }`)에 적고, ME는 다시 계산하지 않고 이 값을 읽는다
+- 데이터랩 조회(TFI · 체류시간 · 코스 지역)는 결과 화면과 테마 화면(여행 정보 탭 `features/theme/DatalabSection.tsx`)이 함께 쓰므로 `lib/api/datalab.ts`에 둔다.
+  TFI 막대는 `components/TfiBars.tsx`
 
 ### 저장된 플랜 (`tn.savedPlans`)
 

@@ -2,15 +2,8 @@ import { describe, expect, it } from "vitest";
 import en from "../../../messages/en.json";
 import ko from "../../../messages/ko.json";
 import { QUESTIONS, type Answers } from "./questions";
-import { getRecommendation } from "./recommend";
 import { classify, CLUSTER_IDS, SCORE_TABLE } from "./scoring";
-import {
-  CATEGORY_IDS,
-  profileFromAnswers,
-  rankThemes,
-  themeScore,
-  THEMES,
-} from "./themes";
+import { THEMES } from "./themes";
 
 // 문서(01_고도화_전략.md 107행)의 예시
 // 60대 / 배우자 / 천천히 / 역사·유적 + 자연·숲길 / 한적한 곳 / 국내 / 7만~15만 / 아침 일찍 / 가 본 경험
@@ -107,71 +100,6 @@ describe("classify", () => {
     );
     expect(clusters[0].probability).toBeLessThan(0.5);
     expect(mixed).toBe(true);
-  });
-});
-
-describe("rankThemes", () => {
-  it("문서 예시는 C4 기준 최종 점수 순서로 테마를 매긴다", () => {
-    const { themes } = getRecommendation(DOC_EXAMPLE, "ko");
-    const profile = profileFromAnswers(DOC_EXAMPLE);
-    const expected = [...THEMES]
-      .sort(
-        (a, b) =>
-          themeScore(b, "C4", profile).total -
-          themeScore(a, "C4", profile).total,
-      )
-      .map((t) => t.slug);
-    expect(themes.map((t) => t.slug)).toEqual(expected);
-    expect(themes[0].evidence.fitClusters).toEqual(["C4"]);
-    expect(themes[0].evidence.rank).toBe(1);
-  });
-
-  it("섞을 때는 두 군집의 최종 점수를 확률로 가중 평균한다", () => {
-    const clusters = [
-      { id: "C1" as const, score: 2, probability: 0.4 },
-      { id: "C2" as const, score: 1, probability: 0.4 },
-    ];
-    const profile = { interests: [], night: false, ageIndex: null };
-    const ranked = rankThemes(clusters, true, THEMES, profile);
-    for (const t of ranked) {
-      const theme = THEMES.find((s) => s.slug === t.slug)!;
-      expect(t.score).toBeCloseTo((theme.fit.C1 + theme.fit.C2) / 2, 10);
-    }
-    expect(ranked[0].evidence.fitClusters).toEqual(["C1", "C2"]);
-  });
-
-  it("관심사에 맞는 분류가 있으면 그 분류 구성비를 근거로 보인다", () => {
-    const { themes } = getRecommendation(DOC_EXAMPLE, "ko");
-    for (const t of themes) {
-      const source = THEMES.find((s) => s.slug === t.slug)!;
-      // 역사(0) · 자연(1) 중 이 테마 구성비가 더 큰 쪽
-      const best = source.share[1] > source.share[0] ? 1 : 0;
-      expect(t.evidence.category).toEqual({
-        id: CATEGORY_IDS[best],
-        share: source.share[best],
-        matched: true,
-      });
-    }
-  });
-
-  it("고른 관심사 분류의 장소가 없는 테마(0%)에는 테마에서 가장 큰 분류를 보인다", () => {
-    const seaLover = { ...DOC_EXAMPLE, q4: ["sea"] };
-    const kings = getRecommendation(seaLover, "ko").themes.find(
-      (t) => t.slug === "kings-warden",
-    )!;
-    expect(kings.evidence.category.matched).toBe(false);
-    expect(kings.evidence.category.share).toBeGreaterThan(0);
-  });
-
-  it("야경 배지는 야경을 고른 사람에게만, 야경 장소가 있는 테마에 붙는다", () => {
-    for (const t of getRecommendation(DOC_EXAMPLE, "ko").themes)
-      expect(t.evidence.night).toBeNull();
-
-    const nightLover = { ...DOC_EXAMPLE, q4: ["history", "night"] };
-    for (const t of getRecommendation(nightLover, "ko").themes) {
-      const source = THEMES.find((s) => s.slug === t.slug)!;
-      expect(t.evidence.night).toBe(source.night > 0 ? source.night : null);
-    }
   });
 });
 
