@@ -81,13 +81,16 @@
 | `Chip`                  | 추천 근거 배지, 메타 정보                                                                                                                                                                                                                                                               |
 | `ProgressBar`           | 문항 진행                                                                                                                                                                                                                                                                               |
 | `LogoMark`              | 서비스 로고(목업 종이비행기 도형, 색은 `currentColor`). 시작 화면 · 앱 아이콘(`src/app/icon.svg`)과 같은 도형                                                                                                                                                                           |
-| `LocaleSwitch`          | 언어 전환 버튼(한국어 ↔ English). 홈 · 결과 · 코스 · ME 화면 오른쪽 위                                                                                                                                                                                                                  |
+| `LocaleSwitch`          | 언어 메뉴(목업 「MULTI LANGUAGE」). 누르면 언어 목록(지금 한국어 · English, `i18n/locales.ts`의 `LOCALE_NAMES`)이 펼쳐진다. Esc · 바깥 누르기 · Tab으로 닫힌다. 440px보다 좁으면 아이콘만. 홈 · 결과 · 코스 · 플래너 · ME 오른쪽 위                                                     |
+| `usePopover`            | 버튼 아래 작은 창(언어 메뉴 · 알림)의 열고 닫기(`use-popover.ts`). Esc는 여는 버튼으로 초점을 돌려준다                                                                                                                                                                                  |
 | `SegmentedControl`      | 링크형 탭(`?plan=` 같은 쿼리를 바꾼다). `nav` + `aria-current`. 코스 3안 비교, 플래너 지역 탭. 링크 아닌 칸(플래너 「도시 ▾」)은 `children`으로 넣고 `segmentClassName`으로 모양을 맞춘다                                                                                               |
 | `TabBar`                | 한 화면 안의 하단 탭(`?tab=` 링크, `aria-current="page"`). 칸 수만큼 나뉜다. `badge`로 숫자 배지를 붙인다(플래너 코스 탭). 쓰는 화면의 `main`에 `pb-[calc(6rem+env(safe-area-inset-bottom))]`                                                                                           |
 | `PlaceSheet`            | 장소 시트(아래에서 올라오는 모달 dialog). 사진 · 분류 · 운영시간 · 설명 · 「길찾기」. 옆 버튼은 `actions`로 받는다(테마: 저장 · 스탬프, 플래너: 코스에 담기)                                                                                                                            |
 | `MapFrame`              | 카카오 지도 틀(키 · SDK 불러오기 · 불러오기 실패 안내 · 점 묶음에 맞추기 · 열린 장소로 옮기기 · 확대 버튼). 바탕 지도 글자는 늘 한국어(카카오는 영문 지도가 없다). 핀 · 묶음 · 선은 `children`으로 넣는다(테마 `ThemeMap`, 플래너 `PlannerMap`). 키가 없을 때의 안내는 쓰는 쪽이 그린다 |
 | `SearchField`           | 목록 검색 입력(돋보기 · 지우기 버튼 44px · 화면 읽기용 이름). 검색 규칙은 `lib/text-search.ts`의 `matchesQuery`(띄어쓰기 · 대소문자 무시). 플래너 · 테마 지도 탭 장소 목록                                                                                                              |
 | `BottomNav`             | 하단 탭(홈 · 내 코스 고르기 · ME). 홈 · ME 화면에만. 쓰는 화면의 `main`에 `pb-[calc(5rem+env(safe-area-inset-bottom))]`                                                                                                                                                                 |
+
+홈 · ME 머리줄 오른쪽(언어 메뉴 · 검색 · 알림)은 `components/HeaderActions`, 알림은 `components/Notifications`(내용은 `lib/notifications.ts`)다.
 
 새 부품이 필요하면 이 표에서 먼저 찾고, 없으면 같은 폴더에 만들어 표에 추가한다.
 

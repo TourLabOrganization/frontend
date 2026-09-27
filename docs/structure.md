@@ -23,14 +23,14 @@ public/                 정적 파일
 
 ## 화면 경로
 
-| 경로                | 화면                                                            | 코드                                                                                                        |
-| ------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 나의 테마 · 추천 코스)       | `app/page.tsx`, `features/home`                                                                             |
-| `/recommend`        | 테마 추천 15문항                                                | `app/recommend/page.tsx`, `features/recommend`                                                              |
-| `/recommend/result` | 추천 결과(테마 순위는 백엔드 추천 API)                          | `app/recommend/result/page.tsx`, `features/recommend/api.ts`, `lib/api/datalab.ts`                          |
-| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보) | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
-| `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)     | `app/planner/page.tsx`, `features/planner`                                                                  |
-| `/me`               | ME(추천받은 나의 테마 · 저장된 플랜)                            | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
+| 경로                | 화면                                                                           | 코드                                                                                                        |
+| ------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 지역 시티투어 · 나의 테마 · 지금 인기 코스) | `app/page.tsx`, `features/home`                                                                             |
+| `/recommend`        | 테마 추천 15문항                                                               | `app/recommend/page.tsx`, `features/recommend`                                                              |
+| `/recommend/result` | 추천 결과(테마 순위는 백엔드 추천 API)                                         | `app/recommend/result/page.tsx`, `features/recommend/api.ts`, `lib/api/datalab.ts`                          |
+| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)                | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
+| `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)                    | `app/planner/page.tsx`, `features/planner`                                                                  |
+| `/me`               | ME(나의 여행자 유형 · 저장된 플랜)                                             | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
 
 ### 테마 화면 주소 (`/themes/[themeId]`)
 
@@ -76,6 +76,7 @@ public/                 정적 파일
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json` |
 | `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`              |
+| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                             |
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결) · `scenes.json`                                     |
 
 플래너 장소 필드
@@ -94,6 +95,18 @@ public/                 정적 파일
 - 결과 화면은 API 1위 테마를 localStorage `tn.lastTopTheme`(`{ a, slug }`)에 적고, ME는 다시 계산하지 않고 이 값을 읽는다
 - 데이터랩 조회(TFI · 체류시간 · 코스 지역)는 결과 화면과 테마 화면(여행 정보 탭 `features/theme/DatalabSection.tsx`)이 함께 쓰므로 `lib/api/datalab.ts`에 둔다.
   TFI 막대는 `components/TfiBars.tsx`
+
+### 홈 지역 시티투어
+
+- 데이터 가공(분류 칩 · 내 유형 추천 · 지역 집계)은 `features/home/citytour.ts`, 경유지 → 플래너 장소 대조는 `citytour-match.ts`. 둘 다 목업(9/27 standalone) 규칙을 옮긴 순수 함수다
+- 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,118곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
+- 「코스빌더에 넣기」는 `course-store`의 `replace`로 코스를 바꾸고 `/planner?tab=course`로 간다. 담아 둔 다른 코스가 있으면 먼저 묻는다
+- 내 유형 추천은 `tn.lastRecommendation`의 답으로 `classify`를 다시 돌려 군집 선호 벡터(`CLUSTER_PREFS`, 목업 CL)와 맞춘다
+
+### 머리줄 알림 (`tn.notifications.read`)
+
+- 알림은 이 브라우저에 있는 정보(추천 결과 · 플래너 코스 · 저장된 플랜 · 시티투어 데이터)로만 만든다(`lib/notifications.ts`). 읽은 알림 id 목록을 `tn.notifications.read`에 둔다
+- 알림 id는 내용으로 만들어서 내용이 바뀌면 다시 안 읽음이 된다
 
 ### 저장된 플랜 (`tn.savedPlans`)
 
