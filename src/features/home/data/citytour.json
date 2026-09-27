@@ -12,7 +12,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["ro4", "ro226", "bcx22", "ctu1", "nax764"]
+    "placeIds": ["ro4", "ro305", "bcx22", "ctu1", "nax764"]
   },
   {
     "region": "부산",
@@ -84,7 +84,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bc7", "bc6", "ctt5", "bc12", "bcx4", "ctt6", "ctt2", "ctt7"]
+    "placeIds": ["bc7", "bc6", "ctt5", "bc12", "bcx4", "ctt6", "ctt2"]
   },
   {
     "region": "부산",
@@ -104,7 +104,7 @@
       "bcx17",
       "ro4",
       "bcx43",
-      "ro177",
+      "bcx42",
       "bc3",
       "bcx29",
       "bcx41",

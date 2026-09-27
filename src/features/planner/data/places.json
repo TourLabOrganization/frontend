@@ -2921,8 +2921,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam",
-    "pickCity": "부산"
+    "macro": "dongnam"
   },
   {
     "id": "ctt8",
@@ -13434,8 +13433,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "gangwon",
-    "pickCity": "영월"
+    "macro": "gangwon"
   },
   {
     "id": "ro107",
@@ -14723,8 +14721,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong",
-    "pickCity": "경주"
+    "macro": "daegyeong"
   },
   {
     "id": "ro167",
@@ -14966,7 +14963,6 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
-    "pickCity": "부산",
     "vz": "해운대구 관광지 (2008 지정)"
   },
   {
@@ -15209,8 +15205,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "gangwon",
-    "pickCity": "영월"
+    "macro": "gangwon"
   },
   {
     "id": "ro189",
@@ -16046,8 +16041,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam",
-    "pickCity": "부산"
+    "macro": "dongnam"
   },
   {
     "id": "ro227",
@@ -27637,8 +27631,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam",
-    "pickCity": "부산"
+    "macro": "dongnam"
   },
   {
     "id": "ro763",
@@ -33272,7 +33265,6 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
-    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -55320,8 +55312,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong",
-    "pickCity": "경주"
+    "macro": "daegyeong"
   },
   {
     "id": "nax774",
@@ -57245,8 +57236,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "gangwon",
-    "pickCity": "영월"
+    "macro": "gangwon"
   },
   {
     "id": "nax894",
@@ -63608,8 +63598,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital",
-    "pickCity": "서울"
+    "macro": "capital"
   },
   {
     "id": "kd6",

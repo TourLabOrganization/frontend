@@ -35,8 +35,13 @@
 //     PoC cityRows는 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 nation 장소를 버려서 그 447곳이
 //     전국 보기에만 들어갔는데(예: 경주 분황사 · 경주중앙시장), 앱은 「도시를 고르면 그 도시(locKo)의 장소가 전부 나와야 한다」
 //     (대표 결정 2026-09-28, 장소 3,000여 곳을 앱에 다 싣는다)에 따라 그 장소에도 pickCity = locKo를 준다.
-//     단 같은 도시 · 같은 이름(공백 · 가운뎃점 · 괄호 무시) · 좌표 200m 이내 장소가 전용 화면 묶음에 이미 있으면
-//     그 nation 장소는 pickCity를 주지 않는다(같은 장소가 도시 목록에 두 번 나오지 않게, 예: 서울숲). 뺀 장소를 출력한다.
+//     단 같은 장소가 전용 화면 묶음에 이미 있으면 그 nation 장소는 pickCity를 주지 않는다(같은 장소가 도시 목록에 두 번 나오지 않게,
+//     대표 결정 2026-09-28 「이름이 조금 다른 같은 장소도 중복」). 같은 장소 = 같은 도시 · 숙박 여부가 같고 · 좌표 200m 이내이고,
+//     이름을 정규화(괄호와 그 안 · 공백 · 문장부호 제거, 앞뒤의 도시 이름과 「호텔」 제거)했을 때 한쪽이 다른 쪽을 품는 것.
+//     여기에 눈으로 가른 예외 두 가지를 더한다: SAME_PLACES(좌표가 200m 넘게 벌어졌거나 이름이 서로를 품지 않는 같은 장소)와
+//     DIFFERENT_PLACES(규칙에 걸리지만 다른 장소: 안에 든 시설 · 행사). 남기는 쪽은 전용 화면 장소, 단 데이터랩 인기 순위(popRank)가
+//     nation 장소에만 있으면 순위가 목록에서 사라지지 않게 nation 장소를 남기고 전용 화면 장소의 pickCity를 뺀다(서울스카이).
+//     뺀 쌍을 모두 출력한다(눈으로 오탐 확인).
 //     nation 장소에 locKo가 없으면 pickCity가 없다(PoC byLoc이 locKo만 본다)
 //   - 값이 없으면 비운다(지어내지 않는다). 원천끼리 다르면 개수를 출력한다
 //   - 영어 이름이 없는 장소(en = ko)는 앱이 만든 영어 이름 표(src/features/translations/data/place-names.en.json)로 채운다(scripts/place-names.mjs)
@@ -253,12 +258,34 @@ const screenCities = new Set(
     .map(([, group]) => group.ko),
 );
 
-// 같은 장소 판정: 이름에서 공백 · 가운뎃점 · 괄호(와 그 안)를 빼고 비교, 좌표는 200m 이내
-const sameNameKey = (name) =>
-  (name ?? "")
+// 같은 장소 판정(머리 주석 「도시 고르기 도시」). 정규화 이름: 괄호와 그 안 · 공백 · 문장부호를 빼고, 앞뒤의 도시 이름과 「호텔」을 뗀다
+function sameNameKey(name, city) {
+  let key = (name ?? "")
     .replace(/\([^)]*\)|（[^）]*）/g, "")
-    .replace(/[\s·ㆍ・•()（）]/g, "");
+    .replace(/[\s·ㆍ・•()（）\-_.,'’&]/g, "")
+    .toLowerCase();
+  // 도시 이름을 떼고 두 글자 이상 남을 때만 뗀다(서울숲 → 숲이 되지 않게)
+  if (city && key.length >= city.length + 2) {
+    if (key.startsWith(city)) key = key.slice(city.length);
+    else if (key.endsWith(city)) key = key.slice(0, -city.length);
+  }
+  return key.replace(/호텔/g, "");
+}
 const DUP_METERS = 200;
+/** 규칙과 별도로 같은 장소로 보는 쌍(nation id · 전용 화면 id). 좌표가 200m 넘게 벌어졌거나 이름이 서로를 품지 않는다 */
+const SAME_PLACES = [
+  ["ro106", "ywx1"], // 영월 고씨굴 = 고씨굴 (좌표 1.9km 차이, 동굴 입구 · 매표소 기준 차이)
+  ["ro226", "bcx28"], // 해운대달맞이길 = 달맞이길 문탠로드 (1.1km, 같은 달맞이길)
+];
+/** 규칙에 걸리지만 다른 장소(nation id · 전용 화면 id). 안에 든 시설 · 행사라 따로 둔다 */
+const DIFFERENT_PLACES = [
+  ["ro17", "kdx9"], // 코엑스 ≠ 코엑스 별마당도서관
+  ["ro19", "kdx12"], // 반포한강공원 ≠ 반포한강공원 달빛무지개분수
+  ["ro118", "gjx26"], // 경주중앙시장 ≠ 중앙시장 야시장
+];
+const pairKey = (a, b) => `${a}|${b}`;
+const samePairs = new Set(SAME_PLACES.map(([a, b]) => pairKey(a, b)));
+const differentPairs = new Set(DIFFERENT_PLACES.map(([a, b]) => pairKey(a, b)));
 function meters(aLat, aLng, bLat, bLng) {
   const rad = Math.PI / 180;
   const dLat = (bLat - aLat) * rad;
@@ -268,26 +295,20 @@ function meters(aLat, aLng, bLat, bLng) {
     Math.cos(aLat * rad) * Math.cos(bLat * rad) * Math.sin(dLng / 2) ** 2;
   return 2 * 6371000 * Math.asin(Math.sqrt(h));
 }
-// 전용 화면 묶음 장소를 「도시|이름」으로 모은다. nation 장소가 이 중 200m 이내 것과 겹치면 pickCity를 주지 않는다
-const screenPlaces = new Map();
-for (const [key, group] of Object.entries(DATA)) {
-  if (key === "nation") continue;
-  for (const p of group.places) {
-    const r = csvById.get(p.id);
-    const ko = r ? r["장소명"] : p.ko;
-    const lat = r ? Number(r["위도"]) : p.lat;
-    const lng = r ? Number(r["경도"]) : p.lng;
-    const k = `${group.ko}|${sameNameKey(ko)}`;
-    if (!screenPlaces.has(k)) screenPlaces.set(k, []);
-    screenPlaces.get(k).push({ id: p.id, ko, lat, lng });
-  }
+/** nation 장소 n과 전용 화면 장소 s가 같은 장소인지 */
+function samePlace(n, s) {
+  const pair = pairKey(n.id, s.id);
+  if (samePairs.has(pair)) return true;
+  if (differentPairs.has(pair)) return false;
+  if (n.locKo !== s.locKo) return false;
+  if ((n.cat === "stay") !== (s.cat === "stay")) return false;
+  if (meters(n.lat, n.lng, s.lat, s.lng) > DUP_METERS) return false;
+  const a = sameNameKey(n.ko, n.locKo);
+  const b = sameNameKey(s.ko, s.locKo);
+  if (a.length < 2 || b.length < 2) return false;
+  return a.includes(b) || b.includes(a);
 }
-/** nation 장소와 같은 장소가 전용 화면 묶음에 있으면 그 장소 */
-function screenDuplicate(city, ko, lat, lng) {
-  return (screenPlaces.get(`${city}|${sameNameKey(ko)}`) ?? []).find(
-    (s) => meters(lat, lng, s.lat, s.lng) <= DUP_METERS,
-  );
-}
+const screenIds = new Set();
 const cityDuplicates = [];
 
 const places = [];
@@ -317,19 +338,8 @@ for (const [key, group] of Object.entries(DATA)) {
     if (!city) mismatch.noCity++;
     const macro = regKeyOfMacro[MACRO_OF[city]];
     if (!macro) mismatch.noMacro++;
-    let pickCity = key !== "nation" ? group.ko : p.locKo || undefined;
-    if (key === "nation" && pickCity && screenCities.has(pickCity)) {
-      const dup = screenDuplicate(
-        pickCity,
-        r["장소명"],
-        Number(r["위도"]),
-        Number(r["경도"]),
-      );
-      if (dup) {
-        cityDuplicates.push(`${r.id} ${r["장소명"]} = ${dup.id} ${dup.ko}`);
-        pickCity = undefined;
-      }
-    }
+    const pickCity = key !== "nation" ? group.ko : p.locKo || undefined;
+    if (key !== "nation") screenIds.add(p.id);
 
     const open = hmToMin(r["개장(파싱)"]);
     let close = hmToMin(r["폐장(파싱)"]);
@@ -437,6 +447,33 @@ for (const r of regions) {
 const modesOf = (v) => (v ? v.split("|") : []);
 const hubCheck = { csvOnly: 0, htmlOnly: 0, name: 0, latLng: 0, modes: 0 };
 const hubCsv = new Map(hubRows.map((r) => [r["시군"], r]));
+// 같은 장소가 전용 화면 묶음과 nation 목록에 함께 있으면 한쪽만 도시에 넣는다(머리 주석 「도시 고르기 도시」)
+{
+  const screenByCity = new Map();
+  for (const p of places)
+    if (screenIds.has(p.id)) {
+      if (!screenByCity.has(p.locKo)) screenByCity.set(p.locKo, []);
+      screenByCity.get(p.locKo).push(p);
+    }
+  for (const n of places) {
+    if (screenIds.has(n.id) || !n.pickCity) continue;
+    const s = (screenByCity.get(n.locKo) ?? []).find((c) => samePlace(n, c));
+    if (!s) continue;
+    const keepNation = n.popRank !== undefined && s.popRank === undefined;
+    const drop = keepNation ? s : n;
+    delete drop.pickCity;
+    const m = Math.round(meters(n.lat, n.lng, s.lat, s.lng));
+    cityDuplicates.push(
+      `${n.locKo} ${n.id} ${n.ko} = ${s.id} ${s.ko} (${m}m) → ${drop.id} 뺌`,
+    );
+  }
+  for (const [a, b] of [...SAME_PLACES, ...DIFFERENT_PLACES])
+    if (!places.some((p) => p.id === a) || !places.some((p) => p.id === b))
+      throw new Error(
+        `같은 · 다른 장소 표의 id가 데이터에 없습니다: ${a} · ${b}`,
+      );
+}
+
 const usedCities = new Set(places.map((p) => p.locKo));
 const hubs = {};
 for (const [c, h] of Object.entries(REGION_HUB)) {
@@ -568,7 +605,7 @@ console.log(
   places.filter((p) => !p.pickCity).length,
 );
 console.log(
-  "전용 화면 묶음과 같은 장소라 도시에 넣지 않은 nation 장소",
+  "전용 화면 묶음과 nation 목록에 함께 있어 한쪽을 도시에서 뺀 같은 장소",
   cityDuplicates.length,
   cityDuplicates,
 );
