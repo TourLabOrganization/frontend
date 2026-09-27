@@ -7,28 +7,45 @@ import {
   ChevronDown,
   CircleAlert,
   Info,
+  Minus,
+  Plus,
+  RotateCcw,
   X,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
+import { PlanStore } from "@/components/PlanStore";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { CourseDaySection } from "@/features/course/CourseDaySection";
 import { formatDuration } from "@/features/course/format-duration";
+import { METRO_CITY } from "@/features/course/places";
 import { leadRegion } from "@/features/course/scenarios";
+import { legInfo } from "@/features/course/schedule";
 import { isCategoryKey, placeName } from "@/features/theme/place-meta";
 import {
   addPlannerPlan,
+  overwritePlannerPlan,
   type PlannerSavedPlan,
   parsePlannerPlans,
+  removePlannerPlan,
   SAVED_PLANS_KEY,
   useLocalValue,
+  writePlannerPlans,
 } from "@/lib/local-store";
 import { categoryDot } from "./category";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { CourseAccessLeg } from "./CourseAccessLeg";
 import { CourseBookingLinks } from "./CourseBookingLinks";
 import { CourseTransport } from "./CourseTransport";
+import {
+  dayInsertIndex,
+  parseStayOverrides,
+  STAY_STEP,
+  type StayOverrides,
+  withStayOverrides,
+} from "./course-edit";
 import {
   type PlannerSettings,
   parseSettings,
@@ -40,19 +57,24 @@ import {
 import {
   findPlace,
   isPlannerCity,
+  PLANNER_PLACES,
   type PlannerPlace,
   placesInScope,
   type Scope,
 } from "./data";
-import { addDays, dateError, MAX_TRIP_DAYS } from "./dates";
+import { wideBookingLink } from "./data/booking";
+import { addDays, dateError, MAX_TRIP_DAYS, tripDays } from "./dates";
+import { DayAddPlace } from "./DayAddPlace";
 import { plannerHref, scopeHref } from "./query";
 import {
+  CITY_HUBS,
   CITY_INFO,
   cityName,
   findRegion,
   PLANNER_ORIGINS,
   regionName,
 } from "./regions";
+import { RoutingHowTo } from "./RoutingHowTo";
 import {
   buildPlannerSchedule,
   recommendCourse,
@@ -60,6 +82,7 @@ import {
   suggestOrigin,
   wideOptions,
 } from "./schedule";
+import { TripCalendar } from "./TripCalendar";
 import { useNameTable } from "@/features/names/NamesProvider";
 
 // 맨 위 · 맨 아래에서 옮기기 버튼은 disabled 대신 aria-disabled로 둔다. 옮긴 뒤 초점이 사라지지 않게
@@ -69,8 +92,6 @@ const ICON_BUTTON =
 const FIELD =
   "h-12 w-full min-w-0 rounded-xl bg-fill px-4 text-body text-fg placeholder:text-fg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright aria-invalid:ring-2 aria-invalid:ring-danger";
 const SELECT = `${FIELD} appearance-none pr-10`;
-// 날짜 칸은 눌러서 달력을 열 때도 테두리가 보이게 focus로 둔다
-const DATE_FIELD = `${FIELD} px-3 focus:outline-2 focus:outline-offset-2 focus:outline-primary-bright`;
 const LABEL = "text-label font-semibold text-fg-muted";
 const CARD = "rounded-card p-4 ring-1 ring-line";
 // aria-disabled 버튼(이유를 읽게 초점은 남긴다)의 모양
@@ -93,7 +114,11 @@ function halfHours(from: number, to: number): string[] {
 const sameIds = (a: readonly string[], b: readonly string[]) =>
   a.length === b.length && a.every((id, i) => id === b[i]);
 
-type ConfirmKind = "recommend" | "clear" | "load";
+/** 체류 시간 덮어쓰기를 키 순서와 무관하게 비교하려고 정렬한다 */
+const sortedStay = (ov: StayOverrides) =>
+  Object.entries(ov).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+
+type ConfirmKind = "recommend" | "clear" | "load" | "overwrite" | "delete";
 
 type PlannerCourseTabProps = {
   scope: Scope;
@@ -102,13 +127,16 @@ type PlannerCourseTabProps = {
 };
 
 // 투어 플래너 코스 탭(코스 빌더, 목업 코스 탭 순서).
-// 내 플랜(이름 · 저장) → 날짜 → 출발지 · 시각 → 01 광역 교통 → 02 현지 이동 → 요약 → 담은 장소 → 추천 · 비우기 → 일자별 일정 → 예매.
+// 내 플랜(이름 · 저장 · 덮어쓰기 · 저장소) → 날짜(달력) → 출발지 · 시각 → 01 광역 교통 → 02 현지 이동 → 이동 요령 → 요약
+// → 담은 장소(체류 시간 수정) → 추천 · 비우기 → 일자별 일정(구간 정보 · 가는 길 · 돌아오는 길 · 이 날에 장소 추가) → 예매.
 // 일정 · 요약 숫자는 schedule.ts buildPlannerSchedule의 결과만 그린다. 담은 장소와 설정은 localStorage(course-store.ts)라
 // 서버 렌더에서는 아무것도 그리지 않고, 하이드레이션 뒤에 그린다(빈 상태가 깜박이지 않게)
 export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const t = useTranslations("Planner.course");
   const tp = useTranslations("Planner");
   const tc = useTranslations("Course");
+  const tm = useTranslations("Me");
+  const tplans = useTranslations("Plans");
   const locale = useLocale();
   const names = useNameTable();
   const router = useRouter();
@@ -125,6 +153,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const refillFocus = useRef(false);
 
   const [confirm, setConfirm] = useState<ConfirmKind | null>(null);
+  // 저장소 목록에서 불러오거나 지울 플랜(확인 창이 묻는 대상)
+  const [target, setTarget] = useState<PlannerSavedPlan | null>(null);
+  const storeSummaryRef = useRef<HTMLElement>(null);
   const [dismissedPlan, setDismissedPlan] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<
     "nameRequired" | "emptyCourse" | null
@@ -136,10 +167,11 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   // 눈에도 보여야 하는 안내(추천할 장소가 없음)
   const [notice, setNotice] = useState("");
 
-  // 데이터에서 없어진 id는 건너뛴다
-  const places = course.placeIds
+  // 데이터에서 없어진 id는 건너뛴다. 체류 시간은 사용자가 바꾼 값(stayOv)을 넣는다(PoC courseList)
+  const basePlaces = course.placeIds
     .map((pid) => findPlace(pid))
     .filter((p): p is PlannerPlace => p !== undefined);
+  const places = withStayOverrides(basePlaces, course.stayOv);
 
   // 추천 코스 후보: 고른 도시, 없으면 고른 권역의 자동 코스 후보
   const autoPool =
@@ -162,16 +194,25 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const settings: PlannerSettings = { ...course, startDate, endDate };
   const plan = buildPlannerSchedule(places, settings, leadCity);
 
-  // 저장할 값. 저장된 플랜 중 이 값과 같은 것이 있으면 「저장됨」
+  // 저장할 값(설정 + 체류 시간). 저장된 플랜 중 이 값과 같은 것이 있으면 「저장됨」
   const saveSettings = pickSettings({ ...settings, name: course.name.trim() });
-  const contentKey = JSON.stringify([course.placeIds, saveSettings]);
+  const planSettings = { ...saveSettings, stayOv: course.stayOv };
+  const contentKey = JSON.stringify([
+    course.placeIds,
+    saveSettings,
+    sortedStay(course.stayOv),
+  ]);
   const saved = savedPlans.some(
     (p) =>
       JSON.stringify([
         p.placeIds,
         pickSettings({ ...parseSettings(p.settings), name: p.name }),
+        sortedStay(parseStayOverrides(p.settings.stayOv)),
       ]) === contentKey,
   );
+  // 지금 불러와 보고 있는(또는 방금 저장한) 플랜. 「덮어쓰기」 대상(PoC planId)
+  const activePlanId = course.planId;
+  const activePlan = savedPlans.find((p) => p.id === activePlanId) ?? null;
 
   // ── ME에서 연 저장된 플랜(?plan=) ──
   const pendingPlan = planId
@@ -190,12 +231,14 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       { scroll: false },
     );
 
-  // 저장된 플랜을 코스 저장소에 넣고 주소에서 ?plan=을 뗀다
+  // 저장된 플랜을 코스 저장소에 넣고 주소에서 ?plan=을 뗀다(저장소 목록에서 불러와도 그 도시 주소로)
   const applyPlan = (p: PlannerSavedPlan) => {
     store.load({
       city: p.city,
       placeIds: p.placeIds,
       ...parseSettings(p.settings),
+      stayOv: parseStayOverrides(p.settings.stayOv),
+      planId: p.id,
       name: p.name,
     });
     leavePlanUrl(p.city);
@@ -214,12 +257,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   // 주소의 플랜이 저장 목록에 없다(ME에서 지웠거나 다른 기기의 주소)
   const planMissing = planId !== undefined && pendingPlan === null;
   const dialogKind: ConfirmKind | null = loadOpen ? "load" : confirm;
-  const confirmKey =
-    dialogKind === "load"
-      ? "confirmLoad"
-      : dialogKind === "clear"
-        ? "confirmClear"
-        : "confirmRecommend";
+  // 불러올 플랜: 주소(?plan=)에서 온 것이 먼저, 아니면 저장소 목록에서 누른 것
+  const loadPlan = loadOpen ? pendingPlan : target;
 
   const heading = course.city ?? (scope.kind === "city" ? scope.city : null);
   const headingName = heading ? cityName(heading, locale, names) : tp("nation");
@@ -238,8 +277,10 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       ? t("dates.dayTrip")
       : t("dates.nights", { nights: plan.dayCount - 1, days: plan.dayCount });
 
-  const dayDate = (offset: number) => {
-    const d = new Date(`${addDays(startDate, offset)}T00:00:00Z`);
+  const dayDate = (offset: number) => dayLabel(addDays(startDate, offset));
+  // 「9월 27일(토)」
+  function dayLabel(iso: string) {
+    const d = new Date(`${iso}T00:00:00Z`);
     const fmt = (o: Intl.DateTimeFormatOptions) =>
       new Intl.DateTimeFormat(locale, { ...o, timeZone: "UTC" }).format(d);
     return t("schedule.dayDate", {
@@ -248,7 +289,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       weekday: fmt({ weekday: "short" }),
       monthName: fmt({ month: "short" }),
     });
-  };
+  }
 
   const canRecommend = sourceName !== null && autoPool.length > 0;
 
@@ -263,8 +304,75 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   };
   const firstEmptyDay = plan.days.findIndex((d) => d.stops.length === 0);
 
+  // 광역 구간(가는 길 · 돌아오는 길) 문구. 광역 교통이 없거나 관문이 없으면 그리지 않는다
+  const wideModeName = plan.wide
+    ? plan.wide === "own"
+      ? t("wide.modes.own")
+      : tp(`info.modes.${plan.wide}`)
+    : null;
+  const accessLeg = (direction: "out" | "back") =>
+    plan.wide && wideModeName && hubName ? (
+      <CourseAccessLeg
+        direction={direction}
+        from={direction === "out" ? originName(course.origin) : hubName}
+        to={direction === "out" ? hubName : originName(course.origin)}
+        mode={wideModeName}
+        duration={duration(plan.accIn)}
+        link={wideBookingLink(plan.wide)}
+      />
+    ) : null;
+
+  // 구간 정보: 같은 날 앞 장소 → 이 장소. 수단 · 시간 · 거리(요약 총 거리와 같은 legInfo km)
+  const legLabels = (stops: (typeof plan.days)[number]["stops"]) =>
+    stops.map((s, k) => {
+      if (k === 0) return undefined;
+      const L = legInfo(
+        stops[k - 1].place,
+        s.place,
+        plan.local,
+        CITY_HUBS,
+        METRO_CITY,
+      );
+      return t("legs.leg", {
+        mode: L.wide ? t("legs.modes.wide") : t(`legs.modes.${plan.local}`),
+        duration: duration(s.move),
+        km: L.km.toFixed(1),
+      });
+    });
+
+  // 「이 날에 장소 추가」의 도시(PoC _dayReg): 그 날 첫 장소, 없으면 다음 날 첫 장소 · 이전 날 마지막 장소의 도시
+  const dayCity = (i: number): string | null => {
+    const first = plan.days[i].stops[0];
+    if (first) return first.place.locKo;
+    for (let k = i + 1; k < plan.days.length; k++) {
+      const s = plan.days[k].stops[0];
+      if (s) return s.place.locKo;
+    }
+    for (let k = i - 1; k >= 0; k--) {
+      const s = plan.days[k].stops.at(-1);
+      if (s) return s.place.locKo;
+    }
+    return course.city;
+  };
+  const inCourse = new Set(course.placeIds);
+  const poolByCity = new Map<string, PlannerPlace[]>();
+  const addPool = (city: string) => {
+    let pool = poolByCity.get(city);
+    if (!pool) {
+      pool = PLANNER_PLACES.filter(
+        (p) => p.locKo === city && !inCourse.has(p.id),
+      );
+      poolByCity.set(city, pool);
+    }
+    return pool;
+  };
+
   const doRecommend = () => {
-    const list = recommendCourse(autoPool, settings, leadCity);
+    const list = recommendCourse(
+      withStayOverrides(autoPool, course.stayOv),
+      settings,
+      leadCity,
+    );
     if (list.length === 0) {
       setNotice(t("actions.recommendEmpty"));
       return;
@@ -289,18 +397,88 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       return;
     }
     if (saved) return;
-    addPlannerPlan({
+    const newId = addPlannerPlan({
       name,
       city: course.city,
       placeIds: course.placeIds,
-      settings: saveSettings,
+      settings: planSettings,
     });
+    store.setPlanId(newId);
     setSaveError(null);
     setSavedName(name);
   };
 
+  // 저장소 목록의 한 줄: 「{도시} · {n박 m일} · {n}곳」(ME와 같은 모양)
+  const storeItems = [...savedPlans].reverse().map((p) => {
+    const ps = parseSettings(p.settings);
+    const days = tripDays(ps.startDate, ps.endDate ?? ps.startDate);
+    return {
+      id: p.id,
+      name: p.name,
+      sub: tm("plannerMeta", {
+        city: p.city ? cityName(p.city, locale, names) : tp("nation"),
+        duration:
+          days === 1
+            ? t("dates.dayTrip")
+            : t("dates.nights", { nights: days - 1, days }),
+        count: p.placeIds.length,
+      }),
+      current: p.id === activePlanId,
+    };
+  });
+  const loadFromStore = (id: string) => {
+    const p = savedPlans.find((x) => x.id === id);
+    if (!p) return;
+    if (course.placeIds.length > 0 && !sameIds(course.placeIds, p.placeIds)) {
+      setTarget(p);
+      setConfirm("load");
+      return;
+    }
+    applyPlan(p);
+    setStatus(t("load.loaded", { name: p.name }));
+  };
+
+  // 확인 창 문구
+  const dialogText = () => {
+    if (dialogKind === "overwrite" || dialogKind === "delete") {
+      const key =
+        dialogKind === "overwrite" ? "confirmOverwrite" : "confirmDelete";
+      const name =
+        (dialogKind === "overwrite" ? activePlan?.name : target?.name) ?? "";
+      return {
+        title: tplans(`${key}.title`),
+        body: tplans(`${key}.body`, { name }),
+        cancelLabel: tplans("cancel"),
+        confirmLabel: tplans(`${key}.confirm`),
+      };
+    }
+    const key =
+      dialogKind === "load"
+        ? "confirmLoad"
+        : dialogKind === "clear"
+          ? "confirmClear"
+          : "confirmRecommend";
+    return {
+      title: t(`${key}.title`),
+      body:
+        dialogKind === "load" && loadPlan
+          ? t("confirmLoad.body", {
+              count: places.length,
+              name: loadPlan.name,
+              planCount: loadPlan.placeIds.length,
+            })
+          : dialogKind === "clear"
+            ? t("confirmClear.body", { count: places.length })
+            : t("confirmRecommend.body", {
+                count: places.length,
+                source: sourceName ?? "",
+              }),
+      cancelLabel: t("cancel"),
+      confirmLabel: t(`${key}.confirm`),
+    };
+  };
+
   const nameErrorId = `${id}-name-error`;
-  const endErrorId = `${id}-end-error`;
   const retHintId = `${id}-ret-hint`;
   const recommendHintId = `${id}-recommend-hint`;
 
@@ -392,6 +570,32 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               </span>
             ) : null}
           </p>
+          {activePlan && (
+            <Button
+              variant="secondary"
+              size="md"
+              block
+              aria-disabled={places.length === 0 || undefined}
+              onClick={() => {
+                if (places.length === 0) return;
+                setConfirm("overwrite");
+              }}
+              className={`mt-3 ${ARIA_DISABLED}`}
+            >
+              {tplans("overwrite", { name: activePlan.name })}
+            </Button>
+          )}
+          <PlanStore
+            items={storeItems}
+            summaryRef={storeSummaryRef}
+            onLoad={loadFromStore}
+            onDelete={(pid) => {
+              const p = savedPlans.find((x) => x.id === pid);
+              if (!p) return;
+              setTarget(p);
+              setConfirm("delete");
+            }}
+          />
         </div>
 
         {/* 날짜 */}
@@ -409,49 +613,34 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               {tripText}
             </span>
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            <div className="min-w-0">
-              <label
-                htmlFor={`${id}-start`}
-                className="text-caption text-fg-muted"
-              >
-                {t("dates.start")}
-              </label>
-              <input
-                id={`${id}-start`}
-                type="date"
-                value={startDate}
-                onChange={(e) =>
-                  store.setSettings({ startDate: e.target.value || null })
-                }
-                className={`${DATE_FIELD} mt-1`}
-              />
-            </div>
-            <div className="min-w-0">
-              <label
-                htmlFor={`${id}-end`}
-                className="text-caption text-fg-muted"
-              >
-                {t("dates.end")}
-              </label>
-              <input
-                id={`${id}-end`}
-                type="date"
-                value={endDate}
-                min={startDate}
-                max={addDays(startDate, MAX_TRIP_DAYS - 1)}
-                aria-invalid={dError ? true : undefined}
-                aria-describedby={dError ? endErrorId : undefined}
-                onChange={(e) =>
-                  store.setSettings({ endDate: e.target.value || null })
-                }
-                className={`${DATE_FIELD} mt-1`}
-              />
-            </div>
+          <dl className="mt-3 grid grid-cols-2 gap-2">
+            {(
+              [
+                ["start", course.startDate ?? today, t("dates.notSet")],
+                ["end", course.endDate, t("dates.endPending")],
+              ] as const
+            ).map(([key, value, fallback]) => (
+              <div key={key} className="min-w-0 rounded-xl bg-fill px-3 py-2">
+                <dt className="text-caption text-fg-muted">
+                  {t(`dates.${key}`)}
+                </dt>
+                <dd className="text-body font-semibold tabular-nums">
+                  {value ? dayLabel(value) : fallback}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <div className="mt-3">
+            <TripCalendar
+              range={{ start: course.startDate, end: course.endDate }}
+              today={today}
+              onChange={(r) =>
+                store.setSettings({ startDate: r.start, endDate: r.end })
+              }
+            />
           </div>
           {dError && (
             <p
-              id={endErrorId}
               role="alert"
               className="mt-2 flex items-start gap-1.5 text-label text-danger"
             >
@@ -555,6 +744,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           onWide={(mode) => store.setSettings({ wideMode: mode })}
           onLocal={(mode) => store.setSettings({ localMode: mode })}
         />
+        <RoutingHowTo className="mt-6" />
       </div>
 
       {/* 요약 */}
@@ -608,77 +798,138 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           <ol className="mt-3">
             {places.map((p, i) => {
               const name = placeName(p, locale, names);
+              // 체류 시간 수정(PoC stayDec · stayInc · stayReset). 숙박 장소는 관광 시간에 들지 않아 두지 않는다
+              const rec = basePlaces[i].min;
+              const editable = p.cat !== "stay";
+              const changed = editable && p.min !== rec;
               const meta = [
                 isCategoryKey(p.cat) ? tc(`categories.${p.cat}`) : null,
-                p.min > 0 ? tc("stay", { duration: duration(p.min) }) : null,
+                !editable && p.min > 0
+                  ? tc("stay", { duration: duration(p.min) })
+                  : null,
               ]
                 .filter(Boolean)
                 .join(" · ");
+              const setStay = (v: number | null) => {
+                store.setStay(p.id, rec, v);
+                const next = v === null ? rec : Math.max(15, Math.min(600, v));
+                setStatus(
+                  t("stay.changed", { name, duration: duration(next) }),
+                );
+              };
               return (
-                <li
-                  key={p.id}
-                  className="flex items-center gap-2 py-2 pr-3 pl-5"
-                >
-                  <span
-                    aria-hidden
-                    className="flex size-7 shrink-0 items-center justify-center rounded-full bg-fill text-caption font-bold text-fg-muted tabular-nums"
-                  >
-                    {i + 1}
-                  </span>
-                  <Link
-                    href={
-                      p.pickCity
-                        ? plannerHref({ city: p.pickCity, place: p.id })
-                        : plannerHref({ region: p.macro, place: p.id })
-                    }
-                    replace
-                    scroll={false}
-                    className="ml-1 flex min-h-11 min-w-0 flex-1 flex-col justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
-                  >
-                    <span className="flex items-center gap-2 text-body-lg font-semibold">
-                      <span
-                        aria-hidden
-                        className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
-                      />
-                      <span className="min-w-0">{name}</span>
+                <li key={p.id} className="py-2 pr-3 pl-5">
+                  <div className="flex items-center gap-2">
+                    <span
+                      aria-hidden
+                      className="flex size-7 shrink-0 items-center justify-center rounded-full bg-fill text-caption font-bold text-fg-muted tabular-nums"
+                    >
+                      {i + 1}
                     </span>
-                    {meta && (
-                      <span className="block text-caption text-fg-subtle">
-                        {meta}
+                    <Link
+                      href={
+                        p.pickCity
+                          ? plannerHref({ city: p.pickCity, place: p.id })
+                          : plannerHref({ region: p.macro, place: p.id })
+                      }
+                      replace
+                      scroll={false}
+                      className="ml-1 flex min-h-11 min-w-0 flex-1 flex-col justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+                    >
+                      <span className="flex items-center gap-2 text-body-lg font-semibold">
+                        <span
+                          aria-hidden
+                          className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
+                        />
+                        <span className="min-w-0">{name}</span>
                       </span>
-                    )}
-                  </Link>
-                  <button
-                    type="button"
-                    aria-label={t("moveUp", { name })}
-                    aria-disabled={i === 0}
-                    onClick={() => store.move(i, i - 1)}
-                    className={ICON_BUTTON}
-                  >
-                    <ArrowUp size={20} aria-hidden />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label={t("moveDown", { name })}
-                    aria-disabled={i === places.length - 1}
-                    onClick={() => store.move(i, i + 1)}
-                    className={ICON_BUTTON}
-                  >
-                    <ArrowDown size={20} aria-hidden />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label={t("remove", { name })}
-                    onClick={() => {
-                      store.remove(p.id);
-                      setStatus(t("removed", { name }));
-                      // 지운 행의 버튼이 없어지므로 초점을 제목으로 옮긴다
-                      listHeadingRef.current?.focus();
-                    }}
-                    className={ICON_BUTTON}
-                  >
-                    <X size={20} aria-hidden />
-                  </button>
+                      {meta && (
+                        <span className="block text-caption text-fg-subtle">
+                          {meta}
+                        </span>
+                      )}
+                    </Link>
+                    <button
+                      type="button"
+                      aria-label={t("moveUp", { name })}
+                      aria-disabled={i === 0}
+                      onClick={() => store.move(i, i - 1)}
+                      className={ICON_BUTTON}
+                    >
+                      <ArrowUp size={20} aria-hidden />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={t("moveDown", { name })}
+                      aria-disabled={i === places.length - 1}
+                      onClick={() => store.move(i, i + 1)}
+                      className={ICON_BUTTON}
+                    >
+                      <ArrowDown size={20} aria-hidden />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={t("remove", { name })}
+                      onClick={() => {
+                        store.remove(p.id);
+                        setStatus(t("removed", { name }));
+                        // 지운 행의 버튼이 없어지므로 초점을 제목으로 옮긴다
+                        listHeadingRef.current?.focus();
+                      }}
+                      className={ICON_BUTTON}
+                    >
+                      <X size={20} aria-hidden />
+                    </button>
+                  </div>
+                  {editable && (
+                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 pl-9">
+                      <div className="flex items-center rounded-full bg-fill">
+                        <button
+                          type="button"
+                          aria-label={t("stay.dec", { name })}
+                          aria-disabled={p.min <= 15 || undefined}
+                          onClick={() => {
+                            if (p.min <= 15) return;
+                            setStay((p.min || rec) - STAY_STEP);
+                          }}
+                          className={ICON_BUTTON}
+                        >
+                          <Minus size={20} aria-hidden />
+                        </button>
+                        <span
+                          className={`min-w-20 text-center text-label font-semibold tabular-nums ${changed ? "text-primary-strong" : "text-fg"}`}
+                        >
+                          {tc("stay", { duration: duration(p.min) })}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label={t("stay.inc", { name })}
+                          aria-disabled={p.min >= 600 || undefined}
+                          onClick={() => {
+                            if (p.min >= 600) return;
+                            setStay((p.min || rec) + STAY_STEP);
+                          }}
+                          className={ICON_BUTTON}
+                        >
+                          <Plus size={20} aria-hidden />
+                        </button>
+                      </div>
+                      <span className="text-caption text-fg-subtle">
+                        {t("stay.rec", { duration: duration(rec) })}
+                      </span>
+                      {changed && (
+                        <button
+                          type="button"
+                          aria-label={t("stay.resetLabel", { name })}
+                          onClick={() => setStay(null)}
+                          className="flex min-h-11 items-center gap-1 rounded-xl px-2 text-caption font-semibold text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-primary-weak motion-reduce:transition-none"
+                        >
+                          <RotateCcw size={16} aria-hidden />
+                          {t("stay.reset")}
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -765,6 +1016,39 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               day={day}
               transport={plan.local === "transit" ? "public-transit" : "car"}
               date={dayDate(i)}
+              legLabels={legLabels(day.stops)}
+              before={i === 0 ? accessLeg("out") : null}
+              after={
+                <>
+                  {i === plan.days.length - 1 && accessLeg("back")}
+                  {(() => {
+                    const city = dayCity(i);
+                    return city ? (
+                      <DayAddPlace
+                        day={day.day}
+                        city={city}
+                        pool={addPool(city)}
+                        onAdd={(p) => {
+                          store.insertAt(
+                            p.id,
+                            dayInsertIndex(
+                              course.placeIds,
+                              day.stops.map((s) => s.id),
+                            ),
+                            p.locKo,
+                          );
+                          setStatus(
+                            t("dayAdd.added", {
+                              day: day.day,
+                              name: placeName(p, locale, names),
+                            }),
+                          );
+                        }}
+                      />
+                    ) : null;
+                  })()}
+                </>
+              }
               empty={
                 // 담은 장소보다 날이 많을 때. 담을 수 없는 게 아니라 아직 안 담은 날이다
                 <div className="mt-3 px-1">
@@ -801,30 +1085,39 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
 
       <ConfirmDialog
         open={dialogKind !== null}
-        title={t(`${confirmKey}.title`)}
-        body={
-          dialogKind === "load" && pendingPlan
-            ? t("confirmLoad.body", {
-                count: places.length,
-                name: pendingPlan.name,
-                planCount: pendingPlan.placeIds.length,
-              })
-            : dialogKind === "clear"
-              ? t("confirmClear.body", { count: places.length })
-              : t("confirmRecommend.body", {
-                  count: places.length,
-                  source: sourceName ?? "",
-                })
-        }
-        cancelLabel={t("cancel")}
-        confirmLabel={t(`${confirmKey}.confirm`)}
+        {...dialogText()}
         onConfirm={() => {
-          if (dialogKind === "load" && pendingPlan) {
-            setDismissedPlan(planId ?? null);
+          if (dialogKind === "load" && loadPlan) {
+            if (loadOpen) setDismissedPlan(planId ?? null);
+            else setConfirm(null);
+            setTarget(null);
             setSaveError(null);
             setSavedName("");
-            setStatus(t("load.loaded", { name: pendingPlan.name }));
-            applyPlan(pendingPlan);
+            setStatus(t("load.loaded", { name: loadPlan.name }));
+            applyPlan(loadPlan);
+          } else if (dialogKind === "overwrite" && activePlan) {
+            setConfirm(null);
+            writePlannerPlans(
+              overwritePlannerPlan(
+                savedPlans,
+                activePlan.id,
+                {
+                  city: course.city,
+                  placeIds: course.placeIds,
+                  settings: planSettings,
+                },
+                Date.now(),
+              ),
+            );
+            setStatus(tplans("overwritten", { name: activePlan.name }));
+          } else if (dialogKind === "delete" && target) {
+            setConfirm(null);
+            setTarget(null);
+            writePlannerPlans(removePlannerPlan(savedPlans, target.id));
+            if (target.id === activePlanId) store.setPlanId(null);
+            setStatus(tplans("deleted", { name: target.name }));
+            // 지운 행의 버튼이 없어지므로 초점을 저장소 목록 머리로 옮긴다
+            storeSummaryRef.current?.focus();
           } else if (dialogKind === "clear") {
             setConfirm(null);
             store.clear();
@@ -841,10 +1134,13 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         }}
         onCancel={() => {
           refillFocus.current = false;
-          if (dialogKind === "load") {
+          if (loadOpen) {
             setDismissedPlan(planId ?? null);
             leavePlanUrl(null);
-          } else setConfirm(null);
+          } else {
+            setConfirm(null);
+            setTarget(null);
+          }
         }}
       />
     </div>

@@ -732,7 +732,22 @@
         "dayTrip": "日帰り",
         "nights": "{nights}泊{days}日",
         "errorOrder": "帰着日は出発日と同じ日かそれ以降にしてください",
-        "errorTooLong": "旅行は{max}日まで計画できます"
+        "errorTooLong": "旅行は{max}日まで計画できます",
+        "calendar": "旅行日カレンダー",
+        "prevMonth": "前の月",
+        "nextMonth": "次の月",
+        "hintStart": "出発日と帰着日を順に選ぶと、日程が日別に分かれます。",
+        "hintEnd": "帰着日をもう一度選んでください。",
+        "endPending": "選択中",
+        "notSet": "今日",
+        "mark": {
+          "today": "今日",
+          "start": "出発日",
+          "end": "帰着日",
+          "single": "出発日",
+          "inside": "旅行期間",
+          "blocked": "{max}日を超えて選べません"
+        }
       },
       "trip": {
         "heading": "出発地 · 時刻",
@@ -840,7 +855,42 @@
         "goodchoice": "Goodchoice",
         "agoda": "Agoda",
         "bookingCom": "Booking.com",
-        "newWindow": "（新しいウィンドウ）"
+        "newWindow": "（新しいウィンドウ）",
+        "air": "航空券予約",
+        "ship": "旅客船予約",
+        "metro": "電車時刻表"
+      },
+      "stay": {
+        "dec": "{name}の滞在時間を15分減らす",
+        "inc": "{name}の滞在時間を15分増やす",
+        "rec": "おすすめ {duration}",
+        "reset": "おすすめに戻す",
+        "resetLabel": "{name}の滞在時間をおすすめに戻す",
+        "changed": "{name}の滞在時間 {duration}"
+      },
+      "dayAdd": {
+        "open": "スポット追加",
+        "openLabel": "{day}日目にスポット追加",
+        "search": "この日に入れる場所を検索",
+        "clear": "クリア",
+        "results": "検索結果",
+        "cityPlaces": "{city}のスポット",
+        "none": "一致する場所がありません。",
+        "hint": "その日の最後のスポットの後に入れます。時間が足りなければ翌日に回ります",
+        "added": "{day}日目に追加しました：{name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km}km",
+        "modes": {
+          "transit": "公共交通",
+          "driving": "レンタカー",
+          "own": "マイカー",
+          "wide": "広域移動"
+        },
+        "out": "行き",
+        "back": "帰り",
+        "route": "{from} → {to}",
+        "access": "{mode} · 約{duration}"
       }
     },
     "info": {
@@ -859,10 +909,19 @@
         "ship": "フェリー",
         "metro": "広域電車"
       },
-      "tipsHeading": "移動のコツ",
-      "tips": "コースタブで日付・出発地・時刻を決めると、追加したスポットが日別のルートに分かれ、スポットごとに到着・出発時刻と移動時間が付きます。広域交通は自家用車を除き、出発地と到着都市の玄関口の両方にある手段だけを選べるため、済州へは飛行機かフェリーで行きます。最終日の予定は旅行地の出発時刻に合わせて終わり、KTX・SRT・バス・レンタカー・宿泊の予約リンクはコースタブのいちばん下にあります。",
       "linksHeading": "地域別の観光案内",
       "newWindow": "（新しいウィンドウ）"
+    },
+    "howTo": {
+      "heading": "移動のコツ",
+      "steps": {
+        "wide": "まず広域交通（バス・鉄道・飛行機・船・地下鉄・マイカー）を選びます。選んだ手段に合うターミナル・駅・空港・港だけが出発地・帰着地として表示されます。",
+        "origin": "地下鉄を選んだら、路線 → 駅名の順に選びます。一覧にない駅は名前で検索して追加します。",
+        "route": "目的地までの経路が二つ以上ある場合（例：KTX / 高速バス）、案内画面で経路を選びます。自宅からターミナル・駅までの区間も一緒に計算されます。",
+        "local": "現地の移動はレンタカーか公共交通から選びます。日付と出発時刻を決めると、1日ごとの動線とスポット間の移動時間が計算され、滞在時間はスポットごとに変えられます。",
+        "stay": "1泊以上なら、日付ごとに宿の候補と予約ボタンが付きます。宿泊スポットは観光時間の計算から外れます。",
+        "jeju": "済州は飛行機・船・マイカー（島民、または船と一緒に）のみ選べます。"
+      }
     }
   },
   "NotFound": {
@@ -917,6 +976,33 @@
     "citytour": {
       "title": "地域のシティツアーを見られます",
       "body": "{regions}地域 · {tours}コース · 基準日{date}まで"
+    }
+  },
+  "Plans": {
+    "label": "マイプラン",
+    "labelSuffix": "名",
+    "placeholder": "プラン名（任意）",
+    "store": "保存一覧 ({count})",
+    "storeEmpty": "保存したプランはありません",
+    "overwrite": "「{name}」に上書き保存",
+    "overwritten": "保存一覧の「{name}」を更新しました",
+    "load": "読込",
+    "loadLabel": "{name}を読み込む",
+    "loaded": "「{name}」を読み込みました",
+    "current": "表示中",
+    "deleteLabel": "{name}を削除",
+    "deleted": "「{name}」を削除しました",
+    "savedStatus": "プランを保存しました。MEで確認できます",
+    "cancel": "キャンセル",
+    "confirmOverwrite": {
+      "title": "プランを上書きしますか？",
+      "body": "保存一覧の「{name}」を今のコースに置き換えます",
+      "confirm": "上書き"
+    },
+    "confirmDelete": {
+      "title": "削除しますか？",
+      "body": "「{name}」を保存一覧から削除します。元に戻せません",
+      "confirm": "削除"
     }
   }
 }

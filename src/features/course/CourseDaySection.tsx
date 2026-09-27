@@ -37,6 +37,15 @@ type CourseDaySectionProps = {
   headingLevel?: 2 | 3;
   /** 화면 언어의 이름표(중 · 일 장소 공식 명칭). 서버 · 클라이언트 양쪽에서 그려져서 부모가 넘긴다 */
   names?: NameTable;
+  /**
+   * 구간 정보(투어 플래너). k번째 값은 앞 장소 → k번째 장소 구간의 「수단 · 시간 · 거리」 문구.
+   * 없으면 「이동 {시간}」만 보인다(테마 코스)
+   */
+  legLabels?: readonly (string | undefined)[];
+  /** 날짜 제목 아래, 첫 장소 위(투어 플래너: 첫날 가는 길) */
+  before?: React.ReactNode;
+  /** 마지막 장소 아래(투어 플래너: 마지막 날 돌아오는 길 · 이 날에 장소 추가) */
+  after?: React.ReactNode;
 };
 
 // 하루 일정. 장소마다 왼쪽에 도착·출발 시각, 오른쪽에 이름과 배지. 장소 사이에 이동·개장 대기
@@ -47,6 +56,9 @@ export function CourseDaySection({
   empty,
   headingLevel = 2,
   names,
+  legLabels,
+  before,
+  after,
 }: CourseDaySectionProps) {
   const DayHeading = headingLevel === 3 ? "h3" : "h2";
   const PlaceHeading = headingLevel === 3 ? "h4" : "h3";
@@ -66,6 +78,7 @@ export function CourseDaySection({
           </span>
         )}
       </DayHeading>
+      {before}
       {day.stops.length === 0 ? (
         (empty ?? (
           <p className="mt-3 px-1 text-body text-fg-muted">{t("emptyDay")}</p>
@@ -85,7 +98,8 @@ export function CourseDaySection({
                     {k > 0 && (
                       <span className="flex items-center gap-2">
                         <MoveIcon size={20} aria-hidden />
-                        {t("move", { duration: duration(stop.move) })}
+                        {legLabels?.[k] ??
+                          t("move", { duration: duration(stop.move) })}
                       </span>
                     )}
                     {stop.wait > 0 && (
@@ -129,6 +143,7 @@ export function CourseDaySection({
           })}
         </ol>
       )}
+      {after}
     </section>
   );
 }

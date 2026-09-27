@@ -1,11 +1,19 @@
 import { useSyncExternalStore } from "react";
 import { DEFAULT_DEP, DEFAULT_RET } from "../course/params";
 import { readLocal, useLocalValue, writeLocal } from "../../lib/local-store";
+import {
+  insertAfter,
+  parseStayOverrides,
+  setStayOverride,
+  type StayOverrides,
+} from "./course-edit";
 import { PLANNER_ORIGINS } from "./regions";
 
 // 투어 플래너에서 코스에 담은 장소와 코스 설정. localStorage `tn.planner.course`에 JSON으로 둔다.
 //   { city: "경주", placeIds: ["gj2", …],   (담은 순서 = 코스 탭 순서)
-//     name, startDate, endDate, origin, depTime, retTime, wideMode, localMode }   (코스 설정. 없는 필드는 기본값)
+//     name, startDate, endDate, origin, depTime, retTime, wideMode, localMode,   (코스 설정. 없는 필드는 기본값)
+//     stayOv: { gj2: 90, … },   (장소별로 바꾼 체류 분. 추천값과 같으면 두지 않는다. course-edit.ts)
+//     planId }   (지금 불러와 보고 있거나 방금 저장한 플랜 id. 「덮어쓰기」 대상. PoC planId)
 // 한 코스는 한 도시의 장소만 담는다. 다른 도시 장소가 섞이면 일정 계산(course/schedule.ts)이 틀어진다.
 // 그래서 다른 도시 장소를 담으려 하면 쓰는 쪽이 먼저 비울지 묻는다(needsCityChange).
 // 여러 컴포넌트(지도 목록 · 장소 시트 · 코스 탭 · 하단 탭 배지)가 같은 값을 보게
@@ -53,6 +61,13 @@ export type PlannerCourse = PlannerSettings & {
   /** 담은 장소의 도시(한국어 이름). 비어 있으면 null */
   city: string | null;
   placeIds: string[];
+  /**
+   * 장소별로 바꾼 체류 분(PoC stayOv). 일정 계산은 장소의 min 대신 이 값을 쓴다.
+   * 코스를 비워도 남고, 저장된 플랜의 settings에도 함께 둔다
+   */
+  stayOv: StayOverrides;
+  /** 지금 불러와 보고 있거나 방금 저장한 저장된 플랜 id(tn.savedPlans). 없으면 null */
+  planId: string | null;
 };
 
 const DEFAULT_ORIGIN = "seoul";
@@ -68,7 +83,13 @@ export const DEFAULT_SETTINGS: PlannerSettings = {
   localMode: "transit",
 };
 
-const EMPTY: PlannerCourse = { city: null, placeIds: [], ...DEFAULT_SETTINGS };
+const EMPTY: PlannerCourse = {
+  city: null,
+  placeIds: [],
+  ...DEFAULT_SETTINGS,
+  stayOv: {},
+  planId: null,
+};
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_RE = /^\d{2}:\d{2}$/;
@@ -133,6 +154,8 @@ function parseCourse(raw: string | null): PlannerCourse {
       ...parseSettings(rec),
       city: typeof city === "string" && ids.length > 0 ? city : null,
       placeIds: [...new Set(ids)],
+      stayOv: parseStayOverrides(rec.stayOv),
+      planId: typeof rec.planId === "string" ? rec.planId : null,
     };
   } catch {
     return EMPTY;
@@ -214,8 +237,25 @@ export function usePlannerCourse() {
     clear: () => write({ city: null, placeIds: [] }),
     /** 코스 설정을 바꾼다 */
     setSettings: (fields: Partial<PlannerSettings>) => patch(fields),
-    /** 저장된 플랜을 통째로 불러온다(장소 · 설정) */
-    load: (next: Pick<PlannerCourse, "city" | "placeIds"> & PlannerSettings) =>
+    /**
+     * 「이 날에 넣기」. 담은 순서의 afterIdx 자리 뒤에 끼워 넣는다(course-edit.ts insertAfter).
+     * 도시는 그대로 둔다(그 날 도시의 장소만 넣는다). 비어 있던 코스면 city가 코스 도시가 된다
+     */
+    insertAt: (id: string, afterIdx: number | null, city: string) =>
+      write({
+        city: course.city ?? city,
+        placeIds: insertAfter(placeIds, id, afterIdx),
+      }),
+    /** 장소의 체류 분을 바꾼다. v가 null이거나 추천값(rec)과 같으면 추천값으로 되돌린다 */
+    setStay: (id: string, rec: number, v: number | null) =>
+      patch({ stayOv: setStayOverride(course.stayOv, id, rec, v) }),
+    /** 덮어쓰기 대상 플랜을 정한다(저장한 뒤 · 지운 뒤) */
+    setPlanId: (planId: string | null) => patch({ planId }),
+    /** 저장된 플랜을 통째로 불러온다(장소 · 설정 · 체류 시간 · 플랜 id) */
+    load: (
+      next: Pick<PlannerCourse, "city" | "placeIds" | "stayOv" | "planId"> &
+        PlannerSettings,
+    ) =>
       patch({
         ...next,
         city: next.placeIds.length > 0 ? next.city : null,

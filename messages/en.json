@@ -732,7 +732,22 @@
         "dayTrip": "Day trip",
         "nights": "{days} days, {nights, plural, one {# night} other {# nights}}",
         "errorOrder": "The return date must be on or after the departure date",
-        "errorTooLong": "You can plan up to {max} days"
+        "errorTooLong": "You can plan up to {max} days",
+        "calendar": "Trip date calendar",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month",
+        "hintStart": "Pick a start date, then an end date — the course splits across those days",
+        "hintEnd": "Now pick your return date",
+        "endPending": "Picking…",
+        "notSet": "Today",
+        "mark": {
+          "today": "today",
+          "start": "start date",
+          "end": "return date",
+          "single": "start date",
+          "inside": "in your trip",
+          "blocked": "can't go beyond {max} days"
+        }
       },
       "trip": {
         "heading": "Start · times",
@@ -840,7 +855,42 @@
         "goodchoice": "Goodchoice",
         "agoda": "Agoda",
         "bookingCom": "Booking.com",
-        "newWindow": "(opens in a new window)"
+        "newWindow": "(opens in a new window)",
+        "air": "Book flight",
+        "ship": "Book ferry",
+        "metro": "Metro timetable"
+      },
+      "stay": {
+        "dec": "15 minutes less at {name}",
+        "inc": "15 minutes more at {name}",
+        "rec": "Suggested {duration}",
+        "reset": "Reset",
+        "resetLabel": "Reset the stay at {name} to the suggested time",
+        "changed": "{duration} at {name}"
+      },
+      "dayAdd": {
+        "open": "Add place",
+        "openLabel": "Add place to day {day}",
+        "search": "Search a place for this day",
+        "clear": "Clear",
+        "results": "Results",
+        "cityPlaces": "Places in {city}",
+        "none": "No matching place",
+        "hint": "It goes after the day's last stop. If the day is full, it moves to the next day",
+        "added": "Added to day {day}: {name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km} km",
+        "modes": {
+          "transit": "Transit",
+          "driving": "Rental car",
+          "own": "Own car",
+          "wide": "Intercity"
+        },
+        "out": "Getting there",
+        "back": "Getting home",
+        "route": "{from} → {to}",
+        "access": "{mode} · about {duration}"
       }
     },
     "info": {
@@ -859,10 +909,19 @@
         "ship": "Ferry",
         "metro": "Metro rail"
       },
-      "tipsHeading": "Getting around",
-      "tips": "Set your dates, starting point and times in the Course tab, and the places you've added are split into a day-by-day route with arrival, departure and travel times for each stop. Apart from your own car, long-distance transport only offers modes found at both your starting point and the destination's gateway, so Jeju is reached by flight or ferry. The last day ends at your departure time from the destination, and booking links for KTX, SRT, buses, rental cars and stays are at the bottom of the Course tab.",
       "linksHeading": "Regional tourism guides",
       "newWindow": "(opens in a new window)"
+    },
+    "howTo": {
+      "heading": "How routing works",
+      "steps": {
+        "wide": "Pick the long-distance mode first (bus, rail, air, ship, metro, own car). Only matching terminals, stations, airports or ports appear as start/return points.",
+        "origin": "For metro, pick line → station. Search by name to add a station that is not listed.",
+        "route": "If there are two or more routes (e.g. KTX / express bus), choose one in the prompt. The leg from home to the terminal is included.",
+        "local": "Choose rental car or public transit for local travel. Set date and start time to get a day-by-day route with travel times; stay time is editable per place.",
+        "stay": "Stays of one night or more get lodging candidates and booking links per day. Lodging is excluded from sightseeing time.",
+        "jeju": "Jeju allows air, ship, or own car (residents, or with a ferry) only."
+      }
     }
   },
   "NotFound": {
@@ -917,6 +976,33 @@
     "citytour": {
       "title": "City tours by region",
       "body": "{regions} regions · {tours} tours · updated up to {date}"
+    }
+  },
+  "Plans": {
+    "label": "My plans",
+    "labelSuffix": "name",
+    "placeholder": "Plan name (optional)",
+    "store": "View saved ({count})",
+    "storeEmpty": "No saved plans yet",
+    "overwrite": "Update “{name}”",
+    "overwritten": "Updated “{name}” in your saved plans",
+    "load": "Load",
+    "loadLabel": "Load {name}",
+    "loaded": "Loaded “{name}”",
+    "current": "Showing now",
+    "deleteLabel": "Delete {name}",
+    "deleted": "Deleted “{name}”",
+    "savedStatus": "Plan saved. You can find it in ME",
+    "cancel": "Cancel",
+    "confirmOverwrite": {
+      "title": "Update this plan?",
+      "body": "“{name}” in your saved plans will be replaced with the current course",
+      "confirm": "Update"
+    },
+    "confirmDelete": {
+      "title": "Delete this plan?",
+      "body": "“{name}” will be removed from your saved plans. This can't be undone",
+      "confirm": "Delete"
     }
   }
 }

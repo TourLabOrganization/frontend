@@ -241,6 +241,7 @@ export function MePanel() {
                   >
                     <span className="text-body-lg font-bold">{name}</span>
                     <span className="mt-0.5 text-caption text-fg-subtle">
+                      {p.name ? `${p.name} · ` : ""}
                       {planName} ·{" "}
                       {t("savedAt", { date: dateFormat.format(p.savedAt) })}
                     </span>

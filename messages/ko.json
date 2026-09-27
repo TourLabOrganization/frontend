@@ -732,7 +732,22 @@
         "dayTrip": "당일",
         "nights": "{nights}박 {days}일",
         "errorOrder": "귀가일은 출발일과 같거나 늦어야 해요",
-        "errorTooLong": "여행은 {max}일까지 계획할 수 있어요"
+        "errorTooLong": "여행은 {max}일까지 계획할 수 있어요",
+        "calendar": "여행 날짜 달력",
+        "prevMonth": "이전 달",
+        "nextMonth": "다음 달",
+        "hintStart": "출발일과 귀가일을 차례로 선택하면 n박 m일 일정으로 나뉘어요",
+        "hintEnd": "귀가일을 한 번 더 선택하세요",
+        "endPending": "선택 중",
+        "notSet": "오늘",
+        "mark": {
+          "today": "오늘",
+          "start": "출발일",
+          "end": "귀가일",
+          "single": "출발일",
+          "inside": "여행 기간",
+          "blocked": "{max}일을 넘어 고를 수 없어요"
+        }
       },
       "trip": {
         "heading": "출발지 · 시각",
@@ -840,7 +855,42 @@
         "goodchoice": "여기어때",
         "agoda": "Agoda",
         "bookingCom": "Booking.com",
-        "newWindow": "(새 창)"
+        "newWindow": "(새 창)",
+        "air": "항공권 예매",
+        "ship": "여객선 예매",
+        "metro": "전철 노선·시간표"
+      },
+      "stay": {
+        "dec": "{name} 체류 시간 15분 줄이기",
+        "inc": "{name} 체류 시간 15분 늘리기",
+        "rec": "추천 {duration}",
+        "reset": "추천값으로",
+        "resetLabel": "{name} 체류 시간을 추천값으로 되돌리기",
+        "changed": "{name} 체류 시간 {duration}"
+      },
+      "dayAdd": {
+        "open": "장소 추가",
+        "openLabel": "{day}일차에 장소 추가",
+        "search": "이 날에 넣을 장소 검색",
+        "clear": "지우기",
+        "results": "검색 결과",
+        "cityPlaces": "{city} 여행지",
+        "none": "일치하는 장소가 없어요",
+        "hint": "그날 마지막 장소 뒤에 넣어요. 시간이 모자라면 다음 날로 넘어가요",
+        "added": "{day}일차에 넣었어요: {name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km}km",
+        "modes": {
+          "transit": "대중교통",
+          "driving": "렌트카",
+          "own": "자가용",
+          "wide": "광역 이동"
+        },
+        "out": "가는 길",
+        "back": "돌아오는 길",
+        "route": "{from} → {to}",
+        "access": "{mode} · 약 {duration}"
       }
     },
     "info": {
@@ -859,10 +909,19 @@
         "ship": "배",
         "metro": "광역전철"
       },
-      "tipsHeading": "이동 요령",
-      "tips": "코스 탭에서 날짜 · 출발지 · 시각을 정하면 담은 장소가 날짜별 동선으로 나뉘고, 장소마다 도착 · 출발 시각과 이동 시간이 붙어요. 광역 교통은 자가용을 빼면 출발지와 도착 도시 관문에 함께 있는 수단만 고를 수 있어서, 제주는 항공이나 배로 가요. 마지막 날 일정은 여행지 출발 시각에 맞춰 끝나고, KTX · SRT · 버스 · 렌트카 · 숙박 예매 링크는 코스 탭 맨 아래에 있어요.",
       "linksHeading": "지역별 관광 안내",
       "newWindow": "(새 창)"
+    },
+    "howTo": {
+      "heading": "이동 요령",
+      "steps": {
+        "wide": "광역교통(버스·기차·항공·배·지하철·자가용)을 먼저 고릅니다. 고른 수단에 맞는 터미널·역·공항·항만만 출발지·귀가지로 나옵니다.",
+        "origin": "지하철을 고르면 호선 → 역명 순으로 고릅니다. 목록에 없는 역은 이름으로 검색해 추가합니다.",
+        "route": "여행지까지 두 가지 이상 경로가 있으면(예: KTX / 고속버스) 안내 창에서 경로를 고릅니다. 집에서 터미널·역까지 가는 구간도 함께 계산됩니다.",
+        "local": "현지 이동은 렌트카 또는 대중교통 중에서 고릅니다. 날짜·출발 시각을 정하면 하루 단위 동선과 장소 사이 이동 시간이 계산되고, 체류 시간은 장소마다 바꿀 수 있습니다.",
+        "stay": "1박 이상이면 날짜마다 숙소 후보와 예약 버튼이 붙습니다. 숙박 장소는 관광 시간 계산에서 빠집니다.",
+        "jeju": "제주는 항공·배·자가용(도민 또는 배와 함께)만 고를 수 있습니다."
+      }
     }
   },
   "NotFound": {
@@ -917,6 +976,33 @@
     "citytour": {
       "title": "지역 시티투어를 볼 수 있어요",
       "body": "{regions}개 지역 · {tours}개 코스 · 기준일 {date}까지"
+    }
+  },
+  "Plans": {
+    "label": "내 플랜",
+    "labelSuffix": "이름",
+    "placeholder": "플랜 이름 (선택)",
+    "store": "저장소 보기 ({count})",
+    "storeEmpty": "저장한 플랜이 없어요",
+    "overwrite": "「{name}」 덮어쓰기",
+    "overwritten": "저장소의 「{name}」 플랜을 업데이트했어요",
+    "load": "불러오기",
+    "loadLabel": "{name} 불러오기",
+    "loaded": "「{name}」 플랜을 불러왔어요",
+    "current": "지금 보는 플랜",
+    "deleteLabel": "{name} 삭제",
+    "deleted": "「{name}」 플랜을 삭제했어요",
+    "savedStatus": "플랜을 저장했어요. ME에서 볼 수 있어요",
+    "cancel": "취소",
+    "confirmOverwrite": {
+      "title": "플랜을 덮어쓸까요?",
+      "body": "저장소의 「{name}」 플랜을 지금 코스로 바꿔요",
+      "confirm": "덮어쓰기"
+    },
+    "confirmDelete": {
+      "title": "플랜을 삭제할까요?",
+      "body": "「{name}」 플랜을 저장소에서 지워요. 되돌릴 수 없어요",
+      "confirm": "삭제"
     }
   }
 }

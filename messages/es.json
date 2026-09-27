@@ -732,7 +732,22 @@
         "dayTrip": "Un día",
         "nights": "{days} días, {nights, plural, one {# noche} other {# noches}}",
         "errorOrder": "La fecha de regreso debe ser igual o posterior a la de salida",
-        "errorTooLong": "Puedes planificar hasta {max} días"
+        "errorTooLong": "Puedes planificar hasta {max} días",
+        "calendar": "Calendario del viaje",
+        "prevMonth": "Mes anterior",
+        "nextMonth": "Mes siguiente",
+        "hintStart": "Elige la fecha de salida y la de regreso; la ruta se divide por días",
+        "hintEnd": "Ahora elige la fecha de regreso",
+        "endPending": "Eligiendo…",
+        "notSet": "Hoy",
+        "mark": {
+          "today": "hoy",
+          "start": "salida",
+          "end": "regreso",
+          "single": "salida",
+          "inside": "dentro del viaje",
+          "blocked": "no se puede pasar de {max} días"
+        }
       },
       "trip": {
         "heading": "Origen · horarios",
@@ -840,7 +855,42 @@
         "goodchoice": "Goodchoice",
         "agoda": "Agoda",
         "bookingCom": "Booking.com",
-        "newWindow": "(se abre en otra ventana)"
+        "newWindow": "(se abre en otra ventana)",
+        "air": "Reservar vuelo",
+        "ship": "Reservar ferry",
+        "metro": "Horario de tren"
+      },
+      "stay": {
+        "dec": "15 minutos menos en {name}",
+        "inc": "15 minutos más en {name}",
+        "rec": "Sugerido: {duration}",
+        "reset": "Restablecer",
+        "resetLabel": "Volver al tiempo sugerido en {name}",
+        "changed": "{duration} en {name}"
+      },
+      "dayAdd": {
+        "open": "Añadir lugar",
+        "openLabel": "Añadir lugar al día {day}",
+        "search": "Buscar un lugar para este día",
+        "clear": "Borrar",
+        "results": "Resultados",
+        "cityPlaces": "Lugares en {city}",
+        "none": "Ningún lugar coincide",
+        "hint": "Se añade tras la última parada del día. Si no cabe, pasa al día siguiente",
+        "added": "Añadido al día {day}: {name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km} km",
+        "modes": {
+          "transit": "Transporte",
+          "driving": "Coche de alquiler",
+          "own": "Coche propio",
+          "wide": "Interurbano"
+        },
+        "out": "Ida",
+        "back": "Vuelta",
+        "route": "{from} → {to}",
+        "access": "{mode} · unos {duration}"
       }
     },
     "info": {
@@ -859,10 +909,19 @@
         "ship": "Ferry",
         "metro": "Tren urbano"
       },
-      "tipsHeading": "Cómo se calcula la ruta",
-      "tips": "Define tus fechas, origen y horarios en la pestaña Ruta, y los lugares que añadiste se reparten en una ruta por días con horas de llegada, salida y traslado para cada parada. Salvo con coche propio, el transporte interurbano solo ofrece los medios que existen tanto en tu origen como en la terminal del destino, por eso a Jeju se llega en avión o en ferry. El último día termina a tu hora de salida del destino, y los enlaces para reservar KTX, SRT, autobuses, coches de alquiler y alojamiento están al final de la pestaña Ruta.",
       "linksHeading": "Guías de turismo regionales",
       "newWindow": "(se abre en otra ventana)"
+    },
+    "howTo": {
+      "heading": "Cómo se calcula la ruta",
+      "steps": {
+        "wide": "Elige primero el transporte de larga distancia (bus, tren, avión, barco, metro o coche propio). Solo aparecen como salida y regreso las terminales, estaciones, aeropuertos o puertos de ese medio.",
+        "origin": "Si eliges metro, selecciona línea → estación. Busca por nombre para añadir una estación que no esté en la lista.",
+        "route": "Si hay dos rutas o más (p. ej., KTX / autobús exprés), elige una en el aviso. También se calcula el tramo de casa a la terminal o estación.",
+        "local": "Para moverte en destino, elige coche de alquiler o transporte público. Con la fecha y la hora de salida se calcula la ruta de cada día y el tiempo entre lugares; el tiempo de estancia se puede cambiar en cada lugar.",
+        "stay": "Si pasas una noche o más, cada día muestra alojamientos candidatos y botones de reserva. El alojamiento no cuenta en el tiempo de visita.",
+        "jeju": "En Jeju solo se puede elegir avión, barco o coche propio (residentes, o junto con el ferry)."
+      }
     }
   },
   "NotFound": {
@@ -917,6 +976,33 @@
     "citytour": {
       "title": "City tours por región",
       "body": "{regions} regiones · {tours} tours · actualizado hasta {date}"
+    }
+  },
+  "Plans": {
+    "label": "Mis planes",
+    "labelSuffix": "nombre",
+    "placeholder": "Nombre del plan (opcional)",
+    "store": "Ver guardados ({count})",
+    "storeEmpty": "Aún no hay planes guardados",
+    "overwrite": "Actualizar «{name}»",
+    "overwritten": "«{name}» actualizado en tus planes",
+    "load": "Cargar",
+    "loadLabel": "Cargar {name}",
+    "loaded": "«{name}» cargado",
+    "current": "En pantalla",
+    "deleteLabel": "Eliminar {name}",
+    "deleted": "«{name}» eliminado",
+    "savedStatus": "Plan guardado. Lo encontrarás en ME",
+    "cancel": "Cancelar",
+    "confirmOverwrite": {
+      "title": "¿Actualizar este plan?",
+      "body": "«{name}» se sustituirá por la ruta actual",
+      "confirm": "Actualizar"
+    },
+    "confirmDelete": {
+      "title": "¿Eliminar?",
+      "body": "«{name}» se borrará de tus planes. No se puede deshacer",
+      "confirm": "Eliminar"
     }
   }
 }

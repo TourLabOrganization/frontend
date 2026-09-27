@@ -25,14 +25,16 @@ export type LastTopTheme = {
  */
 export const SAVED_PLANS_KEY = "tn.savedPlans";
 
-/** 테마 코스 */
+/** 테마 코스. (slug, a, plan)이 같은 코스는 하나만 둔다(samePlan) */
 export type SavedPlan = {
   slug: string;
   /** 코스 화면의 ?a= (없으면 빈 문자열) */
   a: string;
   plan: string;
-  /** 저장 시각(ms) */
+  /** 저장 시각(ms). 덮어쓰면 그 시각으로 바뀐다 */
   savedAt: number;
+  /** 플랜 이름(테마 코스 탭 「내 플랜」). 이름 없이 저장한 예전 항목에는 없다 */
+  name?: string;
 };
 
 /** 투어 플래너 코스. settings는 features/planner/course-store.ts의 PlannerSettings(읽는 쪽이 검사한다) */
@@ -160,9 +162,15 @@ export function writeReadIds(ids: readonly string[]): void {
   writeLocal(NOTIFICATIONS_READ_KEY, JSON.stringify([...new Set(ids)]));
 }
 
-/** 저장한 테마 코스 */
+/** 저장한 테마 코스. 이름이 문자열이 아니면 이름만 뺀다 */
 export function parseSavedPlans(raw: string | null): SavedPlan[] {
-  return parseList(raw).filter(isThemePlan);
+  return parseList(raw)
+    .filter(isThemePlan)
+    .map(({ slug, a, plan, savedAt, name }) =>
+      typeof name === "string" && name.trim()
+        ? { slug, a, plan, savedAt, name }
+        : { slug, a, plan, savedAt },
+    );
 }
 
 /** 저장한 투어 플래너 코스 */
@@ -178,15 +186,93 @@ export function writeSavedPlans(plans: readonly SavedPlan[]): void {
   writeLocal(SAVED_PLANS_KEY, JSON.stringify([...plans, ...others]));
 }
 
-/** 투어 플래너 코스를 하나 더한다. id · 저장 시각은 여기서 붙인다 */
+/** 테마 코스를 하나 더한다. 저장 시각은 여기서 붙인다. 이름이 비어 있으면 name을 두지 않는다 */
+export function addThemePlan(
+  plan: Pick<SavedPlan, "slug" | "a" | "plan">,
+  name: string,
+): void {
+  const trimmed = name.trim();
+  writeSavedPlans([
+    ...parseSavedPlans(readLocal(SAVED_PLANS_KEY)),
+    { ...plan, savedAt: Date.now(), ...(trimmed ? { name: trimmed } : {}) },
+  ]);
+}
+
+/** 테마 코스 하나(target)를 지금 코스로 덮어쓴다(overwriteThemePlan). 저장 시각은 여기서 붙인다 */
+export function saveThemeOverwrite(
+  target: Pick<SavedPlan, "slug" | "a" | "plan">,
+  next: Pick<SavedPlan, "slug" | "a" | "plan">,
+): void {
+  writeSavedPlans(
+    overwriteThemePlan(
+      parseSavedPlans(readLocal(SAVED_PLANS_KEY)),
+      target,
+      next,
+      Date.now(),
+    ),
+  );
+}
+
+/** 투어 플래너 코스를 하나 더한다. id · 저장 시각은 여기서 붙인다. 붙인 id를 돌려준다 */
 export function addPlannerPlan(
   plan: Omit<PlannerSavedPlan, "kind" | "id" | "savedAt">,
-): void {
+): string {
   const now = Date.now();
+  const id = `pl${now.toString(36)}`;
   writePlannerPlans([
     ...parsePlannerPlans(readLocal(SAVED_PLANS_KEY)),
-    { kind: "planner", id: `pl${now.toString(36)}`, ...plan, savedAt: now },
+    { kind: "planner", id, ...plan, savedAt: now },
   ]);
+  return id;
+}
+
+/**
+ * 저장된 플래너 플랜 하나를 지금 코스로 덮어쓴 목록(PoC planUpdate). 이름 · id는 그대로, 저장 시각은 now
+ */
+export function overwritePlannerPlan(
+  list: readonly PlannerSavedPlan[],
+  id: string,
+  next: Pick<PlannerSavedPlan, "city" | "placeIds" | "settings">,
+  now: number,
+): PlannerSavedPlan[] {
+  return list.map((p) =>
+    p.id === id
+      ? {
+          ...p,
+          city: next.city,
+          placeIds: [...next.placeIds],
+          settings: { ...next.settings, name: p.name },
+          savedAt: now,
+        }
+      : p,
+  );
+}
+
+/** 저장된 플래너 플랜 하나를 뺀 목록 */
+export function removePlannerPlan(
+  list: readonly PlannerSavedPlan[],
+  id: string,
+): PlannerSavedPlan[] {
+  return list.filter((p) => p.id !== id);
+}
+
+/**
+ * 저장된 테마 코스 하나(target)를 지금 코스(next)로 덮어쓴 목록. 이름은 그대로, 저장 시각은 now.
+ * 지금 코스와 같은 다른 항목이 있으면 빼서 같은 코스가 둘이 되지 않게 한다
+ */
+export function overwriteThemePlan(
+  list: readonly SavedPlan[],
+  target: Pick<SavedPlan, "slug" | "a" | "plan">,
+  next: Pick<SavedPlan, "slug" | "a" | "plan">,
+  now: number,
+): SavedPlan[] {
+  return list
+    .filter((p) => samePlan(p, target) || !samePlan(p, next))
+    .map((p) =>
+      samePlan(p, target)
+        ? { ...p, slug: next.slug, a: next.a, plan: next.plan, savedAt: now }
+        : p,
+    );
 }
 
 /** 투어 플래너 코스 목록을 쓴다. 저장된 테마 코스는 그대로 둔다 */

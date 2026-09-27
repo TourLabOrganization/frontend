@@ -7,6 +7,9 @@ export type BookingLink = {
     | "ktx"
     | "srt"
     | "bus"
+    | "air"
+    | "ship"
+    | "metro"
     | "lotte"
     | "socar"
     | "yanolja"
@@ -21,6 +24,25 @@ export const TRANSPORT_LINKS: readonly BookingLink[] = [
   { label: "srt", href: "https://etk.srail.kr/main.do" },
   { label: "bus", href: "https://txbus.t-money.co.kr/" },
 ];
+
+/**
+ * 일자별 일정의 광역 구간(출발지 → 관문, 관문 → 출발지) 예매 버튼. 광역 교통 수단에 맞는 링크 하나(PoC transBtns).
+ * KTX · SRT · 버스는 위 TRANSPORT_LINKS를 그대로 쓰고, 항공 · 배 · 지하철은 PoC transBtns의 주소다. 자가용은 예매가 없다
+ */
+export function wideBookingLink(mode: string): BookingLink | null {
+  const same = TRANSPORT_LINKS.find((l) => l.label === mode);
+  if (same) return same;
+  if (mode === "air")
+    return { label: "air", href: "https://flight.naver.com/" };
+  if (mode === "ship")
+    return { label: "ship", href: "https://island.haewoon.co.kr/" };
+  if (mode === "metro")
+    return {
+      label: "metro",
+      href: "https://www.letskorail.com/ebizbf/EbizBfMetroTimeTable.do",
+    };
+  return null;
+}
 
 export const RENT_LINKS: readonly BookingLink[] = [
   {

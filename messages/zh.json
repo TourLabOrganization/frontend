@@ -732,7 +732,22 @@
         "dayTrip": "一日游",
         "nights": "{days}天{nights}夜",
         "errorOrder": "返程日期不能早于出发日期",
-        "errorTooLong": "最多可规划{max}天的旅行"
+        "errorTooLong": "最多可规划{max}天的旅行",
+        "calendar": "旅行日期日历",
+        "prevMonth": "上个月",
+        "nextMonth": "下个月",
+        "hintStart": "依次选择出发日与返程日，行程将按天分配。",
+        "hintEnd": "请再选择返程日期。",
+        "endPending": "选择中",
+        "notSet": "今天",
+        "mark": {
+          "today": "今天",
+          "start": "出发日",
+          "end": "返程日",
+          "single": "出发日",
+          "inside": "旅行期间",
+          "blocked": "不能超过{max}天"
+        }
       },
       "trip": {
         "heading": "出发地 · 时间",
@@ -840,7 +855,42 @@
         "goodchoice": "Goodchoice",
         "agoda": "Agoda",
         "bookingCom": "Booking.com",
-        "newWindow": "（新窗口）"
+        "newWindow": "（新窗口）",
+        "air": "预订机票",
+        "ship": "预订轮渡",
+        "metro": "城铁时刻表"
+      },
+      "stay": {
+        "dec": "{name}停留时间减少15分钟",
+        "inc": "{name}停留时间增加15分钟",
+        "rec": "推荐{duration}",
+        "reset": "恢复推荐",
+        "resetLabel": "将{name}的停留时间恢复为推荐值",
+        "changed": "{name}停留{duration}"
+      },
+      "dayAdd": {
+        "open": "添加地点",
+        "openLabel": "向第{day}天添加地点",
+        "search": "搜索当天要加入的地点",
+        "clear": "清除",
+        "results": "搜索结果",
+        "cityPlaces": "{city}景点",
+        "none": "没有匹配的地点。",
+        "hint": "加在当天最后一个地点之后。时间不够时会顺延到第二天",
+        "added": "已加入第{day}天：{name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km}公里",
+        "modes": {
+          "transit": "公共交通",
+          "driving": "租车",
+          "own": "自驾",
+          "wide": "跨市郡移动"
+        },
+        "out": "去程",
+        "back": "返程",
+        "route": "{from} → {to}",
+        "access": "{mode} · 约{duration}"
       }
     },
     "info": {
@@ -859,10 +909,19 @@
         "ship": "轮渡",
         "metro": "城际地铁"
       },
-      "tipsHeading": "出行指南",
-      "tips": "在行程标签页设置日期 · 出发地 · 时间后，已添加的地点会按日期分成每日路线，并为每个地点标注到达 · 出发时间和移动时间。除私家车外，城际交通只能选择出发地与目的地城市枢纽都有的方式，因此前往济州需乘飞机或轮渡。最后一天的行程会按旅行地出发时间结束，KTX · SRT · 巴士 · 租车 · 住宿的预订链接在行程标签页最下方。",
       "linksHeading": "各地旅游指南",
       "newWindow": "（新窗口）"
+    },
+    "howTo": {
+      "heading": "出行要领",
+      "steps": {
+        "wide": "先选择长途交通（巴士、火车、航班、轮渡、地铁、自驾）。只会显示与所选方式相符的客运站、车站、机场或港口作为出发地和返程地。",
+        "origin": "选择地铁时，按线路 → 站名的顺序选择。列表中没有的车站可按名称搜索添加。",
+        "route": "如果到目的地有两条以上路线（例如 KTX / 高速巴士），请在提示窗口中选择路线。从家到客运站或车站的路段也会一并计算。",
+        "local": "当地交通可在租车和公共交通中选择。设定日期和出发时间后，会计算每天的路线和地点之间的移动时间，停留时间可按地点修改。",
+        "stay": "住一晚以上时，每天会附上住宿候选和预订按钮。住宿地点不计入观光时间。",
+        "jeju": "济州只能选择航班、轮渡或自驾（当地居民，或随轮渡运车）。"
+      }
     }
   },
   "NotFound": {
@@ -917,6 +976,33 @@
     "citytour": {
       "title": "可以查看各地城市观光巴士",
       "body": "{regions}个地区 · {tours}条路线 · 数据截至{date}"
+    }
+  },
+  "Plans": {
+    "label": "我的行程",
+    "labelSuffix": "名称",
+    "placeholder": "行程名称（选填）",
+    "store": "查看已保存 ({count})",
+    "storeEmpty": "还没有保存的行程",
+    "overwrite": "覆盖保存「{name}」",
+    "overwritten": "已更新已保存的行程「{name}」",
+    "load": "载入",
+    "loadLabel": "载入{name}",
+    "loaded": "已载入「{name}」",
+    "current": "正在查看",
+    "deleteLabel": "删除{name}",
+    "deleted": "已删除「{name}」",
+    "savedStatus": "行程已保存，可在ME中查看",
+    "cancel": "取消",
+    "confirmOverwrite": {
+      "title": "要覆盖这个行程吗？",
+      "body": "将已保存的行程「{name}」替换为当前路线",
+      "confirm": "覆盖"
+    },
+    "confirmDelete": {
+      "title": "删除此行程？",
+      "body": "将从已保存中删除「{name}」，删除后无法恢复",
+      "confirm": "删除"
     }
   }
 }
