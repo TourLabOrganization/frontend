@@ -9,7 +9,11 @@
 ## `NEXT_PUBLIC_` 규칙
 
 - `NEXT_PUBLIC_`이 붙은 값은 빌드할 때 브라우저 코드에 그대로 박힌다. 비밀이 아니다
-- 붙여도 되는 것: 백엔드 주소, Google Maps 키(Google Cloud 콘솔에서 HTTP 리퍼러 제한을 건 경우만)
+- 붙여도 되는 것: 백엔드 주소, 카카오 지도 JavaScript 키(`NEXT_PUBLIC_KAKAO_MAP_KEY`)
+- 카카오 지도 키는 카카오 개발자 앱의 「JavaScript SDK 도메인」에 등록한 주소에서만 동작한다.
+  지금 등록한 주소는 `http://localhost:5173`, `https://tour-navigator.vercel.app`이다.
+  로컬은 `127.0.0.1`이 아니라 `localhost`로 연다. 배포 주소를 새로 쓰면 먼저 도메인을 등록한다
+- 같은 카카오 앱의 REST API 키(`KAKAO_REST_KEY`)는 서버 전용이라 `NEXT_PUBLIC_`을 붙이지 않는다
 - 그 외 키에는 붙이지 않는다
 
 ## 키가 필요한 외부 API

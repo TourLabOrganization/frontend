@@ -52,8 +52,8 @@ Next.js 16 (App Router) / React 19 / TypeScript / Tailwind CSS 4. 모바일부�
 ### 3. API 키를 코드에 적지 않는다
 
 - 키는 환경변수로만 읽는다. `.env.local`은 커밋하지 않는다
-- `NEXT_PUBLIC_`이 붙은 값은 브라우저에 그대로 노출된다. 키 중에 붙여도 되는 것은 Google Maps 키 하나다
-- 나머지 외부 API(TourAPI·Kakao·YouTube 등)는 Route Handler(`src/app/api/**/route.ts`)에서 부르고,
+- `NEXT_PUBLIC_`이 붙은 값은 브라우저에 그대로 노출된다. 키 중에 붙여도 되는 것은 카카오 지도 JavaScript 키 하나다
+- 나머지 외부 API(TourAPI·Kakao REST·YouTube 등)는 Route Handler(`src/app/api/**/route.ts`)에서 부르고,
   브라우저는 그 Route Handler를 부른다
 
 ### 4. 화면 문구는 `messages/*.json`에 둔다

@@ -66,7 +66,7 @@ export function ThemePlaceSheet({
           photo: extra?.img
             ? { src: placePhoto(extra.img), credit: extra.imgCredit }
             : null,
-          directionsHref: directionsUrl(place),
+          directionsHref: directionsUrl(place, placeName(place, locale)),
         }
       }
       onClose={onClose}

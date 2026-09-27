@@ -55,7 +55,7 @@ export function MapTab({
   const t = useTranslations("Theme.map");
   const tc = useTranslations("Course");
   const locale = useLocale();
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
 
   const [filter, setFilter] = useState<Filter>("all");
   const [showOff, setShowOff] = useState(

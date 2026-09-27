@@ -12,7 +12,7 @@
 | 스타일      | Tailwind CSS 4                                |
 | 서버 데이터 | TanStack Query 5                              |
 | 다국어      | next-intl 4 (ko · en)                         |
-| 지도        | @vis.gl/react-google-maps (Google Maps)       |
+| 지도        | 카카오 지도 (react-kakao-maps-sdk)            |
 | 코드 포맷   | Prettier · ESLint                             |
 | 테스트      | Vitest                                        |
 | 배포        | Vercel                                        |
@@ -37,7 +37,7 @@
 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
 
 홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
-테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, Google 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
+테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, 카카오 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
 투어 플래너(`/planner` — 전국 · 도시별 장소 1,171곳 지도와 목록, 권역 묶음, 도시 고르기, 코스에 담기, 여행 정보)도 있다.
 플래너의 코스 탭은 코스 빌더다(날짜 · 출발지 · 시각 · 광역 교통 · 현지 이동, 추천 코스 불러오기, 일자별 일정, 예매 링크, 코스 저장 → ME).
 일정 계산은 `src/features/planner/schedule.ts`, 도시 고르기 숫자는 PoC 규칙(전용 화면 도시 우선, `pickCity`)을 따른다.
@@ -58,12 +58,11 @@ cp .env.example .env.local
 
 `.env.local`에 채울 값:
 
-| 이름                          | 설명                                                                     |
-| ----------------------------- | ------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_API_BASE_URL`    | 백엔드 주소. 로컬 백엔드는 `http://localhost:8080`                       |
-| `NEXT_PUBLIC_GOOGLE_MAPS_KEY` | Google Maps 키. 브라우저에 노출되므로 도메인 제한을 건 키만 쓴다         |
-| `NEXT_PUBLIC_GOOGLE_MAP_ID`   | Google 지도 ID. 비우면 `DEMO_MAP_ID`(번호 핀에 필요)                     |
-| `DATA_GO_KR_KEY` 외           | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md` |
+| 이름                        | 설명                                                                                     |
+| --------------------------- | ---------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL`  | 백엔드 주소. 로컬 백엔드는 `http://localhost:8080`                                       |
+| `NEXT_PUBLIC_KAKAO_MAP_KEY` | 카카오 지도 JavaScript 키. 카카오 앱에 등록한 도메인(`localhost:5173` 등)에서만 동작한다 |
+| `DATA_GO_KR_KEY` 외         | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md`                 |
 
 ### 실행
 

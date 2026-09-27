@@ -62,7 +62,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const tc = useTranslations("Course");
   const locale = useLocale();
   const router = useRouter();
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
   const course = useCourseToggle();
 
   const scopePlaces = useMemo(() => placesInScope(scope), [scope]);
@@ -370,7 +370,10 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             photo: selected.img
               ? { src: placePhoto(selected.img), credit: selected.imgCredit }
               : null,
-            directionsHref: directionsUrl(selected),
+            directionsHref: directionsUrl(
+              selected,
+              placeName(selected, locale),
+            ),
           }
         }
         onClose={() => {

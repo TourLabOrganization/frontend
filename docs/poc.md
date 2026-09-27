@@ -14,7 +14,7 @@
 | `I18N` 레이어                                            | 화면 문구는 `messages/`로, 장소 이름 번역은 데이터 쪽으로 (`docs/i18n.md`)                                                                                          |
 | `config.js`(`APP_CONFIG`)로 읽는 API 키                  | 환경변수와 Route Handler (`docs/security.md`)                                                                                                                       |
 | CORS 프록시(계획) — Cloudflare Workers / Vercel Function | Route Handler가 그 역할을 한다 (`docs/security.md`)                                                                                                                 |
-| Google Maps 스크립트 직접 로드                           | `@vis.gl/react-google-maps` (`docs/stack.md`)                                                                                                                       |
+| Google Maps 스크립트 직접 로드                           | 카카오 지도 · `react-kakao-maps-sdk` (`docs/stack.md`)                                                                                                              |
 | 인라인 `style=""`                                        | Tailwind 클래스와 토큰 (`docs/ui.md`)                                                                                                                               |
 | `테마 추천 알고리즘/`(Python 오프라인 파이프라인)        | 문서 점수표를 `src/features/recommend/scoring.ts`로, `calc2.py` 최종 점수를 `themes.ts`로 옮겼다. data-server API가 생기면 `getRecommendation`만 API 호출로 바꾼다. |
 | 체류·일정 계산 (`체류시간 산정/stay_schedule.js`)        | `src/features/course/`(stay_schedule.js 이식). 장소·관문 데이터는 `scripts/build-places.mjs`로 만든다                                                               |

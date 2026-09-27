@@ -16,7 +16,7 @@ export type PlaceSheetPlace = {
   description?: string | null;
   /** 사진(Wikimedia 등 외부 주소는 unoptimized로 브라우저가 바로 받는다)과 출처 */
   photo?: { src: string; credit?: string } | null;
-  /** 길찾기(구글 지도) 주소. 새 창으로 연다 */
+  /** 길찾기(카카오맵) 주소. 새 창으로 연다 */
   directionsHref: string;
 };
 
