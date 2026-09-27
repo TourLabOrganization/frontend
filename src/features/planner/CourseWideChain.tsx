@@ -1,4 +1,15 @@
-import { ChevronDown, ExternalLink, MapPin, TrainFront } from "lucide-react";
+import {
+  Bus,
+  Car,
+  ChevronDown,
+  ExternalLink,
+  type LucideIcon,
+  MapPin,
+  Plane,
+  Ship,
+  TrainFront,
+  TramFront,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useId } from "react";
 import { buttonClassName } from "@/components/ui/Button";
@@ -6,7 +17,18 @@ import { formatDuration } from "@/features/course/format-duration";
 import type { BookingLink } from "./data/booking";
 import { directionsBetweenUrl } from "./directions";
 import type { ChainSide, HubLeg } from "./schedule";
-import { type ChainPoint, chainPoints } from "./wide-chain";
+import { type ChainMode, type ChainPoint, chainPoints } from "./wide-chain";
+
+/** 카드 머리 아이콘. 본 구간 수단을 따른다(카페리는 본 구간이 ship) */
+const MODE_ICON: Record<ChainMode, LucideIcon> = {
+  metro: TramFront,
+  ktx: TrainFront,
+  srt: TrainFront,
+  bus: Bus,
+  air: Plane,
+  ship: Ship,
+  own: Car,
+};
 
 const hmT = (t: number) =>
   `${String(Math.floor(t / 60) % 24).padStart(2, "0")}:${String(((t % 60) + 60) % 60).padStart(2, "0")}`;
@@ -47,11 +69,12 @@ export function CourseWideChain({
   const names = chainPoints(chain, side.origin, out).map(nm);
   const own = chain.mode === "own";
   const headingId = `${id}-heading`;
+  const ModeIcon = MODE_ICON[chain.mode];
 
   const header = (
     <div className="flex flex-wrap items-center gap-3">
       <div className="flex min-w-48 flex-1 items-start gap-3">
-        <TrainFront
+        <ModeIcon
           size={20}
           aria-hidden
           className="mt-0.5 shrink-0 text-fg-muted"
