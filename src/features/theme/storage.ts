@@ -1,10 +1,11 @@
 import { useLocalValue, writeLocal } from "@/lib/local-store";
 
-// 테마별 북마크 · 스탬프(체크인). localStorage에 장소 id 배열(JSON)로 둔다.
-//   tn.bookmarks.{slug} · tn.stamps.{slug}
-// 체크인은 목업처럼 사용자가 직접 누르는 토글이다(위치 확인 없음).
+// 테마별 스탬프(체크인). localStorage에 장소 id 배열(JSON)로 둔다.
+//   tn.stamps.{slug}
+// 체크인은 목업 · PoC 코드처럼 사용자가 직접 누르는 토글이다(위치 확인 없음).
+// 장소 저장(북마크)은 테마 · 플래너가 함께 쓰는 tn.savedPlaces(lib/local-store.ts)로 옮겼다. 예전 tn.bookmarks.{slug}는 읽지 않는다.
 
-export type IdListKind = "bookmarks" | "stamps";
+export type IdListKind = "stamps";
 
 function storageKey(kind: IdListKind, slug: string): string {
   return `tn.${kind}.${slug}`;

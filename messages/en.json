@@ -17,6 +17,18 @@
       "second": "Language",
       "current": "Choose language, now {name}",
       "listLabel": "Languages"
+    },
+    "map": {
+      "typeLabel": "Map type",
+      "roadmap": "Map",
+      "satellite": "Satellite",
+      "locate": "My location",
+      "locating": "Finding your location…",
+      "located": "Moved to your location",
+      "insecure": "Location needs a secure (HTTPS) connection",
+      "denied": "Location access is off. Allow it in your browser settings",
+      "unavailable": "Couldn't get your location. Try again shortly",
+      "myLocation": "Your location"
     }
   },
   "PlaceSheet": {
@@ -24,7 +36,21 @@
     "photoCredit": "Photo: {credit}",
     "hours": "Opening hours",
     "directions": "Directions",
-    "newWindow": "(opens in a new window)"
+    "newWindow": "(opens in a new window)",
+    "stay": "Suggested stay",
+    "work": "Title",
+    "scene": "Scene",
+    "lat": "Latitude",
+    "lng": "Longitude",
+    "source": "Coordinate source",
+    "kakao": "Kakao Map",
+    "kakaoOpen": "Open place page",
+    "video": "Watch the clip",
+    "factsLabel": "Place details",
+    "save": "Save",
+    "saved": "Saved",
+    "savedStatus": "Added to saved places",
+    "unsavedStatus": "Removed from saved places"
   },
   "Splash": {
     "title": {
@@ -174,7 +200,10 @@
     "plannerMeta": "{city} · {duration} · {count, plural, one {# place} other {# places}}",
     "typeHeading": "My traveler type",
     "typeName": "{type}",
-    "retry": "Try again"
+    "retry": "Try again",
+    "placesHeading": "Saved places",
+    "placesCount": "{count, plural, one {# place} other {# places}}",
+    "placesEmpty": "No saved places yet. Tap [Save] on a place."
   },
   "Recommend": {
     "progressLabel": "Question progress",
@@ -531,8 +560,10 @@
       "filmLinkLabel": "See the scene at {name}"
     },
     "sheet": {
-      "save": "Save",
-      "stamp": "Stamp"
+      "stamp": "Check in",
+      "stamped": "Checked in",
+      "stampedStatus": "Checked in here",
+      "unstampedStatus": "Check-in removed"
     },
     "course": {
       "daysLabel": "Trip length",

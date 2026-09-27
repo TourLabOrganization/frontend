@@ -194,3 +194,82 @@ export function samePlan(
 ): boolean {
   return p.slug === q.slug && p.a === q.a && p.plan === q.plan;
 }
+
+/**
+ * 저장한 장소(장소 시트의 「저장」 북마크). SavedPlace[] JSON.
+ * 테마 화면과 투어 플래너 장소 시트가 쓰고, ME · 테마 스탬프 탭이 읽는다.
+ * 같은 장소라도 출처(source)가 다르면 따로 저장한다(테마 스탬프 탭은 그 테마에서 저장한 것만 보인다)
+ */
+export const SAVED_PLACES_KEY = "tn.savedPlaces";
+
+/** 투어 플래너에서 저장한 장소의 출처 */
+export const PLANNER_SOURCE = "planner";
+
+export type SavedPlace = {
+  /** 장소 id */
+  id: string;
+  /** 저장한 곳. 테마 slug 또는 PLANNER_SOURCE */
+  source: string;
+  /** 저장 시각(ms) */
+  savedAt: number;
+  /** 저장할 때의 장소 이름(한 · 영). ME가 장소 데이터를 불러오지 않고 이름을 보이려고 둔다 */
+  name: { ko: string; en: string };
+};
+
+const isSavedPlace = (p: unknown): p is SavedPlace => {
+  if (typeof p !== "object" || p === null) return false;
+  const v = p as Record<string, unknown>;
+  const name = v.name as Record<string, unknown> | null | undefined;
+  return (
+    typeof v.id === "string" &&
+    typeof v.source === "string" &&
+    typeof v.savedAt === "number" &&
+    typeof name === "object" &&
+    name !== null &&
+    typeof name.ko === "string" &&
+    typeof name.en === "string"
+  );
+};
+
+/** 저장한 장소. 모양이 틀린 항목은 버린다 */
+export function parseSavedPlaces(raw: string | null): SavedPlace[] {
+  return parseList(raw).filter(isSavedPlace);
+}
+
+export function isPlaceSaved(
+  list: readonly SavedPlace[],
+  id: string,
+  source: string,
+): boolean {
+  return list.some((p) => p.id === id && p.source === source);
+}
+
+/** 저장돼 있으면 빼고, 없으면 끝에 더한 새 목록 */
+export function toggleSavedPlace(
+  list: readonly SavedPlace[],
+  place: Omit<SavedPlace, "savedAt">,
+  now: number,
+): SavedPlace[] {
+  return isPlaceSaved(list, place.id, place.source)
+    ? list.filter((p) => !(p.id === place.id && p.source === place.source))
+    : [...list, { ...place, savedAt: now }];
+}
+
+export function writeSavedPlaces(list: readonly SavedPlace[]): void {
+  writeLocal(SAVED_PLACES_KEY, JSON.stringify(list));
+}
+
+/** 저장한 장소 목록과 토글 · 지우기. 서버 렌더와 하이드레이션 중에는 빈 목록 */
+export function useSavedPlaces() {
+  const list = parseSavedPlaces(useLocalValue(SAVED_PLACES_KEY));
+  return {
+    list,
+    has: (id: string, source: string) => isPlaceSaved(list, id, source),
+    toggle: (place: Omit<SavedPlace, "savedAt">) =>
+      writeSavedPlaces(toggleSavedPlace(list, place, Date.now())),
+    remove: (id: string, source: string) =>
+      writeSavedPlaces(
+        list.filter((p) => !(p.id === id && p.source === source)),
+      ),
+  };
+}

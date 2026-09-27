@@ -17,6 +17,18 @@
       "second": "Language",
       "current": "言語を選択、現在は{name}",
       "listLabel": "言語"
+    },
+    "map": {
+      "typeLabel": "地図の種類",
+      "roadmap": "地図",
+      "satellite": "衛星",
+      "locate": "現在地",
+      "locating": "現在地を探しています…",
+      "located": "現在地に移動しました",
+      "insecure": "位置情報は安全な接続（HTTPS）でのみ使えます",
+      "denied": "位置情報がオフです。ブラウザの設定で許可してください",
+      "unavailable": "現在地を取得できませんでした。しばらくしてからお試しください",
+      "myLocation": "現在地"
     }
   },
   "PlaceSheet": {
@@ -24,7 +36,21 @@
     "photoCredit": "写真：{credit}",
     "hours": "営業時間",
     "directions": "経路",
-    "newWindow": "（新しいウィンドウ）"
+    "newWindow": "（新しいウィンドウ）",
+    "stay": "推奨滞在",
+    "work": "作品",
+    "scene": "シーン",
+    "lat": "緯度",
+    "lng": "経度",
+    "source": "座標の基準",
+    "kakao": "カカオマップ",
+    "kakaoOpen": "スポットページを開く",
+    "video": "このスポットの映像を見る",
+    "factsLabel": "スポット情報",
+    "save": "保存",
+    "saved": "保存済み",
+    "savedStatus": "保存したスポットに追加しました",
+    "unsavedStatus": "保存したスポットから外しました"
   },
   "Splash": {
     "title": {
@@ -174,7 +200,10 @@
     "plannerMeta": "{city} · {duration} · {count}か所",
     "typeHeading": "私の旅行者タイプ",
     "typeName": "{type}の旅行者",
-    "retry": "もう一度診断"
+    "retry": "もう一度診断",
+    "placesHeading": "保存したスポット",
+    "placesCount": "{count}か所",
+    "placesEmpty": "保存したスポットはありません。スポット詳細で[保存]を押してください。"
   },
   "Recommend": {
     "progressLabel": "質問の進み具合",
@@ -531,8 +560,10 @@
       "filmLinkLabel": "{name}のシーンを見る"
     },
     "sheet": {
-      "save": "保存",
-      "stamp": "スタンプ"
+      "stamp": "スタンプを押す",
+      "stamped": "スタンプ済み",
+      "stampedStatus": "スタンプを押しました",
+      "unstampedStatus": "スタンプを取り消しました"
     },
     "course": {
       "daysLabel": "日程",

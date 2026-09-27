@@ -17,6 +17,18 @@
       "second": "Language",
       "current": "选择语言，当前为{name}",
       "listLabel": "语言"
+    },
+    "map": {
+      "typeLabel": "地图类型",
+      "roadmap": "地图",
+      "satellite": "卫星",
+      "locate": "我的位置",
+      "locating": "正在查找你的位置…",
+      "located": "已移动到你的位置",
+      "insecure": "需要安全连接（HTTPS）才能使用位置",
+      "denied": "位置权限已关闭，请在浏览器设置中允许",
+      "unavailable": "无法获取位置，请稍后再试",
+      "myLocation": "我的位置"
     }
   },
   "PlaceSheet": {
@@ -24,7 +36,21 @@
     "photoCredit": "照片：{credit}",
     "hours": "营业时间",
     "directions": "路线",
-    "newWindow": "（新窗口）"
+    "newWindow": "（新窗口）",
+    "stay": "建议停留",
+    "work": "作品",
+    "scene": "场景",
+    "lat": "纬度",
+    "lng": "经度",
+    "source": "坐标依据",
+    "kakao": "Kakao 地图",
+    "kakaoOpen": "打开地点页面",
+    "video": "观看该地点的影片",
+    "factsLabel": "地点信息",
+    "save": "收藏",
+    "saved": "已收藏",
+    "savedStatus": "已加入收藏的地点",
+    "unsavedStatus": "已从收藏的地点移除"
   },
   "Splash": {
     "title": {
@@ -174,7 +200,10 @@
     "plannerMeta": "{city} · {duration} · {count}处",
     "typeHeading": "我的旅行者类型",
     "typeName": "{type}旅行者",
-    "retry": "重新推荐"
+    "retry": "重新推荐",
+    "placesHeading": "收藏的地点",
+    "placesCount": "{count}处",
+    "placesEmpty": "还没有收藏的地点。请在地点详情中点击[收藏]。"
   },
   "Recommend": {
     "progressLabel": "答题进度",
@@ -531,8 +560,10 @@
       "filmLinkLabel": "查看{name}的场景"
     },
     "sheet": {
-      "save": "收藏",
-      "stamp": "集章"
+      "stamp": "盖章",
+      "stamped": "已盖章",
+      "stampedStatus": "已盖章",
+      "unstampedStatus": "已取消盖章"
     },
     "course": {
       "daysLabel": "行程天数",

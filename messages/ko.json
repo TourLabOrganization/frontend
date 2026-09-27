@@ -17,6 +17,18 @@
       "second": "Language",
       "current": "언어 선택, 지금 {name}",
       "listLabel": "언어"
+    },
+    "map": {
+      "typeLabel": "지도 종류",
+      "roadmap": "지도",
+      "satellite": "위성",
+      "locate": "내 위치",
+      "locating": "내 위치를 찾는 중이에요",
+      "located": "내 위치로 옮겼어요",
+      "insecure": "HTTPS 연결에서만 위치를 쓸 수 있어요",
+      "denied": "위치 권한이 꺼져 있어요. 브라우저 설정에서 허용해 주세요",
+      "unavailable": "위치를 가져오지 못했어요. 잠시 뒤 다시 눌러 주세요",
+      "myLocation": "내 위치"
     }
   },
   "PlaceSheet": {
@@ -24,7 +36,21 @@
     "photoCredit": "사진: {credit}",
     "hours": "운영시간",
     "directions": "길찾기",
-    "newWindow": "(새 창)"
+    "newWindow": "(새 창)",
+    "stay": "권장 체류",
+    "work": "작품",
+    "scene": "장면",
+    "lat": "위도",
+    "lng": "경도",
+    "source": "좌표 기준",
+    "kakao": "카카오맵",
+    "kakaoOpen": "장소 페이지 열기",
+    "video": "이 장소가 나오는 영상",
+    "factsLabel": "장소 정보",
+    "save": "저장",
+    "saved": "저장됨",
+    "savedStatus": "저장한 장소에 넣었어요",
+    "unsavedStatus": "저장한 장소에서 뺐어요"
   },
   "Splash": {
     "title": {
@@ -174,7 +200,10 @@
     "plannerMeta": "{city} · {duration} · {count}곳",
     "typeHeading": "나의 여행자 유형",
     "typeName": "{type} 여행자",
-    "retry": "다시 추천받기"
+    "retry": "다시 추천받기",
+    "placesHeading": "저장한 장소",
+    "placesCount": "{count}곳",
+    "placesEmpty": "저장한 장소가 없어요. 장소 시트에서 [저장]을 눌러 보세요."
   },
   "Recommend": {
     "progressLabel": "질문 진행",
@@ -531,8 +560,10 @@
       "filmLinkLabel": "{name} 장면 보기"
     },
     "sheet": {
-      "save": "저장",
-      "stamp": "스탬프"
+      "stamp": "스탬프 찍기",
+      "stamped": "스탬프 완료",
+      "stampedStatus": "스탬프를 찍었어요",
+      "unstampedStatus": "스탬프를 지웠어요"
     },
     "course": {
       "daysLabel": "일정",

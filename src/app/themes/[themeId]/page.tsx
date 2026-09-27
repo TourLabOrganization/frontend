@@ -159,19 +159,22 @@ export default async function ThemePage({
           if (!e?.scene) continue;
           const f = film.get(e.scene);
           const v = video.get(e.scene);
-          const parts = f
-            ? [
-                t("film.sceneLabel", { number: sceneNumber(f.label) }),
-                f.title,
-                e.work,
-              ]
+          const row = f
+            ? [t("film.sceneLabel", { number: sceneNumber(f.label) }), f.title]
             : v
               ? [v.date, e.sceneTitle]
               : [];
-          if (parts.length === 0) continue;
+          if (row.length === 0) continue;
           sceneLinks[p.id] = {
-            text: parts.filter(Boolean).join(" · "),
+            text: [...row, f ? e.work : undefined].filter(Boolean).join(" · "),
             href: themeHref(slug, keep, "film", { hash: e.scene }),
+            row: row.filter(Boolean).join(" · "),
+            // 이 장소가 나오는 영상: 뮤직비디오는 그 영상(시작 시각), 영화 · 드라마는 영화 탭과 같은 장면 검색
+            video: !p.yt
+              ? undefined
+              : f
+                ? `https://www.youtube.com/results?search_query=${encodeURIComponent(f.query)}`
+                : `https://youtu.be/${e.scene}${e.ytAt ? `?t=${e.ytAt}` : ""}`,
           };
         }
         const cityLabels = Object.fromEntries(

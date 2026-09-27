@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { PlaceSheet } from "@/components/ui/PlaceSheet";
+import { SavePlaceButton } from "@/components/ui/SavePlaceButton";
 import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
 import {
@@ -35,6 +36,7 @@ import {
   REGIONS,
   regionName,
 } from "./regions";
+import { PLANNER_SOURCE } from "@/lib/local-store";
 import { matchesQuery } from "@/lib/text-search";
 import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
@@ -450,7 +452,6 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               category(selected) ?? "",
               stay(selected) ?? "",
             ],
-            hours: selected.hrs,
             description:
               detail.data?.desc?.[locale === "ko" ? "ko" : "en"] ??
               detail.data?.desc?.ko,
@@ -460,6 +461,20 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                   credit: detail.data.imgCredit,
                 }
               : null,
+            // 좌표 기준 · 카카오 장소 페이지는 무거운 필드라 시트를 열 때 받은 뒤에 행이 생긴다.
+            // 좌표 기준 원문은 한국어 · 영어뿐이라 한국어가 아닌 화면은 영어
+            facts: {
+              hours: selected.hrs,
+              stay:
+                selected.min > 0 ? formatDuration(tc, selected.min) : undefined,
+              lat: selected.lat,
+              lng: selected.lng,
+              source:
+                locale === "ko"
+                  ? (detail.data?.src?.ko ?? detail.data?.src?.en)
+                  : (detail.data?.src?.en ?? detail.data?.src?.ko),
+              kakaoUrl: detail.data?.url,
+            },
             directionsHref: directionsUrl(
               selected,
               placeName(selected, locale, names),
@@ -472,19 +487,26 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         }}
         actions={
           selected && (
-            <Button
-              variant={course.has(selected.id) ? "secondary" : "primary"}
-              size="md"
-              className="flex-auto"
-              onClick={() => course.toggle(selected)}
-            >
-              {course.has(selected.id) ? (
-                <Check size={20} className="text-primary" aria-hidden />
-              ) : (
-                <Plus size={20} aria-hidden />
-              )}
-              {course.has(selected.id) ? ts("remove") : ts("add")}
-            </Button>
+            <>
+              <Button
+                variant={course.has(selected.id) ? "secondary" : "primary"}
+                size="md"
+                className="flex-auto"
+                onClick={() => course.toggle(selected)}
+              >
+                {course.has(selected.id) ? (
+                  <Check size={20} className="text-primary" aria-hidden />
+                ) : (
+                  <Plus size={20} aria-hidden />
+                )}
+                {course.has(selected.id) ? ts("remove") : ts("add")}
+              </Button>
+              <SavePlaceButton
+                key={selected.id}
+                place={selected}
+                source={PLANNER_SOURCE}
+              />
+            </>
           )
         }
       >

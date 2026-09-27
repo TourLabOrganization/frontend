@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Chip } from "@/components/ui/Chip";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { useSavedPlaces } from "@/lib/local-store";
 import { pad2 } from "./place-meta";
 import { useIdList } from "./storage";
 
@@ -22,21 +23,23 @@ type StampTabProps = {
   region: string;
   /** 핵심 장소. 스탬프 북의 칸 */
   core: readonly StampPlace[];
-  /** 모든 장소. 저장한 장소(북마크) 이름을 찾는다 */
+  /** 모든 장소. 저장한 장소(tn.savedPlaces 중 이 테마에서 저장한 것)의 이름을 찾는다 */
   all: readonly StampPlace[];
 };
 
-// 스탬프 탭. 핵심 장소 체크인(사용자가 직접 누르는 토글, 위치 확인 없음)과 저장한 장소(북마크) 목록
+// 스탬프 탭. 핵심 장소 체크인(사용자가 직접 누르는 토글, 위치 확인 없음)과 저장한 장소(북마크) 목록.
+// 저장한 장소는 장소 시트의 「저장」과 같은 저장소(tn.savedPlaces)에서 이 테마(source = slug)의 것만 저장한 순서대로 보인다
 export function StampTab({ slug, region, core, all }: StampTabProps) {
   const t = useTranslations("Theme.stamp");
   const stamps = useIdList("stamps", slug);
-  const bookmarks = useIdList("bookmarks", slug);
+  const savedPlaces = useSavedPlaces();
 
   const total = core.length;
   const count = core.filter((p) => stamps.has(p.id)).length;
   const percent = total === 0 ? 0 : Math.round((count / total) * 100);
-  const saved = bookmarks.ids.flatMap((id) => {
-    const place = all.find((p) => p.id === id);
+  const saved = savedPlaces.list.flatMap((s) => {
+    if (s.source !== slug) return [];
+    const place = all.find((p) => p.id === s.id);
     return place ? [place] : [];
   });
 
@@ -124,7 +127,7 @@ export function StampTab({ slug, region, core, all }: StampTabProps) {
                 <button
                   type="button"
                   aria-label={t("remove", { name: p.name })}
-                  onClick={() => bookmarks.remove(p.id)}
+                  onClick={() => savedPlaces.remove(p.id, slug)}
                   className="mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                 >
                   <Trash2 size={20} aria-hidden />

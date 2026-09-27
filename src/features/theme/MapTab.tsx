@@ -32,7 +32,16 @@ import type { PlaceExtra } from "./theme-data";
 import type { NameTable } from "@/features/names/names";
 import { useNameTable } from "@/features/names/NamesProvider";
 
-export type SceneLink = { text: string; href: string };
+export type SceneLink = {
+  /** 시트의 장면 링크 한 줄 */
+  text: string;
+  /** 영화(영상) 탭의 그 장면 */
+  href: string;
+  /** 상세 표의 장면 행 */
+  row: string;
+  /** 이 장소가 나오는 영상(YouTube, 새 창) */
+  video?: string;
+};
 
 type MapTabProps = {
   slug: string;

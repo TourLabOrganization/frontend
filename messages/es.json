@@ -17,6 +17,18 @@
       "second": "Language",
       "current": "Elegir idioma, ahora {name}",
       "listLabel": "Idiomas"
+    },
+    "map": {
+      "typeLabel": "Tipo de mapa",
+      "roadmap": "Mapa",
+      "satellite": "Satélite",
+      "locate": "Mi ubicación",
+      "locating": "Buscando tu ubicación…",
+      "located": "Mapa movido a tu ubicación",
+      "insecure": "La ubicación requiere conexión segura (HTTPS)",
+      "denied": "Ubicación desactivada. Actívala en el navegador",
+      "unavailable": "No se pudo obtener tu ubicación. Inténtalo de nuevo",
+      "myLocation": "Tu ubicación"
     }
   },
   "PlaceSheet": {
@@ -24,7 +36,21 @@
     "photoCredit": "Foto: {credit}",
     "hours": "Horario",
     "directions": "Ruta",
-    "newWindow": "(se abre en otra ventana)"
+    "newWindow": "(se abre en otra ventana)",
+    "stay": "Estancia sugerida",
+    "work": "Obra",
+    "scene": "Escena",
+    "lat": "Latitud",
+    "lng": "Longitud",
+    "source": "Fuente de coordenadas",
+    "kakao": "Kakao Map",
+    "kakaoOpen": "Abrir ficha",
+    "video": "Ver la escena",
+    "factsLabel": "Datos del lugar",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "savedStatus": "Añadido a lugares guardados",
+    "unsavedStatus": "Quitado de lugares guardados"
   },
   "Splash": {
     "title": {
@@ -174,7 +200,10 @@
     "plannerMeta": "{city} · {duration} · {count, plural, one {# lugar} other {# lugares}}",
     "typeHeading": "Mi tipo de viajero",
     "typeName": "{type}",
-    "retry": "Repetir"
+    "retry": "Repetir",
+    "placesHeading": "Lugares guardados",
+    "placesCount": "{count, plural, one {# lugar} other {# lugares}}",
+    "placesEmpty": "Aún no hay lugares guardados. Pulsa [Guardar] en un lugar."
   },
   "Recommend": {
     "progressLabel": "Progreso del cuestionario",
@@ -531,8 +560,10 @@
       "filmLinkLabel": "Ver la escena en {name}"
     },
     "sheet": {
-      "save": "Guardar",
-      "stamp": "Sello"
+      "stamp": "Registrarse",
+      "stamped": "Registrado",
+      "stampedStatus": "Registro hecho",
+      "unstampedStatus": "Registro quitado"
     },
     "course": {
       "daysLabel": "Duración",

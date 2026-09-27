@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, RotateCcw, Trash2 } from "lucide-react";
+import { ArrowRight, MapPin, RotateCcw, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ButtonLink } from "@/components/ui/Button";
@@ -8,6 +8,8 @@ import { isPlanId } from "@/features/course/scenarios";
 import { parseSettings } from "@/features/planner/course-store";
 import { cityName } from "@/features/planner/regions";
 import { tripDays } from "@/features/planner/dates";
+import { placeName } from "@/features/theme/place-meta";
+import { themeHref } from "@/features/theme/tabs";
 import { decodeAnswers } from "@/features/recommend/answers";
 import { hasRequiredAnswers, QUESTIONS } from "@/features/recommend/questions";
 import { classify } from "@/features/recommend/scoring";
@@ -19,9 +21,11 @@ import {
   type PlannerSavedPlan,
   parsePlannerPlans,
   parseSavedPlans,
+  PLANNER_SOURCE,
   SAVED_PLANS_KEY,
   samePlan,
   useLocalValue,
+  useSavedPlaces,
   writePlannerPlans,
   writeSavedPlans,
 } from "@/lib/local-store";
@@ -30,6 +34,7 @@ import { useNameTable } from "@/features/names/NamesProvider";
 // ME 화면 본문. 나의 여행자 유형(마지막 추천 결과의 유형 · 설명 · 1위 테마)과 저장된 플랜을 localStorage에서 읽는다.
 // 1위 테마는 결과 화면이 저장한 추천 API 1위(tn.lastTopTheme)를 읽기만 한다. 없으면(예전 기록 · 추천 실패) 유형만 보인다.
 // 저장된 플랜은 테마 코스와 투어 플래너 코스(kind: "planner")가 한 목록에 저장한 순서대로 섞여 있다.
+// 저장한 장소(tn.savedPlaces)는 저장한 순서대로 보이고, 누르면 그 장소 시트를 연 지도 탭(테마 · 플래너)으로 간다.
 // 서버 렌더와 하이드레이션 중에는 저장된 값이 없는 것으로 그리고, 그 뒤 저장된 값으로 다시 그린다
 export function MePanel() {
   const t = useTranslations("Me");
@@ -69,6 +74,30 @@ export function MePanel() {
     })),
   ].sort((a, b) => a.plan.savedAt - b.plan.savedAt);
   const dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
+
+  const savedPlaces = useSavedPlaces();
+  // 모르는 테마에서 저장한 장소는 버린다(데이터가 바뀌었을 때)
+  const places = savedPlaces.list.flatMap((p) => {
+    if (p.source === PLANNER_SOURCE)
+      return [
+        {
+          ...p,
+          from: tn("title"),
+          // planner/query.ts(plannerHref)는 장소 데이터를 불러와서 주소를 여기서 적는다
+          href: `/planner?place=${encodeURIComponent(p.id)}`,
+        },
+      ];
+    const theme = findTheme(p.source);
+    return theme
+      ? [
+          {
+            ...p,
+            from: tt(`${theme.slug}.name`),
+            href: themeHref(theme.slug, {}, "map", { place: p.id }),
+          },
+        ]
+      : [];
+  });
 
   return (
     <>
@@ -222,6 +251,62 @@ export function MePanel() {
                     onClick={() =>
                       writeSavedPlans(themePlans.filter((q) => !samePlan(q, p)))
                     }
+                    className="mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-fg-subtle transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+                  >
+                    <Trash2 size={20} aria-hidden />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+
+      <section className="mt-10 px-5" aria-labelledby="me-places">
+        <div className="flex items-baseline justify-between">
+          <h2 id="me-places" className="text-headline font-bold">
+            {t("placesHeading")}
+          </h2>
+          <span className="text-caption font-semibold text-fg-subtle tabular-nums">
+            {t("placesCount", { count: places.length })}
+          </span>
+        </div>
+        {places.length === 0 ? (
+          <p className="mt-4 text-body text-fg-muted">{t("placesEmpty")}</p>
+        ) : (
+          <ul className="mt-4 flex flex-col gap-2">
+            {places.map((p) => {
+              const name = placeName(
+                { id: p.id, ko: p.name.ko, en: p.name.en },
+                locale,
+                names,
+              );
+              return (
+                <li
+                  key={`${p.source}|${p.id}`}
+                  className="flex items-center gap-2 rounded-card ring-1 ring-line"
+                >
+                  <Link
+                    href={p.href}
+                    className="flex min-h-16 min-w-0 flex-1 items-center gap-3 rounded-card py-3 pl-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+                  >
+                    <MapPin
+                      size={20}
+                      className="shrink-0 text-primary"
+                      aria-hidden
+                    />
+                    <span className="flex min-w-0 flex-col">
+                      <span className="text-body-lg font-bold">{name}</span>
+                      <span className="mt-0.5 text-caption text-fg-subtle">
+                        {p.from} ·{" "}
+                        {t("savedAt", { date: dateFormat.format(p.savedAt) })}
+                      </span>
+                    </span>
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label={t("remove", { name })}
+                    onClick={() => savedPlaces.remove(p.id, p.source)}
                     className="mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-fg-subtle transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                   >
                     <Trash2 size={20} aria-hidden />
