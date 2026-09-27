@@ -1,0 +1,539 @@
+{
+  "regionHubs": {
+    "경주": {
+      "lat": 35.8746,
+      "lng": 129.1756,
+      "busLat": 35.8467,
+      "busLng": 129.2118,
+      "ko": "신경주역 (KTX·SRT)",
+      "en": "Singyeongju Stn (KTX/SRT)",
+      "busKo": "경주고속버스터미널",
+      "busEn": "Gyeongju Express Bus Terminal",
+      "modes": ["ktx", "srt", "bus"]
+    },
+    "거제": {
+      "lat": 34.8863,
+      "lng": 128.6239,
+      "ko": "고현버스터미널",
+      "en": "Gohyeon Bus Terminal",
+      "busKo": "고현버스터미널",
+      "busEn": "Gohyeon Bus Terminal",
+      "modes": ["bus"]
+    },
+    "수원": {
+      "lat": 37.266,
+      "lng": 127.0008,
+      "ko": "수원역 (KTX)",
+      "en": "Suwon Stn (KTX)",
+      "busKo": "수원버스터미널",
+      "busEn": "Suwon Bus Terminal",
+      "modes": ["ktx", "bus"]
+    },
+    "정선": {
+      "lat": 37.2055,
+      "lng": 128.8377,
+      "ko": "민둥산역",
+      "en": "Mindungsan Stn",
+      "busKo": "정선버스터미널",
+      "busEn": "Jeongseon Bus Terminal",
+      "modes": ["ktx", "bus"]
+    },
+    "대전": {
+      "lat": 36.3315,
+      "lng": 127.4347,
+      "busLat": 36.3506,
+      "busLng": 127.4344,
+      "ko": "대전역 (KTX·SRT)",
+      "en": "Daejeon Stn (KTX/SRT)",
+      "busKo": "대전복합터미널",
+      "busEn": "Daejeon Terminal Complex",
+      "modes": ["ktx", "srt", "bus"]
+    },
+    "충주": {
+      "lat": 36.97,
+      "lng": 127.931,
+      "ko": "충주역",
+      "en": "Chungju Stn",
+      "busKo": "충주공용버스터미널",
+      "busEn": "Chungju Bus Terminal",
+      "modes": ["ktx", "bus"]
+    },
+    "동해": {
+      "lat": 37.4897,
+      "lng": 129.1289,
+      "ko": "동해역",
+      "en": "Donghae Stn",
+      "busKo": "동해종합버스터미널",
+      "busEn": "Donghae Bus Terminal",
+      "modes": ["ktx", "bus"]
+    },
+    "서울": {
+      "lat": 37.5559,
+      "lng": 126.9723,
+      "busLat": 37.5049,
+      "busLng": 127.0045,
+      "ko": "서울역 (KTX)",
+      "en": "Seoul Stn (KTX)",
+      "busKo": "센트럴시티터미널",
+      "busEn": "Central City Terminal",
+      "modes": ["ktx", "srt", "bus"]
+    },
+    "부산": {
+      "lat": 35.1151,
+      "lng": 129.0415,
+      "busLat": 35.2841,
+      "busLng": 129.094,
+      "ko": "부산역 (KTX·SRT)",
+      "en": "Busan Stn (KTX/SRT)",
+      "busKo": "부산종합버스터미널",
+      "busEn": "Busan Central Bus Terminal",
+      "airLat": 35.1795,
+      "airLng": 128.9382,
+      "airKo": "김해국제공항",
+      "airEn": "Gimhae Intl Airport",
+      "modes": ["ktx", "srt", "bus", "air"]
+    },
+    "영월": {
+      "lat": 37.1828,
+      "lng": 128.4682,
+      "ko": "영월역",
+      "en": "Yeongwol Stn",
+      "busKo": "영월시외버스터미널",
+      "busEn": "Yeongwol Bus Terminal",
+      "modes": ["ktx", "bus"]
+    },
+    "제주": {
+      "lat": 33.5104,
+      "lng": 126.4914,
+      "ko": "제주국제공항",
+      "en": "Jeju Intl Airport",
+      "busKo": "제주국제공항",
+      "busEn": "Jeju Intl Airport",
+      "shipLat": 33.5247,
+      "shipLng": 126.5407,
+      "shipKo": "제주항 여객터미널",
+      "shipEn": "Jeju Port Ferry Terminal",
+      "modes": ["air", "ship"]
+    }
+  },
+  "origins": {
+    "seoul": {
+      "ko": "서울역 (KTX)",
+      "en": "Seoul Stn (KTX)",
+      "lat": 37.5559,
+      "lng": 126.9723,
+      "modes": ["ktx"]
+    },
+    "suseo": {
+      "ko": "수서역 (SRT)",
+      "en": "Suseo Stn (SRT)",
+      "lat": 37.487,
+      "lng": 127.1013,
+      "modes": ["srt"]
+    },
+    "yongsan": {
+      "ko": "용산역 (KTX)",
+      "en": "Yongsan Stn (KTX)",
+      "lat": 37.5299,
+      "lng": 126.9648,
+      "modes": ["ktx"]
+    },
+    "cheongnyangni": {
+      "ko": "청량리역 (KTX)",
+      "en": "Cheongnyangni Stn (KTX)",
+      "lat": 37.58,
+      "lng": 127.0466,
+      "modes": ["ktx"]
+    },
+    "gwangmyeong": {
+      "ko": "광명역 (KTX)",
+      "en": "Gwangmyeong Stn (KTX)",
+      "lat": 37.4161,
+      "lng": 126.8845,
+      "modes": ["ktx"]
+    },
+    "suwonStn": {
+      "ko": "수원역 (KTX)",
+      "en": "Suwon Stn (KTX)",
+      "lat": 37.266,
+      "lng": 127.0008,
+      "modes": ["ktx"]
+    },
+    "centralcity": {
+      "ko": "센트럴시티터미널 (고속버스)",
+      "en": "Central City Terminal (bus)",
+      "lat": 37.505,
+      "lng": 127.0044,
+      "modes": ["bus"]
+    },
+    "nambu": {
+      "ko": "서울남부터미널 (시외버스)",
+      "en": "Seoul Nambu Terminal (bus)",
+      "lat": 37.4847,
+      "lng": 127.0166,
+      "modes": ["bus"]
+    },
+    "dongseoul": {
+      "ko": "동서울터미널 (고속버스)",
+      "en": "East Seoul Terminal (bus)",
+      "lat": 37.5347,
+      "lng": 127.0947,
+      "modes": ["bus"]
+    },
+    "sangbong": {
+      "ko": "상봉터미널 (시외버스)",
+      "en": "Sangbong Terminal (bus)",
+      "lat": 37.5966,
+      "lng": 127.0855,
+      "modes": ["bus"]
+    },
+    "incheonBus": {
+      "ko": "인천종합터미널 (고속버스)",
+      "en": "Incheon Bus Terminal",
+      "lat": 37.4419,
+      "lng": 126.7008,
+      "modes": ["bus"]
+    },
+    "suwonBus": {
+      "ko": "수원종합터미널 (고속버스)",
+      "en": "Suwon Bus Terminal",
+      "lat": 37.2455,
+      "lng": 127.0086,
+      "modes": ["bus"]
+    },
+    "seongnam": {
+      "ko": "성남종합터미널 (고속버스)",
+      "en": "Seongnam Bus Terminal",
+      "lat": 37.4086,
+      "lng": 127.1289,
+      "modes": ["bus"]
+    },
+    "incheonAir": {
+      "ko": "인천공항 (리무진)",
+      "en": "Incheon Airport (limousine)",
+      "lat": 37.4602,
+      "lng": 126.4407,
+      "modes": ["bus"]
+    },
+    "gimpoAir": {
+      "ko": "김포공항 (리무진)",
+      "en": "Gimpo Airport (limousine)",
+      "lat": 37.5583,
+      "lng": 126.7906,
+      "modes": ["bus"]
+    },
+    "gimhaeAir": {
+      "ko": "김해공항 (리무진)",
+      "en": "Gimhae Airport (limousine)",
+      "lat": 35.1795,
+      "lng": 128.9382,
+      "modes": ["bus"]
+    },
+    "osong": {
+      "ko": "오송역 (KTX·SRT)",
+      "en": "Osong Stn (KTX/SRT)",
+      "lat": 36.62,
+      "lng": 127.3277,
+      "modes": ["ktx", "srt"]
+    },
+    "cheonan": {
+      "ko": "천안아산역 (KTX·SRT)",
+      "en": "Cheonan-Asan Stn (KTX/SRT)",
+      "lat": 36.7943,
+      "lng": 127.1043,
+      "modes": ["ktx", "srt"]
+    },
+    "daejeonStn": {
+      "ko": "대전역 (KTX·SRT)",
+      "en": "Daejeon Stn (KTX/SRT)",
+      "lat": 36.3315,
+      "lng": 127.4347,
+      "modes": ["ktx", "srt"]
+    },
+    "daejeonBus": {
+      "ko": "대전복합터미널 (고속버스)",
+      "en": "Daejeon Terminal Complex",
+      "lat": 36.3506,
+      "lng": 127.4349,
+      "modes": ["bus"]
+    },
+    "cheongjuBus": {
+      "ko": "청주고속버스터미널",
+      "en": "Cheongju Express Bus Terminal",
+      "lat": 36.6284,
+      "lng": 127.429,
+      "modes": ["bus"]
+    },
+    "chungjuBus": {
+      "ko": "충주공용버스터미널",
+      "en": "Chungju Bus Terminal",
+      "lat": 36.97,
+      "lng": 127.931,
+      "modes": ["bus"]
+    },
+    "daeguStn": {
+      "ko": "동대구역 (KTX·SRT)",
+      "en": "Dongdaegu Stn (KTX/SRT)",
+      "lat": 35.8797,
+      "lng": 128.6286,
+      "modes": ["ktx", "srt"]
+    },
+    "daeguBus": {
+      "ko": "동대구터미널 (고속버스)",
+      "en": "Dongdaegu Bus Terminal",
+      "lat": 35.8776,
+      "lng": 128.6288,
+      "modes": ["bus"]
+    },
+    "busanStn": {
+      "ko": "부산역 (KTX·SRT)",
+      "en": "Busan Stn (KTX/SRT)",
+      "lat": 35.1151,
+      "lng": 129.0415,
+      "modes": ["ktx", "srt"]
+    },
+    "busanBus": {
+      "ko": "부산종합버스터미널 (노포)",
+      "en": "Busan Central Bus Terminal",
+      "lat": 35.2565,
+      "lng": 129.0925,
+      "modes": ["bus"]
+    },
+    "sasangBus": {
+      "ko": "부산서부터미널 (사상)",
+      "en": "Busan West Bus Terminal (Sasang)",
+      "lat": 35.1607,
+      "lng": 128.98,
+      "modes": ["bus"]
+    },
+    "ulsanStn": {
+      "ko": "울산역 (KTX·SRT)",
+      "en": "Ulsan Stn (KTX/SRT)",
+      "lat": 35.5513,
+      "lng": 129.1373,
+      "modes": ["ktx", "srt"]
+    },
+    "ulsanBus": {
+      "ko": "울산고속버스터미널",
+      "en": "Ulsan Express Bus Terminal",
+      "lat": 35.5384,
+      "lng": 129.3325,
+      "modes": ["bus"]
+    },
+    "pohangStn": {
+      "ko": "포항역 (KTX)",
+      "en": "Pohang Stn (KTX)",
+      "lat": 36.0453,
+      "lng": 129.339,
+      "modes": ["ktx"]
+    },
+    "gyeongjuStn": {
+      "ko": "신경주역 (KTX·SRT)",
+      "en": "Singyeongju Stn (KTX/SRT)",
+      "lat": 35.8746,
+      "lng": 129.1756,
+      "modes": ["ktx", "srt"]
+    },
+    "jinjuStn": {
+      "ko": "진주역 (KTX)",
+      "en": "Jinju Stn (KTX)",
+      "lat": 35.1602,
+      "lng": 128.1359,
+      "modes": ["ktx"]
+    },
+    "changwonStn": {
+      "ko": "창원중앙역 (KTX)",
+      "en": "Changwon Jungang Stn (KTX)",
+      "lat": 35.2405,
+      "lng": 128.689,
+      "modes": ["ktx"]
+    },
+    "tongyeongBus": {
+      "ko": "통영종합버스터미널",
+      "en": "Tongyeong Bus Terminal",
+      "lat": 34.8556,
+      "lng": 128.4286,
+      "modes": ["bus"]
+    },
+    "gwangjuStn": {
+      "ko": "광주송정역 (KTX·SRT)",
+      "en": "Gwangju-Songjeong Stn (KTX/SRT)",
+      "lat": 35.1394,
+      "lng": 126.7913,
+      "modes": ["ktx", "srt"]
+    },
+    "gwangjuBus": {
+      "ko": "광주 유·스퀘어 (고속버스)",
+      "en": "Gwangju U-Square (bus)",
+      "lat": 35.1601,
+      "lng": 126.8783,
+      "modes": ["bus"]
+    },
+    "jeonjuStn": {
+      "ko": "전주역 (KTX)",
+      "en": "Jeonju Stn (KTX)",
+      "lat": 35.8492,
+      "lng": 127.16,
+      "modes": ["ktx"]
+    },
+    "mokpoStn": {
+      "ko": "목포역 (KTX·SRT)",
+      "en": "Mokpo Stn (KTX/SRT)",
+      "lat": 34.791,
+      "lng": 126.3866,
+      "modes": ["ktx", "srt"]
+    },
+    "yeosuStn": {
+      "ko": "여수엑스포역 (KTX)",
+      "en": "Yeosu-Expo Stn (KTX)",
+      "lat": 34.7519,
+      "lng": 127.7513,
+      "modes": ["ktx"]
+    },
+    "gangneungStn": {
+      "ko": "강릉역 (KTX)",
+      "en": "Gangneung Stn (KTX)",
+      "lat": 37.7637,
+      "lng": 128.8986,
+      "modes": ["ktx"]
+    },
+    "wonjuStn": {
+      "ko": "원주역 (KTX)",
+      "en": "Wonju Stn (KTX)",
+      "lat": 37.3182,
+      "lng": 127.9633,
+      "modes": ["ktx"]
+    },
+    "donghaeStn": {
+      "ko": "동해역 (KTX)",
+      "en": "Donghae Stn (KTX)",
+      "lat": 37.4897,
+      "lng": 129.1289,
+      "modes": ["ktx"]
+    },
+    "gimpoAirF": {
+      "ko": "김포공항 (항공)",
+      "en": "Gimpo Airport (flight)",
+      "lat": 37.5583,
+      "lng": 126.7906,
+      "modes": ["air"]
+    },
+    "incheonAirF": {
+      "ko": "인천공항 (항공)",
+      "en": "Incheon Airport (flight)",
+      "lat": 37.4602,
+      "lng": 126.4407,
+      "modes": ["air"]
+    },
+    "gimhaeAirF": {
+      "ko": "김해공항 (항공)",
+      "en": "Gimhae Airport (flight)",
+      "lat": 35.1795,
+      "lng": 128.9382,
+      "modes": ["air"]
+    },
+    "cheongjuAirF": {
+      "ko": "청주공항 (항공)",
+      "en": "Cheongju Airport (flight)",
+      "lat": 36.7166,
+      "lng": 127.4991,
+      "modes": ["air"]
+    },
+    "daeguAirF": {
+      "ko": "대구공항 (항공)",
+      "en": "Daegu Airport (flight)",
+      "lat": 35.8941,
+      "lng": 128.6588,
+      "modes": ["air"]
+    },
+    "gwangjuAirF": {
+      "ko": "광주공항 (항공)",
+      "en": "Gwangju Airport (flight)",
+      "lat": 35.1264,
+      "lng": 126.8089,
+      "modes": ["air"]
+    },
+    "yeosuAirF": {
+      "ko": "여수공항 (항공)",
+      "en": "Yeosu Airport (flight)",
+      "lat": 34.8423,
+      "lng": 127.6169,
+      "modes": ["air"]
+    },
+    "ulsanAirF": {
+      "ko": "울산공항 (항공)",
+      "en": "Ulsan Airport (flight)",
+      "lat": 35.5936,
+      "lng": 129.3517,
+      "modes": ["air"]
+    },
+    "wandoPort": {
+      "ko": "완도항 (여객선)",
+      "en": "Wando Port (ferry)",
+      "lat": 34.3159,
+      "lng": 126.755,
+      "modes": ["ship"]
+    },
+    "mokpoPort": {
+      "ko": "목포연안여객터미널 (여객선)",
+      "en": "Mokpo Ferry Terminal",
+      "lat": 34.7847,
+      "lng": 126.382,
+      "modes": ["ship"]
+    },
+    "nokdongPort": {
+      "ko": "녹동항 (여객선)",
+      "en": "Nokdong Port (ferry)",
+      "lat": 34.5283,
+      "lng": 127.13,
+      "modes": ["ship"]
+    },
+    "yeosuPort": {
+      "ko": "여수연안여객터미널 (여객선)",
+      "en": "Yeosu Ferry Terminal",
+      "lat": 34.7405,
+      "lng": 127.743,
+      "modes": ["ship"]
+    },
+    "busanPort": {
+      "ko": "부산항 연안여객터미널 (여객선)",
+      "en": "Busan Coastal Ferry Terminal",
+      "lat": 35.1015,
+      "lng": 129.0405,
+      "modes": ["ship"]
+    },
+    "masanStn": {
+      "ko": "마산역 (KTX)",
+      "en": "Masan Stn (KTX)",
+      "lat": 35.2246,
+      "lng": 128.5789,
+      "modes": ["ktx"]
+    },
+    "gimcheonStn": {
+      "ko": "김천구미역 (KTX)",
+      "en": "Gimcheon-Gumi Stn (KTX)",
+      "lat": 36.1097,
+      "lng": 128.1936,
+      "modes": ["ktx"]
+    }
+  },
+  "metroCities": [
+    "서울",
+    "인천",
+    "수원",
+    "용인",
+    "고양",
+    "파주",
+    "남양주",
+    "양주",
+    "이천",
+    "경기광주",
+    "양평",
+    "여주",
+    "가평",
+    "시흥",
+    "춘천",
+    "천안",
+    "아산"
+  ]
+}

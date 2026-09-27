@@ -3,8 +3,703 @@
     "title": "Tour Navigator",
     "description": "영상 속 장소를 따라 걷는 여행 계획 앱"
   },
+  "Common": {
+    "brand": "TOUR NAVIGATOR",
+    "back": "뒤로",
+    "skip": "건너뛰기",
+    "next": "다음",
+    "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
+    "localeSwitch": "English",
+    "mapLoadError": "지도를 불러오지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요"
+  },
+  "PlaceSheet": {
+    "close": "닫기",
+    "photoCredit": "사진: {credit}",
+    "hours": "운영시간",
+    "directions": "길찾기",
+    "newWindow": "(새 창)"
+  },
+  "Splash": {
+    "title": {
+      "first": "우리 이제",
+      "second": "같이 떠나는 사이!"
+    },
+    "description": "영상 속 그 장면으로, 테마별 여행을 시작해 보세요!",
+    "skip": "건너뛰기"
+  },
   "Home": {
-    "title": "영상 속 장소를 따라 걷는 여행",
-    "description": "드라마·영화·K-팝 촬영지를 잇는 여행 코스"
+    "source": "장소 수는 Tour Navigator 테마별 장소 목록에서 센 값이에요",
+    "bannerPhotoCredit": "배너 사진: 동궁과 월지 · Wikimedia Commons",
+    "tabsLabel": "홈 화면",
+    "tabs": {
+      "myThemes": "내 테마",
+      "planner": "투어 플래너"
+    },
+    "carouselLabel": "추천 테마",
+    "slideLabel": "{current} / {total}",
+    "pause": "배너 자동 넘김 멈추기",
+    "play": "배너 자동 넘김 다시 시작",
+    "goToSlide": "{current}번째 배너 보기",
+    "banners": {
+      "rescene-route": {
+        "kicker": "RESCENE ROUTE",
+        "titleFirst": "영상 속 그 길을",
+        "titleSecond": "그대로 걷다",
+        "description": "촬영지와 이동 경로를 한 번에 계획해 보세요"
+      },
+      "kings-warden": {
+        "kicker": "왕과 사는 남자",
+        "titleFirst": "단종이 걸은 길을",
+        "titleSecond": "영월에서 만나다",
+        "description": "청령포에서 장릉까지, 유배의 동선을 따라"
+      },
+      "kpop-demon-hunters": {
+        "kicker": "케이팝 데몬 헌터스",
+        "titleFirst": "헌트릭스의 서울을",
+        "titleSecond": "발로 따라가다",
+        "description": "낙산공원 성곽길에서 잠실 최종 무대까지"
+      },
+      "jeju-k-drama": {
+        "kicker": "제주 K-DRAMA",
+        "titleFirst": "두 편의 드라마가",
+        "titleSecond": "지나간 해안선",
+        "description": "폭싹 속았수다와 우리들의 블루스, 같은 섬 다른 시간"
+      },
+      "busan-film-trip": {
+        "kicker": "부산 영화 기행",
+        "titleFirst": "영화가 가장 많이",
+        "titleSecond": "찍힌 도시",
+        "description": "감천에서 해운대까지, 스크린 속 부산을 걷다"
+      }
+    },
+    "myThemesHeading": "나의 테마",
+    "pickCourseHeading": "내 코스 고르기",
+    "pickCourseTitle": "나에게 맞는 테마와 코스를 골라 드려요",
+    "pickCourseMeta": "{total}개 문항 · 필수 {required}개 · 약 1분",
+    "coursesHeading": "추천 코스",
+    "courseTitle": "{region} {duration}",
+    "courseMeta": "장소 {places}곳 · 촬영지 {videos}곳 · {transport}"
+  },
+  "Nav": {
+    "label": "주 메뉴",
+    "home": "홈",
+    "recommend": "내 코스 고르기",
+    "me": "ME"
+  },
+  "Me": {
+    "title": "ME",
+    "recommendedHeading": "추천받은 나의 테마",
+    "lastType": "나의 여행 유형 · {type}",
+    "lastTheme": "1위 테마 {theme}",
+    "lastAction": "추천 결과 다시 보기",
+    "emptyTitle": "나에게 맞는 테마를 찾아 드려요",
+    "emptyMeta": "아직 추천받은 테마가 없어요 · {total}개 문항",
+    "savedHeading": "저장된 플랜",
+    "savedCount": "{count}개",
+    "savedAt": "{date} 저장",
+    "remove": "{name} 삭제",
+    "savedEmpty": "저장된 플랜이 없어요. 테마의 코스 화면이나 투어 플래너 코스 탭에서 [코스 저장]을 눌러 보세요.",
+    "openPlanner": "투어 플래너 열기",
+    "plannerMeta": "{city} · {duration} · {count}곳"
+  },
+  "Recommend": {
+    "progressLabel": "질문 진행",
+    "counter": "{current} / {total}",
+    "next": "다음",
+    "seeResult": "결과 보기",
+    "limitReached": "최대 2개까지 골랐어요. 바꾸려면 하나를 먼저 빼 주세요.",
+    "questions": {
+      "q1": {
+        "title": "연령대를 알려 주세요",
+        "help": "비슷한 여행자 데이터로 여행 유형을 찾아요",
+        "options": {
+          "teens": "10대",
+          "20s": "20대",
+          "30s": "30대",
+          "40s": "40대",
+          "50s": "50대",
+          "60s": "60대",
+          "70s-plus": "70대 이상"
+        }
+      },
+      "q2": {
+        "title": "누구와 함께 떠나나요?",
+        "help": "가장 자주 함께하는 사람을 골라 주세요",
+        "options": {
+          "solo": "혼자",
+          "friends": "친구",
+          "couple": "연인",
+          "spouse": "배우자",
+          "kids-family": "아이와 가족",
+          "parents": "부모님 모시고",
+          "social-group": "친목 모임"
+        }
+      },
+      "q3": {
+        "title": "어떤 속도로 다니고 싶나요?",
+        "help": "평소 여행하는 속도를 골라 주세요",
+        "options": {
+          "packed": "빡빡하게",
+          "moderate": "적당히",
+          "relaxed": "천천히"
+        }
+      },
+      "q4": {
+        "title": "무엇에 관심이 있나요?",
+        "help": "2개까지 고를 수 있어요",
+        "options": {
+          "drama": "드라마·K팝 촬영지",
+          "performance": "공연·콘서트",
+          "history": "역사·유적",
+          "nature": "자연·숲길",
+          "sea": "바다",
+          "food-market": "맛집·시장",
+          "activity": "체험",
+          "night": "야경",
+          "shopping-beauty": "쇼핑·뷰티·스파"
+        }
+      },
+      "q5": {
+        "title": "어떤 분위기가 좋나요?",
+        "help": "가고 싶은 장소의 느낌을 골라 주세요",
+        "options": {
+          "trending": "요즘 뜨는 핫플",
+          "landmark": "대표 명소",
+          "quiet": "한적한 곳"
+        }
+      },
+      "q6": {
+        "title": "어디에서 오셨나요?",
+        "help": "경비 구간과 추천 유형이 달라져요",
+        "options": {
+          "domestic": "국내",
+          "overseas": "해외 방문"
+        }
+      },
+      "q7": {
+        "title": "1인 경비는 어느 정도인가요?",
+        "help": "여행 한 번에 쓰는 1인 경비예요",
+        "helpOverseas": "하루 1인 경비(미국 달러) 기준이에요",
+        "options": {
+          "under-70k": "7만 원 미만",
+          "70k-150k": "7만~15만 원",
+          "150k-250k": "15만~25만 원",
+          "over-250k": "25만 원 이상",
+          "usd-under-100": "1일 $100 이하",
+          "usd-100-300": "1일 $100~300",
+          "usd-300-500": "1일 $300~500",
+          "usd-over-500": "1일 $500 초과"
+        }
+      },
+      "q8": {
+        "title": "주로 언제 움직이나요?",
+        "help": "평소 움직이는 시간대를 골라 주세요",
+        "options": {
+          "morning": "아침 일찍",
+          "daytime": "낮 위주",
+          "evening": "저녁·밤까지"
+        }
+      },
+      "q9": {
+        "title": "여행 정보는 어디서 얻나요?",
+        "help": "가장 많이 참고하는 곳을 골라 주세요",
+        "options": {
+          "been-before": "가 본 경험",
+          "word-of-mouth": "지인 추천",
+          "internet": "인터넷·앱",
+          "social-media": "SNS·유튜브",
+          "no-info": "정보 없이"
+        }
+      },
+      "q10": {
+        "title": "언제 떠나나요?",
+        "help": "떠나려는 시기를 골라 주세요",
+        "options": {
+          "this-weekend": "이번 주말",
+          "this-month": "이번 달",
+          "later": "다음 달 이후"
+        }
+      },
+      "q11": {
+        "title": "여행 기간은 얼마나 되나요?",
+        "help": "고르지 않으면 당일 여행으로 볼게요",
+        "options": {
+          "day-trip": "당일",
+          "1-night": "1박 2일",
+          "2-nights-plus": "2박 3일 이상"
+        }
+      },
+      "q12": {
+        "title": "무엇으로 이동하나요?",
+        "help": "고르지 않으면 자가용으로 볼게요",
+        "options": {
+          "car": "자가용",
+          "public-transit": "대중교통",
+          "flight": "비행기",
+          "tour-bus": "단체버스"
+        }
+      },
+      "q13": {
+        "title": "하루에 얼마나 걸을 수 있나요?",
+        "help": "하루에 걸을 수 있는 시간을 골라 주세요",
+        "options": {
+          "under-1h": "1시간 이내",
+          "1-3h": "1~3시간",
+          "over-3h": "3시간 이상"
+        }
+      },
+      "q14": {
+        "title": "필요한 조건이 있나요?",
+        "help": "여러 개 고를 수 있어요",
+        "options": {
+          "pet": "반려동물",
+          "accessible": "무장애",
+          "indoor-rain": "비 오는 날 실내 위주"
+        }
+      }
+    }
+  },
+  "Result": {
+    "badge": "나의 여행 유형",
+    "mixedTagline": "두 가지 매력을 함께 가진",
+    "typeShare": "{name} {percent}%",
+    "recommendedThemes": "추천 테마",
+    "evidenceLabel": "추천 근거",
+    "fitRankType": "{type} 적합도 {rank}위",
+    "fitRankMixed": "두 유형 적합도 {rank}위",
+    "fitRank": "적합도 {rank}위",
+    "night": "야경 명소 {percent}%",
+    "categoryShare": "{category} 장소 {percent}%",
+    "categories": {
+      "history": "역사·문화",
+      "healing": "힐링·생태",
+      "activity": "테마파크·액티비티",
+      "local-food": "로컬·먹거리",
+      "nature": "해양·자연"
+    },
+    "source": "문항 점수는 2025 국민여행조사·외래관광객조사(한국관광 데이터랩)를 반영한 점수표, 장소 비율은 앱 장소 분류에서 셌어요",
+    "compareCourses": "코스 3안 비교하기"
+  },
+  "Clusters": {
+    "C1": {
+      "name": "트렌드 탐색형",
+      "tagline": "새로 뜨는 곳을 먼저 가 보는",
+      "description": "친구와 함께 요즘 뜨는 동네와 카페를 찾고, 밤까지 알차게 움직이는 여행이 잘 맞아요."
+    },
+    "C2": {
+      "name": "커플 감성형",
+      "tagline": "둘이서 풍경과 밤을 즐기는",
+      "description": "전망 좋은 곳과 야경, 맛있는 한 끼로 둘만의 하루를 채우는 여행이 잘 맞아요."
+    },
+    "C3": {
+      "name": "키즈 가족형",
+      "tagline": "아이와 함께 체험을 즐기는",
+      "description": "아이와 함께 몸으로 즐기는 체험과 바다, 캠핑이 있는 여행이 잘 맞아요."
+    },
+    "C4": {
+      "name": "액티브 시니어형",
+      "tagline": "걷고 보며 깊이 즐기는",
+      "description": "자연 속을 걷고 역사 깊은 곳을 찬찬히 둘러보는 여행이 잘 맞아요."
+    },
+    "C5": {
+      "name": "나홀로 힐링형",
+      "tagline": "혼자 조용히 쉬어 가는",
+      "description": "붐비지 않는 자연 속에서 나만의 속도로 걷고 쉬는 여행이 잘 맞아요."
+    },
+    "C6": {
+      "name": "미식 로컬형",
+      "tagline": "그 지역의 맛을 찾아가는",
+      "description": "오래된 식당과 시장을 돌며 현지의 맛을 즐기는 여행이 잘 맞아요."
+    },
+    "C7": {
+      "name": "K-컬처 탐방형",
+      "tagline": "K-팝과 드라마 속으로 떠나는",
+      "description": "K-팝·드라마 촬영지와 공연, 쇼핑까지 한국 대중문화를 가까이 즐기는 여행이 잘 맞아요."
+    },
+    "C8": {
+      "name": "프리미엄 웰니스형",
+      "tagline": "쉼과 쇼핑을 여유롭게 누리는",
+      "description": "뷰티·스파와 쇼핑, 좋은 식사로 여유롭게 쉬어 가는 여행이 잘 맞아요."
+    },
+    "C9": {
+      "name": "자연 풍경 여행형",
+      "tagline": "도시 밖 자연을 찾아가는",
+      "description": "제주처럼 자연 경관이 뛰어난 지역을 여유 있게 둘러보는 여행이 잘 맞아요."
+    },
+    "C10": {
+      "name": "역사·전통 탐방형",
+      "tagline": "한국의 옛 모습을 찾아가는",
+      "description": "고궁과 박물관, 전통문화가 살아 있는 지방 도시를 둘러보는 여행이 잘 맞아요."
+    }
+  },
+  "Themes": {
+    "kings-warden": {
+      "name": "왕과 사는 남자"
+    },
+    "kpop-demon-hunters": {
+      "name": "케이팝 데몬 헌터스"
+    },
+    "rescene-route": {
+      "name": "RESCENE Route"
+    },
+    "jeju-k-drama": {
+      "name": "제주 K-Drama"
+    },
+    "busan-film-trip": {
+      "name": "부산 영화 기행"
+    }
+  },
+  "Course": {
+    "planTabsLabel": "코스 3안",
+    "plans": {
+      "classic": {
+        "name": "정석",
+        "description": "영상 속 장소와 대표 명소(한국관광 100선·유네스코)를 함께 담은 기본 코스예요."
+      },
+      "trend": {
+        "name": "트렌드",
+        "description": "영상 속 장소부터 담고, 남는 시간은 기본 후보로 채워요."
+      },
+      "quiet": {
+        "name": "한적",
+        "description": "대표 명소와 영상 속 장소를 빼고, 테마 지역의 힐링·생태 장소를 먼저 담아요."
+      }
+    },
+    "sameAsClassic": "이 조건에서는 정석과 같은 코스가 나와요",
+    "fallbackNotice": "혼잡도·검색 추세 데이터가 연결되면 전략 문서의 가중치로 바뀌어요",
+    "tripBasis": "서울역 {depTime} 출발 · 마지막 날 {retTime}에 여행지를 떠나는 기준이에요",
+    "accessibleNotice": "무장애 정보가 있는 장소만 담았어요",
+    "dayTrip": "당일",
+    "nightsDays": "{nights}박 {days}일",
+    "placeCount": "장소 {count}곳",
+    "stayTotal": "체류 {duration}",
+    "moveTotal": "이동 {duration}",
+    "day": "{day}일차",
+    "arrive": "도착",
+    "leave": "출발",
+    "move": "이동 {duration}",
+    "wait": "개장 대기 {duration}",
+    "stay": "체류 {duration}",
+    "videoBadge": "영상 속 장소",
+    "k100Badge": "한국관광 100선",
+    "unescoBadge": "유네스코",
+    "categories": {
+      "herit": "역사·문화",
+      "heal": "힐링·생태",
+      "activity": "테마파크·액티비티",
+      "food": "로컬·먹거리",
+      "sea": "해양·자연",
+      "stay": "숙박"
+    },
+    "duration": {
+      "m": "{m}분",
+      "h": "{h}시간",
+      "hm": "{h}시간 {m}분"
+    },
+    "empty": "조건에 맞는 장소가 없어 코스를 만들지 못했어요",
+    "emptyHelp": "조건을 바꿔 다시 찾아보세요",
+    "emptyDay": "이 날은 담을 수 있는 장소가 없어요",
+    "unappliedNotice": "아직 데이터가 없어 반영하지 않은 조건: {conditions}",
+    "condition": "{name}({value})",
+    "conditionNames": {
+      "when": "출발 시기",
+      "walk": "하루 걷기"
+    },
+    "savePlan": "코스 저장",
+    "saved": "저장됨"
+  },
+  "Theme": {
+    "tabsLabel": "테마 화면 탭",
+    "tabs": {
+      "map": "지도",
+      "course": "코스",
+      "film": "영화",
+      "stamp": "스탬프",
+      "info": "여행 정보"
+    },
+    "stats": "{region} · 장소 {places}곳 · 영상 속 장소 {videos}곳",
+    "map": {
+      "categoriesLabel": "장소 분류",
+      "all": "전체",
+      "mapLabel": "테마 장소 지도",
+      "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
+      "listHeading": "장소 목록 · {count}",
+      "showOff": "목록 밖 장소 {count}곳 보기"
+    },
+    "sheet": {
+      "save": "저장",
+      "stamp": "스탬프"
+    },
+    "course": {
+      "daysLabel": "일정",
+      "transportLabel": "이동수단",
+      "mapLabel": "코스 지도"
+    },
+    "film": {
+      "kicker": "영화 속 장면",
+      "kickerVideo": "영상 속 장면",
+      "title": "영화 속 그 자리",
+      "titleVideo": "영상 속 그 자리",
+      "sortLabel": "정렬",
+      "sortAsc": "장면순",
+      "sortDesc": "역순",
+      "searchLabel": "장면·장소 검색",
+      "searchPlaceholder": "장면 제목이나 장소 이름",
+      "sceneLabel": "장면 {number}",
+      "places": "등장 장소",
+      "watch": "장면 찾아보기",
+      "play": "{title} 영상 재생",
+      "videoTitle": "{title} 영상",
+      "empty": "찾는 장면이 없어요",
+      "newWindow": "(새 창)"
+    },
+    "stamp": {
+      "kicker": "체크인",
+      "title": "{region} · 스탬프 북",
+      "progressLabel": "스탬프 수집",
+      "progress": "{count} / {total} 수집 · {percent}%",
+      "done": "획득",
+      "notDone": "미획득",
+      "openMap": "{name} 지도에서 보기",
+      "savedHeading": "저장한 장소 · {count}",
+      "savedEmpty": "저장한 장소가 없어요",
+      "remove": "{name} 지우기"
+    },
+    "info": {
+      "title": "여행 정보",
+      "workKicker": "작품",
+      "linksHeading": "더 알아보기",
+      "newWindow": "(새 창)",
+      "kings-warden": {
+        "workTitle": "왕과 사는 남자 (2026)"
+      },
+      "kpop-demon-hunters": {
+        "workTitle": "케이팝 데몬 헌터스 (2025)"
+      },
+      "jeju-k-drama": {
+        "workTitle": "폭싹 속았수다 (2025)"
+      },
+      "busan-film-trip": {
+        "workTitle": "부산행 (2016)"
+      }
+    }
+  },
+  "Regions": {
+    "seoul": "서울",
+    "busan": "부산",
+    "gangwon": "강원",
+    "gyeongbuk": "경북",
+    "gyeongnam": "경남",
+    "jeju": "제주"
+  },
+  "Planner": {
+    "title": "투어 플래너",
+    "scopesLabel": "지역",
+    "nation": "전국",
+    "cityButton": "도시",
+    "cityButtonLabel": "도시 고르기",
+    "cityButtonCurrentLabel": "{city}, 다른 도시 고르기",
+    "tabsLabel": "투어 플래너 탭",
+    "tabs": {
+      "map": "지도",
+      "course": "코스",
+      "info": "여행 정보"
+    },
+    "courseBadge": "담은 장소 {count}곳",
+    "regionChip": "{region} · {count}곳",
+    "regionChipClear": "{region} · {count}곳, 선택 해제",
+    "picker": {
+      "title": "도시 고르기",
+      "close": "닫기",
+      "searchLabel": "도시 검색",
+      "searchPlaceholder": "도시 이름 (한국어·영어)",
+      "regionCities": "도시 {count}곳",
+      "placeCount": "장소 {count}곳",
+      "empty": "찾는 도시가 없어요",
+      "otherRegions": "기타 지역"
+    },
+    "map": {
+      "categoriesLabel": "장소 분류",
+      "all": "전체",
+      "mapLabel": "투어 플래너 지도",
+      "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
+      "regionMarker": "{region} · 장소 {count}곳",
+      "cityMarker": "{city} · 장소 {count}곳",
+      "listHeading": "장소 목록 · {count}",
+      "more": "더 보기(남은 {count}곳)",
+      "empty": "이 분류에 맞는 장소가 없어요",
+      "add": "{name} 코스에 담기",
+      "addedStatus": "코스에 담았어요: {name}",
+      "removedStatus": "코스에서 뺐어요: {name}"
+    },
+    "sheet": {
+      "add": "코스에 담기",
+      "remove": "코스에서 빼기"
+    },
+    "confirm": {
+      "title": "다른 도시의 장소예요",
+      "body": "코스에는 한 도시의 장소만 담을 수 있어요. 담아 둔 {from} 장소 {count}곳을 비우고 {to}에서 새로 담을까요?",
+      "cancel": "취소",
+      "confirm": "비우고 담기"
+    },
+    "course": {
+      "kicker": "코스 빌더",
+      "title": "{city} · 오늘의 동선",
+      "titleTrip": "{city} · {nights}박 {days}일 동선",
+      "plan": {
+        "label": "내 플랜",
+        "labelSuffix": "이름",
+        "placeholder": "예: 가을 2박 3일",
+        "save": "코스 저장",
+        "saved": "저장됨",
+        "savedStatus": "「{name}」 플랜을 저장했어요. ME에서 볼 수 있어요",
+        "nameRequired": "플랜 이름을 넣어 주세요",
+        "emptyCourse": "담은 장소가 없어요. 장소를 담은 뒤 저장해 주세요"
+      },
+      "dates": {
+        "heading": "날짜",
+        "start": "출발일",
+        "end": "귀가일",
+        "tripLabel": "여행 기간",
+        "dayTrip": "당일",
+        "nights": "{nights}박 {days}일",
+        "errorOrder": "귀가일은 출발일과 같거나 늦어야 해요",
+        "errorTooLong": "여행은 {max}일까지 계획할 수 있어요"
+      },
+      "trip": {
+        "heading": "출발지 · 시각",
+        "origin": "출발지",
+        "depTime": "출발 시각 (출발지)",
+        "retTime": "여행지 출발 시각",
+        "retHint": "마지막 날은 이 시각까지 일정을 마쳐요"
+      },
+      "wide": {
+        "heading": "광역 교통",
+        "modes": {
+          "bus": "버스",
+          "rail": "기차",
+          "air": "항공",
+          "ship": "배",
+          "metro": "지하철(도시철도)",
+          "own": "자가용"
+        },
+        "short": {
+          "origin": "출발지에 없음",
+          "hub": "도착지에 없음",
+          "island": "차로 못 가요"
+        },
+        "reason": {
+          "origin": "{origin}에서 출발하는 {mode} 노선이 없어요",
+          "hub": "{hub}에는 {mode} 노선이 없어요",
+          "island": "섬 지역이라 자가용으로 갈 수 없어요",
+          "noCity": "도시를 고르거나 장소를 담으면 광역 교통을 고를 수 있어요"
+        },
+        "access": "{origin} → {hub} · 약 {duration}",
+        "none": "이 출발지에서 {city}에 닿는 광역 교통이 없어 광역 이동 시간을 빼고 계산했어요. 출발지를 바꿔 보세요",
+        "useOrigin": "{origin}에서 출발하기"
+      },
+      "local": {
+        "heading": "현지 이동",
+        "driving": "자동차 (렌트카)",
+        "transit": "대중교통",
+        "own": "자가용",
+        "ownNote": "자가용을 고르면 현지에서도 같은 차로 이동해요"
+      },
+      "summary": {
+        "label": "코스 요약",
+        "stops": "경유지",
+        "stopsValue": "{count}곳",
+        "km": "총 거리",
+        "kmValue": "{km}km",
+        "time": "예상 시간"
+      },
+      "list": {
+        "heading": "담은 장소 · {count}",
+        "empty": "아직 담은 장소가 없어요. 지도에서 장소를 담거나 아래에서 추천 코스를 불러오세요"
+      },
+      "goMap": "지도에서 장소 담기",
+      "moveUp": "{name} 위로 옮기기",
+      "moveDown": "{name} 아래로 옮기기",
+      "remove": "{name} 코스에서 빼기",
+      "removed": "코스에서 뺐어요: {name}",
+      "actions": {
+        "recommend": "추천 코스 불러오기",
+        "recommendHint": "{source}의 추천 장소로 코스를 채워요",
+        "recommendNoScope": "도시나 권역을 고르면 추천 코스를 불러올 수 있어요",
+        "recommendEmpty": "지금 설정으로는 넣을 수 있는 장소가 없어요. 날짜나 시각을 바꿔 보세요",
+        "recommended": "추천 코스 {count}곳을 불러왔어요",
+        "clear": "코스 비우기",
+        "cleared": "코스를 비웠어요"
+      },
+      "confirmRecommend": {
+        "title": "추천 코스로 바꿀까요?",
+        "body": "담아 둔 {count}곳을 빼고 {source} 추천 코스로 바꿔요",
+        "confirm": "바꾸기"
+      },
+      "confirmClear": {
+        "title": "코스를 비울까요?",
+        "body": "담아 둔 {count}곳을 모두 빼요. 날짜 · 출발지 설정은 남아요",
+        "confirm": "비우기"
+      },
+      "confirmLoad": {
+        "title": "저장된 플랜을 불러올까요?",
+        "body": "지금 담은 {count}곳 대신 「{name}」 플랜({planCount}곳)을 불러와요",
+        "confirm": "불러오기"
+      },
+      "cancel": "취소",
+      "load": {
+        "loaded": "「{name}」 플랜을 불러왔어요",
+        "missing": "저장된 플랜을 찾지 못했어요. 지워졌을 수 있어요"
+      },
+      "schedule": {
+        "heading": "일자별 일정",
+        "dayDate": "{month}월 {day}일({weekday})",
+        "dropped": "시간이 모자라 {count}곳은 일정에 넣지 못했어요",
+        "droppedHint": "날짜를 늘리거나 순서를 바꿔 보세요",
+        "emptyDay": "아직 이 날 일정이 없어요",
+        "refill": "추천 코스를 {days}일에 맞춰 다시 불러오기"
+      },
+      "booking": {
+        "heading": "예매",
+        "ktx": "KTX 예매",
+        "srt": "SRT 예매",
+        "bus": "버스 예매",
+        "rent": "렌트카 예매",
+        "stay": "숙박 예매",
+        "lotte": "롯데렌터카",
+        "socar": "쏘카",
+        "yanolja": "야놀자",
+        "goodchoice": "여기어때",
+        "agoda": "Agoda",
+        "bookingCom": "Booking.com",
+        "newWindow": "(새 창)"
+      }
+    },
+    "info": {
+      "title": "여행 정보",
+      "selectLabel": "선택한 지역",
+      "selectPlaceholder": "도시를 고르세요",
+      "hubHeading": "광역 관문",
+      "hubNone": "관문 정보가 없어요",
+      "hubPick": "도시를 고르면 그 도시의 광역 관문이 보여요",
+      "modesLabel": "이동 수단",
+      "modes": {
+        "ktx": "KTX",
+        "srt": "SRT",
+        "bus": "고속버스",
+        "air": "항공",
+        "ship": "배",
+        "metro": "광역전철"
+      },
+      "tipsHeading": "이동 요령",
+      "tips": "코스 탭에서 날짜 · 출발지 · 시각을 정하면 담은 장소가 날짜별 동선으로 나뉘고, 장소마다 도착 · 출발 시각과 이동 시간이 붙어요. 광역 교통은 자가용을 빼면 출발지와 도착 도시 관문에 함께 있는 수단만 고를 수 있어서, 제주는 항공이나 배로 가요. 마지막 날 일정은 여행지 출발 시각에 맞춰 끝나고, KTX · SRT · 버스 · 렌트카 · 숙박 예매 링크는 코스 탭 맨 아래에 있어요.",
+      "linksHeading": "지역별 관광 안내",
+      "newWindow": "(새 창)"
+    }
+  },
+  "NotFound": {
+    "title": "페이지를 찾을 수 없어요",
+    "description": "주소가 바뀌었거나 없는 페이지예요. 홈에서 다시 찾아 보세요",
+    "home": "홈으로"
   }
 }

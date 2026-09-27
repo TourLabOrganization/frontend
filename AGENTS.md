@@ -65,6 +65,7 @@ Next.js 16 (App Router) / React 19 / TypeScript / Tailwind CSS 4. 모바일부�
 
 - 접두사 없는 클래스는 390px 폭 기준으로 쓰고, 넓은 화면은 `md:`·`lg:`로 덧붙인다
 - 색은 `globals.css`의 토큰을 쓰고 hex 값을 직접 쓰지 않는다
+- 버튼·보기·상단 바 같은 공통 UI는 `src/components/ui`에서 먼저 찾는다 (`docs/ui.md`)
 
 ### 6. 원격에 올리기 전에 사람에게 확인받는다
 

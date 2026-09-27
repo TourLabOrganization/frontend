@@ -12,28 +12,38 @@
 | 스타일      | Tailwind CSS 4                                |
 | 서버 데이터 | TanStack Query 5                              |
 | 다국어      | next-intl 4 (ko · en)                         |
+| 지도        | @vis.gl/react-google-maps (Google Maps)       |
 | 코드 포맷   | Prettier · ESLint                             |
+| 테스트      | Vitest                                        |
 | 배포        | Vercel                                        |
 
 라이브러리를 고른 이유와 필요할 때 추가할 것은 `docs/stack.md`.
 
 ## 들어 있는 것
 
-| 영역        | 내용                                                                                   |
-| ----------- | -------------------------------------------------------------------------------------- |
-| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번 |
-| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                      |
-| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                      |
-| 디자인 토큰 | `src/app/globals.css` — PoC 팔레트 · 서체 임시 반영                                    |
-| CI          | PR마다 린트 · 타입 검사 · 포맷 검사 · 빌드 (`.github/workflows/ci.yml`)                |
-| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)            |
+| 영역        | 내용                                                                                                                          |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번                                        |
+| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                                             |
+| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                                             |
+| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                                                 |
+| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 화면 안 탭 바, 버튼, 보기, 배지, 진행 막대, 링크형 탭, 장소 시트 |
+| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)                            |
+| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                                                   |
 
 ## 들어 있지 않은 것
 
-실제 화면(홈 · 테마 코스 · 투어 플래너 · 테마 추천), 지도, 로그인 화면, 외부 API Route Handler,
-테스트 도구. 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
+로그인 화면, 외부 API Route Handler.
+필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
 
-홈은 제목만 있는 자리표시 화면이다. 디자인이 확정되면 만든다 (`docs/ui.md`).
+홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
+테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, Google 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
+투어 플래너(`/planner` — 전국 · 도시별 장소 1,171곳 지도와 목록, 권역 묶음, 도시 고르기, 코스에 담기, 여행 정보)도 있다.
+플래너의 코스 탭은 코스 빌더다(날짜 · 출발지 · 시각 · 광역 교통 · 현지 이동, 추천 코스 불러오기, 일자별 일정, 예매 링크, 코스 저장 → ME).
+일정 계산은 `src/features/planner/schedule.ts`, 도시 고르기 숫자는 PoC 규칙(전용 화면 도시 우선, `pickCity`)을 따른다.
+추천 결과, 저장한 코스(테마 · 플래너), 테마별 북마크 · 스탬프, 플래너에 담은 장소와 코스 설정은 로그인 없이 이 브라우저의 localStorage에만 둔다 (`src/lib/local-store.ts`).
+코스 3안은 트렌드·혼잡도 데이터가 아직 없어 장소 데이터만으로 만든 대체 규칙을 쓴다 (`src/features/course/scenarios.ts`).
+홈 타일은 작품 포스터, 추천 결과 카드는 작품 스틸(TMDB 이미지)이다. 작품이 없는 테마(RESCENE)는 토큰 색 자리표시다. 이미지 규칙은 `docs/ui.md`.
 
 ## 실행 방법
 
@@ -52,6 +62,7 @@ cp .env.example .env.local
 | ----------------------------- | ------------------------------------------------------------------------ |
 | `NEXT_PUBLIC_API_BASE_URL`    | 백엔드 주소. 로컬 백엔드는 `http://localhost:8080`                       |
 | `NEXT_PUBLIC_GOOGLE_MAPS_KEY` | Google Maps 키. 브라우저에 노출되므로 도메인 제한을 건 키만 쓴다         |
+| `NEXT_PUBLIC_GOOGLE_MAP_ID`   | Google 지도 ID. 비우면 `DEMO_MAP_ID`(번호 핀에 필요)                     |
 | `DATA_GO_KR_KEY` 외           | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md` |
 
 ### 실행
@@ -69,7 +80,8 @@ npm run dev
 
 ```bash
 npm run format   # Prettier로 정리
-npm run check    # 린트 · 타입 검사 · 포맷 검사 · 빌드
+npm run test     # Vitest 단위 테스트
+npm run check    # 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드
 ```
 
 CI도 PR마다 `npm run check`를 돌린다.

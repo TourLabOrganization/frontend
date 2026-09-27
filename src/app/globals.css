@@ -1,16 +1,71 @@
 @import "tailwindcss";
 
 /*
- * 디자인 토큰 — 임시값. PoC(Tour-Navigator-App)의 팔레트·서체를 그대로 옮겨 두었다.
- * 디자인이 확정되면 이 블록과 docs/ui.md를 함께 고친다.
+ * 디자인 토큰 — "클린 트래블". 규칙과 쓰임은 docs/ui.md
+ * 기본 팔레트를 지워서 토큰에 없는 색(gray-500 같은)은 클래스로 쓸 수 없게 했다.
+ * 새 색이 필요하면 여기와 docs/ui.md에 함께 추가한다.
  */
 @theme {
-  --color-ink: #153b3d;
-  --color-accent: #b8431c;
-  --color-cream: #f2ece0;
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* 면 */
+  --color-surface: #ffffff;
+  --color-fill: #f2f4f6;
+  --color-fill-weak: #f9fafb;
+  --color-line: #e5e8eb;
+
+  /* 글자 — fg-disabled는 대비가 3:1이라 본문 글자에 쓰지 않는다 */
+  --color-fg: #191f28;
+  --color-fg-muted: #4e5968;
+  --color-fg-subtle: #6b7684;
+  --color-fg-disabled: #8b95a1;
+
+  /* 브랜드 — primary는 흰 글씨 대비 4.9:1, primary-bright는 그래픽 전용(3.7:1) */
+  --color-primary: #1d6ce3;
+  --color-primary-strong: #1b64da;
+  --color-primary-bright: #3182f6;
+  --color-primary-weak: #e8f3ff;
+
+  /* 오류 — 입력 검사 문구 · 잘못된 칸 테두리. 흰 바탕 5.6:1, fill 위 5.1:1 */
+  --color-danger: #c62828;
+
+  /* 장소 분류 — 투어 플래너 지도 핀 · 목록 점. 모두 흰 바탕 대비 4.5:1 이상(Course.categories 순서) */
+  --color-cat-herit: #b45309;
+  --color-cat-heal: #15803d;
+  --color-cat-activity: #7c3aed;
+  --color-cat-food: #db2777;
+  --color-cat-sea: #0e7490;
+  --color-cat-stay: #475569;
+
+  /* 글자 크기 — 이름 그대로 클래스가 된다 (text-title, text-body-lg …) */
+  --text-display: 1.75rem;
+  --text-display--line-height: 1.3;
+  --text-display--letter-spacing: -0.02em;
+  --text-title: 1.625rem;
+  --text-title--line-height: 1.35;
+  --text-title--letter-spacing: -0.02em;
+  --text-headline: 1.1875rem;
+  --text-headline--line-height: 1.4;
+  --text-headline--letter-spacing: -0.01em;
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.5;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-label: 0.9375rem;
+  --text-label--line-height: 1.5;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.45;
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.4;
+
+  --radius-card: 1.25rem;
 }
 
-/* next/font가 <html>에 심는 변수를 참조하므로 inline으로 둔다 */
 @theme inline {
-  --font-sans: var(--font-archivo), var(--font-gowun-dodum), sans-serif;
+  --font-sans:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 }
