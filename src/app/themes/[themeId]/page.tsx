@@ -28,6 +28,8 @@ import {
   VIDEO_THEME,
 } from "@/features/theme/theme-data";
 import { ThemeTabBar } from "@/features/theme/ThemeTabBar";
+import { LegacyBookmarksMigration } from "@/features/theme/LegacyBookmarksMigration";
+import { themeNameTable } from "@/features/theme/theme-name-table";
 import { loadNameTable } from "@/features/names/server";
 
 // 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)를 ?tab=으로 고르고, 고른 탭 하나만 그린다.
@@ -211,6 +213,7 @@ export default async function ThemePage({
         })}
       </p>
       <main className="flex flex-1 flex-col pb-[calc(6rem+env(safe-area-inset-bottom))]">
+        <LegacyBookmarksMigration names={themeNameTable([slug])} />
         {renderTab()}
       </main>
       <ThemeTabBar slug={slug} query={keep} current={tab} />

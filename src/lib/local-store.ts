@@ -72,6 +72,15 @@ export function writeLocal(key: string, value: string): void {
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
+export function removeLocal(key: string): void {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    return;
+  }
+  window.dispatchEvent(new Event(CHANGE_EVENT));
+}
+
 function subscribe(onChange: () => void) {
   window.addEventListener("storage", onChange);
   window.addEventListener(CHANGE_EVENT, onChange);
