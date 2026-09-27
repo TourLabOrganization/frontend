@@ -7,22 +7,21 @@
 //   node scripts/build-places.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <RESCENE Route.dc.html>
 //   npm run format   # JSON을 리포 포맷으로 맞춘다
 //
-// 원천 (Tour-Navigator-App, 원천 파일은 이 리포에 넣지 않는다):
-//   - 체류시간 산정/체류시간_장소별.csv   장소 1,433곳 (UTF-8 BOM, 따옴표 칸 있음)
+// 원천 (Tour-Navigator-App main f44eb97 · 2026-09-27, 원천 파일은 이 리포에 넣지 않는다):
+//   - 체류시간 산정/체류시간_장소별.csv   장소 3,118곳 (UTF-8 BOM, 따옴표 칸 있음. 목록 밖은 「목록외」, 무장애는 「열린관광지」 열)
 //   - Tour Planner.dc.html                 REGION_HUB · ORIGINS · METRO_NET 상수
 //   - RESCENE Route.dc.html                DATA (RESCENE 장소 id)
 //
 // 테마 ↔ CSV `화면` 열:
 //   kings-warden → yeongwol, kpop-demon-hunters → seoul, jeju-k-drama → jeju,
 //   busan-film-trip → busan, rescene-route → nation 중 RESCENE 장소
+//   (목록 · 목록 밖 = 5 · 13, 11 · 76, 11 · 75, 12 · 60, 36 · 56. 테마 화면 파일 DATA의 off와 같다)
 //
 // RESCENE 장소 기준:
 //   `RESCENE Route.dc.html`의 `const DATA = {…}` 블록(gyeongju · geoje · nation 목록)에 있는 id 92개.
-//   CSV nation 화면에 92개가 모두 있고, 테마 추천 알고리즘의
-//   data/derived/classified.json rows 중 themes가 "RESCENE Route"인 92곳과 장소명이 1:1로 같다.
-//   (CSV nation의 경주 46곳 중 nax771 · nax772 · nax773 · nax824 · nax825 · nax826 6곳은
-//    RESCENE 장소가 아니라 전국 확장 목록이라 places.json에는 넣지 않는다.
-//    경주 예시 재현에는 이 6곳도 필요해서 fixtures/gyeongju-nation.json에 따로 둔다.)
+//   CSV nation 화면에 92개가 모두 있어야 한다(없으면 멈춘다).
+// 경주 2박3일 예시 재현(course/schedule.test.ts)은 PoC export_stay_csv.js처럼 nation 전체에서 경주 장소를 고르므로,
+// CSV nation 화면에서 시군이 경주인 장소(RESCENE 밖 장소 포함)를 fixtures/gyeongju-nation.json에 따로 둔다.
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -114,10 +113,10 @@ function toPlace(r) {
     open: r["운영시간적용"] === "Y" ? open : null,
     close: r["운영시간적용"] === "Y" ? close : null,
     yt: yn(r["영상장소"]),
-    off: yn(r["확장장소"]),
+    off: yn(r["목록외"]),
     k100: yn(r["한국관광100선"]),
     un: yn(r["유네스코"]),
-    bf: yn(r["무장애"]),
+    bf: yn(r["열린관광지"]),
     auto: yn(r["자동코스후보"]),
   };
 }
