@@ -50,7 +50,31 @@
     "save": "收藏",
     "saved": "已收藏",
     "savedStatus": "已加入收藏的地点",
-    "unsavedStatus": "已从收藏的地点移除"
+    "unsavedStatus": "已从收藏的地点移除",
+    "weather": {
+      "title": "天气",
+      "today": "今天",
+      "yesterday": "昨天",
+      "tomorrow": "明天",
+      "loading": "正在加载天气",
+      "error": "无法加载天气",
+      "retry": "重试",
+      "credit": "天气：Open-Meteo",
+      "max": "最高气温",
+      "rain": "降水量",
+      "kinds": {
+        "clear": "晴",
+        "cloudy": "多云",
+        "fog": "雾",
+        "drizzle": "毛毛雨",
+        "rain": "雨",
+        "snow": "雪",
+        "showers": "阵雨",
+        "snowShowers": "阵雪",
+        "thunderstorm": "雷雨",
+        "unknown": "无数据"
+      }
+    }
   },
   "Splash": {
     "title": {

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 import { buttonClassName } from "./Button";
+import { PlaceWeather } from "./PlaceWeather";
 
 export type PlaceSheetPlace = {
   /** 제목(화면 언어의 장소 이름). 사진의 대체 글도 이 이름이다 */
@@ -144,6 +145,9 @@ export function PlaceSheet({
           {children}
 
           <PlaceFactsTable facts={place.facts} />
+
+          {/* PoC 순서: 상세 표 다음, 길찾기 앞. 장소가 바뀌면 그 좌표로 새로 부른다 */}
+          <PlaceWeather lat={place.facts.lat} lng={place.facts.lng} />
 
           <div className="mt-5 flex flex-wrap gap-2">
             <a

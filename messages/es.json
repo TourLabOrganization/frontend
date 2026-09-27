@@ -50,7 +50,31 @@
     "save": "Guardar",
     "saved": "Guardado",
     "savedStatus": "Añadido a lugares guardados",
-    "unsavedStatus": "Quitado de lugares guardados"
+    "unsavedStatus": "Quitado de lugares guardados",
+    "weather": {
+      "title": "Tiempo",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "tomorrow": "Mañana",
+      "loading": "Cargando el tiempo…",
+      "error": "No se pudo cargar el tiempo",
+      "retry": "Reintentar",
+      "credit": "Tiempo: Open-Meteo",
+      "max": "Máxima",
+      "rain": "Precipitación",
+      "kinds": {
+        "clear": "Despejado",
+        "cloudy": "Nublado",
+        "fog": "Niebla",
+        "drizzle": "Llovizna",
+        "rain": "Lluvia",
+        "snow": "Nieve",
+        "showers": "Chubascos",
+        "snowShowers": "Chubascos de nieve",
+        "thunderstorm": "Tormenta",
+        "unknown": "Sin datos"
+      }
+    }
   },
   "Splash": {
     "title": {

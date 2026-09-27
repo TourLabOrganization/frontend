@@ -50,7 +50,31 @@
     "save": "保存",
     "saved": "保存済み",
     "savedStatus": "保存したスポットに追加しました",
-    "unsavedStatus": "保存したスポットから外しました"
+    "unsavedStatus": "保存したスポットから外しました",
+    "weather": {
+      "title": "天気",
+      "today": "今日",
+      "yesterday": "昨日",
+      "tomorrow": "明日",
+      "loading": "天気を読み込み中です",
+      "error": "天気を読み込めませんでした",
+      "retry": "再試行",
+      "credit": "天気：Open-Meteo",
+      "max": "最高気温",
+      "rain": "降水量",
+      "kinds": {
+        "clear": "晴れ",
+        "cloudy": "くもり",
+        "fog": "霧",
+        "drizzle": "霧雨",
+        "rain": "雨",
+        "snow": "雪",
+        "showers": "にわか雨",
+        "snowShowers": "にわか雪",
+        "thunderstorm": "雷雨",
+        "unknown": "データなし"
+      }
+    }
   },
   "Splash": {
     "title": {

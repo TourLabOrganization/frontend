@@ -50,7 +50,31 @@
     "save": "저장",
     "saved": "저장됨",
     "savedStatus": "저장한 장소에 넣었어요",
-    "unsavedStatus": "저장한 장소에서 뺐어요"
+    "unsavedStatus": "저장한 장소에서 뺐어요",
+    "weather": {
+      "title": "날씨",
+      "today": "오늘",
+      "yesterday": "어제",
+      "tomorrow": "내일",
+      "loading": "날씨를 불러오는 중이에요",
+      "error": "날씨를 불러오지 못했어요",
+      "retry": "다시 시도",
+      "credit": "날씨: Open-Meteo",
+      "max": "최고 기온",
+      "rain": "강수량",
+      "kinds": {
+        "clear": "맑음",
+        "cloudy": "구름",
+        "fog": "안개",
+        "drizzle": "이슬비",
+        "rain": "비",
+        "snow": "눈",
+        "showers": "소나기",
+        "snowShowers": "눈 소나기",
+        "thunderstorm": "뇌우",
+        "unknown": "날씨 정보 없음"
+      }
+    }
   },
   "Splash": {
     "title": {

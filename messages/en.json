@@ -50,7 +50,31 @@
     "save": "Save",
     "saved": "Saved",
     "savedStatus": "Added to saved places",
-    "unsavedStatus": "Removed from saved places"
+    "unsavedStatus": "Removed from saved places",
+    "weather": {
+      "title": "Weather",
+      "today": "Today",
+      "yesterday": "Yday",
+      "tomorrow": "Tmrw",
+      "loading": "Loading the weather…",
+      "error": "Couldn't load the weather",
+      "retry": "Try again",
+      "credit": "Weather: Open-Meteo",
+      "max": "High",
+      "rain": "Precipitation",
+      "kinds": {
+        "clear": "Clear",
+        "cloudy": "Cloudy",
+        "fog": "Fog",
+        "drizzle": "Drizzle",
+        "rain": "Rain",
+        "snow": "Snow",
+        "showers": "Showers",
+        "snowShowers": "Snow showers",
+        "thunderstorm": "Thunderstorm",
+        "unknown": "No data"
+      }
+    }
   },
   "Splash": {
     "title": {
