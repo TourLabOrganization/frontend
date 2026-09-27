@@ -110,3 +110,10 @@ export function placesInScope(scope: Scope): readonly PlannerPlace[] {
 export function findPlace(id: string): PlannerPlace | undefined {
   return PLANNER_PLACES.find((p) => p.id === id);
 }
+
+const PLACE_IDS: ReadonlySet<string> = new Set(PLANNER_PLACES.map((p) => p.id));
+
+/** 장소 데이터에 있는 id인지. 담은 코스에서 데이터에서 빠진 장소를 거를 때 쓴다(course-store usePlannerCourse) */
+export function isPlannerPlace(id: string): boolean {
+  return PLACE_IDS.has(id);
+}

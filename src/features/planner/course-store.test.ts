@@ -5,8 +5,12 @@ import {
   parseSettings,
   planContentKey,
   planSaveSettings,
+  moveAt,
+  parseCourse,
   RET_TIMES,
+  withKnownPlaces,
 } from "./course-store";
+import { findPlace } from "./data";
 import { isBusanLine } from "./metro";
 
 describe("parseSettings", () => {
@@ -157,5 +161,38 @@ describe("플랜 저장값 (PoC planSave)", () => {
     expect(planContentKey(["a"], s, { b: 30, a: 60 })).toBe(
       planContentKey(["a"], s, { a: 60, b: 30 }),
     );
+  });
+});
+
+describe("데이터에 없는 id가 섞인 저장값", () => {
+  const isKnown = (id: string) => findPlace(id) !== undefined;
+  const raw = JSON.stringify({
+    city: "경주",
+    placeIds: ["gj2", "gone-1", "gj3", "gone-2", "gj4"],
+  });
+
+  it("읽을 때 데이터에 없는 id를 걸러 화면 목록과 같은 순번 · 개수가 된다", () => {
+    const course = withKnownPlaces(parseCourse(raw), isKnown);
+    expect(course.placeIds).toEqual(["gj2", "gj3", "gj4"]);
+    expect(course.city).toBe("경주");
+  });
+
+  it("다 없어졌으면 도시도 비운다", () => {
+    const course = withKnownPlaces(
+      parseCourse(JSON.stringify({ city: "경주", placeIds: ["gone"] })),
+      isKnown,
+    );
+    expect(course.placeIds).toEqual([]);
+    expect(course.city).toBeNull();
+  });
+
+  it("화면 순번으로 옮기면 화면에 보이는 장소끼리 자리가 바뀐다", () => {
+    const { placeIds } = withKnownPlaces(parseCourse(raw), isKnown);
+    // 화면 2번째(gj3)를 위로 — 걸러내지 않은 저장 순번이면 gone-1이 움직였다
+    expect(moveAt(placeIds, 1, 0)).toEqual(["gj3", "gj2", "gj4"]);
+    expect(moveAt(placeIds, 1, 2)).toEqual(["gj2", "gj4", "gj3"]);
+    // 범위 밖은 그대로
+    expect(moveAt(placeIds, 0, -1)).toEqual(placeIds);
+    expect(moveAt(placeIds, 2, 3)).toEqual(placeIds);
   });
 });

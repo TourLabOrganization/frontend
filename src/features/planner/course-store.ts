@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { DEFAULT_DEP, DEFAULT_RET } from "../course/params";
 import { readLocal, useLocalValue, writeLocal } from "../../lib/local-store";
 import {
@@ -260,7 +260,7 @@ export function planContentKey(
   return JSON.stringify([placeIds, pickSettings(settings), stay]);
 }
 
-function parseCourse(raw: string | null): PlannerCourse {
+export function parseCourse(raw: string | null): PlannerCourse {
   if (!raw) return EMPTY;
   try {
     const v: unknown = JSON.parse(raw);
@@ -283,6 +283,37 @@ function parseCourse(raw: string | null): PlannerCourse {
   } catch {
     return EMPTY;
   }
+}
+
+/**
+ * 데이터에 없는 id(데이터에서 빠진 장소)를 거른 코스. 화면 목록(담은 장소)과 순번 · 개수를 맞춘다.
+ * 다 없어졌으면 도시도 비운다
+ */
+export function withKnownPlaces(
+  course: PlannerCourse,
+  isKnown: (id: string) => boolean,
+): PlannerCourse {
+  const placeIds = course.placeIds.filter(isKnown);
+  if (placeIds.length === course.placeIds.length) return course;
+  return {
+    ...course,
+    placeIds,
+    city: placeIds.length > 0 ? course.city : null,
+  };
+}
+
+/** from 자리의 id를 to 자리로 옮긴 새 목록. 범위 밖이면 그대로 */
+export function moveAt(
+  ids: readonly string[],
+  from: number,
+  to: number,
+): string[] {
+  if (from < 0 || from >= ids.length || to < 0 || to >= ids.length)
+    return [...ids];
+  const next = [...ids];
+  const [id] = next.splice(from, 1);
+  next.splice(to, 0, id);
+  return next;
 }
 
 /** 저장된 값에 필드를 덮어쓴다. 모르는 필드도 지우지 않는다 */
@@ -333,10 +364,19 @@ export function useToday(): string {
   );
 }
 
-/** 코스에 담은 장소와 담기 · 빼기 · 순서 바꾸기. 서버 렌더와 하이드레이션 중에는 빈 코스 */
-export function usePlannerCourse() {
-  const course = parseCourse(useLocalValue(PLANNER_COURSE_KEY));
+/**
+ * 코스에 담은 장소와 담기 · 빼기 · 순서 바꾸기. 서버 렌더와 하이드레이션 중에는 빈 코스.
+ * isKnown(장소 데이터에 있는 id인지)을 주면 데이터에 없는 id를 걸러 화면 목록과 같은 순번 · 개수로 쓰고,
+ * 저장값에서도 지운다(배지 · 알림 개수가 화면 목록과 같아진다). 장소 데이터(places.json)를 싣는 화면(플래너 지도 · 코스 탭)만 준다
+ */
+export function usePlannerCourse(isKnown?: (id: string) => boolean) {
+  const stored = parseCourse(useLocalValue(PLANNER_COURSE_KEY));
+  const course = isKnown ? withKnownPlaces(stored, isKnown) : stored;
   const { placeIds } = course;
+  const stale = course !== stored;
+  useEffect(() => {
+    if (stale) write(course);
+  });
 
   return {
     course,
@@ -391,13 +431,10 @@ export function usePlannerCourse() {
         ...next,
         city: next.placeIds.length > 0 ? next.city : null,
       }),
-    /** from 자리의 장소를 to 자리로 옮긴다 */
+    /** from 자리의 장소를 to 자리로 옮긴다(자리는 isKnown으로 거른 화면 목록의 순번) */
     move: (from: number, to: number) => {
       if (to < 0 || to >= placeIds.length) return;
-      const next = [...placeIds];
-      const [id] = next.splice(from, 1);
-      next.splice(to, 0, id);
-      write({ ...course, placeIds: next });
+      write({ ...course, placeIds: moveAt(placeIds, from, to) });
     },
   };
 }

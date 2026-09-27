@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { needsCityChange, usePlannerCourse } from "./course-store";
-import type { PlannerPlace } from "./data";
+import { isPlannerPlace, type PlannerPlace } from "./data";
 import { cityName } from "./regions";
 import { placeName } from "@/features/theme/place-meta";
 import { useNameTable } from "@/features/names/NamesProvider";
@@ -18,7 +18,7 @@ export function useCourseToggle() {
   const t = useTranslations("Planner");
   const locale = useLocale();
   const names = useNameTable();
-  const store = usePlannerCourse();
+  const store = usePlannerCourse(isPlannerPlace);
   const [pending, setPending] = useState<PlannerPlace | null>(null);
   const [status, setStatus] = useState("");
 

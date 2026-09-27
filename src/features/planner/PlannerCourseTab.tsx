@@ -61,6 +61,7 @@ import {
 import {
   findPlace,
   isPlannerCity,
+  isPlannerPlace,
   PLANNER_PLACES,
   type PlannerPlace,
   placesInScope,
@@ -162,7 +163,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const router = useRouter();
   const hydrated = useHydrated();
   const today = useToday();
-  const store = usePlannerCourse();
+  const store = usePlannerCourse(isPlannerPlace);
   const course = store.course;
   const savedPlans = parsePlannerPlans(useLocalValue(SAVED_PLANS_KEY));
   const id = useId();
