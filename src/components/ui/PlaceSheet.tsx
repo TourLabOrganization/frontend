@@ -7,6 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { buttonClassName } from "./Button";
 import { Chip } from "./Chip";
 import { PlaceWeather } from "./PlaceWeather";
+import { formatStayHours } from "./stay-hours";
 
 export type PlaceSheetPlace = {
   /** 제목(화면 언어의 장소 이름). 사진의 대체 글도 이 이름이다 */
@@ -187,7 +188,16 @@ export function PlaceSheet({
 function PlaceFactsTable({ facts }: { facts: PlaceFacts }) {
   const t = useTranslations("PlaceSheet");
   const rows: { key: string; label: string; value: React.ReactNode }[] = [
-    { key: "hours", label: t("hours"), value: facts.hours },
+    {
+      key: "hours",
+      label: t("hours"),
+      value:
+        facts.hours &&
+        formatStayHours(facts.hours, {
+          checkIn: (time) => t("checkIn", { time }),
+          checkOut: (time) => t("checkOut", { time }),
+        }),
+    },
     { key: "stay", label: t("stay"), value: facts.stay },
     { key: "work", label: t("work"), value: facts.work },
     { key: "scene", label: t("scene"), value: facts.scene },

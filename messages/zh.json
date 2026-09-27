@@ -35,6 +35,8 @@
     "close": "关闭",
     "photoCredit": "照片：{credit}",
     "hours": "营业时间",
+    "checkIn": "入住 {time}",
+    "checkOut": "退房 {time}",
     "directions": "路线",
     "newWindow": "（新窗口）",
     "stay": "建议停留",

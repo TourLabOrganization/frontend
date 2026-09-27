@@ -35,6 +35,8 @@
     "close": "닫기",
     "photoCredit": "사진: {credit}",
     "hours": "운영시간",
+    "checkIn": "체크인 {time}",
+    "checkOut": "체크아웃 {time}",
     "directions": "길찾기",
     "newWindow": "(새 창)",
     "stay": "권장 체류",

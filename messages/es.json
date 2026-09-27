@@ -35,6 +35,8 @@
     "close": "Cerrar",
     "photoCredit": "Foto: {credit}",
     "hours": "Horario",
+    "checkIn": "Entrada {time}",
+    "checkOut": "Salida {time}",
     "directions": "Ruta",
     "newWindow": "(se abre en otra ventana)",
     "stay": "Estancia sugerida",

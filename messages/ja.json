@@ -35,6 +35,8 @@
     "close": "閉じる",
     "photoCredit": "写真：{credit}",
     "hours": "営業時間",
+    "checkIn": "チェックイン {time}",
+    "checkOut": "チェックアウト {time}",
     "directions": "経路",
     "newWindow": "（新しいウィンドウ）",
     "stay": "推奨滞在",

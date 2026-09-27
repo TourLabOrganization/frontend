@@ -35,6 +35,8 @@
     "close": "Close",
     "photoCredit": "Photo: {credit}",
     "hours": "Opening hours",
+    "checkIn": "Check-in {time}",
+    "checkOut": "Check-out {time}",
     "directions": "Directions",
     "newWindow": "(opens in a new window)",
     "stay": "Suggested stay",
