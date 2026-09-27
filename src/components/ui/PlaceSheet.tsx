@@ -7,7 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { buttonClassName } from "./Button";
 import { Chip } from "./Chip";
 import { PlaceWeather } from "./PlaceWeather";
-import { formatStayHours } from "./stay-hours";
+import { breakBeforeContact, formatStayHours } from "./stay-hours";
 
 export type PlaceSheetPlace = {
   /** 제목(화면 언어의 장소 이름). 사진의 대체 글도 이 이름이다 */
@@ -200,10 +200,12 @@ function PlaceFactsTable({ facts }: { facts: PlaceFacts }) {
       label: t("hours"),
       value:
         facts.hours &&
-        formatStayHours(facts.hours, {
-          checkIn: (time) => t("checkIn", { time }),
-          checkOut: (time) => t("checkOut", { time }),
-        }),
+        breakBeforeContact(
+          formatStayHours(facts.hours, {
+            checkIn: (time) => t("checkIn", { time }),
+            checkOut: (time) => t("checkOut", { time }),
+          }),
+        ),
     },
     { key: "stay", label: t("stay"), value: facts.stay },
     { key: "work", label: t("work"), value: facts.work },
@@ -236,7 +238,9 @@ function PlaceFactsTable({ facts }: { facts: PlaceFacts }) {
         {rows.map((r) => (
           <div key={r.key} className="flex gap-4 py-2.5 text-label">
             <dt className="w-24 shrink-0 text-fg-subtle">{r.label}</dt>
-            <dd className="min-w-0 flex-1 tabular-nums">{r.value}</dd>
+            <dd className="min-w-0 flex-1 whitespace-pre-line tabular-nums">
+              {r.value}
+            </dd>
           </div>
         ))}
       </dl>
