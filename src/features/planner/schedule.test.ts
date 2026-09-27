@@ -153,7 +153,7 @@ describe("날짜 · 광역 교통", () => {
     expect(ownPlan).toMatchObject({ wide: "own", local: "own", arrival: null });
   });
 
-  it("제주에서 자가용을 골라도 섬이라 쓰지 않는다", () => {
+  it("제주에서 자가용을 고르면 카페리(배 본 구간) + 현지 자가용", () => {
     const settings = { ...settingsFor(1, "transit"), wideMode: "own" as const };
     const plan = buildPlannerSchedule(
       recommendCourse(
@@ -164,7 +164,8 @@ describe("날짜 · 광역 교통", () => {
       settings,
       "제주",
     );
-    expect(plan.local).toBe("transit");
-    expect(plan.wide).toBe("air");
+    expect(plan.local).toBe("own");
+    expect(plan.wide).toBe("ship");
+    expect(plan.carFerry).toBe(true);
   });
 });

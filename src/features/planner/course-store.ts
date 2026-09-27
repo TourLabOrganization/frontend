@@ -14,6 +14,9 @@ import { PLANNER_ORIGINS } from "./regions";
 //     name, startDate, endDate, origin, originEnd, depTime, retTime, wideMode, localMode,   (코스 설정. 없는 필드는 기본값)
 //     routePick: { 경주: "bus" }, gwPick: { ktx: "yongsan" },   (도착 도시별로 고른 광역 경로 · 수단별로 고른 환승 관문. PoC routePick · gwPick)
 //     metroLine, metroOrigin, metroEndLine, metroEnd,   (지하철 출발 · 귀가 호선과 역 이름. PoC metroLine · metroOrigin · metroEndLine · metroEnd)
+//     jejuResident,   (제주 자가용일 때 「제주도민인가요?」 답. true 도민 · false 카페리 · null 아직. PoC jejuResident)
+//     ferryPort: { jeju: "mokpo" },   (배편 시간표 카드에서 고른 출발 항구. PoC ferryPort. 저장된 플랜에는 넣지 않는다)
+//     ulNotice,   (울릉 항로 안내 창이 열려 있는지. PoC ulNotice. 저장된 플랜에는 넣지 않는다)
 //     routeSkip: { 경주: true },   (경로 선택 창을 닫은 도착 도시. 다시 스스로 열지 않는다. 저장된 플랜에는 넣지 않는다)
 //     stayOv: { gj2: 90, … },   (장소별로 바꾼 체류 분. 추천값과 같으면 두지 않는다. course-edit.ts)
 //     planId }   (지금 불러와 보고 있거나 방금 저장한 플랜 id. 「덮어쓰기」 대상. PoC planId)
@@ -70,6 +73,11 @@ export type PlannerSettings = {
   /** 지하철 귀가 호선 · 역 이름(ko). 역이 비어 있으면 출발역과 같음 (PoC metroEndLine · metroEnd) */
   metroEndLine: string;
   metroEnd: string;
+  /**
+   * 제주 자가용일 때 「제주도민인가요?」 답(PoC jejuResident). true 도민(섬 안에서 자가용만, 광역 체인 없음),
+   * false 카페리, null 아직 답하지 않음(카페리로 계산한다)
+   */
+  jejuResident: boolean | null;
 };
 
 export type PlannerCourse = PlannerSettings & {
@@ -85,6 +93,10 @@ export type PlannerCourse = PlannerSettings & {
   planId: string | null;
   /** 경로 선택 창을 닫은 도착 도시(PoC routeSkip). 저장된 플랜에는 넣지 않는다 */
   routeSkip: Record<string, true>;
+  /** 섬(jeju · ulleung)별로 배편 시간표 카드에서 고른 출발 항구(PoC ferryPort). 저장된 플랜에는 넣지 않는다 */
+  ferryPort: Record<string, string>;
+  /** 울릉 항로 안내 창이 열려 있는지(PoC ulNotice). 저장된 플랜에는 넣지 않는다 */
+  ulNotice: boolean;
 };
 
 const DEFAULT_ORIGIN = "seoul";
@@ -105,6 +117,7 @@ export const DEFAULT_SETTINGS: PlannerSettings = {
   metroOrigin: "",
   metroEndLine: "",
   metroEnd: "",
+  jejuResident: null,
 };
 
 const EMPTY: PlannerCourse = {
@@ -114,6 +127,8 @@ const EMPTY: PlannerCourse = {
   stayOv: {},
   planId: null,
   routeSkip: {},
+  ferryPort: {},
+  ulNotice: false,
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -177,6 +192,8 @@ export function parseSettings(v: Record<string, unknown>): PlannerSettings {
     metroOrigin: text(v.metroOrigin),
     metroEndLine: text(v.metroEndLine),
     metroEnd: text(v.metroEnd),
+    jejuResident:
+      typeof v.jejuResident === "boolean" ? v.jejuResident : d.jejuResident,
   };
 }
 
@@ -198,6 +215,7 @@ export function pickSettings(v: PlannerSettings): PlannerSettings {
     metroOrigin: v.metroOrigin,
     metroEndLine: v.metroEndLine,
     metroEnd: v.metroEnd,
+    jejuResident: v.jejuResident,
   };
 }
 
@@ -218,6 +236,8 @@ function parseCourse(raw: string | null): PlannerCourse {
       stayOv: parseStayOverrides(rec.stayOv),
       planId: typeof rec.planId === "string" ? rec.planId : null,
       routeSkip: parseRouteSkip(rec.routeSkip),
+      ferryPort: stringMap(rec.ferryPort),
+      ulNotice: rec.ulNotice === true,
     };
   } catch {
     return EMPTY;
@@ -314,6 +334,11 @@ export function usePlannerCourse() {
     /** 이 도착 도시의 경로 선택 창을 닫았다(다시 스스로 열지 않는다) */
     skipRoute: (city: string) =>
       patch({ routeSkip: { ...course.routeSkip, [city]: true } }),
+    /** 배편 시간표 카드의 출발 항구를 고른다(섬별) */
+    setFerryPort: (island: string, port: string) =>
+      patch({ ferryPort: { ...course.ferryPort, [island]: port } }),
+    /** 울릉 항로 안내 창을 열고 닫는다 */
+    setUlNotice: (open: boolean) => patch({ ulNotice: open }),
     /** 덮어쓰기 대상 플랜을 정한다(저장한 뒤 · 지운 뒤) */
     setPlanId: (planId: string | null) => patch({ planId }),
     /** 저장된 플랜을 통째로 불러온다(장소 · 설정 · 체류 시간 · 플랜 id) */

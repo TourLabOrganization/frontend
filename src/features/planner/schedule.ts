@@ -12,6 +12,7 @@ import {
 import type { PlannerSettings, WideMode } from "./course-store";
 import type { PlannerPlace } from "./data";
 import { tripDays } from "./dates";
+import { type Island, islandOf, tripOriginKey } from "./island";
 import { findStation, stationPoint } from "./metro";
 import { CITY_HUBS, PLANNER_ORIGINS, type PlannerHub } from "./regions";
 import { isStay, splitStays } from "./stays";
@@ -49,6 +50,11 @@ import {
 //  - 숙박 장소(cat === "stay")는 일정 계산 입력에서 뺀다(PoC courseList). 그날 밤 숙소로만 쓴다(stays.ts).
 //    요약 · 「넣지 못한 장소」 · 일자별 시각에 들어가지 않는다. 계산 식(course/schedule.ts · scenarios.ts)은 그대로다
 //  - 요약: 경유지 수 · 총 거리(같은 날 앞 장소 → 이 장소 구간 legInfo km 합, 소수 1자리) · 예상 시간(이동 + 대기 + 체류)
+//  - 섬(island.ts islandOf):
+//      · 제주(서귀포 포함)는 광역 교통 칸이 항공 · 배 · 자가용만(PoC wideOpts _jeju). 자가용을 고르면 「제주도민인가요?」(PoC jejuResident)
+//        - 도민(true): 광역 체인 없이 섬 안에서 자가용만. 첫날은 출발 시각부터(PoC dayWindows: 체인이 없으면 accIn 0)
+//        - 카페리(false · 아직 답하지 않음): 배로 확정한 체인 = 항만까지 운전 + 카페리(+ 선적 · 하선 30분, wide-chain.ts). 현지는 자가용
+//      · 울릉은 출발지 · 귀가지를 울릉 항로 항구로만 읽는다(tripOriginKey, PoC oKey). 배 본 구간은 고정 항해 시간
 
 /** 광역 교통 칸. 목업 순서(버스 · 기차 · 항공 / 배 · 지하철 · 자가용) */
 const WIDE_CHOICES: readonly WideChoice[] = [
@@ -59,6 +65,9 @@ const WIDE_CHOICES: readonly WideChoice[] = [
   "metro",
   "own",
 ];
+
+/** 제주에서 보이는 광역 교통 칸(PoC wideOpts _jeju: 육로 수단은 닿지 않는다) */
+const JEJU_CHOICES: readonly WideChoice[] = ["air", "ship", "own"];
 
 /** 고를 수 없는 이유. noCity 도착 도시 없음 · hub 도착 관문에 없음 · island 섬(자가용) */
 export type WideBlock = "noCity" | "hub" | "island";
@@ -90,14 +99,23 @@ export function wideModeOf(choice: WideChoice, originKey: string): WideMode {
     : choice;
 }
 
-/** 광역 교통 6칸과 고를 수 없는 이유 */
-export function wideOptions(hub: PlannerHub | undefined): WideOption[] {
+/**
+ * 광역 교통 칸과 고를 수 없는 이유. 보통 6칸, 제주는 항공 · 배 · 자가용 3칸(PoC wideOpts _jeju).
+ * 제주 자가용은 카페리 · 도민으로 갈 수 있어 막지 않는다
+ */
+export function wideOptions(
+  hub: PlannerHub | undefined,
+  island: Island | null = null,
+): WideOption[] {
   const hubModes: readonly string[] = hub?.modes ?? [];
-  return WIDE_CHOICES.map((choice) => {
+  const jeju = island === "jeju";
+  const choices = jeju ? JEJU_CHOICES : WIDE_CHOICES;
+  return choices.map((choice) => {
     let block: WideBlock | null = null;
     if (!hub) block = "noCity";
     else if (choice === "own") {
-      if (!hubModes.some((m) => LAND_MODES.includes(m))) block = "island";
+      if (jeju) block = null;
+      else if (!hubModes.some((m) => LAND_MODES.includes(m))) block = "island";
     } else if (choice !== "metro") {
       const need = WIDE_ALLOW[choice];
       if (!hubModes.some((m) => need.includes(m))) block = "hub";
@@ -178,6 +196,17 @@ export type TripPlan = {
   dayCount: number;
   destination: string | null;
   hub: PlannerHub | undefined;
+  /** 도착 도시의 섬(제주 · 울릉). 섬이 아니면 null */
+  island: Island | null;
+  /** 가는 · 돌아오는 도착 도시에 울릉이 있다(PoC ulleungTrip). 출발지 · 귀가지는 울릉 항로 항구만 */
+  ulleung: boolean;
+  /** 계산에 쓰는 출발지 · 귀가지 key(PoC oKey). 저장된 값이 울릉 규칙에 맞지 않으면 고친 값 */
+  originKey: string;
+  originEndKey: string;
+  /** 제주 자가용 카페리(항만까지 운전 + 카페리) */
+  carFerry: boolean;
+  /** 제주 자가용 도민(광역 체인 없이 섬 안에서 자가용만) */
+  resident: boolean;
   options: WideOption[];
   /** 강조할 광역 교통 칸: 고른 칸(고를 수 있을 때), 없으면 체인 수단의 칸 */
   choice: WideChoice | null;
@@ -219,13 +248,17 @@ function planTrip(
   const regIn = first?.locKo ?? destination;
   const regOut = last?.locKo ?? regIn;
   const hub = regIn ? CITY_HUBS[regIn] : undefined;
-  const options = wideOptions(hub);
+  const island = islandOf(regIn);
+  const ulleung = regIn === "울릉" || regOut === "울릉";
+  const options = wideOptions(hub, island);
   const picked = wideChoiceOf(settings.wideMode);
   const usable =
     picked && options.find((o) => o.choice === picked)?.block === null
       ? picked
       : null;
   const own = usable === "own";
+  const jejuOwn = own && island === "jeju";
+  const resident = jejuOwn && settings.jejuResident === true;
   const local: TravelMode = own
     ? "own"
     : settings.localMode === "driving"
@@ -241,13 +274,15 @@ function planTrip(
     out: boolean,
   ): ChainSide | null => {
     const h = city ? CITY_HUBS[city] : undefined;
-    if (!city || !h) return null;
+    if (!city || !h || resident) return null;
     const o = originFor(settings, key, city, own, out);
     const opts = {
       own,
       pref: own ? null : usable,
       picked: settings.routePick[city],
       gwPick: settings.gwPick,
+      carFerry: own && islandOf(city) === "jeju",
+      ulleung: city === "울릉",
     };
     const chain = wideChain(o, key, h, opts);
     if (!chain) return null;
@@ -262,8 +297,13 @@ function planTrip(
       gatewayKey: originKeyOf(chain.gw),
     };
   };
-  const inbound = side(settings.origin, regIn, false);
-  const outbound = side(settings.originEnd ?? settings.origin, regOut, true);
+  const originKey = tripOriginKey(settings.origin, ulleung);
+  const originEndKey = tripOriginKey(
+    settings.originEnd ?? settings.origin,
+    ulleung,
+  );
+  const inbound = side(originKey, regIn, false);
+  const outbound = side(originEndKey, regOut, true);
 
   const hubLeg = (
     s: ChainSide | null,
@@ -295,6 +335,12 @@ function planTrip(
     dayCount,
     destination: regIn,
     hub,
+    island,
+    ulleung,
+    originKey,
+    originEndKey,
+    carFerry: inbound?.chain.carFerry === true,
+    resident,
     options,
     choice: usable ?? wideChoiceOf(wide),
     wide,

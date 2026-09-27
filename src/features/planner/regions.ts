@@ -59,9 +59,20 @@ export const CITY_HUBS = regionsData.hubs as Readonly<
   Record<string, PlannerHub>
 >;
 
+/**
+ * 출발지 한 곳. route: 섬 항로 전용 항구(jeju · ulleung), sailMin: 울릉 항로 고정 항해 시간(분),
+ * arrKo · arrEn: 울릉 도착 항구(PoC ORIGINS)
+ */
+export type PlannerOrigin = Origin & {
+  route?: string;
+  sailMin?: number;
+  arrKo?: string;
+  arrEn?: string;
+};
+
 /** 출발지(역 · 터미널 · 공항 · 항구). Tour Planner.dc.html ORIGINS 순서 그대로. 수단은 출발지.csv(전철 metro 포함) */
 export const PLANNER_ORIGINS = regionsData.origins as Readonly<
-  Record<string, Origin & { route?: string }>
+  Record<string, PlannerOrigin>
 >;
 
 /** 지역 탭에 따로 칸이 있는 도시 (목업: 전국 · 서울 · 부산 · 제주 · 도시 ▾) */

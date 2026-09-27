@@ -942,7 +942,9 @@
           "srt": "SRT",
           "air": "Flight",
           "ship": "Ferry",
-          "own": "Own car"
+          "own": "Own car",
+          "car": "Taxi/car",
+          "carferry": "Car ferry"
         },
         "depart": "Depart",
         "leave": "Leave destination",
@@ -985,6 +987,54 @@
           "air": "Flight",
           "ship": "Ferry",
           "metro": "Metro"
+        }
+      },
+      "jejuOwn": {
+        "kicker": "Own car · Jeju",
+        "title": "Jeju is an island — you can’t get there by car alone. Do you live in Jeju?",
+        "resident": "Yes, I live in Jeju — car only",
+        "ferry": "No — take the car ferry",
+        "residentNote": "Resident — you drive within the island only. With no intercity leg, day 1 starts at your departure time.",
+        "ferryNote": "Ship your car on a ferry from Mokpo, Wando, Yeosu or Busan. Pick a port in the ferry timetable below; vehicles usually board 1 hour before departure."
+      },
+      "ulleung": {
+        "kicker": "Ulleung ferry",
+        "title": "Ulleungdo is reached only by ferry",
+        "body": "There is no rail, bus or air service to the island, so departure and return are counted only from the four ports with Ulleung sailings. Departure has been set to Pohang Ferry Terminal — switch it to the port you want.",
+        "portsLabel": "Ports served · duration",
+        "foot": "Durations are each route’s fixed sailing time plus 40 minutes for boarding. The arrival port varies by sailing (Dodong, Jeodong or Sadong) and crossings can be cancelled in rough weather.",
+        "ok": "Got it",
+        "close": "Close"
+      },
+      "ferry": {
+        "title": {
+          "jeju": "Jeju ferry timetable",
+          "ulleung": "Ulleungdo ferry timetable"
+        },
+        "port": "Departure port",
+        "rows": {
+          "op": "Operator",
+          "dur": "Crossing",
+          "day": "Sailings",
+          "first": "First",
+          "last": "Last",
+          "arr": "Arrives"
+        },
+        "note": "Indicative departures from the mainland. Frequency and times change by weekday, season and weather, and sailings can be cancelled — check the operator timetable before booking.",
+        "book": "Book (KSA island ferry)",
+        "operator": "Operator timetable",
+        "stat": {
+          "label": "Track record · {route}",
+          "range": "{from}–{to} · {n} sailings",
+          "yearly": "Cancelled (all year)",
+          "tripMonth": "{monthName} (your trip)",
+          "worst": "Worst month",
+          "monthPct": "{monthName} {pct}",
+          "bars": "Cancellation rate by month",
+          "barTrip": "{label} · your trip",
+          "times": "Usual departures",
+          "warn": "{monthName} sees {pct} cancellations on this route — keep a flight or a spare day as backup.",
+          "src": "Source: KOMSA route sailing records"
         }
       }
     },

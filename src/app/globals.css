@@ -32,6 +32,9 @@
   /* 오류 — 입력 검사 문구 · 잘못된 칸 테두리. 흰 바탕 5.6:1, fill 위 5.1:1 */
   --color-danger: #c62828;
 
+  /* 주의 — 배편 운항 실적의 통제율 6% 이상(PoC 단계). 흰 바탕 5.0:1, fill 위 4.6:1 */
+  --color-warning: #b45309;
+
   /* 장소 분류 — 투어 플래너 지도 핀 · 목록 점. 모두 흰 바탕 대비 4.5:1 이상(Course.categories 순서) */
   --color-cat-herit: #b45309;
   --color-cat-heal: #15803d;

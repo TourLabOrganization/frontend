@@ -942,7 +942,9 @@
           "srt": "SRT",
           "air": "Vuelo",
           "ship": "Ferry",
-          "own": "Coche propio"
+          "own": "Coche propio",
+          "car": "Taxi/coche",
+          "carferry": "Ferri con coche"
         },
         "depart": "Salida",
         "leave": "Salida del destino",
@@ -985,6 +987,54 @@
           "air": "Vuelo",
           "ship": "Ferry",
           "metro": "Tren urbano"
+        }
+      },
+      "jejuOwn": {
+        "kicker": "Coche propio · Jeju",
+        "title": "Jeju es una isla: no se llega solo en coche. ¿Vive en Jeju?",
+        "resident": "Sí, vivo en Jeju — solo coche",
+        "ferry": "No — ferri con coche",
+        "residentNote": "Residente: solo conduces dentro de la isla. Sin trayecto interurbano, el día 1 empieza a tu hora de salida.",
+        "ferryNote": "Embarca tu coche en un ferri desde Mokpo, Wando, Yeosu o Busan. Elige el puerto en el horario de ferris de abajo; los vehículos suelen embarcar 1 hora antes de la salida."
+      },
+      "ulleung": {
+        "kicker": "Ferry a Ulleung",
+        "title": "A Ulleungdo solo se llega en ferry",
+        "body": "No hay tren, autobús ni vuelo a la isla, así que la salida y el regreso se calculan solo desde los cuatro puertos con ferry a Ulleung. La salida se ha fijado en la terminal de Pohang; cámbiala al puerto que prefieras.",
+        "portsLabel": "Puertos · duración",
+        "foot": "Los tiempos son la travesía fija de cada ruta más 40 minutos de embarque. El puerto de llegada varía según el servicio (Dodong, Jeodong o Sadong) y el trayecto puede cancelarse con mal tiempo.",
+        "ok": "Entendido",
+        "close": "Cerrar"
+      },
+      "ferry": {
+        "title": {
+          "jeju": "Ferris a Jeju",
+          "ulleung": "Ferris a Ulleungdo"
+        },
+        "port": "Puerto de salida",
+        "rows": {
+          "op": "Naviera",
+          "dur": "Travesía",
+          "day": "Salidas",
+          "first": "Primero",
+          "last": "Último",
+          "arr": "Llegada"
+        },
+        "note": "Horarios orientativos desde tierra firme; cambian según el día, la temporada y el tiempo. Consulta a la naviera antes de reservar.",
+        "book": "Reservar",
+        "operator": "Horario de la naviera",
+        "stat": {
+          "label": "Historial · {route}",
+          "range": "{from}–{to} · {n} salidas",
+          "yearly": "Cancelados (todo el año)",
+          "tripMonth": "{monthName} (tu viaje)",
+          "worst": "Peor mes",
+          "monthPct": "{monthName} {pct}",
+          "bars": "Cancelaciones por mes",
+          "barTrip": "{label} · tu viaje",
+          "times": "Salidas habituales",
+          "warn": "En {monthName} se cancela el {pct} de las salidas de esta ruta: ten un vuelo o un día extra de reserva.",
+          "src": "Fuente: registros de KOMSA por ruta"
         }
       }
     },

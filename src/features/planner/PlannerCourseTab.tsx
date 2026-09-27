@@ -72,6 +72,9 @@ import {
 } from "./data/booking";
 import { addDays, dateError, MAX_TRIP_DAYS, tripDays } from "./dates";
 import { DayAddPlace } from "./DayAddPlace";
+import { FerryCard } from "./FerryCard";
+import { showFerryCard } from "./ferry";
+import { ulleungSync } from "./island";
 import { plannerHref, scopeHref } from "./query";
 import {
   CITY_HUBS,
@@ -102,6 +105,7 @@ import {
   toggleNightStay,
 } from "./stays";
 import { TripCalendar } from "./TripCalendar";
+import { UlleungNotice } from "./UlleungNotice";
 import {
   airTwin,
   type ChainPoint,
@@ -283,6 +287,20 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     applyPlan(pendingPlan);
   });
 
+  // 울릉을 고를 때 한 번(PoC syncUlleung): 안내 창을 띄우고 출발지 · 귀가지를 울릉 항로 항구로 바꾼다.
+  // 이 화면에서 울릉이 아니던 여행이 울릉이 되었을 때, 또는 화면을 열 때 울릉 여행인데 저장된 출발지가 울릉 항로 항구가 아닐 때
+  const ulWas = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (!hydrated) return;
+    const was = ulWas.current;
+    ulWas.current = plan.ulleung;
+    if (!plan.ulleung || was === true) return;
+    const fix = ulleungSync(course.origin, course.originEnd);
+    if (was === null && fix.origin === undefined) return;
+    store.setSettings(fix);
+    store.setUlNotice(true);
+  });
+
   if (!hydrated) return null;
 
   const loadOpen =
@@ -336,18 +354,26 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     picked !== null &&
     plan.options.find((o) => o.choice === picked)?.block === null;
   const metroWide = picked === "metro" && pickedOpen;
+  // 제주 자가용 카페리는 배의 관문(항만)만(PoC originOptions wideOriginFilter(…, 'ship'))
   const originKeys = originOptions(
     plan.hub,
-    pickedOpen ? picked : null,
-    plan.destination === "울릉",
+    plan.carFerry ? "ship" : pickedOpen ? picked : null,
+    plan.ulleung,
   );
+  // 제주 자가용이면 「제주도민인가요?」(PoC jejuOwn*). 도민이면 출발지 · 귀가지를 고르지 않는다(체인이 없다)
+  const jejuOwn = own && plan.island === "jeju";
   const onWide = (choice: WideChoice) => {
+    // 제주에서 자가용을 고르면 카페리를 탈 항만으로 출발지를 맞춘다(PoC wideOpts pick 제주 자가용)
     const fix =
-      choice === "own"
+      choice === "own" && plan.island !== "jeju"
         ? {}
-        : fixOriginsForWide(choice, course.origin, course.originEnd);
+        : fixOriginsForWide(
+            choice === "own" ? "ship" : choice,
+            plan.originKey,
+            course.originEnd,
+          );
     store.setSettings({
-      wideMode: wideModeOf(choice, fix.origin ?? course.origin),
+      wideMode: wideModeOf(choice, fix.origin ?? plan.originKey),
       ...fix,
     });
   };
@@ -389,7 +415,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       <CourseWideChain
         direction={direction}
         side={side}
-        link={wideBookingLink(side.chain.mode)}
+        // 자가용(카페리 포함)은 예매가 없다(PoC transBtns). 배편은 배편 시간표 카드에서 예매한다
+        link={own ? null : wideBookingLink(side.chain.mode)}
         onRouteChange={
           // 당일 여행에서 가는 길과 같은 도시면 돌아오는 길에는 두지 않는다(PoC chainOutAltShow)
           direction === "back" &&
@@ -861,7 +888,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           originName={
             plan.inbound
               ? pointName(plan.inbound.origin)
-              : originName(course.origin)
+              : originName(plan.originKey)
           }
           hubName={hubName}
           accessHub={plan.inbound ? pointName(plan.inbound.chain.hubPt) : null}
@@ -872,15 +899,24 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           }
           onWide={onWide}
           onLocal={(mode) => store.setSettings({ localMode: mode })}
+          alsoOn={plan.carFerry ? "ship" : null}
+          jejuOwn={
+            jejuOwn
+              ? {
+                  resident: course.jejuResident,
+                  onPick: (v) => store.setSettings({ jejuResident: v }),
+                }
+              : null
+          }
         >
           <CourseOrigins
             originKeys={originKeys}
-            origin={course.origin}
-            originEnd={course.originEnd}
+            origin={plan.originKey}
+            originEnd={course.originEnd === null ? null : plan.originEndKey}
             originName={originName}
             onOrigin={onOrigin}
             onOriginEnd={onOriginEnd}
-            showOriginSelect={!metroWide}
+            showOriginSelect={!metroWide && !plan.resident}
             depTime={course.depTime}
             retTime={course.retTime}
             depTimes={DEP_TIMES}
@@ -904,6 +940,20 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
             }}
           />
         </CourseTransport>
+        {plan.island &&
+          showFerryCard({
+            island: plan.island,
+            own,
+            choice: plan.choice,
+            jejuResident: course.jejuResident,
+          }) && (
+            <FerryCard
+              island={plan.island}
+              port={course.ferryPort[plan.island]}
+              onPort={(k) => store.setFerryPort(plan.island!, k)}
+              startDate={course.startDate}
+            />
+          )}
         <RoutingHowTo className="mt-6" />
       </div>
 
@@ -1250,6 +1300,10 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         <CourseBookingLinks stayLinks={courseStayLinks()} />
       </div>
 
+      <UlleungNotice
+        open={course.ulNotice}
+        onClose={() => store.setUlNotice(false)}
+      />
       <RouteChoiceDialog
         open={dialogKind === null && askView !== null}
         kicker={askView?.kicker ?? ""}

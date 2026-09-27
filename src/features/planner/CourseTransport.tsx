@@ -20,6 +20,12 @@ type CourseTransportProps = {
   options: readonly WideOption[];
   /** 강조할 광역 교통 칸. 없으면 null */
   choice: WideChoice | null;
+  /** 함께 강조할 칸(제주 자가용 카페리면 배, PoC wideOpts). 없으면 null */
+  alsoOn?: WideChoice | null;
+  /**
+   * 제주 자가용일 때 「제주도민인가요?」(PoC jejuOwn*). resident: 고른 답(아직이면 null). 제주 자가용이 아니면 null
+   */
+  jejuOwn?: { resident: boolean | null; onPick: (v: boolean) => void } | null;
   /** 실제로 쓰는 현지 이동 */
   local: TravelMode;
   /** 체인 출발점 이름(고른 전철역일 수 있다) */
@@ -40,6 +46,8 @@ type CourseTransportProps = {
 export function CourseTransport({
   options,
   choice,
+  alsoOn = null,
+  jejuOwn = null,
   local,
   originName,
   hubName,
@@ -77,7 +85,7 @@ export function CourseTransport({
         >
           {options.map((o) => {
             const label = t(`wide.modes.${o.choice}`);
-            const on = choice === o.choice;
+            const on = choice === o.choice || alsoOn === o.choice;
             const reasonId = `${id}-${o.choice}`;
             const reason =
               o.block === "hub"
@@ -131,6 +139,7 @@ export function CourseTransport({
               })
             : ""}
         </p>
+        {jejuOwn && <JejuOwnQuestion {...jejuOwn} />}
       </section>
 
       {children}
@@ -180,5 +189,54 @@ export function CourseTransport({
         )}
       </section>
     </>
+  );
+}
+
+/**
+ * 제주 자가용의 「제주도민인가요?」 두 선택과 안내(PoC jejuOwnKicker · jejuOwnTitle · jejuOwnOpts · jejuOwnNote).
+ * 답이 출발지 목록(항만만 / 없음)과 체인(카페리 / 없음)을 바꾸므로 광역 교통 칸 바로 아래에 둔다
+ */
+function JejuOwnQuestion({
+  resident,
+  onPick,
+}: {
+  resident: boolean | null;
+  onPick: (v: boolean) => void;
+}) {
+  const t = useTranslations("Planner.course.jejuOwn");
+  const id = useId();
+  return (
+    <div
+      role="group"
+      aria-labelledby={`${id}-title`}
+      className="mt-3 rounded-card bg-fill p-4"
+    >
+      <p className="text-caption font-semibold text-primary">{t("kicker")}</p>
+      <p id={`${id}-title`} className="mt-1 text-body font-semibold">
+        {t("title")}
+      </p>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        {([true, false] as const).map((v) => {
+          const on = resident === v;
+          return (
+            <button
+              key={String(v)}
+              type="button"
+              aria-pressed={on}
+              onClick={() => onPick(v)}
+              className={`${CELL} ${on ? CELL_ON : CELL_OFF}`}
+            >
+              <span className="flex items-center gap-1">
+                {on && <Check size={16} className="shrink-0" aria-hidden />}
+                {t(v ? "resident" : "ferry")}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <p aria-live="polite" className="mt-2 text-label text-fg-muted">
+        {resident === null ? "" : t(resident ? "residentNote" : "ferryNote")}
+      </p>
+    </div>
   );
 }
