@@ -64,7 +64,14 @@ public/                 정적 파일
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
   그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)
 - 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동)은
-  주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`). 없는 필드는 기본값(오늘 · 당일 · 서울역 · 08:00 · 19:00)
+  주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`). 없는 필드는 기본값(오늘 · 당일 · 서울역 · 08:00 · 19:00).
+  장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`)도 같은 값에 둔다
+- 날짜는 달력에서 출발일 → 귀가일 순으로 누른다(PoC `calendarDays` pick, `features/planner/calendar.ts`). 귀가일을 고르는 중(`endDate` 없음)에는 당일로 계산하고,
+  `MAX_TRIP_DAYS`를 넘는 날은 고를 수 없다(PoC에는 상한이 없다)
+- 체류 시간은 담은 장소 행에서 15분씩 바꾼다(15~600분, 추천값과 같으면 덮어쓰기를 지운다, PoC `setStay`). 일정 계산은 장소의 `min` 대신 이 값을 받을 뿐 식은 그대로다(`course-edit.ts`)
+- 일자별 일정의 「장소 추가」는 그 날 마지막 장소 뒤에 끼워 넣는다(PoC `addCourseAt`, 빈 날은 맨 뒤). 날짜 나누기가 다시 계산되므로 그 날이 꽉 차면 다음 날로 밀린다.
+  검색은 그 날 도시(첫 장소 도시, 없으면 앞뒤 날)의 장소만이다. PoC는 맞는 장소가 없으면 전국에서 찾지만 한 코스는 한 도시라 넓히지 않는다
+- 일자별 일정의 구간마다 수단 · 시간 · 거리(`legInfo` km, 요약 총 거리와 같은 값)를 붙이고, 첫날 위 · 마지막 날 아래에 광역 구간(출발지 ↔ 관문)과 그 수단 예매 링크(`data/booking.ts` `wideBookingLink`)를 둔다
 - 한 코스는 한 도시(`locKo`)의 장소만 담는다. 권역에서 불러온 추천 코스만 여러 도시가 섞일 수 있다
 - 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
@@ -113,10 +120,14 @@ public/                 정적 파일
 
 ### 저장된 플랜 (`tn.savedPlans`)
 
-- 테마 코스 `{ slug, a, plan, savedAt }`와 투어 플래너 코스 `{ kind: "planner", id, name, city, placeIds, settings, savedAt }`가 한 배열에 산다.
+- 테마 코스 `{ slug, a, plan, savedAt, name? }`와 투어 플래너 코스 `{ kind: "planner", id, name, city, placeIds, settings, savedAt }`가 한 배열에 산다.
+  테마 코스의 `name`은 테마 코스 탭 「내 플랜」에서 이름을 적었을 때만 있다. 플래너 `settings`에는 체류 시간 덮어쓰기(`stayOv`)도 들어간다.
   `kind`가 없으면 테마 코스다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlans` · `parsePlannerPlans` · `writeSavedPlans` · `writePlannerPlans`)만 쓰고,
   한쪽을 쓸 때 다른 쪽 항목은 그대로 둔다
 - ME는 둘을 저장한 순서대로 보인다. 플래너 플랜은 「{이름} · {도시} · {n박 m일} · {n}곳」, 누르면 `/planner?tab=course&plan={id}`
+- 플래너 코스 탭과 테마 코스 탭의 「내 플랜」은 저장 · 저장소(불러오기 · 삭제) · 「{이름}」 덮어쓰기를 한다(PoC `planVals`, 목록은 `components/PlanStore`).
+  덮어쓰기 대상은 불러오거나 방금 저장한 플랜이다(플래너는 `tn.planner.course`의 `planId`, 테마는 화면 상태). 덮어쓰기 · 삭제는 확인 창으로 묻는다.
+  테마 코스는 같은 코스(slug · a · plan)를 하나만 두므로, 덮어쓰기로 같은 코스가 생기면 하나로 합친다(`overwriteThemePlan`)
 
 ### 저장한 장소 (`tn.savedPlaces`)
 
