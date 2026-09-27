@@ -59,12 +59,8 @@ export function ThemePlaceSheet({
       place={
         place && {
           name: placeName(place, locale, names),
-          meta: [
-            isCategoryKey(place.cat) ? tc(`categories.${place.cat}`) : "",
-            place.min > 0
-              ? tc("stay", { duration: formatDuration(tc, place.min) })
-              : "",
-          ],
+          // 체류 시간은 상세 표 「권장 체류」에만 둔다(머리줄과 겹치지 않게)
+          meta: [isCategoryKey(place.cat) ? tc(`categories.${place.cat}`) : ""],
           description:
             extra?.desc?.[locale === "ko" ? "ko" : "en"] ?? extra?.desc?.ko,
           photo: extra?.img
@@ -72,7 +68,11 @@ export function ThemePlaceSheet({
             : null,
           facts: {
             hours: place.hrs,
-            stay: place.min > 0 ? formatDuration(tc, place.min) : undefined,
+            // 숙박 장소는 일정에 들지 않아(course/schedule.ts) 권장 체류를 보이지 않는다
+            stay:
+              place.min > 0 && place.cat !== "stay"
+                ? formatDuration(tc, place.min)
+                : undefined,
             work: extra?.work,
             scene: scene?.row,
             lat: place.lat,

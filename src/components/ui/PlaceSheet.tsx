@@ -10,7 +10,7 @@ import { PlaceWeather } from "./PlaceWeather";
 export type PlaceSheetPlace = {
   /** 제목(화면 언어의 장소 이름). 사진의 대체 글도 이 이름이다 */
   name: string;
-  /** 제목 아래 한 줄. 「문화유산·전통체험 · 체류 40분」처럼 " · "로 잇는다 */
+  /** 제목 아래 한 줄. 「경주 · 문화유산·전통체험」처럼 " · "로 잇는다. 체류 시간은 상세 표(권장 체류)에만 둔다 */
   meta?: readonly string[];
   description?: string | null;
   /** 상세 표. PoC 장소 상세 순서대로 그리고, 값이 없는 행은 뺀다 */

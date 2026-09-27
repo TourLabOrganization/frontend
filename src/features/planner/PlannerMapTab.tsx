@@ -448,10 +448,10 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         place={
           selected && {
             name: placeName(selected, locale, names),
+            // 체류 시간은 상세 표 「권장 체류」에만 둔다(머리줄과 겹치지 않게)
             meta: [
               cityName(selected.locKo, locale, names),
               category(selected) ?? "",
-              stay(selected) ?? "",
             ],
             description:
               detail.data?.desc?.[locale === "ko" ? "ko" : "en"] ??
@@ -466,8 +466,11 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             // 좌표 기준 원문은 한국어 · 영어뿐이라 한국어가 아닌 화면은 영어
             facts: {
               hours: selected.hrs,
+              // 숙박 장소는 일정에 들지 않아(stays.ts) 권장 체류를 보이지 않는다
               stay:
-                selected.min > 0 ? formatDuration(tc, selected.min) : undefined,
+                selected.min > 0 && !isStay(selected)
+                  ? formatDuration(tc, selected.min)
+                  : undefined,
               lat: selected.lat,
               lng: selected.lng,
               source:
