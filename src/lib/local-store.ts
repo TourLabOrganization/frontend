@@ -65,13 +65,15 @@ export function readLocal(key: string): string | null {
   }
 }
 
-export function writeLocal(key: string, value: string): void {
+/** 값을 쓴다. 썼으면 true, 저장소가 막혔거나 가득 차 못 썼으면 false(대부분의 호출부는 무시해도 된다) */
+export function writeLocal(key: string, value: string): boolean {
   try {
     window.localStorage.setItem(key, value);
   } catch {
-    return;
+    return false;
   }
   window.dispatchEvent(new Event(CHANGE_EVENT));
+  return true;
 }
 
 export function removeLocal(key: string): void {
@@ -350,8 +352,8 @@ export function toggleSavedPlace(
     : [...list, { ...place, savedAt: now }];
 }
 
-export function writeSavedPlaces(list: readonly SavedPlace[]): void {
-  writeLocal(SAVED_PLACES_KEY, JSON.stringify(list));
+export function writeSavedPlaces(list: readonly SavedPlace[]): boolean {
+  return writeLocal(SAVED_PLACES_KEY, JSON.stringify(list));
 }
 
 /** 저장한 장소 목록과 토글 · 지우기. 서버 렌더와 하이드레이션 중에는 빈 목록 */

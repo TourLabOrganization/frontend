@@ -1,4 +1,4 @@
-import { useLocalValue, writeLocal } from "@/lib/local-store";
+import { useLocalValue, writeLocal } from "../../lib/local-store";
 
 // 테마별 스탬프(체크인). localStorage에 장소 id 배열(JSON)로 둔다.
 //   tn.stamps.{slug}

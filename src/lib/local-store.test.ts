@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   isPlaceSaved,
   overwritePlannerPlan,
@@ -11,6 +11,7 @@ import {
   type SavedPlace,
   type SavedPlan,
   toggleSavedPlace,
+  writeLocal,
 } from "./local-store";
 
 const name = { ko: "청령포", en: "Cheongnyeongpo" };
@@ -149,5 +150,29 @@ describe("저장된 플랜 (tn.savedPlans)", () => {
     ).toEqual([
       { slug: "rescene", a: "", plan: "trend", savedAt: 9, name: "첫 플랜" },
     ]);
+  });
+});
+
+describe("writeLocal", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("쓰기에 성공하면 true, 저장소가 막혔거나 가득 차면 false", () => {
+    const events: string[] = [];
+    let fail = false;
+    vi.stubGlobal("window", {
+      localStorage: {
+        setItem: () => {
+          if (fail) throw new DOMException("full", "QuotaExceededError");
+        },
+      },
+      dispatchEvent: (e: Event) => void events.push(e.type),
+    });
+    expect(writeLocal("k", "v")).toBe(true);
+    fail = true;
+    expect(writeLocal("k", "v")).toBe(false);
+    // 실패하면 바뀜 알림도 보내지 않는다
+    expect(events).toHaveLength(1);
   });
 });
