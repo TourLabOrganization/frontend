@@ -617,7 +617,8 @@
       "sortLatest": "Recientes",
       "views": "{count, plural, one {# visualización} other {# visualizaciones}}",
       "searchClear": "Borrar búsqueda",
-      "searchStatus": "{count, plural, one {# resultado} other {# resultados}}"
+      "searchStatus": "{count, plural, one {# resultado} other {# resultados}}",
+      "koreanNote": "Los títulos de las escenas están en coreano."
     },
     "stamp": {
       "kicker": "Check-in",

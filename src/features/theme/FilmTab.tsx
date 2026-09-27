@@ -3,7 +3,7 @@
 import { ExternalLink, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { SearchField } from "@/components/ui/SearchField";
 import { hasViews, type SceneSort, searchCards, sortCards } from "./place-list";
@@ -52,6 +52,7 @@ type FilmTabProps = {
 // 카드 id는 장면 id라 지도 시트 · 지도 목록의 #장면 링크가 여기로 온다
 export function FilmTab({ cards, video }: FilmTabProps) {
   const t = useTranslations("Theme.film");
+  const locale = useLocale();
   const sorts: readonly SceneSort[] = video
     ? hasViews(cards)
       ? ["popular", "latest"]
@@ -80,6 +81,10 @@ export function FilmTab({ cards, video }: FilmTabProps) {
         <h2 className="mt-1 text-title font-bold">
           {video ? t("titleVideo") : t("title")}
         </h2>
+        {/* 장면 제목은 원천이 한국어뿐이라 옮기지 않고, 외국어 화면에만 안내한다(작품명은 work-titles.ts로 옮긴다) */}
+        {locale !== "ko" && (
+          <p className="mt-2 text-caption text-fg-subtle">{t("koreanNote")}</p>
+        )}
       </section>
 
       <div className="mt-4 flex flex-col gap-3 px-5">

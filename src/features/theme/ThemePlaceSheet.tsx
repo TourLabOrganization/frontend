@@ -15,6 +15,7 @@ import {
   placeName,
   placePhoto,
 } from "./place-meta";
+import { workTitle } from "./work-titles";
 import { useIdList } from "./storage";
 import type { PlaceExtra } from "./theme-data";
 import type { SceneLink } from "./MapTab";
@@ -73,7 +74,7 @@ export function ThemePlaceSheet({
               place.min > 0 && place.cat !== "stay"
                 ? formatDuration(tc, place.min)
                 : undefined,
-            work: extra?.work,
+            work: extra?.work && workTitle(extra.work, locale),
             scene: scene?.row,
             lat: place.lat,
             lng: place.lng,

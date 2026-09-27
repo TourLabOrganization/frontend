@@ -617,7 +617,8 @@
       "sortLatest": "最新顺序",
       "views": "{count, number}次观看",
       "searchClear": "清除搜索内容",
-      "searchStatus": "找到{count}条结果"
+      "searchStatus": "找到{count}条结果",
+      "koreanNote": "场景标题为韩文。"
     },
     "stamp": {
       "kicker": "打卡",

@@ -617,7 +617,8 @@
       "sortLatest": "新着順",
       "views": "{count, number}回再生",
       "searchClear": "検索語を消去",
-      "searchStatus": "検索結果 {count}件"
+      "searchStatus": "検索結果 {count}件",
+      "koreanNote": "シーンのタイトルは韓国語表記です。"
     },
     "stamp": {
       "kicker": "チェックイン",

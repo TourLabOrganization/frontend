@@ -617,7 +617,8 @@
       "sortLatest": "최신순",
       "views": "조회수 {count, number}회",
       "searchClear": "검색어 지우기",
-      "searchStatus": "검색 결과 {count}개"
+      "searchStatus": "검색 결과 {count}개",
+      "koreanNote": "장면 제목은 원문(한국어)으로 보여요."
     },
     "stamp": {
       "kicker": "체크인",

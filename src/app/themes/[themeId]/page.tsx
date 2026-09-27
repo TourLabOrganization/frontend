@@ -29,6 +29,7 @@ import {
 } from "@/features/theme/theme-data";
 import { ThemeTabBar } from "@/features/theme/ThemeTabBar";
 import { LegacyBookmarksMigration } from "@/features/theme/LegacyBookmarksMigration";
+import { workTitle } from "@/features/theme/work-titles";
 import { themeNameTable } from "@/features/theme/theme-name-table";
 import { loadNameTable } from "@/features/names/server";
 
@@ -94,7 +95,7 @@ export default async function ThemePage({
             title: s.title,
             query: s.query,
             sceneTitle: first?.sceneTitle,
-            work: first?.work,
+            work: first?.work && workTitle(first.work, locale),
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
             texts: [
               s.title,
@@ -168,7 +169,9 @@ export default async function ThemePage({
               : [];
           if (row.length === 0) continue;
           sceneLinks[p.id] = {
-            text: [...row, f ? e.work : undefined].filter(Boolean).join(" · "),
+            text: [...row, f && e.work ? workTitle(e.work, locale) : undefined]
+              .filter(Boolean)
+              .join(" · "),
             href: themeHref(slug, keep, "film", { hash: e.scene }),
             row: row.filter(Boolean).join(" · "),
             // 이 장소가 나오는 영상: 뮤직비디오는 그 영상(시작 시각), 영화 · 드라마는 영화 탭과 같은 장면 검색
