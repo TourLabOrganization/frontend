@@ -74,7 +74,8 @@
         "thunderstorm": "뇌우",
         "unknown": "날씨 정보 없음"
       }
-    }
+    },
+    "badges": "배지"
   },
   "Splash": {
     "title": {
@@ -704,16 +705,18 @@
       "all": "전체",
       "badgesLabel": "배지",
       "badges": {
+        "pop": "데이터랩 인기",
         "un": "유네스코",
         "k100": "한국관광 100선",
         "bf": "열린관광지",
-        "zone": "관광특구"
+        "zone": "관광특구 · 관광단지"
       },
       "mapLabel": "투어 플래너 지도",
       "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
       "regionMarker": "{region} · 장소 {count}곳",
       "cityMarker": "{city} · 장소 {count}곳",
       "listHeading": "장소 목록 · {count}",
+      "popNote": "한국관광 데이터랩 인기관광지 순위가 있는 곳을 먼저 보여요",
       "searchLabel": "장소 검색",
       "searchPlaceholder": "장소 · 도시 이름으로 찾기",
       "searchClear": "검색어 지우기",
@@ -723,7 +726,8 @@
       "empty": "이 분류에 맞는 장소가 없어요",
       "add": "{name} 코스에 담기",
       "addedStatus": "코스에 담았어요: {name}",
-      "removedStatus": "코스에서 뺐어요: {name}"
+      "removedStatus": "코스에서 뺐어요: {name}",
+      "popRank": "데이터랩 인기 {rank}위"
     },
     "sheet": {
       "add": "코스에 담기",

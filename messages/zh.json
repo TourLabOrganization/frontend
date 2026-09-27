@@ -74,7 +74,8 @@
         "thunderstorm": "雷雨",
         "unknown": "无数据"
       }
-    }
+    },
+    "badges": "徽章"
   },
   "Splash": {
     "title": {
@@ -704,16 +705,18 @@
       "all": "全部",
       "badgesLabel": "标签",
       "badges": {
+        "pop": "数据实验室人气",
         "un": "世界遗产",
         "k100": "韩国观光100选",
         "bf": "无障碍旅游地",
-        "zone": "旅游特区"
+        "zone": "旅游特区 · 旅游园区"
       },
       "mapLabel": "行程规划地图",
       "noKey": "未设置地图密钥，无法显示地图。下方的地点列表仍可正常使用",
       "regionMarker": "{region} · {count}处地点",
       "cityMarker": "{city} · {count}处地点",
       "listHeading": "地点列表 · {count}",
+      "popNote": "优先显示韩国观光数据实验室热门景点排名中的地点",
       "searchLabel": "搜索地点",
       "searchPlaceholder": "按地点·城市名称查找",
       "searchClear": "清除搜索内容",
@@ -723,7 +726,8 @@
       "empty": "该分类下没有地点",
       "add": "将{name}加入行程",
       "addedStatus": "已加入行程：{name}",
-      "removedStatus": "已从行程移除：{name}"
+      "removedStatus": "已从行程移除：{name}",
+      "popRank": "数据实验室人气第{rank}名"
     },
     "sheet": {
       "add": "加入行程",

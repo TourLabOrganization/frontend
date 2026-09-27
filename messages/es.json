@@ -74,7 +74,8 @@
         "thunderstorm": "Tormenta",
         "unknown": "Sin datos"
       }
-    }
+    },
+    "badges": "Insignias"
   },
   "Splash": {
     "title": {
@@ -704,16 +705,18 @@
       "all": "Todo",
       "badgesLabel": "Distintivos",
       "badges": {
+        "pop": "Popular en Data Lab",
         "un": "UNESCO",
         "k100": "Top 100 de Corea",
         "bf": "Accesible",
-        "zone": "Zona turística"
+        "zone": "Zona · complejo turístico"
       },
       "mapLabel": "Mapa del planificador",
       "noKey": "No se pudo cargar el mapa porque falta la clave del mapa. La lista de lugares de abajo sigue funcionando",
       "regionMarker": "{region} · {count, plural, one {# lugar} other {# lugares}}",
       "cityMarker": "{city} · {count, plural, one {# lugar} other {# lugares}}",
       "listHeading": "Lugares · {count}",
+      "popNote": "Primero se muestran los lugares del ranking de atracciones populares del Korea Tourism Data Lab",
       "searchLabel": "Buscar lugares",
       "searchPlaceholder": "Busca un lugar o ciudad",
       "searchClear": "Borrar búsqueda",
@@ -723,7 +726,8 @@
       "empty": "No hay lugares en esta categoría",
       "add": "Añadir {name} a la ruta",
       "addedStatus": "Añadido a la ruta: {name}",
-      "removedStatus": "Quitado de la ruta: {name}"
+      "removedStatus": "Quitado de la ruta: {name}",
+      "popRank": "Popular en Data Lab n.º {rank}"
     },
     "sheet": {
       "add": "Añadir a la ruta",

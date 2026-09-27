@@ -147,7 +147,8 @@ describe("플래너 데이터", () => {
     expect(missing).toEqual([]);
   });
 
-  it("배지 필터 장소 수: 유네스코 69 · 100선 99 · 열린관광지 99 · 관광특구 34", () => {
+  // 데이터랩 인기 · 관광특구 · 관광단지는 data-server(develop ac9eb34) popRank · zone 기준
+  it("배지 필터 장소 수: 데이터랩 인기 173 · 유네스코 69 · 100선 99 · 열린관광지 99 · 관광특구 · 관광단지 210", () => {
     expect(
       Object.fromEntries(
         BADGE_KEYS.map((b) => [
@@ -155,7 +156,7 @@ describe("플래너 데이터", () => {
           PLANNER_PLACES.filter((p) => hasBadge(p, b)).length,
         ]),
       ),
-    ).toEqual({ un: 69, k100: 99, bf: 99, zone: 34 });
+    ).toEqual({ pop: 173, un: 69, k100: 99, bf: 99, zone: 210 });
   });
 
   it("좌표는 한국 안(위도 33~39 · 경도 124~132)이다", () => {

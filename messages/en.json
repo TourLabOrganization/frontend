@@ -74,7 +74,8 @@
         "thunderstorm": "Thunderstorm",
         "unknown": "No data"
       }
-    }
+    },
+    "badges": "Badges"
   },
   "Splash": {
     "title": {
@@ -704,16 +705,18 @@
       "all": "All",
       "badgesLabel": "Badges",
       "badges": {
+        "pop": "Data Lab popular",
         "un": "UNESCO",
         "k100": "Korea's Top 100",
         "bf": "Barrier-free",
-        "zone": "Tourist Zone"
+        "zone": "Tourist zone · complex"
       },
       "mapLabel": "Tour planner map",
       "noKey": "The map couldn't load because no map key is set. The place list below still works",
       "regionMarker": "{region} · {count, plural, one {# place} other {# places}}",
       "cityMarker": "{city} · {count, plural, one {# place} other {# places}}",
       "listHeading": "Places · {count}",
+      "popNote": "Places ranked in Korea Tourism Data Lab's popular attractions come first",
       "searchLabel": "Search places",
       "searchPlaceholder": "Find by place or city name",
       "searchClear": "Clear search",
@@ -723,7 +726,8 @@
       "empty": "No places in this category",
       "add": "Add {name} to course",
       "addedStatus": "Added to course: {name}",
-      "removedStatus": "Removed from course: {name}"
+      "removedStatus": "Removed from course: {name}",
+      "popRank": "Data Lab popular #{rank}"
     },
     "sheet": {
       "add": "Add to course",

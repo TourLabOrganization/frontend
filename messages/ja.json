@@ -74,7 +74,8 @@
         "thunderstorm": "雷雨",
         "unknown": "データなし"
       }
-    }
+    },
+    "badges": "バッジ"
   },
   "Splash": {
     "title": {
@@ -704,16 +705,18 @@
       "all": "すべて",
       "badgesLabel": "バッジ",
       "badges": {
+        "pop": "データラボ人気",
         "un": "世界遺産",
         "k100": "韓国観光100選",
         "bf": "バリアフリー観光地",
-        "zone": "観光特区"
+        "zone": "観光特区 · 観光団地"
       },
       "mapLabel": "ツアープランナーの地図",
       "noKey": "地図キーがないため地図を表示できませんでした。下のスポット一覧はそのまま使えます",
       "regionMarker": "{region} · スポット{count}か所",
       "cityMarker": "{city} · スポット{count}か所",
       "listHeading": "スポット一覧 · {count}",
+      "popNote": "韓国観光データラボの人気観光地ランキングに入っている場所を先に表示します",
       "searchLabel": "スポットを検索",
       "searchPlaceholder": "スポット名・都市名で探す",
       "searchClear": "検索語を消去",
@@ -723,7 +726,8 @@
       "empty": "この分類に当てはまるスポットがありません",
       "add": "{name}をコースに追加",
       "addedStatus": "コースに追加しました：{name}",
-      "removedStatus": "コースから外しました：{name}"
+      "removedStatus": "コースから外しました：{name}",
+      "popRank": "データラボ人気{rank}位"
     },
     "sheet": {
       "add": "コースに追加",

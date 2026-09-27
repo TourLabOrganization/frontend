@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 import { buttonClassName } from "./Button";
+import { Chip } from "./Chip";
 import { PlaceWeather } from "./PlaceWeather";
 
 export type PlaceSheetPlace = {
@@ -12,6 +13,8 @@ export type PlaceSheetPlace = {
   name: string;
   /** 제목 아래 한 줄. 「경주 · 문화유산·전통체험」처럼 " · "로 잇는다. 체류 시간은 상세 표(권장 체류)에만 둔다 */
   meta?: readonly string[];
+  /** 제목 아래 배지 줄(플래너: 데이터랩 인기 · 유네스코 · 관광특구 등). 없으면 줄을 그리지 않는다 */
+  badges?: readonly { label: string; tone?: "neutral" | "primary" }[];
   description?: string | null;
   /** 상세 표. PoC 장소 상세 순서대로 그리고, 값이 없는 행은 뺀다 */
   facts: PlaceFacts;
@@ -123,6 +126,18 @@ export function PlaceSheet({
           </h2>
           {meta.length > 0 && (
             <p className="mt-1 text-label text-fg-muted">{meta.join(" · ")}</p>
+          )}
+          {place.badges && place.badges.length > 0 && (
+            <ul
+              aria-label={t("badges")}
+              className="mt-2 flex flex-wrap gap-1.5"
+            >
+              {place.badges.map((b) => (
+                <li key={b.label}>
+                  <Chip tone={b.tone}>{b.label}</Chip>
+                </li>
+              ))}
+            </ul>
           )}
           {place.description && (
             <p className="mt-4 text-body">{place.description}</p>

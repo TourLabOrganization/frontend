@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
 import { PlaceSheet } from "@/components/ui/PlaceSheet";
 import { SavePlaceButton } from "@/components/ui/SavePlaceButton";
 import { SearchField } from "@/components/ui/SearchField";
@@ -17,7 +18,7 @@ import {
   placeName,
   placePhoto,
 } from "@/features/theme/place-meta";
-import { BADGE_KEYS, type BadgeKey, hasBadge } from "./badges";
+import { BADGE_KEYS, type BadgeKey, hasBadge, zoneLabel } from "./badges";
 import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";
 import {
@@ -26,6 +27,7 @@ import {
   REGION_CENTER,
   type Scope,
 } from "./data";
+import { sortPlaces } from "./list-order";
 import { type MapBubble, type MapPin, PlannerMap } from "./PlannerMap";
 import { plannerHref } from "./query";
 import {
@@ -55,13 +57,6 @@ type PlannerMapTabProps = {
   /** ?place= 로 들어왔을 때 처음부터 열어 둘 장소 */
   initialPlace?: string;
 };
-
-/** 코드 포인트 순서 비교. 서버와 브라우저의 Intl 차이로 하이드레이션이 어긋나지 않게 Collator를 쓰지 않는다 */
-function compare(a: string, b: string) {
-  const x = a.toLowerCase();
-  const y = b.toLowerCase();
-  return x < y ? -1 : x > y ? 1 : 0;
-}
 
 // 투어 플래너 지도 탭. 분류 칩 · 배지 칩(둘은 AND) → 지도(권역 · 도시 묶음 또는 분류 색 핀) → 장소 목록(60곳씩).
 // 핀이나 목록을 누르면 장소 시트가 열리고(설명 · 사진은 그때 Route Handler에서 받는다), 목록 오른쪽 버튼 · 시트 버튼으로 코스에 담는다.
@@ -98,18 +93,19 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
     scopePlaces.some((p) => hasBadge(p, b)),
   );
 
-  // 전국은 도시 → 이름 순, 도시는 이름 순 (목업과 같다)
-  const sorted = useMemo(() => {
-    const name = (p: PlannerPlace) => placeName(p, locale, names);
-    return [...scopePlaces].sort((a, b) =>
-      nation
-        ? compare(
-            cityName(a.locKo, locale, names),
-            cityName(b.locKo, locale, names),
-          ) || compare(name(a), name(b))
-        : compare(name(a), name(b)),
-    );
-  }, [scopePlaces, locale, names, nation]);
+  // 인기 먼저 + 나머지 이름순(list-order.ts). 전국은 도시 → (도시 안에서) 인기 → 이름
+  const sorted = useMemo(
+    () =>
+      sortPlaces(scopePlaces, {
+        nation,
+        name: (p) => placeName(p, locale, names),
+        city: (p) => cityName(p.locKo, locale, names),
+      }),
+    [scopePlaces, locale, names, nation],
+  );
+  // 순위가 있는 도시에서만 목록 위에 순서 안내를 보인다
+  const rankedCity =
+    !nation && scopePlaces.some((p) => p.popRank !== undefined);
   // 분류 칩 · 배지 칩 · 검색어로 거른다(지도 표시와 목록이 같이 쓴다). 검색은 장소 이름(한 · 영)과 도시 이름(한 · 영)
   const filtered = useMemo(
     () =>
@@ -170,6 +166,18 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
     p.min > 0 ? tc("stay", { duration: formatDuration(tc, p.min) }) : null;
   const category = (p: PlannerPlace) =>
     isCategoryKey(p.cat) ? tc(`categories.${p.cat}`) : null;
+  const popRank = (p: PlannerPlace) =>
+    p.popRank !== undefined ? t("popRank", { rank: p.popRank }) : null;
+  /** 장소 시트 배지 줄: 데이터랩 인기 · 유네스코 · 100선 · 열린관광지 · 지정구역(종류와 연도) */
+  const sheetBadges = (p: PlannerPlace) => [
+    ...(p.popRank !== undefined
+      ? [{ label: t("popRank", { rank: p.popRank }), tone: "primary" as const }]
+      : []),
+    ...(["un", "k100", "bf"] as const)
+      .filter((b) => hasBadge(p, b))
+      .map((b) => ({ label: t(`badges.${b}`) })),
+    ...(p.vz ? [{ label: zoneLabel(p.vz, locale) }] : []),
+  ];
 
   // ── 지도 표시 ──
   let bubbles: MapBubble[] = [];
@@ -343,6 +351,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         >
           {t("listHeading", { count: filtered.length })}
         </h2>
+        {rankedCity && (
+          <p className="mt-1 px-5 text-label text-fg-muted">{t("popNote")}</p>
+        )}
         <SearchField
           value={query}
           onChange={changeQuery}
@@ -382,6 +393,11 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                       <span className="block text-caption text-fg-subtle">
                         {[category(p), stay(p)].filter(Boolean).join(" · ")}
                       </span>
+                      {popRank(p) && (
+                        <span className="mt-1 block">
+                          <Chip tone="primary">{popRank(p)}</Chip>
+                        </span>
+                      )}
                     </span>
                     {nation && (
                       <span className="shrink-0 text-caption font-medium text-fg-muted">
@@ -445,6 +461,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               cityName(selected.locKo, locale, names),
               category(selected) ?? "",
             ],
+            badges: sheetBadges(selected),
             description:
               detail.data?.desc?.[locale === "ko" ? "ko" : "en"] ??
               detail.data?.desc?.ko,
