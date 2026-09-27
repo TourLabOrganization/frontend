@@ -99,3 +99,33 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
     </section>
   );
 }
+
+/**
+ * 데이터랩 블록을 받는 동안의 자리(InfoTab의 Suspense fallback). 백엔드가 느려도(최대 8초) 탭의 나머지를 먼저 보내고,
+ * 지역 카드 한 장(제목 · TFI 막대 4줄 · 체류시간 3줄)과 같은 높이를 잡아 들어올 때 아래 칸이 덜 밀리게 한다
+ */
+export async function DatalabSkeleton() {
+  const t = await getTranslations("Theme.info");
+  const bar = "animate-pulse rounded-lg bg-fill motion-reduce:animate-none";
+  return (
+    <div
+      role="status"
+      aria-busy
+      className="flex flex-col gap-4 rounded-card p-5 ring-1 ring-line"
+    >
+      <span className="sr-only">{t("datalabLoading")}</span>
+      <span aria-hidden className={`block h-6 w-44 ${bar}`} />
+      <div aria-hidden className="flex flex-col gap-2">
+        <span className={`block h-4 w-24 ${bar}`} />
+        {[0, 1, 2, 3].map((i) => (
+          <span key={i} className={`block h-5 ${bar}`} />
+        ))}
+      </div>
+      <div aria-hidden className="flex flex-col gap-2">
+        {[0, 1, 2].map((i) => (
+          <span key={i} className={`block h-5 w-3/4 ${bar}`} />
+        ))}
+      </div>
+    </div>
+  );
+}

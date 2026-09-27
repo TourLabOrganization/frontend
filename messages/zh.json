@@ -655,6 +655,7 @@
       "visitsToSeeAll": "看完应用内所有地点需要到访{visits}次",
       "datalabSource": "来源 · 韩国观光数据实验室 · 全国数据 · 截至{year}年",
       "datalabFailed": "无法加载数据实验室信息",
+      "datalabLoading": "正在加载数据实验室信息",
       "fanHeading": "粉丝交流渠道",
       "fanBody": "通过官方社区和交流渠道，与粉丝们一起互动吧。",
       "fullSchedule": "查看全部日程"

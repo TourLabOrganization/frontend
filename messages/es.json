@@ -655,6 +655,7 @@
       "visitsToSeeAll": "Visitas necesarias para ver todos los lugares de la app: {visits}",
       "datalabSource": "Fuente · Korea Tourism Data Lab · datos nacionales · a {year}",
       "datalabFailed": "No se pudo cargar la información del Data Lab",
+      "datalabLoading": "Cargando la información del Data Lab",
       "fanHeading": "Canales de fans",
       "fanBody": "Únete a los fans en la comunidad y los canales oficiales.",
       "fullSchedule": "Agenda completa"

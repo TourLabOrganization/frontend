@@ -1,17 +1,18 @@
 import { ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { Suspense } from "react";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { AppLocale } from "@/i18n/locales";
 import type { ThemeSlug } from "@/features/recommend/themes";
 import { posterPath, THEME_WORK, tmdbImage } from "@/features/recommend/works";
-import { DatalabSection } from "./DatalabSection";
+import { DatalabSection, DatalabSkeleton } from "./DatalabSection";
 import { THEME_INFO } from "./data/info";
 import { SECONDARY_LINK_CLASS } from "./place-meta";
 
 /** 작품 제목이 messages(Theme.info.<slug>.workTitle)에 있는 테마 = TMDB 작품이 있는 테마 */
 type WorkSlug = Exclude<ThemeSlug, "rescene-route">;
 
-// 여행 정보 탭. 작품 카드(TMDB 포스터) · 축제 상자 · 데이터랩으로 본 지역(백엔드 TFI · 체류시간) · 외부 링크 버튼.
+// 여행 정보 탭. 작품 카드(TMDB 포스터) · 축제 상자 · 데이터랩으로 본 지역(백엔드 TFI · 체류시간, 받는 동안 자리 표시) · 외부 링크 버튼.
 // RESCENE는 이 탭이 팬소통 채널이다(PoC channel 탭): 안내 한 줄 · 전체 일정 보기 · 공식 채널 링크를 먼저 보인다.
 // 축제 · 링크 · 일정 주소는 data/info.ts(PoC에서 옮김)
 export async function InfoTab({ slug }: { slug: ThemeSlug }) {
@@ -20,6 +21,13 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
   const locale = (await getLocale()) as AppLocale;
   const work = THEME_WORK[slug];
   const info = THEME_INFO[slug];
+
+  // 데이터랩은 백엔드를 부르므로(최대 8초) Suspense로 감싸 탭의 나머지를 먼저 보낸다
+  const datalab = (
+    <Suspense fallback={<DatalabSkeleton />}>
+      <DatalabSection slug={slug} />
+    </Suspense>
+  );
 
   const linkList = (
     <ul className="mt-3 grid grid-cols-2 gap-2">
@@ -60,7 +68,7 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
             <span className="sr-only">{t("newWindow")}</span>
           </a>
         </section>
-        <DatalabSection slug={slug} />
+        {datalab}
       </div>
     );
   }
@@ -110,7 +118,7 @@ export async function InfoTab({ slug }: { slug: ThemeSlug }) {
         </section>
       )}
 
-      <DatalabSection slug={slug} />
+      {datalab}
 
       <section aria-labelledby="links-heading">
         <h3 id="links-heading" className="px-1 text-headline font-bold">

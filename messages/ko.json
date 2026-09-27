@@ -655,6 +655,7 @@
       "visitsToSeeAll": "앱 장소를 다 보는 데 필요한 방문 {visits}회",
       "datalabSource": "출처 · 한국관광 데이터랩 · {source} · {year}년 기준",
       "datalabFailed": "데이터랩 정보를 불러오지 못했어요",
+      "datalabLoading": "데이터랩 정보를 불러오는 중",
       "fanHeading": "팬소통 채널",
       "fanBody": "공식 커뮤니티 및 소통 채널을 통해 팬들과 함께하세요.",
       "fullSchedule": "전체 일정 보기"

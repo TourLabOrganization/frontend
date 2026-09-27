@@ -655,6 +655,7 @@
       "visitsToSeeAll": "アプリのスポットをすべて見るのに必要な訪問 {visits}回",
       "datalabSource": "出典 · 韓国観光データラボ · 全国データ · {year}年時点",
       "datalabFailed": "データラボの情報を読み込めませんでした",
+      "datalabLoading": "データラボの情報を読み込み中",
       "fanHeading": "ファン交流チャンネル",
       "fanBody": "公式コミュニティとチャンネルでファンとつながろう。",
       "fullSchedule": "全日程を見る"
