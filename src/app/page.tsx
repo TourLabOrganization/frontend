@@ -80,7 +80,11 @@ export default async function HomePage() {
       <main className="flex flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))]">
         <header className="flex items-center justify-between pt-[max(0.5rem,env(safe-area-inset-top))] pr-3 pl-5">
           <h1 className="flex items-center gap-2 text-headline font-bold tracking-tight">
-            <LogoMark size={24} className="shrink-0 text-primary" />
+            <LogoMark
+              variant="badge"
+              size={28}
+              className="shrink-0 text-primary"
+            />
             {common("brand")}
           </h1>
           <LocaleSwitch />

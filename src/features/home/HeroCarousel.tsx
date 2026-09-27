@@ -1,6 +1,6 @@
 "use client";
 
-import { Pause, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -25,7 +25,7 @@ const SWIPE_PX = 40;
 const CLICK_SLOP_PX = 5;
 
 // 홈 위쪽 배너. 슬라이드마다 작품 스틸을 배경에 깔고, 영상이 있는 슬라이드(RESCENE)는 영상을 소리 없이 튼다.
-// 5초마다(영상 슬라이드는 10초) 다음 장으로 넘어가고, 끌어서(터치 · 마우스) 넘길 수 있다. 슬라이드 전체가 테마 화면 링크다.
+// 5초마다(영상 슬라이드는 10초) 다음 장으로 넘어가고, 끌어서(터치 · 마우스) 넘기거나 좌우 화살표로 넘길 수 있다. 슬라이드 전체가 테마 화면 링크다.
 // WCAG 2.2.2: 일시정지 버튼이 있고, 포커스가 안에 있거나 포인터가 올라가 있으면 멈춘다.
 // 움직임 줄이기 설정이면 자동으로 넘기지 않고 전환 애니메이션 · 배경 영상도 없다(썸네일만)
 export function HeroCarousel() {
@@ -184,6 +184,24 @@ export function HeroCarousel() {
           })}
         </div>
       </div>
+
+      {/* 좌우 화살표. 제목 · 설명을 가리지 않게 가운데보다 조금 아래에 둔다(누르는 자리 44px) */}
+      {(
+        [
+          ["prev", -1, ChevronLeft, "left-2"],
+          ["next", 1, ChevronRight, "right-2"],
+        ] as const
+      ).map(([key, step, Icon, side]) => (
+        <button
+          key={key}
+          type="button"
+          onClick={() => go(index + step)}
+          aria-label={t(key === "prev" ? "prevSlide" : "nextSlide")}
+          className={`absolute top-[62%] ${side} flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-fg/45 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-white active:bg-fg/70 motion-reduce:transition-none`}
+        >
+          <Icon size={24} aria-hidden />
+        </button>
+      ))}
 
       <div className="absolute inset-x-0 bottom-0 px-6 pb-3">
         <div className="flex items-center gap-2">

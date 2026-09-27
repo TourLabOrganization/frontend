@@ -42,6 +42,8 @@
     "pause": "Pause banner rotation",
     "play": "Resume banner rotation",
     "goToSlide": "Show banner {current}",
+    "prevSlide": "Previous banner",
+    "nextSlide": "Next banner",
     "banners": {
       "rescene-route": {
         "kicker": "RESCENE ROUTE",

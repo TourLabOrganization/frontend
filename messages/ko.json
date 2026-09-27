@@ -42,6 +42,8 @@
     "pause": "배너 자동 넘김 멈추기",
     "play": "배너 자동 넘김 다시 시작",
     "goToSlide": "{current}번째 배너 보기",
+    "prevSlide": "이전 배너",
+    "nextSlide": "다음 배너",
     "banners": {
       "rescene-route": {
         "kicker": "RESCENE ROUTE",
