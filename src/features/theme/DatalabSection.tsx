@@ -5,11 +5,10 @@ import { formatDuration } from "@/features/course/format-duration";
 import type { ThemeSlug } from "@/features/recommend/themes";
 import {
   datalabRegionId,
-  datalabRegionsOfCourse,
+  datalabRows,
   getCourses,
   getStayTime,
   getTfi,
-  tfiBars,
 } from "@/lib/api/datalab";
 import { THEME_COURSE_ID } from "./datalab";
 
@@ -21,11 +20,17 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
   const tcourse = await getTranslations("Course");
   const locale = await getLocale();
 
+  // 받기와 가공(코스 찾기 · 지역 고르기 · 막대 만들기)을 모두 실패 처리 안에서 한다.
+  // 응답 모양이 틀려도 이 블록만 실패 문구가 되고 탭의 나머지는 그대로 보인다
   const data = await Promise.all([getCourses(), getTfi(), getStayTime()])
-    .then(([courses, tfi, stay]) => ({ courses, tfi, stay }))
+    .then(([courses, tfi, stay]) => ({
+      rows: datalabRows(THEME_COURSE_ID[slug], courses, tfi, stay),
+      source: stay.source,
+      year: stay.latestYear,
+    }))
     .catch(() => null);
 
-  if (!data) {
+  if (!data || data.rows.length === 0) {
     return (
       <p role="status" className="px-1 text-caption text-fg-subtle">
         {t("datalabFailed")}
@@ -33,19 +38,7 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
     );
   }
 
-  const { courses, tfi, stay } = data;
-  const course = courses.courses.find(
-    (c) => c.courseId === THEME_COURSE_ID[slug],
-  );
-  const regions = datalabRegionsOfCourse(course, tfi, stay);
-  if (regions.length === 0) {
-    return (
-      <p role="status" className="px-1 text-caption text-fg-subtle">
-        {t("datalabFailed")}
-      </p>
-    );
-  }
-
+  const { rows } = data;
   const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 2 });
   const regionLabel = (name: string) => {
     const id = datalabRegionId(name);
@@ -53,11 +46,9 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
   };
 
   return (
-    <section aria-label={regions.map(regionLabel).join(" · ")}>
+    <section aria-label={rows.map((r) => regionLabel(r.region)).join(" · ")}>
       <div className="flex flex-col gap-3">
-        {regions.map((region) => {
-          const bars = tfiBars(tfi, region) ?? [];
-          const row = stay.regions.find((s) => s.region === region)!;
+        {rows.map(({ region, bars, stay: row }) => {
           const headingId = `datalab-${datalabRegionId(region) ?? region}`;
           return (
             <div
@@ -103,7 +94,7 @@ export async function DatalabSection({ slug }: { slug: ThemeSlug }) {
         })}
       </div>
       <p className="mt-2 px-1 text-micro text-fg-subtle">
-        {t("datalabSource", { source: stay.source, year: stay.latestYear })}
+        {t("datalabSource", { source: data.source, year: data.year })}
       </p>
     </section>
   );

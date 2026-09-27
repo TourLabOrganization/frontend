@@ -1125,6 +1125,12 @@
     "description": "This address may have changed or doesn't exist. Try again from home",
     "home": "Go home"
   },
+  "Error": {
+    "title": "Something went wrong",
+    "description": "Please try again in a moment",
+    "retry": "Try again",
+    "home": "Go home"
+  },
   "Datalab": {
     "regions": {
       "seoul": "Seoul",

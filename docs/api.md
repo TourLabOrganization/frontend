@@ -71,6 +71,9 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **실패 처리**: 시간 초과 · 네트워크 오류 · `ApiError`를 모두 잡아 화면에 실패 문구를 보인다. 페이지 전체를 에러로 만들지 않는다
   - 추천 결과: 테마 목록 자리에 「추천 서버에 연결하지 못했어요」와 「다시 시도」(같은 주소 링크). 유형 설명은 그대로 보인다 (`features/recommend/api.ts`의 `fetchRecommendation`이 `{ ok: false }`로 돌려준다)
   - 테마 여행 정보 탭: 데이터랩 블록 대신 「데이터랩 정보를 불러오지 못했어요」 한 줄
+- **응답 모양 검사**: fetch 함수가 화면이 쓰는 필드(배열 · 객체)를 검사해 모양이 틀리면 실패로 돌려준다(`parseRecommendResponse` · `parseTfi` · `parseStayTime` · `parseCourseList`).
+  없어도 되는 필드(`sources` · `cats` · `themeLabels` 등)는 빈 값으로 채운다. 데이터랩 블록은 가공(코스 찾기 · 지역 고르기)까지 실패 처리 안에서 한다
+- **안전망**: 그래도 새는 오류는 `app/error.tsx`(짧은 문구 + 「다시 시도」 `retry` + 홈으로)가 받는다
 - **DTO 타입**: Swagger DTO 이름 그대로 쓰고, 필드 주석은 `/v3/api-docs`의 description을 옮긴다
 
 | 호출                     | 쓰는 곳                               | 타입                                                                | 코드                        |

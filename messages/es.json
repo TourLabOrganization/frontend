@@ -1125,6 +1125,12 @@
     "description": "Puede que esta dirección haya cambiado o no exista. Vuelve a intentarlo desde el inicio",
     "home": "Ir al inicio"
   },
+  "Error": {
+    "title": "Algo salió mal",
+    "description": "Inténtalo de nuevo en un momento",
+    "retry": "Reintentar",
+    "home": "Ir al inicio"
+  },
   "Datalab": {
     "regions": {
       "seoul": "Seúl",

@@ -1125,6 +1125,12 @@
     "description": "주소가 바뀌었거나 없는 페이지예요. 홈에서 다시 찾아 보세요",
     "home": "홈으로"
   },
+  "Error": {
+    "title": "화면을 그리지 못했어요",
+    "description": "잠시 뒤에 다시 시도해 주세요",
+    "retry": "다시 시도",
+    "home": "홈으로"
+  },
   "Datalab": {
     "regions": {
       "seoul": "서울",

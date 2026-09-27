@@ -111,22 +111,67 @@ export function regionName(option: string | undefined): string | undefined {
 export type RecommendResult =
   { ok: true; data: RecommendResponse } | { ok: false; error: unknown };
 
+const isObject = (v: unknown): v is Record<string, unknown> =>
+  typeof v === "object" && v !== null && !Array.isArray(v);
+const num = (v: unknown): number =>
+  typeof v === "number" && Number.isFinite(v) ? v : 0;
+const strings = (v: unknown): string[] =>
+  Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+
 /**
- * 추천 API를 부른다. 시간 초과 · 네트워크 오류 · ApiError를 모두 실패({ ok: false })로 돌려준다.
+ * 추천 응답의 모양을 검사한다. 화면이 순위를 매기는 themes(배열 · 항목마다 theme 문자열)가 틀리면 null.
+ * 없어도 되는 필드는 빈 값으로 채운다(sources · cats 빈 배열, region null, regionApplied false, share {}, 점수 0).
+ * 백엔드 응답 모양이 조금 달라도 결과 페이지 전체가 500이 되지 않게 한다
+ */
+export function parseRecommendResponse(
+  data: unknown,
+): RecommendResponse | null {
+  if (!isObject(data) || !Array.isArray(data.themes)) return null;
+  const themes: RecommendThemeResponse[] = [];
+  for (const t of data.themes as unknown[]) {
+    if (!isObject(t) || typeof t.theme !== "string") return null;
+    const share: Record<string, number> = {};
+    if (isObject(t.share)) {
+      for (const [k, v] of Object.entries(t.share)) {
+        if (typeof v === "number" && Number.isFinite(v)) share[k] = v;
+      }
+    }
+    themes.push({
+      theme: t.theme,
+      fit: num(t.fit),
+      interest: num(t.interest),
+      region: num(t.region),
+      score: num(t.score),
+      share,
+    });
+  }
+  return {
+    cluster: typeof data.cluster === "string" ? data.cluster : "",
+    cats: strings(data.cats),
+    region: typeof data.region === "string" ? data.region : null,
+    regionApplied: data.regionApplied === true,
+    sources: strings(data.sources),
+    themes,
+  };
+}
+
+/**
+ * 추천 API를 부른다. 시간 초과 · 네트워크 오류 · ApiError · 모양이 틀린 응답을 모두 실패({ ok: false })로 돌려준다.
  * 서버 컴포넌트에서 부른다(공개 API, docs/api.md)
  */
 export async function fetchRecommendation(
   request: RecommendRequest,
 ): Promise<RecommendResult> {
   try {
-    const data = await api<RecommendResponse>("/api/v1/recommend", {
+    const raw = await api<unknown>("/api/v1/recommend", {
       method: "POST",
       body: request,
       auth: false,
       signal: AbortSignal.timeout(API_TIMEOUT_MS),
     });
-    if (!data || !Array.isArray(data.themes)) {
-      return { ok: false, error: new Error("Empty recommend response") };
+    const data = parseRecommendResponse(raw);
+    if (!data) {
+      return { ok: false, error: new Error("Unexpected recommend response") };
     }
     return { ok: true, data };
   } catch (error) {
