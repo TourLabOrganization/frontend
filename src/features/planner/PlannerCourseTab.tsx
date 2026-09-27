@@ -45,14 +45,14 @@ import {
   dayInsertIndex,
   parseStayOverrides,
   STAY_STEP,
-  type StayOverrides,
   withStayOverrides,
 } from "./course-edit";
 import {
   DEP_TIMES,
   type PlannerSettings,
   parseSettings,
-  pickSettings,
+  planContentKey,
+  planSaveSettings,
   RET_TIMES,
   useHydrated,
   usePlannerCourse,
@@ -138,10 +138,6 @@ const STAY_PLACES = PLANNER_PLACES.filter(isStay);
 const sameIds = (a: readonly string[], b: readonly string[]) =>
   a.length === b.length && a.every((id, i) => id === b[i]);
 
-/** 체류 시간 덮어쓰기를 키 순서와 무관하게 비교하려고 정렬한다 */
-const sortedStay = (ov: StayOverrides) =>
-  Object.entries(ov).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
-
 type ConfirmKind = "recommend" | "clear" | "load" | "overwrite" | "delete";
 
 type PlannerCourseTabProps = {
@@ -220,21 +216,22 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const settings: PlannerSettings = { ...course, startDate, endDate };
   const plan = buildPlannerSchedule(places, settings, leadCity);
 
-  // 저장할 값(설정 + 체류 시간). 저장된 플랜 중 이 값과 같은 것이 있으면 「저장됨」
-  const saveSettings = pickSettings({ ...settings, name: course.name.trim() });
+  // 저장할 값(설정 + 체류 시간). 날짜는 고른 그대로(고르지 않았으면 null, PoC planSave) 저장하고 같은 값으로 비교한다.
+  // 저장된 플랜 중 이 값과 같은 것이 있으면 「저장됨」
+  const saveSettings = planSaveSettings(course);
   const planSettings = { ...saveSettings, stayOv: course.stayOv };
-  const contentKey = JSON.stringify([
+  const contentKey = planContentKey(
     course.placeIds,
     saveSettings,
-    sortedStay(course.stayOv),
-  ]);
+    course.stayOv,
+  );
   const saved = savedPlans.some(
     (p) =>
-      JSON.stringify([
+      planContentKey(
         p.placeIds,
-        pickSettings({ ...parseSettings(p.settings), name: p.name }),
-        sortedStay(parseStayOverrides(p.settings.stayOv)),
-      ]) === contentKey,
+        planSaveSettings({ ...parseSettings(p.settings), name: p.name }),
+        parseStayOverrides(p.settings.stayOv),
+      ) === contentKey,
   );
   // 지금 불러와 보고 있는(또는 방금 저장한) 플랜. 「덮어쓰기」 대상(PoC planId)
   const activePlanId = course.planId;

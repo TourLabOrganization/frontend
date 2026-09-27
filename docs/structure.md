@@ -69,6 +69,7 @@ public/                 정적 파일
   장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`), 경로 선택 창을 닫은 도착 도시(`routeSkip`),
   배편 시간표 카드에서 고른 출발 항구(`ferryPort`, 섬별), 울릉 안내 창이 열려 있는지(`ulNotice`)도 같은 값에 둔다.
   저장된 플랜의 `settings`에는 `routeSkip` · `ferryPort` · `ulNotice`를 뺀 설정이 들어간다(PoC 플랜 필드와 같다. `jejuResident`는 PoC 플랜 필드에 없지만 일정이 달라져 넣는다).
+  날짜는 PoC `planSave`처럼 고른 그대로 저장한다(고르지 않았으면 `null`이라 불러오는 날의 오늘 · 당일로 계산된다). 「저장됨」 비교도 같은 값으로 한다(`planContentKey`).
   예전 플랜은 없는 필드를 기본값으로 읽는다(`jejuResident` 없음 = 아직 답하지 않음)
 - 날짜는 달력에서 출발일 → 귀가일 순으로 누른다(PoC `calendarDays` pick, `features/planner/calendar.ts`). 귀가일을 고르는 중(`endDate` 없음)에는 당일로 계산하고,
   `MAX_TRIP_DAYS`를 넘는 날은 고를 수 없다(PoC에는 상한이 없다)

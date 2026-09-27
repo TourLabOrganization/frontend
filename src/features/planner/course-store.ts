@@ -237,6 +237,29 @@ export function pickSettings(v: PlannerSettings): PlannerSettings {
   };
 }
 
+/**
+ * 저장된 플랜에 넣는 설정(PoC planSave): 고른 그대로 둔다. 날짜를 고르지 않았으면 startDate · endDate가 null이라
+ * 불러오는 날의 오늘 · 당일로 계산된다(저장한 날로 고정되지 않는다). 이름은 앞뒤 공백을 뗀다
+ */
+export function planSaveSettings(s: PlannerSettings): PlannerSettings {
+  return pickSettings({ ...s, name: s.name.trim() });
+}
+
+/**
+ * 「저장됨」 비교 키. 담은 장소 · 저장할 설정(planSaveSettings) · 체류 시간(키 순서와 무관)이 같으면 같은 키.
+ * 코스와 저장된 플랜을 같은 값(날짜를 고르지 않았으면 null)으로 비교한다
+ */
+export function planContentKey(
+  placeIds: readonly string[],
+  settings: PlannerSettings,
+  stayOv: StayOverrides,
+): string {
+  const stay = Object.entries(stayOv).sort(([a], [b]) =>
+    a < b ? -1 : a > b ? 1 : 0,
+  );
+  return JSON.stringify([placeIds, pickSettings(settings), stay]);
+}
+
 function parseCourse(raw: string | null): PlannerCourse {
   if (!raw) return EMPTY;
   try {
