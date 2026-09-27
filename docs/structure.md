@@ -159,6 +159,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 | `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                             | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
 | `scripts/build-ferry.mjs`        | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                      | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                             |
 | `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
+| `scripts/build-tic.mjs`          | `data/tic.json`(관광안내소 725곳, 칼럼은 `파생 데이터/관광안내소.csv`)                                      | `features/planner/data/tic.json`(칸 이름만 붙이고 값은 원천 그대로)                                                                           |
 
 플래너 장소 필드
 
@@ -183,6 +184,23 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 - 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,118곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
 - 「코스빌더에 넣기」는 `course-store`의 `replace`로 코스를 바꾸고 `/planner?tab=course`로 간다. 담아 둔 다른 코스가 있으면 먼저 묻는다
 - 내 유형 추천은 `tn.lastRecommendation`의 답으로 `classify`를 다시 돌려 군집 선호 벡터(`CLUSTER_PREFS`, 목업 CL)와 맞춘다
+
+- 카드(`CityTourCard`)와 「코스빌더에 넣기」 확인 창(`useCityTourAdd`)은 `features/home/CityTourCard.tsx`에 있고 플래너 여행 정보 탭도 이것을 쓴다.
+  경로는 3줄까지만 보이고, 잘린 글이 있으면(그려진 높이로 판단, `citytour.ts` `routeOverflows`) 「경로 전체 보기」 토글(`aria-expanded`)을 둔다
+
+### 투어 플래너 여행 정보 탭 (`?tab=info`)
+
+- 순서: 선택한 지역(도시 고르기 · 광역 관문) → 시티투어 → 관광안내소 → 이동 요령(`RoutingHowTo`) → 지역별 관광 안내 링크
+- 도시를 고르지 않으면 시티투어 · 관광안내소는 서울을 보이고 개수 앞에 「기본 지역」을 붙인다(PoC `_dflt`)
+- 시티투어(`InfoCityTours`, PoC `ctList`): 홈과 같은 카드. 처음 3개, 「더 보기」마다 6개. 출처의 기준일은 첫 노선의 기준일. 코스가 없으면 빈 상태 문구
+- 관광안내소(`InfoCenters`, PoC `tic*`): 제목 · 개수 → 1330 관광통역안내(`tel:1330`) → 외국어 화면에서 「내 언어 안내 가능한 곳만」 토글(`aria-pressed`, 개수) →
+  목록(이름 · 안내 언어 칩 · 주소 · 운영 · 휴무 · 전화 `tel:` · 「지도」 카카오맵 새 창) → 처음 6곳 · 「더 보기」마다 10곳 → 출처.
+  규칙은 `features/planner/tic.ts`(`langsOf` 외국어 원문 → EN · JP · CN · RU · VN · TH, `mineOf` 화면 언어 → 내 언어(스페인어는 영어), `cityInfoCenters` 정렬: 내 언어 안내 가능 → 휴게소 뒤로 → 이름)
+- 두 데이터는 서버 컴포넌트(`PlannerInfoTab`)가 그 도시 것만 골라 넘긴다(전국 데이터를 클라이언트 번들에 싣지 않는다)
+- 관광안내소 데이터 출처: 한국관광공사 전국관광안내소 정보 · 좌표 카카오(PoC `data/tic.json`). 갱신은 PoC 파일을 받은 뒤
+  `node scripts/build-tic.mjs <Tour-Navigator-App/data/tic.json>` → `npm run format`
+- 데이터 문구 치환(`lib/kr-units.ts` `krUnits`, PoC `KR_UNIT`): 외국어 화면에서 시티투어 요금 · 관광안내소 운영 · 휴무에만 적용한다(PoC `KR_UNIT_FIELDS`의 `ctList` · `ticList` info).
+  이름 · 경로 · 주소는 원문 그대로다(PoC는 주소도 같은 info 문자열이라 치환을 거쳤지만, 주소 속 「관광지」 같은 말이 바뀌지 않게 뺐다)
 
 ### 머리줄 알림 (`tn.notifications.read`)
 
