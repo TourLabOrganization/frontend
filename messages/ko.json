@@ -525,7 +525,6 @@
       "regionsLabel": "지역",
       "nation": "전국",
       "regionCount": "{city} · {count}개 장소",
-      "placeChipsLabel": "장소 바로 가기",
       "distance": "{km} km",
       "filmLink": "영화",
       "videoLink": "영상",

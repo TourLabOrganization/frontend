@@ -525,7 +525,6 @@
       "regionsLabel": "Regions",
       "nation": "Nationwide",
       "regionCount": "{city} · {count, plural, one {# place} other {# places}}",
-      "placeChipsLabel": "Jump to a place",
       "distance": "{km} km",
       "filmLink": "Film",
       "videoLink": "Video",

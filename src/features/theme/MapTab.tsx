@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, MapPin as MapPinIcon } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
@@ -66,7 +66,7 @@ function toPin(p: Place, locale: string, label?: number): MapPin {
   };
 }
 
-// 지도 탭. 지역(도시) 줄 → 분류 칩 → 지도(번호 핀) → 장소 이름 칩 → 장소 목록(접기) → 목록 밖 장소 토글.
+// 지도 탭. 지역(도시) 줄 → 분류 칩 → 지도(번호 핀) → 장소 목록(접기) → 목록 밖 장소 토글.
 // 핀 · 이름 칩 · 목록을 누르면 장소 시트가 열리고 지도가 그 장소로 옮겨 간다.
 // 목록 행: 한 도시 보기는 도시 center에서의 거리, 여러 도시 보기(RESCENE 전국)는 도시 이름(목업 규칙, place-list.ts).
 // 장면이 있는 장소는 행 오른쪽에 영화(영상) 탭 바로가기
@@ -321,30 +321,6 @@ export function MapTab({
           </p>
         )}
       </div>
-
-      {core.length > 0 && (
-        <div
-          role="group"
-          aria-label={t("placeChipsLabel")}
-          className="flex gap-2 overflow-x-auto px-5 pt-3"
-        >
-          {core.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => setSelectedId(p.id)}
-              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl px-3 text-label font-medium whitespace-nowrap text-fg ring-1 ring-line transition-colors duration-150 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
-            >
-              <MapPinIcon
-                size={16}
-                aria-hidden
-                className="text-primary-bright"
-              />
-              {placeName(p, locale)}
-            </button>
-          ))}
-        </div>
-      )}
 
       <section aria-labelledby="place-list-heading" className="pt-5">
         <h2 id="place-list-heading" className="px-5">
