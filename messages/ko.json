@@ -11,8 +11,13 @@
     "skip": "건너뛰기",
     "next": "다음",
     "tmdbCredit": "포스터·스틸 이미지: TMDB. TMDB가 보증하거나 인증한 서비스는 아니에요",
-    "localeSwitch": "English",
-    "mapLoadError": "지도를 불러오지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요"
+    "mapLoadError": "지도를 불러오지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
+    "localeMenu": {
+      "first": "Multi",
+      "second": "Language",
+      "current": "언어 선택, 지금 {name}",
+      "listLabel": "언어"
+    }
   },
   "PlaceSheet": {
     "close": "닫기",
@@ -80,9 +85,73 @@
     "pickCourseHeading": "내 코스 고르기",
     "pickCourseTitle": "나에게 맞는 테마와 코스를 골라 드려요",
     "pickCourseMeta": "{total}개 문항 · 필수 {required}개 · 약 1분",
-    "coursesHeading": "추천 코스",
     "courseTitle": "{region} {duration}",
-    "courseMeta": "장소 {places}곳 · 촬영지 {videos}곳 · {transport}"
+    "citytour": {
+      "heading": "지역 시티투어",
+      "meta": "{regions}개 지역 · {tours}개 코스",
+      "tabsLabel": "시티투어 보기",
+      "tabRec": "내 유형 추천",
+      "tabRecCount": "내 유형 추천 {count}",
+      "tabRegion": "지역별 검색",
+      "recEmpty": "테마 추천을 받으면 내 유형에 맞는 코스를 골라 드려요",
+      "recEmptyAction": "테마 추천 받기",
+      "recHeading": "{type} 여행자에게 맞는 코스 {count}개",
+      "searchLabel": "지역 검색",
+      "searchPlaceholder": "지역 이름 검색 (예: 여수, 춘천)",
+      "searchClear": "검색어 지우기",
+      "searchStatus": "일치하는 지역 {count}곳",
+      "regionsLabel": "지역",
+      "regionChip": "{region}, 코스 {count}개",
+      "noRegion": "일치하는 지역이 없어요",
+      "regionHeading": "{region} · {count}개 코스",
+      "rank": "{rank}위",
+      "kind": {
+        "loop": "순환형",
+        "fixed": "코스형"
+      },
+      "tags": {
+        "history": "역사",
+        "nature": "자연",
+        "activity": "체험",
+        "food": "먹거리",
+        "sea": "바다",
+        "night": "야경"
+      },
+      "board": "탑승",
+      "hours": "운행",
+      "fare": "요금",
+      "homepage": "홈페이지",
+      "newWindow": "(새 창)",
+      "call": "전화",
+      "add": "코스빌더에 넣기",
+      "addHint": "경유지 중 앱에 있는 장소 {count}곳을 투어 플래너 코스에 담아요",
+      "addDisabled": "경유지 중 앱 장소와 맞는 곳이 없어 코스빌더에 넣을 수 없어요",
+      "more": "더 보기(남은 {count}개)",
+      "date": "기준일 {date}",
+      "dataNote": "노선 정보는 코스마다 기준일이 달라요. 시티투어는 버스 시간에 맞춰 움직여서 코스빌더의 일정 시간은 참고용이에요",
+      "confirm": {
+        "title": "담은 코스를 바꿀까요?",
+        "body": "투어 플래너에 담아 둔 {count}곳 대신 「{name}」 경유지 {placeCount}곳을 담아요",
+        "cancel": "취소",
+        "confirm": "바꾸기"
+      }
+    },
+    "addTheme": "테마 추가",
+    "popularHeading": "지금 인기 코스",
+    "popular": {
+      "gyeongju": "UNESCO",
+      "geoje": "COAST"
+    },
+    "popularMeta": "촬영지 {videos}곳 · {transport}",
+    "access": {
+      "ktx": "KTX",
+      "srt": "SRT",
+      "bus": "버스",
+      "air": "항공",
+      "ship": "배",
+      "metro": "전철",
+      "own": "자가용"
+    }
   },
   "Nav": {
     "label": "주 메뉴",
@@ -92,8 +161,6 @@
   },
   "Me": {
     "title": "ME",
-    "recommendedHeading": "추천받은 나의 테마",
-    "lastType": "나의 여행 유형 · {type}",
     "lastTheme": "1위 테마 {theme}",
     "lastAction": "추천 결과 다시 보기",
     "emptyTitle": "나에게 맞는 테마를 찾아 드려요",
@@ -104,7 +171,10 @@
     "remove": "{name} 삭제",
     "savedEmpty": "저장된 플랜이 없어요. 테마의 코스 화면이나 투어 플래너 코스 탭에서 [코스 저장]을 눌러 보세요.",
     "openPlanner": "투어 플래너 열기",
-    "plannerMeta": "{city} · {duration} · {count}곳"
+    "plannerMeta": "{city} · {duration} · {count}곳",
+    "typeHeading": "나의 여행자 유형",
+    "typeName": "{type} 여행자",
+    "retry": "다시 추천받기"
   },
   "Recommend": {
     "progressLabel": "질문 진행",
@@ -770,6 +840,33 @@
       "heal": "자연·힐링",
       "activity": "체험·활동",
       "food": "미식"
+    }
+  },
+  "Header": {
+    "search": "장소 찾기 (투어 플래너)"
+  },
+  "Notifications": {
+    "button": "알림",
+    "buttonUnread": "알림, 읽지 않은 알림 {count}개",
+    "heading": "알림",
+    "markAll": "모두 읽음",
+    "empty": "새 알림이 없어요",
+    "unread": "읽지 않음:",
+    "recommend": {
+      "title": "테마 추천 결과가 있어요",
+      "body": "나의 여행자 유형 · {type}"
+    },
+    "planner": {
+      "title": "투어 플래너 코스에 담아 둔 장소가 있어요",
+      "body": "{count}곳 · 코스 탭에서 이어서 짜 보세요"
+    },
+    "saved": {
+      "title": "저장된 플랜이 있어요",
+      "body": "{count}개 · ME에서 다시 열 수 있어요"
+    },
+    "citytour": {
+      "title": "지역 시티투어를 볼 수 있어요",
+      "body": "{regions}개 지역 · {tours}개 코스 · 기준일 {date}까지"
     }
   }
 }

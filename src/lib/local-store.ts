@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-// 브라우저 localStorage에 두는 값. 추천 결과(recommend) · 코스 저장(course) · ME(me) 세 기능이 함께 쓴다.
+// 브라우저 localStorage에 두는 값. 추천 결과(recommend) · 코스 저장(course) · ME(me) · 머리줄 알림(components/Notifications)이 함께 쓴다.
 // 사생활 보호 창처럼 저장소를 막은 브라우저에서도 화면이 깨지지 않게 읽기 · 쓰기를 모두 try/catch로 감싼다.
 // 서버 렌더에서는 값이 없는 것(null)으로 그리고, 하이드레이션이 끝난 뒤 저장된 값으로 다시 그린다.
 
@@ -46,6 +46,11 @@ export type PlannerSavedPlan = {
   settings: Record<string, unknown>;
   savedAt: number;
 };
+
+/**
+ * 읽은 알림 id 목록. string[] JSON. 알림 id는 내용이 바뀌면 달라져서(lib/notifications.ts) 새 내용은 다시 안 읽음이 된다
+ */
+export const NOTIFICATIONS_READ_KEY = "tn.notifications.read";
 
 // 같은 탭 안의 쓰기를 알리는 이벤트. storage 이벤트는 다른 탭에서 바꿀 때만 온다
 const CHANGE_EVENT = "tn:local-store";
@@ -134,6 +139,16 @@ export function parseLastTopTheme(
   } catch {
     return null;
   }
+}
+
+/** 읽은 알림 id. 모양이 틀리면 빈 목록 */
+export function parseReadIds(raw: string | null): string[] {
+  return parseList(raw).filter((id): id is string => typeof id === "string");
+}
+
+/** 읽은 알림 id를 쓴다 */
+export function writeReadIds(ids: readonly string[]): void {
+  writeLocal(NOTIFICATIONS_READ_KEY, JSON.stringify([...new Set(ids)]));
 }
 
 /** 저장한 테마 코스 */

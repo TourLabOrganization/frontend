@@ -11,8 +11,13 @@
     "skip": "Skip",
     "next": "Next",
     "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
-    "localeSwitch": "한국어",
-    "mapLoadError": "The map couldn't load. The place list below still works"
+    "mapLoadError": "The map couldn't load. The place list below still works",
+    "localeMenu": {
+      "first": "Multi",
+      "second": "Language",
+      "current": "Choose language, now {name}",
+      "listLabel": "Languages"
+    }
   },
   "PlaceSheet": {
     "close": "Close",
@@ -80,9 +85,73 @@
     "pickCourseHeading": "Pick my route",
     "pickCourseTitle": "We'll pick the theme and route that suit you",
     "pickCourseMeta": "{total} questions · {required} required · about 1 min",
-    "coursesHeading": "Suggested routes",
     "courseTitle": "{region}, {duration}",
-    "courseMeta": "{places, plural, one {# place} other {# places}} · {videos} on screen · {transport}"
+    "citytour": {
+      "heading": "City tours by region",
+      "meta": "{regions} regions · {tours} tours",
+      "tabsLabel": "City tour view",
+      "tabRec": "For your type",
+      "tabRecCount": "For your type {count}",
+      "tabRegion": "By region",
+      "recEmpty": "Take the theme finder and we'll pick tours that fit your traveler type",
+      "recEmptyAction": "Take the theme finder",
+      "recHeading": "{count} tours for {type}",
+      "searchLabel": "Search regions",
+      "searchPlaceholder": "Search a region (e.g. Yeosu)",
+      "searchClear": "Clear search",
+      "searchStatus": "{count, plural, one {# region} other {# regions}} found",
+      "regionsLabel": "Regions",
+      "regionChip": "{region}, {count, plural, one {# tour} other {# tours}}",
+      "noRegion": "No matching region",
+      "regionHeading": "{region} · {count, plural, one {# tour} other {# tours}}",
+      "rank": "#{rank}",
+      "kind": {
+        "loop": "Loop",
+        "fixed": "Fixed route"
+      },
+      "tags": {
+        "history": "History",
+        "nature": "Nature",
+        "activity": "Activities",
+        "food": "Food",
+        "sea": "Sea",
+        "night": "Night"
+      },
+      "board": "Boarding",
+      "hours": "Hours",
+      "fare": "Fare",
+      "homepage": "Website",
+      "newWindow": "(opens in a new window)",
+      "call": "Call",
+      "add": "Add to course builder",
+      "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
+      "addDisabled": "None of the stops match places in the app, so this tour can't be added",
+      "more": "Show more ({count} left)",
+      "date": "As of {date}",
+      "dataNote": "Tour names, stops and fares are shown in Korean as published, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
+      "confirm": {
+        "title": "Replace your course?",
+        "body": "Replace the {count, plural, one {# place} other {# places}} in your planner course with {placeCount, plural, one {# stop} other {# stops}} from “{name}”",
+        "cancel": "Cancel",
+        "confirm": "Replace"
+      }
+    },
+    "addTheme": "Add theme",
+    "popularHeading": "Popular routes now",
+    "popular": {
+      "gyeongju": "UNESCO",
+      "geoje": "COAST"
+    },
+    "popularMeta": "{videos, plural, one {# location} other {# locations}} · {transport}",
+    "access": {
+      "ktx": "KTX",
+      "srt": "SRT",
+      "bus": "Bus",
+      "air": "Flight",
+      "ship": "Ferry",
+      "metro": "Subway",
+      "own": "By car"
+    }
   },
   "Nav": {
     "label": "Main menu",
@@ -92,8 +161,6 @@
   },
   "Me": {
     "title": "ME",
-    "recommendedHeading": "My recommended theme",
-    "lastType": "My travel type · {type}",
     "lastTheme": "Top theme: {theme}",
     "lastAction": "See my results again",
     "emptyTitle": "We'll find the theme that suits you",
@@ -104,7 +171,10 @@
     "remove": "Delete {name}",
     "savedEmpty": "No saved plans yet. Tap [Save route] on a theme route screen or [Save course] in the tour planner.",
     "openPlanner": "Open tour planner",
-    "plannerMeta": "{city} · {duration} · {count, plural, one {# place} other {# places}}"
+    "plannerMeta": "{city} · {duration} · {count, plural, one {# place} other {# places}}",
+    "typeHeading": "My traveler type",
+    "typeName": "{type}",
+    "retry": "Try again"
   },
   "Recommend": {
     "progressLabel": "Question progress",
@@ -770,6 +840,33 @@
       "heal": "Nature & healing",
       "activity": "Experiences & activities",
       "food": "Food"
+    }
+  },
+  "Header": {
+    "search": "Find places (Tour planner)"
+  },
+  "Notifications": {
+    "button": "Notifications",
+    "buttonUnread": "Notifications, {count} unread",
+    "heading": "Notifications",
+    "markAll": "Mark all read",
+    "empty": "No notifications",
+    "unread": "Unread:",
+    "recommend": {
+      "title": "Your theme finder result is ready",
+      "body": "Your traveler type · {type}"
+    },
+    "planner": {
+      "title": "You have places in your planner course",
+      "body": "{count, plural, one {# place} other {# places}} · continue in the Course tab"
+    },
+    "saved": {
+      "title": "You have saved plans",
+      "body": "{count, plural, one {# plan} other {# plans}} · open them again in ME"
+    },
+    "citytour": {
+      "title": "City tours by region",
+      "body": "{regions} regions · {tours} tours · updated up to {date}"
     }
   }
 }

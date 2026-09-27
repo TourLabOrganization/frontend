@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Trash2 } from "lucide-react";
+import { ArrowRight, RotateCcw, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ButtonLink } from "@/components/ui/Button";
@@ -26,7 +26,7 @@ import {
   writeSavedPlans,
 } from "@/lib/local-store";
 
-// ME 화면 본문. 추천받은 나의 테마(마지막 추천 결과)와 저장된 플랜을 localStorage에서 읽는다.
+// ME 화면 본문. 나의 여행자 유형(마지막 추천 결과의 유형 · 설명 · 1위 테마)과 저장된 플랜을 localStorage에서 읽는다.
 // 1위 테마는 결과 화면이 저장한 추천 API 1위(tn.lastTopTheme)를 읽기만 한다. 없으면(예전 기록 · 추천 실패) 유형만 보인다.
 // 저장된 플랜은 테마 코스와 투어 플래너 코스(kind: "planner")가 한 목록에 저장한 순서대로 섞여 있다.
 // 서버 렌더와 하이드레이션 중에는 저장된 값이 없는 것으로 그리고, 그 뒤 저장된 값으로 다시 그린다
@@ -70,36 +70,45 @@ export function MePanel() {
 
   return (
     <>
-      <section className="px-5 pt-2" aria-labelledby="me-recommended">
-        <h2 id="me-recommended" className="text-headline font-bold">
-          {t("recommendedHeading")}
+      <section className="px-5 pt-2" aria-labelledby="me-type">
+        <h2 id="me-type" className="text-headline font-bold">
+          {t("typeHeading")}
         </h2>
         {lastA && lastType ? (
-          <Link
-            href={`/recommend/result?a=${lastA}`}
-            className="mt-4 flex items-center gap-3 rounded-card bg-surface p-5 ring-1 ring-line transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-fill motion-reduce:transition-none"
-          >
-            <span className="flex flex-1 flex-col">
-              {lastTheme ? (
-                <>
-                  <span className="text-caption font-semibold text-primary">
-                    {t("lastType", { type: tc(`${lastType.id}.name`) })}
-                  </span>
-                  <span className="mt-1 text-body-lg font-bold">
+          <div className="mt-4 rounded-card p-5 ring-1 ring-line">
+            <p className="text-display font-bold">
+              {t("typeName", { type: tc(`${lastType.id}.name`) })}
+            </p>
+            <p className="mt-2 text-body text-fg-muted">
+              {tc(`${lastType.id}.description`)}
+            </p>
+            <Link
+              href={`/recommend/result?a=${lastA}`}
+              className="-mx-2 mt-3 flex min-h-11 items-center gap-2 rounded-xl px-2 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+            >
+              <span className="flex flex-1 flex-col">
+                {lastTheme && (
+                  <span className="text-label font-semibold">
                     {t("lastTheme", { theme: tt(`${lastTheme.slug}.name`) })}
                   </span>
-                </>
-              ) : (
-                <span className="text-body-lg font-bold">
-                  {t("lastType", { type: tc(`${lastType.id}.name`) })}
+                )}
+                <span className="text-caption text-fg-subtle">
+                  {t("lastAction")}
                 </span>
-              )}
-              <span className="mt-1 text-caption text-fg-subtle">
-                {t("lastAction")}
               </span>
-            </span>
-            <ArrowRight size={20} className="shrink-0" aria-hidden />
-          </Link>
+              <ArrowRight size={20} className="shrink-0" aria-hidden />
+            </Link>
+            <ButtonLink
+              href="/recommend"
+              variant="secondary"
+              size="md"
+              block
+              className="mt-3"
+            >
+              <RotateCcw size={20} aria-hidden />
+              {t("retry")}
+            </ButtonLink>
+          </div>
         ) : (
           <Link
             href="/recommend"

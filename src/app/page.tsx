@@ -1,9 +1,9 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
+import { HeaderActions } from "@/components/HeaderActions";
 import { BottomNav } from "@/components/ui/BottomNav";
-import { LocaleSwitch } from "@/components/ui/LocaleSwitch";
 import { LogoMark } from "@/components/ui/LogoMark";
 import { Screen } from "@/components/ui/Screen";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
@@ -12,6 +12,7 @@ import {
   type PlanId,
   tripFromAnswers,
 } from "@/features/course/scenarios";
+import { CityTourSection } from "@/features/home/CityTourSection";
 import { HeroCarousel } from "@/features/home/HeroCarousel";
 import { Splash } from "@/features/home/Splash";
 import { SPLASH_COOKIE } from "@/features/home/splash-cookie";
@@ -19,21 +20,37 @@ import { ThemeTile } from "@/features/home/ThemeTile";
 import { decodeAnswers } from "@/features/recommend/answers";
 import { QUESTIONS } from "@/features/recommend/questions";
 import { HOME_THEME_ORDER } from "@/features/home/theme-order";
-import { findTheme, type ThemeSlug } from "@/features/recommend/themes";
+import { cityName } from "@/features/planner/regions";
+import type { ThemeSlug } from "@/features/recommend/themes";
 import { themePoster } from "@/features/recommend/works";
 import type { AppLocale } from "@/i18n/locales";
 
-// 추천 코스 2장. 인기 데이터가 아직 없어 고정한 조건이고, 숫자는 buildScenario로 계산한다
-const SUGGESTED: readonly { slug: ThemeSlug; a: string; plan: PlanId }[] = [
+// 지금 인기 코스 2장(목업 「UNESCO 경주 2박 3일」 · 「COAST 거제 1박 2일」). 인기 데이터가 아직 없어 목업 카드의 조건
+// (기간 · 이동수단)을 고정했고, 지역 · 촬영지 수 · 광역 수단은 buildScenario로 계산한다.
+// 경주 카드는 정석(경주에서 시작), 거제 카드는 거제에서 시작하는 트렌드 안이다. RESCENE 코스는 경주 · 거제를 함께 지나서
+// 제목에는 코스가 지나는 도시를 모두 적는다
+const POPULAR: readonly {
+  key: "gyeongju" | "geoje";
+  slug: ThemeSlug;
+  a: string;
+  plan: PlanId;
+}[] = [
   {
+    key: "gyeongju",
     slug: "rescene-route",
     a: "q11.2-nights-plus~q12.public-transit",
     plan: "classic",
   },
-  { slug: "jeju-k-drama", a: "q11.1-night~q12.car", plan: "classic" },
+  {
+    key: "geoje",
+    slug: "rescene-route",
+    a: "q11.1-night~q12.car",
+    plan: "trend",
+  },
 ];
 
-// 홈. 목업 순서: 머리줄 → 위쪽 탭 → 배너 → 나의 테마 → 내 코스 고르기 → 추천 코스 → 출처 → 하단 탭.
+// 홈. 목업 순서: 머리줄(언어 메뉴 · 검색 · 알림) → 위쪽 탭 → 배너 → 지역 시티투어 → 나의 테마(+ 테마 추가) → 내 코스 고르기
+// → 지금 인기 코스 → 출처 → 하단 탭.
 // 첫 방문(세션 쿠키 없음)이면 로고 시작 화면을 먼저 덮는다. 서버에서 정해서 깜빡이지 않는다.
 // 포스터는 TMDB 이미지(features/recommend/works.ts), 숫자는 features/course/data/places.json에서 계산한 값이다
 export default async function HomePage() {
@@ -42,34 +59,29 @@ export default async function HomePage() {
   const t = await getTranslations("Home");
   const common = await getTranslations("Common");
   const tt = await getTranslations("Themes");
-  const tr = await getTranslations("Regions");
   const tc = await getTranslations("Course");
-  const tq = await getTranslations("Recommend.questions");
 
   const questionTotal = QUESTIONS.length;
   const requiredTotal = QUESTIONS.filter((q) => q.required).length;
 
-  const courses = SUGGESTED.map(({ slug, a, plan }) => {
-    const theme = findTheme(slug)!;
+  const courses = POPULAR.map(({ key, slug, a, plan }) => {
     const trip = tripFromAnswers(decodeAnswers(a));
     const scenario = buildScenario(slug, plan, trip);
-    const videos = scenario.days
-      .flatMap((d) => d.stops)
-      .filter((s) => s.place.yt).length;
+    const stops = scenario.days.flatMap((d) => d.stops);
+    const cities = [...new Set(stops.map((s) => s.place.locKo))];
     return {
-      slug,
+      key,
       href: `/themes/${slug}?tab=course&a=${a}&plan=${plan}`,
       title: t("courseTitle", {
-        region: theme.regions.map((r) => tr(r)).join(" · "),
+        region: cities.map((c) => cityName(c, locale)).join(" · "),
         duration:
           trip.days === 1
             ? tc("dayTrip")
             : tc("nightsDays", { nights: trip.days - 1, days: trip.days }),
       }),
-      meta: t("courseMeta", {
-        places: scenario.placeCount,
-        videos,
-        transport: tq(`q12.options.${trip.transport}`),
+      meta: t("popularMeta", {
+        videos: stops.filter((s) => s.place.yt).length,
+        transport: t(`access.${scenario.accessMode}`),
       }),
     };
   });
@@ -79,7 +91,7 @@ export default async function HomePage() {
       {showSplash && <Splash />}
       <main className="flex flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))]">
         <header className="flex items-center justify-between pt-[max(0.5rem,env(safe-area-inset-top))] pr-3 pl-5">
-          <h1 className="flex items-center gap-2 text-headline font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-headline font-bold tracking-tight whitespace-nowrap">
             <LogoMark
               variant="badge"
               size={28}
@@ -87,7 +99,7 @@ export default async function HomePage() {
             />
             {common("brand")}
           </h1>
-          <LocaleSwitch />
+          <HeaderActions />
         </header>
 
         <div className="mt-2 px-5 pb-4">
@@ -101,6 +113,8 @@ export default async function HomePage() {
         </div>
 
         <HeroCarousel />
+
+        <CityTourSection />
 
         <section className="mt-8 px-5" aria-labelledby="home-themes">
           <h2 id="home-themes" className="text-headline font-bold">
@@ -119,6 +133,22 @@ export default async function HomePage() {
                 />
               </li>
             ))}
+            <li>
+              <Link
+                href="/recommend"
+                className="flex flex-col rounded-2xl transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-bright active:scale-[0.98] motion-reduce:transition-none"
+              >
+                <span
+                  aria-hidden
+                  className="flex aspect-[2/3] items-center justify-center rounded-2xl bg-fill text-primary"
+                >
+                  <Plus size={24} />
+                </span>
+                <span className="mt-2 text-label font-semibold">
+                  {t("addTheme")}
+                </span>
+              </Link>
+            </li>
           </ul>
         </section>
 
@@ -147,17 +177,17 @@ export default async function HomePage() {
 
         <section className="mt-10 px-5" aria-labelledby="home-courses">
           <h2 id="home-courses" className="text-headline font-bold">
-            {t("coursesHeading")}
+            {t("popularHeading")}
           </h2>
-          <ul className="mt-4 grid grid-cols-2 gap-3">
+          <ul className="-mx-5 mt-4 flex snap-x gap-3 overflow-x-auto px-5 pb-1">
             {courses.map((c) => (
-              <li key={c.slug}>
+              <li key={c.key} className="w-64 shrink-0 snap-start">
                 <Link
                   href={c.href}
-                  className="flex h-full flex-col rounded-card bg-surface p-4 ring-1 ring-line transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-fill motion-reduce:transition-none"
+                  className="flex h-full flex-col rounded-card bg-surface p-4 ring-1 ring-line transition duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-fill motion-reduce:transition-none"
                 >
                   <span className="text-micro font-bold tracking-wide text-primary">
-                    {tt(`${c.slug}.name`)}
+                    {t(`popular.${c.key}`)}
                   </span>
                   <span className="mt-1 text-body-lg font-bold">{c.title}</span>
                   <span className="mt-1 text-caption text-fg-subtle">
