@@ -139,8 +139,13 @@ for (const lang of LANGS) {
   const places = {};
   const column = { zh: "장소명(중문)", ja: "장소명(일문)" }[lang];
   if (column) {
+    // 한글이 섞인 값(예: 「カン톤市場夜市」)은 원천의 입력 실수라 공식 명칭으로 쓰지 않는다(영어 이름으로 떨어진다)
     for (const row of placeRows)
-      if (present(row[column])) places[row.id] = row[column].trim();
+      if (
+        present(row[column]) &&
+        !/[\u3131-\u318e\uac00-\ud7a3]/.test(row[column])
+      )
+        places[row.id] = row[column].trim();
   }
 
   writeFileSync(

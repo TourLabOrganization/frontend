@@ -36,6 +36,7 @@
 //     그래서 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 nation 장소는 pickCity가 없다(전국 보기에만 들어간다).
 //     nation 장소에 locKo가 없어도 pickCity가 없다(PoC byLoc이 locKo만 본다)
 //   - 값이 없으면 비운다(지어내지 않는다). 원천끼리 다르면 개수를 출력한다
+//   - 영어 이름이 없는 장소(en = ko)는 앱이 만든 영어 이름 표(src/features/translations/data/place-names.en.json)로 채운다(scripts/place-names.mjs)
 //   - 관문(hubs) · 출발지(origins)의 모양은 REGION_HUB · ORIGINS 그대로(항공 · 배 좌표, 울릉 항로 등). 지역거점.csv · 출발지.csv에
 //     없는 필드가 있어서다. 수단(modes)만 CSV 값(화면이 실행 중에 전철권 metro를 더한 값)으로 바꾸고, 이름 · 좌표는 CSV와 대조해 출력한다.
 //     course/data/hubs.json의 origins는 테마 코스용이라 따로 둔다(scripts/build-places.mjs)
@@ -49,6 +50,7 @@ import {
   mergeDataServer,
   resolveDataServerDir,
 } from "./data-server.mjs";
+import { fillPlaceNames } from "./place-names.mjs";
 
 const [csvPath, plannerPath, derivedDir, dataServerArg] = process.argv.slice(2);
 if (!csvPath || !plannerPath || !derivedDir) {
@@ -432,6 +434,11 @@ const write = (file, data) => {
   writeFileSync(file, JSON.stringify(data, null, 2) + "\n", "utf8");
   console.log("wrote", file);
 };
+// 원천에 영어 이름이 없는 장소는 앱이 만든 영어 이름으로 채운다(scripts/place-names.mjs, docs/i18n.md)
+const nameFill = fillPlaceNames(places);
+console.log(
+  `영어 이름 채움 ${nameFill.filled}곳, 번역 표에 없음 ${nameFill.missing.length}곳`,
+);
 write(resolve(OUT_DIR, "places.json"), places);
 write(resolve(OUT_DIR, "place-details.json"), details);
 // 도시 고르기의 도시별 장소 수(pickCity 기준). 도시 고르기 · 여행 정보 탭 도시 선택이 places.json 없이 쓴다
