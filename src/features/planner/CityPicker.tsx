@@ -5,9 +5,15 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 import { segmentClassName } from "@/components/ui/SegmentedControl";
-import { CITY_GROUPS, PLACE_COUNT_BY_CITY } from "./data";
 import { type PlannerTab, plannerHref } from "./query";
-import { CITY_INFO, cityName, MAJOR_CITIES, regionName } from "./regions";
+import {
+  CITY_GROUPS,
+  CITY_INFO,
+  cityName,
+  MAJOR_CITIES,
+  PLACE_COUNT_BY_CITY,
+  regionName,
+} from "./regions";
 import { useNameTable } from "@/features/names/NamesProvider";
 
 type CityPickerProps = {
@@ -22,7 +28,7 @@ type CityPickerProps = {
 // 지역 탭의 「도시 ▾」 칸과 도시 고르기 패널(목업 1번 캡처).
 // 패널은 아래에서 올라오는 모달 dialog다. showModal()이 초점을 가두고, Esc · 바깥 누르기로 닫힌다.
 // 도시 검색(한국어 · 영어 이름) → 권역별 묶음(권역 이름 · 도시 수) → 도시 칩(이름 · 장소 수). 칩은 ?city= 링크다.
-// 묶음 · 순서 · 장소 수는 data.ts CITY_GROUPS(PoC cityGroups). 주요 6도시 칩은 테두리로 강조한다
+// 묶음 · 순서 · 장소 수는 regions.ts CITY_GROUPS(PoC cityGroups, 장소 수는 regions.json placeCounts). 주요 6도시 칩은 테두리로 강조한다
 export function CityPicker({ city, selected, tab }: CityPickerProps) {
   const t = useTranslations("Planner");
   const locale = useLocale();

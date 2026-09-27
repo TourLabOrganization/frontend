@@ -60,6 +60,8 @@ public/                 정적 파일
 - 주소는 `features/planner/query.ts`의 `plannerHref` · `scopeHref`로 만든다. 기본값(전국 · `map`)은 주소에 적지 않는다
 - 지역 탭 · 도시 고르기는 탭을 남기고 범위만 바꾸고, 하단 탭은 범위를 남기고 탭만 바꾼다
 - 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG` + `MACRO_OF`)에 있다. 권역 이름은 목업 지도가 그리는 `MACRO_REGION` 이름(경북권 · 경남권 · 전라권 …)이다
+- 도시별 장소 수(`placeCounts`, `pickCity` 기준)도 `regions.json`에 있다(빌드 스크립트가 센다). 도시 고르기 · 여행 정보 탭 도시 선택은 이 값(`regions.ts` `PLACE_COUNT_BY_CITY` · `CITY_GROUPS`)을 쓰고
+  `data.ts`(places.json)를 import하지 않는다. 여행 정보 탭 클라이언트 컴포넌트가 places.json에 닿지 않는지는 `planner/info-bundle.test.ts`가 확인한다
 - 지도 탭은 분류 칩과 배지 칩(유네스코 · 한국관광 100선 · 열린관광지 · 관광특구, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
   그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)

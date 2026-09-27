@@ -2,7 +2,7 @@
 // 투어 플래너(/planner)의 장소 데이터와 권역 · 도시 데이터를 만든다.
 //   src/features/planner/data/places.json         목록 · 지도 · 코스 · 일정에 쓰는 가벼운 필드 (클라이언트 번들에 들어간다)
 //   src/features/planner/data/place-details.json  장소 시트에서만 쓰는 무거운 필드 (Route Handler만 읽는다. 시트를 열 때 불러온다)
-//   src/features/planner/data/regions.json        권역 7개 · 도시 · 관문 · 출발지
+//   src/features/planner/data/regions.json        권역 7개 · 도시 · 관문 · 출발지 · 도시별 장소 수(placeCounts)
 //
 // 사용법:
 //   node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더>
@@ -420,7 +420,18 @@ const write = (file, data) => {
 };
 write(resolve(OUT_DIR, "places.json"), places);
 write(resolve(OUT_DIR, "place-details.json"), details);
-write(resolve(OUT_DIR, "regions.json"), { regions, cities, hubs, origins });
+// 도시 고르기의 도시별 장소 수(pickCity 기준). 도시 고르기 · 여행 정보 탭 도시 선택이 places.json 없이 쓴다
+// (두 컴포넌트가 장소 수 때문에 장소 전체를 브라우저로 받지 않게). 장소 수 많은 순이 아니라 places.json 순서
+const placeCounts = {};
+for (const p of places)
+  if (p.pickCity) placeCounts[p.pickCity] = (placeCounts[p.pickCity] ?? 0) + 1;
+write(resolve(OUT_DIR, "regions.json"), {
+  regions,
+  cities,
+  hubs,
+  origins,
+  placeCounts,
+});
 
 // ── 대조 ────────────────────────────────────────────────────────────
 const byScreen = {};

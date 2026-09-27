@@ -9,6 +9,7 @@ import { BADGE_KEYS, hasBadge } from "./badges";
 import {
   CITY_HUBS,
   CITY_INFO,
+  PLACE_COUNT_BY_CITY as REGION_PLACE_COUNTS,
   PLANNER_ORIGINS,
   REGION_KEYS,
   REGIONS,
@@ -204,5 +205,17 @@ describe("플래너 데이터", () => {
       if (p.open !== null && p.close !== null)
         expect(p.close, p.id).toBeGreaterThan(p.open);
     }
+  });
+});
+
+describe("도시별 장소 수(regions.json placeCounts)", () => {
+  it("places.json의 pickCity를 센 값과 같다(빌드 스크립트가 적은 값이 데이터와 어긋나지 않는다)", () => {
+    const m = new Map<string, number>();
+    for (const p of PLANNER_PLACES)
+      if (p.pickCity) m.set(p.pickCity, (m.get(p.pickCity) ?? 0) + 1);
+    expect(Object.fromEntries(REGION_PLACE_COUNTS)).toEqual(
+      Object.fromEntries(m),
+    );
+    expect(REGION_PLACE_COUNTS).toBe(PLACE_COUNT_BY_CITY);
   });
 });
