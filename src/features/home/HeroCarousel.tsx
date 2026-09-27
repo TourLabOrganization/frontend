@@ -162,7 +162,7 @@ export function HeroCarousel() {
                 <Link
                   href={`/themes/${slug}`}
                   draggable={false}
-                  className="absolute inset-0 block px-6 pt-5 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
+                  className="absolute inset-0 block px-14 pt-5 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
                 >
                   <span className="inline-block bg-white px-2 py-1 text-micro font-bold tracking-[0.14em] text-fg">
                     {t(`banners.${slug}.kicker`)}
@@ -185,7 +185,7 @@ export function HeroCarousel() {
         </div>
       </div>
 
-      {/* 좌우 화살표. 제목 · 설명을 가리지 않게 가운데보다 조금 아래에 둔다(누르는 자리 44px) */}
+      {/* 좌우 화살표. 배너 세로 가운데에 두고(누르는 자리 44px), 글자는 화살표 폭만큼 안쪽으로 들여 겹치지 않게 한다 */}
       {(
         [
           ["prev", -1, ChevronLeft, "left-2"],
@@ -197,7 +197,7 @@ export function HeroCarousel() {
           type="button"
           onClick={() => go(index + step)}
           aria-label={t(key === "prev" ? "prevSlide" : "nextSlide")}
-          className={`absolute top-[62%] ${side} flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-fg/45 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-white active:bg-fg/70 motion-reduce:transition-none`}
+          className={`absolute top-1/2 ${side} flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-fg/45 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-white active:bg-fg/70 motion-reduce:transition-none`}
         >
           <Icon size={24} aria-hidden />
         </button>

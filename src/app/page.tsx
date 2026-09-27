@@ -128,13 +128,13 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/recommend"
-            className="mt-4 flex items-center gap-3 rounded-card bg-fg p-5 text-white transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] motion-reduce:transition-none"
+            className="mt-4 flex items-center gap-3 rounded-card bg-primary p-5 text-white transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-primary-strong motion-reduce:transition-none"
           >
             <span className="flex flex-1 flex-col">
               <span className="text-body-lg font-bold">
                 {t("pickCourseTitle")}
               </span>
-              <span className="mt-1 text-caption text-white/70">
+              <span className="mt-1 text-caption text-white">
                 {t("pickCourseMeta", {
                   total: questionTotal,
                   required: requiredTotal,
