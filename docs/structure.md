@@ -74,13 +74,13 @@ public/                 정적 파일
 원본은 PoC(`Tour-Navigator-App`, 읽기만)이고 이 리포에 넣지 않는다. 만든 JSON은 손으로 고치지 않는다. 스크립트를 돌린 뒤 `npm run format`.
 마지막 동기화: 2026-09-27, PoC main f44eb97 (`docs/poc.md`).
 
-| 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                                              |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                    |
-| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                 |
-| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                |
-| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
-| `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                      |
+| 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                                                          |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                |
+| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                             |
+| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
+| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
+| `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
 
 플래너 장소 필드
 
@@ -117,6 +117,14 @@ public/                 정적 파일
   `kind`가 없으면 테마 코스다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlans` · `parsePlannerPlans` · `writeSavedPlans` · `writePlannerPlans`)만 쓰고,
   한쪽을 쓸 때 다른 쪽 항목은 그대로 둔다
 - ME는 둘을 저장한 순서대로 보인다. 플래너 플랜은 「{이름} · {도시} · {n박 m일} · {n}곳」, 누르면 `/planner?tab=course&plan={id}`
+
+### 저장한 장소 (`tn.savedPlaces`)
+
+- 장소 시트의 「저장」(북마크). `{ id, source, savedAt, name: { ko, en } }[]`. `source`는 테마 slug 또는 `planner`이고, 같은 장소도 출처가 다르면 따로 저장한다.
+  `name`은 ME가 장소 데이터(플래너 3,118곳)를 불러오지 않고 이름을 보이려고 저장할 때 적어 둔다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlaces` · `toggleSavedPlace` · `useSavedPlaces`)
+- ME 「저장한 장소」는 저장한 순서대로, 누르면 테마는 `/themes/{slug}?tab=map&place={id}`, 플래너는 `/planner?place={id}`(시트가 열린 지도 탭)
+- 테마 스탬프 탭 아래쪽 「저장한 장소」는 그 테마(`source`)에서 저장한 것만. 예전 테마별 북마크 `tn.bookmarks.{slug}`는 읽지 않는다
+- 스탬프(`tn.stamps.{slug}`, `features/theme/storage.ts`)는 시트 · 스탬프 탭이 함께 쓰는 토글이다. PoC 코드(`d_toggleStamp`)에 위치 확인 규칙이 없어 위치를 보지 않는다
 
 ## 서버 컴포넌트와 클라이언트 컴포넌트
 
