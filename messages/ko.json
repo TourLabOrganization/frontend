@@ -4,6 +4,8 @@
     "description": "영상 속 장소를 따라 걷는 여행 계획 앱"
   },
   "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "처음부터 다시 시작",
     "brand": "TOUR NAVIGATOR",
     "back": "뒤로",
     "skip": "건너뛰기",

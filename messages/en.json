@@ -4,6 +4,8 @@
     "description": "A trip planner that follows the places you saw on screen"
   },
   "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "Restart from the beginning",
     "brand": "TOUR NAVIGATOR",
     "back": "Back",
     "skip": "Skip",
