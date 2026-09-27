@@ -1424,6 +1424,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 55
   },
   {
@@ -1445,7 +1446,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctu3",
@@ -1466,7 +1468,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "ctu4",
@@ -1487,7 +1490,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "ctu5",
@@ -2696,7 +2700,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ctu67",
@@ -2717,7 +2722,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ctu68",
@@ -2738,7 +2744,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ctu69",
@@ -2759,7 +2766,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ctt1",
@@ -2780,7 +2788,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctt2",
@@ -2801,7 +2810,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctt3",
@@ -2823,6 +2833,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 86
   },
   {
@@ -2844,7 +2855,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctt5",
@@ -2865,7 +2877,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctt6",
@@ -2886,7 +2899,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctt7",
@@ -2928,7 +2942,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ctt9",
@@ -10803,7 +10818,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ctt367",
@@ -10824,7 +10840,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro116",
@@ -10868,6 +10885,7 @@
     "bf": false,
     "auto": true,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 50
   },
   {
@@ -11043,7 +11061,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs383",
@@ -11064,7 +11083,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro1",
@@ -11152,6 +11172,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 7
   },
   {
@@ -11394,6 +11415,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 3
   },
   {
@@ -11438,6 +11460,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 5
   },
   {
@@ -11482,6 +11505,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 49
   },
   {
@@ -11503,7 +11527,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro21",
@@ -11679,6 +11704,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 7
   },
   {
@@ -11898,7 +11924,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro39",
@@ -12141,6 +12168,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 63
   },
   {
@@ -12163,6 +12191,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 62
   },
   {
@@ -12295,6 +12324,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 20
   },
   {
@@ -12361,6 +12391,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 81
   },
   {
@@ -12516,6 +12547,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 82
   },
   {
@@ -12648,6 +12680,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 18
   },
   {
@@ -12757,7 +12790,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro78",
@@ -12910,7 +12944,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "gangwon"
+    "macro": "gangwon",
+    "pickCity": "영월"
   },
   {
     "id": "ro85",
@@ -12975,7 +13010,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "ro88",
@@ -12997,6 +13033,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 9
   },
   {
@@ -13305,7 +13342,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro103",
@@ -13327,6 +13365,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 14
   },
   {
@@ -13349,6 +13388,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 39
   },
   {
@@ -13371,6 +13411,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 25
   },
   {
@@ -13502,6 +13543,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 64
   },
   {
@@ -13524,6 +13566,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "제주시 관광지 (2008 지정)",
     "popRank": 24
   },
@@ -13613,6 +13656,7 @@
     "bf": false,
     "auto": true,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 19
   },
   {
@@ -13788,7 +13832,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro127",
@@ -13809,7 +13854,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro128",
@@ -13831,6 +13877,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 20
   },
   {
@@ -13852,7 +13899,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "ro130",
@@ -13873,7 +13921,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "ro131",
@@ -13960,7 +14009,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "ro135",
@@ -13982,6 +14032,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 47
   },
   {
@@ -14272,6 +14323,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 97
   },
   {
@@ -14294,6 +14346,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 20
   },
   {
@@ -14315,7 +14368,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "ro151",
@@ -14336,7 +14390,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "gangwon"
+    "macro": "gangwon",
+    "pickCity": "영월"
   },
   {
     "id": "ro152",
@@ -14534,6 +14589,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 77
   },
   {
@@ -14555,7 +14611,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "ro162",
@@ -14928,6 +14985,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 76
   },
   {
@@ -15586,7 +15644,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro209",
@@ -15608,6 +15667,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광지 (2023 지정)"
   },
   {
@@ -15629,7 +15689,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "ro211",
@@ -16287,7 +16348,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro241",
@@ -16308,7 +16370,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro242",
@@ -16330,6 +16393,7 @@
     "bf": false,
     "auto": true,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 45
   },
   {
@@ -16374,6 +16438,7 @@
     "bf": false,
     "auto": true,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 46
   },
   {
@@ -16727,6 +16792,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "vz": "영도구 관광지 (2008 지정)"
   },
   {
@@ -16749,6 +16815,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 15
   },
   {
@@ -16969,6 +17036,7 @@
     "bf": false,
     "auto": true,
     "macro": "gangwon",
+    "pickCity": "영월",
     "popRank": 15
   },
   {
@@ -17410,7 +17478,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro292",
@@ -17432,6 +17501,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 96
   },
   {
@@ -17454,6 +17524,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 38
   },
   {
@@ -17475,7 +17546,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro295",
@@ -17716,7 +17788,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro306",
@@ -17737,7 +17810,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro307",
@@ -18244,7 +18318,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro330",
@@ -18265,7 +18340,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro331",
@@ -18572,7 +18648,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro345",
@@ -18593,7 +18670,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro346",
@@ -19056,7 +19134,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro368",
@@ -19099,7 +19178,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro370",
@@ -19121,6 +19201,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 51
   },
   {
@@ -19142,7 +19223,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro372",
@@ -19163,7 +19245,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro373",
@@ -19184,7 +19267,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro374",
@@ -20575,7 +20659,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro438",
@@ -20596,7 +20681,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro439",
@@ -20617,7 +20703,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro440",
@@ -20638,7 +20725,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro441",
@@ -20659,7 +20747,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro442",
@@ -20681,6 +20770,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "vz": "해운대구 관광지 (2006 지정)"
   },
   {
@@ -20702,7 +20792,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro444",
@@ -20723,7 +20814,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro445",
@@ -21186,7 +21278,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro466",
@@ -21207,7 +21300,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro467",
@@ -21228,7 +21322,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro468",
@@ -21249,7 +21344,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro469",
@@ -21270,7 +21366,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro470",
@@ -21291,7 +21388,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro471",
@@ -21312,7 +21410,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro472",
@@ -22192,7 +22291,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro513",
@@ -22214,6 +22314,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 74
   },
   {
@@ -22235,7 +22336,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro515",
@@ -22256,7 +22358,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro516",
@@ -22299,7 +22402,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro518",
@@ -22320,7 +22424,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro519",
@@ -22693,7 +22798,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro536",
@@ -22714,7 +22820,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro537",
@@ -22757,7 +22864,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro539",
@@ -22800,7 +22908,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro541",
@@ -22821,7 +22930,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro542",
@@ -23682,7 +23792,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro583",
@@ -23703,7 +23814,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro584",
@@ -23746,7 +23858,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro586",
@@ -23767,7 +23880,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro587",
@@ -23788,7 +23902,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro588",
@@ -23809,7 +23924,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro589",
@@ -23830,7 +23946,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro590",
@@ -23851,7 +23968,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro591",
@@ -23872,7 +23990,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro592",
@@ -23893,7 +24012,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro593",
@@ -24224,7 +24344,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro608",
@@ -24245,7 +24366,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro609",
@@ -24266,7 +24388,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro610",
@@ -24287,7 +24410,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro611",
@@ -25390,7 +25514,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro662",
@@ -25411,7 +25536,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro663",
@@ -25432,7 +25558,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro665",
@@ -25453,7 +25580,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro666",
@@ -25475,6 +25603,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 78
   },
   {
@@ -25496,7 +25625,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro668",
@@ -25583,7 +25713,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro672",
@@ -25847,7 +25978,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro684",
@@ -25868,7 +26000,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro685",
@@ -25889,7 +26022,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro686",
@@ -25910,7 +26044,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro687",
@@ -25931,7 +26066,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro688",
@@ -25952,7 +26088,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro689",
@@ -25973,7 +26110,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro690",
@@ -27074,7 +27212,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro742",
@@ -27117,7 +27256,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro744",
@@ -27160,7 +27300,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro747",
@@ -27181,7 +27322,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro748",
@@ -27203,6 +27345,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "vz": "영도구 관광지 (2008 지정)"
   },
   {
@@ -27224,7 +27367,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro750",
@@ -27245,7 +27389,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro751",
@@ -27266,7 +27411,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro752",
@@ -27287,7 +27433,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro753",
@@ -27308,7 +27455,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro754",
@@ -27329,7 +27477,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro755",
@@ -27350,7 +27499,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro756",
@@ -27371,7 +27521,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro757",
@@ -27392,7 +27543,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro759",
@@ -27435,7 +27587,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro761",
@@ -27456,7 +27609,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro762",
@@ -27498,7 +27652,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro764",
@@ -27872,7 +28027,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro781",
@@ -27937,7 +28093,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro784",
@@ -27958,7 +28115,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro785",
@@ -27979,7 +28137,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro786",
@@ -28000,7 +28159,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro787",
@@ -28990,7 +29150,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro834",
@@ -29011,7 +29172,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro837",
@@ -29032,7 +29194,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro839",
@@ -29053,7 +29216,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro840",
@@ -29096,7 +29260,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro843",
@@ -29117,7 +29282,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro844",
@@ -29138,7 +29304,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro846",
@@ -29159,7 +29326,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro847",
@@ -29180,7 +29348,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro848",
@@ -29202,6 +29371,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 46
   },
   {
@@ -29465,7 +29635,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro862",
@@ -29486,7 +29657,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro863",
@@ -29507,7 +29679,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro864",
@@ -30410,7 +30583,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro912",
@@ -30431,7 +30605,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro913",
@@ -30452,7 +30627,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro914",
@@ -30473,7 +30649,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro915",
@@ -30494,7 +30671,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro916",
@@ -30515,7 +30693,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro917",
@@ -30536,7 +30715,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro918",
@@ -30557,7 +30737,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro920",
@@ -30578,7 +30759,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro921",
@@ -30644,6 +30826,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 59
   },
   {
@@ -30665,7 +30848,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro925",
@@ -30686,7 +30870,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro926",
@@ -31213,7 +31398,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro950",
@@ -31234,7 +31420,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro952",
@@ -31255,7 +31442,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro953",
@@ -31276,7 +31464,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro954",
@@ -31297,7 +31486,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro956",
@@ -31318,7 +31508,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro957",
@@ -31339,7 +31530,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro958",
@@ -31360,7 +31552,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro959",
@@ -31381,7 +31574,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro960",
@@ -31402,7 +31596,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro961",
@@ -31423,7 +31618,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro962",
@@ -31444,7 +31640,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro963",
@@ -31465,7 +31662,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro964",
@@ -31486,7 +31684,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro965",
@@ -31507,7 +31706,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro966",
@@ -31572,7 +31772,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro969",
@@ -31593,7 +31794,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "ro971",
@@ -31636,7 +31838,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro973",
@@ -31657,7 +31860,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro974",
@@ -31678,7 +31882,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro975",
@@ -31699,7 +31904,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "ro976",
@@ -31720,7 +31926,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs1",
@@ -32078,6 +32285,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -32167,6 +32375,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -32232,7 +32441,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs24",
@@ -32387,6 +32597,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "제주시 관광지 (2013 지정)"
   },
   {
@@ -32430,7 +32641,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs33",
@@ -32452,6 +32664,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -32496,7 +32709,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "gangwon"
+    "macro": "gangwon",
+    "pickCity": "영월"
   },
   {
     "id": "rs36",
@@ -32650,6 +32864,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -32716,7 +32931,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs46",
@@ -32826,6 +33042,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2008 지정)"
   },
   {
@@ -33025,7 +33242,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs60",
@@ -33202,7 +33420,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs68",
@@ -33290,6 +33509,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2023 지정)"
   },
   {
@@ -33490,7 +33710,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs81",
@@ -33712,7 +33933,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs91",
@@ -33756,6 +33978,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광지 (2020 지정)"
   },
   {
@@ -33777,7 +34000,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs94",
@@ -33798,7 +34022,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs95",
@@ -33886,7 +34111,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs99",
@@ -33952,7 +34178,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs102",
@@ -33973,7 +34200,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs103",
@@ -33994,7 +34222,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs104",
@@ -34016,6 +34245,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -34236,7 +34466,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs115",
@@ -34257,7 +34488,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs116",
@@ -34278,7 +34510,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs117",
@@ -34300,6 +34533,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "제주시 관광지 (2008 지정)"
   },
   {
@@ -34322,6 +34556,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -34632,7 +34867,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs133",
@@ -34676,7 +34912,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs135",
@@ -34697,7 +34934,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "gangwon"
+    "macro": "gangwon",
+    "pickCity": "영월"
   },
   {
     "id": "rs136",
@@ -34719,6 +34957,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2023 지정)"
   },
   {
@@ -34740,7 +34979,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs138",
@@ -34938,7 +35178,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs147",
@@ -34981,7 +35222,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs149",
@@ -35002,7 +35244,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs150",
@@ -35023,7 +35266,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs151",
@@ -35044,7 +35288,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs152",
@@ -35065,7 +35310,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs153",
@@ -35086,7 +35332,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs154",
@@ -35107,7 +35354,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs155",
@@ -35464,7 +35712,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs171",
@@ -35507,7 +35756,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs173",
@@ -35550,7 +35800,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs175",
@@ -35571,7 +35822,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs176",
@@ -35592,7 +35844,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs177",
@@ -35613,7 +35866,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs178",
@@ -35634,7 +35888,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs179",
@@ -35655,7 +35910,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs180",
@@ -35676,7 +35932,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs181",
@@ -35698,6 +35955,7 @@
     "bf": false,
     "auto": false,
     "macro": "dongnam",
+    "pickCity": "부산",
     "vz": "해운대구 관광지 (2008 지정)"
   },
   {
@@ -35719,7 +35977,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs183",
@@ -35762,7 +36021,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs185",
@@ -35805,7 +36065,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs187",
@@ -36313,7 +36574,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs210",
@@ -36334,7 +36596,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs211",
@@ -36355,7 +36618,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs212",
@@ -36376,7 +36640,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs213",
@@ -36397,7 +36662,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs214",
@@ -36418,7 +36684,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs215",
@@ -36462,7 +36729,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs217",
@@ -36483,7 +36751,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs218",
@@ -36504,7 +36773,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs219",
@@ -36525,7 +36795,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs220",
@@ -36568,7 +36839,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs222",
@@ -36589,7 +36861,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs223",
@@ -36610,7 +36883,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs224",
@@ -36653,7 +36927,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs226",
@@ -36696,7 +36971,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs228",
@@ -37336,7 +37612,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs257",
@@ -37401,7 +37678,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs260",
@@ -37422,7 +37700,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs261",
@@ -37443,7 +37722,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs262",
@@ -37464,7 +37744,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs263",
@@ -37485,7 +37766,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs264",
@@ -37506,7 +37788,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs265",
@@ -37527,7 +37810,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs266",
@@ -37548,7 +37832,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs267",
@@ -37614,7 +37899,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs270",
@@ -37636,6 +37922,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2023 지정)"
   },
   {
@@ -37658,6 +37945,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2023 지정)"
   },
   {
@@ -37679,7 +37967,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs273",
@@ -37700,7 +37989,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs274",
@@ -37744,6 +38034,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2008 지정)"
   },
   {
@@ -37765,7 +38056,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs277",
@@ -37808,7 +38100,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs279",
@@ -38181,7 +38474,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs296",
@@ -38578,7 +38872,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs314",
@@ -38621,7 +38916,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs316",
@@ -38642,7 +38938,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs317",
@@ -38663,7 +38960,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs318",
@@ -38684,7 +38982,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs319",
@@ -38705,7 +39004,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs320",
@@ -38726,7 +39026,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs321",
@@ -38747,7 +39048,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs322",
@@ -38768,7 +39070,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs323",
@@ -38789,7 +39092,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs324",
@@ -38810,7 +39114,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs325",
@@ -38832,6 +39137,7 @@
     "bf": false,
     "auto": false,
     "macro": "gangwon",
+    "pickCity": "영월",
     "popRank": 31
   },
   {
@@ -39029,7 +39335,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs335",
@@ -39072,7 +39379,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "gangwon"
+    "macro": "gangwon",
+    "pickCity": "영월"
   },
   {
     "id": "rs337",
@@ -39093,7 +39401,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs338",
@@ -39137,6 +39446,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "vz": "경주시 관광단지 (2026 지정)"
   },
   {
@@ -39951,7 +40261,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs377",
@@ -39972,7 +40283,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs378",
@@ -39993,7 +40305,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs379",
@@ -40014,7 +40327,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs380",
@@ -40035,7 +40349,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs381",
@@ -40056,7 +40371,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs382",
@@ -40077,7 +40393,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs384",
@@ -40144,7 +40461,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs387",
@@ -40165,7 +40483,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs388",
@@ -40186,7 +40505,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs389",
@@ -40207,7 +40527,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs390",
@@ -40228,7 +40549,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs391",
@@ -40249,7 +40571,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs392",
@@ -40270,7 +40593,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs393",
@@ -40291,7 +40615,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs394",
@@ -40313,6 +40638,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광지 (2020 지정)"
   },
   {
@@ -40335,6 +40661,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2008 지정)"
   },
   {
@@ -40356,7 +40683,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs397",
@@ -40377,7 +40705,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs398",
@@ -40398,7 +40727,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs399",
@@ -40420,6 +40750,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2023 지정)"
   },
   {
@@ -40441,7 +40772,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs401",
@@ -40462,7 +40794,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs402",
@@ -40571,7 +40904,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs407",
@@ -40614,7 +40948,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs409",
@@ -40635,7 +40970,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs410",
@@ -40657,6 +40993,7 @@
     "bf": false,
     "auto": false,
     "macro": "gangwon",
+    "pickCity": "영월",
     "popRank": 29
   },
   {
@@ -40745,7 +41082,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs415",
@@ -40766,7 +41104,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs416",
@@ -40810,7 +41149,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs418",
@@ -41515,7 +41855,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs450",
@@ -41536,7 +41877,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs451",
@@ -41557,7 +41899,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs452",
@@ -41578,7 +41921,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs453",
@@ -41599,7 +41943,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs454",
@@ -41620,7 +41965,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs455",
@@ -41641,7 +41987,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs456",
@@ -41662,7 +42009,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs457",
@@ -41683,7 +42031,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs458",
@@ -41704,7 +42053,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs459",
@@ -41725,7 +42075,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs460",
@@ -41746,7 +42097,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs461",
@@ -41767,7 +42119,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs462",
@@ -41788,7 +42141,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs463",
@@ -41809,7 +42163,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs464",
@@ -41896,7 +42251,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs468",
@@ -41917,7 +42273,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs469",
@@ -42159,7 +42516,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs480",
@@ -42202,7 +42560,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs482",
@@ -42246,6 +42605,7 @@
     "bf": false,
     "auto": false,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 94
   },
   {
@@ -42267,7 +42627,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs485",
@@ -42288,7 +42649,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs486",
@@ -42309,7 +42671,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "rs487",
@@ -42330,7 +42693,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs488",
@@ -42351,7 +42715,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs489",
@@ -42373,6 +42738,7 @@
     "bf": false,
     "auto": false,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 92
   },
   {
@@ -42394,7 +42760,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs491",
@@ -42437,7 +42804,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "rs493",
@@ -43385,7 +43753,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs536",
@@ -43406,7 +43775,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs537",
@@ -43449,7 +43819,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs539",
@@ -43492,7 +43863,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs541",
@@ -43558,7 +43930,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs544",
@@ -43579,7 +43952,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs545",
@@ -43600,7 +43974,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs546",
@@ -43622,6 +43997,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2010 지정)"
   },
   {
@@ -43643,7 +44019,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs548",
@@ -43665,6 +44042,7 @@
     "bf": false,
     "auto": false,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "제주시 관광지 (2013 지정)"
   },
   {
@@ -43686,7 +44064,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs550",
@@ -43707,7 +44086,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs551",
@@ -43729,6 +44109,7 @@
     "bf": false,
     "auto": false,
     "macro": "gangwon",
+    "pickCity": "영월",
     "popRank": 33
   },
   {
@@ -43751,6 +44132,7 @@
     "bf": false,
     "auto": false,
     "macro": "gangwon",
+    "pickCity": "영월",
     "popRank": 21
   },
   {
@@ -43772,7 +44154,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "rs554",
@@ -43859,7 +44242,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs558",
@@ -43880,7 +44264,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs559",
@@ -43901,7 +44286,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs560",
@@ -43922,7 +44308,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "rs561",
@@ -43943,7 +44330,8 @@
     "un": false,
     "bf": false,
     "auto": false,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "rs562",
@@ -53616,7 +54004,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax703",
@@ -53637,7 +54026,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax704",
@@ -53658,7 +54048,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax705",
@@ -53679,7 +54070,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax706",
@@ -53701,6 +54093,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 67
   },
   {
@@ -53723,6 +54116,7 @@
     "bf": false,
     "auto": true,
     "macro": "capital",
+    "pickCity": "서울",
     "popRank": 98
   },
   {
@@ -53744,7 +54138,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax709",
@@ -53765,7 +54160,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax710",
@@ -53786,7 +54182,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax711",
@@ -53807,7 +54204,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax712",
@@ -53828,7 +54226,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax713",
@@ -53849,7 +54248,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax714",
@@ -53870,7 +54270,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital"
+    "macro": "capital",
+    "pickCity": "서울"
   },
   {
     "id": "nax715",
@@ -54641,7 +55042,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "nax762",
@@ -54662,7 +55064,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "nax763",
@@ -54684,6 +55087,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 17
   },
   {
@@ -54706,6 +55110,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "popRank": 99
   },
   {
@@ -54728,6 +55133,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "vz": "기장군 관광단지 (2011 지정)",
     "popRank": 87
   },
@@ -54861,6 +55267,7 @@
     "bf": false,
     "auto": true,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 65
   },
   {
@@ -54883,6 +55290,7 @@
     "bf": false,
     "auto": true,
     "macro": "daegyeong",
+    "pickCity": "경주",
     "popRank": 71
   },
   {
@@ -55124,6 +55532,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "거제",
     "popRank": 66
   },
   {
@@ -55145,7 +55554,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "nax785",
@@ -55166,7 +55576,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "nax786",
@@ -55517,7 +55928,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax802",
@@ -55538,7 +55950,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax803",
@@ -55560,6 +55973,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "서귀포시 관광단지 (2008 지정)",
     "popRank": 9
   },
@@ -55583,6 +55997,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 26
   },
   {
@@ -55605,6 +56020,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "vz": "제주시 관광지 (2013 지정)"
   },
   {
@@ -55692,7 +56108,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "nax825",
@@ -55713,7 +56130,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "nax826",
@@ -55734,7 +56152,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "daegyeong"
+    "macro": "daegyeong",
+    "pickCity": "경주"
   },
   {
     "id": "nax827",
@@ -56241,7 +56660,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "nax850",
@@ -56263,6 +56683,7 @@
     "bf": false,
     "auto": true,
     "macro": "dongnam",
+    "pickCity": "부산",
     "vz": "기장군 관광단지 (2011 지정)"
   },
   {
@@ -56284,7 +56705,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "nax852",
@@ -56549,7 +56971,8 @@
     "un": false,
     "bf": true,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax882",
@@ -56570,7 +56993,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax883",
@@ -56591,7 +57015,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax884",
@@ -56612,7 +57037,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax885",
@@ -56633,7 +57059,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax886",
@@ -56654,7 +57081,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax887",
@@ -56675,7 +57103,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax888",
@@ -56697,6 +57126,7 @@
     "bf": false,
     "auto": true,
     "macro": "jeju",
+    "pickCity": "제주",
     "popRank": 49
   },
   {
@@ -62076,7 +62506,8 @@
     "un": false,
     "bf": true,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "nax1336",
@@ -62097,7 +62528,8 @@
     "un": false,
     "bf": true,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "거제"
   },
   {
     "id": "nax1337",
@@ -62185,7 +62617,8 @@
     "un": false,
     "bf": true,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "nax1410",
@@ -62536,7 +62969,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "nax1519",
@@ -62557,7 +62991,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "dongnam"
+    "macro": "dongnam",
+    "pickCity": "부산"
   },
   {
     "id": "nax1520",
@@ -62644,7 +63079,8 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju"
+    "macro": "jeju",
+    "pickCity": "제주"
   },
   {
     "id": "yw1",
@@ -63162,8 +63598,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "capital",
-    "pickCity": "서울"
+    "macro": "capital"
   },
   {
     "id": "kd6",
@@ -65343,8 +65778,7 @@
     "un": false,
     "bf": true,
     "auto": true,
-    "macro": "jeju",
-    "pickCity": "제주"
+    "macro": "jeju"
   },
   {
     "id": "jdx6",
@@ -65886,8 +66320,7 @@
     "un": false,
     "bf": false,
     "auto": true,
-    "macro": "jeju",
-    "pickCity": "제주"
+    "macro": "jeju"
   },
   {
     "id": "jdx30",

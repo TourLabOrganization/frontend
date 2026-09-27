@@ -22,6 +22,11 @@ describe("splitStops · normalizeName", () => {
       ),
     ).toEqual(["하당", "목포역", "갓바위", "유달산", "노적봉", "삼학도"]);
     expect(splitStops("토요일: 하당 → 목포역")).toEqual(["하당", "목포역"]);
+    expect(splitStops("인천역+화개정원+대룡시장")).toEqual([
+      "인천역",
+      "화개정원",
+      "대룡시장",
+    ]);
   });
 
   it("비교 이름에서 괄호 · 끝말 · 띄어쓰기를 뗀다", () => {
@@ -38,7 +43,7 @@ describe("stopPool", () => {
     place("x1", "어딘가", "진주"),
   ];
 
-  it("전용 화면 도시는 그 화면 장소만", () => {
+  it("전용 화면 도시는 도시 고르기 목록 장소(pickCity)만", () => {
     expect(stopPool("서울", places).map((p) => p.id)).toEqual(["s1"]);
   });
 
@@ -78,5 +83,62 @@ describe("matchStops", () => {
       ids: [],
       missed: ["대부도"],
     });
+  });
+
+  it("부분 이름은 관광지를 먼저 보고, 경유지 이름이 앞부분일 뿐인 식당에는 대조하지 않는다", () => {
+    const busan = [
+      place("f1", "해운대가야밀면", "부산", { cat: "food" }),
+      place("s1", "해운대해수욕장", "부산", { cat: "sea" }),
+    ];
+    expect(
+      matchStops("부산역 → 해운대(미포) → 부산역", busan, "부산").ids,
+    ).toEqual(["s1"]);
+    expect(
+      matchStops(
+        "해운대",
+        [place("f1", "해운대가야밀면", "부산", { cat: "food" })],
+        "부산",
+      ),
+    ).toEqual({ ids: [], missed: ["해운대"] });
+  });
+
+  it("먹거리는 시장 · 거리 경유지, 이름 끝 대조, 시티투어 경유 장소일 때만 부분 이름으로 담는다", () => {
+    const pool = [
+      place("m", "교동대룡시장", "인천", { cat: "food" }),
+      place("g", "부산 광복로", "부산", { cat: "food" }),
+      place("c", "창원가로수길 카페거리", "창원", { cat: "food", ct: true }),
+      place("r", "으능정이 스카이로드", "대전", { cat: "food" }),
+    ];
+    expect(
+      matchStops("대룡시장 → 광복로 → 창원가로수길 → 으능정이", pool).ids,
+    ).toEqual(["m", "g", "c"]);
+  });
+
+  it("후보가 여럿이면 이름이 가장 가까운 곳, 같은 순위면 애매해서 담지 않는다", () => {
+    const pool = [
+      place("a", "제부마리나 클럽하우스", "화성"),
+      place("b", "제부도", "화성", { cat: "sea" }),
+    ];
+    expect(matchStops("제부", pool, "화성").ids).toEqual(["b"]);
+    const tie = [
+      place("x", "평화광장 분수", "목포"),
+      place("y", "평화광장 공원", "목포"),
+    ];
+    expect(matchStops("평화광장", tie, "목포")).toEqual({
+      ids: [],
+      missed: ["평화광장"],
+    });
+  });
+
+  it("대조 표(CITYTOUR_MATCH)가 규칙보다 먼저다", () => {
+    const daejeon = [
+      place("r", "으능정이 스카이로드", "대전", { cat: "food" }),
+    ];
+    expect(matchStops("으능정이", daejeon, "대전").ids).toEqual(["r"]);
+    const buyeo = [
+      place("m", "정림사지박물관", "부여"),
+      place("t", "정림사지5층석탑", "부여"),
+    ];
+    expect(matchStops("정림사지", buyeo, "부여").ids).toEqual(["t"]);
   });
 });
