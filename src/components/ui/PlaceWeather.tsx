@@ -18,6 +18,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { useId } from "react";
 import {
+  pickWeatherDays,
   roundCoord,
   WEATHER_REVALIDATE_SECONDS,
   WEATHER_TIMEOUT_MS,
@@ -71,7 +72,10 @@ export function PlaceWeather({ lat, lng }: { lat: number; lng: number }) {
     staleTime: WEATHER_REVALIDATE_SECONDS * 1000,
     retry: 1,
   });
-  const days = query.data?.days;
+  // 캐시된 응답은 날짜가 밀려 있을 수 있어 순번이 아니라 날짜(한국)로 칸을 고른다. 불러오는 중이면 undefined
+  const cells = query.data
+    ? pickWeatherDays(query.data.days, new Date())
+    : undefined;
 
   return (
     <section
@@ -116,10 +120,10 @@ export function PlaceWeather({ lat, lng }: { lat: number; lng: number }) {
               {t("loading")}
             </p>
           )}
-          <TodayCell day={days?.[1]} label={t("today")} />
+          <TodayCell day={cells?.today} label={t("today")} />
           <div className="flex flex-col divide-y divide-line border-l border-line">
-            <SmallDayRow day={days?.[0]} label={t("yesterday")} />
-            <SmallDayRow day={days?.[2]} label={t("tomorrow")} />
+            <SmallDayRow day={cells?.yesterday} label={t("yesterday")} />
+            <SmallDayRow day={cells?.tomorrow} label={t("tomorrow")} />
           </div>
         </div>
       )}
@@ -170,13 +174,18 @@ function Placeholder({ className }: { className: string }) {
   );
 }
 
-function TodayCell({ day, label }: { day?: WeatherDay; label: string }) {
+/** undefined = 불러오는 중(자리), null = 응답에 그 날짜가 없음(「–」) */
+type DayCell = WeatherDay | null | undefined;
+
+function TodayCell({ day, label }: { day: DayCell; label: string }) {
   const t = useTranslations("PlaceSheet.weather");
   const f = useWeatherFormat();
   return (
     <div className="flex items-center gap-3 px-4 py-3">
       {day ? (
         <WeatherIcon code={day.code} size={24} />
+      ) : day === null ? (
+        <WeatherIcon code={null} size={24} />
       ) : (
         <Placeholder className="block size-6 shrink-0" />
       )}
@@ -193,6 +202,8 @@ function TodayCell({ day, label }: { day?: WeatherDay; label: string }) {
               {f.rain(day.rain)}
             </span>
           </>
+        ) : day === null ? (
+          <span className="text-title font-bold">–</span>
         ) : (
           <>
             <span className="text-title">
@@ -208,7 +219,7 @@ function TodayCell({ day, label }: { day?: WeatherDay; label: string }) {
   );
 }
 
-function SmallDayRow({ day, label }: { day?: WeatherDay; label: string }) {
+function SmallDayRow({ day, label }: { day: DayCell; label: string }) {
   const t = useTranslations("PlaceSheet.weather");
   const f = useWeatherFormat();
   // 좁은 폭(390px)에서 스페인어 「Mañana 25 °C · 0,0 mm」가 한 줄에 들어가지 않아 이름과 값을 두 줄로 둔다
@@ -216,6 +227,8 @@ function SmallDayRow({ day, label }: { day?: WeatherDay; label: string }) {
     <div className="flex flex-1 items-center gap-2 px-3 py-2">
       {day ? (
         <WeatherIcon code={day.code} size={20} />
+      ) : day === null ? (
+        <WeatherIcon code={null} size={20} />
       ) : (
         <Placeholder className="block size-5 shrink-0" />
       )}
@@ -229,6 +242,8 @@ function SmallDayRow({ day, label }: { day?: WeatherDay; label: string }) {
             <span className="sr-only">{t("rain")} </span>
             {f.rain(day.rain)}
           </span>
+        ) : day === null ? (
+          <span className="text-caption text-fg-muted">–</span>
         ) : (
           <span className="text-caption">
             <Placeholder className="inline-block h-3 w-16 align-middle" />

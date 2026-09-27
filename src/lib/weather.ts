@@ -28,7 +28,7 @@ export type WeatherDay = {
 
 /** GET /api/weather 응답 */
 export type WeatherResponse = {
-  /** 어제 · 오늘 · 내일 순서 3일 */
+  /** 어제 · 오늘 · 내일 순서 3일(부른 날 기준. 캐시된 응답이면 날짜가 밀려 있을 수 있다) */
   days: WeatherDay[];
 };
 
@@ -54,16 +54,41 @@ export function parseWeatherQuery(
   return { lat: roundCoord(la), lng: roundCoord(ln) };
 }
 
-/** Open-Meteo 호출 주소 (PoC와 같은 인자: 어제부터 3일, 한국 시간) */
-export function openMeteoUrl(lat: number, lng: number): string {
+const SEOUL_DATE = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+/** 그 시각의 한국 날짜(Asia/Seoul, YYYY-MM-DD). 서버 · 브라우저의 시간대와 무관하다 */
+export function seoulDate(now: Date): string {
+  const parts = SEOUL_DATE.formatToParts(now);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+/** YYYY-MM-DD 날짜에 n일을 더한다(달력 계산만, 시간대 없음) */
+export function addDays(ymd: string, n: number): string {
+  const [y, m, d] = ymd.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
+}
+
+/**
+ * Open-Meteo 호출 주소 (PoC와 같은 값: 어제 · 오늘 · 내일, 한국 시간).
+ * PoC의 past_days=1 · forecast_days=3 대신 한국 날짜 어제 ~ 내일을 start_date · end_date로 적는다.
+ * 주소가 날마다 달라져 서버 fetch 캐시(revalidate)가 전날 응답을 돌려주지 않는다
+ */
+export function openMeteoUrl(lat: number, lng: number, now: Date): string {
+  const today = seoulDate(now);
   const params = new URLSearchParams({
     latitude: String(lat),
     longitude: String(lng),
     daily:
       "temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code",
     timezone: "Asia/Seoul",
-    past_days: "1",
-    forecast_days: "3",
+    start_date: addDays(today, -1),
+    end_date: addDays(today, 1),
   });
   return `${OPEN_METEO_URL}?${params}`;
 }
@@ -83,8 +108,9 @@ function numAt(list: unknown, i: number): number | null {
 }
 
 /**
- * Open-Meteo 응답을 우리 모양으로 줄인다. past_days=1이라 daily 첫 3칸이 어제 · 오늘 · 내일이다
- * (forecast_days=3이면 4칸이 오고 마지막 모레는 버린다). 모양이 틀리면 null
+ * Open-Meteo 응답을 우리 모양으로 줄인다. 어제 ~ 내일로 부르므로 daily 첫 3칸이 어제 · 오늘 · 내일이다
+ * (더 오면 넷째 칸부터 버린다). 날짜(date)는 응답 그대로 두고, 화면은 순번이 아니라 날짜로 칸을 고른다(pickWeatherDays).
+ * 모양이 틀리면 null
  */
 export function toWeatherResponse(body: unknown): WeatherResponse | null {
   if (typeof body !== "object" || body === null) return null;
@@ -142,4 +168,22 @@ export function weatherKind(code: number | null): WeatherKind {
 /** 브라우저가 부르는 우리 Route Handler 주소 (좌표는 서버와 같게 반올림해 같은 캐시를 쓴다) */
 export function weatherPath(lat: number, lng: number): string {
   return `/api/weather?lat=${roundCoord(lat)}&lng=${roundCoord(lng)}`;
+}
+
+/** 장소 시트 날씨 칸의 세 칸. 응답에 그 날짜가 없으면 null(화면은 「–」) */
+export type WeatherCells = {
+  yesterday: WeatherDay | null;
+  today: WeatherDay | null;
+  tomorrow: WeatherDay | null;
+};
+
+/** 응답의 날짜로 한국 날짜 기준 어제 · 오늘 · 내일 칸을 고른다(순번을 믿지 않는다) */
+export function pickWeatherDays(days: WeatherDay[], now: Date): WeatherCells {
+  const today = seoulDate(now);
+  const find = (date: string) => days.find((d) => d.date === date) ?? null;
+  return {
+    yesterday: find(addDays(today, -1)),
+    today: find(today),
+    tomorrow: find(addDays(today, 1)),
+  };
 }

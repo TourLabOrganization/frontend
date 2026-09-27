@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  addDays,
   openMeteoUrl,
   parseWeatherQuery,
+  pickWeatherDays,
   roundCoord,
+  seoulDate,
   toWeatherResponse,
   weatherKind,
   weatherPath,
@@ -72,9 +75,31 @@ describe("parseWeatherQuery", () => {
   });
 });
 
+describe("seoulDate", () => {
+  it("한국 시간(UTC+9)의 날짜를 쓴다", () => {
+    // 한국 00:05 = UTC 전날 15:05
+    expect(seoulDate(new Date("2026-09-27T15:05:00Z"))).toBe("2026-09-28");
+    // 한국 23:55 = UTC 같은 날 14:55
+    expect(seoulDate(new Date("2026-09-28T14:55:00Z"))).toBe("2026-09-28");
+    // 연말 경계
+    expect(seoulDate(new Date("2026-12-31T15:00:00Z"))).toBe("2027-01-01");
+  });
+});
+
+describe("addDays", () => {
+  it("달 · 해 경계를 넘긴다", () => {
+    expect(addDays("2026-09-28", -1)).toBe("2026-09-27");
+    expect(addDays("2026-09-30", 1)).toBe("2026-10-01");
+    expect(addDays("2027-01-01", -1)).toBe("2026-12-31");
+    expect(addDays("2028-02-28", 1)).toBe("2028-02-29");
+  });
+});
+
 describe("openMeteoUrl", () => {
-  it("PoC와 같은 인자로 부른다", () => {
-    const url = new URL(openMeteoUrl(35.83, 129.22));
+  it("PoC와 같은 값을 한국 날짜 어제 ~ 내일로 부른다", () => {
+    const url = new URL(
+      openMeteoUrl(35.83, 129.22, new Date("2026-09-28T03:00:00Z")),
+    );
     expect(url.origin + url.pathname).toBe(
       "https://api.open-meteo.com/v1/forecast",
     );
@@ -84,8 +109,57 @@ describe("openMeteoUrl", () => {
       "temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code",
     );
     expect(url.searchParams.get("timezone")).toBe("Asia/Seoul");
-    expect(url.searchParams.get("past_days")).toBe("1");
-    expect(url.searchParams.get("forecast_days")).toBe("3");
+    expect(url.searchParams.get("start_date")).toBe("2026-09-27");
+    expect(url.searchParams.get("end_date")).toBe("2026-09-29");
+    // 날짜가 주소에 들어가야 날이 바뀔 때 캐시 키도 바뀐다
+    expect(url.searchParams.has("past_days")).toBe(false);
+    expect(url.searchParams.has("forecast_days")).toBe(false);
+  });
+
+  it("한국 자정을 막 넘기면(UTC로는 전날) 새 날짜로 부른다", () => {
+    const before = new URL(
+      openMeteoUrl(35.83, 129.22, new Date("2026-09-27T14:55:00Z")),
+    );
+    const after = new URL(
+      openMeteoUrl(35.83, 129.22, new Date("2026-09-27T15:05:00Z")),
+    );
+    expect(before.searchParams.get("start_date")).toBe("2026-09-26");
+    expect(before.searchParams.get("end_date")).toBe("2026-09-28");
+    expect(after.searchParams.get("start_date")).toBe("2026-09-27");
+    expect(after.searchParams.get("end_date")).toBe("2026-09-29");
+    expect(before.toString()).not.toBe(after.toString());
+  });
+});
+
+describe("pickWeatherDays", () => {
+  const days = [
+    { date: "2026-09-26", max: 22.5, min: 17.9, rain: 3.8, code: 55 },
+    { date: "2026-09-27", max: 25.3, min: 16.8, rain: 0, code: 3 },
+    { date: "2026-09-28", max: 25.9, min: 18.1, rain: 0, code: 3 },
+  ];
+
+  it("한국 날짜로 어제 · 오늘 · 내일 칸을 고른다", () => {
+    // 한국 2026-09-27 12:00
+    expect(pickWeatherDays(days, new Date("2026-09-27T03:00:00Z"))).toEqual({
+      yesterday: days[0],
+      today: days[1],
+      tomorrow: days[2],
+    });
+  });
+
+  it("며칠 지난 응답이면 순번이 아니라 날짜로 맞추고 없는 칸은 null", () => {
+    // 한국 2026-09-28 00:05 — 응답은 하루 전 것
+    expect(pickWeatherDays(days, new Date("2026-09-27T15:05:00Z"))).toEqual({
+      yesterday: days[1],
+      today: days[2],
+      tomorrow: null,
+    });
+    // 한국 2026-10-01 — 맞는 날짜가 하나도 없다
+    expect(pickWeatherDays(days, new Date("2026-10-01T03:00:00Z"))).toEqual({
+      yesterday: null,
+      today: null,
+      tomorrow: null,
+    });
   });
 });
 
