@@ -521,7 +521,15 @@
       "searchEmpty": "‘{query}’ 검색 결과가 없어요",
       "searchStatus": "검색 결과 {count}곳",
       "more": "더 보기(남은 {count}곳)",
-      "showOff": "목록 밖 장소 {count}곳 보기"
+      "showOff": "목록 밖 장소 {count}곳 보기",
+      "regionsLabel": "지역",
+      "nation": "전국",
+      "regionCount": "{city} · {count}개 장소",
+      "placeChipsLabel": "장소 바로 가기",
+      "distance": "{km} km",
+      "filmLink": "영화",
+      "videoLink": "영상",
+      "filmLinkLabel": "{name} 장면 보기"
     },
     "sheet": {
       "save": "저장",
@@ -548,7 +556,12 @@
       "play": "{title} 영상 재생",
       "videoTitle": "{title} 영상",
       "empty": "찾는 장면이 없어요",
-      "newWindow": "(새 창)"
+      "newWindow": "(새 창)",
+      "sortPopular": "인기순",
+      "sortLatest": "최신순",
+      "views": "조회수 {count, number}회",
+      "searchClear": "검색어 지우기",
+      "searchStatus": "검색 결과 {count}개"
     },
     "stamp": {
       "kicker": "체크인",
@@ -584,7 +597,14 @@
       "stayIndex": "전국 평균의 {index}배",
       "visitsToSeeAll": "앱 장소를 다 보는 데 필요한 방문 {visits}회",
       "datalabSource": "출처 · 한국관광 데이터랩 · {source} · {year}년 기준",
-      "datalabFailed": "데이터랩 정보를 불러오지 못했어요"
+      "datalabFailed": "데이터랩 정보를 불러오지 못했어요",
+      "fanHeading": "팬소통 채널",
+      "fanBody": "공식 커뮤니티 및 소통 채널을 통해 팬들과 함께하세요.",
+      "fullSchedule": "전체 일정 보기"
+    },
+    "tabsVideo": {
+      "film": "영상",
+      "info": "팬소통"
     }
   },
   "Regions": {

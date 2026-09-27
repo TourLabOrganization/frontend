@@ -22,6 +22,7 @@ import { parseTab, themeHref, type ThemeQuery } from "@/features/theme/tabs";
 import {
   getFilmScenes,
   getPlaceExtras,
+  getThemeCities,
   getVideoScenes,
   sceneNumber,
   VIDEO_THEME,
@@ -91,14 +92,11 @@ export default async function ThemePage({
             sceneTitle: first?.sceneTitle,
             work: first?.work,
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
-            haystack: [
+            texts: [
               s.title,
               first?.sceneTitle,
               ...ps.flatMap((p) => [p.ko, p.en]),
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase(),
+            ].filter((x): x is string => !!x),
           };
         });
         const video: VideoCard[] = getVideoScenes(slug).map((s) => {
@@ -109,13 +107,15 @@ export default async function ThemePage({
             kind: "video",
             id: s.id,
             date: s.date,
+            views: s.views,
             sceneTitle,
             start: extra.find((e) => e?.ytAt)?.ytAt,
             places: ps.flatMap((p) => scenePlace(p.id) ?? []),
-            haystack: [s.date, sceneTitle, ...ps.flatMap((p) => [p.ko, p.en])]
-              .filter(Boolean)
-              .join(" ")
-              .toLowerCase(),
+            texts: [
+              s.date,
+              sceneTitle,
+              ...ps.flatMap((p) => [p.ko, p.en]),
+            ].filter((x): x is string => !!x),
           };
         });
         return (
@@ -170,6 +170,12 @@ export default async function ThemePage({
             href: themeHref(slug, keep, "film", { hash: e.scene }),
           };
         }
+        const cityLabels = Object.fromEntries(
+          [...new Set(places.map((p) => p.locKo))].map((c) => [
+            c,
+            cityName(c, locale),
+          ]),
+        );
         return (
           <MapTab
             key={place ?? ""}
@@ -177,6 +183,9 @@ export default async function ThemePage({
             places={places}
             extras={extras}
             sceneLinks={sceneLinks}
+            cities={getThemeCities(slug)}
+            cityLabels={cityLabels}
+            video={slug === VIDEO_THEME}
             initialPlace={place}
           />
         );

@@ -521,7 +521,15 @@
       "searchEmpty": "No places match “{query}”",
       "searchStatus": "{count, plural, one {# place found} other {# places found}}",
       "more": "Show more ({count} left)",
-      "showOff": "Show {count} more places"
+      "showOff": "Show {count} more places",
+      "regionsLabel": "Regions",
+      "nation": "Nationwide",
+      "regionCount": "{city} · {count, plural, one {# place} other {# places}}",
+      "placeChipsLabel": "Jump to a place",
+      "distance": "{km} km",
+      "filmLink": "Film",
+      "videoLink": "Video",
+      "filmLinkLabel": "See the scene at {name}"
     },
     "sheet": {
       "save": "Save",
@@ -548,7 +556,12 @@
       "play": "Play video: {title}",
       "videoTitle": "Video: {title}",
       "empty": "No scenes match your search",
-      "newWindow": "(opens in a new window)"
+      "newWindow": "(opens in a new window)",
+      "sortPopular": "Popular",
+      "sortLatest": "Latest",
+      "views": "{count, plural, one {# view} other {# views}}",
+      "searchClear": "Clear search",
+      "searchStatus": "{count, plural, one {# result} other {# results}}"
     },
     "stamp": {
       "kicker": "Check-in",
@@ -584,7 +597,14 @@
       "stayIndex": "{index}× the national average",
       "visitsToSeeAll": "Visits needed to see every place in the app: {visits}",
       "datalabSource": "Source · Korea Tourism Data Lab · nationwide data · as of {year}",
-      "datalabFailed": "Couldn't load Data Lab information"
+      "datalabFailed": "Couldn't load Data Lab information",
+      "fanHeading": "Fan channels",
+      "fanBody": "Join fans through the official community and channels.",
+      "fullSchedule": "Full schedule"
+    },
+    "tabsVideo": {
+      "film": "Video",
+      "info": "Fan Channel"
     }
   },
   "Regions": {

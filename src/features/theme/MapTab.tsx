@@ -1,7 +1,8 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MapPin as MapPinIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -10,6 +11,13 @@ import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
 import type { Place } from "@/features/course/places";
 import { matchesQuery } from "@/lib/text-search";
+import {
+  cityGroups,
+  distanceLabel,
+  inCity,
+  scopeCity,
+  type ThemeCity,
+} from "./place-list";
 import {
   type CategoryKey,
   CATEGORY_KEYS,
@@ -31,6 +39,12 @@ type MapTabProps = {
   extras: Readonly<Record<string, PlaceExtra>>;
   /** 장소 id → 시트의 장면 정보 한 줄과 영화 탭 주소 */
   sceneLinks: Readonly<Record<string, SceneLink>>;
+  /** 테마 화면의 도시(칩 순서). 둘 이상이면(RESCENE) 전국 · 도시 칩으로 고른다 */
+  cities: readonly ThemeCity[];
+  /** 도시 한국어 이름(locKo) → 화면 언어 이름. 여러 도시 보기의 목록 행 · 묶음 머리에 쓴다 */
+  cityLabels: Readonly<Record<string, string>>;
+  /** 영상 테마(RESCENE)면 목록 행의 바로가기가 「영상」 */
+  video: boolean;
   /** ?place= 로 들어왔을 때 처음부터 열어 둘 장소 */
   initialPlace?: string;
 };
@@ -52,12 +66,18 @@ function toPin(p: Place, locale: string, label?: number): MapPin {
   };
 }
 
-// 지도 탭. 분류 칩 → 지도(번호 핀) → 장소 목록 → 목록 밖 장소 토글. 핀이나 목록을 누르면 장소 시트가 열린다
+// 지도 탭. 지역(도시) 줄 → 분류 칩 → 지도(번호 핀) → 장소 이름 칩 → 장소 목록(접기) → 목록 밖 장소 토글.
+// 핀 · 이름 칩 · 목록을 누르면 장소 시트가 열리고 지도가 그 장소로 옮겨 간다.
+// 목록 행: 한 도시 보기는 도시 center에서의 거리, 여러 도시 보기(RESCENE 전국)는 도시 이름(목업 규칙, place-list.ts).
+// 장면이 있는 장소는 행 오른쪽에 영화(영상) 탭 바로가기
 export function MapTab({
   slug,
   places,
   extras,
   sceneLinks,
+  cities,
+  cityLabels,
+  video,
   initialPlace,
 }: MapTabProps) {
   const t = useTranslations("Theme.map");
@@ -66,6 +86,9 @@ export function MapTab({
   const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
 
   const [filter, setFilter] = useState<Filter>("all");
+  // 고른 도시(한국어 이름). null = 전국. 도시가 하나뿐인 테마는 고르지 않는다
+  const [picked, setPicked] = useState<string | null>(null);
+  const [listOpen, setListOpen] = useState(true);
   const [query, setQuery] = useState("");
   const [shown, setShown] = useState(INITIAL_ROWS);
   // 「더 보기」 뒤 초점을 옮길 첫 새 행
@@ -83,15 +106,30 @@ export function MapTab({
   const categories = CATEGORY_KEYS.filter((c) =>
     places.some((p) => p.cat === c),
   );
-  // 분류 칩과 검색어(장소 이름 한 · 영)로 거른다. 지도 핀과 목록이 같이 쓴다
+  const multiCity = cities.length > 1;
+  const city = scopeCity(cities, picked);
+  const cityLabel = (c: ThemeCity) => (locale === "ko" ? c.ko : c.en);
+  const inScope = (p: Place) => inCity(p, multiCity ? picked : null);
+  // 지역 줄의 장소 수(목업 cityCount): 분류 · 검색과 무관하게 그 지역의 목록 장소, 목록 밖을 펴면 더한다
+  const scopeCount = places.filter(
+    (p) => inScope(p) && (showOff || !p.off),
+  ).length;
+  // 지역 · 분류 칩과 검색어(장소 이름 한 · 영)로 거른다. 지도 핀과 목록이 같이 쓴다
   const inFilter = (p: Place) =>
-    (filter === "all" || p.cat === filter) && matchesQuery([p.ko, p.en], query);
+    inScope(p) &&
+    (filter === "all" || p.cat === filter) &&
+    matchesQuery([p.ko, p.en], query);
   const core = corePlaces(places).filter(inFilter);
   const off = places.filter((p) => p.off && inFilter(p));
   const selected = places.find((p) => p.id === selectedId) ?? null;
   const rows = [...core, ...(showOff ? off : [])];
   const visible = rows.slice(0, shown);
   const remaining = rows.length - visible.length;
+  // 여러 도시 보기(RESCENE 전국)는 목록을 도시별로 묶는다(「경주 · 7개 장소」)
+  const groups =
+    multiCity && city === null
+      ? new Map(cityGroups(core).map((g) => [g.city, g.count]))
+      : null;
 
   useEffect(() => {
     if (focusIndex === null) return;
@@ -105,23 +143,47 @@ export function MapTab({
     setFocusIndex(null);
   };
 
-  const meta = (p: Place) =>
-    [
+  const meta = (p: Place) => {
+    const km = distanceLabel(p, city);
+    return [
       isCategoryKey(p.cat) ? tc(`categories.${p.cat}`) : null,
       p.min > 0 ? tc("stay", { duration: formatDuration(tc, p.min) }) : null,
+      km !== null ? t("distance", { km }) : (cityLabels[p.locKo] ?? p.locKo),
     ]
       .filter(Boolean)
       .join(" · ");
+  };
+
+  const pickCity = (next: string | null) => {
+    setPicked(next);
+    resetRows();
+  };
+
+  const groupHeading = (p: Place, i: number) => {
+    if (!groups || p.off || visible[i - 1]?.locKo === p.locKo) return null;
+    return (
+      <li key={`group-${p.locKo}`} className="px-5 pt-4 pb-1">
+        <h3 className="text-label font-semibold text-fg-muted tabular-nums">
+          {t("regionCount", {
+            city: cityLabels[p.locKo] ?? p.locKo,
+            count: groups.get(p.locKo) ?? 0,
+          })}
+        </h3>
+      </li>
+    );
+  };
 
   const row = (p: Place) => {
     const img = extras[p.id]?.img;
+    const scene = sceneLinks[p.id];
+    const name = placeName(p, locale);
     return (
-      <li key={p.id}>
+      <li key={p.id} className="flex items-center">
         <button
           type="button"
           data-row
           onClick={() => setSelectedId(p.id)}
-          className="flex w-full items-center gap-3 px-5 py-3 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+          className="flex min-w-0 flex-1 items-center gap-3 py-3 pl-5 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
         >
           {p.off ? (
             <span className="flex size-[26px] shrink-0 items-center justify-center">
@@ -133,9 +195,7 @@ export function MapTab({
             </span>
           )}
           <span className="min-w-0 flex-1">
-            <span className="block text-body-lg font-semibold">
-              {placeName(p, locale)}
-            </span>
+            <span className="block text-body-lg font-semibold">{name}</span>
             <span className="block text-caption text-fg-subtle">{meta(p)}</span>
             {p.yt && (
               <span className="mt-1.5 block">
@@ -155,12 +215,63 @@ export function MapTab({
             </span>
           )}
         </button>
+        {scene ? (
+          <Link
+            href={scene.href}
+            aria-label={t("filmLinkLabel", { name })}
+            className="mr-5 ml-2 inline-flex min-h-11 shrink-0 items-center rounded-lg bg-primary-weak px-3 text-caption font-semibold text-primary-strong transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none"
+          >
+            {video ? t("videoLink") : t("filmLink")}
+          </Link>
+        ) : (
+          <span className="w-5 shrink-0" />
+        )}
       </li>
     );
   };
 
   return (
     <>
+      {multiCity ? (
+        <div className="flex items-center gap-3 px-5 pt-3">
+          <div
+            role="group"
+            aria-label={t("regionsLabel")}
+            className="flex min-w-0 flex-1 gap-2 overflow-x-auto"
+          >
+            {[null, ...cities.map((c) => c.ko)].map((key) => {
+              const pressed = picked === key;
+              const c = cities.find((x) => x.ko === key);
+              return (
+                <button
+                  key={key ?? "nation"}
+                  type="button"
+                  aria-pressed={pressed}
+                  onClick={() => pickCity(key)}
+                  className={`min-h-11 shrink-0 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                    pressed
+                      ? "bg-primary-weak font-semibold text-primary-strong"
+                      : "bg-fill font-medium text-fg-muted active:bg-line"
+                  }`}
+                >
+                  {c ? cityLabel(c) : t("nation")}
+                </button>
+              );
+            })}
+          </div>
+          <p className="shrink-0 text-caption text-fg-subtle tabular-nums">
+            {t("regionCount", {
+              city: city ? cityLabel(city) : t("nation"),
+              count: scopeCount,
+            })}
+          </p>
+        </div>
+      ) : city ? (
+        <p className="px-5 pt-3 text-label font-semibold tabular-nums">
+          {t("regionCount", { city: cityLabel(city), count: scopeCount })}
+        </p>
+      ) : null}
+
       <div
         role="group"
         aria-label={t("categoriesLabel")}
@@ -211,70 +322,106 @@ export function MapTab({
         )}
       </div>
 
-      <section aria-labelledby="place-list-heading" className="pt-5">
-        <h2
-          id="place-list-heading"
-          className="px-5 text-headline font-bold tabular-nums"
+      {core.length > 0 && (
+        <div
+          role="group"
+          aria-label={t("placeChipsLabel")}
+          className="flex gap-2 overflow-x-auto px-5 pt-3"
         >
-          {t("listHeading", { count: core.length })}
-        </h2>
-        <SearchField
-          value={query}
-          onChange={(q) => {
-            setQuery(q);
-            resetRows();
-          }}
-          label={t("searchLabel")}
-          placeholder={t("searchPlaceholder")}
-          clearLabel={t("searchClear")}
-          className="mx-5 mt-3"
-        />
-        <p role="status" className="sr-only">
-          {query.trim() ? t("searchStatus", { count: rows.length }) : ""}
-        </p>
-        {rows.length === 0 && query.trim() ? (
-          <p className="px-5 py-10 text-center text-body text-fg-muted">
-            {t("searchEmpty", { query: query.trim() })}
-          </p>
-        ) : (
-          <ul ref={listRef} className="mt-2">
-            {visible.map(row)}
-          </ul>
-        )}
-        {remaining > 0 && (
-          <div className="px-5 pt-2">
-            <Button
-              variant="secondary"
-              size="md"
-              block
-              onClick={() => {
-                setFocusIndex(visible.length);
-                setShown((n) => n + PAGE_SIZE);
-              }}
-            >
-              <span className="tabular-nums">
-                {t("more", { count: remaining })}
-              </span>
-            </Button>
-          </div>
-        )}
-        {off.length > 0 && (
-          <div className="px-5 pt-2">
+          {core.map((p) => (
             <button
+              key={p.id}
               type="button"
-              aria-pressed={showOff}
-              onClick={() => setShowOff((v) => !v)}
-              className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-fill px-4 text-label font-semibold text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-line motion-reduce:transition-none"
+              onClick={() => setSelectedId(p.id)}
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl px-3 text-label font-medium whitespace-nowrap text-fg ring-1 ring-line transition-colors duration-150 ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
             >
-              {t("showOff", { count: off.length })}
-              <ChevronDown
-                size={20}
+              <MapPinIcon
+                size={16}
                 aria-hidden
-                className={`transition-transform duration-150 motion-reduce:transition-none ${showOff ? "rotate-180" : ""}`}
+                className="text-primary-bright"
               />
+              {placeName(p, locale)}
             </button>
-          </div>
-        )}
+          ))}
+        </div>
+      )}
+
+      <section aria-labelledby="place-list-heading" className="pt-5">
+        <h2 id="place-list-heading" className="px-5">
+          <button
+            type="button"
+            aria-expanded={listOpen}
+            aria-controls="place-list-body"
+            onClick={() => setListOpen((v) => !v)}
+            className="flex min-h-11 w-full items-center justify-between gap-2 rounded-xl text-left text-headline font-bold tabular-nums focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          >
+            {t("listHeading", { count: core.length })}
+            <ChevronDown
+              size={24}
+              aria-hidden
+              className={`shrink-0 text-fg-muted transition-transform duration-150 motion-reduce:transition-none ${listOpen ? "" : "-rotate-90"}`}
+            />
+          </button>
+        </h2>
+        <div id="place-list-body" hidden={!listOpen}>
+          <SearchField
+            value={query}
+            onChange={(q) => {
+              setQuery(q);
+              resetRows();
+            }}
+            label={t("searchLabel")}
+            placeholder={t("searchPlaceholder")}
+            clearLabel={t("searchClear")}
+            className="mx-5 mt-3"
+          />
+          <p role="status" className="sr-only">
+            {query.trim() ? t("searchStatus", { count: rows.length }) : ""}
+          </p>
+          {rows.length === 0 && query.trim() ? (
+            <p className="px-5 py-10 text-center text-body text-fg-muted">
+              {t("searchEmpty", { query: query.trim() })}
+            </p>
+          ) : (
+            <ul ref={listRef} className="mt-2">
+              {visible.map((p, i) => [groupHeading(p, i), row(p)])}
+            </ul>
+          )}
+          {remaining > 0 && (
+            <div className="px-5 pt-2">
+              <Button
+                variant="secondary"
+                size="md"
+                block
+                onClick={() => {
+                  setFocusIndex(visible.length);
+                  setShown((n) => n + PAGE_SIZE);
+                }}
+              >
+                <span className="tabular-nums">
+                  {t("more", { count: remaining })}
+                </span>
+              </Button>
+            </div>
+          )}
+          {off.length > 0 && (
+            <div className="px-5 pt-2">
+              <button
+                type="button"
+                aria-pressed={showOff}
+                onClick={() => setShowOff((v) => !v)}
+                className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-fill px-4 text-label font-semibold text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-line motion-reduce:transition-none"
+              >
+                {t("showOff", { count: off.length })}
+                <ChevronDown
+                  size={20}
+                  aria-hidden
+                  className={`transition-transform duration-150 motion-reduce:transition-none ${showOff ? "rotate-180" : ""}`}
+                />
+              </button>
+            </div>
+          )}
+        </div>
       </section>
 
       <ThemePlaceSheet
