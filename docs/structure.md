@@ -62,7 +62,29 @@ public/                 정적 파일
 - 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG` + `MACRO_OF`)에 있다. 권역 이름은 목업 지도가 그리는 `MACRO_REGION` 이름(경북권 · 경남권 · 전라권 …)이다
 - 도시별 장소 수(`placeCounts`, `pickCity` 기준)도 `regions.json`에 있다(빌드 스크립트가 센다). 도시 고르기 · 여행 정보 탭 도시 선택은 이 값(`regions.ts` `PLACE_COUNT_BY_CITY` · `CITY_GROUPS`)을 쓰고
   `data.ts`(places.json)를 import하지 않는다. 여행 정보 탭 클라이언트 컴포넌트가 places.json에 닿지 않는지는 `planner/info-bundle.test.ts`가 확인한다
-- 지도 탭은 분류 칩과 배지 칩(유네스코 · 한국관광 100선 · 열린관광지 · 관광특구, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
+- 지도 탭은 분류 칩과 배지 칩(데이터랩 인기 · 유네스코 · 한국관광 100선 · 열린관광지 · 관광특구 · 관광단지, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
+  - 데이터랩 인기 = `popRank`(한국관광 데이터랩 인기관광지 순위 1~100)가 있는 곳 173곳(경주 · 거제 · 부산 · 제주 · 서울 · 영월 6개 지역).
+    목록 행 · 장소 시트에 「데이터랩 인기 {n}위」 배지를 붙인다
+  - 관광특구 · 관광단지 = 지정구역 문구(`vz`, data-server `zone`)가 있는 곳 전부 210곳(관광특구 · 관광단지 · 지정관광지. 예전에는 「관광특구」 글자가 든 34곳만).
+    장소 시트 배지는 종류와 지정 연도(「관광단지 (2008 지정)」, 연도가 `0000`이면 종류만). 외국어는 `lib/kr-units.ts`의 관광특구 · 관광단지 · 관광지 · 지정 치환
+  - 장소 시트 배지 줄(`PlaceSheet` `badges`)에는 데이터랩 인기 · 유네스코 · 100선 · 열린관광지 · 지정구역을 모두 보인다
+- 목록 순서(`features/planner/list-order.ts`) = **인기 먼저 + 나머지 가나다**. 도시 안에서 `popRank`가 있는 곳을 순위 오름차순으로 먼저(같은 순위는 이름순),
+  나머지는 이름순(코드 포인트 비교). 전국 · 권역 목록은 도시 이름 → 도시 안에서 인기 → 이름. 순위가 있는 도시에서만 목록 위에 「순위가 있는 곳을 먼저 보여요」 안내 한 줄.
+  - 결정 이유: 팀 요청(2026-09-28 「가나다순 말고 자주 방문한 순위로」)에 맞춰 대표가 정했다. data-server `docs/contract.md`는 「`popRank`로 정렬하지 말라」고 권한다
+    (6개 지역 173곳만 값이 있어 나머지 94%가 「순위 없음」 한 덩어리로 밀린다). 그래서 순위를 전체 정렬 키로 쓰지 않고 「순위 있는 곳을 앞에 세우기」로만 쓰고,
+    순위 없는 곳 · 순위 없는 도시(예: 가평)는 예전처럼 이름순을 지킨다. 순위 옆에 배지 · 안내를 붙여 왜 앞에 있는지 보이게 했다
+- 분류 표시는 분류 아이콘(`features/planner/CategoryIcon.tsx`, lucide, 분류 색 토큰 `text-cat-*`)이다. 장소 목록 행 · 분류 칩(아이콘 16 + 이름) · 담은 장소 · 「이 날에 장소 추가」가 쓴다.
+  아이콘은 장식(`aria-hidden`)이고 분류 이름은 글자로 함께 보인다. 모르는 분류는 회색 점. **지도 핀은 색 점 그대로**(`category.ts` `categoryDot`, 수백 개가 겹치면 아이콘이 오히려 읽기 어렵다)
+
+  | 분류                           | 아이콘        | 색 토큰        |
+  | ------------------------------ | ------------- | -------------- |
+  | 숙박 `stay`                    | `BedDouble`   | `cat-stay`     |
+  | 문화유산 · 전통체험 `herit`    | `Landmark`    | `cat-herit`    |
+  | 로컬상권 · 먹거리 `food`       | `Utensils`    | `cat-food`     |
+  | 테마파크 · 액티비티 `activity` | `FerrisWheel` | `cat-activity` |
+  | 해양 · 자연경관 `sea`          | `Waves`       | `cat-sea`      |
+  | 힐링 · 생태 · 체험 `heal`      | `Leaf`        | `cat-heal`     |
+
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
   그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)
 - 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 귀가지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동 ·
@@ -151,23 +173,35 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 ### 데이터 원본과 스크립트
 
 원본은 PoC(`Tour-Navigator-App`, 읽기만)이고 이 리포에 넣지 않는다. 만든 JSON은 손으로 고치지 않는다. 스크립트를 돌린 뒤 `npm run format`.
-마지막 동기화: 2026-09-27, PoC main f44eb97 (`docs/poc.md`).
+마지막 동기화: 2026-09-27, PoC main f44eb97 (`docs/poc.md`). 장소 분류 · 영어 이름 · 지정구역 · 인기 순위는 data-server develop ac9eb34(2026-09-28)로 덮었다(아래).
 
-| 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                                                          |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                |
-| `scripts/build-wide.mjs`         | `Tour Planner.dc.html`(`METRO_STATIONS` · `BUSAN_STATIONS` · 호선 순서 · 색 · 이름 · `ORIGIN_ALT`)          | `features/planner/data/wide.json`(지하철 출발 · 귀가역, 수단별 대체 관문)                                                                     |
-| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                             |
-| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
-| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
-| `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                             | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
-| `scripts/build-ferry.mjs`        | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                      | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                             |
-| `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
-| `scripts/build-tic.mjs`          | `data/tic.json`(관광안내소 725곳, 칼럼은 `파생 데이터/관광안내소.csv`)                                      | `features/planner/data/tic.json`(칸 이름만 붙이고 값은 원천 그대로)                                                                           |
+| 스크립트                         | 입력(PoC)                                                                                                                               | 출력                                                                                                                                          |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) · data-server `places.json` | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                |
+| `scripts/build-wide.mjs`         | `Tour Planner.dc.html`(`METRO_STATIONS` · `BUSAN_STATIONS` · 호선 순서 · 색 · 이름 · `ORIGIN_ALT`)                                      | `features/planner/data/wide.json`(지하철 출발 · 귀가역, 수단별 대체 관문)                                                                     |
+| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html` · data-server `places.json`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                             |
+| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다                                   | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
+| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                                               | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
+| `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                                                         | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
+| `scripts/build-ferry.mjs`        | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                                                  | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                             |
+| `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)                                      | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
+| `scripts/build-tic.mjs`          | `data/tic.json`(관광안내소 725곳, 칼럼은 `파생 데이터/관광안내소.csv`)                                                                  | `features/planner/data/tic.json`(칸 이름만 붙이고 값은 원천 그대로)                                                                           |
+
+data-server 합치기 (`scripts/data-server.mjs`)
+
+- data-server(팀 데이터 정본, 읽기만)의 `data/derived/places.json`(3,118곳)을 id로 합친다. 필드 뜻은 data-server `docs/contract.md`
+- 경로: 두 스크립트의 마지막 인자 → 환경변수 `DATA_SERVER_DIR` → 기본값 `../data-server`(이 리포 옆 클론). 파일이 없으면 멈춘다.
+  스크립트가 끝에 data-server 커밋과 바뀐 값 수를 출력한다. 다시 만들면 위 「마지막 동기화」 줄의 커밋을 고친다
+- 합치는 필드(나머지 필드와 순서는 PoC 원천 그대로):
+  - `cat` ← `catFinal`(TourAPI 공식 분류로 교정한 값. 계약 문서가 `catApp` 말고 `catFinal`을 쓰라고 정했다). ac9eb34 기준 플래너 170곳 · 테마 장소 355곳 중 66곳이 바뀌었다
+  - `en` ← `nameEn`(다를 때만). ac9eb34의 6곳 차이는 모두 data-server 값에 JS 이스케이프(`\'` · `\u2019`)가 글자 그대로 남은 것이라, 풀고 비교해 바뀐 곳은 0곳이다
+  - `vz` ← `zone`(지정구역 문구, 210곳. PoC `파생 데이터/장소.csv` 지정구역과 같은 값) · `popRank`(데이터랩 인기관광지 순위, 173곳). 값이 있을 때만 넣는다
+- 테마 코스 3안 중 「한적」은 분류가 `heal`인 장소를 우대하므로(`course/scenarios.ts`) 분류가 바뀌면 코스가 바뀐다. 공용 식은 그대로다
+- `fixtures/gyeongju-nation.json`은 PoC 출력(`export_stay_csv.js`) 재현용이라 합치지 않는다
 
 플래너 장소 필드
 
-- 가벼운 필드(`places.json`, 클라이언트 번들에 들어간다): `course/places.ts` `Place` 필드(`id` · `n` · `ko` · `en` · `locKo` · `cat` · `lat` · `lng` · `min` · `hrs` · `open` · `close` · `yt` · `off` · `k100` · `un` · `bf` · `auto`) + `macro`(권역) · `pickCity`(도시 고르기 도시) · `vz`(지정구역 문구)
+- 가벼운 필드(`places.json`, 클라이언트 번들에 들어간다): `course/places.ts` `Place` 필드(`id` · `n` · `ko` · `en` · `locKo` · `cat` · `lat` · `lng` · `min` · `hrs` · `open` · `close` · `yt` · `off` · `k100` · `un` · `bf` · `auto`) + `macro`(권역) · `pickCity`(도시 고르기 도시) · `vz`(지정구역 문구) · `popRank`(데이터랩 인기 순위). `cat` · `en` · `vz` · `popRank`는 data-server 값
 - 무거운 필드(`place-details.json`, id → 값): `desc`(설명 한 · 영) · `img` · `imgCredit` · `zh` · `ja`(중 · 일 장소명) · `src`(좌표 근거) · `url`(카카오 장소 URL) · `ct`(시티투어 경유) · `rs`(연관관광지).
   클라이언트는 이 JSON을 import하지 않는다. 장소 시트를 열 때 Route Handler `app/api/planner/places/[id]/route.ts`가 한 곳(1KB 안팎)만 돌려주고
   `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,118곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
