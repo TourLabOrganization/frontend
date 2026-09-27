@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { ScrollTopOnChange } from "./ScrollTopOnChange";
 
 export type TabBarItem = {
   id: string;
@@ -18,7 +19,7 @@ type TabBarProps = {
 };
 
 // 한 화면 안의 하단 탭(테마 화면 · 투어 플래너). 모양은 BottomNav와 같다.
-// 칸은 주소의 ?tab=만 바꾸는 링크다. 뒤로 가기 기록을 쌓지 않고 스크롤 위치를 지킨다.
+// 칸은 주소의 ?tab=만 바꾸는 링크다. 뒤로 가기 기록을 쌓지 않고, 탭이 바뀌면 새 탭을 맨 위부터 보인다(ScrollTopOnChange).
 // 쓰는 화면의 main에 pb-[calc(5rem+env(safe-area-inset-bottom))]를 줘서 내용이 탭 뒤로 숨지 않게 한다
 export function TabBar({ label, items, current }: TabBarProps) {
   return (
@@ -26,6 +27,7 @@ export function TabBar({ label, items, current }: TabBarProps) {
       aria-label={label}
       className="fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-[480px] border-t border-line bg-surface pb-[env(safe-area-inset-bottom)]"
     >
+      <ScrollTopOnChange value={current} />
       <ul className="grid auto-cols-fr grid-flow-col">
         {items.map(({ id, href, label: itemLabel, icon: Icon, badge }) => {
           const selected = id === current;
