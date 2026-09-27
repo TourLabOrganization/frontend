@@ -43,6 +43,8 @@ public/                 정적 파일
 
 - 탭을 바꿔도 `a` · `plan`은 주소에 남긴다. 주소는 `features/theme/tabs.ts`의 `themeHref`로 만든다
 - 영화 탭의 장면 카드는 `id`가 장면 id라 `?tab=film#{장면 id}`로 바로 간다
+- 지도 탭: 지역 줄(RESCENE는 전국 · 거제 · 경주 칩, 한 도시 테마는 도시 이름 · 장소 수), 장소 이름 칩, 목록 접기. 목록 행의 거리는 도시 center(PoC `DATA.<도시>.center`)에서 직선거리이고, 여러 도시 보기(RESCENE 전국)는 거리 대신 도시 이름이다(목업 규칙, `features/theme/place-list.ts`). 장면이 있는 행은 영화(영상) 탭 바로가기
+- RESCENE는 하단 탭 이름이 영상 · 팬소통이고, 영상 정렬은 인기순(PoC에 적힌 조회수) · 최신순이다
 - 추천 결과 · ME 저장된 플랜 · 홈 추천 코스는 `tab=course`로, 홈 포스터 타일 · 배너는 기본(지도)으로 들어온다
 
 ### 투어 플래너 주소 (`/planner`)
@@ -72,12 +74,12 @@ public/                 정적 파일
 원본은 PoC(`Tour-Navigator-App`, 읽기만)이고 이 리포에 넣지 않는다. 만든 JSON은 손으로 고치지 않는다. 스크립트를 돌린 뒤 `npm run format`.
 마지막 동기화: 2026-09-27, PoC main f44eb97 (`docs/poc.md`).
 
-| 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                           |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json` |
-| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`              |
-| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                             |
-| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결) · `scenes.json`                                     |
+| 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                                              |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                    |
+| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                 |
+| `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                |
+| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
 
 플래너 장소 필드
 
