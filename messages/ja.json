@@ -702,7 +702,9 @@
       "remove": "コースから外す",
       "detailLoading": "説明と写真を読み込み中です",
       "detailError": "説明と写真を読み込めませんでした",
-      "detailRetry": "再試行"
+      "detailRetry": "再試行",
+      "setStay": "コースの宿に指定",
+      "unsetStay": "宿の指定を解除"
     },
     "confirm": {
       "title": "別の都市のスポットです",
@@ -798,7 +800,8 @@
       },
       "list": {
         "heading": "追加したスポット · {count}",
-        "empty": "まだ追加したスポットがありません。地図でスポットを追加するか、下から推奨コースを読み込んでください"
+        "empty": "まだ追加したスポットがありません。地図でスポットを追加するか、下から推奨コースを読み込んでください",
+        "stay": "宿に指定済み"
       },
       "goMap": "地図でスポットを追加",
       "moveUp": "{name}を上へ移動",
@@ -858,7 +861,9 @@
         "newWindow": "（新しいウィンドウ）",
         "air": "航空券予約",
         "ship": "旅客船予約",
-        "metro": "電車時刻表"
+        "metro": "電車時刻表",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com"
       },
       "stay": {
         "dec": "{name}の滞在時間を15分減らす",
@@ -891,6 +896,25 @@
         "back": "帰り",
         "route": "{from} → {to}",
         "access": "{mode} · 約{duration}"
+      },
+      "nightStay": {
+        "label": "宿泊",
+        "labelFor": "{day}日目の夜の宿：",
+        "picked": "指定済み",
+        "generic": "宿 {letter}",
+        "genericMeta": "{area} 周辺 · 未指定",
+        "sample": "例",
+        "sampleNote": "例として挙げた宿泊エリアです。実際の予約情報ではありません。",
+        "nearby": "周辺の宿",
+        "ownHeading": "その夜の宿に指定",
+        "samplesHeading": "宿泊エリアの例 · 地図検索",
+        "place": "スポット",
+        "setAsStay": "宿に指定済み",
+        "distance": "{km} km",
+        "mapNewWindow": "（地図検索、新しいウィンドウ）",
+        "book": "宿泊予約",
+        "setStatus": "{name}を{day}日目の夜の宿に指定しました",
+        "unsetStatus": "{name}の宿の指定を解除しました"
       }
     },
     "info": {

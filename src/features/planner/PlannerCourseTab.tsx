@@ -3,6 +3,7 @@
 import {
   ArrowDown,
   ArrowUp,
+  BedDouble,
   BookmarkCheck,
   ChevronDown,
   CircleAlert,
@@ -38,6 +39,7 @@ import { categoryDot } from "./category";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { CourseAccessLeg } from "./CourseAccessLeg";
 import { CourseBookingLinks } from "./CourseBookingLinks";
+import { CourseNightStay } from "./CourseNightStay";
 import { CourseTransport } from "./CourseTransport";
 import {
   dayInsertIndex,
@@ -62,13 +64,17 @@ import {
   placesInScope,
   type Scope,
 } from "./data";
-import { wideBookingLink } from "./data/booking";
+import {
+  addLocalDays,
+  stayBookingLinks,
+  tripStayDates,
+  wideBookingLink,
+} from "./data/booking";
 import { addDays, dateError, MAX_TRIP_DAYS, tripDays } from "./dates";
 import { DayAddPlace } from "./DayAddPlace";
 import { plannerHref, scopeHref } from "./query";
 import {
   CITY_HUBS,
-  CITY_INFO,
   cityName,
   findRegion,
   PLANNER_ORIGINS,
@@ -82,6 +88,16 @@ import {
   suggestOrigin,
   wideOptions,
 } from "./schedule";
+import {
+  isStay,
+  keepStays,
+  nearbyStays,
+  nightAnchor,
+  pickNightStay,
+  STAY_SAMPLES,
+  splitStays,
+  toggleNightStay,
+} from "./stays";
 import { TripCalendar } from "./TripCalendar";
 import { useNameTable } from "@/features/names/NamesProvider";
 
@@ -110,6 +126,9 @@ function halfHours(from: number, to: number): string[] {
       out.push(`${String(h).padStart(2, "0")}:${m}`);
   return out;
 }
+
+/** 「주변 숙소」 후보가 되는 우리 숙박 장소 */
+const STAY_PLACES = PLANNER_PLACES.filter(isStay);
 
 const sameIds = (a: readonly string[], b: readonly string[]) =>
   a.length === b.length && a.every((id, i) => id === b[i]);
@@ -367,6 +386,69 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     return pool;
   };
 
+  // ── 숙소(PoC dayPlan 숙소 · coursePanelBookings) ──
+  const { stays: courseStays } = splitStays(places);
+  const onToggleNightStay = (
+    p: PlannerPlace,
+    anchor: PlannerPlace,
+    day: number,
+  ) => {
+    const on = inCourse.has(p.id);
+    store.replace(
+      course.city ?? p.locKo,
+      toggleNightStay(course.placeIds, p.id, anchor, findPlace),
+    );
+    const name = placeName(p, locale, names);
+    setStatus(
+      on
+        ? t("nightStay.unsetStatus", { name })
+        : t("nightStay.setStatus", { day, name }),
+    );
+  };
+  // 마지막 날을 뺀 날의 「숙박」 카드
+  const nightStayCard = (i: number) => {
+    if (i >= plan.days.length - 1) return null;
+    const anchor = nightAnchor(plan.days, i) as PlannerPlace | null;
+    const stay = pickNightStay(anchor, courseStays, STAY_SAMPLES, i);
+    if (!stay) return null;
+    return (
+      <CourseNightStay
+        dayIndex={i}
+        date={addLocalDays(startDate, i)}
+        stay={stay}
+        anchor={anchor}
+        nearby={
+          anchor
+            ? nearbyStays(
+                anchor,
+                STAY_PLACES.filter((p) => p.locKo === anchor.locKo),
+                STAY_SAMPLES,
+              )
+            : null
+        }
+        courseIds={inCourse}
+        onToggle={(p) => {
+          if (anchor) onToggleNightStay(p, anchor, i + 1);
+        }}
+      />
+    );
+  };
+  // 코스 전체 숙박 예매: 체크인 = 출발일(없으면 오늘), 체크아웃 = 귀가일(같으면 다음 날), 검색어 = 일정 첫 경유지(없으면 도시)
+  const courseStayLinks = () => {
+    const first = plan.days.flatMap((d) => d.stops)[0]?.place;
+    const city = plan.destination ?? heading;
+    const query = first
+      ? placeName(first, locale, names)
+      : city
+        ? cityName(city, locale, names)
+        : "";
+    return stayBookingLinks({
+      query,
+      ...tripStayDates(course.startDate, course.endDate, today),
+      locale,
+    });
+  };
+
   const doRecommend = () => {
     const list = recommendCourse(
       withStayOverrides(autoPool, course.stayOv),
@@ -378,9 +460,15 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       return;
     }
     setNotice("");
+    // 지정해 둔 숙박 장소는 추천 코스 뒤에도 남긴다(PoC _keepStay)
     store.replace(
       list[0].locKo,
-      list.map((p) => p.id),
+      keepStays(
+        list.map((p) => p.id),
+        course.placeIds,
+        findPlace,
+        list[0].locKo,
+      ),
     );
     setStatus(t("actions.recommended", { count: list.length }));
   };
@@ -800,13 +888,15 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               const name = placeName(p, locale, names);
               // 체류 시간 수정(PoC stayDec · stayInc · stayReset). 숙박 장소는 관광 시간에 들지 않아 두지 않는다
               const rec = basePlaces[i].min;
-              const editable = p.cat !== "stay";
+              const editable = !isStay(p);
               const changed = editable && p.min !== rec;
+              // 숙박 장소는 일정에 들지 않고 그날 밤 숙소로만 쓴다(PoC courseList). 번호 대신 숙소 표시
+              const order = editable
+                ? places.slice(0, i + 1).filter((x) => !isStay(x)).length
+                : null;
               const meta = [
                 isCategoryKey(p.cat) ? tc(`categories.${p.cat}`) : null,
-                !editable && p.min > 0
-                  ? tc("stay", { duration: duration(p.min) })
-                  : null,
+                editable ? null : t("list.stay"),
               ]
                 .filter(Boolean)
                 .join(" · ");
@@ -822,9 +912,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                   <div className="flex items-center gap-2">
                     <span
                       aria-hidden
-                      className="flex size-7 shrink-0 items-center justify-center rounded-full bg-fill text-caption font-bold text-fg-muted tabular-nums"
+                      className={`flex size-7 shrink-0 items-center justify-center rounded-full text-caption font-bold tabular-nums ${order === null ? "bg-primary-weak text-primary-strong" : "bg-fill text-fg-muted"}`}
                     >
-                      {i + 1}
+                      {order ?? <BedDouble size={16} />}
                     </span>
                     <Link
                       href={
@@ -1020,6 +1110,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               before={i === 0 ? accessLeg("out") : null}
               after={
                 <>
+                  {nightStayCard(i)}
                   {i === plan.days.length - 1 && accessLeg("back")}
                   {(() => {
                     const city = dayCity(i);
@@ -1076,11 +1167,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       )}
 
       <div className="mt-10 pb-4">
-        <CourseBookingLinks
-          cityEn={
-            plan.destination ? (CITY_INFO[plan.destination]?.en ?? "") : ""
-          }
-        />
+        <CourseBookingLinks stayLinks={courseStayLinks()} />
       </div>
 
       <ConfirmDialog

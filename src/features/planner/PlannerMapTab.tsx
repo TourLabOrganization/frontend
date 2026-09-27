@@ -38,6 +38,7 @@ import {
 } from "./regions";
 import { PLANNER_SOURCE } from "@/lib/local-store";
 import { matchesQuery } from "@/lib/text-search";
+import { isStay } from "./stays";
 import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
 import { useNameTable } from "@/features/names/NamesProvider";
@@ -499,7 +500,14 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                 ) : (
                   <Plus size={20} aria-hidden />
                 )}
-                {course.has(selected.id) ? ts("remove") : ts("add")}
+                {/* 숙박 장소는 일정이 아니라 그날 밤 숙소로 담긴다(PoC d_courseLabel) */}
+                {isStay(selected)
+                  ? course.has(selected.id)
+                    ? ts("unsetStay")
+                    : ts("setStay")
+                  : course.has(selected.id)
+                    ? ts("remove")
+                    : ts("add")}
               </Button>
               <SavePlaceButton
                 key={selected.id}

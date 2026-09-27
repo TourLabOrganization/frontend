@@ -702,7 +702,9 @@
       "remove": "Quitar de la ruta",
       "detailLoading": "Cargando descripción y foto…",
       "detailError": "No se pudo cargar la descripción ni la foto",
-      "detailRetry": "Reintentar"
+      "detailRetry": "Reintentar",
+      "setStay": "Usar como alojamiento",
+      "unsetStay": "Quitar alojamiento"
     },
     "confirm": {
       "title": "Este lugar está en otra ciudad",
@@ -798,7 +800,8 @@
       },
       "list": {
         "heading": "Lugares · {count}",
-        "empty": "Aún no hay lugares. Añádelos en el mapa o carga una ruta sugerida abajo"
+        "empty": "Aún no hay lugares. Añádelos en el mapa o carga una ruta sugerida abajo",
+        "stay": "Alojamiento elegido"
       },
       "goMap": "Añadir en el mapa",
       "moveUp": "Subir {name}",
@@ -858,7 +861,9 @@
         "newWindow": "(se abre en otra ventana)",
         "air": "Reservar vuelo",
         "ship": "Reservar ferry",
-        "metro": "Horario de tren"
+        "metro": "Horario de tren",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com"
       },
       "stay": {
         "dec": "15 minutos menos en {name}",
@@ -891,6 +896,25 @@
         "back": "Vuelta",
         "route": "{from} → {to}",
         "access": "{mode} · unos {duration}"
+      },
+      "nightStay": {
+        "label": "Alojamiento",
+        "labelFor": "Alojamiento de la noche del día {day}:",
+        "picked": "Elegido",
+        "generic": "Alojamiento {letter}",
+        "genericMeta": "{area} zona · sin asignar",
+        "sample": "Ejemplo",
+        "sampleNote": "Zonas de alojamiento de ejemplo, no es información real de reserva.",
+        "nearby": "Cerca",
+        "ownHeading": "Usar como alojamiento esa noche",
+        "samplesHeading": "Zonas de ejemplo · buscar en el mapa",
+        "place": "Lugar",
+        "setAsStay": "elegido",
+        "distance": "{km} km",
+        "mapNewWindow": "(búsqueda en el mapa, se abre en otra ventana)",
+        "book": "Reservar",
+        "setStatus": "{name} es el alojamiento de la noche del día {day}",
+        "unsetStatus": "{name} ya no es alojamiento"
       }
     },
     "info": {

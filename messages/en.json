@@ -702,7 +702,9 @@
       "remove": "Remove from course",
       "detailLoading": "Loading the description and photo…",
       "detailError": "Couldn't load the description and photo",
-      "detailRetry": "Try again"
+      "detailRetry": "Try again",
+      "setStay": "Set as course stay",
+      "unsetStay": "Remove as stay"
     },
     "confirm": {
       "title": "This place is in another city",
@@ -798,7 +800,8 @@
       },
       "list": {
         "heading": "Places · {count}",
-        "empty": "No places yet. Add places on the map, or load a suggested course below"
+        "empty": "No places yet. Add places on the map, or load a suggested course below",
+        "stay": "Set as stay"
       },
       "goMap": "Add places on the map",
       "moveUp": "Move {name} up",
@@ -858,7 +861,9 @@
         "newWindow": "(opens in a new window)",
         "air": "Book flight",
         "ship": "Book ferry",
-        "metro": "Metro timetable"
+        "metro": "Metro timetable",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com"
       },
       "stay": {
         "dec": "15 minutes less at {name}",
@@ -891,6 +896,25 @@
         "back": "Getting home",
         "route": "{from} → {to}",
         "access": "{mode} · about {duration}"
+      },
+      "nightStay": {
+        "label": "Overnight",
+        "labelFor": "Stay for night of day {day}:",
+        "picked": "Your pick",
+        "generic": "Stay {letter}",
+        "genericMeta": "{area} area · not assigned",
+        "sample": "Example",
+        "sampleNote": "Example stay areas, not real booking info.",
+        "nearby": "Nearby",
+        "ownHeading": "Set as that night's stay",
+        "samplesHeading": "Example stay areas · map search",
+        "place": "Place",
+        "setAsStay": "set as stay",
+        "distance": "{km} km",
+        "mapNewWindow": "(map search, opens in a new window)",
+        "book": "Book a stay",
+        "setStatus": "Set {name} as the stay for night of day {day}",
+        "unsetStatus": "Removed {name} as a stay"
       }
     },
     "info": {

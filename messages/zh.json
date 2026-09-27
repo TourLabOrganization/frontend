@@ -702,7 +702,9 @@
       "remove": "从行程移除",
       "detailLoading": "正在加载介绍和照片",
       "detailError": "无法加载介绍和照片",
-      "detailRetry": "重试"
+      "detailRetry": "重试",
+      "setStay": "设为行程住宿",
+      "unsetStay": "取消住宿"
     },
     "confirm": {
       "title": "这是其他城市的地点",
@@ -798,7 +800,8 @@
       },
       "list": {
         "heading": "已添加的地点 · {count}",
-        "empty": "还没有添加地点。请在地图上添加地点，或在下方载入推荐行程"
+        "empty": "还没有添加地点。请在地图上添加地点，或在下方载入推荐行程",
+        "stay": "已设为住宿"
       },
       "goMap": "在地图上添加地点",
       "moveUp": "将{name}上移",
@@ -858,7 +861,9 @@
         "newWindow": "（新窗口）",
         "air": "预订机票",
         "ship": "预订轮渡",
-        "metro": "城铁时刻表"
+        "metro": "城铁时刻表",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com"
       },
       "stay": {
         "dec": "{name}停留时间减少15分钟",
@@ -891,6 +896,25 @@
         "back": "返程",
         "route": "{from} → {to}",
         "access": "{mode} · 约{duration}"
+      },
+      "nightStay": {
+        "label": "住宿",
+        "labelFor": "第{day}天晚上的住宿：",
+        "picked": "已指定",
+        "generic": "住宿 {letter}",
+        "genericMeta": "{area} 附近 · 未指定",
+        "sample": "示例",
+        "sampleNote": "这是示例住宿区域，并非真实预订信息。",
+        "nearby": "附近住宿",
+        "ownHeading": "设为当晚住宿",
+        "samplesHeading": "示例住宿区域 · 地图搜索",
+        "place": "地点",
+        "setAsStay": "已设为住宿",
+        "distance": "{km} km",
+        "mapNewWindow": "（地图搜索，新窗口）",
+        "book": "预订住宿",
+        "setStatus": "已将{name}设为第{day}天晚上的住宿",
+        "unsetStatus": "已取消{name}的住宿指定"
       }
     },
     "info": {

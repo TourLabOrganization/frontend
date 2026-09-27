@@ -702,7 +702,9 @@
       "remove": "코스에서 빼기",
       "detailLoading": "설명과 사진을 불러오는 중이에요",
       "detailError": "설명과 사진을 불러오지 못했어요",
-      "detailRetry": "다시 시도"
+      "detailRetry": "다시 시도",
+      "setStay": "코스 숙소로 지정",
+      "unsetStay": "숙소 지정 해제"
     },
     "confirm": {
       "title": "다른 도시의 장소예요",
@@ -798,7 +800,8 @@
       },
       "list": {
         "heading": "담은 장소 · {count}",
-        "empty": "아직 담은 장소가 없어요. 지도에서 장소를 담거나 아래에서 추천 코스를 불러오세요"
+        "empty": "아직 담은 장소가 없어요. 지도에서 장소를 담거나 아래에서 추천 코스를 불러오세요",
+        "stay": "숙소로 지정됨"
       },
       "goMap": "지도에서 장소 담기",
       "moveUp": "{name} 위로 옮기기",
@@ -858,7 +861,9 @@
         "newWindow": "(새 창)",
         "air": "항공권 예매",
         "ship": "여객선 예매",
-        "metro": "전철 노선·시간표"
+        "metro": "전철 노선·시간표",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com"
       },
       "stay": {
         "dec": "{name} 체류 시간 15분 줄이기",
@@ -891,6 +896,25 @@
         "back": "돌아오는 길",
         "route": "{from} → {to}",
         "access": "{mode} · 약 {duration}"
+      },
+      "nightStay": {
+        "label": "숙박",
+        "labelFor": "{day}일차 밤 숙소:",
+        "picked": "직접 지정",
+        "generic": "숙소 {letter}",
+        "genericMeta": "{area} 근처 · 숙소 미지정",
+        "sample": "예시",
+        "sampleNote": "예시 숙소 지역이에요. 실제 예약 정보가 아니에요",
+        "nearby": "주변 숙소",
+        "ownHeading": "그날 밤 숙소로 지정",
+        "samplesHeading": "예시 숙소 지역 · 지도 검색",
+        "place": "장소",
+        "setAsStay": "숙소로 지정됨",
+        "distance": "{km} km",
+        "mapNewWindow": "(지도 검색, 새 창)",
+        "book": "숙박 예약",
+        "setStatus": "{day}일차 밤 숙소를 {name}(으)로 지정했어요",
+        "unsetStatus": "{name} 숙소 지정을 해제했어요"
       }
     },
     "info": {

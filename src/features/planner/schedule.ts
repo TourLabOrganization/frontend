@@ -14,6 +14,7 @@ import type { PlannerSettings, WideMode } from "./course-store";
 import type { PlannerPlace } from "./data";
 import { tripDays } from "./dates";
 import { CITY_HUBS, PLANNER_ORIGINS } from "./regions";
+import { isStay, splitStays } from "./stays";
 
 // 투어 플래너 코스 탭의 일정 계산. 순수 함수만 둔다. 화면(PlannerCourseTab)은 이 결과만 그린다.
 //
@@ -27,6 +28,8 @@ import { CITY_HUBS, PLANNER_ORIGINS } from "./regions";
 //  - 광역 접근 분 = accessMin(출발지, 관문, 광역 교통). 첫날은 출발 시각 + 접근 분부터 시작한다(dayWindows · dayStartClock)
 //  - 현지 이동(목업 02) = legInfo 모드. 광역이 자가용이면 현지도 자가용(own)
 //  - 날짜 나누기는 테마 코스와 같은 splitDays(개장 대기 · 폐장 · 그날 끝 · 마지막 날 여행지 출발 시각), 시각은 timeline
+//  - 숙박 장소(cat === "stay")는 일정 계산 입력에서 뺀다(PoC courseList). 그날 밤 숙소로만 쓴다(stays.ts).
+//    요약 · 「넣지 못한 장소」 · 일자별 시각에 들어가지 않는다. 계산 식(course/schedule.ts · scenarios.ts)은 그대로다
 //  - 요약: 경유지 수 · 총 거리(같은 날 앞 장소 → 이 장소 구간 legInfo km 합, 소수 1자리) · 예상 시간(이동 + 대기 + 체류)
 
 /** 광역 교통 칸. 목업 순서(버스 · 기차 · 항공 / 배 · 지하철 · 자가용) */
@@ -203,15 +206,19 @@ export type PlannerSchedule = TripPlan & {
 };
 
 /**
- * 담은 장소(담은 순서)에 날짜와 도착 · 출발 시각을 붙인다.
+ * 담은 장소(담은 순서)에 날짜와 도착 · 출발 시각을 붙인다. 숙박 장소는 빼고 계산한다.
  * fallbackCity: 담은 장소가 없을 때 광역 교통을 정할 도시(지금 고른 도시)
  */
 export function buildPlannerSchedule(
-  places: readonly PlannerPlace[],
+  course: readonly PlannerPlace[],
   settings: PlannerSettings,
   fallbackCity: string | null = null,
 ): PlannerSchedule {
-  const trip = planTrip(settings, destinationCity(places, fallbackCity));
+  const { sights: places, stays } = splitStays(course);
+  const trip = planTrip(
+    settings,
+    destinationCity(places, stays[0]?.locKo ?? fallbackCity),
+  );
   const { buckets, keep } = splitDays(places, trip.ctx);
   const kept = places.slice(0, keep);
   const timed = timeline(kept, buckets, trip.ctx.legFn, {
@@ -258,7 +265,7 @@ export function recommendCourse(
   settings: PlannerSettings,
   leadCity: string | null,
 ): PlannerPlace[] {
-  const candidates = pool.filter((p) => p.auto);
+  const candidates = pool.filter((p) => p.auto && !isStay(p));
   if (candidates.length === 0) return [];
   const trip = planTrip(settings, leadCity);
   const course = autoCourse(candidates, {
