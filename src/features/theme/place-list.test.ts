@@ -8,6 +8,7 @@ import {
   hasViews,
   haversineKm,
   inCity,
+  orderByCities,
   scopeCity,
   searchCards,
   sortCards,
@@ -50,8 +51,23 @@ describe("scopeCity · inCity", () => {
     expect(scopeCity(RESCENE, "없는 도시")).toBeNull();
   });
 
-  it("RESCENE 도시 칩은 목업 순서(거제 · 경주)", () => {
-    expect(RESCENE.map((c) => c.ko)).toEqual(["거제", "경주"]);
+  it("RESCENE 도시 칩은 목업 순서(거제 · 경주) 뒤에 전국 목록의 나머지 도시(PoC 장소 목록 순서)", () => {
+    expect(RESCENE.map((c) => c.ko)).toEqual([
+      "거제",
+      "경주",
+      "수원",
+      "정선",
+      "대전",
+      "충주",
+      "동해",
+    ]);
+    // 더한 도시는 영어 이름 · 좌표가 투어 플래너 도시 값(regions.json)
+    expect(RESCENE.find((c) => c.ko === "수원")).toEqual({
+      ko: "수원",
+      en: "Suwon",
+      lat: 37.2827,
+      lng: 127.0123,
+    });
   });
 
   it("고른 도시의 장소만 남긴다", () => {
@@ -61,6 +77,12 @@ describe("scopeCity · inCity", () => {
     expect(corePlaces(places).filter((p) => inCity(p, "거제"))).toHaveLength(
       14,
     );
+    // 더한 도시 칩: 수원 5 · 정선 2 · 대전 4 · 충주 2 · 동해 2
+    expect(
+      ["수원", "정선", "대전", "충주", "동해"].map(
+        (c) => corePlaces(places).filter((p) => inCity(p, c)).length,
+      ),
+    ).toEqual([5, 2, 4, 2, 2]);
   });
 });
 
@@ -76,6 +98,38 @@ describe("cityGroups", () => {
 
   it("빈 목록은 빈 묶음", () => {
     expect(cityGroups([])).toEqual([]);
+  });
+});
+
+describe("orderByCities", () => {
+  it("RESCENE 전국 목록은 도시 칩 순서(거제 · 경주 · 수원 · 정선 · 대전 · 충주 · 동해)로 묶는다", () => {
+    const core = corePlaces(getThemePlaces("rescene-route"));
+    const ordered = orderByCities(core, RESCENE);
+    const groups = cityGroups(ordered);
+    expect(groups).toEqual([
+      { city: "거제", count: 14 },
+      { city: "경주", count: 7 },
+      { city: "수원", count: 5 },
+      { city: "정선", count: 2 },
+      { city: "대전", count: 4 },
+      { city: "충주", count: 2 },
+      { city: "동해", count: 2 },
+    ]);
+    // 같은 도시 안에서는 번호 순서 그대로
+    expect(ordered.slice(0, 3).map((p) => p.n)).toEqual([8, 9, 10]);
+    expect(ordered).toHaveLength(core.length);
+  });
+
+  it("칩이 없거나 한 도시면 순서를 바꾸지 않는다", () => {
+    const core = corePlaces(getThemePlaces("rescene-route"));
+    expect(orderByCities(core, [])).toEqual(core);
+  });
+
+  it("칩에 없는 도시는 원래 순서대로 뒤에 둔다", () => {
+    const core = corePlaces(getThemePlaces("rescene-route"));
+    const groups = cityGroups(orderByCities(core, RESCENE.slice(0, 2)));
+    expect(groups.slice(0, 2).map((g) => g.city)).toEqual(["거제", "경주"]);
+    expect(groups.slice(2)).toEqual(cityGroups(core).slice(2));
   });
 });
 

@@ -28,13 +28,19 @@
       "insecure": "位置情報は安全な接続（HTTPS）でのみ使えます",
       "denied": "位置情報がオフです。ブラウザの設定で許可してください",
       "unavailable": "現在地を取得できませんでした。しばらくしてからお試しください",
-      "myLocation": "現在地"
+      "myLocation": "現在地",
+      "zoomLabel": "ズーム",
+      "zoomIn": "拡大",
+      "zoomOut": "縮小",
+      "kakaoLogo": "Kakaoマップで開く（新しいウィンドウ）"
     }
   },
   "PlaceSheet": {
     "close": "閉じる",
     "photoCredit": "写真：{credit}",
     "hours": "営業時間",
+    "checkIn": "チェックイン {time}",
+    "checkOut": "チェックアウト {time}",
     "directions": "経路",
     "newWindow": "（新しいウィンドウ）",
     "stay": "推奨滞在",
@@ -75,7 +81,8 @@
         "unknown": "データなし"
       }
     },
-    "badges": "バッジ"
+    "badges": "バッジ",
+    "appTranslated": "名称・説明の一部はアプリが翻訳しています。"
   },
   "Splash": {
     "title": {
@@ -87,7 +94,7 @@
   },
   "Home": {
     "source": "スポット数はTour Navigatorのテーマ別スポット一覧から数えた値です",
-    "bannerPhotoCredit": "バナー写真：東宮と月池 · Wikimedia Commons",
+    "bannerPhotoCredit": "バナー写真：海金剛 · Wikimedia Commons",
     "tabsLabel": "ホーム画面",
     "tabs": {
       "myThemes": "マイテーマ",
@@ -179,7 +186,7 @@
       "addDisabled": "経由地にアプリのスポットと一致する場所がないため、コースビルダーに追加できません",
       "more": "もっと見る（残り{count}件）",
       "date": "基準日 {date}",
-      "dataNote": "ツアー名・経由地・料金は公開元の韓国語表記のままで、基準日はツアーごとに異なります。シティツアーはバスの時刻に合わせて動くため、コースビルダーの時間は目安です",
+      "dataNote": "ツアー名・経由地・料金はアプリが翻訳しており、基準日はツアーごとに異なります。シティツアーはバスの時刻に合わせて動くため、コースビルダーの時間は目安です",
       "confirm": {
         "title": "追加したコースを入れ替えますか？",
         "body": "ツアープランナーに追加した{count}か所の代わりに、「{name}」の経由地{placeCount}か所を追加します",
@@ -204,6 +211,9 @@
       "ship": "フェリー",
       "metro": "電車",
       "own": "車"
+    },
+    "bannerVideo": {
+      "resceneGeoje": "RESCENE 巨済の動画"
     }
   },
   "Nav": {
@@ -619,7 +629,7 @@
       "views": "{count, number}回再生",
       "searchClear": "検索語を消去",
       "searchStatus": "検索結果 {count}件",
-      "koreanNote": "シーンのタイトルは韓国語表記です。"
+      "translatedNote": "シーンのタイトルはアプリが翻訳しています。"
     },
     "stamp": {
       "kicker": "チェックイン",
@@ -1099,7 +1109,7 @@
         "title": "{city} シティツアー",
         "meta": "{count}コース",
         "empty": "この地域のシティツアーは登録されていません。",
-        "source": "出典：全国シティツアー標準データ · {date} · コース情報は韓国語です。"
+        "source": "出典：全国シティツアー標準データ · {date} · コース情報はアプリが翻訳しています。"
       },
       "tic": {
         "title": "{city} 観光案内所",
@@ -1112,7 +1122,7 @@
         "hours": "営業",
         "closed": "休業",
         "map": "地図",
-        "source": "出典：韓国観光公社 · 名称は韓国語表記"
+        "source": "出典：韓国観光公社 · 名称・住所はアプリが翻訳"
       }
     },
     "howTo": {

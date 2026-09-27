@@ -5,6 +5,7 @@ import { Chip } from "@/components/ui/Chip";
 import type { CityTour } from "@/features/home/citytour";
 import toursData from "@/features/home/data/citytour.json";
 import { loadNameTable } from "@/features/names/server";
+import { cityTourText, infoCenterText } from "@/features/translations/text";
 import { PLANNER_LINKS } from "./data/info";
 import ticData from "./data/tic.json";
 import { InfoCenters } from "./InfoCenters";
@@ -27,7 +28,8 @@ const isModeKey = (m: string): m is ModeKey =>
 // 투어 플래너 여행 정보 탭. 선택한 지역(도시)의 광역 관문 · 시티투어 · 관광안내소 · 이동 요령 · 지역별 관광 안내 링크.
 // 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 이동 요령은 코스 탭과 같은 접이식 6단계(RoutingHowTo), 링크는 data/info.ts.
 // 시티투어(홈과 같은 카드) · 관광안내소(data/tic.json)는 PoC처럼 도시를 고르지 않으면 서울을 「기본 지역」으로 보인다.
-// 두 데이터는 서버에서 그 도시 것만 골라 넘긴다(클라이언트 번들에 전국 데이터를 싣지 않는다)
+// 두 데이터는 서버에서 그 도시 것만 골라 넘긴다(클라이언트 번들에 전국 데이터를 싣지 않는다).
+// 외국어 화면은 이름 · 경로 · 주소 · 요금 · 운영 등을 서버에서 번역 표로 옮겨 함께 넘긴다(features/translations)
 export async function PlannerInfoTab({ city }: { city: string | null }) {
   const t = await getTranslations("Planner.info");
   const locale = await getLocale();
@@ -57,6 +59,12 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
       ].filter((name, i, all) => name && all.indexOf(name) === i)
     : [];
   const modes = hub ? hub.modes.filter(isModeKey) : [];
+  const tours = TOURS.filter((tour) => tour.region === infoCity);
+  // 관광안내소는 외국어 화면에서 옮긴 글(이름 · 주소 · 운영 · 휴무)을 붙여 넘긴다(번역 표는 서버에서만 읽는다)
+  const centers = CENTERS.filter((c) => c.city === infoCity).map((c) => ({
+    ...c,
+    text: infoCenterText(c, locale),
+  }));
 
   return (
     <div className="flex flex-col gap-6 px-5 pt-6">
@@ -109,7 +117,12 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
         key={`ct|${infoCity}`}
         cityLabel={infoCityLabel}
         isDefault={city === null}
-        tours={TOURS.filter((tour) => tour.region === infoCity)}
+        tours={tours}
+        texts={
+          locale === "ko"
+            ? undefined
+            : tours.map((tour) => cityTourText(tour, locale))
+        }
       />
 
       <InfoCenters
@@ -117,7 +130,7 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
         city={infoCity}
         cityLabel={infoCityLabel}
         isDefault={city === null}
-        centers={CENTERS.filter((c) => c.city === infoCity)}
+        centers={centers}
       />
 
       <RoutingHowTo />

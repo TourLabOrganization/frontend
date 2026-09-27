@@ -28,13 +28,19 @@
       "insecure": "La ubicación requiere conexión segura (HTTPS)",
       "denied": "Ubicación desactivada. Actívala en el navegador",
       "unavailable": "No se pudo obtener tu ubicación. Inténtalo de nuevo",
-      "myLocation": "Tu ubicación"
+      "myLocation": "Tu ubicación",
+      "zoomLabel": "Zoom",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar",
+      "kakaoLogo": "Abrir en Kakao Map (nueva ventana)"
     }
   },
   "PlaceSheet": {
     "close": "Cerrar",
     "photoCredit": "Foto: {credit}",
     "hours": "Horario",
+    "checkIn": "Entrada {time}",
+    "checkOut": "Salida {time}",
     "directions": "Ruta",
     "newWindow": "(se abre en otra ventana)",
     "stay": "Estancia sugerida",
@@ -75,7 +81,8 @@
         "unknown": "Sin datos"
       }
     },
-    "badges": "Insignias"
+    "badges": "Insignias",
+    "appTranslated": "Algunos nombres y descripciones los tradujo la app."
   },
   "Splash": {
     "title": {
@@ -87,7 +94,7 @@
   },
   "Home": {
     "source": "El número de lugares sale de la lista de lugares de cada tema en Tour Navigator",
-    "bannerPhotoCredit": "Foto del banner: palacio Donggung y estanque Wolji · Wikimedia Commons",
+    "bannerPhotoCredit": "Foto del banner: Haegeumgang · Wikimedia Commons",
     "tabsLabel": "Vistas de inicio",
     "tabs": {
       "myThemes": "Mis temas",
@@ -179,7 +186,7 @@
       "addDisabled": "Ninguna parada coincide con lugares de la app, así que no se puede añadir este tour",
       "more": "Ver más ({count} más)",
       "date": "Datos al {date}",
-      "dataNote": "Los nombres de los tours, las paradas y las tarifas se muestran en coreano, tal como se publican, y cada tour tiene su propia fecha de referencia. Los city tours siguen horarios de autobús, así que las horas de la ruta son solo orientativas",
+      "dataNote": "La app tradujo los nombres de los tours, las paradas y las tarifas, y cada tour tiene su propia fecha de referencia. Los city tours siguen horarios de autobús, así que las horas de la ruta son solo orientativas",
       "confirm": {
         "title": "¿Reemplazar tu ruta?",
         "body": "Se reemplazarán {count, plural, one {el # lugar} other {los # lugares}} de tu ruta por {placeCount, plural, one {# parada} other {# paradas}} de «{name}»",
@@ -204,6 +211,9 @@
       "ship": "Ferry",
       "metro": "Metro",
       "own": "En coche"
+    },
+    "bannerVideo": {
+      "resceneGeoje": "Video de RESCENE en Geoje"
     }
   },
   "Nav": {
@@ -619,7 +629,7 @@
       "views": "{count, plural, one {# visualización} other {# visualizaciones}}",
       "searchClear": "Borrar búsqueda",
       "searchStatus": "{count, plural, one {# resultado} other {# resultados}}",
-      "koreanNote": "Los títulos de las escenas están en coreano."
+      "translatedNote": "La app tradujo los títulos de las escenas."
     },
     "stamp": {
       "kicker": "Check-in",
@@ -1099,7 +1109,7 @@
         "title": "City tours · {city}",
         "meta": "{count} rutas",
         "empty": "No hay city tours registrados en esta región.",
-        "source": "Fuente: datos estándar de city tours · {date} · La información está en coreano."
+        "source": "Fuente: datos estándar de city tours · {date} · La app tradujo la información."
       },
       "tic": {
         "title": "Oficinas de turismo · {city}",
@@ -1112,7 +1122,7 @@
         "hours": "Horario",
         "closed": "Cierre",
         "map": "Mapa",
-        "source": "Fuente: KTO · Nombres en coreano"
+        "source": "Fuente: KTO · La app tradujo nombres y direcciones"
       }
     },
     "howTo": {

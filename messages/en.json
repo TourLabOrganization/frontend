@@ -28,13 +28,19 @@
       "insecure": "Location needs a secure (HTTPS) connection",
       "denied": "Location access is off. Allow it in your browser settings",
       "unavailable": "Couldn't get your location. Try again shortly",
-      "myLocation": "Your location"
+      "myLocation": "Your location",
+      "zoomLabel": "Zoom",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "kakaoLogo": "Open in Kakao Map (new window)"
     }
   },
   "PlaceSheet": {
     "close": "Close",
     "photoCredit": "Photo: {credit}",
     "hours": "Opening hours",
+    "checkIn": "Check-in {time}",
+    "checkOut": "Check-out {time}",
     "directions": "Directions",
     "newWindow": "(opens in a new window)",
     "stay": "Suggested stay",
@@ -75,7 +81,8 @@
         "unknown": "No data"
       }
     },
-    "badges": "Badges"
+    "badges": "Badges",
+    "appTranslated": "Some names and descriptions were translated by the app."
   },
   "Splash": {
     "title": {
@@ -87,7 +94,7 @@
   },
   "Home": {
     "source": "Place counts come from the Tour Navigator place list for each theme",
-    "bannerPhotoCredit": "Banner photo: Donggung Palace and Wolji Pond · Wikimedia Commons",
+    "bannerPhotoCredit": "Banner photo: Haegeumgang · Wikimedia Commons",
     "tabsLabel": "Home views",
     "tabs": {
       "myThemes": "My themes",
@@ -179,7 +186,7 @@
       "addDisabled": "None of the stops match places in the app, so this tour can't be added",
       "more": "Show more ({count} left)",
       "date": "As of {date}",
-      "dataNote": "Tour names, stops and fares are shown in Korean as published, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
+      "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
       "confirm": {
         "title": "Replace your course?",
         "body": "Replace the {count, plural, one {# place} other {# places}} in your planner course with {placeCount, plural, one {# stop} other {# stops}} from “{name}”",
@@ -204,6 +211,9 @@
       "ship": "Ferry",
       "metro": "Subway",
       "own": "By car"
+    },
+    "bannerVideo": {
+      "resceneGeoje": "RESCENE Geoje video"
     }
   },
   "Nav": {
@@ -619,7 +629,7 @@
       "views": "{count, plural, one {# view} other {# views}}",
       "searchClear": "Clear search",
       "searchStatus": "{count, plural, one {# result} other {# results}}",
-      "koreanNote": "Scene titles are shown in Korean."
+      "translatedNote": "Scene titles were translated by the app."
     },
     "stamp": {
       "kicker": "Check-in",
@@ -1099,7 +1109,7 @@
         "title": "City tours · {city}",
         "meta": "{count} courses",
         "empty": "No city tours listed for this region.",
-        "source": "Source: National city tour standard data · {date} · Course info is in Korean."
+        "source": "Source: National city tour standard data · {date} · Course info translated by the app."
       },
       "tic": {
         "title": "Tourist info centers · {city}",
@@ -1112,7 +1122,7 @@
         "hours": "Hours",
         "closed": "Closed",
         "map": "Map",
-        "source": "Source: KTO tourist info centers · Kakao coordinates · Names shown in Korean"
+        "source": "Source: KTO tourist info centers · Kakao coordinates · Names and addresses translated by the app"
       }
     },
     "howTo": {

@@ -1,6 +1,6 @@
 "use client";
 
-import { LocateFixed } from "lucide-react";
+import { LocateFixed, Minus, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 import {
@@ -9,7 +9,6 @@ import {
   Map as KakaoMap,
   useKakaoLoader,
   useMap,
-  ZoomControl,
 } from "react-kakao-maps-sdk";
 import {
   accuracyRadius,
@@ -23,7 +22,9 @@ import {
 // 키는 NEXT_PUBLIC_KAKAO_MAP_KEY(카카오 개발자 앱의 JavaScript 키, 브라우저 노출 키, docs/security.md). 키가 없을 때의 안내는 쓰는 쪽이 그린다.
 // 카카오 지도는 영문 지도를 지원하지 않아 바탕 지도 글자는 언제나 한국어다. 핀 · 이름표는 쓰는 쪽이 화면 언어로 그린다.
 // 표시(핀 · 묶음 · 선)는 children으로 받는다. fitKey가 바뀌면 fitPoints에 맞추고, focus가 바뀌면 그 자리로 옮긴다.
-// 공통 조작: 확대 버튼(오른쪽 위, 카카오) · 지도/위성 전환(왼쪽 위) · 내 위치(오른쪽 아래). 서로 겹치지 않는 자리다.
+// 공통 조작: 확대 · 축소(오른쪽 위) · 지도/위성 전환(왼쪽 위) · 내 위치(오른쪽 아래). 서로 겹치지 않는 자리다.
+// 확대 · 축소는 카카오 ZoomControl 대신 우리 버튼이다(SDK 버튼의 title 「확대」 「축소」가 화면 언어를 따르지 않아서).
+// 카카오 로고는 출처 표기라 지우지 않고, 대체 글(「Kakao 맵으로 이동(새창열림)」)만 화면 언어로 바꾼다(KakaoLogoAlt).
 // 내 위치는 누를 때만 위치 권한을 묻고, 받은 위치는 점 · 정확도 원으로만 그린다(저장하지 않는다).
 
 /** 가장자리 표시가 잘리지 않게 두는 여백(px) */
@@ -91,6 +92,12 @@ export function MapFrame({
   const [meTick, setMeTick] = useState(0);
   const [locating, setLocating] = useState(false);
   const [failure, setFailure] = useState<LocateFailure | null>(null);
+  // 확대 · 축소 버튼이 부를 지도(만들어진 뒤에 생긴다)
+  const [map, setMap] = useState<kakao.maps.Map | null>(null);
+  const zoom = (delta: -1 | 1) => {
+    if (!map) return;
+    map.setLevel(map.getLevel() + delta, { animate: true });
+  };
 
   const locate = () => {
     setFailure(null);
@@ -152,8 +159,8 @@ export function MapFrame({
               level={initial.level}
               mapTypeId={mapType}
               className="h-full w-full"
+              onCreate={setMap}
             >
-              <ZoomControl position="RIGHT" />
               {children}
               {me && <MyLocation position={me} tick={meTick} />}
               <MapCamera
@@ -190,6 +197,32 @@ export function MapFrame({
             })}
           </div>
 
+          <div
+            role="group"
+            aria-label={t("map.zoomLabel")}
+            className="absolute top-3 right-3 z-10 flex flex-col overflow-hidden rounded-xl"
+          >
+            <button
+              type="button"
+              aria-label={t("map.zoomIn")}
+              title={t("map.zoomIn")}
+              onClick={() => zoom(-1)}
+              className={`${CONTROL_CLASS} size-11 rounded-t-xl text-fg-muted active:bg-fill`}
+            >
+              <Plus size={20} aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label={t("map.zoomOut")}
+              title={t("map.zoomOut")}
+              onClick={() => zoom(1)}
+              className={`${CONTROL_CLASS} size-11 rounded-b-xl text-fg-muted active:bg-fill`}
+            >
+              <Minus size={20} aria-hidden />
+            </button>
+          </div>
+          <KakaoLogoAlt frameRef={frameRef} alt={t("map.kakaoLogo")} />
+
           <button
             type="button"
             aria-label={t("map.locate")}
@@ -223,6 +256,38 @@ export function MapFrame({
       )}
     </div>
   );
+}
+
+/**
+ * 카카오 SDK가 지도 안에 넣는 로고(출처 표기) 이미지의 대체 글을 화면 언어로 바꾼다.
+ * 로고는 지도가 그려진 뒤에 SDK가 넣으므로, 틀 안에 로고가 생길 때까지 지켜본다
+ */
+function KakaoLogoAlt({
+  frameRef,
+  alt,
+}: {
+  frameRef: React.RefObject<HTMLDivElement | null>;
+  alt: string;
+}) {
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+    const apply = () => {
+      for (const img of frame.querySelectorAll<HTMLImageElement>(
+        'a[href*="map.kakao.com"] img, img[alt*="Kakao"]',
+      ))
+        if (img.alt !== alt) img.alt = alt;
+      for (const a of frame.querySelectorAll<HTMLAnchorElement>(
+        'a[href*="map.kakao.com"][title]',
+      ))
+        a.title = alt;
+    };
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(frame, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [frameRef, alt]);
+  return null;
 }
 
 /** 내 위치 점과 정확도 원. 위치를 받을 때마다(tick) 그리로 옮긴다 */

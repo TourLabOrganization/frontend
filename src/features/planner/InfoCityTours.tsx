@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { formatDate } from "@/lib/format-date";
 import type { CityTour } from "@/features/home/citytour";
 import { CityTourCard, useCityTourAdd } from "@/features/home/CityTourCard";
+import type { CityTourText } from "@/features/translations/text";
 
 /** 처음 보이는 수와 「더 보기」 한 번에 더 보이는 수(PoC ctLimit 3 · +6) */
 const CT_INITIAL = 3;
@@ -18,6 +19,8 @@ type InfoCityToursProps = {
   isDefault: boolean;
   /** 그 도시의 노선(원천 순서) */
   tours: readonly CityTour[];
+  /** 외국어 화면에서 보일 글(tours와 같은 순서, 서버가 번역 표로 만든다). 한국어 화면은 없다 */
+  texts?: readonly (CityTourText | undefined)[];
 };
 
 // 플래너 여행 정보 탭 「{도시} 시티투어」(PoC ctList · ctMore · ctSrc).
@@ -27,6 +30,7 @@ export function InfoCityTours({
   cityLabel,
   isDefault,
   tours,
+  texts,
 }: InfoCityToursProps) {
   const t = useTranslations("Planner.info");
   const locale = useLocale();
@@ -68,7 +72,8 @@ export function InfoCityTours({
               <CityTourCard
                 key={`${tour.name}|${i}`}
                 tour={tour}
-                onAdd={() => onAdd(tour)}
+                text={texts?.[i]}
+                onAdd={() => onAdd(tour, texts?.[i]?.name)}
               />
             ))}
           </ul>

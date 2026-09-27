@@ -9,7 +9,7 @@ src/
     providers.tsx       클라이언트 Provider (TanStack Query)
     api/**/route.ts     Route Handler. 키가 필요한 외부 API를 대신 부른다
   components/           여러 기능이 함께 쓰는 컴포넌트
-  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/theme, features/planner, features/home, features/me)
+  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/theme, features/planner, features/home, features/me, 외국어 화면 데이터 번역 features/translations — 서버에서만 읽는다, docs/i18n.md)
   lib/                  화면과 무관한 코드 (api 클라이언트, 데이터랩 조회 api/datalab.ts, 여러 기능이 쓰는 localStorage 값 local-store.ts, 유틸)
   i18n/                 다국어 설정
 messages/               화면 문구 (ko.json · en.json)
@@ -43,7 +43,7 @@ public/                 정적 파일
 
 - 탭을 바꿔도 `a` · `plan`은 주소에 남긴다. 주소는 `features/theme/tabs.ts`의 `themeHref`로 만든다
 - 영화 탭의 장면 카드는 `id`가 장면 id라 `?tab=film#{장면 id}`로 바로 간다
-- 지도 탭: 지역 줄(RESCENE는 전국 · 거제 · 경주 칩, 한 도시 테마는 도시 이름 · 장소 수), 목록 접기. 목록 행의 거리는 도시 center(PoC `DATA.<도시>.center`)에서 직선거리이고, 여러 도시 보기(RESCENE 전국)는 거리 대신 도시 이름이다(목업 규칙, `features/theme/place-list.ts`). 장면이 있는 행은 영화(영상) 탭 바로가기
+- 지도 탭: 지역 줄(RESCENE는 전국 · 거제 · 경주 · 수원 · 정선 · 대전 · 충주 · 동해 칩 — 거제 · 경주 뒤는 전국 목록 장소가 있는 도시를 PoC 장소 목록 순서로 더한 것(대표 요청 2026-09-28), 한 줄 가로 스크롤. 한 도시 테마는 도시 이름 · 장소 수), 목록 접기. 목록 행의 거리는 도시 center(PoC `DATA.<도시>.center`, 더한 도시는 플래너 `regions.json` 도시 좌표)에서 직선거리이고, 여러 도시 보기(RESCENE 전국)는 거리 대신 도시 이름이다(목업 규칙, `features/theme/place-list.ts`). 장면이 있는 행은 영화(영상) 탭 바로가기
 - RESCENE는 하단 탭 이름이 영상 · 팬소통이고, 영상 정렬은 인기순(PoC에 적힌 조회수) · 최신순이다
 - 추천 결과 · ME 저장된 플랜 · 홈 추천 코스는 `tab=course`로, 홈 포스터 타일 · 배너는 기본(지도)으로 들어온다
 

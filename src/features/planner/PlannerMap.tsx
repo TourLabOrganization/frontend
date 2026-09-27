@@ -5,6 +5,7 @@ import { CustomOverlayMap, useMap } from "react-kakao-maps-sdk";
 import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
 import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
 import { categoryDot } from "./category";
+import { CategoryIcon } from "./CategoryIcon";
 
 // 투어 플래너 지도(카카오). 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
 // 전국 보기는 권역 묶음, 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
@@ -85,7 +86,7 @@ export function PlannerMap({
             clickable
             zIndex={on ? 1000 : 0}
           >
-            {/* 누르는 자리는 44px, 보이는 점은 16px(고른 핀은 24px) */}
+            {/* 누르는 자리는 44px, 보이는 핀은 분류 색 동그라미 안 흰 분류 아이콘 28px(고른 핀은 36px) */}
             <button
               type="button"
               aria-label={p.title}
@@ -94,10 +95,12 @@ export function PlannerMap({
               className="flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary-bright"
             >
               <span
-                className={`block rounded-full ring-2 ring-surface transition-[width,height] duration-150 motion-reduce:transition-none ${categoryDot(
+                className={`flex items-center justify-center rounded-full ring-2 ring-surface transition-[width,height] duration-150 motion-reduce:transition-none ${categoryDot(
                   p.cat,
-                )} ${on ? "size-6" : "size-4"}`}
-              />
+                )} ${on ? "size-9" : "size-7"}`}
+              >
+                <CategoryIcon cat={p.cat} size={on ? 20 : 16} inverse />
+              </span>
             </button>
           </CustomOverlayMap>
         );

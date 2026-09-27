@@ -12,6 +12,7 @@ import { cityName } from "@/features/planner/regions";
 import { useNameTable } from "@/features/names/NamesProvider";
 import { formatDate } from "@/lib/format-date";
 import { krUnits } from "@/lib/kr-units";
+import type { CityTourText } from "@/features/translations/text";
 import {
   type CityTour,
   routeOverflows,
@@ -33,16 +34,20 @@ export function useCityTourAdd() {
   const t = useTranslations("Home.citytour");
   const router = useRouter();
   const store = usePlannerCourse();
-  const [pending, setPending] = useState<CityTour | null>(null);
+  // 확인을 기다리는 노선과 확인 창에 보일 노선 이름(화면 언어)
+  const [pending, setPending] = useState<{
+    tour: CityTour;
+    name: string;
+  } | null>(null);
 
   const put = (tour: CityTour) => {
     store.replace(tour.city, tour.placeIds);
     router.push("/planner?tab=course");
   };
-  const onAdd = (tour: CityTour) => {
+  const onAdd = (tour: CityTour, name: string = tour.name) => {
     const current = store.course.placeIds;
     if (current.length > 0 && !sameIds(current, tour.placeIds)) {
-      setPending(tour);
+      setPending({ tour, name });
     } else put(tour);
   };
 
@@ -55,14 +60,14 @@ export function useCityTourAdd() {
           ? t("confirm.body", {
               count: store.course.placeIds.length,
               name: pending.name,
-              placeCount: pending.placeIds.length,
+              placeCount: pending.tour.placeIds.length,
             })
           : ""
       }
       cancelLabel={t("confirm.cancel")}
       confirmLabel={t("confirm.confirm")}
       onConfirm={() => {
-        if (pending) put(pending);
+        if (pending) put(pending.tour);
         setPending(null);
       }}
       onCancel={() => setPending(null)}
@@ -74,22 +79,25 @@ export function useCityTourAdd() {
 
 type CityTourCardProps = {
   tour: CityTour;
+  /** 외국어 화면에서 보일 글(노선명 · 경로 · 탑승지 · 요금, 서버가 번역 표로 만든다). 한국어 화면은 없다 */
+  text?: CityTourText;
   /** 내 유형 추천의 순위 */
   rank?: number;
   onAdd: () => void;
 };
 
 // 코스 카드: 유형 · 분류 칩 · 노선명 · 경로 · 탑승지 · 운행 시간 · 요금 · 홈페이지(새 창) · 전화 · 「코스빌더에 넣기」.
-// 노선명 · 경로는 원천(한국어) 그대로, 요금은 외국어 화면에서 PoC KR_UNIT 치환(lib/kr-units.ts)만 한다.
+// 한국어 화면은 원천 그대로. 외국어 화면은 서버가 옮긴 글(text: 노선명 · 경로 · 탑승지 · 요금, features/translations)을 보인다.
 // 경로가 3줄을 넘으면 3줄까지만 보이고 「경로 전체 보기」로 편다
-export function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
+export function CityTourCard({ tour, text, rank, onAdd }: CityTourCardProps) {
   const t = useTranslations("Home.citytour");
   const locale = useLocale();
   const names = useNameTable();
   const hintId = useId();
   const tags = tourTags(tourProfile(tour));
   const hours = tourHours(tour);
-  const fare = tourFare(tour);
+  const fare = text ? text.fare : tourFare(tour);
+  const board = text ? text.board : tour.board;
   const canAdd = tour.placeIds.length > 0;
 
   return (
@@ -103,7 +111,7 @@ export function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
           `${t("rank", { rank })} · ${cityName(tour.region, locale, names)} · `}
         {t(`kind.${tour.kind}`)}
       </p>
-      <h4 className="mt-1 text-body-lg font-bold">{tour.name}</h4>
+      <h4 className="mt-1 text-body-lg font-bold">{text?.name ?? tour.name}</h4>
       {tags.length > 0 && (
         <ul className="mt-2 flex flex-wrap gap-1.5">
           {tags.map((tag) => (
@@ -113,12 +121,12 @@ export function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
           ))}
         </ul>
       )}
-      <TourRoute route={tour.route} />
+      <TourRoute route={text?.route ?? tour.route} />
       <dl className="mt-2 flex flex-col gap-0.5 text-caption text-fg-subtle">
-        {tour.board && (
+        {board && (
           <div className="flex gap-1.5">
             <dt className="shrink-0 font-semibold">{t("board")}</dt>
-            <dd>{tour.board}</dd>
+            <dd>{board}</dd>
           </div>
         )}
         {hours && (
@@ -130,7 +138,7 @@ export function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
         {fare && (
           <div className="flex gap-1.5">
             <dt className="shrink-0 font-semibold">{t("fare")}</dt>
-            <dd>{krUnits(fare, locale)}</dd>
+            <dd>{text ? fare : krUnits(fare, locale)}</dd>
           </div>
         )}
       </dl>

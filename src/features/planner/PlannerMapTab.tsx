@@ -43,6 +43,7 @@ import { matchesQuery } from "@/lib/text-search";
 import { isStay } from "./stays";
 import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
+import { hasHangul } from "@/lib/hangul";
 import { useNameTable } from "@/features/names/NamesProvider";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
@@ -465,9 +466,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               category(selected) ?? "",
             ],
             badges: sheetBadges(selected),
-            description:
-              detail.data?.desc?.[locale === "ko" ? "ko" : "en"] ??
-              detail.data?.desc?.ko,
+            // 설명 · 운영시간 · 좌표 기준은 Route Handler가 화면 언어로 옮긴 값(view). 한국어뿐인 원문은 외국어 화면에 보이지 않는다
+            description: detail.data?.view?.desc,
             photo: detail.data?.img
               ? {
                   src: placePhoto(detail.data.img),
@@ -475,9 +475,12 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                 }
               : null,
             // 좌표 기준 · 카카오 장소 페이지는 무거운 필드라 시트를 열 때 받은 뒤에 행이 생긴다.
-            // 좌표 기준 원문은 한국어 · 영어뿐이라 한국어가 아닌 화면은 영어
+            // 외국어 화면의 운영시간은 한글이 없으면 바로, 있으면 옮긴 값을 받은 뒤에 보인다
             facts: {
-              hours: selected.hrs,
+              hours:
+                locale === "ko" || !hasHangul(selected.hrs)
+                  ? selected.hrs
+                  : detail.data?.view?.hours,
               // 숙박 장소는 일정에 들지 않아(stays.ts) 권장 체류를 보이지 않는다
               stay:
                 selected.min > 0 && !isStay(selected)
@@ -485,16 +488,14 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                   : undefined,
               lat: selected.lat,
               lng: selected.lng,
-              source:
-                locale === "ko"
-                  ? (detail.data?.src?.ko ?? detail.data?.src?.en)
-                  : (detail.data?.src?.en ?? detail.data?.src?.ko),
+              source: detail.data?.view?.source,
               kakaoUrl: detail.data?.url,
             },
             directionsHref: directionsUrl(
               selected,
               placeName(selected, locale, names),
             ),
+            appTranslated: detail.data?.view?.appTranslated,
           }
         }
         onClose={() => {
