@@ -21,6 +21,10 @@ export type PlaceExtra = {
   desc?: { ko?: string; en?: string };
   /** 영상 시작 시각(초). RESCENE 일부 장소 */
   ytAt?: number;
+  /** 좌표 기준 (PoC srcKo · srcEn) */
+  src?: { ko?: string; en?: string };
+  /** 카카오맵 장소 페이지 (PoC url) */
+  url?: string;
 };
 
 /** 영화 · 드라마 장면. label = "장면 01", title = 짧은 장면 제목, query = 유튜브 검색어 */

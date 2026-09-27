@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 테마 화면(지도 · 영화 탭)에 쓰는 장소 부가 정보와 장면 목록을 만든다.
-//   src/features/theme/data/extras.json  { [slug]: { [placeId]: { img, imgCredit, scene, sceneTitle, work, desc: {ko, en}, ytAt } } }
+//   src/features/theme/data/extras.json  { [slug]: { [placeId]: { img, imgCredit, scene, sceneTitle, work, desc: {ko, en}, ytAt, src: {ko, en}, url } } }
 //   src/features/theme/data/scenes.json  { [slug]: [{ id, label, title, query }] }  (RESCENE는 [{ id, date, views }])
 //   src/features/theme/data/cities.json  { [slug]: [{ ko, en, lat, lng }] }  테마 화면 도시 칩 순서대로(전국 보기는 뺀다)
 // places.json(장소 · 체류 · 운영시간)은 건드리지 않는다. 그쪽은 scripts/build-places.mjs가 만든다.
@@ -19,7 +19,7 @@
 //
 // 필드 대응 (PoC → extras.json):
 //   img → img(원본 파일 주소는 폭 960 주소로, 아래 sizedImage), imgCredit → imgCredit, yt → scene, vt → sceneTitle, chan → work,
-//   bKo · bEn → desc.ko · desc.en, ytAt → ytAt(초). 빈 값은 넣지 않는다.
+//   bKo · bEn → desc.ko · desc.en, ytAt → ytAt(초), srcKo · srcEn → src.ko · src.en(좌표 기준), url → url(카카오 장소 페이지). 빈 값은 넣지 않는다.
 // 장면 (VMETA → scenes.json):
 //   영화 · 드라마 테마: { views: '장면 01', date: '강을 건너', q: '검색어' } → { id, label: views, title: date, query: q }
 //   RESCENE: 키가 유튜브 영상 id라 { id, date, views }를 옮긴다. views는 PoC에 적힌 조회수('조회수 5,951,893회')를 숫자로.
@@ -136,6 +136,12 @@ for (const [slug, file] of THEME_FILES) {
         if (present(p.bEn)) e.desc.en = p.bEn;
       }
       if (present(p.ytAt)) e.ytAt = Number(p.ytAt);
+      if (present(p.srcKo) || present(p.srcEn)) {
+        e.src = {};
+        if (present(p.srcKo)) e.src.ko = p.srcKo;
+        if (present(p.srcEn)) e.src.en = p.srcEn;
+      }
+      if (present(p.url)) e.url = p.url;
       if (Object.keys(e).length > 0) byId[p.id] = e;
     }
   }
