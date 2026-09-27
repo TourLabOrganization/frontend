@@ -7,7 +7,7 @@ import { SearchField } from "@/components/ui/SearchField";
 import { useNameTable } from "@/features/names/NamesProvider";
 import { isCategoryKey, placeName } from "@/features/theme/place-meta";
 import { matchesQuery } from "@/lib/text-search";
-import { categoryDot } from "./category";
+import { CategoryIcon } from "./CategoryIcon";
 import type { PlannerPlace } from "./data";
 import { cityName } from "./regions";
 
@@ -116,10 +116,7 @@ export function DayAddPlace({ day, city, pool, onAdd }: DayAddPlaceProps) {
                     }}
                     className="flex min-h-12 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                   >
-                    <span
-                      aria-hidden
-                      className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
-                    />
+                    <CategoryIcon cat={p.cat} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-body font-semibold">
                         {placeName(p, locale, names)}

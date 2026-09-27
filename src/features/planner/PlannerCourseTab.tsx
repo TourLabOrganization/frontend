@@ -34,7 +34,7 @@ import {
   useLocalValue,
   writePlannerPlans,
 } from "@/lib/local-store";
-import { categoryDot } from "./category";
+import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { CourseBookingLinks } from "./CourseBookingLinks";
 import { CourseNightStay } from "./CourseNightStay";
@@ -1036,10 +1036,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                       className="ml-1 flex min-h-11 min-w-0 flex-1 flex-col justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
                     >
                       <span className="flex items-center gap-2 text-body-lg font-semibold">
-                        <span
-                          aria-hidden
-                          className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
-                        />
+                        <CategoryIcon cat={p.cat} />
                         <span className="min-w-0">{name}</span>
                       </span>
                       {meta && (

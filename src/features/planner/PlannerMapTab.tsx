@@ -18,7 +18,7 @@ import {
   placePhoto,
 } from "@/features/theme/place-meta";
 import { BADGE_KEYS, type BadgeKey, hasBadge } from "./badges";
-import { categoryDot } from "./category";
+import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";
 import {
   type PlannerPlace,
@@ -278,12 +278,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                     : "bg-fill font-medium text-fg-muted active:bg-line"
                 }`}
               >
-                {c !== "all" && (
-                  <span
-                    aria-hidden
-                    className={`size-2.5 shrink-0 rounded-full ${categoryDot(c)}`}
-                  />
-                )}
+                {c !== "all" && <CategoryIcon cat={c} size={16} />}
                 {c === "all" ? t("all") : tc(`categories.${c}`)}
               </button>
             );
@@ -379,10 +374,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                     onClick={() => openPlace(p.id)}
                     className="flex min-h-16 min-w-0 flex-1 items-center gap-3 py-3 pl-5 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                   >
-                    <span
-                      aria-hidden
-                      className={`size-2.5 shrink-0 rounded-full ${categoryDot(p.cat)}`}
-                    />
+                    <CategoryIcon cat={p.cat} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-body-lg font-semibold">
                         {name}
