@@ -12,7 +12,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["ro4", "ro305", "bcx22", "ctu1", "nax764"]
+    "placeIds": ["ro4", "bc3", "bcx22", "ctu1", "nax764"]
   },
   {
     "region": "부산",
@@ -448,7 +448,7 @@
     "url": "http://ok.yeosu.go.kr",
     "date": "2026-08-06",
     "city": "여수",
-    "placeIds": ["ctt51", "nax128"]
+    "placeIds": ["ctt51", "nax128", "ctu15", "ctu16"]
   },
   {
     "region": "여수",
@@ -493,7 +493,7 @@
     "url": "http://www.mokpo.go.kr/tour",
     "date": "2026-08-05",
     "city": "목포",
-    "placeIds": ["nax214", "ctt57", "nax216", "nax218"]
+    "placeIds": ["nax214", "ctt57", "nax843", "nax216", "nax218"]
   },
   {
     "region": "목포",
@@ -636,7 +636,7 @@
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
     "city": "화성",
-    "placeIds": ["ctt69", "ctt70", "ctt71", "ctt68"]
+    "placeIds": ["ctt74", "ctt70", "ctt71", "ctt68"]
   },
   {
     "region": "화성",
@@ -1399,7 +1399,7 @@
     "url": "https://www.arumtr.co.kr/",
     "date": "2026-07-15",
     "city": "의정부",
-    "placeIds": ["ctu37"]
+    "placeIds": ["ctu37", "ctu38"]
   },
   {
     "region": "청주",
@@ -1720,7 +1720,7 @@
       "nax277",
       "nax280",
       "ctt179",
-      "ro222",
+      "ro253",
       "ctt180",
       "ro318",
       "nax1074"
@@ -1743,7 +1743,7 @@
       "ctt178",
       "nax280",
       "nax279",
-      "ro222",
+      "ro253",
       "ctt180",
       "ctt179",
       "nax281"
@@ -1837,7 +1837,7 @@
     "url": "https://www.pjcitytour.kr",
     "date": "2026-05-18",
     "city": "파주",
-    "placeIds": ["nax726", "nax727", "ro434"]
+    "placeIds": ["nax726", "nax602", "nax727", "ro434"]
   },
   {
     "region": "파주",
@@ -2076,8 +2076,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["ro22"]
   },
   {
     "region": "인천",
@@ -2106,8 +2106,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["nax194"]
   },
   {
     "region": "인천",
@@ -2121,8 +2121,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["ro121"]
   },
   {
     "region": "인천",
@@ -2136,8 +2136,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["ro553", "nax172", "nax193"]
   },
   {
     "region": "인천",
@@ -2152,7 +2152,7 @@
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
     "city": "인천",
-    "placeIds": ["ro317"]
+    "placeIds": ["nax189", "ro317", "nax190", "ro553"]
   },
   {
     "region": "임실",
@@ -3375,7 +3375,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["nax830", "nax21"]
+    "placeIds": ["nax830"]
   },
   {
     "region": "대전",
@@ -3705,7 +3705,7 @@
     "url": "",
     "date": "2023-10-05",
     "city": "홍천",
-    "placeIds": ["ctt332"]
+    "placeIds": ["ctt332", "ctu61"]
   },
   {
     "region": "화천",

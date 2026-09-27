@@ -17,7 +17,8 @@
 //   - 첫차 · 막차는 HH:MM으로 맞춘다(0930 → 09:30). 못 읽으면 빈 문자열
 //   - 홈페이지는 http(s) 주소만 남긴다. 배차간격 · 비고는 화면에 쓰지 않아 뺀다
 //   - 담을 장소(placeIds)는 src/features/home/citytour-match.ts의 stopPool · matchStops(목업 addCityTour 규칙)로 고른다.
-//     노선 지역 이름과 같은 경유지(출발 · 도착 도시)는 대조하지 않는다(목업과 다른 점, citytour-match.ts 주석).
+//     노선 지역 이름과 같은 경유지(출발 · 도착 도시)는 대조하지 않는다. 부분 이름 대조는 관광지 먼저 · 먹거리는 좁게 ·
+//     이름이 가장 가까운 곳 · 애매하면 대조하지 않음으로 조였다(목업과 다른 점, citytour-match.ts 주석)
 //     코스 도시(city)는 첫 장소의 도시(locKo). 담을 장소가 없으면 placeIds는 빈 배열, city는 null
 //   - 값은 원천 그대로 두고 지어내지 않는다
 
