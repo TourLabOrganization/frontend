@@ -57,7 +57,8 @@ public/                 정적 파일
 
 - 주소는 `features/planner/query.ts`의 `plannerHref` · `scopeHref`로 만든다. 기본값(전국 · `map`)은 주소에 적지 않는다
 - 지역 탭 · 도시 고르기는 탭을 남기고 범위만 바꾸고, 하단 탭은 범위를 남기고 탭만 바꾼다
-- 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG`)에 있다
+- 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG` + `MACRO_OF`)에 있다. 권역 이름은 목업 지도가 그리는 `MACRO_REGION` 이름(경북권 · 경남권 · 전라권 …)이다
+- 지도 탭은 분류 칩과 배지 칩(유네스코 · 한국관광 100선 · 열린관광지 · 관광특구, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
   그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)
 - 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동)은
@@ -65,6 +66,25 @@ public/                 정적 파일
 - 한 코스는 한 도시(`locKo`)의 장소만 담는다. 권역에서 불러온 추천 코스만 여러 도시가 섞일 수 있다
 - 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
+
+### 데이터 원본과 스크립트
+
+원본은 PoC(`Tour-Navigator-App`, 읽기만)이고 이 리포에 넣지 않는다. 만든 JSON은 손으로 고치지 않는다. 스크립트를 돌린 뒤 `npm run format`.
+마지막 동기화: 2026-09-27, PoC main f44eb97 (`docs/poc.md`).
+
+| 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                           |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json` |
+| `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`              |
+| `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결) · `scenes.json`                                     |
+
+플래너 장소 필드
+
+- 가벼운 필드(`places.json`, 클라이언트 번들에 들어간다): `course/places.ts` `Place` 필드(`id` · `n` · `ko` · `en` · `locKo` · `cat` · `lat` · `lng` · `min` · `hrs` · `open` · `close` · `yt` · `off` · `k100` · `un` · `bf` · `auto`) + `macro`(권역) · `pickCity`(도시 고르기 도시) · `vz`(지정구역 문구)
+- 무거운 필드(`place-details.json`, id → 값): `desc`(설명 한 · 영) · `img` · `imgCredit` · `zh` · `ja`(중 · 일 장소명) · `src`(좌표 근거) · `url`(카카오 장소 URL) · `ct`(시티투어 경유) · `rs`(연관관광지).
+  클라이언트는 이 JSON을 import하지 않는다. 장소 시트를 열 때 Route Handler `app/api/planner/places/[id]/route.ts`가 한 곳(1KB 안팎)만 돌려주고
+  `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,118곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
+- 값이 없으면 필드를 비운다. 관문(`regions.json` `hubs`) · 출발지(`origins`)는 PoC `REGION_HUB` · `ORIGINS` 모양 그대로 두고 수단(`modes`)만 `지역거점.csv` · `출발지.csv`(전철 `metro` 포함) 값을 쓴다
 
 ### 추천과 데이터랩
 

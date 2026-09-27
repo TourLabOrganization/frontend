@@ -9,7 +9,7 @@ import { buttonClassName } from "./Button";
 export type PlaceSheetPlace = {
   /** 제목(화면 언어의 장소 이름). 사진의 대체 글도 이 이름이다 */
   name: string;
-  /** 제목 아래 한 줄. 「역사·문화 · 체류 40분」처럼 " · "로 잇는다 */
+  /** 제목 아래 한 줄. 「문화유산·전통체험 · 체류 40분」처럼 " · "로 잇는다 */
   meta?: readonly string[];
   /** 운영시간 원문 */
   hours?: string;
