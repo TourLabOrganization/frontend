@@ -1,8 +1,10 @@
+import citiesData from "./data/cities.json";
 import extrasData from "./data/extras.json";
 import scenesData from "./data/scenes.json";
+import type { ThemeCity } from "./place-list";
 
 // 테마 화면(지도 · 영화 탭)의 장소 부가 정보와 장면 목록.
-// data/extras.json · data/scenes.json은 scripts/build-theme-extras.mjs가 PoC 테마 파일 5개
+// data/extras.json · data/scenes.json · data/cities.json은 scripts/build-theme-extras.mjs가 PoC 테마 파일 5개
 // (Tour-Navigator-App/*Route.dc.html)의 DATA · VMETA에서 만든다. 손으로 고치지 않는다.
 // 설명 · 장면 제목은 장소 데이터에 딸린 문장이라 messages가 아니라 여기에 둔다(docs/i18n.md).
 
@@ -28,8 +30,8 @@ export type FilmScene = {
   title: string;
   query: string;
 };
-/** RESCENE 영상. id = 유튜브 영상 id, date = 게시일 */
-export type VideoScene = { id: string; date: string };
+/** RESCENE 영상. id = 유튜브 영상 id, date = 게시일, views = PoC에 적힌 조회수(없으면 비운다) */
+export type VideoScene = { id: string; date: string; views?: number };
 
 const EXTRAS = extrasData as Readonly<
   Record<string, Readonly<Record<string, PlaceExtra>>>
@@ -40,6 +42,13 @@ const SCENES = scenesData as Readonly<
 
 /** 뮤직비디오 테마(장면이 유튜브 영상). 나머지는 영화 · 드라마 테마 */
 export const VIDEO_THEME = "rescene-route";
+
+const CITIES = citiesData as Readonly<Record<string, readonly ThemeCity[]>>;
+
+/** 테마 화면의 도시(칩 순서). 한 도시 테마는 하나, RESCENE는 거제 · 경주 */
+export function getThemeCities(slug: string): readonly ThemeCity[] {
+  return CITIES[slug] ?? [];
+}
 
 export function getPlaceExtras(
   slug: string,
