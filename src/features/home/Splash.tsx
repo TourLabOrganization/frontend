@@ -73,7 +73,7 @@ export function Splash() {
     >
       <div className="relative mx-auto flex h-full w-full max-w-[480px] flex-col bg-surface text-fg">
         <div className="flex flex-1 items-center justify-center pt-[env(safe-area-inset-top)]">
-          <LogoMark size={120} strokeWidth={1.2} className="text-primary" />
+          <LogoMark variant="badge" size={112} className="text-primary" />
         </div>
         <div className="px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))]">
           <p className="text-caption font-semibold tracking-[0.12em]">

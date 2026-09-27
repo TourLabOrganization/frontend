@@ -12,7 +12,7 @@
 | 스타일      | Tailwind CSS 4                                |
 | 서버 데이터 | TanStack Query 5                              |
 | 다국어      | next-intl 4 (ko · en)                         |
-| 지도        | @vis.gl/react-google-maps (Google Maps)       |
+| 지도        | 카카오 지도 (react-kakao-maps-sdk)            |
 | 코드 포맷   | Prettier · ESLint                             |
 | 테스트      | Vitest                                        |
 | 배포        | Vercel                                        |
@@ -21,15 +21,25 @@
 
 ## 들어 있는 것
 
-| 영역        | 내용                                                                                                                          |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번                                        |
-| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                                             |
-| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                                             |
-| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                                                 |
-| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 화면 안 탭 바, 버튼, 보기, 배지, 진행 막대, 링크형 탭, 장소 시트 |
-| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)                            |
-| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                                                   |
+| 영역        | 내용                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 백엔드 호출 | `src/lib/api/client.ts` — 응답 껍데기 풀기, `ApiError`, 토큰 첨부, 401 시 재발급 한 번. 데이터랩 조회는 `src/lib/api/datalab.ts` |
+| 데이터 캐시 | `src/app/providers.tsx` — TanStack Query Provider                                                                                |
+| 다국어      | `src/i18n/` + `messages/` — 쿠키로 언어 선택, 메시지 키 타입 검사                                                                |
+| 디자인 토큰 | `src/app/globals.css` — 클린 트래블 색 · 글자 크기, Pretendard (`docs/ui.md`)                                                    |
+| 공통 UI     | `src/components/ui/` — 화면 틀, 상단 바, 하단 버튼, 하단 탭, 화면 안 탭 바, 버튼, 보기, 배지, 진행 막대, 링크형 탭, 장소 시트    |
+| CI          | PR마다 `npm run check` — 린트 · 타입 검사 · 포맷 검사 · 테스트 · 빌드 (`.github/workflows/ci.yml`)                               |
+| 컨벤션      | `AGENTS.md` + `docs/` 8개 문서 (`CLAUDE.md`는 `AGENTS.md`를 불러오는 한 줄)                                                      |
+
+## 백엔드 연동 현황
+
+| 화면              | 백엔드 API                                                         | 비고                                                            |
+| ----------------- | ------------------------------------------------------------------ | --------------------------------------------------------------- |
+| 추천 결과         | `POST /api/v1/recommend` · `GET /api/v1/tfi`                       | 테마 순위는 API 결과. 15번 여행 지역을 고르면 데이터랩 TFI 반영 |
+| 테마 여행 정보 탭 | `GET /api/v1/courses` · `GET /api/v1/tfi` · `GET /api/v1/staytime` | 「데이터랩으로 본 {지역}」                                      |
+| 로그인 · 회원가입 | (아직 연결 안 함)                                                  |                                                                 |
+
+공개 API는 서버 컴포넌트에서 부른다(`docs/api.md`). 유형(군집) 판정만 프론트에서 한다.
 
 ## 들어 있지 않은 것
 
@@ -37,7 +47,7 @@
 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
 
 홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
-테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, Google 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
+테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, 카카오 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
 투어 플래너(`/planner` — 전국 · 도시별 장소 1,171곳 지도와 목록, 권역 묶음, 도시 고르기, 코스에 담기, 여행 정보)도 있다.
 플래너의 코스 탭은 코스 빌더다(날짜 · 출발지 · 시각 · 광역 교통 · 현지 이동, 추천 코스 불러오기, 일자별 일정, 예매 링크, 코스 저장 → ME).
 일정 계산은 `src/features/planner/schedule.ts`, 도시 고르기 숫자는 PoC 규칙(전용 화면 도시 우선, `pickCity`)을 따른다.
@@ -58,12 +68,11 @@ cp .env.example .env.local
 
 `.env.local`에 채울 값:
 
-| 이름                          | 설명                                                                     |
-| ----------------------------- | ------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_API_BASE_URL`    | 백엔드 주소. 로컬 백엔드는 `http://localhost:8080`                       |
-| `NEXT_PUBLIC_GOOGLE_MAPS_KEY` | Google Maps 키. 브라우저에 노출되므로 도메인 제한을 건 키만 쓴다         |
-| `NEXT_PUBLIC_GOOGLE_MAP_ID`   | Google 지도 ID. 비우면 `DEMO_MAP_ID`(번호 핀에 필요)                     |
-| `DATA_GO_KR_KEY` 외           | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md` |
+| 이름                        | 설명                                                                                          |
+| --------------------------- | --------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL`  | 백엔드 주소. 개발 서버는 `https://3.36.114.238.nip.io`, 로컬 백엔드는 `http://localhost:8080` |
+| `NEXT_PUBLIC_KAKAO_MAP_KEY` | 카카오 지도 JavaScript 키. 카카오 앱에 등록한 도메인(`localhost:5173` 등)에서만 동작한다      |
+| `DATA_GO_KR_KEY` 외         | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md`                      |
 
 ### 실행
 

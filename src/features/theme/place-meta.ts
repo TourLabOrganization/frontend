@@ -36,9 +36,16 @@ export function pad2(n: number | null): string {
   return n === null ? "·" : String(n).padStart(2, "0");
 }
 
-/** 장소 좌표의 구글 지도 길찾기(검색) 주소 */
-export function directionsUrl(place: Pick<Place, "lat" | "lng">): string {
-  return `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
+/**
+ * 장소까지 카카오맵 길찾기 주소 (공식 형식 https://map.kakao.com/link/to/이름,위도,경도).
+ * 이름은 화면 언어의 장소 이름. 쉼표는 형식의 구분자라 공백으로 바꾼다
+ */
+export function directionsUrl(
+  place: Pick<Place, "lat" | "lng">,
+  name: string,
+): string {
+  const label = encodeURIComponent(name.replace(/,/g, " "));
+  return `https://map.kakao.com/link/to/${label},${place.lat},${place.lng}`;
 }
 
 /** Button variant="secondary" size="md"와 같은 모양의 외부 링크 (새 창 링크는 ButtonLink를 쓸 수 없다) */

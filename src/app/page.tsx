@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { BottomNav } from "@/components/ui/BottomNav";
 import { LocaleSwitch } from "@/components/ui/LocaleSwitch";
+import { LogoMark } from "@/components/ui/LogoMark";
 import { Screen } from "@/components/ui/Screen";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import {
@@ -78,7 +79,12 @@ export default async function HomePage() {
       {showSplash && <Splash />}
       <main className="flex flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))]">
         <header className="flex items-center justify-between pt-[max(0.5rem,env(safe-area-inset-top))] pr-3 pl-5">
-          <h1 className="text-headline font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-headline font-bold tracking-tight">
+            <LogoMark
+              variant="badge"
+              size={28}
+              className="shrink-0 text-primary"
+            />
             {common("brand")}
           </h1>
           <LocaleSwitch />
@@ -122,13 +128,13 @@ export default async function HomePage() {
           </h2>
           <Link
             href="/recommend"
-            className="mt-4 flex items-center gap-3 rounded-card bg-fg p-5 text-white transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] motion-reduce:transition-none"
+            className="mt-4 flex items-center gap-3 rounded-card bg-primary p-5 text-white transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-primary-strong motion-reduce:transition-none"
           >
             <span className="flex flex-1 flex-col">
               <span className="text-body-lg font-bold">
                 {t("pickCourseTitle")}
               </span>
-              <span className="mt-1 text-caption text-white/70">
+              <span className="mt-1 text-caption text-white">
                 {t("pickCourseMeta", {
                   total: questionTotal,
                   required: requiredTotal,

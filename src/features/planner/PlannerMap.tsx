@@ -1,18 +1,21 @@
 "use client";
 
-import { AdvancedMarker, CollisionBehavior } from "@vis.gl/react-google-maps";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CustomOverlayMap, useMap } from "react-kakao-maps-sdk";
 import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
+import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
 import { categoryDot } from "./category";
 
-// 투어 플래너 지도. 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
+// 투어 플래너 지도(카카오). 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
 // 전국 보기는 권역 묶음, 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
-// 묶음은 「수도권 218」처럼 이름과 장소 수를 두 줄로 적은 둥근 표시이고, 누르면 쓰는 쪽이 주소를 바꾼다.
+// 묶음은 「수도권 218」처럼 이름과 장소 수를 두 줄로 적은 둥근 버튼이고, 누르면 쓰는 쪽이 주소를 바꾼다.
 // 도시 묶음은 가까운 도시끼리 겹치므로 겹치면 장소가 적은 쪽을 숨긴다(확대하면 다시 보인다).
+// 겹침은 지도가 멈출 때(idle)마다 화면 상자를 재서 계산한다(bubble-overlap.ts).
 
-/** 점이 하나뿐일 때 확대 수준 */
-const SINGLE_POINT_ZOOM = 13;
-/** 맞출 점이 없을 때의 처음 화면 */
-const EMPTY_VIEW = { center: { lat: 36.3, lng: 127.8 }, zoom: 6 };
+/** 점이 하나뿐일 때 카카오 지도 레벨 (1이 가장 가깝다) */
+const SINGLE_POINT_LEVEL = 5;
+/** 맞출 점이 없을 때의 처음 화면 (전국) */
+const EMPTY_VIEW = { center: { lat: 36.3, lng: 127.8 }, level: 13 };
 
 export type MapBubble = LatLng & {
   id: string;
@@ -70,57 +73,137 @@ export function PlannerMap({
       fitPoints={fitPoints}
       fitKey={fitKey}
       focus={selected}
-      singlePointZoom={SINGLE_POINT_ZOOM}
+      singlePointLevel={SINGLE_POINT_LEVEL}
       emptyView={EMPTY_VIEW}
     >
       {pins.map((p) => {
         const on = p.id === selectedId;
         return (
-          <AdvancedMarker
+          <CustomOverlayMap
             key={p.id}
             position={{ lat: p.lat, lng: p.lng }}
-            title={p.title}
-            anchorLeft="-50%"
-            anchorTop="-50%"
-            zIndex={on ? 1000 : undefined}
-            onClick={onPin ? () => onPin(p.id) : undefined}
+            clickable
+            zIndex={on ? 1000 : 0}
           >
             {/* 누르는 자리는 44px, 보이는 점은 16px(고른 핀은 24px) */}
-            <span className="flex size-11 items-center justify-center">
+            <button
+              type="button"
+              aria-label={p.title}
+              title={p.title}
+              onClick={onPin ? () => onPin(p.id) : undefined}
+              className="flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary-bright"
+            >
               <span
                 className={`block rounded-full ring-2 ring-surface transition-[width,height] duration-150 motion-reduce:transition-none ${categoryDot(
                   p.cat,
                 )} ${on ? "size-6" : "size-4"}`}
               />
-            </span>
-          </AdvancedMarker>
+            </button>
+          </CustomOverlayMap>
         );
       })}
-      {bubbles.map((b) => (
-        <AdvancedMarker
-          key={b.id}
-          position={{ lat: b.lat, lng: b.lng }}
-          title={b.title}
-          anchorLeft={b.offset === "northwest" ? "-100%" : "-50%"}
-          anchorTop={b.offset === "northwest" ? "-100%" : "-50%"}
-          zIndex={b.count}
-          collisionBehavior={
-            hideOverlapping
-              ? CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY
-              : CollisionBehavior.REQUIRED
-          }
-          onClick={onBubble ? () => onBubble(b.id) : undefined}
-        >
-          <span className="flex min-h-11 max-w-24 min-w-11 flex-col items-center justify-center rounded-2xl bg-primary px-2.5 py-1 text-center text-white ring-2 ring-surface">
-            <span className="text-micro leading-tight font-semibold">
-              {b.label}
-            </span>
-            <span className="text-caption leading-tight font-bold tabular-nums">
-              {b.count}
-            </span>
-          </span>
-        </AdvancedMarker>
-      ))}
+      <BubbleLayer
+        bubbles={bubbles}
+        hideOverlapping={hideOverlapping}
+        onBubble={onBubble}
+      />
     </MapFrame>
   );
+}
+
+/** 묶음의 앵커(0~1). 북서쪽으로 펴면 오른쪽 아래 모서리가 점에 온다 */
+function anchorOf(b: MapBubble) {
+  return b.offset === "northwest" ? 1 : 0.5;
+}
+
+/** 권역 · 도시 묶음. hideOverlapping이면 지도가 멈출 때마다 겹친 묶음 중 장소가 적은 쪽을 숨긴다 */
+function BubbleLayer({
+  bubbles,
+  hideOverlapping,
+  onBubble,
+}: {
+  bubbles: readonly MapBubble[];
+  hideOverlapping: boolean;
+  onBubble?: (id: string) => void;
+}) {
+  const map = useMap();
+  const elements = useRef(new Map<string, HTMLElement>());
+  // 숨긴 묶음 id. 겹침 숨기기를 하지 않으면 늘 비어 있다
+  const [hidden, setHidden] = useState<ReadonlySet<string>>(new Set());
+
+  const measure = useCallback(() => {
+    if (!hideOverlapping) return;
+    const projection = map.getProjection();
+    const boxes: BubbleBox[] = [];
+    for (const b of bubbles) {
+      const el = elements.current.get(b.id);
+      if (!el) continue;
+      const point = projection.containerPointFromCoords(
+        new kakao.maps.LatLng(b.lat, b.lng),
+      );
+      const width = el.offsetWidth;
+      const height = el.offsetHeight;
+      const anchor = anchorOf(b);
+      boxes.push({
+        id: b.id,
+        count: b.count,
+        left: point.x - width * anchor,
+        top: point.y - height * anchor,
+        width,
+        height,
+      });
+    }
+    const visible = visibleBubbleIds(boxes);
+    setHidden(
+      new Set(boxes.filter((b) => !visible.has(b.id)).map((b) => b.id)),
+    );
+  }, [map, bubbles, hideOverlapping]);
+
+  useEffect(() => {
+    if (!hideOverlapping) return;
+    // 묶음이 그려진 뒤 한 번 재고, 이후 이동 · 확대가 끝날 때마다 다시 잰다
+    const frame = requestAnimationFrame(measure);
+    kakao.maps.event.addListener(map, "idle", measure);
+    return () => {
+      cancelAnimationFrame(frame);
+      kakao.maps.event.removeListener(map, "idle", measure);
+    };
+  }, [map, measure, hideOverlapping]);
+
+  return bubbles.map((b) => {
+    const off = hideOverlapping && hidden.has(b.id);
+    return (
+      <CustomOverlayMap
+        key={b.id}
+        position={{ lat: b.lat, lng: b.lng }}
+        clickable
+        xAnchor={anchorOf(b)}
+        yAnchor={anchorOf(b)}
+        zIndex={b.count}
+      >
+        <button
+          ref={(el) => {
+            if (el) elements.current.set(b.id, el);
+            else elements.current.delete(b.id);
+          }}
+          type="button"
+          aria-label={b.title}
+          title={b.title}
+          aria-hidden={off || undefined}
+          tabIndex={off ? -1 : undefined}
+          onClick={onBubble ? () => onBubble(b.id) : undefined}
+          className={`flex min-h-11 max-w-24 min-w-11 cursor-pointer flex-col items-center justify-center rounded-2xl bg-primary px-2.5 py-1 text-center whitespace-normal text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
+            off ? "invisible" : ""
+          }`}
+        >
+          <span className="text-micro leading-tight font-semibold">
+            {b.label}
+          </span>
+          <span className="text-caption leading-tight font-bold tabular-nums">
+            {b.count}
+          </span>
+        </button>
+      </CustomOverlayMap>
+    );
+  });
 }

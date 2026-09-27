@@ -20,8 +20,6 @@ export function LocaleSwitch() {
       onClick={() =>
         startTransition(async () => {
           await setLocale(next);
-          // 구글 지도 스크립트는 처음 불러온 언어로 굳어서, 지도가 있는 화면은 새로고침해 새 언어로 다시 불러온다
-          if ("google" in window) window.location.reload();
         })
       }
       disabled={pending}

@@ -13,6 +13,7 @@ describe("answers ↔ URL", () => {
       q7: ["usd-100-300"],
       q11: ["1-night"],
       q14: ["pet", "accessible", "indoor-rain"],
+      q15: ["gyeongju"],
     };
     expect(decodeAnswers(encodeAnswers(answers))).toEqual(answers);
   });
@@ -27,6 +28,16 @@ describe("answers ↔ URL", () => {
     expect(
       decodeAnswers("q1.20s~q99.foo~q2.alien~q3.packed,unknown~bad"),
     ).toEqual({ q1: ["20s"], q3: ["packed"] });
+  });
+
+  it("Q15(여행 지역)는 마지막에 붙고, 하나만 받는다", () => {
+    expect(encodeAnswers({ q15: ["yeongwol"], q1: ["20s"] })).toBe(
+      "q1.20s~q15.yeongwol",
+    );
+    expect(decodeAnswers("q15.jeju,busan~q15x.seoul")).toEqual({
+      q15: ["jeju"],
+    });
+    expect(decodeAnswers("q15.gangwon")).toEqual({});
   });
 
   it("개수 제한을 넘는 보기는 버린다", () => {

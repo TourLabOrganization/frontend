@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { ReplayButton } from "@/features/home/ReplayButton";
 import { Providers } from "./providers";
 // 한글 글리프를 unicode-range로 나눠 둔 동적 서브셋. 화면에 쓰인 글자 조각만 내려받는다
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
@@ -29,6 +30,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-fill-weak font-sans break-keep text-fg">
         <NextIntlClientProvider>
           <Providers>{children}</Providers>
+          <ReplayButton />
         </NextIntlClientProvider>
       </body>
     </html>

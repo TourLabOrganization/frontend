@@ -7,6 +7,19 @@ import { useSyncExternalStore } from "react";
 /** 마지막 추천 결과의 답 문자열(결과 화면의 ?a=) */
 export const LAST_RECOMMENDATION_KEY = "tn.lastRecommendation";
 /**
+ * 마지막 추천 결과의 1위 테마. LastTopTheme JSON.
+ * 결과 화면이 추천 API 1위를 적고, ME는 다시 계산하지 않고 이 값을 읽는다.
+ * a가 LAST_RECOMMENDATION_KEY와 다르면(예전 기록 · 추천 실패) 쓰지 않는다
+ */
+export const LAST_TOP_THEME_KEY = "tn.lastTopTheme";
+
+export type LastTopTheme = {
+  /** 그 추천의 답 문자열(?a=) */
+  a: string;
+  /** 추천 API 1위 테마 slug */
+  slug: string;
+};
+/**
  * 저장한 코스 목록. (SavedPlan | PlannerSavedPlan)[] JSON.
  * kind가 없으면 테마 코스(SavedPlan), kind: "planner"면 투어 플래너 코스(PlannerSavedPlan)다
  */
@@ -106,6 +119,22 @@ const isPlannerPlan = (p: unknown): p is PlannerSavedPlan => {
     typeof v.savedAt === "number"
   );
 };
+
+/** 마지막 추천의 1위 테마. 답 문자열(a)이 다르거나 모양이 틀리면 null */
+export function parseLastTopTheme(
+  raw: string | null,
+  a: string | null,
+): string | null {
+  if (!raw || !a) return null;
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (typeof value !== "object" || value === null) return null;
+    const v = value as Record<string, unknown>;
+    return v.a === a && typeof v.slug === "string" ? v.slug : null;
+  } catch {
+    return null;
+  }
+}
 
 /** 저장한 테마 코스 */
 export function parseSavedPlans(raw: string | null): SavedPlan[] {

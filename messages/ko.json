@@ -4,6 +4,8 @@
     "description": "영상 속 장소를 따라 걷는 여행 계획 앱"
   },
   "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "처음부터 다시 시작",
     "brand": "TOUR NAVIGATOR",
     "back": "뒤로",
     "skip": "건너뛰기",
@@ -40,6 +42,8 @@
     "pause": "배너 자동 넘김 멈추기",
     "play": "배너 자동 넘김 다시 시작",
     "goToSlide": "{current}번째 배너 보기",
+    "prevSlide": "이전 배너",
+    "nextSlide": "다음 배너",
     "banners": {
       "rescene-route": {
         "kicker": "RESCENE ROUTE",
@@ -256,6 +260,18 @@
           "accessible": "무장애",
           "indoor-rain": "비 오는 날 실내 위주"
         }
+      },
+      "q15": {
+        "title": "어느 지역으로 여행 가세요?",
+        "help": "고르면 한국관광 데이터랩의 지역 데이터로 추천을 조정해요",
+        "options": {
+          "seoul": "서울",
+          "busan": "부산",
+          "gyeongju": "경주",
+          "jeju": "제주",
+          "geoje": "거제",
+          "yeongwol": "영월"
+        }
       }
     }
   },
@@ -266,7 +282,6 @@
     "recommendedThemes": "추천 테마",
     "evidenceLabel": "추천 근거",
     "fitRankType": "{type} 적합도 {rank}위",
-    "fitRankMixed": "두 유형 적합도 {rank}위",
     "fitRank": "적합도 {rank}위",
     "night": "야경 명소 {percent}%",
     "categoryShare": "{category} 장소 {percent}%",
@@ -277,8 +292,14 @@
       "local-food": "로컬·먹거리",
       "nature": "해양·자연"
     },
-    "source": "문항 점수는 2025 국민여행조사·외래관광객조사(한국관광 데이터랩)를 반영한 점수표, 장소 비율은 앱 장소 분류에서 셌어요",
-    "compareCourses": "코스 3안 비교하기"
+    "compareCourses": "코스 3안 비교하기",
+    "rankBasis": "1순위 유형({type}) 기준 순위예요",
+    "datalabHeading": "한국관광 데이터랩 · {region}",
+    "datalabAdjusted": "이 지역의 실제 강세에 맞춰 추천 점수를 조정했어요",
+    "regionHint": "15번에서 여행 지역을 고르면 한국관광 데이터랩 데이터가 반영돼요",
+    "sources": "출처 · {sources}",
+    "loadFailed": "추천 서버에 연결하지 못했어요",
+    "retry": "다시 시도"
   },
   "Clusters": {
     "C1": {
@@ -424,6 +445,12 @@
       "mapLabel": "테마 장소 지도",
       "noKey": "지도 키가 없어 지도를 표시하지 못했어요. 아래 장소 목록은 그대로 쓸 수 있어요",
       "listHeading": "장소 목록 · {count}",
+      "searchLabel": "장소 검색",
+      "searchPlaceholder": "장소 이름으로 찾기",
+      "searchClear": "검색어 지우기",
+      "searchEmpty": "‘{query}’ 검색 결과가 없어요",
+      "searchStatus": "검색 결과 {count}곳",
+      "more": "더 보기(남은 {count}곳)",
       "showOff": "목록 밖 장소 {count}곳 보기"
     },
     "sheet": {
@@ -481,7 +508,13 @@
       },
       "busan-film-trip": {
         "workTitle": "부산행 (2016)"
-      }
+      },
+      "datalabHeading": "데이터랩으로 본 {region}",
+      "stayPerVisit": "방문당 체류 {duration}",
+      "stayIndex": "전국 평균의 {index}배",
+      "visitsToSeeAll": "앱 장소를 다 보는 데 필요한 방문 {visits}회",
+      "datalabSource": "출처 · 한국관광 데이터랩 · {source} · {year}년 기준",
+      "datalabFailed": "데이터랩 정보를 불러오지 못했어요"
     }
   },
   "Regions": {
@@ -526,6 +559,11 @@
       "regionMarker": "{region} · 장소 {count}곳",
       "cityMarker": "{city} · 장소 {count}곳",
       "listHeading": "장소 목록 · {count}",
+      "searchLabel": "장소 검색",
+      "searchPlaceholder": "장소 · 도시 이름으로 찾기",
+      "searchClear": "검색어 지우기",
+      "searchEmpty": "‘{query}’ 검색 결과가 없어요",
+      "searchStatus": "검색 결과 {count}곳",
       "more": "더 보기(남은 {count}곳)",
       "empty": "이 분류에 맞는 장소가 없어요",
       "add": "{name} 코스에 담기",
@@ -701,5 +739,27 @@
     "title": "페이지를 찾을 수 없어요",
     "description": "주소가 바뀌었거나 없는 페이지예요. 홈에서 다시 찾아 보세요",
     "home": "홈으로"
+  },
+  "Datalab": {
+    "regions": {
+      "seoul": "서울",
+      "busan": "부산",
+      "gyeongju": "경주",
+      "jeju": "제주",
+      "geoje": "거제",
+      "yeongwol": "영월"
+    },
+    "sources": {
+      "nationalTravel": "국민여행조사",
+      "inbound": "외래관광객조사",
+      "datalabTfi": "한국관광 데이터랩 (지역×테마 강도 TFI)"
+    },
+    "tfiLabel": "지역×테마 강도(TFI)",
+    "themes": {
+      "herit": "역사·문화유산",
+      "heal": "자연·힐링",
+      "activity": "체험·활동",
+      "food": "미식"
+    }
   }
 }

@@ -83,7 +83,7 @@ export async function CourseTab({ slug, a, plan }: CourseTabProps) {
   ].filter((c): c is string => Boolean(c));
 
   const empty = scenario.placeCount === 0;
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
 
   // 코스 지도: 방문 순서 번호(여행 전체에서 이어진다) · 날짜마다 선 하나
   let order = 0;

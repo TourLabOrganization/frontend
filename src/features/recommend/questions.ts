@@ -1,5 +1,8 @@
-// 테마 추천 선호 문항 Q1~Q14.
+import { DATALAB_REGION_IDS } from "../../lib/api/datalab";
+
+// 테마 추천 선호 문항 Q1~Q15.
 // 출처: Tour-Navigator-App/테마 추천 알고리즘/docs/01_고도화_전략.md 15~45행 "테마 추천 플로우와 선호 문항"
+// Q15(여행 지역)는 백엔드 추천 API의 region 입력이다. 보기는 /api/v1/tfi 의 regions (lib/api/datalab.ts DATALAB_REGIONS)
 // 보기 id는 URL과 점수표에서 쓰는 바뀌지 않는 값이다. 화면 문구는 messages의 Recommend.questions에 있다.
 
 export const QUESTION_IDS = [
@@ -17,6 +20,7 @@ export const QUESTION_IDS = [
   "q12",
   "q13",
   "q14",
+  "q15",
 ] as const;
 
 export type QuestionId = (typeof QUESTION_IDS)[number];
@@ -32,7 +36,7 @@ export type Question = {
   max?: number;
   /** Q1~Q3만 필수. 나머지는 건너뛸 수 있다(0점) */
   required: boolean;
-  /** Q10~Q14는 군집 판정이 아니라 코스를 거르는 필터 */
+  /** Q10~Q14는 군집 판정이 아니라 코스를 거르는 필터. Q15는 추천 API의 지역 입력이라 필터가 아니다 */
   filter: boolean;
   /** 이 문항이 받을 수 있는 모든 보기 id */
   options: readonly string[];
@@ -175,6 +179,13 @@ export const QUESTIONS: readonly Question[] = [
     required: false,
     filter: true,
     options: ["pet", "accessible", "indoor-rain"],
+  },
+  {
+    id: "q15",
+    multiple: false,
+    required: false,
+    filter: false,
+    options: DATALAB_REGION_IDS,
   },
 ];
 

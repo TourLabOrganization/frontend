@@ -10,7 +10,7 @@ export default async function NotFound() {
   return (
     <Screen>
       <main className="flex flex-1 flex-col justify-center px-6 pb-[max(2.5rem,env(safe-area-inset-bottom))]">
-        <LogoMark size={48} className="text-primary" />
+        <LogoMark variant="badge" size={48} className="text-primary" />
         <p className="mt-6 text-label font-semibold text-fg-subtle tabular-nums">
           404
         </p>

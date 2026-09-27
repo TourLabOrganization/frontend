@@ -4,6 +4,8 @@
     "description": "A trip planner that follows the places you saw on screen"
   },
   "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "Restart from the beginning",
     "brand": "TOUR NAVIGATOR",
     "back": "Back",
     "skip": "Skip",
@@ -40,6 +42,8 @@
     "pause": "Pause banner rotation",
     "play": "Resume banner rotation",
     "goToSlide": "Show banner {current}",
+    "prevSlide": "Previous banner",
+    "nextSlide": "Next banner",
     "banners": {
       "rescene-route": {
         "kicker": "RESCENE ROUTE",
@@ -256,6 +260,18 @@
           "accessible": "Step-free access",
           "indoor-rain": "Mostly indoors if it rains"
         }
+      },
+      "q15": {
+        "title": "Which region are you traveling to?",
+        "help": "If you pick one, we'll adjust your picks with regional data from the Korea Tourism Data Lab",
+        "options": {
+          "seoul": "Seoul",
+          "busan": "Busan",
+          "gyeongju": "Gyeongju",
+          "jeju": "Jeju",
+          "geoje": "Geoje",
+          "yeongwol": "Yeongwol"
+        }
       }
     }
   },
@@ -266,7 +282,6 @@
     "recommendedThemes": "Themes for you",
     "evidenceLabel": "Why we picked it",
     "fitRankType": "#{rank} for {type}",
-    "fitRankMixed": "#{rank} for your mix",
     "fitRank": "#{rank} match",
     "night": "{percent}% night-view spots",
     "categoryShare": "{percent}% {category}",
@@ -277,8 +292,14 @@
       "local-food": "local food",
       "nature": "sea & scenery"
     },
-    "source": "Question scores follow a table built on the 2025 national travel and inbound visitor surveys (Korea Tourism Data Lab); place shares are counted from the app's place categories",
-    "compareCourses": "Compare 3 routes"
+    "compareCourses": "Compare 3 routes",
+    "rankBasis": "Ranked for {type}, your top type",
+    "datalabHeading": "Korea Tourism Data Lab · {region}",
+    "datalabAdjusted": "We adjusted the scores to match this region's real strengths",
+    "regionHint": "Pick a travel region in question 15 to factor in Korea Tourism Data Lab data",
+    "sources": "Sources · {sources}",
+    "loadFailed": "We couldn't reach the recommendation server",
+    "retry": "Try again"
   },
   "Clusters": {
     "C1": {
@@ -424,6 +445,12 @@
       "mapLabel": "Map of theme places",
       "noKey": "The map couldn't load because no map key is set. The place list below still works",
       "listHeading": "Places · {count}",
+      "searchLabel": "Search places",
+      "searchPlaceholder": "Find by place name",
+      "searchClear": "Clear search",
+      "searchEmpty": "No places match “{query}”",
+      "searchStatus": "{count, plural, one {# place found} other {# places found}}",
+      "more": "Show more ({count} left)",
       "showOff": "Show {count} more places"
     },
     "sheet": {
@@ -481,7 +508,13 @@
       },
       "busan-film-trip": {
         "workTitle": "Train to Busan (2016)"
-      }
+      },
+      "datalabHeading": "{region} through the Data Lab",
+      "stayPerVisit": "{duration} per visit",
+      "stayIndex": "{index}× the national average",
+      "visitsToSeeAll": "Visits needed to see every place in the app: {visits}",
+      "datalabSource": "Source · Korea Tourism Data Lab · nationwide data · as of {year}",
+      "datalabFailed": "Couldn't load Data Lab information"
     }
   },
   "Regions": {
@@ -526,6 +559,11 @@
       "regionMarker": "{region} · {count, plural, one {# place} other {# places}}",
       "cityMarker": "{city} · {count, plural, one {# place} other {# places}}",
       "listHeading": "Places · {count}",
+      "searchLabel": "Search places",
+      "searchPlaceholder": "Find by place or city name",
+      "searchClear": "Clear search",
+      "searchEmpty": "No places match “{query}”",
+      "searchStatus": "{count, plural, one {# place found} other {# places found}}",
       "more": "Show more ({count} left)",
       "empty": "No places in this category",
       "add": "Add {name} to course",
@@ -701,5 +739,27 @@
     "title": "Page not found",
     "description": "This address may have changed or doesn't exist. Try again from home",
     "home": "Go home"
+  },
+  "Datalab": {
+    "regions": {
+      "seoul": "Seoul",
+      "busan": "Busan",
+      "gyeongju": "Gyeongju",
+      "jeju": "Jeju",
+      "geoje": "Geoje",
+      "yeongwol": "Yeongwol"
+    },
+    "sources": {
+      "nationalTravel": "National Travel Survey",
+      "inbound": "International Visitor Survey",
+      "datalabTfi": "Korea Tourism Data Lab (region × theme strength, TFI)"
+    },
+    "tfiLabel": "Region × theme strength (TFI)",
+    "themes": {
+      "herit": "Heritage & culture",
+      "heal": "Nature & healing",
+      "activity": "Experiences & activities",
+      "food": "Food"
+    }
   }
 }

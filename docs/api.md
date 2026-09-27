@@ -49,6 +49,40 @@ if (
 - 응답 타입 이름은 Swagger에 나온 DTO 이름을 그대로 쓴다
 - `queryKey`는 URL 경로를 쪼갠 배열로 쓴다: `/api/v1/users/me` → `["users", "me"]`
 
+## 공개 API는 서버 컴포넌트에서 부른다
+
+로그인 없이 보는 공개 API(추천 · 데이터랩 조회 등)는 서버 컴포넌트에서 `api()`로 바로 부른다.
+서버끼리 부르므로 CORS와 무관하고(미리보기 배포에서도 동작), 화면이 로딩 없이 그려진다.
+로그인 토큰이 필요한 호출은 토큰이 브라우저(localStorage)에 있으므로 클라이언트 컴포넌트에서 위의 TanStack Query 방식으로 부른다.
+
+```tsx
+// 서버 컴포넌트 · 서버 함수
+import { api } from "@/lib/api/client";
+
+const tfi = await api<TfiResponse>("/api/v1/tfi", {
+  auth: false,
+  signal: AbortSignal.timeout(8000), // 시간 제한
+  next: { revalidate: 3600 }, // 자주 안 바뀌는 조회는 1시간 캐시
+});
+```
+
+- **시간 제한**: 모든 호출에 `signal: AbortSignal.timeout(8000)`을 준다. `api()`는 `signal` · `next`를 `fetch`에 그대로 넘긴다
+- **revalidate**: TFI · 체류시간 · 코스처럼 자주 안 바뀌는 조회는 `next: { revalidate: 3600 }`. 추천(POST)은 캐시하지 않는다
+- **실패 처리**: 시간 초과 · 네트워크 오류 · `ApiError`를 모두 잡아 화면에 실패 문구를 보인다. 페이지 전체를 에러로 만들지 않는다
+  - 추천 결과: 테마 목록 자리에 「추천 서버에 연결하지 못했어요」와 「다시 시도」(같은 주소 링크). 유형 설명은 그대로 보인다 (`features/recommend/api.ts`의 `fetchRecommendation`이 `{ ok: false }`로 돌려준다)
+  - 테마 여행 정보 탭: 데이터랩 블록 대신 「데이터랩 정보를 불러오지 못했어요」 한 줄
+- **DTO 타입**: Swagger DTO 이름 그대로 쓰고, 필드 주석은 `/v3/api-docs`의 description을 옮긴다
+
+| 호출                     | 쓰는 곳                               | 타입                                                                | 코드                        |
+| ------------------------ | ------------------------------------- | ------------------------------------------------------------------- | --------------------------- |
+| `POST /api/v1/recommend` | 추천 결과                             | `RecommendRequest` · `RecommendResponse` · `RecommendThemeResponse` | `features/recommend/api.ts` |
+| `GET /api/v1/tfi`        | 추천 결과 · 테마 여행 정보 탭         | `TfiResponse`                                                       | `lib/api/datalab.ts`        |
+| `GET /api/v1/staytime`   | 테마 여행 정보 탭                     | `StayTimeResponse` · `StayTimeRegionResponse`                       | `lib/api/datalab.ts`        |
+| `GET /api/v1/courses`    | 테마 여행 정보 탭(코스가 지나는 지역) | `CourseListResponse` · `CourseResponse`                             | `lib/api/datalab.ts`        |
+
+- 추천 점수 · 일정 계산은 data-server가 정본이다. 백엔드가 중계하는 결과는 프론트에서 다시 계산하지 않고 그대로 보인다.
+  백엔드 결과가 이상하면 프론트에서 고치지 않고 백엔드에 알린다
+
 ## 인증
 
 - 로그인하면 access token(30분)과 refresh token(14일)을 받는다. `saveTokens()`로 저장한다(localStorage)
@@ -59,6 +93,9 @@ if (
 - 로그아웃은 `api("/api/v1/auth/logout", { method: "POST" })` 뒤에 `saveTokens(null)`
 
 ## 백엔드에 알려 줄 것
+
+- **알려진 문제**: `GET /api/v1/tfi?region=…`는 502가 난다(2026-09-27). 지역 없이 `/api/v1/tfi`를 불러 프론트에서 지역을 고른다
+- 추천 응답의 `sources` · TFI `themeLabels`는 한국어만 온다. `sources`는 그대로 보이고, TFI 테마 이름은 `messages`의 `Datalab.themes`로 옮겨 보인다
 
 - 백엔드 CORS는 백엔드 환경변수 `CORS_ALLOWED_ORIGINS`에 적힌 주소만 허용한다.
   백엔드 `.env.example`의 기본값이 `http://localhost:5173`이라서 개발 서버를 5173번에서 띄운다(`npm run dev`).

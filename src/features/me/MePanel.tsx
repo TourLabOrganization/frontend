@@ -10,10 +10,12 @@ import { cityName } from "@/features/planner/regions";
 import { tripDays } from "@/features/planner/dates";
 import { decodeAnswers } from "@/features/recommend/answers";
 import { hasRequiredAnswers, QUESTIONS } from "@/features/recommend/questions";
-import { getRecommendation } from "@/features/recommend/recommend";
+import { classify } from "@/features/recommend/scoring";
 import { findTheme } from "@/features/recommend/themes";
 import {
   LAST_RECOMMENDATION_KEY,
+  LAST_TOP_THEME_KEY,
+  parseLastTopTheme,
   type PlannerSavedPlan,
   parsePlannerPlans,
   parseSavedPlans,
@@ -25,6 +27,7 @@ import {
 } from "@/lib/local-store";
 
 // ME 화면 본문. 추천받은 나의 테마(마지막 추천 결과)와 저장된 플랜을 localStorage에서 읽는다.
+// 1위 테마는 결과 화면이 저장한 추천 API 1위(tn.lastTopTheme)를 읽기만 한다. 없으면(예전 기록 · 추천 실패) 유형만 보인다.
 // 저장된 플랜은 테마 코스와 투어 플래너 코스(kind: "planner")가 한 목록에 저장한 순서대로 섞여 있다.
 // 서버 렌더와 하이드레이션 중에는 저장된 값이 없는 것으로 그리고, 그 뒤 저장된 값으로 다시 그린다
 export function MePanel() {
@@ -38,12 +41,12 @@ export function MePanel() {
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
   const lastAnswers = lastA ? decodeAnswers(lastA) : null;
-  const last =
-    lastA && lastAnswers && hasRequiredAnswers(lastAnswers)
-      ? getRecommendation(lastAnswers, locale)
-      : null;
-  const lastType = last?.clusters[0];
-  const lastTheme = last?.themes[0] ? findTheme(last.themes[0].slug) : null;
+  const lastType =
+    lastAnswers && hasRequiredAnswers(lastAnswers)
+      ? classify(lastAnswers, locale).clusters[0]
+      : undefined;
+  const topSlug = parseLastTopTheme(useLocalValue(LAST_TOP_THEME_KEY), lastA);
+  const lastTheme = topSlug ? findTheme(topSlug) : undefined;
 
   const raw = useLocalValue(SAVED_PLANS_KEY);
   // 모르는 테마 · 안은 버린다(데이터가 바뀌었을 때)
@@ -71,18 +74,26 @@ export function MePanel() {
         <h2 id="me-recommended" className="text-headline font-bold">
           {t("recommendedHeading")}
         </h2>
-        {lastA && lastType && lastTheme ? (
+        {lastA && lastType ? (
           <Link
             href={`/recommend/result?a=${lastA}`}
             className="mt-4 flex items-center gap-3 rounded-card bg-surface p-5 ring-1 ring-line transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-fill motion-reduce:transition-none"
           >
             <span className="flex flex-1 flex-col">
-              <span className="text-caption font-semibold text-primary">
-                {t("lastType", { type: tc(`${lastType.id}.name`) })}
-              </span>
-              <span className="mt-1 text-body-lg font-bold">
-                {t("lastTheme", { theme: tt(`${lastTheme.slug}.name`) })}
-              </span>
+              {lastTheme ? (
+                <>
+                  <span className="text-caption font-semibold text-primary">
+                    {t("lastType", { type: tc(`${lastType.id}.name`) })}
+                  </span>
+                  <span className="mt-1 text-body-lg font-bold">
+                    {t("lastTheme", { theme: tt(`${lastTheme.slug}.name`) })}
+                  </span>
+                </>
+              ) : (
+                <span className="text-body-lg font-bold">
+                  {t("lastType", { type: tc(`${lastType.id}.name`) })}
+                </span>
+              )}
               <span className="mt-1 text-caption text-fg-subtle">
                 {t("lastAction")}
               </span>
@@ -92,11 +103,11 @@ export function MePanel() {
         ) : (
           <Link
             href="/recommend"
-            className="mt-4 flex items-center gap-3 rounded-card bg-fg p-5 text-white transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] motion-reduce:transition-none"
+            className="mt-4 flex items-center gap-3 rounded-card bg-primary p-5 text-white transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-primary-strong motion-reduce:transition-none"
           >
             <span className="flex flex-1 flex-col">
               <span className="text-body-lg font-bold">{t("emptyTitle")}</span>
-              <span className="mt-1 text-caption text-white/70">
+              <span className="mt-1 text-caption text-white">
                 {t("emptyMeta", { total: QUESTIONS.length })}
               </span>
             </span>
