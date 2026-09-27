@@ -27,6 +27,10 @@
 // 도시 (DATA의 도시 → cities.json):
 //   화면의 도시 칩 목록(`cities:['nation','geoje','gyeongju'].map(`)의 순서대로 { ko, en, lat, lng: center }.
 //   'nation'(전국 보기)은 도시가 아니라 뺀다. 지도 탭 목록의 거리(도시 center에서 장소까지 직선거리)와 도시 칩에 쓴다.
+//   전국 보기가 있는 테마(RESCENE)는 칩 목록 뒤에 전국(nation) 목록의 나머지 도시를 더한다(대표 요청 2026-09-28: 리센느가 간 도시를 모두 칩으로).
+//   순서는 places.json(PoC 장소 목록) 순서, 목록 장소(off가 아닌 곳)가 있는 도시만. PoC DATA에 그 도시 화면이 없어서
+//   center는 투어 플래너 regions.json의 도시 좌표(없으면 그 도시 목록 장소 좌표의 평균), 영어 이름도 regions.json(없으면 장소의 locKo).
+//   중 · 일 · 스페인어 칩 이름은 화면이 이름표(features/names)로 붙인다.
 //   PoC I18N에 장면 제목 영어가 없어(zh · ja만 있다) 제목은 한국어만 둔다.
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -47,6 +51,10 @@ const OUT_DIR = resolve(ROOT, "src/features/theme/data");
 const places = JSON.parse(
   readFileSync(resolve(ROOT, "src/features/course/data/places.json"), "utf8"),
 );
+/** 투어 플래너 도시(한국어 이름 → { en, lat, lng }). 전국 목록 도시의 칩에 쓴다 */
+const plannerCities = JSON.parse(
+  readFileSync(resolve(ROOT, "src/features/planner/data/regions.json"), "utf8"),
+).cities;
 
 const THEME_FILES = [
   ["kings-warden", "Kings Warden Route.dc.html"],
@@ -147,7 +155,8 @@ for (const [slug, file] of THEME_FILES) {
   }
   extras[slug] = byId;
 
-  cities[slug] = cityOrder(lines, file)
+  const chipKeys = cityOrder(lines, file);
+  cities[slug] = chipKeys
     .filter((key) => key !== "nation")
     .map((key) => {
       const c = DATA[key];
@@ -155,6 +164,23 @@ for (const [slug, file] of THEME_FILES) {
         throw new Error(`${file}의 DATA.${key}에 center가 없습니다`);
       return { ko: c.ko, en: c.en, lat: c.center[0], lng: c.center[1] };
     });
+  if (chipKeys.includes("nation")) {
+    const listed = places[slug].filter((p) => !p.off);
+    for (const ko of new Set(listed.map((p) => p.locKo))) {
+      if (!ko || cities[slug].some((c) => c.ko === ko)) continue;
+      const info = plannerCities[ko];
+      const own = listed.filter((p) => p.locKo === ko);
+      const mean = (k) =>
+        Math.round((own.reduce((s, p) => s + p[k], 0) / own.length) * 1e4) /
+        1e4;
+      cities[slug].push({
+        ko,
+        en: info?.en || ko,
+        lat: info?.lat ?? mean("lat"),
+        lng: info?.lng ?? mean("lng"),
+      });
+    }
+  }
 
   scenes[slug] =
     slug === "rescene-route"
