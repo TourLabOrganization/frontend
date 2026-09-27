@@ -385,7 +385,10 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                     onClick={() => openPlace(p.id)}
                     className="flex min-h-16 min-w-0 flex-1 items-center gap-3 py-3 pl-5 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                   >
-                    <CategoryIcon cat={p.cat} />
+                    {/* 배지 줄이 붙어도 아이콘은 이름 첫 줄 높이에 둔다(1lh = 이름 줄 높이) */}
+                    <span className="flex h-[1lh] shrink-0 items-center self-start text-body-lg">
+                      <CategoryIcon cat={p.cat} />
+                    </span>
                     <span className="min-w-0 flex-1">
                       <span className="block text-body-lg font-semibold">
                         {name}
