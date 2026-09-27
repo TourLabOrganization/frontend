@@ -800,11 +800,13 @@
         },
         "short": {
           "hub": "도착지에 없음",
-          "island": "차로 못 가요"
+          "island": "차로 못 가요",
+          "islandMetro": "배로만 가요"
         },
         "reason": {
           "hub": "{hub}에는 {mode} 노선이 없어요",
           "island": "섬 지역이라 자가용으로 갈 수 없어요",
+          "islandMetro": "섬 지역이라 지하철로 이어 갈 수 없어요. 배를 골라 주세요",
           "noCity": "도시를 고르거나 장소를 담으면 광역 교통을 고를 수 있어요"
         },
         "access": "{origin} → {hub} · 약 {duration}"

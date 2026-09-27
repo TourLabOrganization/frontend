@@ -800,11 +800,13 @@
         },
         "short": {
           "hub": "No llega al destino",
-          "island": "Sin acceso por carretera"
+          "island": "Sin acceso por carretera",
+          "islandMetro": "Solo en barco"
         },
         "reason": {
           "hub": "{hub} no tiene servicio de {mode}",
           "island": "Es una isla, así que no se puede llegar en coche",
+          "islandMetro": "Es una isla, así que no se puede llegar en metro. Elige el barco",
           "noCity": "Elige una ciudad o añade lugares para elegir transporte"
         },
         "access": "{origin} → {hub} · unos {duration}"

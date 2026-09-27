@@ -800,11 +800,13 @@
         },
         "short": {
           "hub": "到着地になし",
-          "island": "車で行けません"
+          "island": "車で行けません",
+          "islandMetro": "船のみ"
         },
         "reason": {
           "hub": "{hub}には{mode}の路線がありません",
           "island": "島のため自家用車では行けません",
+          "islandMetro": "島のため地下鉄では行けません。船を選んでください",
           "noCity": "都市を選ぶかスポットを追加すると、広域交通を選べます"
         },
         "access": "{origin} → {hub} · 約{duration}"

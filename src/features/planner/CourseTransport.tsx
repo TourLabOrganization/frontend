@@ -91,8 +91,17 @@ export function CourseTransport({
               o.block === "hub"
                 ? t("wide.reason.hub", { hub: hubName ?? "", mode: label })
                 : o.block === "island"
-                  ? t("wide.reason.island")
+                  ? t(
+                      o.choice === "metro"
+                        ? "wide.reason.islandMetro"
+                        : "wide.reason.island",
+                    )
                   : null;
+            // 섬(울릉)의 지하철 칸은 「차로 못 가요」 대신 「배로만 가요」
+            const short =
+              o.block === "island" && o.choice === "metro"
+                ? "islandMetro"
+                : (o.block as "hub" | "island");
             return (
               <button
                 key={o.choice}
@@ -119,7 +128,7 @@ export function CourseTransport({
                 {reason && (
                   <>
                     <span aria-hidden className="text-micro font-normal">
-                      {t(`wide.short.${o.block as "hub" | "island"}`)}
+                      {t(`wide.short.${short}`)}
                     </span>
                     <span id={reasonId} className="sr-only">
                       {reason}

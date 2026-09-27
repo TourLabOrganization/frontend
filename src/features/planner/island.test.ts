@@ -85,6 +85,44 @@ describe("제주 광역 교통 칸 (PoC wideOpts _jeju)", () => {
     expect(ul.air).toBe("hub");
   });
 
+  it("울릉(도착 관문에 육로 수단 없음)은 지하철도 자가용처럼 막는다", () => {
+    expect(
+      wideOptions(H["울릉"], "ulleung").map((o) => [o.choice, o.block]),
+    ).toEqual([
+      ["bus", "hub"],
+      ["rail", "hub"],
+      ["air", "hub"],
+      ["ship", null],
+      ["metro", "island"],
+      ["own", "island"],
+    ]);
+  });
+
+  it("경주는 지하철 · 자가용을 막지 않는다", () => {
+    expect(
+      wideOptions(H["경주"], null).map((o) => [o.choice, o.block]),
+    ).toEqual([
+      ["bus", null],
+      ["rail", null],
+      ["air", "hub"],
+      ["ship", "hub"],
+      ["metro", null],
+      ["own", null],
+    ]);
+  });
+
+  it("울릉에 지하철을 골라 두었으면 고르지 않은 것으로 본다(서울역 → 목포 → 도동항 경로가 나오지 않는다)", () => {
+    const plan = buildPlannerSchedule(
+      [place("ro356")],
+      settings({ wideMode: "metro", metroLine: "1", metroOrigin: "서울역" }),
+    );
+    expect(plan.choice).not.toBe("metro");
+    expect(plan.inbound?.chain.gw.ko).not.toContain("목포");
+    expect(plan.inbound?.chain.legs.some((l) => l.mode === "metro")).toBe(
+      false,
+    );
+  });
+
   it("제주에서 기차 · 버스를 골라 두었으면 고르지 않은 것으로 본다", () => {
     const plan = buildPlannerSchedule(
       [place("ctu3")],

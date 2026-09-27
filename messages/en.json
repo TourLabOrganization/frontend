@@ -800,11 +800,13 @@
         },
         "short": {
           "hub": "Not at destination",
-          "island": "No road access"
+          "island": "No road access",
+          "islandMetro": "Ferry only"
         },
         "reason": {
           "hub": "{hub} has no {mode} service",
           "island": "It is an island, so you cannot drive there",
+          "islandMetro": "It is an island, so you cannot get there by subway. Choose the ferry",
           "noCity": "Pick a city or add places to choose transport"
         },
         "access": "{origin} → {hub} · about {duration}"

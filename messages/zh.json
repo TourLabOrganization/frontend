@@ -800,11 +800,13 @@
         },
         "short": {
           "hub": "目的地无此线路",
-          "island": "无法驾车前往"
+          "island": "无法驾车前往",
+          "islandMetro": "仅可乘船"
         },
         "reason": {
           "hub": "{hub}没有{mode}线路",
           "island": "位于海岛，无法驾驶私家车前往",
+          "islandMetro": "位于海岛，无法乘地铁前往。请选择乘船",
           "noCity": "选择城市或添加地点后，即可选择城际交通"
         },
         "access": "{origin} → {hub} · 约{duration}"

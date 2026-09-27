@@ -101,7 +101,9 @@ export function wideModeOf(choice: WideChoice, originKey: string): WideMode {
 
 /**
  * 광역 교통 칸과 고를 수 없는 이유. 보통 6칸, 제주는 항공 · 배 · 자가용 3칸(PoC wideOpts _jeju).
- * 제주 자가용은 카페리 · 도민으로 갈 수 있어 막지 않는다
+ * 제주 자가용은 카페리 · 도민으로 갈 수 있어 막지 않는다.
+ * 도착 관문에 육로 수단이 없는 섬(울릉)은 자가용과 함께 지하철도 막는다(island). 막지 않으면 지하철역에서
+ * 가장 가까운 항만으로 이어 「서울역 → 목포연안여객터미널 → 도동항」 같은 있을 수 없는 경로가 나온다
  */
 export function wideOptions(
   hub: PlannerHub | undefined,
@@ -112,11 +114,14 @@ export function wideOptions(
   const choices = jeju ? JEJU_CHOICES : WIDE_CHOICES;
   return choices.map((choice) => {
     let block: WideBlock | null = null;
+    const noLand = !hubModes.some((m) => LAND_MODES.includes(m));
     if (!hub) block = "noCity";
     else if (choice === "own") {
       if (jeju) block = null;
-      else if (!hubModes.some((m) => LAND_MODES.includes(m))) block = "island";
-    } else if (choice !== "metro") {
+      else if (noLand) block = "island";
+    } else if (choice === "metro") {
+      if (noLand) block = "island";
+    } else {
       const need = WIDE_ALLOW[choice];
       if (!hubModes.some((m) => need.includes(m))) block = "hub";
     }
@@ -257,6 +262,11 @@ function planTrip(
       ? picked
       : null;
   const own = usable === "own";
+  // 막힌 지하철(울릉)을 골라 두었으면 고르지 않은 것으로 보고 지하철역을 출발점으로 쓰지 않는다
+  const chainSettings: PlannerSettings =
+    settings.wideMode === "metro" && usable !== "metro"
+      ? { ...settings, wideMode: null }
+      : settings;
   const jejuOwn = own && island === "jeju";
   const resident = jejuOwn && settings.jejuResident === true;
   const local: TravelMode = own
@@ -275,7 +285,7 @@ function planTrip(
   ): ChainSide | null => {
     const h = city ? CITY_HUBS[city] : undefined;
     if (!city || !h || resident) return null;
-    const o = originFor(settings, key, city, own, out);
+    const o = originFor(chainSettings, key, city, own, out);
     const opts = {
       own,
       pref: own ? null : usable,
