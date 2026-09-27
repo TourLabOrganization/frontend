@@ -44,9 +44,19 @@ export const REGIONS = regionsData.regions as readonly Region[];
 export const CITY_INFO = regionsData.cities as Readonly<
   Record<string, CityInfo>
 >;
+/** 관문 이름(버스 · 항공 · 배 관문이 따로 있을 때). REGION_HUB의 busKo · busEn · airKo · airEn · shipKo · shipEn */
+export type PlannerHub = RegionHub & {
+  busKo?: string;
+  busEn?: string;
+  airKo?: string;
+  airEn?: string;
+  shipKo?: string;
+  shipEn?: string;
+};
+
 /** 도시 → 광역 관문. Tour Planner.dc.html REGION_HUB 중 장소가 있는 도시. 수단은 지역거점.csv(전철권 metro 포함). 관문이 없는 도시도 있다 */
 export const CITY_HUBS = regionsData.hubs as Readonly<
-  Record<string, RegionHub>
+  Record<string, PlannerHub>
 >;
 
 /** 출발지(역 · 터미널 · 공항 · 항구). Tour Planner.dc.html ORIGINS 순서 그대로. 수단은 출발지.csv(전철 metro 포함) */

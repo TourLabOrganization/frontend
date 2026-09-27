@@ -5,7 +5,6 @@ import {
   ArrowUp,
   BedDouble,
   BookmarkCheck,
-  ChevronDown,
   CircleAlert,
   Info,
   Minus,
@@ -23,7 +22,7 @@ import { CourseDaySection } from "@/features/course/CourseDaySection";
 import { formatDuration } from "@/features/course/format-duration";
 import { METRO_CITY } from "@/features/course/places";
 import { leadRegion } from "@/features/course/scenarios";
-import { legInfo } from "@/features/course/schedule";
+import { legInfo, toMin } from "@/features/course/schedule";
 import { isCategoryKey, placeName } from "@/features/theme/place-meta";
 import {
   addPlannerPlan,
@@ -37,10 +36,11 @@ import {
 } from "@/lib/local-store";
 import { categoryDot } from "./category";
 import { ConfirmDialog } from "./ConfirmDialog";
-import { CourseAccessLeg } from "./CourseAccessLeg";
 import { CourseBookingLinks } from "./CourseBookingLinks";
 import { CourseNightStay } from "./CourseNightStay";
+import { CourseOrigins } from "./CourseOrigins";
 import { CourseTransport } from "./CourseTransport";
+import { CourseArrivalLeg, CourseWideChain } from "./CourseWideChain";
 import {
   dayInsertIndex,
   parseStayOverrides,
@@ -80,13 +80,16 @@ import {
   PLANNER_ORIGINS,
   regionName,
 } from "./regions";
+import { RouteChoiceDialog } from "./RouteChoiceDialog";
 import { RoutingHowTo } from "./RoutingHowTo";
 import {
   buildPlannerSchedule,
+  type ChainSide,
   recommendCourse,
-  resolveWide,
-  suggestOrigin,
-  wideOptions,
+  type RouteAskTarget,
+  routeAsk,
+  wideChoiceOf,
+  wideModeOf,
 } from "./schedule";
 import {
   isStay,
@@ -99,6 +102,16 @@ import {
   toggleNightStay,
 } from "./stays";
 import { TripCalendar } from "./TripCalendar";
+import {
+  airTwin,
+  type ChainPoint,
+  chainPoints,
+  chainSchedule,
+  fixOriginsForWide,
+  gwWideOf,
+  originOptions,
+  type WideChoice,
+} from "./wide-chain";
 import { useNameTable } from "@/features/names/NamesProvider";
 
 // 맨 위 · 맨 아래에서 옮기기 버튼은 disabled 대신 aria-disabled로 둔다. 옮긴 뒤 초점이 사라지지 않게
@@ -107,7 +120,6 @@ const ICON_BUTTON =
 
 const FIELD =
   "h-12 w-full min-w-0 rounded-xl bg-fill px-4 text-body text-fg placeholder:text-fg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright aria-invalid:ring-2 aria-invalid:ring-danger";
-const SELECT = `${FIELD} appearance-none pr-10`;
 const LABEL = "text-label font-semibold text-fg-muted";
 const CARD = "rounded-card p-4 ring-1 ring-line";
 // aria-disabled 버튼(이유를 읽게 초점은 남긴다)의 모양
@@ -185,6 +197,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const [status, setStatus] = useState("");
   // 눈에도 보여야 하는 안내(추천할 장소가 없음)
   const [notice, setNotice] = useState("");
+  // 「경로 변경」으로 연 경로 선택 창(PoC routeAskOpen). 없으면 스스로 열 때만 열린다
+  const [routeOpen, setRouteOpen] = useState<RouteAskTarget | null>(null);
 
   // 데이터에서 없어진 id는 건너뛴다. 체류 시간은 사용자가 바꾼 값(stayOv)을 넣는다(PoC courseList)
   const basePlaces = course.placeIds
@@ -312,34 +326,133 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
 
   const canRecommend = sourceName !== null && autoPool.length > 0;
 
-  // 지금 출발지에서 닿는 광역 수단이 없으면 닿는 첫 출발지를 제안한다
-  const suggestedKey = !plan.wide && plan.hub ? suggestOrigin(plan.hub) : null;
-  const useSuggestedOrigin = () => {
-    if (!suggestedKey || !plan.hub) return;
-    store.setSettings({
-      origin: suggestedKey,
-      wideMode: resolveWide(null, wideOptions(suggestedKey, plan.hub)),
-    });
-  };
   const firstEmptyDay = plan.days.findIndex((d) => d.stops.length === 0);
 
-  // 광역 구간(가는 길 · 돌아오는 길) 문구. 광역 교통이 없거나 관문이 없으면 그리지 않는다
-  const wideModeName = plan.wide
-    ? plan.wide === "own"
-      ? t("wide.modes.own")
-      : tp(`info.modes.${plan.wide}`)
-    : null;
-  const accessLeg = (direction: "out" | "back") =>
-    plan.wide && wideModeName && hubName ? (
-      <CourseAccessLeg
+  // ── 광역 교통 먼저 → 출발지 · 귀가지 (PoC originOptions · originChange · originEndChange · wideOpts pick) ──
+  const pointName = (p: ChainPoint) => (locale === "ko" ? p.ko : p.en || p.ko);
+  const own = plan.local === "own";
+  const picked = wideChoiceOf(course.wideMode);
+  const pickedOpen =
+    picked !== null &&
+    plan.options.find((o) => o.choice === picked)?.block === null;
+  const metroWide = picked === "metro" && pickedOpen;
+  const originKeys = originOptions(
+    plan.hub,
+    pickedOpen ? picked : null,
+    plan.destination === "울릉",
+  );
+  const onWide = (choice: WideChoice) => {
+    const fix =
+      choice === "own"
+        ? {}
+        : fixOriginsForWide(choice, course.origin, course.originEnd);
+    store.setSettings({
+      wideMode: wideModeOf(choice, fix.origin ?? course.origin),
+      ...fix,
+    });
+  };
+  const onOrigin = (v: string) => {
+    const k = airTwin(v);
+    const w = gwWideOf(k);
+    const next: Partial<PlannerSettings> = { origin: k };
+    if (w && course.wideMode !== "own") {
+      next.wideMode = wideModeOf(w, k);
+      const e = course.originEnd ? gwWideOf(course.originEnd) : null;
+      if (e && e !== w) next.originEnd = null;
+    }
+    store.setSettings(next);
+  };
+  const onOriginEnd = (v: string | null) => {
+    if (v === null) {
+      store.setSettings({ originEnd: null });
+      return;
+    }
+    const k = airTwin(v);
+    const w = gwWideOf(k);
+    store.setSettings({
+      originEnd: k,
+      ...(w && !course.wideMode ? { wideMode: wideModeOf(w, k) } : {}),
+    });
+  };
+  // 지하철 호선 → 역(PoC metroOriginShow): 광역 교통이 지하철이면 출발 · 귀가역, 도착 도시가 전철권이면 출발 전철역
+  const metroKind = own
+    ? null
+    : metroWide
+      ? ("wide" as const)
+      : plan.destination && METRO_CITY[plan.destination]
+        ? ("city" as const)
+        : null;
+
+  // ── 광역 체인(PoC dayPlan chainIn · chainOut) ──
+  const chainCard = (side: ChainSide | null, direction: "out" | "back") =>
+    side ? (
+      <CourseWideChain
         direction={direction}
-        from={direction === "out" ? originName(course.origin) : hubName}
-        to={direction === "out" ? hubName : originName(course.origin)}
-        mode={wideModeName}
-        duration={duration(plan.accIn)}
-        link={wideBookingLink(plan.wide)}
+        side={side}
+        link={wideBookingLink(side.chain.mode)}
+        onRouteChange={
+          // 당일 여행에서 가는 길과 같은 도시면 돌아오는 길에는 두지 않는다(PoC chainOutAltShow)
+          direction === "back" &&
+          plan.dayCount === 1 &&
+          side.city === plan.inbound?.city
+            ? null
+            : () =>
+                setRouteOpen({
+                  city: side.city,
+                  dir: direction === "out" ? "in" : "out",
+                })
+        }
+        gatewayName={originName}
+        onGateway={(key) =>
+          store.setSettings({
+            gwPick: { ...course.gwPick, [side.chain.mode]: key },
+          })
+        }
       />
     ) : null;
+  const arrivalCard = () => {
+    const a = plan.arrival;
+    if (!a || plan.days[0]?.stops[0]?.id !== a.place.id) return null;
+    return (
+      <CourseArrivalLeg leg={a} placeName={placeName(a.place, locale, names)} />
+    );
+  };
+
+  // ── 경로 선택 창(PoC routeAsk*). 코스 탭에서만, 다른 확인 창이 없을 때 ──
+  const ask = routeAsk(plan, course, course.routeSkip, routeOpen);
+  const askView = (() => {
+    if (!ask) return null;
+    const { side, target } = ask;
+    const out = target.dir === "out";
+    const start = toMin(out ? course.retTime : course.depTime);
+    const city = cityName(side.city, locale, names);
+    const hm = (m: number) =>
+      `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(((m % 60) + 60) % 60).padStart(2, "0")}`;
+    return {
+      city: side.city,
+      kicker: t(out ? "route.kickerOut" : "route.kickerIn"),
+      title: t(out ? "route.titleOut" : "route.titleIn", {
+        origin: pointName(side.origin),
+        city,
+        count: side.cands.length,
+      }),
+      options: side.cands.map((c) => {
+        const sc = chainSchedule(c, start, out);
+        const mode = t(`route.modes.${c.mode as "bus"}`);
+        const xfer = c.legs.length - 1;
+        return {
+          mode: c.mode,
+          title: xfer
+            ? t("route.transfers", { mode, count: xfer })
+            : t("route.direct", { mode }),
+          total: duration(sc.end - start),
+          path: chainPoints(c, side.origin, out).map(pointName).join(" → "),
+          times: t("route.times", { dep: hm(start), arr: hm(sc.end) }),
+          current: side.chain.mode === c.mode,
+        };
+      }),
+    };
+  })();
 
   // 구간 정보: 같은 날 앞 장소 → 이 장소. 수단 · 시간 · 거리(요약 총 거리와 같은 legInfo km)
   const legLabels = (stops: (typeof plan.days)[number]["stops"]) =>
@@ -567,7 +680,6 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   };
 
   const nameErrorId = `${id}-name-error`;
-  const retHintId = `${id}-ret-hint`;
   const recommendHintId = `${id}-recommend-hint`;
 
   return (
@@ -739,99 +851,59 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
             </p>
           )}
         </fieldset>
-
-        {/* 출발지 · 시각 */}
-        <fieldset className={CARD}>
-          <legend className="sr-only">{t("trip.heading")}</legend>
-          <span aria-hidden className={LABEL}>
-            {t("trip.heading")}
-          </span>
-          <label
-            htmlFor={`${id}-origin`}
-            className="mt-3 block text-caption text-fg-muted"
-          >
-            {t("trip.origin")}
-          </label>
-          <div className="relative mt-1">
-            <select
-              id={`${id}-origin`}
-              value={course.origin}
-              onChange={(e) => store.setSettings({ origin: e.target.value })}
-              className={SELECT}
-            >
-              {Object.keys(PLANNER_ORIGINS).map((key) => (
-                <option key={key} value={key}>
-                  {originName(key)}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              size={20}
-              aria-hidden
-              className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-fg-muted"
-            />
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {(
-              [
-                ["dep", "depTime", DEP_TIMES],
-                ["ret", "retTime", RET_TIMES],
-              ] as const
-            ).map(([key, field, options]) => (
-              <div key={key} className="min-w-0">
-                <label
-                  htmlFor={`${id}-${key}`}
-                  className="text-caption text-fg-muted"
-                >
-                  {t(`trip.${field}`)}
-                </label>
-                <div className="relative mt-1">
-                  <select
-                    id={`${id}-${key}`}
-                    value={course[field]}
-                    aria-describedby={key === "ret" ? retHintId : undefined}
-                    onChange={(e) =>
-                      store.setSettings({ [field]: e.target.value })
-                    }
-                    className={`${SELECT} tabular-nums`}
-                  >
-                    {options.map((v) => (
-                      <option key={v} value={v}>
-                        {v}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={20}
-                    aria-hidden
-                    className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-fg-muted"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-          <p id={retHintId} className="mt-2 text-caption text-fg-muted">
-            {t("trip.retHint")}
-          </p>
-        </fieldset>
       </div>
 
       <div className="mt-8 px-5">
         <CourseTransport
           options={plan.options}
-          wide={plan.wide}
+          choice={plan.choice}
           local={plan.local}
-          originName={originName(course.origin)}
-          hubName={hubName}
-          destinationName={
-            plan.destination ? cityName(plan.destination, locale, names) : null
+          originName={
+            plan.inbound
+              ? pointName(plan.inbound.origin)
+              : originName(course.origin)
           }
-          accessDuration={plan.wide ? duration(plan.accIn) : null}
-          suggestedOrigin={suggestedKey ? originName(suggestedKey) : null}
-          onUseOrigin={useSuggestedOrigin}
-          onWide={(mode) => store.setSettings({ wideMode: mode })}
+          hubName={hubName}
+          accessHub={plan.inbound ? pointName(plan.inbound.chain.hubPt) : null}
+          accessDuration={
+            plan.inbound
+              ? duration(plan.inbound.schedule.end - toMin(course.depTime))
+              : null
+          }
+          onWide={onWide}
           onLocal={(mode) => store.setSettings({ localMode: mode })}
-        />
+        >
+          <CourseOrigins
+            originKeys={originKeys}
+            origin={course.origin}
+            originEnd={course.originEnd}
+            originName={originName}
+            onOrigin={onOrigin}
+            onOriginEnd={onOriginEnd}
+            showOriginSelect={!metroWide}
+            depTime={course.depTime}
+            retTime={course.retTime}
+            depTimes={DEP_TIMES}
+            retTimes={RET_TIMES}
+            onDepTime={(v) => store.setSettings({ depTime: v })}
+            onRetTime={(v) => store.setSettings({ retTime: v })}
+            metroKind={metroKind}
+            metroStart={{
+              line: course.metroLine,
+              station: course.metroOrigin,
+              onLine: (v) =>
+                store.setSettings({ metroLine: v, metroOrigin: "" }),
+              onStation: (v) => store.setSettings({ metroOrigin: v }),
+            }}
+            metroEnd={{
+              line: course.metroEndLine,
+              station: course.metroEnd,
+              onLine: (v) =>
+                store.setSettings({ metroEndLine: v, metroEnd: "" }),
+              onStation: (v) => store.setSettings({ metroEnd: v }),
+            }}
+          />
+        </CourseTransport>
         <RoutingHowTo className="mt-6" />
       </div>
 
@@ -1107,11 +1179,19 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               transport={plan.local === "transit" ? "public-transit" : "car"}
               date={dayDate(i)}
               legLabels={legLabels(day.stops)}
-              before={i === 0 ? accessLeg("out") : null}
+              before={
+                i === 0 ? (
+                  <>
+                    {chainCard(plan.inbound, "out")}
+                    {arrivalCard()}
+                  </>
+                ) : null
+              }
               after={
                 <>
                   {nightStayCard(i)}
-                  {i === plan.days.length - 1 && accessLeg("back")}
+                  {i === plan.days.length - 1 &&
+                    chainCard(plan.outbound, "back")}
                   {(() => {
                     const city = dayCity(i);
                     return city ? (
@@ -1169,6 +1249,27 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       <div className="mt-10 pb-4">
         <CourseBookingLinks stayLinks={courseStayLinks()} />
       </div>
+
+      <RouteChoiceDialog
+        open={dialogKind === null && askView !== null}
+        kicker={askView?.kicker ?? ""}
+        title={askView?.title ?? ""}
+        options={askView?.options ?? []}
+        onPick={(mode) => {
+          if (!askView) return;
+          setRouteOpen(null);
+          store.setSettings({
+            routePick: { ...course.routePick, [askView.city]: mode },
+          });
+          setStatus(
+            t("route.picked", { mode: t(`route.modes.${mode as "bus"}`) }),
+          );
+        }}
+        onClose={() => {
+          setRouteOpen(null);
+          if (askView) store.skipRoute(askView.city);
+        }}
+      />
 
       <ConfirmDialog
         open={dialogKind !== null}

@@ -752,11 +752,13 @@
         }
       },
       "trip": {
-        "heading": "Origen · horarios",
+        "heading": "Salida · regreso",
         "origin": "Origen",
         "depTime": "Salida (origen)",
         "retTime": "Salida (destino)",
-        "retHint": "El último día, el plan termina a esta hora"
+        "retHint": "El último día, el plan termina a esta hora",
+        "originEnd": "Regreso a",
+        "originSame": "Igual que el origen"
       },
       "wide": {
         "heading": "Interurbano",
@@ -769,19 +771,15 @@
           "own": "Coche propio"
         },
         "short": {
-          "origin": "No sale del origen",
           "hub": "No llega al destino",
           "island": "Sin acceso por carretera"
         },
         "reason": {
-          "origin": "No hay servicio de {mode} desde {origin}",
           "hub": "{hub} no tiene servicio de {mode}",
           "island": "Es una isla, así que no se puede llegar en coche",
           "noCity": "Elige una ciudad o añade lugares para elegir transporte"
         },
-        "access": "{origin} → {hub} · unos {duration}",
-        "none": "Ningún transporte interurbano llega a {city} desde este origen, así que no se cuenta ese trayecto. Prueba con otro origen",
-        "useOrigin": "Salir desde {origin}"
+        "access": "{origin} → {hub} · unos {duration}"
       },
       "local": {
         "heading": "En destino",
@@ -915,6 +913,79 @@
         "book": "Reservar",
         "setStatus": "{name} es el alojamiento de la noche del día {day}",
         "unsetStatus": "{name} ya no es alojamiento"
+      },
+      "metro": {
+        "start": "Salida · línea → estación",
+        "city": "Estación de salida",
+        "end": "Regreso · línea → estación",
+        "line": "Línea",
+        "station": "Estación",
+        "linePlaceholder": "Elige línea",
+        "stationPlaceholder": "Elige estación",
+        "endPlaceholder": "Igual que la salida",
+        "lineChanged": "Cambiaste de línea y se borró la estación. Elige otra estación.",
+        "lineNo": "Línea {n}",
+        "cityLineNo": "Línea {n} de {city}",
+        "cities": {
+          "incheon": "Incheon",
+          "busan": "Busan",
+          "daegu": "Daegu",
+          "daejeon": "Daejeon",
+          "gwangju": "Gwangju"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "Metro",
+          "bus": "Autobús",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "Vuelo",
+          "ship": "Ferry",
+          "own": "Coche propio"
+        },
+        "depart": "Salida",
+        "leave": "Salida del destino",
+        "ride": "{mode}: {duration} de trayecto",
+        "wait": "Espera {duration} → {time} sale {mode}",
+        "transfer": "Trasbordo {duration} → {time} sale {mode}",
+        "board": "{mode}",
+        "arrive": "Terminal de llegada",
+        "home": "Llegada a casa",
+        "note": "Horas estimadas por distancia. Verifique el horario real al reservar.",
+        "gateway": "Terminal",
+        "routeChange": "Cambiar ruta",
+        "alt": "{count, plural, one {# ruta más} other {# rutas más}}",
+        "arrivalTag": "Al llegar",
+        "arrivalSub": "≈ {mode} {duration} · {km} km",
+        "arrivalModes": {
+          "transit": "Transporte",
+          "driving": "Coche"
+        },
+        "directions": "Ruta",
+        "directionsLabel": "Ruta de {from} a {to} (nueva ventana)"
+      },
+      "route": {
+        "kickerIn": "Elige la ruta interurbana",
+        "kickerOut": "Elige la ruta de regreso",
+        "titleIn": "{count, plural, one {# ruta} other {# rutas}} a {city}",
+        "titleOut": "{count, plural, one {# ruta} other {# rutas}} de regreso desde {city}",
+        "body": "Elige una ruta interurbana. Las terminales y el horario del día se recalculan con ella.",
+        "foot": "Si cierras, se mantiene la ruta resaltada. Puedes cambiarla cuando quieras desde la tarjeta del recorrido.",
+        "direct": "{mode} · directo",
+        "transfers": "{mode} · {count, plural, one {# trasbordo} other {# trasbordos}}",
+        "times": "Sale {dep} → llega {arr}",
+        "current": "Ruta actual",
+        "close": "Cerrar",
+        "picked": "Cambiado a la ruta en {mode}",
+        "modes": {
+          "bus": "Autobús",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "Vuelo",
+          "ship": "Ferry",
+          "metro": "Tren urbano"
+        }
       }
     },
     "info": {
@@ -940,7 +1011,7 @@
       "heading": "Cómo se calcula la ruta",
       "steps": {
         "wide": "Elige primero el transporte de larga distancia (bus, tren, avión, barco, metro o coche propio). Solo aparecen como salida y regreso las terminales, estaciones, aeropuertos o puertos de ese medio.",
-        "origin": "Si eliges metro, selecciona línea → estación. Busca por nombre para añadir una estación que no esté en la lista.",
+        "origin": "Si eliges metro, selecciona línea → estación.",
         "route": "Si hay dos rutas o más (p. ej., KTX / autobús exprés), elige una en el aviso. También se calcula el tramo de casa a la terminal o estación.",
         "local": "Para moverte en destino, elige coche de alquiler o transporte público. Con la fecha y la hora de salida se calcula la ruta de cada día y el tiempo entre lugares; el tiempo de estancia se puede cambiar en cada lugar.",
         "stay": "Si pasas una noche o más, cada día muestra alojamientos candidatos y botones de reserva. El alojamiento no cuenta en el tiempo de visita.",

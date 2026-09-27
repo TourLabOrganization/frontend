@@ -752,11 +752,13 @@
         }
       },
       "trip": {
-        "heading": "Start · times",
+        "heading": "Start · return",
         "origin": "Starting point",
         "depTime": "Depart (origin)",
         "retTime": "Depart (destination)",
-        "retHint": "Plans on the last day end by this time"
+        "retHint": "Plans on the last day end by this time",
+        "originEnd": "Return to",
+        "originSame": "Same as departure"
       },
       "wide": {
         "heading": "Long-distance transport",
@@ -769,19 +771,15 @@
           "own": "Own car"
         },
         "short": {
-          "origin": "Not from origin",
           "hub": "Not at destination",
           "island": "No road access"
         },
         "reason": {
-          "origin": "No {mode} service leaves from {origin}",
           "hub": "{hub} has no {mode} service",
           "island": "It is an island, so you cannot drive there",
           "noCity": "Pick a city or add places to choose transport"
         },
-        "access": "{origin} → {hub} · about {duration}",
-        "none": "No long-distance transport reaches {city} from this starting point, so travel time there is left out. Try another starting point",
-        "useOrigin": "Start from {origin}"
+        "access": "{origin} → {hub} · about {duration}"
       },
       "local": {
         "heading": "Getting around",
@@ -915,6 +913,79 @@
         "book": "Book a stay",
         "setStatus": "Set {name} as the stay for night of day {day}",
         "unsetStatus": "Removed {name} as a stay"
+      },
+      "metro": {
+        "start": "Start · line → station",
+        "city": "Departure metro station",
+        "end": "Return · line → station",
+        "line": "Line",
+        "station": "Station",
+        "linePlaceholder": "Choose a line",
+        "stationPlaceholder": "Choose a station",
+        "endPlaceholder": "Same as start",
+        "lineChanged": "Line changed, so the station was cleared. Pick a station again.",
+        "lineNo": "Line {n}",
+        "cityLineNo": "{city} Line {n}",
+        "cities": {
+          "incheon": "Incheon",
+          "busan": "Busan",
+          "daegu": "Daegu",
+          "daejeon": "Daejeon",
+          "gwangju": "Gwangju"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "Metro",
+          "bus": "Intercity bus",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "Flight",
+          "ship": "Ferry",
+          "own": "Own car"
+        },
+        "depart": "Depart",
+        "leave": "Leave destination",
+        "ride": "{mode} {duration} ride",
+        "wait": "Wait {duration} → {time} {mode} departs",
+        "transfer": "Transfer {duration} → {time} {mode} departs",
+        "board": "{mode}",
+        "arrive": "Arrival gateway",
+        "home": "Home",
+        "note": "Times are distance-based estimates. Check the actual timetable when booking.",
+        "gateway": "Gateway",
+        "routeChange": "Change route",
+        "alt": "{count, plural, one {# other route} other {# other routes}}",
+        "arrivalTag": "On arrival",
+        "arrivalSub": "≈ {mode} {duration} · {km} km",
+        "arrivalModes": {
+          "transit": "Transit",
+          "driving": "Car"
+        },
+        "directions": "Route",
+        "directionsLabel": "Directions from {from} to {to} (new window)"
+      },
+      "route": {
+        "kickerIn": "Choose intercity route",
+        "kickerOut": "Choose return route",
+        "titleIn": "{count, plural, one {# way} other {# ways}} to {city}",
+        "titleOut": "{count, plural, one {# way} other {# ways}} home from {city}",
+        "body": "Pick one intercity route. Gateways and the day schedule are recalculated from it.",
+        "foot": "Closing keeps the highlighted default. Change it any time from the course card.",
+        "direct": "{mode} · direct",
+        "transfers": "{mode} · {count, plural, one {# transfer} other {# transfers}}",
+        "times": "{dep} dep → {arr} arr",
+        "current": "Current route",
+        "close": "Close",
+        "picked": "Switched to the {mode} route",
+        "modes": {
+          "bus": "Intercity bus",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "Flight",
+          "ship": "Ferry",
+          "metro": "Metro"
+        }
       }
     },
     "info": {
@@ -940,7 +1011,7 @@
       "heading": "How routing works",
       "steps": {
         "wide": "Pick the long-distance mode first (bus, rail, air, ship, metro, own car). Only matching terminals, stations, airports or ports appear as start/return points.",
-        "origin": "For metro, pick line → station. Search by name to add a station that is not listed.",
+        "origin": "For metro, pick line → station.",
         "route": "If there are two or more routes (e.g. KTX / express bus), choose one in the prompt. The leg from home to the terminal is included.",
         "local": "Choose rental car or public transit for local travel. Set date and start time to get a day-by-day route with travel times; stay time is editable per place.",
         "stay": "Stays of one night or more get lodging candidates and booking links per day. Lodging is excluded from sightseeing time.",

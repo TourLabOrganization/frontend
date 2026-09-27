@@ -11,7 +11,10 @@ import { PLANNER_ORIGINS } from "./regions";
 
 // 투어 플래너에서 코스에 담은 장소와 코스 설정. localStorage `tn.planner.course`에 JSON으로 둔다.
 //   { city: "경주", placeIds: ["gj2", …],   (담은 순서 = 코스 탭 순서)
-//     name, startDate, endDate, origin, depTime, retTime, wideMode, localMode,   (코스 설정. 없는 필드는 기본값)
+//     name, startDate, endDate, origin, originEnd, depTime, retTime, wideMode, localMode,   (코스 설정. 없는 필드는 기본값)
+//     routePick: { 경주: "bus" }, gwPick: { ktx: "yongsan" },   (도착 도시별로 고른 광역 경로 · 수단별로 고른 환승 관문. PoC routePick · gwPick)
+//     metroLine, metroOrigin, metroEndLine, metroEnd,   (지하철 출발 · 귀가 호선과 역 이름. PoC metroLine · metroOrigin · metroEndLine · metroEnd)
+//     routeSkip: { 경주: true },   (경로 선택 창을 닫은 도착 도시. 다시 스스로 열지 않는다. 저장된 플랜에는 넣지 않는다)
 //     stayOv: { gj2: 90, … },   (장소별로 바꾼 체류 분. 추천값과 같으면 두지 않는다. course-edit.ts)
 //     planId }   (지금 불러와 보고 있거나 방금 저장한 플랜 id. 「덮어쓰기」 대상. PoC planId)
 // 한 코스는 한 도시의 장소만 담는다. 다른 도시 장소가 섞이면 일정 계산(course/schedule.ts)이 틀어진다.
@@ -47,6 +50,8 @@ export type PlannerSettings = {
   endDate: string | null;
   /** 출발지. PLANNER_ORIGINS 키 */
   origin: string;
+  /** 귀가지. PLANNER_ORIGINS 키. null이면 출발지와 같음(PoC originEnd) */
+  originEnd: string | null;
   /** 출발지 출발 시각 HH:MM */
   depTime: string;
   /** 마지막 날 여행지 출발(귀가) 시각 HH:MM */
@@ -55,6 +60,16 @@ export type PlannerSettings = {
   wideMode: WideMode | null;
   /** 고른 현지 이동 */
   localMode: LocalMode;
+  /** 도착 도시(한국어 이름)별로 고른 광역 경로 수단(PoC routePick). 경로 선택 창에서 고른다 */
+  routePick: Record<string, string>;
+  /** 수단별로 고른 환승 관문(PLANNER_ORIGINS 키, PoC gwPick) */
+  gwPick: Record<string, string>;
+  /** 지하철 출발 호선 · 역 이름(ko). 비어 있으면 "" (PoC metroLine · metroOrigin) */
+  metroLine: string;
+  metroOrigin: string;
+  /** 지하철 귀가 호선 · 역 이름(ko). 역이 비어 있으면 출발역과 같음 (PoC metroEndLine · metroEnd) */
+  metroEndLine: string;
+  metroEnd: string;
 };
 
 export type PlannerCourse = PlannerSettings & {
@@ -68,6 +83,8 @@ export type PlannerCourse = PlannerSettings & {
   stayOv: StayOverrides;
   /** 지금 불러와 보고 있거나 방금 저장한 저장된 플랜 id(tn.savedPlans). 없으면 null */
   planId: string | null;
+  /** 경로 선택 창을 닫은 도착 도시(PoC routeSkip). 저장된 플랜에는 넣지 않는다 */
+  routeSkip: Record<string, true>;
 };
 
 const DEFAULT_ORIGIN = "seoul";
@@ -77,10 +94,17 @@ export const DEFAULT_SETTINGS: PlannerSettings = {
   startDate: null,
   endDate: null,
   origin: DEFAULT_ORIGIN,
+  originEnd: null,
   depTime: DEFAULT_DEP,
   retTime: DEFAULT_RET,
   wideMode: null,
   localMode: "transit",
+  routePick: {},
+  gwPick: {},
+  metroLine: "",
+  metroOrigin: "",
+  metroEndLine: "",
+  metroEnd: "",
 };
 
 const EMPTY: PlannerCourse = {
@@ -89,6 +113,7 @@ const EMPTY: PlannerCourse = {
   ...DEFAULT_SETTINGS,
   stayOv: {},
   planId: null,
+  routeSkip: {},
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -104,6 +129,31 @@ function isIsoDate(value: unknown): value is string {
 const isTime = (value: unknown): value is string =>
   typeof value === "string" && TIME_RE.test(value);
 
+const isOriginKey = (value: unknown): value is string =>
+  typeof value === "string" && value in PLANNER_ORIGINS;
+
+/** 문자열 값만 남긴 객체. check로 값을 거른다 */
+function stringMap(
+  v: unknown,
+  check: (value: string) => boolean = () => true,
+): Record<string, string> {
+  if (typeof v !== "object" || v === null || Array.isArray(v)) return {};
+  const out: Record<string, string> = {};
+  for (const [k, x] of Object.entries(v))
+    if (typeof x === "string" && check(x)) out[k] = x;
+  return out;
+}
+
+const text = (v: unknown) => (typeof v === "string" ? v : "");
+
+/** 경로 선택 창을 닫은 도착 도시(true 값만) */
+function parseRouteSkip(v: unknown): Record<string, true> {
+  if (typeof v !== "object" || v === null || Array.isArray(v)) return {};
+  const out: Record<string, true> = {};
+  for (const [k, x] of Object.entries(v)) if (x === true) out[k] = true;
+  return out;
+}
+
 /** 저장된 설정 필드를 검사해 채운다. 모르는 값 · 없는 필드는 기본값 */
 export function parseSettings(v: Record<string, unknown>): PlannerSettings {
   const d = DEFAULT_SETTINGS;
@@ -111,10 +161,8 @@ export function parseSettings(v: Record<string, unknown>): PlannerSettings {
     name: typeof v.name === "string" ? v.name : d.name,
     startDate: isIsoDate(v.startDate) ? v.startDate : d.startDate,
     endDate: isIsoDate(v.endDate) ? v.endDate : d.endDate,
-    origin:
-      typeof v.origin === "string" && v.origin in PLANNER_ORIGINS
-        ? v.origin
-        : d.origin,
+    origin: isOriginKey(v.origin) ? v.origin : d.origin,
+    originEnd: isOriginKey(v.originEnd) ? v.originEnd : d.originEnd,
     depTime: isTime(v.depTime) ? v.depTime : d.depTime,
     retTime: isTime(v.retTime) ? v.retTime : d.retTime,
     wideMode: (WIDE_MODES as readonly unknown[]).includes(v.wideMode)
@@ -123,6 +171,12 @@ export function parseSettings(v: Record<string, unknown>): PlannerSettings {
     localMode: (LOCAL_MODES as readonly unknown[]).includes(v.localMode)
       ? (v.localMode as LocalMode)
       : d.localMode,
+    routePick: stringMap(v.routePick),
+    gwPick: stringMap(v.gwPick, (k) => k in PLANNER_ORIGINS),
+    metroLine: text(v.metroLine),
+    metroOrigin: text(v.metroOrigin),
+    metroEndLine: text(v.metroEndLine),
+    metroEnd: text(v.metroEnd),
   };
 }
 
@@ -133,10 +187,17 @@ export function pickSettings(v: PlannerSettings): PlannerSettings {
     startDate: v.startDate,
     endDate: v.endDate,
     origin: v.origin,
+    originEnd: v.originEnd,
     depTime: v.depTime,
     retTime: v.retTime,
     wideMode: v.wideMode,
     localMode: v.localMode,
+    routePick: v.routePick,
+    gwPick: v.gwPick,
+    metroLine: v.metroLine,
+    metroOrigin: v.metroOrigin,
+    metroEndLine: v.metroEndLine,
+    metroEnd: v.metroEnd,
   };
 }
 
@@ -156,6 +217,7 @@ function parseCourse(raw: string | null): PlannerCourse {
       placeIds: [...new Set(ids)],
       stayOv: parseStayOverrides(rec.stayOv),
       planId: typeof rec.planId === "string" ? rec.planId : null,
+      routeSkip: parseRouteSkip(rec.routeSkip),
     };
   } catch {
     return EMPTY;
@@ -249,6 +311,9 @@ export function usePlannerCourse() {
     /** 장소의 체류 분을 바꾼다. v가 null이거나 추천값(rec)과 같으면 추천값으로 되돌린다 */
     setStay: (id: string, rec: number, v: number | null) =>
       patch({ stayOv: setStayOverride(course.stayOv, id, rec, v) }),
+    /** 이 도착 도시의 경로 선택 창을 닫았다(다시 스스로 열지 않는다) */
+    skipRoute: (city: string) =>
+      patch({ routeSkip: { ...course.routeSkip, [city]: true } }),
     /** 덮어쓰기 대상 플랜을 정한다(저장한 뒤 · 지운 뒤) */
     setPlanId: (planId: string | null) => patch({ planId }),
     /** 저장된 플랜을 통째로 불러온다(장소 · 설정 · 체류 시간 · 플랜 id) */

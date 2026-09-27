@@ -752,11 +752,13 @@
         }
       },
       "trip": {
-        "heading": "出发地 · 时间",
+        "heading": "出发 · 返程",
         "origin": "出发地",
         "depTime": "出发时间（出发地）",
         "retTime": "返程出发时间（旅行地）",
-        "retHint": "最后一天的行程会在此时间前结束"
+        "retHint": "最后一天的行程会在此时间前结束",
+        "originEnd": "返程地",
+        "originSame": "与出发地相同"
       },
       "wide": {
         "heading": "城际交通",
@@ -769,19 +771,15 @@
           "own": "私家车"
         },
         "short": {
-          "origin": "出发地无此线路",
           "hub": "目的地无此线路",
           "island": "无法驾车前往"
         },
         "reason": {
-          "origin": "没有从{origin}出发的{mode}线路",
           "hub": "{hub}没有{mode}线路",
           "island": "位于海岛，无法驾驶私家车前往",
           "noCity": "选择城市或添加地点后，即可选择城际交通"
         },
-        "access": "{origin} → {hub} · 约{duration}",
-        "none": "从该出发地没有直达{city}的城际交通，已不计城际移动时间。请尝试更换出发地",
-        "useOrigin": "从{origin}出发"
+        "access": "{origin} → {hub} · 约{duration}"
       },
       "local": {
         "heading": "当地出行",
@@ -915,6 +913,79 @@
         "book": "预订住宿",
         "setStatus": "已将{name}设为第{day}天晚上的住宿",
         "unsetStatus": "已取消{name}的住宿指定"
+      },
+      "metro": {
+        "start": "出发地 · 线路 → 车站",
+        "city": "出发地铁站",
+        "end": "返回地 · 线路 → 车站",
+        "line": "线路",
+        "station": "车站",
+        "linePlaceholder": "选择线路",
+        "stationPlaceholder": "选择车站",
+        "endPlaceholder": "与出发站相同",
+        "lineChanged": "已更换线路，车站已清空。请重新选择车站。",
+        "lineNo": "{n}号线",
+        "cityLineNo": "{city}{n}号线",
+        "cities": {
+          "incheon": "仁川",
+          "busan": "釜山",
+          "daegu": "大邱",
+          "daejeon": "大田",
+          "gwangju": "光州"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "地铁",
+          "bus": "长途巴士",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "航班",
+          "ship": "轮渡",
+          "own": "私家车"
+        },
+        "depart": "出发",
+        "leave": "离开旅行地",
+        "ride": "乘{mode}{duration}后抵达",
+        "wait": "等候{duration} → {time} 乘坐{mode}",
+        "transfer": "换乘{duration} → {time} 乘坐{mode}",
+        "board": "乘坐{mode}",
+        "arrive": "到达枢纽",
+        "home": "到家",
+        "note": "时间为按距离估算，实际班次请在预订页面确认。",
+        "gateway": "换乘枢纽",
+        "routeChange": "更改路线",
+        "alt": "其他城际路线{count}条",
+        "arrivalTag": "抵达后",
+        "arrivalSub": "≈ {mode}{duration} · {km}公里",
+        "arrivalModes": {
+          "transit": "公共交通",
+          "driving": "驾车"
+        },
+        "directions": "路线",
+        "directionsLabel": "从{from}到{to}的路线（新窗口）"
+      },
+      "route": {
+        "kickerIn": "选择城际路线",
+        "kickerOut": "选择返程路线",
+        "titleIn": "{origin} → {city} 有{count}条路线",
+        "titleOut": "{city} → {origin} 有{count}条返程路线",
+        "body": "请选择一条城际路线。将按所选路线重新计算换乘枢纽和日程时间。",
+        "foot": "关闭后使用默认路线（高亮项）。可随时在行程卡片的“更改路线”中修改。",
+        "direct": "{mode} · 直达",
+        "transfers": "{mode} · 换乘{count}次",
+        "times": "{dep}出发 → {arr}抵达",
+        "current": "当前路线",
+        "close": "关闭",
+        "picked": "已改为{mode}路线",
+        "modes": {
+          "bus": "长途巴士",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "航班",
+          "ship": "轮渡",
+          "metro": "城际地铁"
+        }
       }
     },
     "info": {
@@ -940,7 +1011,7 @@
       "heading": "出行要领",
       "steps": {
         "wide": "先选择长途交通（巴士、火车、航班、轮渡、地铁、自驾）。只会显示与所选方式相符的客运站、车站、机场或港口作为出发地和返程地。",
-        "origin": "选择地铁时，按线路 → 站名的顺序选择。列表中没有的车站可按名称搜索添加。",
+        "origin": "选择地铁时，按线路 → 站名的顺序选择。",
         "route": "如果到目的地有两条以上路线（例如 KTX / 高速巴士），请在提示窗口中选择路线。从家到客运站或车站的路段也会一并计算。",
         "local": "当地交通可在租车和公共交通中选择。设定日期和出发时间后，会计算每天的路线和地点之间的移动时间，停留时间可按地点修改。",
         "stay": "住一晚以上时，每天会附上住宿候选和预订按钮。住宿地点不计入观光时间。",

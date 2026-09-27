@@ -752,11 +752,13 @@
         }
       },
       "trip": {
-        "heading": "출발지 · 시각",
+        "heading": "출발 · 귀가",
         "origin": "출발지",
         "depTime": "출발 시각 (출발지)",
         "retTime": "여행지 출발 시각",
-        "retHint": "마지막 날은 이 시각까지 일정을 마쳐요"
+        "retHint": "마지막 날은 이 시각까지 일정을 마쳐요",
+        "originEnd": "귀가지",
+        "originSame": "출발지와 동일"
       },
       "wide": {
         "heading": "광역 교통",
@@ -769,19 +771,15 @@
           "own": "자가용"
         },
         "short": {
-          "origin": "출발지에 없음",
           "hub": "도착지에 없음",
           "island": "차로 못 가요"
         },
         "reason": {
-          "origin": "{origin}에서 출발하는 {mode} 노선이 없어요",
           "hub": "{hub}에는 {mode} 노선이 없어요",
           "island": "섬 지역이라 자가용으로 갈 수 없어요",
           "noCity": "도시를 고르거나 장소를 담으면 광역 교통을 고를 수 있어요"
         },
-        "access": "{origin} → {hub} · 약 {duration}",
-        "none": "이 출발지에서 {city}에 닿는 광역 교통이 없어 광역 이동 시간을 빼고 계산했어요. 출발지를 바꿔 보세요",
-        "useOrigin": "{origin}에서 출발하기"
+        "access": "{origin} → {hub} · 약 {duration}"
       },
       "local": {
         "heading": "현지 이동",
@@ -915,6 +913,79 @@
         "book": "숙박 예약",
         "setStatus": "{day}일차 밤 숙소를 {name}(으)로 지정했어요",
         "unsetStatus": "{name} 숙소 지정을 해제했어요"
+      },
+      "metro": {
+        "start": "출발지 · 호선 → 역명",
+        "city": "출발 전철역 (광역전철 구간)",
+        "end": "귀가지 · 호선 → 역명",
+        "line": "호선",
+        "station": "역명",
+        "linePlaceholder": "호선 선택",
+        "stationPlaceholder": "역 선택",
+        "endPlaceholder": "출발역과 동일",
+        "lineChanged": "호선을 바꿔 역 선택을 비웠어요. 역을 다시 고르세요",
+        "lineNo": "{n}호선",
+        "cityLineNo": "{city}{n}호선",
+        "cities": {
+          "incheon": "인천",
+          "busan": "부산",
+          "daegu": "대구",
+          "daejeon": "대전",
+          "gwangju": "광주"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "전철",
+          "bus": "고속·시외버스",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "항공",
+          "ship": "여객선",
+          "own": "자가용"
+        },
+        "depart": "출발",
+        "leave": "여행지 출발",
+        "ride": "{mode} {duration} 후 도착",
+        "wait": "대기 {duration} → {time} {mode} 탑승",
+        "transfer": "환승 {duration} → {time} {mode} 탑승",
+        "board": "{mode} 탑승",
+        "arrive": "도착 관문",
+        "home": "귀가 도착",
+        "note": "시각은 거리 기반 예상치예요. 예매할 때 실제 시간표를 확인하세요",
+        "gateway": "환승 관문",
+        "routeChange": "경로 변경",
+        "alt": "다른 광역교통 경로 {count}개",
+        "arrivalTag": "도착 후",
+        "arrivalSub": "≈ {mode} {duration} · {km} km",
+        "arrivalModes": {
+          "transit": "대중교통",
+          "driving": "차량"
+        },
+        "directions": "길찾기",
+        "directionsLabel": "{from}에서 {to}까지 길찾기 (새 창)"
+      },
+      "route": {
+        "kickerIn": "광역교통 경로 선택",
+        "kickerOut": "귀가 경로 선택",
+        "titleIn": "{origin} → {city} 경로가 {count}가지 있어요",
+        "titleOut": "{city} → {origin} 귀가 경로가 {count}가지 있어요",
+        "body": "이용할 광역교통을 하나 고르세요. 고른 경로로 환승 관문과 일정 시각을 다시 계산해요",
+        "foot": "닫으면 기본 경로(강조된 항목)를 써요. 코스 카드의 「경로 변경」에서 언제든 바꿀 수 있어요",
+        "direct": "{mode} · 직행",
+        "transfers": "{mode} · 환승 {count}회",
+        "times": "{dep} 출발 → {arr} 도착",
+        "current": "지금 경로",
+        "close": "닫기",
+        "picked": "{mode} 경로로 바꿨어요",
+        "modes": {
+          "bus": "고속·시외버스",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "항공",
+          "ship": "여객선",
+          "metro": "광역전철"
+        }
       }
     },
     "info": {
@@ -940,7 +1011,7 @@
       "heading": "이동 요령",
       "steps": {
         "wide": "광역교통(버스·기차·항공·배·지하철·자가용)을 먼저 고릅니다. 고른 수단에 맞는 터미널·역·공항·항만만 출발지·귀가지로 나옵니다.",
-        "origin": "지하철을 고르면 호선 → 역명 순으로 고릅니다. 목록에 없는 역은 이름으로 검색해 추가합니다.",
+        "origin": "지하철을 고르면 호선 → 역명 순으로 고릅니다.",
         "route": "여행지까지 두 가지 이상 경로가 있으면(예: KTX / 고속버스) 안내 창에서 경로를 고릅니다. 집에서 터미널·역까지 가는 구간도 함께 계산됩니다.",
         "local": "현지 이동은 렌트카 또는 대중교통 중에서 고릅니다. 날짜·출발 시각을 정하면 하루 단위 동선과 장소 사이 이동 시간이 계산되고, 체류 시간은 장소마다 바꿀 수 있습니다.",
         "stay": "1박 이상이면 날짜마다 숙소 후보와 예약 버튼이 붙습니다. 숙박 장소는 관광 시간 계산에서 빠집니다.",
