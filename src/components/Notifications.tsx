@@ -3,7 +3,7 @@
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useId } from "react";
+import { useId, useRef } from "react";
 import { usePopover } from "@/components/ui/use-popover";
 import { useHydrated, usePlannerCourse } from "@/features/planner/course-store";
 import { decodeAnswers } from "@/features/recommend/answers";
@@ -19,6 +19,7 @@ import {
   useLocalValue,
   writeReadIds,
 } from "@/lib/local-store";
+import { formatDate } from "@/lib/format-date";
 import {
   type AppNotification,
   buildNotifications,
@@ -42,6 +43,8 @@ export function Notifications({ citytour }: NotificationsProps) {
   const { open, setOpen, toggle, rootRef, triggerRef, onBlur } = usePopover();
   const panelId = useId();
   const headingId = useId();
+  // 「모두 읽음」을 누르면 그 버튼이 사라지므로 초점을 패널 제목으로 옮긴다
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
   const answers = lastA ? decodeAnswers(lastA) : null;
@@ -88,7 +91,7 @@ export function Notifications({ citytour }: NotificationsProps) {
           body: t("citytour.body", {
             tours: n.tours,
             regions: n.regions,
-            date: n.date,
+            date: formatDate(n.date, locale),
           }),
         };
     }
@@ -124,21 +127,27 @@ export function Notifications({ citytour }: NotificationsProps) {
         className="absolute top-full right-0 z-40 mt-1 w-80 max-w-[calc(100vw-2rem)] rounded-card bg-surface p-2 ring-1 ring-line"
       >
         <div className="flex items-center justify-between gap-2 py-1 pr-1 pl-3">
-          <h2 id={headingId} className="text-body-lg font-bold">
+          <h2
+            ref={headingRef}
+            id={headingId}
+            tabIndex={-1}
+            className="rounded-lg text-body-lg font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          >
             {t("heading")}
           </h2>
           {unread > 0 && (
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
                 writeReadIds(
                   markRead(
                     list,
                     readIds,
                     list.map((n) => n.id),
                   ),
-                )
-              }
+                );
+                headingRef.current?.focus();
+              }}
               className="min-h-11 rounded-xl px-3 text-label font-semibold text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
             >
               {t("markAll")}

@@ -1,8 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { formatDate } from "@/lib/format-date";
 import type { CityTour } from "@/features/home/citytour";
 import { CityTourCard, useCityTourAdd } from "@/features/home/CityTourCard";
 
@@ -28,6 +29,7 @@ export function InfoCityTours({
   tours,
 }: InfoCityToursProps) {
   const t = useTranslations("Planner.info");
+  const locale = useLocale();
   const { onAdd, dialog } = useCityTourAdd();
   const [shown, setShown] = useState(CT_INITIAL);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
@@ -87,7 +89,9 @@ export function InfoCityTours({
             </Button>
           )}
           <p className="mt-3 px-1 text-micro text-fg-subtle">
-            {t("citytour.source", { date: tours[0].date })}
+            {t("citytour.source", {
+              date: formatDate(tours[0].date, locale),
+            })}
           </p>
         </>
       )}

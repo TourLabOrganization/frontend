@@ -10,6 +10,7 @@ import { ConfirmDialog } from "@/features/planner/ConfirmDialog";
 import { usePlannerCourse } from "@/features/planner/course-store";
 import { cityName } from "@/features/planner/regions";
 import { useNameTable } from "@/features/names/NamesProvider";
+import { formatDate } from "@/lib/format-date";
 import { krUnits } from "@/lib/kr-units";
 import {
   type CityTour,
@@ -174,7 +175,7 @@ export function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
           : t("addDisabled")}
       </p>
       <p className="mt-1 text-micro text-fg-subtle tabular-nums">
-        {t("date", { date: tour.date })}
+        {t("date", { date: formatDate(tour.date, locale) })}
       </p>
     </li>
   );
