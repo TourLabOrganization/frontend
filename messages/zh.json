@@ -59,7 +59,7 @@
       "loading": "正在加载天气",
       "error": "无法加载天气",
       "retry": "重试",
-      "credit": "天气：Open-Meteo",
+      "credit": "天气：Open-Meteo（CC BY 4.0）",
       "max": "最高气温",
       "rain": "降水量",
       "kinds": {

@@ -59,7 +59,7 @@
       "loading": "Cargando el tiempo…",
       "error": "No se pudo cargar el tiempo",
       "retry": "Reintentar",
-      "credit": "Tiempo: Open-Meteo",
+      "credit": "Tiempo: Open-Meteo (CC BY 4.0)",
       "max": "Máxima",
       "rain": "Precipitación",
       "kinds": {

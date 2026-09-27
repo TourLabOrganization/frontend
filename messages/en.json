@@ -54,12 +54,12 @@
     "weather": {
       "title": "Weather",
       "today": "Today",
-      "yesterday": "Yday",
-      "tomorrow": "Tmrw",
+      "yesterday": "Yesterday",
+      "tomorrow": "Tomorrow",
       "loading": "Loading the weather…",
       "error": "Couldn't load the weather",
       "retry": "Try again",
-      "credit": "Weather: Open-Meteo",
+      "credit": "Weather: Open-Meteo (CC BY 4.0)",
       "max": "High",
       "rain": "Precipitation",
       "kinds": {

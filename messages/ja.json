@@ -59,7 +59,7 @@
       "loading": "天気を読み込み中です",
       "error": "天気を読み込めませんでした",
       "retry": "再試行",
-      "credit": "天気：Open-Meteo",
+      "credit": "天気：Open-Meteo（CC BY 4.0）",
       "max": "最高気温",
       "rain": "降水量",
       "kinds": {

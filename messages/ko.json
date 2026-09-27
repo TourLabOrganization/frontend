@@ -59,7 +59,7 @@
       "loading": "날씨를 불러오는 중이에요",
       "error": "날씨를 불러오지 못했어요",
       "retry": "다시 시도",
-      "credit": "날씨: Open-Meteo",
+      "credit": "날씨: Open-Meteo (CC BY 4.0)",
       "max": "최고 기온",
       "rain": "강수량",
       "kinds": {
