@@ -49,9 +49,11 @@ import {
   withStayOverrides,
 } from "./course-edit";
 import {
+  DEP_TIMES,
   type PlannerSettings,
   parseSettings,
   pickSettings,
+  RET_TIMES,
   useHydrated,
   usePlannerCourse,
   useToday,
@@ -129,19 +131,6 @@ const CARD = "rounded-card p-4 ring-1 ring-line";
 // aria-disabled 버튼(이유를 읽게 초점은 남긴다)의 모양
 const ARIA_DISABLED =
   "aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-disabled:active:scale-100";
-
-/** 출발 시각 보기: 05:00~20:30, 30분 간격 (PoC depTimeOptions) */
-const DEP_TIMES = halfHours(5, 20);
-/** 여행지 출발 시각 보기: 10:00~23:30, 30분 간격 (PoC retTimeOptions) */
-const RET_TIMES = halfHours(10, 23);
-
-function halfHours(from: number, to: number): string[] {
-  const out: string[] = [];
-  for (let h = from; h <= to; h++)
-    for (const m of ["00", "30"])
-      out.push(`${String(h).padStart(2, "0")}:${m}`);
-  return out;
-}
 
 /** 「주변 숙소」 후보가 되는 우리 숙박 장소 */
 const STAY_PLACES = PLANNER_PLACES.filter(isStay);

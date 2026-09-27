@@ -132,7 +132,19 @@ const EMPTY: PlannerCourse = {
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-const TIME_RE = /^\d{2}:\d{2}$/;
+
+function halfHours(from: number, to: number): string[] {
+  const out: string[] = [];
+  for (let h = from; h <= to; h++)
+    for (const m of ["00", "30"])
+      out.push(`${String(h).padStart(2, "0")}:${m}`);
+  return out;
+}
+
+/** 출발 시각 보기: 05:00~20:30, 30분 간격 (PoC depTimeOptions). 코스 탭이 보이고, 저장값도 이 목록으로 검사한다 */
+export const DEP_TIMES: readonly string[] = halfHours(5, 20);
+/** 여행지 출발 시각 보기: 10:00~23:30, 30분 간격 (PoC retTimeOptions). 코스 탭이 보이고, 저장값도 이 목록으로 검사한다 */
+export const RET_TIMES: readonly string[] = halfHours(10, 23);
 
 /** YYYY-MM-DD가 실제 있는 날짜인지 */
 function isIsoDate(value: unknown): value is string {
@@ -141,11 +153,17 @@ function isIsoDate(value: unknown): value is string {
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === value;
 }
 
-const isTime = (value: unknown): value is string =>
-  typeof value === "string" && TIME_RE.test(value);
+/** 화면에서 고를 수 있는 시각인지(목록 밖 · 「99:99」는 기본값으로) */
+const isTimeIn =
+  (list: readonly string[]) =>
+  (value: unknown): value is string =>
+    typeof value === "string" && list.includes(value);
+const isDepTime = isTimeIn(DEP_TIMES);
+const isRetTime = isTimeIn(RET_TIMES);
 
+/** 출발지 키인지. in 대신 Object.hasOwn — 「constructor」 같은 Object 원형의 키를 받지 않는다 */
 const isOriginKey = (value: unknown): value is string =>
-  typeof value === "string" && value in PLANNER_ORIGINS;
+  typeof value === "string" && Object.hasOwn(PLANNER_ORIGINS, value);
 
 /** 문자열 값만 남긴 객체. check로 값을 거른다 */
 function stringMap(
@@ -178,8 +196,8 @@ export function parseSettings(v: Record<string, unknown>): PlannerSettings {
     endDate: isIsoDate(v.endDate) ? v.endDate : d.endDate,
     origin: isOriginKey(v.origin) ? v.origin : d.origin,
     originEnd: isOriginKey(v.originEnd) ? v.originEnd : d.originEnd,
-    depTime: isTime(v.depTime) ? v.depTime : d.depTime,
-    retTime: isTime(v.retTime) ? v.retTime : d.retTime,
+    depTime: isDepTime(v.depTime) ? v.depTime : d.depTime,
+    retTime: isRetTime(v.retTime) ? v.retTime : d.retTime,
     wideMode: (WIDE_MODES as readonly unknown[]).includes(v.wideMode)
       ? (v.wideMode as WideMode)
       : d.wideMode,
@@ -187,7 +205,7 @@ export function parseSettings(v: Record<string, unknown>): PlannerSettings {
       ? (v.localMode as LocalMode)
       : d.localMode,
     routePick: stringMap(v.routePick),
-    gwPick: stringMap(v.gwPick, (k) => k in PLANNER_ORIGINS),
+    gwPick: stringMap(v.gwPick, isOriginKey),
     metroLine: text(v.metroLine),
     metroOrigin: text(v.metroOrigin),
     metroEndLine: text(v.metroEndLine),

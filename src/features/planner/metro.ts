@@ -34,9 +34,9 @@ const LINE_COLOR: Readonly<Record<string, string>> = {
   ...wideData.busanLineColor,
 };
 
-/** 부산 도시철도 호선(B1 · B2 · B3 · B4 · G · D)인지 */
+/** 부산 도시철도 호선(B1 · B2 · B3 · B4 · G · D)인지. 저장값이 「constructor」여도 참이 되지 않게 Object.hasOwn */
 export function isBusanLine(line: string): boolean {
-  return line in BUSAN_LINE_LABEL.ko;
+  return Object.hasOwn(BUSAN_LINE_LABEL.ko, line);
 }
 
 /** 고를 수 있는 호선. 수도권(PoC order 순서, 없는 호선은 뒤) → 부산(BUSAN_LINE_LABEL 순서) */
