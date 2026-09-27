@@ -1081,7 +1081,29 @@
         "metro": "Metro rail"
       },
       "linksHeading": "Regional tourism guides",
-      "newWindow": "(opens in a new window)"
+      "newWindow": "(opens in a new window)",
+      "defaultRegion": "Default",
+      "more": "Show more ({shown} / {total})",
+      "call": "Call",
+      "citytour": {
+        "title": "City tours · {city}",
+        "meta": "{count} courses",
+        "empty": "No city tours listed for this region.",
+        "source": "Source: National city tour standard data · {date} · Course info is in Korean."
+      },
+      "tic": {
+        "title": "Tourist info centers · {city}",
+        "meta": "{count}",
+        "hotline": "1330 Korea Travel Hotline · 24 h",
+        "hotlineSub": "English, Japanese, Chinese and more",
+        "onlyMine": "English-speaking only ({count})",
+        "emptyMine": "No center here lists English support. Call 1330 for interpretation.",
+        "empty": "No info centers listed for this region.",
+        "hours": "Hours",
+        "closed": "Closed",
+        "map": "Map",
+        "source": "Source: KTO tourist info centers · Kakao coordinates · Names shown in Korean"
+      }
     },
     "howTo": {
       "heading": "How routing works",

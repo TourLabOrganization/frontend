@@ -1081,7 +1081,29 @@
         "metro": "광역전철"
       },
       "linksHeading": "지역별 관광 안내",
-      "newWindow": "(새 창)"
+      "newWindow": "(새 창)",
+      "defaultRegion": "기본 지역",
+      "more": "더 보기 ({shown} / {total})",
+      "call": "전화",
+      "citytour": {
+        "title": "{city} 시티투어",
+        "meta": "{count}개 코스",
+        "empty": "이 지역에 등록된 시티투어가 없습니다.",
+        "source": "출처: 전국시티투어정보표준데이터 · {date} 기준"
+      },
+      "tic": {
+        "title": "{city} 관광안내소",
+        "meta": "{count}곳",
+        "hotline": "1330 관광통역안내 · 24시간",
+        "hotlineSub": "한국어·영어·일본어·중국어 등 외국어 통역 안내",
+        "onlyMine": "외국어 안내 가능한 곳만 ({count})",
+        "emptyMine": "외국어 안내가 표시된 안내소가 없습니다. 통역은 1330으로 전화하세요.",
+        "empty": "이 지역에 등록된 관광안내소가 없습니다.",
+        "hours": "운영",
+        "closed": "휴무",
+        "map": "지도",
+        "source": "출처: 한국관광공사 전국관광안내소 정보 · 좌표 카카오"
+      }
     },
     "howTo": {
       "heading": "이동 요령",

@@ -1081,7 +1081,29 @@
         "metro": "広域電車"
       },
       "linksHeading": "地域別の観光案内",
-      "newWindow": "（新しいウィンドウ）"
+      "newWindow": "（新しいウィンドウ）",
+      "defaultRegion": "既定の地域",
+      "more": "もっと見る ({shown} / {total})",
+      "call": "電話",
+      "citytour": {
+        "title": "{city} シティツアー",
+        "meta": "{count}コース",
+        "empty": "この地域のシティツアーは登録されていません。",
+        "source": "出典：全国シティツアー標準データ · {date} · コース情報は韓国語です。"
+      },
+      "tic": {
+        "title": "{city} 観光案内所",
+        "meta": "{count}か所",
+        "hotline": "1330 観光通訳案内 · 24時間",
+        "hotlineSub": "日本語・英語・中国語などで案内",
+        "onlyMine": "日本語対応のみ ({count})",
+        "emptyMine": "日本語対応の案内所がありません。1330へお電話ください。",
+        "empty": "この地域の観光案内所は登録されていません。",
+        "hours": "営業",
+        "closed": "休業",
+        "map": "地図",
+        "source": "出典：韓国観光公社 · 名称は韓国語表記"
+      }
     },
     "howTo": {
       "heading": "移動のコツ",

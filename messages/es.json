@@ -1081,7 +1081,29 @@
         "metro": "Tren urbano"
       },
       "linksHeading": "Guías de turismo regionales",
-      "newWindow": "(se abre en otra ventana)"
+      "newWindow": "(se abre en otra ventana)",
+      "defaultRegion": "Predeterminado",
+      "more": "Ver más ({shown} / {total})",
+      "call": "Llamar",
+      "citytour": {
+        "title": "City tours · {city}",
+        "meta": "{count} rutas",
+        "empty": "No hay city tours registrados en esta región.",
+        "source": "Fuente: datos estándar de city tours · {date} · La información está en coreano."
+      },
+      "tic": {
+        "title": "Oficinas de turismo · {city}",
+        "meta": "{count}",
+        "hotline": "1330 Línea de turismo · 24 h",
+        "hotlineSub": "Inglés, japonés, chino y más",
+        "onlyMine": "Solo con inglés ({count})",
+        "emptyMine": "Ninguna oficina indica inglés. Llama al 1330.",
+        "empty": "No hay oficinas registradas en esta región.",
+        "hours": "Horario",
+        "closed": "Cierre",
+        "map": "Mapa",
+        "source": "Fuente: KTO · Nombres en coreano"
+      }
     },
     "howTo": {
       "heading": "Cómo se calcula la ruta",

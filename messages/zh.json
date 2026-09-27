@@ -1081,7 +1081,29 @@
         "metro": "城际地铁"
       },
       "linksHeading": "各地旅游指南",
-      "newWindow": "（新窗口）"
+      "newWindow": "（新窗口）",
+      "defaultRegion": "默认地区",
+      "more": "查看更多 ({shown} / {total})",
+      "call": "电话",
+      "citytour": {
+        "title": "{city} 城市观光巴士",
+        "meta": "{count}条路线",
+        "empty": "该地区没有登记的城市观光巴士。",
+        "source": "来源：全国城市观光标准数据 · {date} · 路线信息为韩文。"
+      },
+      "tic": {
+        "title": "{city} 旅游咨询处",
+        "meta": "{count}处",
+        "hotline": "1330 旅游咨询热线 · 24小时",
+        "hotlineSub": "提供中文、英语、日语等翻译服务",
+        "onlyMine": "仅显示中文服务 ({count})",
+        "emptyMine": "此地区没有标注中文服务的咨询处，请拨打1330。",
+        "empty": "该地区没有登记的旅游咨询处。",
+        "hours": "营业",
+        "closed": "休息",
+        "map": "地图",
+        "source": "来源：韩国观光公社 · 名称为韩文"
+      }
     },
     "howTo": {
       "heading": "出行要领",

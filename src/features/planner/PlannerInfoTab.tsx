@@ -2,21 +2,38 @@ import { ExternalLink } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { buttonClassName } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
+import type { CityTour } from "@/features/home/citytour";
+import toursData from "@/features/home/data/citytour.json";
+import { loadNameTable } from "@/features/names/server";
 import { PLANNER_LINKS } from "./data/info";
+import ticData from "./data/tic.json";
+import { InfoCenters } from "./InfoCenters";
 import { InfoCitySelect } from "./InfoCitySelect";
-import { CITY_HUBS } from "./regions";
+import { InfoCityTours } from "./InfoCityTours";
+import { CITY_HUBS, cityName } from "./regions";
 import { RoutingHowTo } from "./RoutingHowTo";
+import type { InfoCenter } from "./tic";
+
+const TOURS = toursData as CityTour[];
+const CENTERS = ticData as InfoCenter[];
+/** 도시를 고르지 않았을 때 시티투어 · 관광안내소에 보이는 도시(PoC key 기본값) */
+const DEFAULT_CITY = "서울";
 
 const MODE_KEYS = ["ktx", "srt", "bus", "air", "ship", "metro"] as const;
 type ModeKey = (typeof MODE_KEYS)[number];
 const isModeKey = (m: string): m is ModeKey =>
   (MODE_KEYS as readonly string[]).includes(m);
 
-// 투어 플래너 여행 정보 탭. 선택한 지역(도시)의 광역 관문 · 이동 요령 · 지역별 관광 안내 링크.
-// 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 이동 요령은 코스 탭과 같은 접이식 6단계(RoutingHowTo), 링크는 data/info.ts
+// 투어 플래너 여행 정보 탭. 선택한 지역(도시)의 광역 관문 · 시티투어 · 관광안내소 · 이동 요령 · 지역별 관광 안내 링크.
+// 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 이동 요령은 코스 탭과 같은 접이식 6단계(RoutingHowTo), 링크는 data/info.ts.
+// 시티투어(홈과 같은 카드) · 관광안내소(data/tic.json)는 PoC처럼 도시를 고르지 않으면 서울을 「기본 지역」으로 보인다.
+// 두 데이터는 서버에서 그 도시 것만 골라 넘긴다(클라이언트 번들에 전국 데이터를 싣지 않는다)
 export async function PlannerInfoTab({ city }: { city: string | null }) {
   const t = await getTranslations("Planner.info");
   const locale = await getLocale();
+  const names = await loadNameTable(locale);
+  const infoCity = city ?? DEFAULT_CITY;
+  const infoCityLabel = cityName(infoCity, locale, names);
   // 관문 이름은 한국어 · 영어만 있다. 중 · 일 · 스페인어 화면은 영어 이름
   const lang = locale === "ko" ? "ko" : "en";
   const hub = city ? CITY_HUBS[city] : undefined;
@@ -87,6 +104,21 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
           )}
         </div>
       </section>
+
+      <InfoCityTours
+        key={`ct|${infoCity}`}
+        cityLabel={infoCityLabel}
+        isDefault={city === null}
+        tours={TOURS.filter((tour) => tour.region === infoCity)}
+      />
+
+      <InfoCenters
+        key={`tic|${infoCity}`}
+        city={infoCity}
+        cityLabel={infoCityLabel}
+        isDefault={city === null}
+        centers={CENTERS.filter((c) => c.city === infoCity)}
+      />
 
       <RoutingHowTo />
 
