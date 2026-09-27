@@ -5,7 +5,8 @@
 //   src/features/planner/data/regions.json        권역 7개 · 도시 · 관문 · 출발지 · 도시별 장소 수(placeCounts)
 //
 // 사용법:
-//   node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더>
+//   node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더> [data-server 폴더]
+//   (data-server 폴더를 빼면 DATA_SERVER_DIR 환경변수, 그것도 없으면 ../data-server. places.json이 없으면 멈춘다)
 //   npm run format   # JSON을 리포 포맷으로 맞춘다
 //
 // 원천 (Tour-Navigator-App main f44eb97 · 2026-09-27, 원천 파일은 이 리포에 넣지 않는다):
@@ -15,13 +16,16 @@
 //   - 파생 데이터/장소.csv                 3,118곳. 중 · 일 장소명 · 지정구역(vz) · 시티투어경유(ct) · 연관관광지(rs) · 카카오장소URL(url)
 //   - 파생 데이터/지역거점.csv (110)        관문 수단(수도권 전철 metro를 더한 화면 실행 값)
 //   - 파생 데이터/출발지.csv (61)           출발지 수단(위와 같다)
+//   - data-server data/derived/places.json  (develop ac9eb34 · 2026-09-28) 분류 · 영어 이름 · 인기 순위 · 지정구역.
+//                                          합치는 규칙은 scripts/data-server.mjs. 만든 커밋을 끝에 출력한다(docs/structure.md에 적는다)
 //
 // 규칙:
 //   - 장소 필드 이름은 src/features/course/places.ts의 Place 타입과 같다(일정 모듈이 그대로 먹는다).
 //     체류분 · 운영시간 · 플래그 · 배지는 체류시간 CSV 값(id로 조인), 설명(bKo · bEn) · 사진(img · imgCredit) · 좌표근거(srcKo · srcEn)는 DATA,
 //     중 · 일 이름 · 지정구역 · 시티투어경유 · 연관관광지 · 카카오장소URL은 장소.csv에서 가져온다
 //   - 도시 영어 이름 = CITY_NAME, 없으면 장소.csv 「시군(영문)」(장소의 locEn). 둘 다 없으면 빈 문자열(화면은 한국어 이름)
-//   - 가벼운 필드(places.json): Place 필드 + macro · pickCity · vz(지정구역 문구, 관광특구 배지 필터가 쓴다)
+//   - data-server 값을 id로 덮는다: cat ← catFinal, en ← nameEn(다를 때), vz ← zone, popRank(scripts/data-server.mjs)
+//   - 가벼운 필드(places.json): Place 필드 + macro · pickCity · vz(지정구역 문구, 관광특구 · 관광단지 배지) · popRank(데이터랩 인기 순위)
 //     무거운 필드(place-details.json, id → 값): desc · img · imgCredit · zh · ja · src · url · ct · rs
 //   - 도시(locKo) = DATA 키가 도시(gyeongju · geoje · yeongwol · seoul · jeju · busan)면 그 도시 이름,
 //     nation이면 장소의 locKo, 없으면 CSV 「시군」 (목업 regionKeyOf와 같다)
@@ -40,17 +44,24 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
+import {
+  loadDataServer,
+  mergeDataServer,
+  resolveDataServerDir,
+} from "./data-server.mjs";
 
-const [csvPath, plannerPath, derivedDir] = process.argv.slice(2);
+const [csvPath, plannerPath, derivedDir, dataServerArg] = process.argv.slice(2);
 if (!csvPath || !plannerPath || !derivedDir) {
   console.error(
-    "사용법: node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더>",
+    "사용법: node scripts/build-planner.mjs <체류시간_장소별.csv> <Tour Planner.dc.html> <파생 데이터 폴더> [data-server 폴더]",
   );
   process.exit(1);
 }
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = resolve(ROOT, "src/features/planner/data");
+const dataServer = loadDataServer(resolveDataServerDir(ROOT, dataServerArg));
+const dsChanged = { cat: 0, en: 0 };
 
 // ── CSV ──────────────────────────────────────────────────────────────
 /** RFC 4180 CSV. 따옴표 칸 안의 쉼표 · 줄바꿈 · "" 를 처리한다 */
@@ -301,7 +312,10 @@ for (const [key, group] of Object.entries(DATA)) {
     };
     if (pickCity) place.pickCity = pickCity;
     if (d && present(d["지정구역"])) place.vz = d["지정구역"];
-    places.push(place);
+    const merged = mergeDataServer(place, dataServer.byId.get(place.id));
+    if (merged.changed.cat) dsChanged.cat++;
+    if (merged.changed.en) dsChanged.en++;
+    places.push(merged.place);
 
     // 시트 전용(무거운) 필드
     const detail = {};
@@ -505,4 +519,13 @@ console.log("배지", {
   bf: places.filter((p) => p.bf).length,
   vz: places.filter((p) => p.vz).length,
   관광특구: places.filter((p) => p.vz?.includes("관광특구")).length,
+  popRank: places.filter((p) => p.popRank).length,
 });
+console.log(
+  "data-server",
+  dataServer.commit,
+  "장소",
+  dataServer.count,
+  "바뀐 값",
+  dsChanged,
+);

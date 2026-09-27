@@ -18,7 +18,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 3
     },
     {
       "id": "yw3",
@@ -58,7 +59,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 9
     },
     {
       "id": "yw4",
@@ -78,7 +80,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 14
     },
     {
       "id": "yw5",
@@ -118,7 +121,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 6
     },
     {
       "id": "ywx11",
@@ -138,7 +142,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 7
     },
     {
       "id": "ywx12",
@@ -158,7 +163,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 35
     },
     {
       "id": "ywx13",
@@ -178,7 +184,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 1
     },
     {
       "id": "ywx1",
@@ -218,7 +225,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 96
     },
     {
       "id": "ywx3",
@@ -238,7 +246,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 52
     },
     {
       "id": "ywx4",
@@ -246,7 +255,7 @@
       "ko": "동강사진박물관",
       "en": "Donggang Museum of Photography",
       "locKo": "영월",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 37.1836,
       "lng": 128.4682,
       "min": 60,
@@ -258,7 +267,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 75
     },
     {
       "id": "ywx5",
@@ -278,7 +288,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 11
     },
     {
       "id": "ywx6",
@@ -298,7 +309,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 8
     },
     {
       "id": "ywx7",
@@ -318,7 +330,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 54
     },
     {
       "id": "ywx8",
@@ -528,7 +541,7 @@
       "ko": "서울한방진흥센터",
       "en": "Seoul Oriental Medicine Center",
       "locKo": "서울",
-      "cat": "heal",
+      "cat": "herit",
       "lat": 37.5825,
       "lng": 127.0374,
       "min": 70,
@@ -560,7 +573,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 58
     },
     {
       "id": "kd11",
@@ -580,7 +594,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 56
     },
     {
       "id": "kdx1",
@@ -608,7 +623,7 @@
       "ko": "광화문광장",
       "en": "Gwanghwamun Square",
       "locKo": "서울",
-      "cat": "herit",
+      "cat": "heal",
       "lat": 37.5725,
       "lng": 126.9769,
       "min": 50,
@@ -668,7 +683,7 @@
       "ko": "인사동",
       "en": "Insa-dong",
       "locKo": "서울",
-      "cat": "food",
+      "cat": "activity",
       "lat": 37.574,
       "lng": 126.9856,
       "min": 70,
@@ -700,7 +715,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 29
     },
     {
       "id": "kdx7",
@@ -768,7 +784,7 @@
       "ko": "서울약령시 한의약박물관",
       "en": "Seoul Yangnyeongsi Herb Museum",
       "locKo": "서울",
-      "cat": "heal",
+      "cat": "herit",
       "lat": 37.583,
       "lng": 127.0382,
       "min": 50,
@@ -920,7 +936,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 87
     },
     {
       "id": "kdx18",
@@ -988,7 +1005,7 @@
       "ko": "경리단길",
       "en": "Gyeongnidan-gil",
       "locKo": "서울",
-      "cat": "food",
+      "cat": "activity",
       "lat": 37.5405,
       "lng": 126.9895,
       "min": 80,
@@ -1060,7 +1077,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 21
     },
     {
       "id": "kdx25",
@@ -1100,7 +1118,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 43
     },
     {
       "id": "kdx27",
@@ -1128,7 +1147,7 @@
       "ko": "서울어린이대공원",
       "en": "Seoul Children's Grand Park",
       "locKo": "서울",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 37.5495,
       "lng": 127.0815,
       "min": 90,
@@ -1140,7 +1159,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 28
     },
     {
       "id": "kdx29",
@@ -1180,7 +1200,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 35
     },
     {
       "id": "kdx31",
@@ -1220,7 +1241,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 93
     },
     {
       "id": "kdx33",
@@ -1328,7 +1350,7 @@
       "ko": "국립현대미술관 서울",
       "en": "MMCA Seoul",
       "locKo": "서울",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 37.5785,
       "lng": 126.98,
       "min": 90,
@@ -1340,7 +1362,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 84
     },
     {
       "id": "kdx39",
@@ -1360,7 +1383,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 13
     },
     {
       "id": "kdx40",
@@ -1420,7 +1444,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 59
     },
     {
       "id": "kdx43",
@@ -1440,7 +1465,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 25
     },
     {
       "id": "kdx44",
@@ -1508,7 +1534,7 @@
       "ko": "인사동 문화의거리",
       "en": "Insa-dong Culture Street",
       "locKo": "서울",
-      "cat": "food",
+      "cat": "activity",
       "lat": 37.573,
       "lng": 126.9855,
       "min": 90,
@@ -1588,7 +1614,7 @@
       "ko": "리움미술관",
       "en": "Leeum Museum of Art",
       "locKo": "서울",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 37.5384,
       "lng": 126.999,
       "min": 110,
@@ -1740,7 +1766,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 94
     },
     {
       "id": "kdx59",
@@ -1748,7 +1775,7 @@
       "ko": "국회의사당",
       "en": "National Assembly Building",
       "locKo": "서울",
-      "cat": "herit",
+      "cat": "activity",
       "lat": 37.532,
       "lng": 126.9143,
       "min": 60,
@@ -1860,7 +1887,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 73
     },
     {
       "id": "kdx65",
@@ -1908,7 +1936,7 @@
       "ko": "서울광장",
       "en": "Seoul Plaza",
       "locKo": "서울",
-      "cat": "activity",
+      "cat": "heal",
       "lat": 37.5658,
       "lng": 126.9784,
       "min": 30,
@@ -1948,7 +1976,7 @@
       "ko": "압구정 로데오거리",
       "en": "Apgujeong Rodeo Street",
       "locKo": "서울",
-      "cat": "food",
+      "cat": "activity",
       "lat": 37.5271,
       "lng": 127.0392,
       "min": 80,
@@ -2100,7 +2128,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 75
     }
   ],
   "jeju-k-drama": [
@@ -2110,7 +2139,7 @@
       "ko": "성산일출봉",
       "en": "Seongsan Ilchulbong",
       "locKo": "제주",
-      "cat": "herit",
+      "cat": "heal",
       "lat": 33.4581,
       "lng": 126.9425,
       "min": 110,
@@ -2122,7 +2151,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 5
     },
     {
       "id": "jd2",
@@ -2130,7 +2160,7 @@
       "ko": "김녕해수욕장",
       "en": "Gimnyeong Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.5591,
       "lng": 126.757,
       "min": 80,
@@ -2142,7 +2172,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 11
     },
     {
       "id": "jd3",
@@ -2190,7 +2221,7 @@
       "ko": "협재해수욕장",
       "en": "Hyeopjae Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.394,
       "lng": 126.2396,
       "min": 90,
@@ -2202,7 +2233,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 6
     },
     {
       "id": "jd6",
@@ -2242,7 +2274,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 2
     },
     {
       "id": "jd8",
@@ -2250,7 +2283,7 @@
       "ko": "광치기해변",
       "en": "Gwangchigi Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.4497,
       "lng": 126.9276,
       "min": 50,
@@ -2262,7 +2295,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 80
     },
     {
       "id": "jd9",
@@ -2310,7 +2344,7 @@
       "ko": "함덕해수욕장",
       "en": "Hamdeok Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.5434,
       "lng": 126.6696,
       "min": 80,
@@ -2322,7 +2356,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "제주시 관광지 (2013 지정)",
+      "popRank": 4
     },
     {
       "id": "jdx1",
@@ -2330,7 +2366,7 @@
       "ko": "섭지코지",
       "en": "Seopjikoji",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.4239,
       "lng": 126.9309,
       "min": 70,
@@ -2342,7 +2378,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 10
     },
     {
       "id": "jdx2",
@@ -2350,7 +2387,7 @@
       "ko": "만장굴",
       "en": "Manjanggul Cave",
       "locKo": "제주",
-      "cat": "herit",
+      "cat": "heal",
       "lat": 33.5285,
       "lng": 126.7714,
       "min": 60,
@@ -2402,7 +2439,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 91
     },
     {
       "id": "jdx5",
@@ -2442,7 +2480,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 28
     },
     {
       "id": "jdx7",
@@ -2482,7 +2521,8 @@
       "k100": false,
       "un": false,
       "bf": true,
-      "auto": true
+      "auto": true,
+      "popRank": 31
     },
     {
       "id": "jdx9",
@@ -2502,7 +2542,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 51
     },
     {
       "id": "jdx10",
@@ -2510,7 +2551,7 @@
       "ko": "중문색달해변",
       "en": "Jungmun Saekdal Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.2447,
       "lng": 126.4113,
       "min": 70,
@@ -2522,7 +2563,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 48
     },
     {
       "id": "jdx11",
@@ -2542,7 +2584,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 18
     },
     {
       "id": "jdx12",
@@ -2550,7 +2593,7 @@
       "ko": "오설록 티뮤지엄",
       "en": "O’sulloc Tea Museum",
       "locKo": "제주",
-      "cat": "food",
+      "cat": "herit",
       "lat": 33.3057,
       "lng": 126.2895,
       "min": 70,
@@ -2562,7 +2605,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 7
     },
     {
       "id": "jdx13",
@@ -2570,7 +2614,7 @@
       "ko": "용두암",
       "en": "Yongduam Rock",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.5155,
       "lng": 126.5121,
       "min": 40,
@@ -2582,7 +2626,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 34
     },
     {
       "id": "jdx14",
@@ -2590,7 +2635,7 @@
       "ko": "이호테우해변",
       "en": "Iho Tewoo Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.4939,
       "lng": 126.4531,
       "min": 50,
@@ -2602,7 +2647,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 8
     },
     {
       "id": "jdx15",
@@ -2642,7 +2688,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 77
     },
     {
       "id": "jdx17",
@@ -2662,7 +2709,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 74
     },
     {
       "id": "jdx18",
@@ -2682,7 +2730,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 12
     },
     {
       "id": "jdx19",
@@ -2710,7 +2759,7 @@
       "ko": "월정리해변",
       "en": "Woljeong-ri Beach",
       "locKo": "제주",
-      "cat": "food",
+      "cat": "sea",
       "lat": 33.5563,
       "lng": 126.7956,
       "min": 60,
@@ -2722,7 +2771,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 53
     },
     {
       "id": "jdx21",
@@ -2770,7 +2820,7 @@
       "ko": "송악산 둘레길",
       "en": "Songaksan Trail",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "herit",
       "lat": 33.2007,
       "lng": 126.289,
       "min": 80,
@@ -2790,7 +2840,7 @@
       "ko": "가파도",
       "en": "Gapado Island",
       "locKo": "제주",
-      "cat": "activity",
+      "cat": "sea",
       "lat": 33.166,
       "lng": 126.27,
       "min": 240,
@@ -2810,7 +2860,7 @@
       "ko": "마라도",
       "en": "Marado Island",
       "locKo": "제주",
-      "cat": "activity",
+      "cat": "sea",
       "lat": 33.1167,
       "lng": 126.2683,
       "min": 240,
@@ -2842,7 +2892,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 41
     },
     {
       "id": "jdx27",
@@ -2882,7 +2933,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "서귀포시 관광단지 (2023 지정)",
+      "popRank": 70
     },
     {
       "id": "jdx29",
@@ -2922,7 +2975,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 46
     },
     {
       "id": "jdx31",
@@ -2930,7 +2984,7 @@
       "ko": "용머리해안",
       "en": "Yongmeori Coast",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.233,
       "lng": 126.314,
       "min": 60,
@@ -2942,7 +2996,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 22
     },
     {
       "id": "jdx32",
@@ -2962,7 +3017,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "제주시 관광지 (2008 지정)"
     },
     {
       "id": "jdx33",
@@ -3002,7 +3058,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 92
     },
     {
       "id": "jdx35",
@@ -3082,7 +3139,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 65
     },
     {
       "id": "jdx39",
@@ -3162,7 +3220,9 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "제주시 관광지 (2008 지정)",
+      "popRank": 66
     },
     {
       "id": "jdx43",
@@ -3270,7 +3330,7 @@
       "ko": "하도해변",
       "en": "Hado Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.517,
       "lng": 126.883,
       "min": 50,
@@ -3290,7 +3350,7 @@
       "ko": "평대해변",
       "en": "Pyeongdae Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.552,
       "lng": 126.833,
       "min": 50,
@@ -3350,7 +3410,7 @@
       "ko": "신양섭지해수욕장",
       "en": "Sinyang Seopji Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.43,
       "lng": 126.926,
       "min": 50,
@@ -3410,7 +3470,7 @@
       "ko": "표선해수욕장",
       "en": "Pyoseon Beach",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 33.325,
       "lng": 126.833,
       "min": 60,
@@ -3422,7 +3482,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 52
     },
     {
       "id": "jdx56",
@@ -3470,7 +3531,7 @@
       "ko": "새연교",
       "en": "Saeyeongyo Bridge",
       "locKo": "제주",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 33.239,
       "lng": 126.561,
       "min": 40,
@@ -3490,7 +3551,7 @@
       "ko": "대포주상절리대",
       "en": "Daepo Columnar Joints",
       "locKo": "제주",
-      "cat": "herit",
+      "cat": "sea",
       "lat": 33.238,
       "lng": 126.427,
       "min": 50,
@@ -3502,7 +3563,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "서귀포시 관광단지 (2023 지정)",
+      "popRank": 19
     },
     {
       "id": "jdx60",
@@ -3522,7 +3585,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "서귀포시 관광단지 (2023 지정)"
     },
     {
       "id": "jdx61",
@@ -3530,7 +3594,7 @@
       "ko": "제주항공우주박물관",
       "en": "Jeju Aerospace Museum",
       "locKo": "제주",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 33.304,
       "lng": 126.309,
       "min": 110,
@@ -3542,7 +3606,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "서귀포시 관광단지 (2010 지정)",
+      "popRank": 63
     },
     {
       "id": "jdx62",
@@ -3582,7 +3648,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "서귀포시 관광단지 (2010 지정)",
+      "popRank": 37
     },
     {
       "id": "jdx64",
@@ -3602,7 +3670,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 39
     },
     {
       "id": "jdx65",
@@ -3630,7 +3699,7 @@
       "ko": "수월봉",
       "en": "Suwolbong",
       "locKo": "제주",
-      "cat": "herit",
+      "cat": "heal",
       "lat": 33.293,
       "lng": 126.166,
       "min": 60,
@@ -3650,7 +3719,7 @@
       "ko": "차귀도",
       "en": "Chagwido",
       "locKo": "제주",
-      "cat": "activity",
+      "cat": "sea",
       "lat": 33.312,
       "lng": 126.149,
       "min": 150,
@@ -3682,7 +3751,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 36
     },
     {
       "id": "jdx69",
@@ -3762,7 +3832,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "제주시 관광단지 (2018 지정)"
     },
     {
       "id": "jdx73",
@@ -3844,7 +3915,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 84
     },
     {
       "id": "bc2",
@@ -3864,7 +3936,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 21
     },
     {
       "id": "bc3",
@@ -3872,7 +3945,7 @@
       "ko": "해운대해수욕장",
       "en": "Haeundae Beach",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 35.1587,
       "lng": 129.1604,
       "min": 90,
@@ -3884,7 +3957,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "해운대구 관광지 (2006 지정)",
+      "popRank": 12
     },
     {
       "id": "bc4",
@@ -3924,7 +3999,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 25
     },
     {
       "id": "bc6",
@@ -3932,7 +4008,7 @@
       "ko": "흰여울문화마을",
       "en": "Huinnyeoul Culture Village",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 35.0783,
       "lng": 129.043,
       "min": 70,
@@ -3944,7 +4020,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 97
     },
     {
       "id": "bc7",
@@ -3952,7 +4029,7 @@
       "ko": "영도대교",
       "en": "Yeongdo Bridge",
       "locKo": "부산",
-      "cat": "herit",
+      "cat": "activity",
       "lat": 35.0977,
       "lng": 129.0356,
       "min": 50,
@@ -4004,7 +4081,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 58
     },
     {
       "id": "bc10",
@@ -4052,7 +4130,7 @@
       "ko": "태종대",
       "en": "Taejongdae",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 35.0533,
       "lng": 129.087,
       "min": 110,
@@ -4064,7 +4142,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "영도구 관광지 (2008 지정)",
+      "popRank": 22
     },
     {
       "id": "bcx1",
@@ -4072,7 +4152,7 @@
       "ko": "송도해수욕장 · 케이블카",
       "en": "Songdo Beach & Cable Car",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 35.0759,
       "lng": 129.017,
       "min": 90,
@@ -4084,7 +4164,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 32
     },
     {
       "id": "bcx2",
@@ -4092,7 +4173,7 @@
       "ko": "송도용궁구름다리",
       "en": "Songdo Yonggung Suspension Bridge",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 35.0619,
       "lng": 129.02221,
       "min": 50,
@@ -4132,7 +4213,7 @@
       "ko": "오륙도 스카이워크",
       "en": "Oryukdo Skywalk",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 35.0977,
       "lng": 129.1237,
       "min": 60,
@@ -4184,7 +4265,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 94
     },
     {
       "id": "bcx7",
@@ -4204,7 +4286,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 39
     },
     {
       "id": "bcx8",
@@ -4212,7 +4295,7 @@
       "ko": "부산현대미술관",
       "en": "Museum of Contemporary Art Busan",
       "locKo": "부산",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 35.109,
       "lng": 128.943,
       "min": 90,
@@ -4252,7 +4335,7 @@
       "ko": "다대포 꿈의낙조분수",
       "en": "Dadaepo Sunset Fountain",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 35.0489,
       "lng": 128.9666,
       "min": 60,
@@ -4272,7 +4355,7 @@
       "ko": "아미산 전망대",
       "en": "Amisan Observatory",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 35.05262,
       "lng": 128.96071,
       "min": 50,
@@ -4312,7 +4395,7 @@
       "ko": "보수동 책방골목",
       "en": "Bosu-dong Book Street",
       "locKo": "부산",
-      "cat": "food",
+      "cat": "activity",
       "lat": 35.1022,
       "lng": 129.0248,
       "min": 50,
@@ -4372,7 +4455,7 @@
       "ko": "유엔기념공원",
       "en": "UN Memorial Cemetery",
       "locKo": "부산",
-      "cat": "herit",
+      "cat": "heal",
       "lat": 35.12781,
       "lng": 129.09571,
       "min": 70,
@@ -4424,7 +4507,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 41
     },
     {
       "id": "bcx19",
@@ -4504,7 +4588,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 9
     },
     {
       "id": "bcx23",
@@ -4524,7 +4609,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "기장군 관광단지 (2011 지정)"
     },
     {
       "id": "bcx24",
@@ -4572,7 +4658,7 @@
       "ko": "일광해수욕장",
       "en": "Ilgwang Beach",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 35.2622,
       "lng": 129.2318,
       "min": 60,
@@ -4584,7 +4670,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 49
     },
     {
       "id": "bcx27",
@@ -4592,7 +4679,7 @@
       "ko": "송정해수욕장",
       "en": "Songjeong Beach",
       "locKo": "부산",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 35.1785,
       "lng": 129.1994,
       "min": 70,
@@ -4604,7 +4691,8 @@
       "k100": true,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 10
     },
     {
       "id": "bcx28",
@@ -4624,7 +4712,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "해운대구 관광지 (2005 지정)"
     },
     {
       "id": "bcx29",
@@ -4664,7 +4753,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "기장군 관광단지 (2011 지정)"
     },
     {
       "id": "bcx31",
@@ -4692,7 +4782,7 @@
       "ko": "민락수변공원",
       "en": "Millak Waterside Park",
       "locKo": "부산",
-      "cat": "food",
+      "cat": "heal",
       "lat": 35.1546,
       "lng": 129.13,
       "min": 60,
@@ -4792,7 +4882,7 @@
       "ko": "국립해양박물관",
       "en": "National Maritime Museum",
       "locKo": "부산",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 35.07833,
       "lng": 129.07986,
       "min": 100,
@@ -4804,7 +4894,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 40
     },
     {
       "id": "bcx38",
@@ -4852,7 +4943,7 @@
       "ko": "벡스코",
       "en": "BEXCO",
       "locKo": "부산",
-      "cat": "activity",
+      "cat": "herit",
       "lat": 35.169,
       "lng": 129.1345,
       "min": 80,
@@ -4864,7 +4955,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 13
     },
     {
       "id": "bcx42",
@@ -4884,7 +4976,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "해운대구 관광지 (2008 지정)"
     },
     {
       "id": "bcx43",
@@ -4944,7 +5037,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 42
     },
     {
       "id": "bcx46",
@@ -4964,7 +5058,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "기장군 관광단지 (2011 지정)",
+      "popRank": 36
     },
     {
       "id": "bcx47",
@@ -5004,7 +5100,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 29
     },
     {
       "id": "bcx49",
@@ -5024,7 +5121,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 45
     },
     {
       "id": "bcx50",
@@ -5112,7 +5210,7 @@
       "ko": "부산 차이나타운",
       "en": "Busan Chinatown",
       "locKo": "부산",
-      "cat": "food",
+      "cat": "activity",
       "lat": 35.11531,
       "lng": 129.03764,
       "min": 60,
@@ -5244,7 +5342,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 50
     },
     {
       "id": "bcx61",
@@ -5326,7 +5425,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 3
     },
     {
       "id": "gj4",
@@ -5366,7 +5466,9 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "경주시 관광단지 (2008 지정)",
+      "popRank": 6
     },
     {
       "id": "gj6",
@@ -5386,7 +5488,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "경주시 관광단지 (2008 지정)"
     },
     {
       "id": "gj7",
@@ -5406,7 +5509,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 51
     },
     {
       "id": "gjx1",
@@ -5426,7 +5530,8 @@
       "k100": true,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 1
     },
     {
       "id": "gjx2",
@@ -5446,7 +5551,8 @@
       "k100": true,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 7
     },
     {
       "id": "gjx3",
@@ -5466,7 +5572,8 @@
       "k100": true,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 4
     },
     {
       "id": "gjx4",
@@ -5486,7 +5593,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 5
     },
     {
       "id": "gjx5",
@@ -5506,7 +5614,8 @@
       "k100": true,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 9
     },
     {
       "id": "gjx6",
@@ -5526,7 +5635,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 52
     },
     {
       "id": "gjx7",
@@ -5566,7 +5676,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 27
     },
     {
       "id": "gjx9",
@@ -5574,7 +5685,7 @@
       "ko": "문무대왕릉",
       "en": "Tomb of King Munmu",
       "locKo": "경주",
-      "cat": "sea",
+      "cat": "herit",
       "lat": 35.7395,
       "lng": 129.4835,
       "min": 40,
@@ -5586,7 +5697,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 12
     },
     {
       "id": "gjx10",
@@ -5626,7 +5738,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 18
     },
     {
       "id": "gjx12",
@@ -5666,7 +5779,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 82
     },
     {
       "id": "gjx14",
@@ -5674,7 +5788,7 @@
       "ko": "감포항",
       "en": "Gampo Port",
       "locKo": "경주",
-      "cat": "food",
+      "cat": "sea",
       "lat": 35.8041,
       "lng": 129.5047,
       "min": 60,
@@ -5686,7 +5800,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 32
     },
     {
       "id": "gjx15",
@@ -5714,7 +5829,7 @@
       "ko": "계림",
       "en": "Gyerim Forest",
       "locKo": "경주",
-      "cat": "heal",
+      "cat": "herit",
       "lat": 35.8326,
       "lng": 129.219,
       "min": 40,
@@ -5746,7 +5861,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 89
     },
     {
       "id": "gjx18",
@@ -5754,7 +5870,7 @@
       "ko": "보문관광단지",
       "en": "Bomun Resort Complex",
       "locKo": "경주",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 35.8428,
       "lng": 129.2858,
       "min": 60,
@@ -5766,7 +5882,9 @@
       "k100": false,
       "un": false,
       "bf": true,
-      "auto": true
+      "auto": true,
+      "vz": "경주시 관광단지 (2008 지정)",
+      "popRank": 8
     },
     {
       "id": "gjx19",
@@ -5786,7 +5904,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": false
+      "auto": false,
+      "vz": "경주시 관광단지 (2008 지정)"
     },
     {
       "id": "gjx20",
@@ -5806,7 +5925,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "경주시 관광단지 (2008 지정)"
     },
     {
       "id": "gjx21",
@@ -5846,7 +5966,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 44
     },
     {
       "id": "gjx23",
@@ -5906,7 +6027,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 80
     },
     {
       "id": "gjx26",
@@ -5986,7 +6108,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 78
     },
     {
       "id": "gjx32",
@@ -6006,7 +6129,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 47
     },
     {
       "id": "gjx33",
@@ -6026,7 +6150,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "경주시 관광단지 (2008 지정)"
     },
     {
       "id": "gjx34",
@@ -6066,7 +6191,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 69
     },
     {
       "id": "gz1",
@@ -6086,7 +6212,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 38
     },
     {
       "id": "gz2",
@@ -6106,7 +6233,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 3
     },
     {
       "id": "gz3",
@@ -6126,7 +6254,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 37
     },
     {
       "id": "gz4",
@@ -6134,7 +6263,7 @@
       "ko": "바람의 언덕",
       "en": "Windy Hill",
       "locKo": "거제",
-      "cat": "sea",
+      "cat": "heal",
       "lat": 34.7447,
       "lng": 128.6631,
       "min": 60,
@@ -6146,7 +6275,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 2
     },
     {
       "id": "gz5",
@@ -6186,7 +6316,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 23
     },
     {
       "id": "gz7",
@@ -6206,7 +6337,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 8
     },
     {
       "id": "gz8",
@@ -6266,7 +6398,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 5
     },
     {
       "id": "gz11",
@@ -6346,7 +6479,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 36
     },
     {
       "id": "gzx1",
@@ -6354,7 +6488,7 @@
       "ko": "외도 보타니아",
       "en": "Oedo Botania",
       "locKo": "거제",
-      "cat": "heal",
+      "cat": "activity",
       "lat": 34.7697,
       "lng": 128.7106,
       "min": 150,
@@ -6366,7 +6500,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 89
     },
     {
       "id": "gzx2",
@@ -6386,7 +6521,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 7
     },
     {
       "id": "gzx3",
@@ -6394,7 +6530,7 @@
       "ko": "신선대",
       "en": "Sinseondae",
       "locKo": "거제",
-      "cat": "sea",
+      "cat": "activity",
       "lat": 34.7379,
       "lng": 128.6648,
       "min": 40,
@@ -6406,7 +6542,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 60
     },
     {
       "id": "gzx4",
@@ -6446,7 +6583,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 13
     },
     {
       "id": "gzx6",
@@ -6454,7 +6592,7 @@
       "ko": "지심도",
       "en": "Jisimdo Island",
       "locKo": "거제",
-      "cat": "heal",
+      "cat": "sea",
       "lat": 34.8215,
       "lng": 128.7501,
       "min": 240,
@@ -6486,7 +6624,8 @@
       "k100": false,
       "un": false,
       "bf": true,
-      "auto": true
+      "auto": true,
+      "popRank": 10
     },
     {
       "id": "gzx8",
@@ -6506,7 +6645,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "popRank": 57
     },
     {
       "id": "na1",
@@ -6526,7 +6666,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "수원시 관광특구 (2016 지정)"
     },
     {
       "id": "na22",
@@ -6546,7 +6687,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "수원시 관광특구 (2016 지정)"
     },
     {
       "id": "na23",
@@ -6566,7 +6708,8 @@
       "k100": false,
       "un": true,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "수원시 관광특구 (2016 지정)"
     },
     {
       "id": "na2",
@@ -6574,7 +6717,7 @@
       "ko": "수원전통문화관",
       "en": "Suwon Traditional Culture Center",
       "locKo": "수원",
-      "cat": "herit",
+      "cat": "activity",
       "lat": 37.2878,
       "lng": 127.0146,
       "min": 70,
@@ -6586,7 +6729,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "수원시 관광특구 (2016 지정)"
     },
     {
       "id": "na3",
@@ -6606,7 +6750,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "수원시 관광특구 (2016 지정)"
     },
     {
       "id": "na4",
@@ -6726,7 +6871,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": true
+      "auto": true,
+      "vz": "유성구 관광특구 (0000 지정)"
     },
     {
       "id": "na8",
@@ -6786,7 +6932,8 @@
       "k100": false,
       "un": false,
       "bf": true,
-      "auto": true
+      "auto": true,
+      "vz": "동해시 관광지 (2019 지정)"
     },
     {
       "id": "na11",
@@ -6806,7 +6953,8 @@
       "k100": false,
       "un": false,
       "bf": false,
-      "auto": false
+      "auto": false,
+      "vz": "동해시 관광지 (2019 지정)"
     },
     {
       "id": "nax1",
@@ -6954,7 +7102,7 @@
       "ko": "추암 촛대바위",
       "en": "Chuam Candlestick Rock",
       "locKo": "동해",
-      "cat": "sea",
+      "cat": "heal",
       "lat": 37.4785,
       "lng": 129.1568,
       "min": 50,

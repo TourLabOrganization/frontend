@@ -4,7 +4,8 @@ import type { AccessMode, Hub, LegFn, SchedulePlace } from "./schedule";
 import { legInfo, type TravelMode } from "./schedule";
 
 // 테마별 장소 · 광역 관문 데이터.
-// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv 에서 테마 5개 장소만 뽑은 것
+// data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv 에서 테마 5개 장소만 뽑은 것.
+//                   분류(cat) · 영어 이름 · 지정구역(vz) · 인기 순위(popRank)는 data-server places.json 값(scripts/data-server.mjs)
 // data/hubs.json:   Tour-Navigator-App/Tour Planner.dc.html 의 REGION_HUB(쓰는 시군만) · ORIGINS · METRO_NET
 // 둘 다 scripts/build-places.mjs 로 만든다. 손으로 고치지 않는다.
 
