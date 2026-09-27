@@ -64,10 +64,12 @@ public/                 정적 파일
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
   그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)
 - 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 귀가지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동 ·
-  고른 광역 경로 · 환승 관문 · 지하철 호선과 역)은 주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`).
+  고른 광역 경로 · 환승 관문 · 지하철 호선과 역 · 제주도민 여부 `jejuResident`)은 주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`).
   없는 필드는 기본값(오늘 · 당일 · 서울역 · 귀가지 = 출발지 · 08:00 · 19:00 · 고른 경로 · 관문 · 역 없음).
-  장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`), 경로 선택 창을 닫은 도착 도시(`routeSkip`)도 같은 값에 둔다.
-  저장된 플랜의 `settings`에는 `routeSkip`을 뺀 설정이 들어간다(PoC 플랜 필드와 같다). 예전 플랜은 없는 필드를 기본값으로 읽는다
+  장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`), 경로 선택 창을 닫은 도착 도시(`routeSkip`),
+  배편 시간표 카드에서 고른 출발 항구(`ferryPort`, 섬별), 울릉 안내 창이 열려 있는지(`ulNotice`)도 같은 값에 둔다.
+  저장된 플랜의 `settings`에는 `routeSkip` · `ferryPort` · `ulNotice`를 뺀 설정이 들어간다(PoC 플랜 필드와 같다. `jejuResident`는 PoC 플랜 필드에 없지만 일정이 달라져 넣는다).
+  예전 플랜은 없는 필드를 기본값으로 읽는다(`jejuResident` 없음 = 아직 답하지 않음)
 - 날짜는 달력에서 출발일 → 귀가일 순으로 누른다(PoC `calendarDays` pick, `features/planner/calendar.ts`). 귀가일을 고르는 중(`endDate` 없음)에는 당일로 계산하고,
   `MAX_TRIP_DAYS`를 넘는 날은 고를 수 없다(PoC에는 상한이 없다)
 - 체류 시간은 담은 장소 행에서 15분씩 바꾼다(15~600분, 추천값과 같으면 덮어쓰기를 지운다, PoC `setStay`). 일정 계산은 장소의 `min` 대신 이 값을 받을 뿐 식은 그대로다(`course-edit.ts`)
@@ -100,7 +102,7 @@ PoC `Tour Planner.dc.html`의 광역 체인 규칙을 그대로 옮겼다(식 ·
   지금 값이 목록에 없으면(예전 설정) 맨 앞에 더해 보인다
 - 출발지를 고르면 그 관문 종류로 광역 교통이 정해진다(`gwWideOf`: 공항 = 항공, 항만 = 배, 역 = 기차, 터미널 = 버스, 섞인 관문은 그대로).
   광역 교통을 바꿨는데 출발지가 맞지 않으면 그 수단의 첫 관문으로, 귀가지가 맞지 않으면 「출발지와 동일」로(`fixOriginsForWide`)
-- 광역 교통 칸은 도착 관문에 없는 버스 · 기차 · 항공 · 배, 섬의 자가용을 막는다. 지하철은 출발 · 귀가역을 고르는 칸이라 막지 않는다
+- 광역 교통 칸은 도착 관문에 없는 버스 · 기차 · 항공 · 배, 섬의 자가용(제주 제외, 아래 섬 여행)을 막는다. 지하철은 출발 · 귀가역을 고르는 칸이라 막지 않는다
 - **지하철**: 광역 교통이 지하철이면 출발지 · 귀가지를 호선 → 역명으로 고른다(귀가역 기본 「출발역과 동일」). 도착 도시가 전철권(`METRO_CITY`)이면 「출발 전철역」 하나를 고른다.
   역은 `data/wide.json`(PoC `METRO_STATIONS` 262역 · `BUSAN_STATIONS` 46역). 호선 이름은 PoC `metroLineLabel` · `BUSAN_LINE_LABEL`(부산 호선의 중 · 일 · 스페인어는 영어)
 - **체인**(`wideChain`): 출발점 → (전철 접근 15 + km × 1.2) → 출발 관문 → 본 구간(KTX · SRT 18 + km × 0.30, 버스 20 + km × 0.68, 항공 90 + km × 0.11, 배 60 + km × 0.85,
@@ -115,7 +117,32 @@ PoC `Tour Planner.dc.html`의 광역 체인 규칙을 그대로 옮겼다(식 ·
   출발지가 관문이고 그 수단이 닿으면 경로는 하나다(서울역 → 경주 KTX). 「경로 변경」으로 다시 연다
 - **키가 필요해 옮기지 않은 것**: TAGO 열차 · 고속버스 · 지하철 시간표(`getTrains` · `getBuses` · `getSubwayDeps` · `getBusanMetroDeps`), 공항 수속 실측(`getAirportProcess`, 없으면 90분),
   카카오 역 이름 검색(`metroQSearch`), 지도 검색으로 출발지 추가(`custom` · `custAsk`), Google 대중교통 실측(`fetchTransit`). 시각은 모두 거리 기반 예상치라 카드에 안내 한 줄을 둔다
-- 제주 자가용 카페리 · 도민 여부 · 배편 시간표 · 울릉 항로 고정 항해 시간은 아직 옮기지 않았다
+
+#### 섬 여행 — 제주 · 울릉 (`features/planner/island.ts` · `wide-chain.ts` · `schedule.ts` · `ferry.ts`)
+
+PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 손계산 대조).
+
+- **섬 판정**(`islandOf`): 도착 도시가 제주 · 서귀포면 제주, 울릉이면 울릉(PoC `isJejuTrip` · `ulleungTrip` · `ferryVals`)
+- **제주 광역 교통**: 항공 · 배 · 자가용 3칸만 보인다(PoC `wideOpts` `_jeju`). 예전에 고른 버스 · 기차 · 지하철은 고르지 않은 것으로 읽는다.
+  자가용을 고르면 출발지를 배의 관문(항만)으로 맞추고(PoC `wideOpts` pick) 「제주는 섬이라 자가용만으로는 갈 수 없어요. 제주도민인가요?」 두 선택(PoC `jejuOwn*`)
+  - **예, 제주도민 — 자가용만**(`jejuResident: true`): 광역 체인 없이 섬 안에서 자가용만. 출발지 · 귀가지 선택을 감추고, 첫날은 출발 시각부터(체인이 없으면 `accIn` 0, 공용 식대로 09:00보다 이르면 09:00)
+  - **아니요 — 카페리**(`false`) · 아직 답하지 않음(`null`): 배 칸도 함께 강조하고 출발지 목록은 항만만(PoC `wideOriginFilter(…, 'ship')`).
+    체인 = (출발지가 항만이 아니면) 항만까지 운전(`car`, `ownDriveMin`) + 카페리(`carferry`, 배 본 구간 60 + km × 0.85에 선적 · 하선 **30분**). 현지 이동은 자가용.
+    본 구간 앞 환승 올림은 PoC `chainSchedule` 그대로(카페리는 항공 · 배가 아니라 운전 뒤면 올림이 붙는다). 경로 후보 · 환승 관문 · 예매 버튼은 없다(자가용, PoC `transBtns`)
+- **울릉**: 출발지 · 귀가지는 울릉 항로 항구만(후포 → 묵호 → 강릉 → 포항, 항해 시간이 짧은 순), 울릉이 아니면 울릉 항로 항구는 목록에 없다(PoC `originOptions`).
+  저장된 값은 두고 계산할 때만 고친다(`tripOriginKey`, PoC `oKey`: 울릉이면 울릉 항구가 아닌 값 → 포항여객선터미널, 울릉이 아니면 울릉 항구 → 서울역).
+  코스 탭에서 여행이 울릉이 되면 한 번 안내 창(PoC `ulNotice*`)을 띄우고 출발지를 포항여객선터미널, 맞지 않는 귀가지를 「출발지와 동일」로 바꾼다(`ulleungSync`, PoC `syncUlleung`).
+  화면을 열 때 이미 울릉 항구면 다시 띄우지 않는다. 배 본 구간 = 승선 수속 **40분** + 항구별 항해 시간(`sailMin`, 없으면 190분, PoC `accessMin` 울릉 분기)
+- **배편 시간표 카드**(`FerryCard`, PoC `ferryVals`): 섬 여행에서 광역 교통이 배이거나, 제주 자가용에서 「아니요 — 카페리」를 골랐을 때만.
+  출발 항구 고르기 · 표(운항 선사 · 소요 시간 · 운항 횟수 · 첫 출항 · 막 출항 · 도착 항구) · 안내 · 「가보고싶은섬 예매」(`island.theksa.co.kr`) · 「선사 시간표 검색」(네이버, 「선사 항구 섬 시간표」).
+  한국어가 아니면 PoC 영어 값(`opEn` · `durEn`)과 PoC가 만드는 영어 표기(「무렵」 빼기 · `/day` · `/week` · 도착 항구)를 쓴다. 중 · 일 · 스페인어 값은 PoC에 없어 영어
+- **운항 실적**(`FERRY_STATS`가 있는 항로만, 제주 부산 항로는 없다): 기간 · 항차 수, 연중 통제(결항)율, 여행월 통제율(출발일이 없으면 가장 궂은 달), 1–12월 막대(여행월 강조,
+  화면 읽기용 달별 숫자 목록), 최근 1년 주요 출항, 여행월 통제율 **6%** 이상이면 경고 문장, 출처 한 줄. 단계 색은 6% 이상 `warning` · 15% 이상 `danger`(PoC `lvl`). 월 · 숫자 · 기간은 `Intl`
+- 데이터 `data/ferry.json`은 `scripts/build-ferry.mjs`가 PoC `FERRY_ROUTES`(제주 6항 · 울릉 4항) · `FERRY_STATS`(한국해양교통안전공단 항로별 여객선 운항상황,
+  odcloud 15146814, 2022-12 ~ 2026-05 실적 중 제주 · 울릉 9개 항로 집계)에서 만든다. 갱신은 PoC 값이 바뀐 뒤 스크립트를 다시 돌린다(실적을 직접 다시 집계하지 않는다)
+- **키가 필요해 옮기지 않은 것**: 제주 항공 운항 현황(`loadFlights` · `KAC_KEY`), 공항 수속 실측(`getAirportProcess`), 휴게소(`loadRests`),
+  지도 검색으로 제주 집 · 숙소를 출발지로 추가(`custom`, 그래서 도민 안내의 「검색으로 집 · 숙소를 지정」은 빼고 「첫날은 출발 시각부터」로 썼다),
+  카페리 항만까지 운전의 카카오모빌리티 실측(`ownDriveMin` real, PoC 기본 식만 쓴다)
 
 ### 데이터 원본과 스크립트
 
@@ -130,6 +157,7 @@ PoC `Tour Planner.dc.html`의 광역 체인 규칙을 그대로 옮겼다(식 ·
 | `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
 | `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                             | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
+| `scripts/build-ferry.mjs`        | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                      | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                             |
 | `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
 
 플래너 장소 필드
