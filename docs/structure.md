@@ -73,6 +73,19 @@ public/                 정적 파일
   검색은 그 날 도시(첫 장소 도시, 없으면 앞뒤 날)의 장소만이다. PoC는 맞는 장소가 없으면 전국에서 찾지만 한 코스는 한 도시라 넓히지 않는다
 - 일자별 일정의 구간마다 수단 · 시간 · 거리(`legInfo` km, 요약 총 거리와 같은 값)를 붙이고, 첫날 위 · 마지막 날 아래에 광역 구간(출발지 ↔ 관문)과 그 수단 예매 링크(`data/booking.ts` `wideBookingLink`)를 둔다
 - 한 코스는 한 도시(`locKo`)의 장소만 담는다. 권역에서 불러온 추천 코스만 여러 도시가 섞일 수 있다
+- 숙박 장소(`cat === "stay"`)는 코스에 담겨도 일정 계산 입력에서 빠지고 그날 밤 숙소로만 쓴다(PoC `courseList` · `courseStays`, `features/planner/stays.ts`).
+  요약 · 「넣지 못한 장소」 · 일자별 시각에 들어가지 않는다. 「담은 장소」에는 번호 대신 숙소 표시와 「숙소로 지정됨」으로 남고, 코스 탭 배지는 PoC처럼 담은 장소 전체를 센다.
+  추천 코스를 불러와도 지정한 숙박 장소(추천 코스와 같은 도시)는 뒤에 남는다(PoC `_keepStay`). 장소 시트의 코스 버튼은 「코스 숙소로 지정」 ↔ 「숙소 지정 해제」
+- 마지막 날을 뺀 날마다 「숙박」 카드(PoC `dayPlan` 숙소 부분). 기준점 = 그날 마지막 경유지(비면 다음 날 첫 · 이전 날 마지막 경유지).
+  반경 **25km**(PoC 값) 안에서 ① 코스에 담은 숙박 장소 중 가장 가까운 곳(「직접 지정」) ② 숙소 표본 중 가장 가까운 곳(「예시」) ③ 없으면 「숙소 A · B …」 + 「{기준점} 근처 · 숙소 미지정」.
+  기준점이 없으면(경유지 없음) 담은 숙박 장소를 날짜 순서로 쓰고, 그것도 없으면 카드를 두지 않는다(PoC는 전국 표본을 돌려 쓰지만 도시와 무관한 숙소가 나와 옮기지 않았다)
+- 「주변 숙소」: 기준점 25km 안의 우리 숙박 장소(같은 도시, 가까운 순 4곳, 누르면 그날 밤 숙소로 지정 · 해제하고 같은 기준점 25km 안의 다른 숙박 장소는 뺀다)와
+  숙소 표본(우리 장소가 있으면 2곳 · 없으면 4곳, 누르면 한국어는 네이버 지도 · 그 밖은 Google 지도 검색 새 창)
+- 숙박 예약(날짜별 · 코스 전체, PoC `stayBookings` · `coursePanelBookings`, `data/booking.ts`): Booking · Agoda · Airbnb · 야놀자 · 여기어때 · Trip.com.
+  날짜별은 체크인 그날 · 체크아웃 다음 날, 검색어는 숙소 검색어(`stayQuery`, 미지정이면 기준점 이름). 코스 전체는 출발일(없으면 오늘) ~ 귀가일(같으면 다음 날), 검색어는 일정 첫 경유지(없으면 도시).
+  날짜는 로컬 날짜로 만든다(`addLocalDays`, `toISOString`은 한국 시간에서 하루 밀린다)
+- 숙소 표본 `features/planner/data/stays.json`은 PoC `STAYS`(「임의 구성 — 실제 예약 정보 아님」, 153곳)다. PoC의 가격대(`band`)는 임의로 만든 숫자라
+  옮기지 않고 화면에도 가격을 보이지 않는다. 표본에는 「예시」와 안내 한 줄을 둔다. 중 · 일 · 스페인어는 영어 값을 쓴다
 - 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
 
@@ -87,6 +100,7 @@ public/                 정적 파일
 | `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                             |
 | `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
+| `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                             | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
 | `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)          | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
 
 플래너 장소 필드
