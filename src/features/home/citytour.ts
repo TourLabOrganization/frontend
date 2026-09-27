@@ -226,3 +226,11 @@ export function tourFare(tour: Pick<CityTour, "fare">): string | null {
   const fare = tour.fare.trim();
   return fare && !/^\d+$/.test(fare) ? fare : null;
 }
+
+/**
+ * 경로 접기 기준(카드의 경로는 3줄까지만 보인다): 줄 수를 자른(line-clamp) 글의 전체 높이가 보이는 높이보다 크면 잘린 것이다.
+ * 글꼴 · 폭마다 줄바꿈이 달라 글자 수가 아니라 그려진 높이로 판단한다. 반올림 차이(1px)는 넘친 것으로 보지 않는다
+ */
+export function routeOverflows(scrollHeight: number, clientHeight: number) {
+  return scrollHeight - clientHeight > 1;
+}

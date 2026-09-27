@@ -184,7 +184,9 @@
         "body": "ツアープランナーに追加した{count}か所の代わりに、「{name}」の経由地{placeCount}か所を追加します",
         "cancel": "キャンセル",
         "confirm": "入れ替える"
-      }
+      },
+      "routeExpand": "経路をすべて表示",
+      "routeCollapse": "経路を閉じる"
     },
     "addTheme": "テーマ追加",
     "popularHeading": "いま人気のコース",

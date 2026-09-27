@@ -6,6 +6,7 @@ import {
   CLUSTER_PREFS,
   recommendTours,
   regionCounts,
+  routeOverflows,
   tourFare,
   tourHours,
   tourProfile,
@@ -206,5 +207,14 @@ describe("regionCounts · 표시 문구", () => {
     for (const t of TOURS) {
       expect(t.city === null).toBe(t.placeIds.length === 0);
     }
+  });
+});
+
+describe("routeOverflows (경로 접기 기준)", () => {
+  it("잘린 높이가 1px보다 크면 접는다", () => {
+    expect(routeOverflows(90, 67)).toBe(true);
+    expect(routeOverflows(67, 67)).toBe(false);
+    // 반올림 차이 1px는 넘친 것으로 보지 않는다
+    expect(routeOverflows(68, 67)).toBe(false);
   });
 });

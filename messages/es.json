@@ -184,7 +184,9 @@
         "body": "Se reemplazarán {count, plural, one {el # lugar} other {los # lugares}} de tu ruta por {placeCount, plural, one {# parada} other {# paradas}} de «{name}»",
         "cancel": "Cancelar",
         "confirm": "Reemplazar"
-      }
+      },
+      "routeExpand": "Ver ruta completa",
+      "routeCollapse": "Ver menos"
     },
     "addTheme": "Añadir tema",
     "popularHeading": "Rutas populares",

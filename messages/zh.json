@@ -184,7 +184,9 @@
         "body": "将用「{name}」的{placeCount}处途经点替换行程规划中已添加的{count}处地点",
         "cancel": "取消",
         "confirm": "替换"
-      }
+      },
+      "routeExpand": "查看完整路线",
+      "routeCollapse": "收起路线"
     },
     "addTheme": "添加主题",
     "popularHeading": "当前热门路线",

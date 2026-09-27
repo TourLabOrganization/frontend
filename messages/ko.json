@@ -184,7 +184,9 @@
         "body": "투어 플래너에 담아 둔 {count}곳 대신 「{name}」 경유지 {placeCount}곳을 담아요",
         "cancel": "취소",
         "confirm": "바꾸기"
-      }
+      },
+      "routeExpand": "경로 전체 보기",
+      "routeCollapse": "경로 접기"
     },
     "addTheme": "테마 추가",
     "popularHeading": "지금 인기 코스",

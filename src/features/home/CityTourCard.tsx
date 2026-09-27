@@ -1,0 +1,233 @@
+"use client";
+
+import { ChevronDown, ExternalLink, Phone, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { useId, useLayoutEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { Chip } from "@/components/ui/Chip";
+import { ConfirmDialog } from "@/features/planner/ConfirmDialog";
+import { usePlannerCourse } from "@/features/planner/course-store";
+import { cityName } from "@/features/planner/regions";
+import { useNameTable } from "@/features/names/NamesProvider";
+import { krUnits } from "@/lib/kr-units";
+import {
+  type CityTour,
+  routeOverflows,
+  tourFare,
+  tourHours,
+  tourProfile,
+  tourTags,
+} from "./citytour";
+
+const sameIds = (a: readonly string[], b: readonly string[]) =>
+  a.length === b.length && a.every((id, i) => id === b[i]);
+
+/**
+ * 시티투어 「코스빌더에 넣기」. 홈 지역 시티투어와 플래너 여행 정보 탭이 함께 쓴다.
+ * 노선의 경유지 중 플래너 장소와 맞는 곳(scripts/build-citytour.mjs가 미리 대조)을 투어 플래너 코스에 넣고 코스 탭으로 간다.
+ * 담아 둔 다른 코스가 있으면 먼저 묻는다(플래너 「추천 코스로 바꾸기」와 같다). dialog는 쓰는 쪽이 그린다
+ */
+export function useCityTourAdd() {
+  const t = useTranslations("Home.citytour");
+  const router = useRouter();
+  const store = usePlannerCourse();
+  const [pending, setPending] = useState<CityTour | null>(null);
+
+  const put = (tour: CityTour) => {
+    store.replace(tour.city, tour.placeIds);
+    router.push("/planner?tab=course");
+  };
+  const onAdd = (tour: CityTour) => {
+    const current = store.course.placeIds;
+    if (current.length > 0 && !sameIds(current, tour.placeIds)) {
+      setPending(tour);
+    } else put(tour);
+  };
+
+  const dialog = (
+    <ConfirmDialog
+      open={pending !== null}
+      title={t("confirm.title")}
+      body={
+        pending
+          ? t("confirm.body", {
+              count: store.course.placeIds.length,
+              name: pending.name,
+              placeCount: pending.placeIds.length,
+            })
+          : ""
+      }
+      cancelLabel={t("confirm.cancel")}
+      confirmLabel={t("confirm.confirm")}
+      onConfirm={() => {
+        if (pending) put(pending);
+        setPending(null);
+      }}
+      onCancel={() => setPending(null)}
+    />
+  );
+
+  return { onAdd, dialog };
+}
+
+type CityTourCardProps = {
+  tour: CityTour;
+  /** 내 유형 추천의 순위 */
+  rank?: number;
+  onAdd: () => void;
+};
+
+// 코스 카드: 유형 · 분류 칩 · 노선명 · 경로 · 탑승지 · 운행 시간 · 요금 · 홈페이지(새 창) · 전화 · 「코스빌더에 넣기」.
+// 노선명 · 경로는 원천(한국어) 그대로, 요금은 외국어 화면에서 PoC KR_UNIT 치환(lib/kr-units.ts)만 한다.
+// 경로가 3줄을 넘으면 3줄까지만 보이고 「경로 전체 보기」로 편다
+export function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
+  const t = useTranslations("Home.citytour");
+  const locale = useLocale();
+  const names = useNameTable();
+  const hintId = useId();
+  const tags = tourTags(tourProfile(tour));
+  const hours = tourHours(tour);
+  const fare = tourFare(tour);
+  const canAdd = tour.placeIds.length > 0;
+
+  return (
+    <li
+      data-card
+      tabIndex={-1}
+      className="rounded-card p-4 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+    >
+      <p className="text-caption font-semibold text-primary">
+        {rank !== undefined &&
+          `${t("rank", { rank })} · ${cityName(tour.region, locale, names)} · `}
+        {t(`kind.${tour.kind}`)}
+      </p>
+      <h4 className="mt-1 text-body-lg font-bold">{tour.name}</h4>
+      {tags.length > 0 && (
+        <ul className="mt-2 flex flex-wrap gap-1.5">
+          {tags.map((tag) => (
+            <li key={tag}>
+              <Chip>{t(`tags.${tag}`)}</Chip>
+            </li>
+          ))}
+        </ul>
+      )}
+      <TourRoute route={tour.route} />
+      <dl className="mt-2 flex flex-col gap-0.5 text-caption text-fg-subtle">
+        {tour.board && (
+          <div className="flex gap-1.5">
+            <dt className="shrink-0 font-semibold">{t("board")}</dt>
+            <dd>{tour.board}</dd>
+          </div>
+        )}
+        {hours && (
+          <div className="flex gap-1.5">
+            <dt className="shrink-0 font-semibold">{t("hours")}</dt>
+            <dd className="tabular-nums">{hours}</dd>
+          </div>
+        )}
+        {fare && (
+          <div className="flex gap-1.5">
+            <dt className="shrink-0 font-semibold">{t("fare")}</dt>
+            <dd>{krUnits(fare, locale)}</dd>
+          </div>
+        )}
+      </dl>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {tour.url && (
+          <a
+            href={tour.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-label font-semibold text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+          >
+            {t("homepage")}
+            <ExternalLink size={16} aria-hidden />
+            <span className="sr-only">{t("newWindow")}</span>
+          </a>
+        )}
+        {tour.tel && (
+          <a
+            href={`tel:${tour.tel.replace(/[^\d+]/g, "")}`}
+            className="inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-label font-semibold text-primary tabular-nums transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+          >
+            <Phone size={16} aria-hidden />
+            <span className="sr-only">{t("call")} </span>
+            {tour.tel}
+          </a>
+        )}
+      </div>
+      <Button
+        size="md"
+        block
+        className="mt-2"
+        disabled={!canAdd}
+        aria-describedby={hintId}
+        onClick={onAdd}
+      >
+        <Plus size={20} aria-hidden />
+        {t("add")}
+      </Button>
+      <p id={hintId} className="mt-2 text-caption text-fg-subtle">
+        {canAdd
+          ? t("addHint", { count: tour.placeIds.length })
+          : t("addDisabled")}
+      </p>
+      <p className="mt-1 text-micro text-fg-subtle tabular-nums">
+        {t("date", { date: tour.date })}
+      </p>
+    </li>
+  );
+}
+
+/**
+ * 경로(「탑승지 → … → 도착」). 처음에는 3줄까지만 보이고(line-clamp-3), 잘린 글이 있을 때만 「경로 전체 보기」 토글을 둔다.
+ * 잘렸는지는 그려진 높이로 잰다(citytour.ts routeOverflows). 폭이 바뀌면 다시 잰다
+ */
+function TourRoute({ route }: { route: string }) {
+  const t = useTranslations("Home.citytour");
+  const routeId = useId();
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [open, setOpen] = useState(false);
+  const [foldable, setFoldable] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    // 펼친 동안에는 재지 않는다(펼치면 잘린 글이 없어 토글이 사라진다)
+    if (!el || open) return;
+    const measure = () =>
+      setFoldable(routeOverflows(el.scrollHeight, el.clientHeight));
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [open, route]);
+
+  return (
+    <>
+      <p
+        ref={ref}
+        id={routeId}
+        className={`mt-2 text-label text-fg-muted ${open ? "" : "line-clamp-3"}`}
+      >
+        {route}
+      </p>
+      {foldable && (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={routeId}
+          onClick={() => setOpen((v) => !v)}
+          className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-label font-semibold text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+        >
+          {open ? t("routeCollapse") : t("routeExpand")}
+          <ChevronDown
+            size={16}
+            aria-hidden
+            className={`transition-transform duration-150 motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+      )}
+    </>
+  );
+}

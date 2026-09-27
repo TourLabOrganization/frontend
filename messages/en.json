@@ -184,7 +184,9 @@
         "body": "Replace the {count, plural, one {# place} other {# places}} in your planner course with {placeCount, plural, one {# stop} other {# stops}} from “{name}”",
         "cancel": "Cancel",
         "confirm": "Replace"
-      }
+      },
+      "routeExpand": "Show full route",
+      "routeCollapse": "Show less"
     },
     "addTheme": "Add theme",
     "popularHeading": "Popular routes now",

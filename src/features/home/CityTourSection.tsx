@@ -1,14 +1,10 @@
 "use client";
 
-import { ArrowRight, ExternalLink, Phone, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
 import { SearchField } from "@/components/ui/SearchField";
-import { ConfirmDialog } from "@/features/planner/ConfirmDialog";
-import { usePlannerCourse } from "@/features/planner/course-store";
 import { cityName } from "@/features/planner/regions";
 import { decodeAnswers } from "@/features/recommend/answers";
 import { LAST_RECOMMENDATION_KEY, useLocalValue } from "@/lib/local-store";
@@ -17,12 +13,9 @@ import {
   type CityTour,
   recommendTours,
   regionCounts,
-  tourFare,
-  tourHours,
-  tourProfile,
-  tourTags,
   typeProfile,
 } from "./citytour";
+import { CityTourCard, useCityTourAdd } from "./CityTourCard";
 import toursData from "./data/citytour.json";
 import { useNameTable } from "@/features/names/NamesProvider";
 
@@ -44,21 +37,16 @@ function compare(a: string, b: string) {
   return x < y ? -1 : x > y ? 1 : 0;
 }
 
-const sameIds = (a: readonly string[], b: readonly string[]) =>
-  a.length === b.length && a.every((id, i) => id === b[i]);
-
 // 홈 「지역 시티투어」(목업: 배너 다음). 탭 두 칸 「내 유형 추천」 · 「지역별 검색」.
 // 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 유형으로 목업 규칙(citytour.ts recommendTours)을 돌린다.
 // 추천 기록이 있으면 내 유형 추천이, 없으면 지역별 검색(서울)이 먼저 열린다(목업과 같다).
-// 「코스빌더에 넣기」는 노선의 경유지 중 플래너 장소와 맞는 곳(scripts/build-citytour.mjs가 미리 대조)을
-// 투어 플래너 코스에 넣고 코스 탭으로 간다. 담아 둔 다른 코스가 있으면 먼저 묻는다(플래너 「추천 코스로 바꾸기」와 같다)
+// 카드와 「코스빌더에 넣기」는 CityTourCard.tsx(플래너 여행 정보 탭과 함께 쓴다)
 export function CityTourSection() {
   const t = useTranslations("Home.citytour");
   const tc = useTranslations("Clusters");
   const locale = useLocale();
   const names = useNameTable();
-  const router = useRouter();
-  const store = usePlannerCourse();
+  const { onAdd, dialog } = useCityTourAdd();
   const id = useId();
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
@@ -74,7 +62,6 @@ export function CityTourSection() {
   const [query, setQuery] = useState("");
   const [shown, setShown] = useState(INITIAL_ROWS);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
-  const [pending, setPending] = useState<CityTour | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const chipsRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -122,17 +109,6 @@ export function CityTourSection() {
     setRegion(r);
     setShown(INITIAL_ROWS);
     setFocusIndex(null);
-  };
-
-  const put = (tour: CityTour) => {
-    store.replace(tour.city, tour.placeIds);
-    router.push("/planner?tab=course");
-  };
-  const onAdd = (tour: CityTour) => {
-    const current = store.course.placeIds;
-    if (current.length > 0 && !sameIds(current, tour.placeIds)) {
-      setPending(tour);
-    } else put(tour);
   };
 
   const modes: { key: Mode; label: string }[] = [
@@ -311,134 +287,7 @@ export function CityTourSection() {
       </div>
       <p className="mt-4 text-micro text-fg-subtle">{t("dataNote")}</p>
 
-      <ConfirmDialog
-        open={pending !== null}
-        title={t("confirm.title")}
-        body={
-          pending
-            ? t("confirm.body", {
-                count: store.course.placeIds.length,
-                name: pending.name,
-                placeCount: pending.placeIds.length,
-              })
-            : ""
-        }
-        cancelLabel={t("confirm.cancel")}
-        confirmLabel={t("confirm.confirm")}
-        onConfirm={() => {
-          if (pending) put(pending);
-          setPending(null);
-        }}
-        onCancel={() => setPending(null)}
-      />
+      {dialog}
     </section>
-  );
-}
-
-type CityTourCardProps = {
-  tour: CityTour;
-  /** 내 유형 추천의 순위 */
-  rank?: number;
-  onAdd: () => void;
-};
-
-// 코스 카드: 유형 · 분류 칩 · 노선명 · 경로 · 탑승지 · 운행 시간 · 요금 · 홈페이지(새 창) · 전화 · 「코스빌더에 넣기」.
-// 노선명 · 경로 · 요금은 원천(한국어) 그대로다
-function CityTourCard({ tour, rank, onAdd }: CityTourCardProps) {
-  const t = useTranslations("Home.citytour");
-  const locale = useLocale();
-  const names = useNameTable();
-  const hintId = useId();
-  const tags = tourTags(tourProfile(tour));
-  const hours = tourHours(tour);
-  const fare = tourFare(tour);
-  const canAdd = tour.placeIds.length > 0;
-
-  return (
-    <li
-      data-card
-      tabIndex={-1}
-      className="rounded-card p-4 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
-    >
-      <p className="text-caption font-semibold text-primary">
-        {rank !== undefined &&
-          `${t("rank", { rank })} · ${cityName(tour.region, locale, names)} · `}
-        {t(`kind.${tour.kind}`)}
-      </p>
-      <h4 className="mt-1 text-body-lg font-bold">{tour.name}</h4>
-      {tags.length > 0 && (
-        <ul className="mt-2 flex flex-wrap gap-1.5">
-          {tags.map((tag) => (
-            <li key={tag}>
-              <Chip>{t(`tags.${tag}`)}</Chip>
-            </li>
-          ))}
-        </ul>
-      )}
-      <p className="mt-2 text-label text-fg-muted">{tour.route}</p>
-      <dl className="mt-2 flex flex-col gap-0.5 text-caption text-fg-subtle">
-        {tour.board && (
-          <div className="flex gap-1.5">
-            <dt className="shrink-0 font-semibold">{t("board")}</dt>
-            <dd>{tour.board}</dd>
-          </div>
-        )}
-        {hours && (
-          <div className="flex gap-1.5">
-            <dt className="shrink-0 font-semibold">{t("hours")}</dt>
-            <dd className="tabular-nums">{hours}</dd>
-          </div>
-        )}
-        {fare && (
-          <div className="flex gap-1.5">
-            <dt className="shrink-0 font-semibold">{t("fare")}</dt>
-            <dd>{fare}</dd>
-          </div>
-        )}
-      </dl>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {tour.url && (
-          <a
-            href={tour.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-label font-semibold text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
-          >
-            {t("homepage")}
-            <ExternalLink size={16} aria-hidden />
-            <span className="sr-only">{t("newWindow")}</span>
-          </a>
-        )}
-        {tour.tel && (
-          <a
-            href={`tel:${tour.tel.replace(/[^\d+]/g, "")}`}
-            className="inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-label font-semibold text-primary tabular-nums transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
-          >
-            <Phone size={16} aria-hidden />
-            <span className="sr-only">{t("call")} </span>
-            {tour.tel}
-          </a>
-        )}
-      </div>
-      <Button
-        size="md"
-        block
-        className="mt-2"
-        disabled={!canAdd}
-        aria-describedby={hintId}
-        onClick={onAdd}
-      >
-        <Plus size={20} aria-hidden />
-        {t("add")}
-      </Button>
-      <p id={hintId} className="mt-2 text-caption text-fg-subtle">
-        {canAdd
-          ? t("addHint", { count: tour.placeIds.length })
-          : t("addDisabled")}
-      </p>
-      <p className="mt-1 text-micro text-fg-subtle tabular-nums">
-        {t("date", { date: tour.date })}
-      </p>
-    </li>
   );
 }
