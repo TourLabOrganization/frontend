@@ -7,7 +7,8 @@ import type { ThemeSlug } from "@/features/recommend/themes";
 //   kpop-demon-hunters  KPop Demon Hunters Route.dc.html  축제 705~707행 · 링크 717~720행
 //   jeju-k-drama        Jeju K-Drama Route.dc.html        축제 693~695행 · 링크 709~712행
 //   busan-film-trip     Busan Cinema Route.dc.html        축제 705~707행 · 링크 717~720행
-//   rescene-route       RESCENE Route.dc.html             링크 652~657행 (축제 상자 없음. 팬소통 탭의 달력은 옮기지 않았다)
+//   rescene-route       RESCENE Route.dc.html             팬소통(channel) 탭: 채널 링크 730~735행 · 전체 일정 보기 726행
+//                       (축제 상자 없음. 달력은 날짜 칸만 있고 일정 데이터가 없어 옮기지 않았다. 행사 · 축제 목록은 TourAPI라 옮기지 않았다)
 
 type Text = { ko: string; en: string };
 
@@ -22,8 +23,13 @@ export type ThemeLink = {
   label: Text;
 };
 
+/** RESCENE 팬소통 채널. schedule = 「전체 일정 보기」 주소 */
+export type FanChannel = { schedule: string };
+
 export type ThemeInfo = {
   festival?: ThemeFestival;
+  /** 있으면 이 탭이 팬소통 채널이다(RESCENE) */
+  fanChannel?: FanChannel;
   links: readonly ThemeLink[];
 };
 
@@ -153,6 +159,10 @@ export const THEME_INFO: Record<ThemeSlug, ThemeInfo> = {
     ],
   },
   "rescene-route": {
+    fanChannel: {
+      schedule:
+        "https://artist.mnetplus.world/main/stg/rescene-official/schedule/2026/08",
+    },
     links: [
       {
         href: "https://www.youtube.com/channel/UCtKtCiaWRz-d3EZn2xd1mdA",
