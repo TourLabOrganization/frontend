@@ -63,15 +63,17 @@ public/                 정적 파일
 - 지도 탭은 분류 칩과 배지 칩(유네스코 · 한국관광 100선 · 열린관광지 · 관광특구, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)는
   그 화면 장소만 보이고, 같은 도시의 전국 목록 장소는 전국 · 권역 보기에만 들어간다(PoC `cityRows` 규칙, `scripts/build-planner.mjs`)
-- 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동)은
-  주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`). 없는 필드는 기본값(오늘 · 당일 · 서울역 · 08:00 · 19:00).
-  장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`)도 같은 값에 둔다
+- 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 귀가지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동 ·
+  고른 광역 경로 · 환승 관문 · 지하철 호선과 역)은 주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`).
+  없는 필드는 기본값(오늘 · 당일 · 서울역 · 귀가지 = 출발지 · 08:00 · 19:00 · 고른 경로 · 관문 · 역 없음).
+  장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`), 경로 선택 창을 닫은 도착 도시(`routeSkip`)도 같은 값에 둔다.
+  저장된 플랜의 `settings`에는 `routeSkip`을 뺀 설정이 들어간다(PoC 플랜 필드와 같다). 예전 플랜은 없는 필드를 기본값으로 읽는다
 - 날짜는 달력에서 출발일 → 귀가일 순으로 누른다(PoC `calendarDays` pick, `features/planner/calendar.ts`). 귀가일을 고르는 중(`endDate` 없음)에는 당일로 계산하고,
   `MAX_TRIP_DAYS`를 넘는 날은 고를 수 없다(PoC에는 상한이 없다)
 - 체류 시간은 담은 장소 행에서 15분씩 바꾼다(15~600분, 추천값과 같으면 덮어쓰기를 지운다, PoC `setStay`). 일정 계산은 장소의 `min` 대신 이 값을 받을 뿐 식은 그대로다(`course-edit.ts`)
 - 일자별 일정의 「장소 추가」는 그 날 마지막 장소 뒤에 끼워 넣는다(PoC `addCourseAt`, 빈 날은 맨 뒤). 날짜 나누기가 다시 계산되므로 그 날이 꽉 차면 다음 날로 밀린다.
   검색은 그 날 도시(첫 장소 도시, 없으면 앞뒤 날)의 장소만이다. PoC는 맞는 장소가 없으면 전국에서 찾지만 한 코스는 한 도시라 넓히지 않는다
-- 일자별 일정의 구간마다 수단 · 시간 · 거리(`legInfo` km, 요약 총 거리와 같은 값)를 붙이고, 첫날 위 · 마지막 날 아래에 광역 구간(출발지 ↔ 관문)과 그 수단 예매 링크(`data/booking.ts` `wideBookingLink`)를 둔다
+- 일자별 일정의 구간마다 수단 · 시간 · 거리(`legInfo` km, 요약 총 거리와 같은 값)를 붙이고, 첫날 위 · 마지막 날 아래에 광역 체인(아래)과 본 구간 수단 예매 링크(`data/booking.ts` `wideBookingLink`)를 둔다
 - 한 코스는 한 도시(`locKo`)의 장소만 담는다. 권역에서 불러온 추천 코스만 여러 도시가 섞일 수 있다
 - 숙박 장소(`cat === "stay"`)는 코스에 담겨도 일정 계산 입력에서 빠지고 그날 밤 숙소로만 쓴다(PoC `courseList` · `courseStays`, `features/planner/stays.ts`).
   요약 · 「넣지 못한 장소」 · 일자별 시각에 들어가지 않는다. 「담은 장소」에는 번호 대신 숙소 표시와 「숙소로 지정됨」으로 남고, 코스 탭 배지는 PoC처럼 담은 장소 전체를 센다.
@@ -89,6 +91,32 @@ public/                 정적 파일
 - 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
 
+#### 광역 체인 (`features/planner/wide-chain.ts` · `schedule.ts` · `metro.ts`)
+
+PoC `Tour Planner.dc.html`의 광역 체인 규칙을 그대로 옮겼다(식 · 숫자는 코드 주석과 `wide-chain.test.ts`의 손계산 대조).
+
+- **광역 교통 먼저**: 01 광역 교통 → 출발지 · 귀가지 · 시각 → 02 현지 이동 순서. 출발지 · 귀가지 목록은 고른 수단의 관문만(PoC `WIDE_ALLOW` · `wideOriginFilter`,
+  맞는 곳이 없으면 전체), 도착 관문이 받는 수단의 출발지만, 기차역 → 버스터미널 → 공항 → 항만 순(`originOptions`). 버스가 아니면 리무진 공항 항목은 뺀다(`airTwin`).
+  지금 값이 목록에 없으면(예전 설정) 맨 앞에 더해 보인다
+- 출발지를 고르면 그 관문 종류로 광역 교통이 정해진다(`gwWideOf`: 공항 = 항공, 항만 = 배, 역 = 기차, 터미널 = 버스, 섞인 관문은 그대로).
+  광역 교통을 바꿨는데 출발지가 맞지 않으면 그 수단의 첫 관문으로, 귀가지가 맞지 않으면 「출발지와 동일」로(`fixOriginsForWide`)
+- 광역 교통 칸은 도착 관문에 없는 버스 · 기차 · 항공 · 배, 섬의 자가용을 막는다. 지하철은 출발 · 귀가역을 고르는 칸이라 막지 않는다
+- **지하철**: 광역 교통이 지하철이면 출발지 · 귀가지를 호선 → 역명으로 고른다(귀가역 기본 「출발역과 동일」). 도착 도시가 전철권(`METRO_CITY`)이면 「출발 전철역」 하나를 고른다.
+  역은 `data/wide.json`(PoC `METRO_STATIONS` 262역 · `BUSAN_STATIONS` 46역). 호선 이름은 PoC `metroLineLabel` · `BUSAN_LINE_LABEL`(부산 호선의 중 · 일 · 스페인어는 영어)
+- **체인**(`wideChain`): 출발점 → (전철 접근 15 + km × 1.2) → 출발 관문 → 본 구간(KTX · SRT 18 + km × 0.30, 버스 20 + km × 0.68, 항공 90 + km × 0.11, 배 60 + km × 0.85,
+  광역전철 12 + km × 0.95, km = 직선 × 1.35) → 도착 관문(항공 · 배 · 버스면 그 좌표). 자가용은 관문 없이 한 구간.
+  시각표(`chainSchedule`)는 본 구간 앞 환승 = (도착 + 15분)을 10분 단위 올림(공항 · 항만은 없음), 본 구간 뒤 접근 구간은 10분 뒤
+- **첫날**: 첫 일정 시작 = 출발 시각 + 체인 소요 + 도착 관문 → 첫 장소(`firstLeg`, 현지 이동 수단). **마지막 날**: 마지막 장소 → 귀가 관문(`lastLeg`)을 빼고
+  여행지 출발 시각 안에 끝난다. 공용 식(`course/schedule.ts` · `scenarios.ts`)은 그대로 두고 넘기는 여행지 출발 시각을 `lastLeg`만큼 당긴다(창 · 날짜 나누기 모두).
+  추천 코스는 PoC처럼 체인 + 30분으로 창을 잰 뒤 실제 창에 들어가는 만큼만 담는다
+- **일자별 카드**: 1일차 위 가는 길 체인(시각 · 장소 · 설명 · 예매), 도착 후 구간(「≈ 대중교통 N분 · x km」, 길찾기: 한국어 카카오맵 · 그 밖 Google 지도),
+  마지막 날 아래 귀가 체인(여행지 출발 시각부터). 환승 관문은 출발점 90km 안 그 수단 관문 가까운 순 8곳(2곳 이상일 때), 수단별로 저장(`gwPick`)
+- **경로 선택 창**(`routeAsk`): 도착 도시에 닿는 경로(`routeCands`)가 2개 이상이면 코스 탭에서 한 번 스스로 연다. 고르면 도착 도시별 `routePick`, 닫으면 `routeSkip`(기본 경로 유지).
+  출발지가 관문이고 그 수단이 닿으면 경로는 하나다(서울역 → 경주 KTX). 「경로 변경」으로 다시 연다
+- **키가 필요해 옮기지 않은 것**: TAGO 열차 · 고속버스 · 지하철 시간표(`getTrains` · `getBuses` · `getSubwayDeps` · `getBusanMetroDeps`), 공항 수속 실측(`getAirportProcess`, 없으면 90분),
+  카카오 역 이름 검색(`metroQSearch`), 지도 검색으로 출발지 추가(`custom` · `custAsk`), Google 대중교통 실측(`fetchTransit`). 시각은 모두 거리 기반 예상치라 카드에 안내 한 줄을 둔다
+- 제주 자가용 카페리 · 도민 여부 · 배편 시간표 · 울릉 항로 고정 항해 시간은 아직 옮기지 않았다
+
 ### 데이터 원본과 스크립트
 
 원본은 PoC(`Tour-Navigator-App`, 읽기만)이고 이 리포에 넣지 않는다. 만든 JSON은 손으로 고치지 않는다. 스크립트를 돌린 뒤 `npm run format`.
@@ -97,6 +125,7 @@ public/                 정적 파일
 | 스크립트                         | 입력(PoC)                                                                                                   | 출력                                                                                                                                          |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `scripts/build-planner.mjs`      | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                |
+| `scripts/build-wide.mjs`         | `Tour Planner.dc.html`(`METRO_STATIONS` · `BUSAN_STATIONS` · 호선 순서 · 색 · 이름 · `ORIGIN_ALT`)          | `features/planner/data/wide.json`(지하철 출발 · 귀가역, 수단별 대체 관문)                                                                     |
 | `scripts/build-places.mjs`       | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html`                                    | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                             |
 | `scripts/build-citytour.mjs`     | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다       | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                   | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
