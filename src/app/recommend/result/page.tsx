@@ -9,7 +9,7 @@ import { LocaleSwitch } from "@/components/ui/LocaleSwitch";
 import { TopBar } from "@/components/ui/TopBar";
 import { decodeAnswers, encodeAnswers } from "@/features/recommend/answers";
 import { RememberRecommendation } from "@/features/recommend/RememberRecommendation";
-import { evaluate } from "@/features/recommend/survey";
+import { evaluate, typePercents } from "@/features/recommend/survey";
 import {
   featuredCategory,
   INTEREST_TERM,
@@ -47,9 +47,11 @@ export default async function RecommendResultPage({
   const common = await getTranslations("Common");
 
   const a0 = encodeAnswers(answers);
-  const { types, alpha, interest } = result;
+  const { types, interest } = result;
   const [primary] = types;
   const mixed = types.length > 1;
+  // 복합형 비중 칩. 유형마다 반올림하면 합이 99% · 103%가 될 수 있어 합을 맞춘 값을 쓴다(survey.ts typePercents)
+  const shares = typePercents(result);
   const names = types.map((c) => tc(`${c}.name`));
   const heading =
     names.length <= NAMED_TYPES
@@ -133,11 +135,11 @@ export default async function RecommendResultPage({
                 </p>
               ))}
               <div className="mt-4 flex flex-wrap gap-1.5">
-                {types.map((c) => (
+                {types.map((c, i) => (
                   <Chip key={c}>
                     {t("typeShare", {
                       name: tc(`${c}.name`),
-                      percent: percent(alpha[c] ?? 0),
+                      percent: shares[i],
                     })}
                   </Chip>
                 ))}

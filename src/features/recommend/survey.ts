@@ -364,6 +364,38 @@ export function evaluate(answers: Answers): Evaluation {
 }
 
 /**
+ * 복합형 비중 칩의 정수 퍼센트(E 순서). 유형마다 반올림하면 합이 99 · 103처럼 어긋나므로 최대 잔여법으로 맞춘다:
+ * 모두 내림한 뒤 모자란 만큼 소수 부분이 큰 비중부터 1씩 더한다. 같은 비중이 다른 숫자로 보이지 않게 같은 값끼리 묶어
+ * 한꺼번에 더하고, 묶음을 다 채울 수 없으면 그 묶음은 건너뛴다(그래서 합이 98 · 99로 남는 경로가 있다).
+ * E 안의 점수 차는 0 · 1 · 2뿐이라(BALANCED 가산은 후보 모두에 같다) 비중 비가 1 : 2^-½ : ½뿐이고, 서로 다른 비중은
+ * 내림값이 달라 묶음을 건너뛴 뒤 다음 묶음에 더해도 큰 비중이 작은 숫자로 보이지 않는다(survey.test.ts 전수 경로로 확인)
+ */
+export function typePercents(
+  result: Pick<SurveyResult, "types" | "alpha">,
+): number[] {
+  const scaled = result.types.map((c) => (result.alpha[c] ?? 0) * 100);
+  const percents = scaled.map((value) => Math.floor(value));
+  let missing = 100 - percents.reduce((sum, value) => sum + value, 0);
+
+  const groups: { rest: number; members: number[] }[] = [];
+  scaled.forEach((value, i) => {
+    const same = groups.find(
+      (group) => Math.abs(scaled[group.members[0]] - value) < EPSILON,
+    );
+    if (same) same.members.push(i);
+    else groups.push({ rest: value - percents[i], members: [i] });
+  });
+  // sort는 안정 정렬이라 소수 부분이 같으면 E 앞쪽 묶음이 먼저다
+  groups.sort((a, b) => b.rest - a.rest);
+  for (const { members } of groups) {
+    if (missing < members.length) continue;
+    for (const i of members) percents[i] += 1;
+    missing -= members.length;
+  }
+  return percents;
+}
+
+/**
  * 답을 바꾼다(화면과 테스트가 함께 쓴다). 같은 보기를 다시 고르면 그대로다.
  * - S4를 바꾸면 B와 F1 답을 지운다(분기가 바뀐다, §07)
  * - S1~S6 · B 중 무엇이든 바꾸면 F1 답을 지운다(F1 후보 E₀가 바뀔 수 있다)

@@ -20,6 +20,7 @@ import {
   questionPath,
   type SurveyResult,
   TYPE_IDS,
+  typePercents,
   withAnswer,
 } from "./survey";
 
@@ -136,6 +137,34 @@ describe("명세서 §37 전체 응답 원장", () => {
     const balanced = complete({ ...answers, f1: "balanced" });
     expect(balanced.types).toEqual(["C2", "C1"]);
     expect(balanced.alpha.C2! / balanced.alpha.C1!).toBeCloseTo(Math.SQRT2, 10);
+  });
+
+  it("복합형 비중 칩: 같은 비중은 같은 숫자로, 합은 되도록 100에 맞춘다", () => {
+    expect(typePercents(complete(MIXED))).toEqual([50, 50]);
+    // 9개 유형: 10대 · 친구와 · 적당히 · 자연·숲길 · 대표 명소 · 낮 · B3 동행 사진 · F1 비슷하게 중요
+    // C1~C4 4점, C5 · C7 · C8 · C9 3점, C6 2점에 4/9씩 → 유형마다 반올림하면 14 · 10 · 7로 합 103
+    const nine = complete({
+      s1: "teens",
+      s2: "friends",
+      s3: "moderate",
+      s4: "nature",
+      s5: "landmark",
+      s6: "daytime",
+      b3: "c",
+      f1: "balanced",
+    });
+    expect(nine.types).toEqual([
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C7",
+      "C8",
+      "C9",
+      "C6",
+    ]);
+    expect(typePercents(nine)).toEqual([13, 13, 13, 13, 10, 10, 10, 10, 7]);
   });
 });
 
@@ -255,6 +284,7 @@ describe("전수 경로 (명세서 §41)", () => {
     let completePaths = 0;
     let maxTypes = 0;
     const singles = new Set<string>();
+    const percentSums = new Set<number>();
     const combos: Answers[] = [{}];
     for (const id of COMMON_IDS) {
       const next: Answers[] = [];
@@ -271,6 +301,15 @@ describe("전수 경로 (명세서 §41)", () => {
       expect(result.ledger).toHaveLength(count);
       maxTypes = Math.max(maxTypes, result.types.length);
       if (result.types.length === 1) singles.add(result.types[0]);
+      // 복합형 비중 칩: 점수가 같으면 같은 숫자, 높은 유형이 더 작은 숫자로 보이지 않는다
+      const percents = typePercents(result);
+      result.types.slice(1).forEach((c, i) => {
+        const prev = result.types[i];
+        if (result.scores[prev] === result.scores[c])
+          expect(percents[i + 1]).toBe(percents[i]);
+        else expect(percents[i + 1]).toBeLessThanOrEqual(percents[i]);
+      });
+      percentSums.add(percents.reduce((a, b) => a + b, 0));
       return result;
     };
 
@@ -295,6 +334,8 @@ describe("전수 경로 (명세서 §41)", () => {
     expect(completePaths).toBe(141833);
     expect(maxTypes).toBe(9);
     expect([...singles].sort()).toEqual([...TYPE_IDS].sort());
+    // 비중 합: 같은 비중 묶음을 다 채울 수 없는 경로만 98 · 99로 남는다
+    expect([...percentSums].sort((a, b) => a - b)).toEqual([98, 99, 100]);
   }, 60_000);
 
   it("B의 없음은 모든 유형 0점이라 공통 문항 점수를 그대로 둔다 (D 무변경)", () => {
