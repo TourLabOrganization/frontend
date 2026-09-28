@@ -1,6 +1,6 @@
 import { api } from "./client";
 
-// 한국관광 데이터랩 조회(TFI · 체류시간)와 코스 지역. 추천 결과 화면과 테마 화면(여행 정보 탭)이 함께 쓴다.
+// 한국관광 데이터랩 조회(TFI · 체류시간)와 코스 지역. 테마 화면(여행 정보 탭 features/theme/DatalabSection)이 쓴다.
 // 로그인 없는 공개 API라 서버 컴포넌트에서 바로 부른다(docs/api.md).
 // 필드 설명은 백엔드 명세(/v3/api-docs)의 description을 옮겼다.
 
@@ -82,7 +82,7 @@ export type CourseListResponse = {
 };
 
 /**
- * 데이터랩 지역. 설문 Q15 보기 id → API 지역 이름.
+ * 데이터랩 지역 id(messages Datalab.regions 키) → API 지역 이름.
  * 출처: GET /api/v1/tfi 의 regions (2026-09-27 확인: 거제 · 경주 · 부산 · 서울 · 영월 · 제주)
  */
 export const DATALAB_REGIONS = {
@@ -100,7 +100,7 @@ export const DATALAB_REGION_IDS = Object.keys(
   DATALAB_REGIONS,
 ) as DatalabRegionId[];
 
-/** API 지역 이름 → 보기 id. 모르는 지역이면 undefined */
+/** API 지역 이름 → 지역 id. 모르는 지역이면 undefined */
 export function datalabRegionId(name: string): DatalabRegionId | undefined {
   return DATALAB_REGION_IDS.find((id) => DATALAB_REGIONS[id] === name);
 }
@@ -210,7 +210,7 @@ async function checked<T>(
   return parsed;
 }
 
-// /api/v1/tfi?region=… 는 백엔드에서 502가 난다(2026-09-27). 지역 없이 전체를 받아 쓰는 쪽에서 고른다
+// 지역 없이 전체를 받아 쓰는 쪽에서 고른다. 예전에 /api/v1/tfi?region=…이 502였다(2026-09-28 백엔드 수정으로 해결, docs/api.md)
 export function getTfi(): Promise<TfiResponse> {
   return checked("/api/v1/tfi", parseTfi);
 }

@@ -92,7 +92,6 @@ describe("데이터랩", () => {
     for (const messages of [ko, en]) {
       for (const id of DATALAB_REGION_IDS) {
         expect(messages.Datalab.regions[id]).toBeTruthy();
-        expect(messages.Recommend.questions.q15.options[id]).toBeTruthy();
       }
       for (const key of TFI.themes) {
         expect(

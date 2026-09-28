@@ -1,8 +1,14 @@
-import { type Answers, hasRequiredAnswers } from "../recommend/questions";
-import { type ClusterId, classify } from "../recommend/scoring";
+import {
+  type Answers,
+  evaluate,
+  type Interest,
+  type TypeId,
+} from "../recommend/survey";
+import { indirectPreference } from "../recommend/theme-index";
 
 // 홈 「지역 시티투어」의 데이터 가공. 순수 함수만 둔다.
-// 분류 · 내 유형 추천 규칙은 팀장 목업(2026-09-27 standalone 「Tour Navigator.html」 홈 renderVals의 KW · prof · tags · rec)을 그대로 옮겼다.
+// 분류 · 내 유형 추천 규칙은 팀장 목업(2026-09-27 standalone 「Tour Navigator.html」 홈 renderVals의 KW · prof · tags · rec)을 옮겼다.
+// 내 유형 추천의 적합도만 설문 6.1 · 추천 6.2 결과(간접 선호 u)로 바꿨다(recommendTours).
 // 데이터는 data/citytour.json(scripts/build-citytour.mjs가 PoC data/citytour.json으로 만든다. 손으로 고치지 않는다)
 
 export type CityTour = {
@@ -32,7 +38,7 @@ export type CityTour = {
   placeIds: string[];
 };
 
-/** 경유지 분류. 목업 CAT 순서(역사 · 자연 · 체험 · 먹거리 · 바다)와 같다. 군집 선호 벡터도 이 순서다 */
+/** 경유지 분류. 목업 CAT 순서(역사 · 자연 · 체험 · 먹거리 · 바다)와 같다. 간접 선호 u(recommend/theme-index.ts)도 이 순서다 */
 export const TOUR_CATEGORIES = [
   "history",
   "nature",
@@ -92,26 +98,8 @@ export function tourTags(profile: TourProfile): TourTag[] {
   return (profile.night ? (["night", ...top] as TourTag[]) : top).slice(0, 2);
 }
 
-/**
- * 군집 선호 벡터(역사 · 자연 · 체험 · 먹거리 · 바다). 목업 CL[3]과 PoC 「Tour Navigator Home.dc.html」 CL을 그대로 옮겼다
- */
-export const CLUSTER_PREFS: Readonly<
-  Record<ClusterId, readonly [number, number, number, number, number]>
-> = {
-  C1: [0.1, 0.1, 0.3, 0.3, 0.2],
-  C2: [0.1, 0.2, 0.1, 0.3, 0.3],
-  C3: [0.1, 0.1, 0.5, 0.1, 0.2],
-  C4: [0.5, 0.3, 0.05, 0.15, 0],
-  C5: [0.1, 0.6, 0, 0.1, 0.2],
-  C6: [0.2, 0.05, 0.05, 0.7, 0],
-  C7: [0.21, 0.03, 0.35, 0.27, 0.14],
-  C8: [0.08, 0.26, 0, 0.44, 0.23],
-  C9: [0.02, 0.33, 0.07, 0.21, 0.36],
-  C10: [0.31, 0.19, 0.19, 0.13, 0.18],
-};
-
-/** Q4 관심사 → 경유지 분류(목업 QS[3].cat). 드라마 · 공연 · 쇼핑은 분류가 없다 */
-const Q4_TAG: Readonly<Record<string, TourTag>> = {
+/** S4 관심사 → 경유지 분류(목업 QS[3].cat). 드라마 · 공연 · 쇼핑은 분류가 없다 */
+const INTEREST_TAG: Readonly<Partial<Record<Interest, TourTag>>> = {
   history: "history",
   nature: "nature",
   sea: "sea",
@@ -120,33 +108,24 @@ const Q4_TAG: Readonly<Record<string, TourTag>> = {
   night: "night",
 };
 
-/** 내 유형 추천에 쓰는 추천 결과 요약(목업 result의 p · s2 · pr · pr2 · mix · cats) */
+/** 내 유형 추천에 쓰는 추천 결과 요약 */
 export type TypeProfile = {
-  primary: ClusterId;
-  secondary: ClusterId | null;
-  /** 1위 · 2위 확률(%, 반올림) */
-  pr: number;
-  pr2: number;
-  mixed: boolean;
-  /** Q4 관심사의 경유지 분류 */
-  tags: TourTag[];
+  /** 최종 후보 E(recommend/survey.ts). 첫 유형 이름이 목록 제목에 보인다 */
+  types: TypeId[];
+  /** 간접 선호 u(TOUR_CATEGORIES 순서, 합 1. recommend/theme-index.ts indirectPreference) */
+  preference: readonly number[];
+  /** S4 관심사의 경유지 분류. 드라마 · 공연 · 쇼핑은 분류가 없어 null */
+  tag: TourTag | null;
 };
 
-/** 추천 답으로 유형 요약을 만든다. 필수 문항이 비었으면 null */
-export function typeProfile(
-  answers: Answers,
-  locale: string,
-): TypeProfile | null {
-  if (!hasRequiredAnswers(answers)) return null;
-  const { clusters, mixed } = classify(answers, locale);
-  const [first, second] = clusters;
+/** 추천 답으로 유형 요약을 만든다. 완료된 응답이 아니면(예전 15문항 기록 포함) null */
+export function typeProfile(answers: Answers): TypeProfile | null {
+  const result = evaluate(answers);
+  if (result.status !== "complete") return null;
   return {
-    primary: first.id,
-    secondary: second?.id ?? null,
-    pr: Math.round(first.probability * 100),
-    pr2: second ? Math.round(second.probability * 100) : 0,
-    mixed,
-    tags: (answers.q4 ?? []).flatMap((o) => (Q4_TAG[o] ? [Q4_TAG[o]] : [])),
+    types: result.types,
+    preference: indirectPreference(result),
+    tag: INTEREST_TAG[result.interest] ?? null,
   };
 }
 
@@ -154,38 +133,33 @@ export function typeProfile(
 export const RECOMMEND_COUNT = 5;
 
 /**
- * 내 유형 추천(목업 rec).
- * 점수 = 적합도(분류 비율 · 1위 군집 선호의 내적. 섞기면 1위 · 2위 확률로 가중 평균)
- *      + 0.5 × Q4 관심사 분류 비율 합(야경은 야간 여부) + 경유지 3곳 이상이면 0.02.
- * 점수 높은 순으로 한 지역에 한 노선씩 5개
+ * 내 유형 추천(목업 rec에서 적합도만 바꿨다).
+ * 점수 = 적합도(노선 분류 비율 · 간접 선호 u의 내적. 예전 1 · 2위 군집 확률 섞기를 대신한다)
+ *      + 0.5 × S4 관심사 한 개의 분류 비율(야경은 야간 여부) + 경유지 3곳 이상이면 0.02.
+ * 점수 높은 순으로 한 지역에 한 노선씩 5개.
+ * 명세서 §16의 코사인 × coverage 순위는 팀 참조 패키지의 적격 179코스 자료(eligible_courses.csv)가 있어야 같은 값이 나온다.
+ * 목업 노선 분류(tourProfile)는 한 경유지가 여러 분류에 들어가 coverage ≤ 1이 성립하지 않아 그 식을 그대로 쓰지 않았다
  */
 export function recommendTours<
   T extends Pick<CityTour, "name" | "route" | "region">,
 >(tours: readonly T[], type: TypeProfile): T[] {
-  const w1 = CLUSTER_PREFS[type.primary];
-  const w2 =
-    type.mixed && type.secondary ? CLUSTER_PREFS[type.secondary] : null;
-  const a1 = type.pr || 100;
-  const a2 = type.pr2 || 0;
-  const dot = (share: readonly number[], w: readonly number[]) =>
-    share.reduce((sum, v, k) => sum + v * w[k], 0);
-
   const scored = tours
     .map((tour) => {
       const p = tourProfile(tour);
-      let fit = dot(p.share, w1);
-      if (w2) fit = (a1 * fit + a2 * dot(p.share, w2)) / (a1 + a2);
-      const bonus =
-        0.5 *
-        type.tags.reduce(
-          (sum, tag) =>
-            sum +
-            (tag === "night"
-              ? Number(p.night)
-              : p.share[TOUR_CATEGORIES.indexOf(tag)]),
-          0,
-        );
-      return { tour, score: fit + bonus + (p.stops >= 3 ? 0.02 : 0) };
+      const fit = p.share.reduce(
+        (sum, v, k) => sum + v * type.preference[k],
+        0,
+      );
+      const interest =
+        type.tag === null
+          ? 0
+          : type.tag === "night"
+            ? Number(p.night)
+            : p.share[TOUR_CATEGORIES.indexOf(type.tag)];
+      return {
+        tour,
+        score: fit + 0.5 * interest + (p.stops >= 3 ? 0.02 : 0),
+      };
     })
     .sort((a, b) => b.score - a.score);
 

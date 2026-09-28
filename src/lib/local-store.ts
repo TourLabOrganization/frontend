@@ -8,15 +8,15 @@ import { useSyncExternalStore } from "react";
 export const LAST_RECOMMENDATION_KEY = "tn.lastRecommendation";
 /**
  * 마지막 추천 결과의 1위 테마. LastTopTheme JSON.
- * 결과 화면이 추천 API 1위를 적고, ME는 다시 계산하지 않고 이 값을 읽는다.
- * a가 LAST_RECOMMENDATION_KEY와 다르면(예전 기록 · 추천 실패) 쓰지 않는다
+ * 결과 화면이 적합도 지수 1위를 적고, ME는 다시 계산하지 않고 이 값을 읽는다.
+ * a가 LAST_RECOMMENDATION_KEY와 다르면(예전 기록) 쓰지 않는다
  */
 export const LAST_TOP_THEME_KEY = "tn.lastTopTheme";
 
 export type LastTopTheme = {
   /** 그 추천의 답 문자열(?a=) */
   a: string;
-  /** 추천 API 1위 테마 slug */
+  /** 1위 테마 slug */
   slug: string;
 };
 /**

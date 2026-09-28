@@ -11,8 +11,7 @@ import { tripDays } from "@/features/planner/dates";
 import { placeName } from "@/features/theme/place-meta";
 import { themeHref } from "@/features/theme/tabs";
 import { decodeAnswers } from "@/features/recommend/answers";
-import { hasRequiredAnswers, QUESTIONS } from "@/features/recommend/questions";
-import { classify } from "@/features/recommend/scoring";
+import { evaluate, QUESTION_COUNT } from "@/features/recommend/survey";
 import { findTheme } from "@/features/recommend/themes";
 import {
   LAST_RECOMMENDATION_KEY,
@@ -32,7 +31,8 @@ import {
 import { useNameTable } from "@/features/names/NamesProvider";
 
 // ME 화면 본문. 나의 여행자 유형(마지막 추천 결과의 유형 · 설명 · 1위 테마)과 저장된 플랜을 localStorage에서 읽는다.
-// 1위 테마는 결과 화면이 저장한 추천 API 1위(tn.lastTopTheme)를 읽기만 한다. 없으면(예전 기록 · 추천 실패) 유형만 보인다.
+// 유형은 마지막 추천의 최종 후보 E의 첫 유형이다(features/recommend/survey.ts). 예전 15문항 기록은 미완료라 추천 기록 없음처럼 보인다.
+// 1위 테마는 결과 화면이 저장한 적합도 지수 1위(tn.lastTopTheme)를 읽기만 한다. 없으면(예전 기록) 유형만 보인다.
 // 저장된 플랜은 테마 코스와 투어 플래너 코스(kind: "planner")가 한 목록에 저장한 순서대로 섞여 있다.
 // 저장한 장소(tn.savedPlaces)는 저장한 순서대로 보이고, 누르면 그 장소 시트를 연 지도 탭(테마 · 플래너)으로 간다.
 // 서버 렌더와 하이드레이션 중에는 저장된 값이 없는 것으로 그리고, 그 뒤 저장된 값으로 다시 그린다
@@ -47,11 +47,9 @@ export function MePanel() {
   const names = useNameTable();
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
-  const lastAnswers = lastA ? decodeAnswers(lastA) : null;
+  const lastResult = lastA ? evaluate(decodeAnswers(lastA)) : null;
   const lastType =
-    lastAnswers && hasRequiredAnswers(lastAnswers)
-      ? classify(lastAnswers, locale).clusters[0]
-      : undefined;
+    lastResult?.status === "complete" ? lastResult.types[0] : undefined;
   const topSlug = parseLastTopTheme(useLocalValue(LAST_TOP_THEME_KEY), lastA);
   const lastTheme = topSlug ? findTheme(topSlug) : undefined;
 
@@ -108,10 +106,10 @@ export function MePanel() {
         {lastA && lastType ? (
           <div className="mt-4 rounded-card p-5 ring-1 ring-line">
             <p className="text-display font-bold">
-              {t("typeName", { type: tc(`${lastType.id}.name`) })}
+              {t("typeName", { type: tc(`${lastType}.name`) })}
             </p>
             <p className="mt-2 text-body text-fg-muted">
-              {tc(`${lastType.id}.description`)}
+              {tc(`${lastType}.description`)}
             </p>
             <Link
               href={`/recommend/result?a=${lastA}`}
@@ -148,7 +146,7 @@ export function MePanel() {
             <span className="flex flex-1 flex-col">
               <span className="text-body-lg font-bold">{t("emptyTitle")}</span>
               <span className="mt-1 text-caption text-white">
-                {t("emptyMeta", { total: QUESTIONS.length })}
+                {t("emptyMeta", { total: QUESTION_COUNT })}
               </span>
             </span>
             <ArrowRight size={20} className="shrink-0" aria-hidden />

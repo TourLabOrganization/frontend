@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { Answers } from "../recommend/questions";
-import { classify, CLUSTER_IDS } from "../recommend/scoring";
+import { decodeAnswers } from "../recommend/answers";
+import { type Answers, evaluate } from "../recommend/survey";
+import { indirectPreference } from "../recommend/theme-index";
 import {
   type CityTour,
-  CLUSTER_PREFS,
   recommendTours,
   regionCounts,
   routeOverflows,
@@ -17,7 +17,7 @@ import toursData from "./data/citytour.json";
 
 const TOURS = toursData as CityTour[];
 
-// ── 목업 원본(standalone 「Tour Navigator.html」 홈 renderVals)을 그대로 옮긴 비교 기준 ──
+// ── 목업 원본(standalone 「Tour Navigator.html」 홈 renderVals)을 옮긴 비교 기준. 적합도만 간접 선호 u의 내적으로 바꿨다 ──
 const KW = [
   /궁|성곽|읍성|산성|사찰|[가-힣]사$|향교|서원|박물관|유적|고분|릉|왕|역사|문화재|한옥|민속|전통|사지|탑|기념관/,
   /산$|산 |숲|수목원|공원|호수|저수지|계곡|습지|정원|폭포|자연|생태|휴양림|둘레길|꽃|농원|수변/,
@@ -45,32 +45,13 @@ function mockProf(x: Row) {
 }
 function mockRec(
   CT: Row[],
-  R: {
-    p: number;
-    s2: number;
-    pr: number;
-    pr2: number;
-    mix: boolean;
-    cats: (number | "night")[];
-  },
+  R: { u: readonly number[]; cat: number | "night" | null },
 ) {
-  const CL = CLUSTER_IDS.map((c) => CLUSTER_PREFS[c]);
-  const w1 = CL[R.p];
-  const w2 = R.mix && CL[R.s2] ? CL[R.s2] : null;
-  const a1 = R.pr || 100;
-  const a2 = R.pr2 || 0;
   const sc = CT.map((x, i) => {
     const p = mockProf(x);
-    let fit = p.v.reduce((s, y, k) => s + y * w1[k], 0);
-    if (w2)
-      fit =
-        (a1 * fit + a2 * p.v.reduce((s, y, k) => s + y * w2[k], 0)) / (a1 + a2);
+    const fit = p.v.reduce((s, y, k) => s + y * R.u[k], 0);
     const bonus =
-      0.5 *
-      R.cats.reduce<number>(
-        (s, k) => s + (k === "night" ? p.night : p.v[k]),
-        0,
-      );
+      0.5 * (R.cat === null ? 0 : R.cat === "night" ? p.night : p.v[R.cat]);
     return { x, i, s: fit + bonus + (p.stops >= 3 ? 0.02 : 0) };
   }).sort((a, b) => b.s - a.s);
   const seen: Record<string, 1> = {};
@@ -83,7 +64,8 @@ function mockRec(
   }
   return rec.map((x) => x[1]);
 }
-const Q4_CAT: Record<string, number | "night"> = {
+/** S4 관심사 → 목업 분류 index(역사 0 · 자연 1 · 체험 2 · 먹거리 3 · 바다 4, 야경). 드라마 · 공연 · 쇼핑은 없다 */
+const S4_CAT: Record<string, number | "night"> = {
   history: 0,
   nature: 1,
   sea: 4,
@@ -92,50 +74,73 @@ const Q4_CAT: Record<string, number | "night"> = {
   night: "night",
 };
 
+// 명세서 §15 예제(C4 · C5 복합형, 역사)
+const MIXED: Answers = {
+  s1: "30s",
+  s2: "solo",
+  s3: "relaxed",
+  s4: "history",
+  s5: "quiet",
+  s6: "morning",
+  b2: "a",
+  f1: "balanced",
+};
+
 const SAMPLES: Answers[] = [
-  // 60대 · 배우자 · 천천히 · 역사 + 자연 → C4
+  MIXED,
+  // 20대 · 친구와 · 빡빡하게 · 야경 · 핫플 · 저녁 + 인기 야간 명소
   {
-    q1: ["60s"],
-    q2: ["spouse"],
-    q3: ["relaxed"],
-    q4: ["history", "nature"],
-    q5: ["quiet"],
-    q6: ["domestic"],
+    s1: "20s",
+    s2: "friends",
+    s3: "packed",
+    s4: "night",
+    s5: "trending",
+    s6: "evening",
+    b6: "a",
   },
-  // 20대 · 친구 · 빡빡하게 · 야경 + 맛집
+  // 관심사 자료 없음(드라마): 10대 · 혼자 · 빡빡하게 + 실제 촬영지 → C7
   {
-    q1: ["20s"],
-    q2: ["friends"],
-    q3: ["packed"],
-    q4: ["night", "food-market"],
+    s1: "teens",
+    s2: "solo",
+    s3: "packed",
+    s4: "drama",
+    s5: "trending",
+    s6: "morning",
+    b1: "a",
   },
-  // 섞기(1위 확률 50% 미만): 30대 · 아이 · 적당히 · 바다
-  { q1: ["30s"], q2: ["kids-family"], q3: ["moderate"], q4: ["sea"] },
-  // 해외 방문 · 드라마 + 체험
+  // 복합형(C2 · C1, BALANCED): 20대 · 친구와 · 적당히 · 바다 · 핫플 · 저녁 + 동행 사진
   {
-    q1: ["teens"],
-    q2: ["solo"],
-    q3: ["packed"],
-    q4: ["drama", "activity"],
-    q6: ["overseas"],
+    s1: "20s",
+    s2: "friends",
+    s3: "moderate",
+    s4: "sea",
+    s5: "trending",
+    s6: "evening",
+    b3: "c",
+    f1: "balanced",
+  },
+  // 50대 · 부모님 · 적당히 · 맛집 · 한적한 곳 · 낮 + 지역 미식
+  {
+    s1: "50s",
+    s2: "parents",
+    s3: "moderate",
+    s4: "food-market",
+    s5: "quiet",
+    s6: "daytime",
+    b4: "a",
   },
 ];
 
 describe("recommendTours (내 유형 추천)", () => {
   it.each(SAMPLES.map((a, i) => [i, a] as const))(
-    "목업 규칙과 같은 5개를 같은 순서로 고른다 (예시 %i)",
+    "목업 규칙(적합도 = 분류 비율 · u)과 같은 5개를 같은 순서로 고른다 (예시 %i)",
     (_, answers) => {
-      const type = typeProfile(answers, "ko")!;
-      const { clusters, mixed } = classify(answers, "ko");
+      const type = typeProfile(answers)!;
+      const result = evaluate(answers);
+      if (result.status !== "complete") throw new Error("incomplete");
       const R = {
-        p: CLUSTER_IDS.indexOf(clusters[0].id),
-        s2: CLUSTER_IDS.indexOf(clusters[1].id),
-        pr: Math.round(clusters[0].probability * 100),
-        pr2: Math.round(clusters[1].probability * 100),
-        mix: mixed,
-        cats: (answers.q4 ?? []).flatMap((o) =>
-          o in Q4_CAT ? [Q4_CAT[o]] : [],
-        ),
+        u: indirectPreference(result),
+        cat: S4_CAT[answers.s4!] ?? null,
       };
       const rows = TOURS.map((t) => [t.region, t.name, "", "", t.route] as Row);
       const got = recommendTours(TOURS, type).map((t) => t.name);
@@ -145,23 +150,29 @@ describe("recommendTours (내 유형 추천)", () => {
   );
 
   it("한 지역에서 한 노선만 고른다", () => {
-    const got = recommendTours(TOURS, typeProfile(SAMPLES[0], "ko")!);
+    const got = recommendTours(TOURS, typeProfile(MIXED)!);
     expect(new Set(got.map((t) => t.region)).size).toBe(got.length);
   });
 
-  it("60대 · 배우자 · 천천히 예시는 C4 70% · 섞지 않음 · 관심사 역사 · 자연", () => {
-    expect(typeProfile(SAMPLES[0], "ko")).toEqual({
-      primary: "C4",
-      secondary: "C5",
-      pr: 70,
-      pr2: 25,
-      mixed: false,
-      tags: ["history", "nature"],
-    });
+  it("명세서 예제는 C4 · C5 복합형 · u = [0.3, 0.45, 0.025, 0.125, 0.1] · 관심사 역사", () => {
+    const type = typeProfile(MIXED)!;
+    expect(type.types).toEqual(["C4", "C5"]);
+    expect(type.tag).toBe("history");
+    [0.3, 0.45, 0.025, 0.125, 0.1].forEach((v, k) =>
+      expect(type.preference[k]).toBeCloseTo(v, 10),
+    );
   });
 
-  it("필수 문항이 비면 유형이 없다", () => {
-    expect(typeProfile({ q1: ["20s"] }, "ko")).toBeNull();
+  it("드라마 · 공연 · 쇼핑 관심사는 경유지 분류가 없다", () => {
+    expect(typeProfile(SAMPLES[2])!.tag).toBeNull();
+    expect(typeProfile(SAMPLES[2])!.types).toEqual(["C7"]);
+  });
+
+  it("완료되지 않은 답 · 예전 15문항 기록이면 유형이 없다", () => {
+    expect(typeProfile({ s1: "20s" })).toBeNull();
+    expect(
+      typeProfile(decodeAnswers("q1.60s~q2.spouse~q3.relaxed~q4.history")),
+    ).toBeNull();
   });
 });
 

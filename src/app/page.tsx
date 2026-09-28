@@ -18,7 +18,7 @@ import { HeroCarousel } from "@/features/home/HeroCarousel";
 import { Splash } from "@/features/home/Splash";
 import { SPLASH_COOKIE } from "@/features/home/splash-cookie";
 import { ThemeTile } from "@/features/home/ThemeTile";
-import { QUESTIONS } from "@/features/recommend/questions";
+import { QUESTION_COUNT } from "@/features/recommend/survey";
 import { HOME_THEME_ORDER } from "@/features/home/theme-order";
 import { cityName } from "@/features/planner/regions";
 import type { ThemeSlug } from "@/features/recommend/themes";
@@ -64,9 +64,6 @@ export default async function HomePage() {
   const common = await getTranslations("Common");
   const tt = await getTranslations("Themes");
   const tc = await getTranslations("Course");
-
-  const questionTotal = QUESTIONS.length;
-  const requiredTotal = QUESTIONS.filter((q) => q.required).length;
 
   const courses = POPULAR.map(({ key, slug, a, plan }) => {
     const trip = tripFromAnswers(decodeTrip(a));
@@ -175,10 +172,7 @@ export default async function HomePage() {
                 {t("pickCourseTitle")}
               </span>
               <span className="mt-1 text-caption text-white">
-                {t("pickCourseMeta", {
-                  total: questionTotal,
-                  required: requiredTotal,
-                })}
+                {t("pickCourseMeta", { total: QUESTION_COUNT })}
               </span>
             </span>
             <ArrowRight size={20} className="shrink-0" aria-hidden />

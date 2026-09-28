@@ -41,7 +41,7 @@ function compare(a: string, b: string) {
 }
 
 // 홈 「지역 시티투어」(목업: 배너 다음). 탭 두 칸 「내 유형 추천」 · 「지역별 검색」.
-// 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 유형으로 목업 규칙(citytour.ts recommendTours)을 돌린다.
+// 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.1 결과(최종 유형 · 간접 선호 u · S4 관심사)로 citytour.ts recommendTours를 돌린다.
 // 추천 기록이 있으면 내 유형 추천이, 없으면 지역별 검색(서울)이 먼저 열린다(목업과 같다).
 // 카드와 「코스빌더에 넣기」는 CityTourCard.tsx(플래너 여행 정보 탭과 함께 쓴다)
 export function CityTourSection({
@@ -59,8 +59,8 @@ export function CityTourSection({
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
   const type = useMemo(
-    () => (lastA ? typeProfile(decodeAnswers(lastA), locale) : null),
-    [lastA, locale],
+    () => (lastA ? typeProfile(decodeAnswers(lastA)) : null),
+    [lastA],
   );
   const rec = useMemo(() => (type ? recommendTours(TOURS, type) : []), [type]);
 
@@ -249,7 +249,7 @@ export function CityTourSection({
           (type && rec.length > 0 ? (
             <h3 className="mt-5 text-body-lg font-bold">
               {t("recHeading", {
-                type: tc(`${type.primary}.name`),
+                type: tc(`${type.types[0]}.name`),
                 count: rec.length,
               })}
             </h3>
