@@ -23,23 +23,23 @@ public/                 정적 파일
 
 ## 화면 경로
 
-| 경로                | 화면                                                                           | 코드                                                                                                        |
-| ------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 지역 시티투어 · 나의 테마 · 지금 인기 코스) | `app/page.tsx`, `features/home`                                                                             |
-| `/recommend`        | 테마 추천 15문항                                                               | `app/recommend/page.tsx`, `features/recommend`                                                              |
-| `/recommend/result` | 추천 결과(테마 순위는 백엔드 추천 API)                                         | `app/recommend/result/page.tsx`, `features/recommend/api.ts`, `lib/api/datalab.ts`                          |
-| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)                | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
-| `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)                    | `app/planner/page.tsx`, `features/planner`                                                                  |
-| `/me`               | ME(나의 여행자 유형 · 저장된 플랜)                                             | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
+| 경로                | 화면                                                                                    | 코드                                                                                                        |
+| ------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `/`                 | 홈(첫 방문 로고 시작 화면 · 배너 · 지역 시티투어 · 나의 테마 · 지금 인기 코스)          | `app/page.tsx`, `features/home`                                                                             |
+| `/recommend`        | 테마 추천 설문 6.1(공통 6 + 관심사 분기 1 + 필요할 때 확인 1, 아래 「추천과 데이터랩」) | `app/recommend/page.tsx`, `features/recommend`(`survey.ts`)                                                 |
+| `/recommend/result` | 추천 결과(유형 · 테마 적합도 지수 상위 3개, 네트워크 없이 프론트에서 계산)              | `app/recommend/result/page.tsx`, `features/recommend/survey.ts` · `theme-index.ts`                          |
+| `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)                         | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
+| `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)                             | `app/planner/page.tsx`, `features/planner`                                                                  |
+| `/me`               | ME(나의 여행자 유형 · 저장된 플랜)                                                      | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
 
 ### 테마 화면 주소 (`/themes/[themeId]`)
 
-| 쿼리    | 값                                           | 쓰임                                                              |
-| ------- | -------------------------------------------- | ----------------------------------------------------------------- |
-| `tab`   | `map` · `course` · `film` · `stamp` · `info` | 고른 탭. 없거나 모르는 값이면 `map`                               |
-| `a`     | 추천 답(Q10~Q14, `encodeAnswers`)            | 코스 탭의 조건. 코스 탭의 일정 · 이동수단 칸이 q11 · q12만 바꾼다 |
-| `plan`  | `classic` · `trend` · `quiet`                | 코스 3안                                                          |
-| `place` | 장소 id                                      | 지도 탭에서 그 장소 시트를 연 채로 시작                           |
+| 쿼리    | 값                                                         | 쓰임                                                              |
+| ------- | ---------------------------------------------------------- | ----------------------------------------------------------------- |
+| `tab`   | `map` · `course` · `film` · `stamp` · `info`               | 고른 탭. 없거나 모르는 값이면 `map`                               |
+| `a`     | 여행 조건(Q10~Q14, `features/course/trip.ts` `encodeTrip`) | 코스 탭의 조건. 코스 탭의 일정 · 이동수단 칸이 q11 · q12만 바꾼다 |
+| `plan`  | `classic` · `trend` · `quiet`                              | 코스 3안                                                          |
+| `place` | 장소 id                                                    | 지도 탭에서 그 장소 시트를 연 채로 시작                           |
 
 - 탭을 바꿔도 `a` · `plan`은 주소에 남긴다. 주소는 `features/theme/tabs.ts`의 `themeHref`로 만든다
 - 영화 탭의 장면 카드는 `id`가 장면 id라 `?tab=film#{장면 id}`로 바로 간다
@@ -220,11 +220,25 @@ data-server 합치기 (`scripts/data-server.mjs`)
 
 ### 추천과 데이터랩
 
-- 설문 Q1~Q9로 유형(군집)을 판정하는 것(`features/recommend/scoring.ts`의 `classify`)만 프론트에서 한다
-- 테마 순위는 백엔드 `POST /api/v1/recommend` 결과를 그대로 쓴다(`features/recommend/api.ts`).
-  요청은 1순위 군집 · Q4 관심사 index · 야경 · Q15 지역(골랐을 때만), 응답 테마 이름은 `themes.ts`의 `key`로 우리 테마에 잇고 목록에 없는 테마(「[가상] …」)는 뺀다
-- 결과 화면은 API 1위 테마를 localStorage `tn.lastTopTheme`(`{ a, slug }`)에 적고, ME는 다시 계산하지 않고 이 값을 읽는다
-- 데이터랩 조회(TFI · 체류시간 · 코스 지역)는 결과 화면과 테마 화면(여행 정보 탭 `features/theme/DatalabSection.tsx`)이 함께 쓰므로 `lib/api/datalab.ts`에 둔다.
+- 테마 추천은 팀 명세서 「Tour Navigator 신규 설문 통합 상세명세서」 integrated 6.2(2026-09-28)의 설문 6.1 · 추천 6.2 참조 계산을
+  프론트로 옮겨 네트워크 없이 계산한다(`features/recommend/survey.ts` · `theme-index.ts`, 명세서 예제 숫자를 테스트로 고정).
+  명세서 §01이 새 유형 이름 · 점수를 기존 recommendV4(백엔드 `POST /api/v1/recommend`)에 넘기지 않는다고 정했고 data-server에 6.2 API가 아직 없어서다.
+  data-server가 6.2 API를 내면 그 API를 부르도록 바꿀 임시본이다(`docs/api.md`)
+- 설문 6.1 · 추천 6.2 규칙 요약(괄호는 명세서 절)
+
+  | 단계      | 규칙                                                                                                                                                                                             |
+  | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+  | 문항      | 공통 S1~S6(모두 한 개 고르기 · 필수, §05~§06) + S4 관심사가 정한 분기 B1~B7 중 1개(§07~§10, 「없음」은 모든 유형 0점) + 필요할 때만 F1(§11). 건너뛰기 없음. 문항 수 7(F1은 추가 확인)            |
+  | F1        | S1~S6 + B 점수에서 최고점 2점 이내 유형 E₀가 2개 이상이면 한 번 묻는다. 보기 = E₀의 경험 설명(C 번호 순) + 「위 경험들이 비슷하게 중요해요」(E₀ 모두 4/\|E₀\|), 유형을 고르면 +4                 |
+  | 유형      | E = 최고점 2점 이내(점수 내림차순, 같으면 C 번호 순), α = 2^((s − smax)/2)를 E 안에서 나눈 값, R = 같은 식을 10개로 나눈 값. E가 1개면 단일형, 2개 이상이면 복합형(자르지 않는다, §12)           |
+  | 간접 선호 | u = Σ α · W̃(W = 유형별 5범주 프로필 표를 행 합으로 나눈 값, q_source = type_profile_prior, §13)                                                                                                  |
+  | 테마      | 지수 = 100 · (u · p̃ + 0.5 · r) / 1.5(p̃ = 테마 5범주 비중 ÷ 합, r = S4 관심사 범주 비중 · 야경은 야경 비중 · 드라마 · 공연 · 쇼핑은 0), 상위 3개. 지역 · 한류 · 연령 · 인구통계 가산 0(§14 · §15) |
+
+- 없앤 것: 국내 · 해외(Q6), 예산(Q7), 정보 경로(Q9), 앱 언어 가산, 국내면 C7~C10 제외, 여행 지역(Q15)과 데이터랩 TFI 보정(§04 · §38).
+  여행 조건(Q10~Q14)은 설문이 아니라 테마 코스 탭 조건이다(`features/course/trip.ts`, 주소 형식은 그대로)
+- 주소 `?a=`는 `s1.30s~s2.solo~…~b2.a~f1.balanced`(문항 순서 고정, `answers.ts`). 예전 15문항 형식(`q1.…`)은 미완료로 읽혀 추천 기록 없음처럼 다룬다
+- 결과 화면은 지수 1위 테마를 localStorage `tn.lastTopTheme`(`{ a, slug }`)에 적고, ME는 다시 계산하지 않고 이 값을 읽는다. ME · 알림의 유형은 E의 첫 유형이다
+- 데이터랩 조회(TFI · 체류시간 · 코스 지역)는 테마 화면(여행 정보 탭 `features/theme/DatalabSection.tsx`)이 쓴다(`lib/api/datalab.ts`).
   TFI 막대는 `components/TfiBars.tsx`
 
 ### 홈 지역 시티투어
@@ -235,7 +249,10 @@ data-server 합치기 (`scripts/data-server.mjs`)
   관광지(먹거리 밖)를 먼저, 먹거리는 시티투어 경유(`ct`) 장소 · 장소 이름이 경유지 이름으로 끝나는 곳(「광복로」 → 부산 광복로) · 시장 · 골목 · 거리 경유지일 때만.
   후보가 여럿이면 `ct` → 이름 길이 차이가 가장 작은 곳, 같은 순위면 대조하지 않는다. 경유지는 `+`로도 나눈다
 - 「코스빌더에 넣기」는 `course-store`의 `replace`로 코스를 바꾸고 `/planner?tab=course`로 간다. 담아 둔 다른 코스가 있으면 먼저 묻는다
-- 내 유형 추천은 `tn.lastRecommendation`의 답으로 `classify`를 다시 돌려 군집 선호 벡터(`CLUSTER_PREFS`, 목업 CL)와 맞춘다
+- 내 유형 추천은 `tn.lastRecommendation`의 답을 설문 6.1로 계산해(`evaluate`) 목업 규칙을 돌린다. 적합도 = 노선 분류 비율 · 간접 선호 u(예전 1 · 2위 군집 확률 섞기 대신),
+  관심사 = S4 한 개의 분류 비율(야경은 야간 여부) × 0.5, 경유지 3곳 이상 +0.02, 한 지역 한 노선씩 5개. 제목의 유형은 E의 첫 유형이다.
+  명세서 §16의 코사인 × coverage 순위는 팀 참조 패키지의 적격 179코스 자료(eligible_courses.csv)가 있어야 같은 값이 나오고,
+  목업 노선 분류는 한 경유지가 여러 분류에 들어가 coverage ≤ 1이 성립하지 않아 그 식을 그대로 쓰지 않았다
 
 - 카드(`CityTourCard`)와 「코스빌더에 넣기」 확인 창(`useCityTourAdd`)은 `features/home/CityTourCard.tsx`에 있고 플래너 여행 정보 탭도 이것을 쓴다.
   경로는 3줄까지만 보이고, 잘린 글이 있으면(그려진 높이로 판단, `citytour.ts` `routeOverflows`) 「경로 전체 보기」 토글(`aria-expanded`)을 둔다

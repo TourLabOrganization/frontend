@@ -12,13 +12,13 @@ import {
   type PlanId,
   tripFromAnswers,
 } from "@/features/course/scenarios";
+import { decodeTrip } from "@/features/course/trip";
 import { CityTourSection } from "@/features/home/CityTourSection";
 import { HeroCarousel } from "@/features/home/HeroCarousel";
 import { Splash } from "@/features/home/Splash";
 import { SPLASH_COOKIE } from "@/features/home/splash-cookie";
 import { ThemeTile } from "@/features/home/ThemeTile";
-import { decodeAnswers } from "@/features/recommend/answers";
-import { QUESTIONS } from "@/features/recommend/questions";
+import { QUESTION_COUNT } from "@/features/recommend/survey";
 import { HOME_THEME_ORDER } from "@/features/home/theme-order";
 import { cityName } from "@/features/planner/regions";
 import type { ThemeSlug } from "@/features/recommend/themes";
@@ -65,11 +65,8 @@ export default async function HomePage() {
   const tt = await getTranslations("Themes");
   const tc = await getTranslations("Course");
 
-  const questionTotal = QUESTIONS.length;
-  const requiredTotal = QUESTIONS.filter((q) => q.required).length;
-
   const courses = POPULAR.map(({ key, slug, a, plan }) => {
-    const trip = tripFromAnswers(decodeAnswers(a));
+    const trip = tripFromAnswers(decodeTrip(a));
     const scenario = buildScenario(slug, plan, trip);
     const stops = scenario.days.flatMap((d) => d.stops);
     const cities = [...new Set(stops.map((s) => s.place.locKo))];
@@ -175,10 +172,7 @@ export default async function HomePage() {
                 {t("pickCourseTitle")}
               </span>
               <span className="mt-1 text-caption text-white">
-                {t("pickCourseMeta", {
-                  total: questionTotal,
-                  required: requiredTotal,
-                })}
+                {t("pickCourseMeta", { total: QUESTION_COUNT })}
               </span>
             </span>
             <ArrowRight size={20} className="shrink-0" aria-hidden />

@@ -11,8 +11,8 @@
 //   3) 결과: 언어별로 페이지마다 한글이 든 글자 · 속성(aria-label · title · placeholder · alt · 문서 제목)과 건수,
 //      가로 넘침(문서 폭 > 화면 폭)과 콘솔 오류를 출력한다. 한글이 한 건이라도 있으면 종료 코드 1
 //
-// 훑는 페이지: 홈 · 설문 1번 · 15번 · 결과 · ME · 테마 5개 전 탭 · 플래너 지도(전국 · 서울 · 경주 · 제주) · 코스(담은 장소 있음) ·
-//             여행 정보(서울 · 경주) · 장소 시트(플래너 · 테마, 숙박 · 시티투어 경유지 · 연관 관광지 장소 포함). 폭 390px
+// 훑는 페이지: 홈 · 설문(첫 문항 · B 문항 · F1 · 결과 단일형 · 결과 복합형) · ME · 테마 5개 전 탭 · 플래너 지도(전국 · 서울 · 경주 · 제주) ·
+//             코스(담은 장소 있음) · 여행 정보(서울 · 경주) · 장소 시트(플래너 · 테마, 숙박 · 시티투어 경유지 · 연관 관광지 장소 포함). 폭 390px
 // 예외(한글이어도 세지 않는다): 언어 메뉴의 「한국어」(자기 언어로 쓴 언어 이름, i18n/locales.ts LOCALE_NAMES)
 // 브라우저는 이 스크립트가 띄운 것만 닫는다
 
@@ -78,13 +78,39 @@ const THEME_PLACES = [
 ];
 const enc = encodeURIComponent;
 
+// 설문 6.1(features/recommend/survey.ts)은 보기 번호 목록으로 답한다. 0부터, 음수는 뒤에서부터(-1 = 마지막 보기)
+/** S1~S6 첫 보기 → B1(드라마·K팝 촬영지의 분기) */
+const FIRST_OPTIONS = [0, 0, 0, 0, 0, 0];
+/** 명세서 예제: 30대 · 혼자 · 천천히 · 역사·유적 · 한적한 곳 · 아침 일찍부터 · B2 첫 보기 → F1(C4 · C5) */
+const SPEC_EXAMPLE = [2, 0, 2, 2, 2, 0, 0];
+
 /** 훑을 페이지. 값은 주소 또는 { path, setup(page) } */
 function pages() {
   const list = [
     { name: "home", path: "/" },
-    { name: "recommend-q1", path: "/recommend" },
-    { name: "recommend-q15", path: "/recommend", setup: toLastQuestion },
-    { name: "recommend-result", path: "/recommend", setup: toResult },
+    { name: "recommend-s1", path: "/recommend" },
+    {
+      name: "recommend-b1",
+      path: "/recommend",
+      setup: (page) => answer(page, FIRST_OPTIONS),
+    },
+    {
+      name: "recommend-f1",
+      path: "/recommend",
+      setup: (page) => answer(page, SPEC_EXAMPLE),
+    },
+    {
+      // 첫 보기만 골라 끝까지(F1 없음) → 단일형
+      name: "recommend-result-single",
+      path: "/recommend",
+      setup: (page) => toResult(page, [...FIRST_OPTIONS, 0]),
+    },
+    {
+      // 명세서 예제 + 「위 경험들이 비슷하게 중요해요」(F1 마지막 보기) → 복합형
+      name: "recommend-result-mixed",
+      path: "/recommend",
+      setup: (page) => toResult(page, [...SPEC_EXAMPLE, -1]),
+    },
     { name: "me", path: "/me" },
   ];
   for (const slug of THEMES)
@@ -120,22 +146,22 @@ function pages() {
   return list;
 }
 
-async function answerAndNext(page) {
-  const option = page.locator('[role="radio"], [role="checkbox"]').first();
-  await option.click();
-  const next = page
-    .locator('[role="radiogroup"], [role="group"]')
-    .last()
-    .locator("xpath=following::button[not(@disabled)][1]");
-  await next.click();
-  await page.waitForTimeout(250);
+/** 보기 번호 목록으로 차례로 답하고 다음 문항으로 넘긴다 */
+async function answer(page, picks) {
+  for (const pick of picks) {
+    const options = page.locator('[role="radiogroup"] [role="radio"]');
+    const count = await options.count();
+    await options.nth(pick < 0 ? count + pick : pick).click();
+    const next = page
+      .locator('[role="radiogroup"]')
+      .last()
+      .locator("xpath=following::button[not(@disabled)][1]");
+    await next.click();
+    await page.waitForTimeout(250);
+  }
 }
-async function toLastQuestion(page) {
-  for (let i = 0; i < 14; i++) await answerAndNext(page);
-}
-async function toResult(page) {
-  await toLastQuestion(page);
-  await answerAndNext(page);
+async function toResult(page, picks) {
+  await answer(page, picks);
   await page.waitForURL(/\/recommend\/result/, { timeout: 30000 });
   await page.waitForLoadState("networkidle");
 }

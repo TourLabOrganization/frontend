@@ -7,8 +7,7 @@ import { useId, useRef } from "react";
 import { usePopover } from "@/components/ui/use-popover";
 import { useHydrated, usePlannerCourse } from "@/features/planner/course-store";
 import { decodeAnswers } from "@/features/recommend/answers";
-import { hasRequiredAnswers } from "@/features/recommend/questions";
-import { classify } from "@/features/recommend/scoring";
+import { evaluate } from "@/features/recommend/survey";
 import {
   LAST_RECOMMENDATION_KEY,
   NOTIFICATIONS_READ_KEY,
@@ -47,18 +46,16 @@ export function Notifications({ citytour }: NotificationsProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   const lastA = useLocalValue(LAST_RECOMMENDATION_KEY);
-  const answers = lastA ? decodeAnswers(lastA) : null;
-  const type =
-    answers && hasRequiredAnswers(answers)
-      ? classify(answers, locale).clusters[0]
-      : undefined;
+  // 마지막 추천의 유형 = 최종 후보 E의 첫 유형. 예전 15문항 기록은 미완료라 알림이 없다
+  const result = lastA ? evaluate(decodeAnswers(lastA)) : null;
+  const type = result?.status === "complete" ? result.types[0] : undefined;
   const savedRaw = useLocalValue(SAVED_PLANS_KEY);
   const { course } = usePlannerCourse();
   const readIds = parseReadIds(useLocalValue(NOTIFICATIONS_READ_KEY));
 
   const list = buildNotifications({
     recommendation:
-      lastA && type ? { a: lastA, type: tc(`${type.id}.name`) } : null,
+      lastA && type ? { a: lastA, type: tc(`${type}.name`) } : null,
     plannerPlaceIds: course.placeIds,
     savedAt: [
       ...parseSavedPlans(savedRaw).map((p) => p.savedAt),

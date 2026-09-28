@@ -8,7 +8,6 @@
     "replayLabel": "从头开始",
     "brand": "TOUR NAVIGATOR",
     "back": "返回",
-    "skip": "跳过",
     "next": "下一步",
     "tmdbCredit": "海报与剧照：TMDB。本服务未获 TMDB 认可或认证",
     "mapLoadError": "地图加载失败。下方的地点列表仍可正常使用",
@@ -142,7 +141,7 @@
     "myThemesHeading": "我的主题",
     "pickCourseHeading": "挑选我的路线",
     "pickCourseTitle": "为你挑选合适的主题和路线",
-    "pickCourseMeta": "{total}道题 · 必答{required}道 · 约1分钟",
+    "pickCourseMeta": "{total}道题 · 约1分钟",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "各地城市观光巴士",
@@ -245,12 +244,13 @@
   "Recommend": {
     "progressLabel": "答题进度",
     "counter": "{current} / {total}",
+    "extraLabel": "补充确认问题",
     "next": "下一步",
     "seeResult": "查看结果",
-    "limitReached": "最多只能选2项。如需更换，请先取消一项。",
+    "branchHelp": "如果没有想要的体验，请选择“无”",
     "questions": {
-      "q1": {
-        "title": "请选择你的年龄段",
+      "s1": {
+        "title": "你的年龄段是？",
         "help": "我们会参考相似旅行者的数据来判断旅行类型",
         "options": {
           "teens": "10多岁",
@@ -262,31 +262,31 @@
           "70s-plus": "70岁以上"
         }
       },
-      "q2": {
-        "title": "和谁一起出发？",
-        "help": "请选择最常同行的人",
+      "s2": {
+        "title": "这次旅行和谁一起？",
+        "help": "请选择这次和你同行的人",
         "options": {
           "solo": "独自一人",
-          "friends": "朋友",
-          "couple": "恋人",
-          "spouse": "配偶",
+          "friends": "和朋友",
+          "couple": "和恋人",
+          "spouse": "和配偶",
           "kids-family": "带孩子的家庭",
           "parents": "陪父母",
           "social-group": "朋友聚会团体"
         }
       },
-      "q3": {
-        "title": "喜欢什么样的旅行节奏？",
-        "help": "请选择你平时的旅行节奏",
+      "s3": {
+        "title": "想以什么节奏旅行？",
+        "help": "请选择这次旅行的节奏",
         "options": {
-          "packed": "紧凑充实",
-          "moderate": "张弛有度",
-          "relaxed": "悠闲慢游"
+          "packed": "紧凑一些，想多看看",
+          "moderate": "适中，游览和休息各一半",
+          "relaxed": "慢慢来，边走边歇，悠闲自在"
         }
       },
-      "q4": {
-        "title": "对什么感兴趣？",
-        "help": "最多可选2项",
+      "s4": {
+        "title": "这次旅行你最想做的一件事是什么？",
+        "help": "请只选一个最重要的兴趣。之后会再出现一个与之相关的问题",
         "options": {
           "drama": "韩剧·K-POP拍摄地",
           "performance": "演出·演唱会",
@@ -294,199 +294,178 @@
           "nature": "自然·林间步道",
           "sea": "大海",
           "food-market": "美食·市场",
-          "activity": "体验",
+          "activity": "体验·活动",
           "night": "夜景",
           "shopping-beauty": "购物·美容·SPA"
         }
       },
-      "q5": {
-        "title": "喜欢什么样的氛围？",
+      "s5": {
+        "title": "喜欢什么氛围的地方？",
         "help": "请选择想去的地方的感觉",
         "options": {
           "trending": "当下热门打卡地",
-          "landmark": "代表性景点",
-          "quiet": "清静的地方"
+          "landmark": "人人都知道的代表性景点",
+          "quiet": "人少清静的地方"
         }
       },
-      "q6": {
-        "title": "你从哪里来？",
-        "help": "预算区间和推荐类型会随之变化",
+      "s6": {
+        "title": "一天中你想在什么时候享受旅行？",
+        "help": "请选择想旅行的时间段",
         "options": {
-          "domestic": "韩国国内",
-          "overseas": "从海外来访"
-        }
-      },
-      "q7": {
-        "title": "人均预算大约多少？",
-        "help": "一次旅行的人均花费",
-        "helpOverseas": "按每人每天的花费（美元）计算",
-        "options": {
-          "under-70k": "7万韩元以下",
-          "70k-150k": "7万～15万韩元",
-          "150k-250k": "15万～25万韩元",
-          "over-250k": "25万韩元以上",
-          "usd-under-100": "每天$100以下",
-          "usd-100-300": "每天$100～300",
-          "usd-300-500": "每天$300～500",
-          "usd-over-500": "每天$500以上"
-        }
-      },
-      "q8": {
-        "title": "通常什么时候出门活动？",
-        "help": "请选择你平时活动的时间段",
-        "options": {
-          "morning": "一大早",
+          "morning": "从一大早开始",
           "daytime": "以白天为主",
           "evening": "一直到晚上"
         }
       },
-      "q9": {
-        "title": "从哪里获取旅行信息？",
-        "help": "请选择最常参考的来源",
+      "b1": {
+        "title": "和内容作品相关，你最想怎样度过时间？",
         "options": {
-          "been-before": "以前去过",
-          "word-of-mouth": "熟人推荐",
-          "internet": "网络·应用",
-          "social-media": "社交媒体·YouTube",
-          "no-info": "不做功课"
+          "a": "想去喜欢的作品或艺人的真实拍摄地和相关地点",
+          "b": "想逛逛快闪店和演出周边的多个热门地点",
+          "c": "想感受作品中的氛围，和同行的人一起拍照留念",
+          "none": "无"
         }
       },
-      "q10": {
-        "title": "什么时候出发？",
-        "help": "请选择打算出发的时间",
+      "b2": {
+        "title": "在历史景点，你最想做什么？",
         "options": {
-          "this-weekend": "本周末",
-          "this-month": "本月",
-          "later": "下个月以后"
+          "a": "想听讲解，在文化遗产周边从容漫步",
+          "b": "想亲自体验传统工艺或生活文化，深入了解",
+          "c": "想和家人一起参加通俗易懂的讲解或任务式体验",
+          "none": "无"
         }
       },
-      "q11": {
-        "title": "旅行多长时间？",
-        "help": "不选则按一日游安排",
+      "b3": {
+        "title": "在大自然或海边，你最喜欢怎样的时光？",
         "options": {
-          "day-trip": "一日游",
-          "1-night": "2天1夜",
-          "2-nights-plus": "3天2夜及以上"
+          "a": "想在一个清静的地方久留，散散步、歇一歇",
+          "b": "想游览海岸和森林的多个观景点",
+          "c": "想和同行的人一边看风景一边聊天、拍照留念",
+          "none": "无"
         }
       },
-      "q12": {
-        "title": "用什么交通方式？",
-        "help": "不选则按自驾安排",
+      "b4": {
+        "title": "在美食店或市场，你最期待什么？",
         "options": {
-          "car": "自驾",
-          "public-transit": "公共交通",
-          "flight": "飞机",
-          "tour-bus": "团体巴士"
+          "a": "想多尝尝当地的代表美食和市场小吃",
+          "b": "想去最近人气很高的餐厅和咖啡馆",
+          "c": "想和同行的人在氛围好的地方悠闲用餐",
+          "none": "无"
         }
       },
-      "q13": {
-        "title": "一天能走多久？",
-        "help": "请选择一天能步行的时间",
+      "b5": {
+        "title": "你最想尝试什么样的体验？",
         "options": {
-          "under-1h": "1小时以内",
-          "1-3h": "1～3小时",
-          "over-3h": "3小时以上"
+          "a": "喜欢孩子和家人可以一起参与的手工或游戏体验",
+          "b": "想挑战从没做过的活动或流行的体验项目",
+          "c": "想亲自学习当地的传统技艺和生活文化",
+          "none": "无"
         }
       },
-      "q14": {
-        "title": "有需要考虑的条件吗？",
-        "help": "可多选",
+      "b6": {
+        "title": "看夜景时，你最想怎样度过？",
         "options": {
-          "pet": "携带宠物",
-          "accessible": "无障碍",
-          "indoor-rain": "雨天以室内为主"
+          "a": "想逛多个人气夜间景点",
+          "b": "想和同行的人一起看风景，拍照留下回忆",
+          "c": "想在人少的夜间散步道上安静休息",
+          "none": "无"
         }
       },
-      "q15": {
-        "title": "打算去哪个地区旅行？",
-        "help": "选择后，会用韩国观光数据实验室的地区数据调整推荐",
+      "b7": {
+        "title": "在属于自己的时间里，你最想要什么？",
         "options": {
-          "seoul": "首尔",
-          "busan": "釜山",
-          "gyeongju": "庆州",
-          "jeju": "济州",
-          "geoje": "巨济",
-          "yeongwol": "宁越"
+          "a": "想通过SPA或美容体验调养身心",
+          "b": "想悠闲地购买喜欢的品牌或当地商品",
+          "c": "更喜欢在附近安静的散步道或休息处歇一歇",
+          "none": "无"
+        }
+      },
+      "f1": {
+        "title": "这次旅行中，你最不想放弃的体验是什么？",
+        "help": "有几种旅行类型和你差不多同样匹配，所以再问一个问题。如果同样重要，请选择最后一项",
+        "options": {
+          "balanced": "以上体验对我来说差不多同样重要"
         }
       }
     }
   },
   "Result": {
     "badge": "我的旅行类型",
-    "mixedTagline": "兼具两种魅力的",
-    "typeShare": "{name} {percent}%",
+    "mixedTagline": "兼具{count}种魅力的",
+    "moreTypes": "等另外{count}种类型",
+    "typeShare": "{name}占比 {percent}%",
     "recommendedThemes": "推荐主题",
     "evidenceLabel": "推荐依据",
-    "fitRankType": "{type}匹配度第{rank}名",
-    "fitRank": "匹配度第{rank}名",
-    "night": "夜景地点 {percent}%",
+    "indexNote": "匹配指数（0~100）是根据旅行类型和兴趣计算的值，不是概率。",
+    "interestMissing": "“{interest}”这一兴趣还没有主题构成数据，所以没有计入指数。",
+    "themeIndex": "匹配指数 {value}",
+    "typeAndInterest": "类型 {type} + 兴趣 {interest}",
+    "typeOnly": "类型 {type}",
     "categoryShare": "{category}地点 {percent}%",
-    "categories": {
-      "history": "历史·文化",
-      "healing": "疗愈·生态",
-      "activity": "主题公园·活动",
-      "local-food": "本地·美食",
-      "nature": "海洋·自然"
-    },
+    "night": "夜景地点 {percent}%",
     "compareCourses": "比较3条路线方案",
-    "rankBasis": "按首选类型（{type}）排序",
-    "datalabHeading": "韩国观光数据实验室 · {region}",
-    "datalabAdjusted": "已根据该地区的实际优势调整推荐分数",
-    "regionHint": "在第15题选择旅行地区后，会纳入韩国观光数据实验室的数据",
-    "sources": "来源 · {sources}",
-    "loadFailed": "无法连接推荐服务器",
-    "retry": "重试"
+    "basis": "计算依据 · 问卷6.1 · 推荐6.2（团队规格说明书的参考计算）"
   },
   "Clusters": {
     "C1": {
       "name": "潮流探索型",
+      "experience": "寻访当下热门的地方和新鲜体验",
       "tagline": "抢先打卡新热门的",
-      "description": "适合和朋友一起寻找最近走红的街区和咖啡馆，一直玩到深夜的充实旅行。"
+      "description": "适合寻访当下热门的地方、享受新鲜体验的旅行。"
     },
     "C2": {
-      "name": "情侣浪漫型",
-      "tagline": "两人共享美景与夜色的",
-      "description": "适合用景观好的地方、夜景和一顿美食填满两人专属一天的旅行。"
+      "name": "赏景同行型",
+      "experience": "和同行的人一起欣赏风景和氛围，留下回忆",
+      "tagline": "一起享受风景与氛围的",
+      "description": "适合和同行的人一起欣赏风景与氛围、留下回忆的旅行。"
     },
     "C3": {
-      "name": "亲子家庭型",
+      "name": "家庭体验型",
+      "experience": "参加孩子和家人可以一起享受的体验",
       "tagline": "和孩子一起享受体验的",
-      "description": "适合有亲身体验、大海和露营，能和孩子一起动起来的旅行。"
+      "description": "适合有孩子和家人可以一起享受的体验的旅行。"
     },
     "C4": {
-      "name": "活力乐龄型",
-      "tagline": "边走边看、细细品味的",
-      "description": "适合漫步自然、慢慢游览历史悠久之地的旅行。"
+      "name": "文化漫步型",
+      "experience": "一边聆听文化遗产和街区的故事，一边从容漫步",
+      "tagline": "边听故事边慢慢走的",
+      "description": "适合一边聆听文化遗产和街区的故事、一边从容漫步的旅行。"
     },
     "C5": {
-      "name": "独自疗愈型",
-      "tagline": "一个人安静休息的",
-      "description": "适合在不拥挤的大自然中按自己的节奏散步、休息的旅行。"
+      "name": "安静休憩型",
+      "experience": "独自或在安静的环境中散步、休息",
+      "tagline": "安静地走走歇歇的",
+      "description": "适合独自或在安静的地方散步、休息的旅行。"
     },
     "C6": {
       "name": "本地美食型",
+      "experience": "以市场和当地美食店为中心旅行",
       "tagline": "寻找当地风味的",
-      "description": "适合逛老字号餐馆和市场、品尝当地风味的旅行。"
+      "description": "适合以市场和当地美食店为中心的旅行。"
     },
     "C7": {
       "name": "K文化探访型",
-      "tagline": "走进K-POP与韩剧世界的",
-      "description": "适合走访K-POP·韩剧拍摄地、观看演出、尽情购物，近距离感受韩国流行文化的旅行。"
+      "experience": "探访喜欢的韩国作品的拍摄地和相关地点",
+      "tagline": "走进喜爱的作品世界的",
+      "description": "适合探访喜欢的韩国作品拍摄地和相关地点的旅行。"
     },
     "C8": {
-      "name": "高端康养型",
-      "tagline": "从容享受休憩与购物的",
-      "description": "适合通过美容·SPA、购物和美食从容放松的旅行。"
+      "name": "康养购物型",
+      "experience": "通过SPA和美容体验或购物，度过属于自己的时间",
+      "tagline": "享受属于自己的时间的",
+      "description": "适合通过SPA、美容体验和购物，度过属于自己的时间的旅行。"
     },
     "C9": {
-      "name": "自然风光型",
-      "tagline": "走出城市、寻访自然的",
-      "description": "适合像济州这样自然景观出众的地区，悠闲游览的旅行。"
+      "name": "自然海洋型",
+      "experience": "广泛游览森林和海岸的风景",
+      "tagline": "寻访森林与大海风景的",
+      "description": "适合广泛游览森林和海岸风景的旅行。"
     },
     "C10": {
-      "name": "历史传统探访型",
-      "tagline": "探寻韩国往昔风貌的",
-      "description": "适合游览古宫、博物馆以及传统文化依然鲜活的地方城市的旅行。"
+      "name": "历史传统体验型",
+      "experience": "深入了解古迹的历史和传统文化，或亲身体验",
+      "tagline": "深入了解往昔故事的",
+      "description": "适合深入了解古迹的历史和传统文化，或亲身体验的旅行。"
     }
   },
   "Themes": {
@@ -564,6 +543,44 @@
     },
     "savePlan": "保存路线",
     "saved": "已保存"
+  },
+  "Trip": {
+    "q10": {
+      "options": {
+        "this-weekend": "本周末",
+        "this-month": "本月",
+        "later": "下个月以后"
+      }
+    },
+    "q11": {
+      "options": {
+        "day-trip": "一日游",
+        "1-night": "2天1夜",
+        "2-nights-plus": "3天2夜及以上"
+      }
+    },
+    "q12": {
+      "options": {
+        "car": "自驾",
+        "public-transit": "公共交通",
+        "flight": "飞机",
+        "tour-bus": "团体巴士"
+      }
+    },
+    "q13": {
+      "options": {
+        "under-1h": "1小时以内",
+        "1-3h": "1～3小时",
+        "over-3h": "3小时以上"
+      }
+    },
+    "q14": {
+      "options": {
+        "pet": "携带宠物",
+        "accessible": "无障碍",
+        "indoor-rain": "雨天以室内为主"
+      }
+    }
   },
   "Theme": {
     "tabsLabel": "主题页面标签",
@@ -1156,11 +1173,6 @@
       "jeju": "济州",
       "geoje": "巨济",
       "yeongwol": "宁越"
-    },
-    "sources": {
-      "nationalTravel": "国民旅行调查",
-      "inbound": "入境游客调查",
-      "datalabTfi": "韩国观光数据实验室（地区×主题强度 TFI）"
     },
     "tfiLabel": "地区×主题强度（TFI）",
     "themes": {

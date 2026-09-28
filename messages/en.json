@@ -8,7 +8,6 @@
     "replayLabel": "Restart from the beginning",
     "brand": "TOUR NAVIGATOR",
     "back": "Back",
-    "skip": "Skip",
     "next": "Next",
     "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
     "mapLoadError": "The map couldn't load. The place list below still works",
@@ -142,7 +141,7 @@
     "myThemesHeading": "My themes",
     "pickCourseHeading": "Pick my route",
     "pickCourseTitle": "We'll pick the theme and route that suit you",
-    "pickCourseMeta": "{total} questions · {required} required · about 1 min",
+    "pickCourseMeta": "{total} questions · about 1 min",
     "courseTitle": "{region}, {duration}",
     "citytour": {
       "heading": "City tours by region",
@@ -245,12 +244,13 @@
   "Recommend": {
     "progressLabel": "Question progress",
     "counter": "{current} / {total}",
+    "extraLabel": "One more question",
     "next": "Next",
     "seeResult": "See my result",
-    "limitReached": "You've picked 2, the maximum. Deselect one to change it.",
+    "branchHelp": "If none of these is what you want, pick “None”",
     "questions": {
-      "q1": {
-        "title": "How old are you?",
+      "s1": {
+        "title": "What's your age group?",
         "help": "We match you with travelers like you",
         "options": {
           "teens": "Teens",
@@ -262,31 +262,31 @@
           "70s-plus": "70 or older"
         }
       },
-      "q2": {
-        "title": "Who are you traveling with?",
-        "help": "Pick who you travel with most often",
+      "s2": {
+        "title": "Who's with you on this trip?",
+        "help": "Pick who's joining you on this trip",
         "options": {
           "solo": "Just me",
-          "friends": "Friends",
-          "couple": "My partner",
-          "spouse": "My spouse",
-          "kids-family": "Family with kids",
-          "parents": "My parents",
-          "social-group": "A club or group"
+          "friends": "With friends",
+          "couple": "With my partner",
+          "spouse": "With my spouse",
+          "kids-family": "With kids and family",
+          "parents": "With my parents",
+          "social-group": "With a club or group"
         }
       },
-      "q3": {
-        "title": "What pace do you like?",
-        "help": "Pick your usual travel pace",
+      "s3": {
+        "title": "How do you want to pace your trip?",
+        "help": "Pick the pace for this trip",
         "options": {
-          "packed": "Packed",
-          "moderate": "Balanced",
-          "relaxed": "Slow and easy"
+          "packed": "Packed — I want to see a lot",
+          "moderate": "Balanced — half sightseeing, half rest",
+          "relaxed": "Slow — walking and resting at an easy pace"
         }
       },
-      "q4": {
-        "title": "What are you into?",
-        "help": "Pick up to 2",
+      "s4": {
+        "title": "What's the one thing you most want to do on this trip?",
+        "help": "Pick just one — your top interest. You'll get one more question about it",
         "options": {
           "drama": "K-drama & K-pop locations",
           "performance": "Shows & concerts",
@@ -294,199 +294,178 @@
           "nature": "Nature & forest trails",
           "sea": "The sea",
           "food-market": "Food & markets",
-          "activity": "Hands-on activities",
+          "activity": "Experiences & activities",
           "night": "Night views",
           "shopping-beauty": "Shopping, beauty & spa"
         }
       },
-      "q5": {
-        "title": "What kind of vibe?",
+      "s5": {
+        "title": "What kind of vibe do you like in a place?",
         "help": "Pick the feel of places you want to visit",
         "options": {
           "trending": "Trending hot spots",
-          "landmark": "Must-see landmarks",
-          "quiet": "Quiet, off the beaten path"
+          "landmark": "Landmarks everyone knows",
+          "quiet": "Quiet spots with few people"
         }
       },
-      "q6": {
-        "title": "Where are you visiting from?",
-        "help": "This changes budget ranges and travel types",
+      "s6": {
+        "title": "When in the day do you want to enjoy your trip?",
+        "help": "Pick the time of day you want to travel",
         "options": {
-          "domestic": "I live in Korea",
-          "overseas": "I'm visiting from abroad"
-        }
-      },
-      "q7": {
-        "title": "What's your budget per person?",
-        "help": "Per person, for the whole trip",
-        "helpOverseas": "Per person, per day, in US dollars",
-        "options": {
-          "under-70k": "Under ₩70,000",
-          "70k-150k": "₩70,000–150,000",
-          "150k-250k": "₩150,000–250,000",
-          "over-250k": "₩250,000 or more",
-          "usd-under-100": "$100 or less a day",
-          "usd-100-300": "$100–300 a day",
-          "usd-300-500": "$300–500 a day",
-          "usd-over-500": "Over $500 a day"
-        }
-      },
-      "q8": {
-        "title": "When are you most active?",
-        "help": "Pick when you usually get going",
-        "options": {
-          "morning": "Early mornings",
+          "morning": "From early morning",
           "daytime": "Mostly daytime",
           "evening": "Into the evening"
         }
       },
-      "q9": {
-        "title": "Where do you get travel tips?",
-        "help": "Pick the source you rely on most",
+      "b1": {
+        "title": "When it comes to content, how do you most want to spend your time?",
         "options": {
-          "been-before": "I've been before",
-          "word-of-mouth": "Friends' recommendations",
-          "internet": "Websites & apps",
-          "social-media": "Social media & YouTube",
-          "no-info": "I just go"
+          "a": "I want to visit real filming locations and places linked to works or artists I love",
+          "b": "I want to check out several popular spots around pop-ups and shows",
+          "c": "I want to feel the mood of the work and take photos with my companions",
+          "none": "None"
         }
       },
-      "q10": {
-        "title": "When are you leaving?",
-        "help": "Pick when you plan to leave",
+      "b2": {
+        "title": "What do you most want to do at historic sites?",
         "options": {
-          "this-weekend": "This weekend",
-          "this-month": "This month",
-          "later": "Next month or later"
+          "a": "I want to listen to the commentary and walk calmly around heritage sites",
+          "b": "I want to try traditional crafts or everyday culture myself and learn in depth",
+          "c": "I want to join easy guided tours or mission-style activities with my family",
+          "none": "None"
         }
       },
-      "q11": {
-        "title": "How long is your trip?",
-        "help": "If you skip, we'll plan a day trip",
+      "b3": {
+        "title": "What kind of time do you like best in nature or by the sea?",
         "options": {
-          "day-trip": "Day trip",
-          "1-night": "2 days, 1 night",
-          "2-nights-plus": "3 days or more"
+          "a": "I want to stay long in one quiet spot, walking and resting",
+          "b": "I want to visit several viewpoints along the coast and in the forest",
+          "c": "I want to take in the views, talk, and take photos with my companions",
+          "none": "None"
         }
       },
-      "q12": {
-        "title": "How will you get around?",
-        "help": "If you skip, we'll assume a car",
+      "b4": {
+        "title": "What are you most looking forward to at restaurants or markets?",
         "options": {
-          "car": "Car",
-          "public-transit": "Public transit",
-          "flight": "Plane",
-          "tour-bus": "Tour bus"
+          "a": "I want to try a variety of the region's signature dishes and market food",
+          "b": "I want to go to restaurants and cafés that are popular right now",
+          "c": "I want a relaxed meal somewhere with a nice atmosphere with my companions",
+          "none": "None"
         }
       },
-      "q13": {
-        "title": "How much can you walk a day?",
-        "help": "Pick how long you can walk in a day",
+      "b5": {
+        "title": "What kind of experience do you most want to try?",
         "options": {
-          "under-1h": "Up to 1 hour",
-          "1-3h": "1–3 hours",
-          "over-3h": "3 hours or more"
+          "a": "I like making or play activities that kids and family can do together",
+          "b": "I want to take on something new or a trending activity",
+          "c": "I want to learn local traditional skills and everyday culture firsthand",
+          "none": "None"
         }
       },
-      "q14": {
-        "title": "Anything we should plan around?",
-        "help": "Pick as many as you need",
+      "b6": {
+        "title": "When you take in night views, how do you most want to spend the time?",
         "options": {
-          "pet": "Traveling with a pet",
-          "accessible": "Step-free access",
-          "indoor-rain": "Mostly indoors if it rains"
+          "a": "I want to visit several popular night spots",
+          "b": "I want to enjoy the view and make photos and memories with my companions",
+          "c": "I want to rest quietly on a night walking path with few people",
+          "none": "None"
         }
       },
-      "q15": {
-        "title": "Which region are you traveling to?",
-        "help": "If you pick one, we'll adjust your picks with regional data from the Korea Tourism Data Lab",
+      "b7": {
+        "title": "What do you most want from your time for yourself?",
         "options": {
-          "seoul": "Seoul",
-          "busan": "Busan",
-          "gyeongju": "Gyeongju",
-          "jeju": "Jeju",
-          "geoje": "Geoje",
-          "yeongwol": "Yeongwol"
+          "a": "I want to care for body and mind with a spa or beauty treatment",
+          "b": "I want to shop at my own pace for favorite brands or local products",
+          "c": "I'd rather rest on a quiet walking path or at a rest spot nearby",
+          "none": "None"
+        }
+      },
+      "f1": {
+        "title": "Which experience would you least want to give up on this trip?",
+        "help": "A few travel types fit you about equally, so we have one more question. If they matter about the same, pick the last option",
+        "options": {
+          "balanced": "These experiences matter about equally to me"
         }
       }
     }
   },
   "Result": {
     "badge": "My travel type",
-    "mixedTagline": "A mix of two styles",
-    "typeShare": "{name} {percent}%",
+    "mixedTagline": "A mix of {count} styles",
+    "moreTypes": "and {count} more types",
+    "typeShare": "{name} share {percent}%",
     "recommendedThemes": "Themes for you",
     "evidenceLabel": "Why we picked it",
-    "fitRankType": "#{rank} for {type}",
-    "fitRank": "#{rank} match",
-    "night": "{percent}% night-view spots",
+    "indexNote": "The fit index (0–100) is calculated from your travel type and interest. It isn't a probability.",
+    "interestMissing": "There's no theme composition data for “{interest}” yet, so it wasn't added to the index.",
+    "themeIndex": "Fit index {value}",
+    "typeAndInterest": "Type {type} + interest {interest}",
+    "typeOnly": "Type {type}",
     "categoryShare": "{percent}% {category}",
-    "categories": {
-      "history": "history & culture",
-      "healing": "nature & healing",
-      "activity": "theme parks & activities",
-      "local-food": "local food",
-      "nature": "sea & scenery"
-    },
+    "night": "{percent}% night-view spots",
     "compareCourses": "Compare 3 routes",
-    "rankBasis": "Ranked for {type}, your top type",
-    "datalabHeading": "Korea Tourism Data Lab · {region}",
-    "datalabAdjusted": "We adjusted the scores to match this region's real strengths",
-    "regionHint": "Pick a travel region in question 15 to factor in Korea Tourism Data Lab data",
-    "sources": "Sources · {sources}",
-    "loadFailed": "We couldn't reach the recommendation server",
-    "retry": "Try again"
+    "basis": "Calculation basis · Survey 6.1 · Recommendation 6.2 (reference calculation in the team specification)"
   },
   "Clusters": {
     "C1": {
       "name": "Trend Seeker",
+      "experience": "Seeking out popular places and new experiences",
       "tagline": "First to find what's new",
-      "description": "You like hunting down trending neighborhoods and cafés with friends and keeping busy well into the night."
+      "description": "Trips spent seeking out popular places and enjoying new experiences suit you best."
     },
     "C2": {
-      "name": "Romantic Duo",
-      "tagline": "Views and nights for two",
-      "description": "Scenic viewpoints, city lights, and a great meal make your perfect day together."
+      "name": "Scenic Companion",
+      "experience": "Enjoying views and atmosphere with companions and making memories",
+      "tagline": "Enjoying views and atmosphere together",
+      "description": "Trips where you enjoy views and atmosphere with your companions and make memories suit you best."
     },
     "C3": {
-      "name": "Family Adventurer",
+      "name": "Family Experience",
+      "experience": "Doing activities that kids and family can enjoy together",
       "tagline": "Hands-on fun with the kids",
-      "description": "Activities the kids can dive into, beaches, and camping suit your trips best."
+      "description": "Trips with activities that kids and family can enjoy together suit you best."
     },
     "C4": {
-      "name": "Active Explorer",
-      "tagline": "Walk, look, and take it all in",
-      "description": "Walking through nature and taking your time at historic places suits you best."
+      "name": "Culture Stroller",
+      "experience": "Walking calmly while hearing the stories of heritage sites and neighborhoods",
+      "tagline": "Walking slowly, listening to stories",
+      "description": "Trips where you walk calmly while hearing the stories of heritage sites and neighborhoods suit you best."
     },
     "C5": {
-      "name": "Solo Recharger",
-      "tagline": "A quiet break on your own",
-      "description": "Walking and resting at your own pace, somewhere green and uncrowded, suits you best."
+      "name": "Quiet Retreat",
+      "experience": "Walking and resting alone or somewhere quiet",
+      "tagline": "Walking and resting quietly",
+      "description": "Trips where you walk and rest alone or somewhere quiet suit you best."
     },
     "C6": {
       "name": "Local Foodie",
+      "experience": "Traveling around markets and local eateries",
       "tagline": "Travel for the local flavors",
-      "description": "Old-school eateries and markets where you can taste the region suit you best."
+      "description": "Trips centered on markets and local eateries suit you best."
     },
     "C7": {
       "name": "K-Culture Explorer",
-      "tagline": "Step into K-pop and K-drama",
-      "description": "Filming locations, live shows, and shopping — getting close to Korean pop culture suits you best."
+      "experience": "Visiting filming locations and places linked to Korean content you love",
+      "tagline": "Step into the content you love",
+      "description": "Trips to filming locations and places linked to Korean content you love suit you best."
     },
     "C8": {
-      "name": "Wellness Traveler",
-      "tagline": "Rest, shop, and indulge",
-      "description": "Beauty and spa time, shopping, and good food at an easy pace suit you best."
+      "name": "Wellness & Shopping",
+      "experience": "Spending time for yourself with spa and beauty treatments or shopping",
+      "tagline": "Enjoying time for yourself",
+      "description": "Trips where you spend time for yourself with spa and beauty treatments and shopping suit you best."
     },
     "C9": {
-      "name": "Nature Wanderer",
-      "tagline": "Out of the city, into nature",
-      "description": "Taking your time in regions known for their landscapes, like Jeju, suits you best."
+      "name": "Nature & Coast",
+      "experience": "Exploring wide stretches of forest and coastal scenery",
+      "tagline": "Seeking out forest and sea views",
+      "description": "Trips exploring wide stretches of forest and coastal scenery suit you best."
     },
     "C10": {
-      "name": "Heritage Explorer",
-      "tagline": "Discover Korea's past",
-      "description": "Palaces, museums, and regional cities where tradition is still alive suit you best."
+      "name": "History & Tradition",
+      "experience": "Learning in depth about historic sites and traditional culture, or trying it firsthand",
+      "tagline": "Learning the stories of the past in depth",
+      "description": "Trips where you learn in depth about historic sites and traditional culture, or try it firsthand, suit you best."
     }
   },
   "Themes": {
@@ -564,6 +543,44 @@
     },
     "savePlan": "Save route",
     "saved": "Saved"
+  },
+  "Trip": {
+    "q10": {
+      "options": {
+        "this-weekend": "This weekend",
+        "this-month": "This month",
+        "later": "Next month or later"
+      }
+    },
+    "q11": {
+      "options": {
+        "day-trip": "Day trip",
+        "1-night": "2 days, 1 night",
+        "2-nights-plus": "3 days or more"
+      }
+    },
+    "q12": {
+      "options": {
+        "car": "Car",
+        "public-transit": "Public transit",
+        "flight": "Plane",
+        "tour-bus": "Tour bus"
+      }
+    },
+    "q13": {
+      "options": {
+        "under-1h": "Up to 1 hour",
+        "1-3h": "1–3 hours",
+        "over-3h": "3 hours or more"
+      }
+    },
+    "q14": {
+      "options": {
+        "pet": "Traveling with a pet",
+        "accessible": "Step-free access",
+        "indoor-rain": "Mostly indoors if it rains"
+      }
+    }
   },
   "Theme": {
     "tabsLabel": "Theme tabs",
@@ -1156,11 +1173,6 @@
       "jeju": "Jeju",
       "geoje": "Geoje",
       "yeongwol": "Yeongwol"
-    },
-    "sources": {
-      "nationalTravel": "National Travel Survey",
-      "inbound": "International Visitor Survey",
-      "datalabTfi": "Korea Tourism Data Lab (region × theme strength, TFI)"
     },
     "tfiLabel": "Region × theme strength (TFI)",
     "themes": {

@@ -7,7 +7,7 @@ import { LogoMark } from "@/components/ui/LogoMark";
 import { Screen } from "@/components/ui/Screen";
 
 // 화면을 그리다 예기치 못한 오류가 났을 때의 안전망. 백엔드 응답 모양은 fetch 함수에서 먼저 검사하지만
-// (features/recommend/api.ts · lib/api/datalab.ts), 그래도 새는 오류가 페이지 전체를 기본 500 화면으로 만들지 않게 한다.
+// (lib/api/datalab.ts), 그래도 새는 오류가 페이지 전체를 기본 500 화면으로 만들지 않게 한다.
 // 「다시 시도」는 retry(Next 16.3): 서버 컴포넌트를 다시 받아 그린다(reset은 다시 받지 않아 서버 오류면 그대로다)
 export default function ErrorPage({
   retry,

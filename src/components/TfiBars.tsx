@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { type TfiBar } from "@/lib/api/datalab";
 
 // 한국관광 데이터랩 지역×테마 강도(TFI) 막대. 값은 0~1이고 소수 둘째 자리까지 보인다.
-// 추천 결과 화면과 테마 화면(여행 정보 탭)이 함께 쓴다.
+// 테마 화면(여행 정보 탭)이 쓴다.
 // 테마 이름은 messages의 Datalab.themes에 있으면 그 문구, 없으면 API의 themeLabels 이름
 export async function TfiBars({ bars }: { bars: readonly TfiBar[] }) {
   const t = await getTranslations("Datalab");

@@ -7,17 +7,17 @@
 `claude/brave-dirac-zmdr4p`이고, 키를 `config.js`로 뺀 코드와 날씨 · 대기질 · 축제 · TMDB 연동이 여기에 있다.
 참고하기 전에 `git fetch`로 브랜치를 확인한다.
 
-| PoC                                                      | 이 리포에서                                                                                                                                                                        |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 화면마다 `*.dc.html` 한 파일에 템플릿과 로직이 함께 있다 | 라우트(`src/app/`)와 기능 폴더(`src/features/<기능>/`)로 나눈다                                                                                                                    |
-| `DATA` · `STAYS` · `TRANSIT` 같은 데이터 상수            | 백엔드나 데이터 서버 API가 생기기 전까지는 `src/features/<기능>/data/`에 JSON으로 두고, 생기면 API 호출로 바꾼다                                                                   |
-| `I18N` 레이어                                            | 화면 문구는 `messages/`로, 장소 이름 번역은 데이터 쪽으로 (`docs/i18n.md`)                                                                                                         |
-| `config.js`(`APP_CONFIG`)로 읽는 API 키                  | 환경변수와 Route Handler (`docs/security.md`)                                                                                                                                      |
-| CORS 프록시(계획) — Cloudflare Workers / Vercel Function | Route Handler가 그 역할을 한다 (`docs/security.md`)                                                                                                                                |
-| Google Maps 스크립트 직접 로드                           | 카카오 지도 · `react-kakao-maps-sdk` (`docs/stack.md`)                                                                                                                             |
-| 인라인 `style=""`                                        | Tailwind 클래스와 토큰 (`docs/ui.md`)                                                                                                                                              |
-| `테마 추천 알고리즘/`(Python 오프라인 파이프라인)        | 문서 점수표(군집 판정)를 `src/features/recommend/scoring.ts`로 옮겼다. 테마 순위(`calc2.py` 최종 점수)는 백엔드 `POST /api/v1/recommend` 결과를 쓴다(`features/recommend/api.ts`). |
-| 체류·일정 계산 (`체류시간 산정/stay_schedule.js`)        | `src/features/course/`(stay_schedule.js 이식). 장소·관문 데이터는 `scripts/build-places.mjs`로 만든다                                                                              |
+| PoC                                                      | 이 리포에서                                                                                                                                                                                                                                       |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 화면마다 `*.dc.html` 한 파일에 템플릿과 로직이 함께 있다 | 라우트(`src/app/`)와 기능 폴더(`src/features/<기능>/`)로 나눈다                                                                                                                                                                                   |
+| `DATA` · `STAYS` · `TRANSIT` 같은 데이터 상수            | 백엔드나 데이터 서버 API가 생기기 전까지는 `src/features/<기능>/data/`에 JSON으로 두고, 생기면 API 호출로 바꾼다                                                                                                                                  |
+| `I18N` 레이어                                            | 화면 문구는 `messages/`로, 장소 이름 번역은 데이터 쪽으로 (`docs/i18n.md`)                                                                                                                                                                        |
+| `config.js`(`APP_CONFIG`)로 읽는 API 키                  | 환경변수와 Route Handler (`docs/security.md`)                                                                                                                                                                                                     |
+| CORS 프록시(계획) — Cloudflare Workers / Vercel Function | Route Handler가 그 역할을 한다 (`docs/security.md`)                                                                                                                                                                                               |
+| Google Maps 스크립트 직접 로드                           | 카카오 지도 · `react-kakao-maps-sdk` (`docs/stack.md`)                                                                                                                                                                                            |
+| 인라인 `style=""`                                        | Tailwind 클래스와 토큰 (`docs/ui.md`)                                                                                                                                                                                                             |
+| `테마 추천 알고리즘/`(Python 오프라인 파이프라인)        | 설문 · 테마 추천은 이 파이프라인 대신 팀 명세서 integrated 6.2(설문 6.1 · 추천 6.2)의 참조 계산을 `src/features/recommend/survey.ts` · `theme-index.ts`로 옮겼다(`docs/structure.md` 「추천과 데이터랩」). 유형 프로필 W는 PoC `CL`과 같은 값이다 |
+| 체류·일정 계산 (`체류시간 산정/stay_schedule.js`)        | `src/features/course/`(stay_schedule.js 이식). 장소·관문 데이터는 `scripts/build-places.mjs`로 만든다                                                                                                                                             |
 
 ## 데이터 동기화 기록
 
