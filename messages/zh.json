@@ -351,52 +351,6 @@
           "no-info": "不做功课"
         }
       },
-      "q10": {
-        "title": "什么时候出发？",
-        "help": "请选择打算出发的时间",
-        "options": {
-          "this-weekend": "本周末",
-          "this-month": "本月",
-          "later": "下个月以后"
-        }
-      },
-      "q11": {
-        "title": "旅行多长时间？",
-        "help": "不选则按一日游安排",
-        "options": {
-          "day-trip": "一日游",
-          "1-night": "2天1夜",
-          "2-nights-plus": "3天2夜及以上"
-        }
-      },
-      "q12": {
-        "title": "用什么交通方式？",
-        "help": "不选则按自驾安排",
-        "options": {
-          "car": "自驾",
-          "public-transit": "公共交通",
-          "flight": "飞机",
-          "tour-bus": "团体巴士"
-        }
-      },
-      "q13": {
-        "title": "一天能走多久？",
-        "help": "请选择一天能步行的时间",
-        "options": {
-          "under-1h": "1小时以内",
-          "1-3h": "1～3小时",
-          "over-3h": "3小时以上"
-        }
-      },
-      "q14": {
-        "title": "有需要考虑的条件吗？",
-        "help": "可多选",
-        "options": {
-          "pet": "携带宠物",
-          "accessible": "无障碍",
-          "indoor-rain": "雨天以室内为主"
-        }
-      },
       "q15": {
         "title": "打算去哪个地区旅行？",
         "help": "选择后，会用韩国观光数据实验室的地区数据调整推荐",
@@ -564,6 +518,54 @@
     },
     "savePlan": "保存路线",
     "saved": "已保存"
+  },
+  "Trip": {
+    "q10": {
+      "title": "什么时候出发？",
+      "help": "请选择打算出发的时间",
+      "options": {
+        "this-weekend": "本周末",
+        "this-month": "本月",
+        "later": "下个月以后"
+      }
+    },
+    "q11": {
+      "title": "旅行多长时间？",
+      "help": "不选则按一日游安排",
+      "options": {
+        "day-trip": "一日游",
+        "1-night": "2天1夜",
+        "2-nights-plus": "3天2夜及以上"
+      }
+    },
+    "q12": {
+      "title": "用什么交通方式？",
+      "help": "不选则按自驾安排",
+      "options": {
+        "car": "自驾",
+        "public-transit": "公共交通",
+        "flight": "飞机",
+        "tour-bus": "团体巴士"
+      }
+    },
+    "q13": {
+      "title": "一天能走多久？",
+      "help": "请选择一天能步行的时间",
+      "options": {
+        "under-1h": "1小时以内",
+        "1-3h": "1～3小时",
+        "over-3h": "3小时以上"
+      }
+    },
+    "q14": {
+      "title": "有需要考虑的条件吗？",
+      "help": "可多选",
+      "options": {
+        "pet": "携带宠物",
+        "accessible": "无障碍",
+        "indoor-rain": "雨天以室内为主"
+      }
+    }
   },
   "Theme": {
     "tabsLabel": "主题页面标签",

@@ -1,9 +1,11 @@
 import { DATALAB_REGION_IDS } from "../../lib/api/datalab";
+import { TRIP_QUESTIONS } from "../course/trip";
 
 // 테마 추천 선호 문항 Q1~Q15.
 // 출처: Tour-Navigator-App/테마 추천 알고리즘/docs/01_고도화_전략.md 15~45행 "테마 추천 플로우와 선호 문항"
+// Q10~Q14(여행 조건)의 보기는 코스 탭 조건 정의(features/course/trip.ts)를 그대로 쓴다.
 // Q15(여행 지역)는 백엔드 추천 API의 region 입력이다. 보기는 /api/v1/tfi 의 regions (lib/api/datalab.ts DATALAB_REGIONS)
-// 보기 id는 URL과 점수표에서 쓰는 바뀌지 않는 값이다. 화면 문구는 messages의 Recommend.questions에 있다.
+// 보기 id는 URL과 점수표에서 쓰는 바뀌지 않는 값이다. 화면 문구는 messages의 Recommend.questions(Q10~Q14는 Trip)에 있다.
 
 export const QUESTION_IDS = [
   "q1",
@@ -145,41 +147,7 @@ export const QUESTIONS: readonly Question[] = [
       "no-info",
     ],
   },
-  {
-    id: "q10",
-    multiple: false,
-    required: false,
-    filter: true,
-    options: ["this-weekend", "this-month", "later"],
-  },
-  {
-    id: "q11",
-    multiple: false,
-    required: false,
-    filter: true,
-    options: ["day-trip", "1-night", "2-nights-plus"],
-  },
-  {
-    id: "q12",
-    multiple: false,
-    required: false,
-    filter: true,
-    options: ["car", "public-transit", "flight", "tour-bus"],
-  },
-  {
-    id: "q13",
-    multiple: false,
-    required: false,
-    filter: true,
-    options: ["under-1h", "1-3h", "over-3h"],
-  },
-  {
-    id: "q14",
-    multiple: true,
-    required: false,
-    filter: true,
-    options: ["pet", "accessible", "indoor-rain"],
-  },
+  ...TRIP_QUESTIONS.map((q) => ({ ...q, required: false, filter: true })),
   {
     id: "q15",
     multiple: false,

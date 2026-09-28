@@ -11,8 +11,11 @@ import {
   sameCourse,
   tripFromAnswers,
 } from "@/features/course/scenarios";
-import { decodeAnswers, encodeAnswers } from "@/features/recommend/answers";
-import type { Answers } from "@/features/recommend/questions";
+import {
+  decodeTrip,
+  encodeTrip,
+  type TripAnswers,
+} from "@/features/course/trip";
 import { placeName } from "./place-meta";
 import { themeHref } from "./tabs";
 import { ThemeMap } from "./ThemeMap";
@@ -20,7 +23,7 @@ import { ThemePlans } from "./ThemePlans";
 import { loadNameTable } from "@/features/names/server";
 
 // 코스 탭. 조건(일정 · 이동수단) → 3안 탭 → 설명 · 안내 → 내 플랜(이름 · 저장 · 덮어쓰기 · 저장소) · 요약 칩 → 코스 지도 → 일자별 일정.
-// 조건은 ?a=(Q10~Q14 답)의 q11 · q12만 바꾼 링크다. 다른 답은 그대로 둔다.
+// 조건은 ?a=(여행 조건 Q10~Q14, features/course/trip.ts)의 q11 · q12만 바꾼 링크다. 다른 조건은 그대로 둔다.
 // 3안 규칙과 대체 규칙(트렌드·혼잡도 데이터가 아직 없음)은 features/course/scenarios.ts 머리 주석에 있다.
 
 /** 일정 칸 → Q11 보기 */
@@ -47,7 +50,7 @@ type CourseTabProps = {
 };
 
 export async function CourseTab({ slug, a, plan }: CourseTabProps) {
-  const answers = decodeAnswers(a);
+  const answers = decodeTrip(a);
   const trip = tripFromAnswers(answers);
   const scenario = buildScenario(slug, plan, trip);
   // 장소가 적은 테마는 조건에 따라 다른 안이 정석과 같아진다. 탭을 눌러도 코스가 그대로인 이유를 알린다
@@ -58,14 +61,14 @@ export async function CourseTab({ slug, a, plan }: CourseTabProps) {
 
   const t = await getTranslations("Course");
   const tt = await getTranslations("Theme.course");
-  const tq = await getTranslations("Recommend.questions");
+  const tq = await getTranslations("Trip");
   const locale = await getLocale();
   const names = await loadNameTable(locale);
   const duration = (min: number) => formatDuration(t, min);
 
   const withAnswer = (id: "q11" | "q12", option: string) => {
-    const next: Answers = { ...answers, [id]: [option] };
-    return themeHref(slug, { a: encodeAnswers(next), plan }, "course");
+    const next: TripAnswers = { ...answers, [id]: [option] };
+    return themeHref(slug, { a: encodeTrip(next), plan }, "course");
   };
   const planHref = (id: PlanId) => themeHref(slug, { a, plan: id }, "course");
 

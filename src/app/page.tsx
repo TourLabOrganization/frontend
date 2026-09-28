@@ -12,12 +12,12 @@ import {
   type PlanId,
   tripFromAnswers,
 } from "@/features/course/scenarios";
+import { decodeTrip } from "@/features/course/trip";
 import { CityTourSection } from "@/features/home/CityTourSection";
 import { HeroCarousel } from "@/features/home/HeroCarousel";
 import { Splash } from "@/features/home/Splash";
 import { SPLASH_COOKIE } from "@/features/home/splash-cookie";
 import { ThemeTile } from "@/features/home/ThemeTile";
-import { decodeAnswers } from "@/features/recommend/answers";
 import { QUESTIONS } from "@/features/recommend/questions";
 import { HOME_THEME_ORDER } from "@/features/home/theme-order";
 import { cityName } from "@/features/planner/regions";
@@ -69,7 +69,7 @@ export default async function HomePage() {
   const requiredTotal = QUESTIONS.filter((q) => q.required).length;
 
   const courses = POPULAR.map(({ key, slug, a, plan }) => {
-    const trip = tripFromAnswers(decodeAnswers(a));
+    const trip = tripFromAnswers(decodeTrip(a));
     const scenario = buildScenario(slug, plan, trip);
     const stops = scenario.days.flatMap((d) => d.stops);
     const cities = [...new Set(stops.map((s) => s.place.locKo))];

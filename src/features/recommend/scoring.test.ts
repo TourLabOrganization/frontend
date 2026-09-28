@@ -114,9 +114,12 @@ describe("데이터·문구", () => {
     }
   });
 
-  it("모든 문항·보기에 ko·en 문구가 있다", () => {
+  it("모든 문항·보기에 ko·en 문구가 있다 (Q10~Q14는 Trip)", () => {
     for (const messages of [ko, en]) {
-      const questions = messages.Recommend.questions as Record<
+      const questions = {
+        ...messages.Recommend.questions,
+        ...messages.Trip,
+      } as Record<
         string,
         { title: string; help: string; options: Record<string, string> }
       >;

@@ -39,8 +39,12 @@ export function RecommendFlow() {
   const locale = useLocale();
   const t = useTranslations("Recommend");
   const common = useTranslations("Common");
-  // 보기 문구는 문항마다 키가 달라서 묶음째 꺼낸다. 빠진 문구는 scoring.test.ts가 잡는다
-  const messages = useMessages().Recommend.questions as QuestionMessages;
+  // 보기 문구는 문항마다 키가 달라서 묶음째 꺼낸다. Q10~Q14(여행 조건)는 Trip에 있다. 빠진 문구는 scoring.test.ts가 잡는다
+  const allMessages = useMessages();
+  const messages = {
+    ...allMessages.Recommend.questions,
+    ...allMessages.Trip,
+  } as QuestionMessages;
 
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>(() => initialAnswers(locale));

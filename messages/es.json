@@ -351,52 +351,6 @@
           "no-info": "Voy sin más"
         }
       },
-      "q10": {
-        "title": "¿Cuándo sales?",
-        "help": "Elige cuándo piensas salir",
-        "options": {
-          "this-weekend": "Este finde",
-          "this-month": "Este mes",
-          "later": "Más adelante"
-        }
-      },
-      "q11": {
-        "title": "¿Cuánto dura tu viaje?",
-        "help": "Si lo omites, planeamos una excursión de un día",
-        "options": {
-          "day-trip": "Un día",
-          "1-night": "2 días, 1 noche",
-          "2-nights-plus": "3 días o más"
-        }
-      },
-      "q12": {
-        "title": "¿Cómo te vas a mover?",
-        "help": "Si lo omites, asumimos que vas en coche",
-        "options": {
-          "car": "Coche",
-          "public-transit": "Transporte público",
-          "flight": "Avión",
-          "tour-bus": "Bus turístico"
-        }
-      },
-      "q13": {
-        "title": "¿Cuánto puedes caminar al día?",
-        "help": "Elige cuánto tiempo puedes caminar al día",
-        "options": {
-          "under-1h": "Hasta 1 hora",
-          "1-3h": "1–3 horas",
-          "over-3h": "3 horas o más"
-        }
-      },
-      "q14": {
-        "title": "¿Algo que debamos tener en cuenta?",
-        "help": "Elige todas las que necesites",
-        "options": {
-          "pet": "Viajo con mascota",
-          "accessible": "Sin barreras",
-          "indoor-rain": "Interior si llueve"
-        }
-      },
       "q15": {
         "title": "¿A qué región viajas?",
         "help": "Si eliges una, ajustamos las sugerencias con datos regionales del Korea Tourism Data Lab",
@@ -564,6 +518,54 @@
     },
     "savePlan": "Guardar ruta",
     "saved": "Guardado"
+  },
+  "Trip": {
+    "q10": {
+      "title": "¿Cuándo sales?",
+      "help": "Elige cuándo piensas salir",
+      "options": {
+        "this-weekend": "Este finde",
+        "this-month": "Este mes",
+        "later": "Más adelante"
+      }
+    },
+    "q11": {
+      "title": "¿Cuánto dura tu viaje?",
+      "help": "Si lo omites, planeamos una excursión de un día",
+      "options": {
+        "day-trip": "Un día",
+        "1-night": "2 días, 1 noche",
+        "2-nights-plus": "3 días o más"
+      }
+    },
+    "q12": {
+      "title": "¿Cómo te vas a mover?",
+      "help": "Si lo omites, asumimos que vas en coche",
+      "options": {
+        "car": "Coche",
+        "public-transit": "Transporte público",
+        "flight": "Avión",
+        "tour-bus": "Bus turístico"
+      }
+    },
+    "q13": {
+      "title": "¿Cuánto puedes caminar al día?",
+      "help": "Elige cuánto tiempo puedes caminar al día",
+      "options": {
+        "under-1h": "Hasta 1 hora",
+        "1-3h": "1–3 horas",
+        "over-3h": "3 horas o más"
+      }
+    },
+    "q14": {
+      "title": "¿Algo que debamos tener en cuenta?",
+      "help": "Elige todas las que necesites",
+      "options": {
+        "pet": "Viajo con mascota",
+        "accessible": "Sin barreras",
+        "indoor-rain": "Interior si llueve"
+      }
+    }
   },
   "Theme": {
     "tabsLabel": "Pestañas del tema",

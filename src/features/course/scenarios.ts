@@ -1,4 +1,3 @@
-import type { Answers } from "../recommend/questions";
 import {
   DAY_END,
   DEFAULT_DEP,
@@ -33,6 +32,7 @@ import {
   toMin,
   type TravelMode,
 } from "./schedule";
+import type { TripAnswers } from "./trip";
 
 // 테마 코스 3안 (A 정석 · B 트렌드 · C 한적).
 //
@@ -115,7 +115,7 @@ const DAYS_BY_Q11: Readonly<Record<string, number>> = {
   "2-nights-plus": 3,
 };
 
-export function tripFromAnswers(answers: Answers): TripInput {
+export function tripFromAnswers(answers: TripAnswers): TripInput {
   const q10 = answers.q10?.[0];
   const q11 = answers.q11?.[0];
   const q12 = answers.q12?.[0];

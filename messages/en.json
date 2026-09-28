@@ -351,52 +351,6 @@
           "no-info": "I just go"
         }
       },
-      "q10": {
-        "title": "When are you leaving?",
-        "help": "Pick when you plan to leave",
-        "options": {
-          "this-weekend": "This weekend",
-          "this-month": "This month",
-          "later": "Next month or later"
-        }
-      },
-      "q11": {
-        "title": "How long is your trip?",
-        "help": "If you skip, we'll plan a day trip",
-        "options": {
-          "day-trip": "Day trip",
-          "1-night": "2 days, 1 night",
-          "2-nights-plus": "3 days or more"
-        }
-      },
-      "q12": {
-        "title": "How will you get around?",
-        "help": "If you skip, we'll assume a car",
-        "options": {
-          "car": "Car",
-          "public-transit": "Public transit",
-          "flight": "Plane",
-          "tour-bus": "Tour bus"
-        }
-      },
-      "q13": {
-        "title": "How much can you walk a day?",
-        "help": "Pick how long you can walk in a day",
-        "options": {
-          "under-1h": "Up to 1 hour",
-          "1-3h": "1–3 hours",
-          "over-3h": "3 hours or more"
-        }
-      },
-      "q14": {
-        "title": "Anything we should plan around?",
-        "help": "Pick as many as you need",
-        "options": {
-          "pet": "Traveling with a pet",
-          "accessible": "Step-free access",
-          "indoor-rain": "Mostly indoors if it rains"
-        }
-      },
       "q15": {
         "title": "Which region are you traveling to?",
         "help": "If you pick one, we'll adjust your picks with regional data from the Korea Tourism Data Lab",
@@ -564,6 +518,54 @@
     },
     "savePlan": "Save route",
     "saved": "Saved"
+  },
+  "Trip": {
+    "q10": {
+      "title": "When are you leaving?",
+      "help": "Pick when you plan to leave",
+      "options": {
+        "this-weekend": "This weekend",
+        "this-month": "This month",
+        "later": "Next month or later"
+      }
+    },
+    "q11": {
+      "title": "How long is your trip?",
+      "help": "If you skip, we'll plan a day trip",
+      "options": {
+        "day-trip": "Day trip",
+        "1-night": "2 days, 1 night",
+        "2-nights-plus": "3 days or more"
+      }
+    },
+    "q12": {
+      "title": "How will you get around?",
+      "help": "If you skip, we'll assume a car",
+      "options": {
+        "car": "Car",
+        "public-transit": "Public transit",
+        "flight": "Plane",
+        "tour-bus": "Tour bus"
+      }
+    },
+    "q13": {
+      "title": "How much can you walk a day?",
+      "help": "Pick how long you can walk in a day",
+      "options": {
+        "under-1h": "Up to 1 hour",
+        "1-3h": "1–3 hours",
+        "over-3h": "3 hours or more"
+      }
+    },
+    "q14": {
+      "title": "Anything we should plan around?",
+      "help": "Pick as many as you need",
+      "options": {
+        "pet": "Traveling with a pet",
+        "accessible": "Step-free access",
+        "indoor-rain": "Mostly indoors if it rains"
+      }
+    }
   },
   "Theme": {
     "tabsLabel": "Theme tabs",
