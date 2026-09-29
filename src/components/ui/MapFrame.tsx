@@ -47,6 +47,11 @@ type MapFrameProps = {
   /** 화면을 맞출 점들. fitKey가 바뀔 때만 다시 맞춘다 */
   fitPoints: readonly LatLng[];
   fitKey: string;
+  /**
+   * 있으면 점들에 맞추는 대신 점들의 가운데(경계 상자 가운데)를 이 카카오 지도 레벨로 보인다.
+   * 권역처럼 늘 같은 축척으로 보일 화면에 쓴다(레벨 12 = 축척 막대 32km)
+   */
+  fitLevel?: number;
   /** 옮겨 갈 자리 (열린 장소) */
   focus?: LatLng | null;
   /** 점이 하나뿐일 때 카카오 지도 레벨 (1이 가장 가깝다) */
@@ -61,6 +66,7 @@ export function MapFrame({
   label,
   fitPoints,
   fitKey,
+  fitLevel,
   focus,
   singlePointLevel,
   emptyView,
@@ -166,6 +172,7 @@ export function MapFrame({
               <MapCamera
                 fitKey={fitKey}
                 fitPoints={fitPoints}
+                fitLevel={fitLevel}
                 focus={focus}
                 singlePointLevel={singlePointLevel}
               />
@@ -341,11 +348,13 @@ function MyLocation({
 function MapCamera({
   fitKey,
   fitPoints,
+  fitLevel,
   focus,
   singlePointLevel,
 }: {
   fitKey: string;
   fitPoints: readonly LatLng[];
+  fitLevel?: number;
   focus?: LatLng | null;
   singlePointLevel: number;
 }) {
@@ -353,7 +362,18 @@ function MapCamera({
 
   useEffect(() => {
     if (fitPoints.length === 0) return;
-    if (fitPoints.length === 1) {
+    if (fitLevel !== undefined) {
+      // 정해진 축척: 점들의 경계 상자 가운데로 옮기고 레벨만 맞춘다(점이 다 보이지 않을 수 있다)
+      const lats = fitPoints.map((p) => p.lat);
+      const lngs = fitPoints.map((p) => p.lng);
+      map.setLevel(fitLevel);
+      map.setCenter(
+        new kakao.maps.LatLng(
+          (Math.min(...lats) + Math.max(...lats)) / 2,
+          (Math.min(...lngs) + Math.max(...lngs)) / 2,
+        ),
+      );
+    } else if (fitPoints.length === 1) {
       map.setCenter(new kakao.maps.LatLng(fitPoints[0].lat, fitPoints[0].lng));
       map.setLevel(singlePointLevel);
     } else {
