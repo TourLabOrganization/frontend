@@ -164,6 +164,9 @@ export async function findPhoto(
   place: TourPlace,
   key: string | null,
 ): Promise<TourPhoto | null> {
+  // 신규 관광지(kto:)는 한국관광공사 대표 이미지를 이미 갖고 있다
+  const own = httpsPhoto(place.photo ?? "");
+  if (own) return { src: own, source: "kto" };
   const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (key && name.length >= 2) {
     try {
@@ -203,7 +206,7 @@ export async function findPhoto(
 
 /** GET /api/tour/photo 처리. 응답 { src, source } · 못 찾으면 { empty: true }. 키가 없어도 위키백과는 본다 */
 export async function tourPhotoResponse(request: Request): Promise<Response> {
-  const query = parseTourQuery(request, false);
+  const query = await parseTourQuery(request, false);
   if ("error" in query) return query.error;
   const photo = await findPhoto(query.place, tourApiKey());
   return tourJson(photo ?? { empty: true }, TOUR_PHOTO_SECONDS);

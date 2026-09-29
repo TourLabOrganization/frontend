@@ -347,7 +347,7 @@ export function audioForLocale(
 
 /** GET /api/tour/audio 처리. 응답 { title, script, audioUrl?, playTime?, source } · 결과 없음 { empty: true } */
 export async function tourAudioResponse(request: Request): Promise<Response> {
-  const query = parseTourQuery(request, true);
+  const query = await parseTourQuery(request, true);
   if ("error" in query) return query.error;
   const { place, locale } = query;
   // 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 스토리텔링을 보인다(PoC d_storyShow)
