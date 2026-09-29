@@ -11,7 +11,11 @@ import { tripDays } from "@/features/planner/dates";
 import { placeName } from "@/features/theme/place-meta";
 import { themeHref } from "@/features/theme/tabs";
 import { decodeAnswers } from "@/features/recommend/answers";
-import { evaluate, QUESTION_COUNT } from "@/features/recommend/survey";
+import {
+  evaluate,
+  MAX_QUESTIONS,
+  MIN_QUESTIONS,
+} from "@/features/recommend/survey";
 import { findTheme } from "@/features/recommend/themes";
 import {
   LAST_RECOMMENDATION_KEY,
@@ -146,7 +150,7 @@ export function MePanel() {
             <span className="flex flex-1 flex-col">
               <span className="text-body-lg font-bold">{t("emptyTitle")}</span>
               <span className="mt-1 text-caption text-white">
-                {t("emptyMeta", { total: QUESTION_COUNT })}
+                {t("emptyMeta", { min: MIN_QUESTIONS, max: MAX_QUESTIONS })}
               </span>
             </span>
             <ArrowRight size={20} className="shrink-0" aria-hidden />

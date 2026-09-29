@@ -18,7 +18,7 @@ import { HeroCarousel } from "@/features/home/HeroCarousel";
 import { Splash } from "@/features/home/Splash";
 import { SPLASH_COOKIE } from "@/features/home/splash-cookie";
 import { ThemeTile } from "@/features/home/ThemeTile";
-import { QUESTION_COUNT } from "@/features/recommend/survey";
+import { MAX_QUESTIONS, MIN_QUESTIONS } from "@/features/recommend/survey";
 import { HOME_THEME_ORDER } from "@/features/home/theme-order";
 import { cityName } from "@/features/planner/regions";
 import type { ThemeSlug } from "@/features/recommend/themes";
@@ -172,7 +172,10 @@ export default async function HomePage() {
                 {t("pickCourseTitle")}
               </span>
               <span className="mt-1 text-caption text-white">
-                {t("pickCourseMeta", { total: QUESTION_COUNT })}
+                {t("pickCourseMeta", {
+                  min: MIN_QUESTIONS,
+                  max: MAX_QUESTIONS,
+                })}
               </span>
             </span>
             <ArrowRight size={20} className="shrink-0" aria-hidden />
