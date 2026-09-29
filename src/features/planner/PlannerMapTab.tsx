@@ -52,6 +52,10 @@ import { useNameTable } from "@/features/names/NamesProvider";
 const INITIAL_ROWS = 10;
 /** 「더 보기」 한 번에 더 보이는 수. 전국 3,118곳을 한꺼번에 그리지 않는다 */
 const PAGE_SIZE = 60;
+/** 권역 화면의 카카오 지도 레벨(축척 막대 32km). 권역마다 같은 축척으로 도시 묶음을 본다 */
+const REGION_LEVEL = 12;
+/** 동해 먼 섬(울릉 · 독도)의 경도. 이보다 동쪽 도시는 권역 처음 화면 가운데를 잡을 때 뺀다(동쪽으로 끌면 보인다) */
+const FAR_EAST_LNG = 130;
 
 type Filter = "all" | CategoryKey;
 
@@ -266,8 +270,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       title: placeName(p, locale, names),
     }));
   }
-  // 전국은 권역 가운데들, 권역은 그 권역 도시 가운데들, 도시는 걸러진 핀에 맞춘다.
-  // (장소 전체에 맞추면 울릉 · 독도 때문에 지나치게 멀어진다)
+  // 전국은 권역 가운데들에 맞추고, 도시는 걸러진 핀에 맞춘다.
+  // 권역은 도시 가운데들(울릉 · 독도는 뺀다)의 가운데를 정해진 축척(REGION_LEVEL)으로 보인다 — 권역마다 축척이 달라지지 않게.
+  // 울릉의 묶음은 그려 두어 동쪽으로 끌면 나온다
   const fitPoints =
     scope.kind === "city"
       ? filtered
@@ -275,10 +280,14 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         ? Object.values(REGION_CENTER)
         : findRegion(scope.region).cities.flatMap((c) => {
             const info = CITY_INFO[c];
-            return info?.lat !== undefined && info.lng !== undefined
+            return info?.lat !== undefined &&
+              info.lng !== undefined &&
+              info.lng < FAR_EAST_LNG
               ? [{ lat: info.lat, lng: info.lng }]
               : [];
           });
+  const fitLevel =
+    scope.kind === "nation" && scope.region !== null ? REGION_LEVEL : undefined;
   const fitKey = nation
     ? `nation:${scope.region ?? ""}`
     : `city:${scope.city}:${filter}:${badge ?? ""}`;
@@ -360,6 +369,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             pins={pins}
             fitPoints={fitPoints}
             fitKey={fitKey}
+            fitLevel={fitLevel}
             selectedId={selectedId}
             onBubble={onBubble}
             onPin={openPlace}

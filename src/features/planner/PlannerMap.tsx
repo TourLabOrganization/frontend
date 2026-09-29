@@ -51,6 +51,8 @@ type PlannerMapProps = {
   /** 화면을 맞출 점들. fitKey가 바뀔 때만 다시 맞춘다 */
   fitPoints: readonly LatLng[];
   fitKey: string;
+  /** 있으면 점들의 가운데를 이 레벨로(MapFrame fitLevel) */
+  fitLevel?: number;
   selectedId?: string | null;
   onBubble?: (id: string) => void;
   onPin?: (id: string) => void;
@@ -64,6 +66,7 @@ export function PlannerMap({
   pins = [],
   fitPoints,
   fitKey,
+  fitLevel,
   selectedId,
   onBubble,
   onPin,
@@ -76,6 +79,7 @@ export function PlannerMap({
       label={label}
       fitPoints={fitPoints}
       fitKey={fitKey}
+      fitLevel={fitLevel}
       focus={selected}
       singlePointLevel={SINGLE_POINT_LEVEL}
       emptyView={EMPTY_VIEW}
