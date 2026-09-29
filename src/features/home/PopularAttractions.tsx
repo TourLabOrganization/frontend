@@ -91,7 +91,8 @@ export function PopularAttractions() {
       <div
         role="group"
         aria-label={t("citiesLabel")}
-        className="-mx-5 mt-3 flex gap-2 overflow-x-auto px-5 pb-1"
+        // 도시 8곳을 4칸 두 줄로(좌우 스크롤 없이)
+        className="mt-3 grid grid-cols-4 gap-2"
       >
         {POPULAR_CITIES.map((c) => {
           const pressed = c === city;
@@ -101,7 +102,7 @@ export function PopularAttractions() {
               type="button"
               aria-pressed={pressed}
               onClick={() => setCity(c)}
-              className={`flex min-h-11 shrink-0 items-center rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+              className={`flex min-h-11 min-w-0 items-center justify-center rounded-xl px-1 text-center text-label break-keep transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
                 pressed
                   ? "bg-primary-weak font-semibold text-primary-strong"
                   : "bg-fill font-medium text-fg-muted active:bg-line"
