@@ -264,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "{videos}处拍摄地 · {transport}",
+    "attractions": {
+      "heading": "当下热门景点",
+      "date": "{date} 基准",
+      "note": "按韩国观光公社游客集中率预测从高到低排列。数值越高，预计越拥挤。",
+      "citiesLabel": "城市",
+      "empty": "{city}暂无游客集中率预测",
+      "error": "无法加载热门景点",
+      "retry": "重试",
+      "source": "来源：韩国观光公社 景点游客集中率预测"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",

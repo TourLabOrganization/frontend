@@ -124,6 +124,7 @@ const SERVER_ONLY = [
   "lib/tour-related.ts",
   "lib/tour-crowd.ts",
   "lib/tour-photo.ts",
+  "lib/tour-popular.ts",
 ].map((f) => resolve(SRC, f));
 
 function resolveImport(from: string, spec: string): string | null {
@@ -179,7 +180,7 @@ describe("서버 전용 데이터 번들", () => {
   });
 
   it("검사가 실제로 서버 전용 파일을 찾아낸다(Route Handler는 닿는다)", () => {
-    const routes = ["audio", "related", "crowd", "photo"].map((k) =>
+    const routes = ["audio", "related", "crowd", "photo", "popular"].map((k) =>
       resolve(SRC, `app/api/tour/${k}/route.ts`),
     );
     const files = reachable(routes);

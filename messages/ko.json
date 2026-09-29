@@ -264,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "촬영지 {videos}곳 · {transport}",
+    "attractions": {
+      "heading": "지금 인기 관광지",
+      "date": "{date} 기준",
+      "note": "한국관광공사 방문 집중률 예측이 높은 순이에요. 높을수록 붐빌 것으로 예측돼요.",
+      "citiesLabel": "도시",
+      "empty": "{city}의 방문 집중률 예측이 아직 없어요",
+      "error": "인기 관광지를 불러오지 못했어요",
+      "retry": "다시 시도",
+      "source": "출처: 한국관광공사 관광지 집중률 방문자 추이 예측"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",

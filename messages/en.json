@@ -264,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "{videos, plural, one {# location} other {# locations}} · {transport}",
+    "attractions": {
+      "heading": "Popular spots now",
+      "date": "as of {date}",
+      "note": "Ranked by the Korea Tourism Organization's visitor concentration forecast. Higher means busier.",
+      "citiesLabel": "Cities",
+      "empty": "No visitor concentration forecast for {city} yet",
+      "error": "Couldn't load popular spots",
+      "retry": "Try again",
+      "source": "Source: Korea Tourism Organization visitor concentration forecast"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",

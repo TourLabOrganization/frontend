@@ -264,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "{videos, plural, one {# lugar} other {# lugares}} · {transport}",
+    "attractions": {
+      "heading": "Lugares populares ahora",
+      "date": "a {date}",
+      "note": "Ordenados por la previsión de concentración de visitantes de la Organización de Turismo de Corea. Cuanto más alta, más concurrido.",
+      "citiesLabel": "Ciudades",
+      "empty": "Aún no hay previsión de concentración para {city}",
+      "error": "No se pudieron cargar los lugares populares",
+      "retry": "Reintentar",
+      "source": "Fuente: previsión de concentración de visitantes de la Organización de Turismo de Corea"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",
