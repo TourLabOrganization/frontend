@@ -18,6 +18,13 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { useId } from "react";
 import {
+  AIR_REVALIDATE_SECONDS,
+  AIR_TIMEOUT_MS,
+  type AirGrade,
+  type AirQuality,
+  airPath,
+} from "@/lib/air-quality";
+import {
   pickWeatherDays,
   roundCoord,
   WEATHER_REVALIDATE_SECONDS,
@@ -29,6 +36,7 @@ import {
   type WeatherResponse,
 } from "@/lib/weather";
 import { Button } from "./Button";
+import { useTourApi } from "./tour-api-context";
 
 /** 날씨 종류 → lucide 아이콘 (WMO 코드 묶음은 lib/weather.ts의 weatherKind) */
 const KIND_ICON: Record<WeatherKind, LucideIcon> = {
@@ -43,6 +51,18 @@ const KIND_ICON: Record<WeatherKind, LucideIcon> = {
   thunderstorm: CloudLightning,
   unknown: Thermometer,
 };
+
+async function fetchAir(
+  lat: number,
+  lng: number,
+  id: string | undefined,
+): Promise<AirQuality> {
+  const res = await fetch(airPath(lat, lng, id), {
+    signal: AbortSignal.timeout(AIR_TIMEOUT_MS),
+  });
+  if (!res.ok) throw new Error(`air ${res.status}`);
+  return (await res.json()) as AirQuality;
+}
 
 async function fetchWeather(
   lat: number,
@@ -59,7 +79,16 @@ async function fetchWeather(
  * 장소 시트의 날씨 칸(PoC 장소 상세의 날씨 칸). 오늘은 크게, 어제 · 내일은 작게 — 아이콘 · 최고 기온 · 강수량.
  * 시트가 열려 이 칸이 그려질 때만 우리 Route Handler(/api/weather)를 부른다
  */
-export function PlaceWeather({ lat, lng }: { lat: number; lng: number }) {
+export function PlaceWeather({
+  lat,
+  lng,
+  id,
+}: {
+  lat: number;
+  lng: number;
+  /** 플래너 장소 id. 있으면 미세먼지 시도를 그 장소의 시군구로 정한다 */
+  id?: string;
+}) {
   const t = useTranslations("PlaceSheet.weather");
   const ts = useTranslations("PlaceSheet");
   const titleId = useId();
@@ -127,7 +156,62 @@ export function PlaceWeather({ lat, lng }: { lat: number; lng: number }) {
           </div>
         </div>
       )}
+      <AirRow lat={rLat} lng={rLng} id={id} />
     </section>
+  );
+}
+
+/** 등급 → 글자색(1 좋음 · 2 보통 · 3 나쁨 · 4 매우나쁨, PoC AIR_COLOR 순서를 앱 토큰으로) */
+const GRADE_TEXT: Record<Exclude<AirGrade, 0>, string> = {
+  1: "text-primary",
+  2: "text-cat-heal",
+  3: "text-warning",
+  4: "text-danger",
+};
+
+/**
+ * 날씨 칸 아래 「미세먼지」 줄(PoC 날씨 · 미세먼지 칸의 d_air). 에어코리아 시도 평균 PM10 · PM2.5와 둘 중 나쁜 등급.
+ * 서버에 공공데이터포털 키가 없거나(에어코리아 활용신청 포함) 값이 없으면 줄을 숨긴다(PoC와 같다)
+ */
+function AirRow({
+  lat,
+  lng,
+  id,
+}: {
+  lat: number;
+  lng: number;
+  id: string | undefined;
+}) {
+  const t = useTranslations("PlaceSheet.air");
+  const locale = useLocale();
+  const enabled = useTourApi();
+  const query = useQuery({
+    queryKey: ["air", lat, lng, id ?? null],
+    queryFn: () => fetchAir(lat, lng, id),
+    staleTime: AIR_REVALIDATE_SECONDS * 1000,
+    retry: false,
+    enabled,
+  });
+  const air = query.data;
+  if (!air || air.grade === 0) return null;
+  const num = new Intl.NumberFormat(locale);
+  const value = (v: number | null) => (v === null ? "–" : num.format(v));
+  return (
+    <div className="flex items-center justify-between gap-3 border-t border-line px-4 py-3">
+      <div className="flex min-w-0 flex-col">
+        <span className="text-caption font-semibold">
+          {t("title", { sido: t(`sido.${air.sido}`) })}
+        </span>
+        <span className="text-caption text-fg-muted tabular-nums">
+          {t("values", { pm10: value(air.pm10), pm25: value(air.pm25) })}
+        </span>
+      </div>
+      <span
+        className={`shrink-0 rounded-full bg-fill px-3 py-1 text-label font-bold ${GRADE_TEXT[air.grade]}`}
+      >
+        {t(`grade.${air.grade}`)}
+      </span>
+    </div>
   );
 }
 

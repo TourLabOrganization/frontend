@@ -177,7 +177,12 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
   화면 읽기용 달별 숫자 목록), 최근 1년 주요 출항, 여행월 통제율 **6%** 이상이면 경고 문장, 출처 한 줄. 단계 색은 6% 이상 `warning` · 15% 이상 `danger`(PoC `lvl`). 월 · 숫자 · 기간은 `Intl`
 - 데이터 `data/ferry.json`은 `scripts/build-ferry.mjs`가 PoC `FERRY_ROUTES`(제주 6항 · 울릉 4항) · `FERRY_STATS`(한국해양교통안전공단 항로별 여객선 운항상황,
   odcloud 15146814, 2022-12 ~ 2026-05 실적 중 제주 · 울릉 9개 항로 집계)에서 만든다. 갱신은 PoC 값이 바뀐 뒤 스크립트를 다시 돌린다(실적을 직접 다시 집계하지 않는다)
-- **키가 필요해 옮기지 않은 것**: 제주 항공 운항 현황(`loadFlights` · `KAC_KEY`), 공항 수속 실측(`getAirportProcess`), 휴게소(`loadRests`),
+- **항공편 카드**(`FlightCard`, PoC `flightBoard*` · `busanAir*`): 광역 교통이 항공이고 자가용이 아닐 때, 제주 · 서귀포 여행이면 「제주 노선 운항 현황」,
+  첫 도시가 부산 · 김해 · 양산 · 창원 · 거제면 「김해공항 노선 운항 현황」. 방향 · 공항 고르기(제주 카드는 출발지가 공항이면 그 공항, 아니면 김포부터) →
+  편성 요약 표(운항 항공사 · 일 운항 · 첫 · 막 출발 · 비행 시간) → 항공사별 운항 개요(편도 편수 가운데 값의 비중 막대) → 지금 수속 소요(한국공항공사, `/api/airport/process`, 키가 있을 때) →
+  항공사 공식 시간표 링크. 노선의 항공사표가 있으면 요약의 합계 · 첫 · 막 편을 그 표에서 다시 계산한다(PoC `flightSched`. PoC 김해 카드는 다시 계산하지 않지만 같은 노선이 두 카드에서 달라 보이지 않게 맞췄다).
+  고른 방향 · 공항은 저장하지 않는다(PoC도 화면 상태). 데이터 `data/flights.json`은 `scripts/build-flights.mjs`가 PoC 하드코딩 값(「정기 편성 요약 · 시즌·요일에 따라 변동」)에서 만든다
+- **키가 필요해 옮기지 않은 것**: 제주 항공 실시간 운항 편성(`loadFlights` · `KAC_ENDPOINT`, PoC에서도 주소가 비어 꺼져 있다), 휴게소(`loadRests`),
   지도 검색으로 제주 집 · 숙소를 출발지로 추가(`custom`, 그래서 도민 안내의 「검색으로 집 · 숙소를 지정」은 빼고 「첫날은 출발 시각부터」로 썼다),
   카페리 항만까지 운전의 카카오모빌리티 실측(`ownDriveMin` real, PoC 기본 식만 쓴다)
 
@@ -195,6 +200,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                                               | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
 | `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                                                         | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
 | `scripts/build-ferry.mjs`        | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                                                  | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                             |
+| `scripts/build-flights.mjs`      | `Tour Planner.dc.html`(`JEJU_SCHED` · `JEJU_AIR_ROUTES` · `BUSAN_ROUTES` · `BUSAN_SCHED` · `ROUTE_AIRLINES` · `AIRLINE_SCHED`)          | `features/planner/data/flights.json`(제주 노선 10개 공항 · 김해 3개 노선 요약, 항공사표 5개 노선, 항공사 시간표 링크 10개)                    |
 | `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)                                      | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
 | `scripts/build-tic.mjs`          | `data/tic.json`(관광안내소 725곳, 칼럼은 `파생 데이터/관광안내소.csv`)                                                                  | `features/planner/data/tic.json`(칸 이름만 붙이고 값은 원천 그대로)                                                                           |
 
@@ -259,7 +265,8 @@ data-server 합치기 (`scripts/data-server.mjs`)
   점수 = 100 · (cos(u, p) · 커버리지 + Σ w · b) / (1 + Σ w). 가산은 관심사 0.5(S4 두 관심사 중 분류가 있는 것의 평균: 범주 비중, 야경이면 야경 코스), 야경 0.1(S6 저녁 · 밤까지 · S4에 야경 없음),
   여행 속도 0.1(빡빡하게 L, 천천히 1 − L, L = 방문 후보 3곳 0 ~ 8곳 1)이고 적용되는 항만 분모에 넣는다. 점수가 같으면 cos · 커버리지 큰 순, 분석 코스 id 순.
   한 지역 한 노선씩 5개. 분류가 있는 관심사마다 그 분류 비중이 가장 큰 코스(같은 최댓값이면 모두, 야경은 야경 코스) 중 가장 앞 코스로 한 자리를 먼저 채우고(카드에 「○○ 관심사 자리」 칩),
-  남은 자리를 순위대로 채워 순위 순서로 보인다. 제목의 유형은 E의 첫 유형이다
+  남은 자리를 순위대로 채워 순위 순서로 보인다. 제목의 유형은 E의 첫 유형이다.
+  5곳은 높이를 고정한 칸 하나 안에서 세로로 스크롤해 본다(`CityTourScroll`, 추천 결과 화면 · 지역별 검색도 같다). 칸 오른쪽에 늘 보이는 스크롤 막대를 직접 그려 남은 양을 알리고, 막대를 끌어 옮길 수 있다
 - 코스 점수 자료(p · 커버리지 · 방문 후보 수 · 야경)는 Data-Analytics `reference_calc/eligible_courses.csv`(분석 적격 234코스)를
   `scripts/build-citytour-scores.mjs`로 `data/citytour-scores.json`(citytour.json과 같은 순서, 적격이 아니면 null)에 옮긴다. 적격이 아닌 46노선은 지역별 검색에만 보인다.
   카드의 분류 칩은 목업 키워드 분류(`tourProfile` · `tourTags`) 그대로다

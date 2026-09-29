@@ -1,15 +1,13 @@
 "use client";
 
 import { CityTourCard, useCityTourAdd } from "@/features/home/CityTourCard";
+import { CityTourScroll } from "@/features/home/CityTourScroll";
 import type { CityTour, TourTag } from "@/features/home/citytour";
-import toursData from "@/features/home/data/citytour.json";
 import type { CityTourText } from "@/features/translations/text";
 
-const TOURS = toursData as CityTour[];
-
-/** 추천 결과의 시티투어 한 줄: data/citytour.json 순서 번호와 채운 관심사 보장 자리 */
+/** 추천 결과의 시티투어 한 줄: 노선(서버가 고른 5개만 넘겨 노선 전체 표를 브라우저에 싣지 않는다)과 채운 관심사 보장 자리 */
 export type ResultTourPick = {
-  index: number;
+  tour: CityTour;
   reservedFor: TourTag | null;
   /** 외국어 화면에서 보일 글(서버가 번역 표로 만든다). 한국어 화면은 없다 */
   text?: CityTourText;
@@ -19,27 +17,31 @@ export type ResultTourPick = {
 // 여기서는 카드와 「코스빌더에 넣기」(담아 둔 코스가 있으면 먼저 묻는다)만 그린다. 카드는 홈 지역 시티투어와 같다
 export function ResultCityTours({
   picks,
+  label,
 }: {
   picks: readonly ResultTourPick[];
+  /** 스크롤 칸 이름(목록 제목) */
+  label: string;
 }) {
   const { onAdd, dialog } = useCityTourAdd();
   return (
     <>
-      <ul className="mt-4 flex flex-col gap-3">
-        {picks.map(({ index, reservedFor, text }, i) => {
-          const tour = TOURS[index];
-          return (
-            <CityTourCard
-              key={index}
-              tour={tour}
-              text={text}
-              rank={i + 1}
-              reservedFor={reservedFor}
-              onAdd={() => onAdd(tour, text?.name)}
-            />
-          );
-        })}
-      </ul>
+      <CityTourScroll label={label} count={picks.length}>
+        <ul className="flex flex-col gap-3">
+          {picks.map(({ tour, reservedFor, text }, i) => {
+            return (
+              <CityTourCard
+                key={`${tour.region}|${tour.name}`}
+                tour={tour}
+                text={text}
+                rank={i + 1}
+                reservedFor={reservedFor}
+                onAdd={() => onAdd(tour, text?.name)}
+              />
+            );
+          })}
+        </ul>
+      </CityTourScroll>
       {dialog}
     </>
   );

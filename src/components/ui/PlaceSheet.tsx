@@ -1,5 +1,6 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Navigation, Play, X } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -8,6 +9,11 @@ import { buttonClassName } from "./Button";
 import { Chip } from "./Chip";
 import { PlaceTour } from "./PlaceTour";
 import { PlaceWeather } from "./PlaceWeather";
+import {
+  PHOTO_STALE_MS,
+  PHOTO_TIMEOUT_MS,
+  type PlacePhotoResponse,
+} from "./place-photo";
 import { breakBeforeContact, formatStayHours } from "./stay-hours";
 
 export type PlaceSheetPlace = {
@@ -79,6 +85,30 @@ export function PlaceSheet({
   const titleId = useId();
   // 받지 못한 사진 주소. 깨진 사진 칸 대신 사진 없이 보인다
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  // 장소 자료에 사진이 없으면 대표 사진을 서버에서 찾는다(한국관광공사 관광정보 · 관광사진 → 위키백과, app/api/tour/photo)
+  const lookupId = place && !place.photo && place.id ? place.id : null;
+  const found = useQuery({
+    queryKey: ["place-photo", lookupId],
+    queryFn: async (): Promise<PlacePhotoResponse> => {
+      const res = await fetch(
+        `/api/tour/photo?id=${encodeURIComponent(lookupId!)}`,
+        { signal: AbortSignal.timeout(PHOTO_TIMEOUT_MS) },
+      );
+      if (!res.ok) throw new Error(`photo ${res.status}`);
+      return (await res.json()) as PlacePhotoResponse;
+    },
+    enabled: lookupId !== null,
+    staleTime: PHOTO_STALE_MS,
+    retry: false,
+  });
+  const photo =
+    place?.photo ??
+    (lookupId && found.data && "src" in found.data
+      ? {
+          src: found.data.src,
+          credit: t(`photoSources.${found.data.source}`),
+        }
+      : null);
 
   useEffect(() => {
     const dialog = ref.current;
@@ -124,23 +154,23 @@ export function PlaceSheet({
             </button>
           </div>
 
-          {place.photo && place.photo.src !== failedSrc && (
+          {photo && photo.src !== failedSrc && (
             <figure className="mb-4">
               <div className="relative aspect-[16/10] overflow-hidden rounded-card bg-fill">
                 <Image
-                  src={place.photo.src}
+                  src={photo.src}
                   alt={place.name}
                   fill
                   unoptimized
                   // 시트가 열려 있을 때만 그려지므로 사진은 늘 보이는 자리다. 미루지 않는다
                   loading="eager"
-                  onError={() => setFailedSrc(place.photo?.src ?? null)}
+                  onError={() => setFailedSrc(photo.src)}
                   className="object-cover"
                 />
               </div>
-              {place.photo.credit && (
+              {photo.credit && (
                 <figcaption className="mt-1.5 text-micro text-fg-subtle">
-                  {t("photoCredit", { credit: place.photo.credit })}
+                  {t("photoCredit", { credit: photo.credit })}
                 </figcaption>
               )}
             </figure>
@@ -197,7 +227,11 @@ export function PlaceSheet({
           )}
 
           {/* PoC 순서: 상세 표 다음, 길찾기 앞. 장소가 바뀌면 그 좌표로 새로 부른다 */}
-          <PlaceWeather lat={place.facts.lat} lng={place.facts.lng} />
+          <PlaceWeather
+            lat={place.facts.lat}
+            lng={place.facts.lng}
+            id={place.id}
+          />
           {/* 날씨 다음: 오디오 가이드 · 함께 많이 가는 관광지 Top · 방문 집중률 예측(/api/tour/*). 못 받으면 칸째 숨는다 */}
           {place.id && (
             <PlaceTour

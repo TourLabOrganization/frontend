@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "关闭",
     "photoCredit": "照片：{credit}",
+    "photoSources": {
+      "kto": "韩国观光公社",
+      "ktoGallery": "韩国观光公社旅游图片",
+      "wikipedia": "维基百科"
+    },
     "hours": "营业时间",
     "checkIn": "入住 {time}",
     "checkOut": "退房 {time}",
@@ -78,6 +83,35 @@
         "snowShowers": "阵雪",
         "thunderstorm": "雷雨",
         "unknown": "无数据"
+      }
+    },
+    "air": {
+      "title": "细颗粒物 · {sido}平均",
+      "values": "PM10 {pm10} · PM2.5 {pm25} µg/m³ · AirKorea",
+      "grade": {
+        "1": "良好",
+        "2": "一般",
+        "3": "较差",
+        "4": "很差"
+      },
+      "sido": {
+        "서울": "首尔",
+        "부산": "釜山",
+        "대구": "大邱",
+        "인천": "仁川",
+        "광주": "光州",
+        "대전": "大田",
+        "울산": "蔚山",
+        "세종": "世宗",
+        "경기": "京畿",
+        "강원": "江原",
+        "충북": "忠北",
+        "충남": "忠南",
+        "전북": "全北",
+        "전남": "全南",
+        "경북": "庆北",
+        "경남": "庆南",
+        "제주": "济州"
       }
     },
     "tour": {
@@ -168,7 +202,7 @@
     "myThemesHeading": "我的主题",
     "pickCourseHeading": "挑选我的路线",
     "pickCourseTitle": "为你挑选合适的主题和路线",
-    "pickCourseMeta": "{total}道题 · 约1分钟",
+    "pickCourseMeta": "{min}–{max}道题 · 约1分钟",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "各地城市观光巴士",
@@ -211,7 +245,7 @@
       "add": "加入行程编排",
       "addHint": "将途经点中应用内已有的{count}处地点加入行程规划",
       "addDisabled": "这条路线途经的地点尚未收录在应用中，无法加入行程编排",
-      "more": "查看更多（还有{count}条）",
+      "scrollHint": "共{count}条 · 在框内向下滚动查看全部",
       "date": "基准日 {date}",
       "dataNote": "路线名称、途经点和票价由本应用翻译，各路线的基准日也不同。城市观光巴士按班车时刻运行，行程编排中的时间仅供参考",
       "confirm": {
@@ -230,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "{videos}处拍摄地 · {transport}",
+    "attractions": {
+      "heading": "当下热门景点",
+      "date": "{date} 基准",
+      "note": "按韩国观光公社游客集中率预测从高到低排列。数值越高，预计越拥挤。",
+      "citiesLabel": "城市",
+      "empty": "{city}暂无游客集中率预测",
+      "error": "无法加载热门景点",
+      "retry": "重试",
+      "source": "来源：韩国观光公社 景点游客集中率预测"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",
@@ -254,7 +298,7 @@
     "lastTheme": "排名第一的主题：{theme}",
     "lastAction": "再次查看推荐结果",
     "emptyTitle": "为你找到合适的主题",
-    "emptyMeta": "还没有推荐主题 · {total}道题",
+    "emptyMeta": "还没有推荐主题 · {min}–{max}道题",
     "savedHeading": "已保存的行程",
     "savedCount": "{count}个",
     "savedAt": "{date} 保存",
@@ -315,7 +359,7 @@
       },
       "s4": {
         "title": "这次旅行你最想做的两件事是什么？",
-        "help": "请选择两个最想做的兴趣。每个兴趣之后都会有一个相关问题",
+        "help": "请选择两个最想做的兴趣。之后会出现与之相关的问题",
         "options": {
           "drama": "韩剧·K-POP拍摄地",
           "performance": "演出·演唱会",
@@ -1129,6 +1173,60 @@
           "times": "近一年主要出港",
           "warn": "{month}月该航线停航率为{pct}，偏高。为防停航，请同时准备航班或预留一天。",
           "src": "来源：KOMSA 航线运航记录"
+        }
+      },
+      "flights": {
+        "title": {
+          "jeju": "济州航线运行情况",
+          "busan": "金海机场航班概要"
+        },
+        "direction": "方向",
+        "dir": {
+          "jeju": {
+            "to": "飞往济州（选择出发地）",
+            "from": "济州出发（选择目的地）"
+          },
+          "busan": {
+            "from": "金海出发（选择目的地）",
+            "to": "飞往金海（选择出发地）"
+          }
+        },
+        "fromAirport": "出发机场",
+        "toAirport": "到达机场",
+        "rows": {
+          "airlines": "航空公司",
+          "daily": "每日班次",
+          "first": "首班",
+          "last": "末班",
+          "duration": "飞行时间"
+        },
+        "airlinesCount": "{count}家 · {names}{more, select, yes { 等} other {}}",
+        "count": {
+          "daily": "单程 {same, select, yes {{lo}班} other {{lo}–{hi}班}}",
+          "total": "{same, select, yes {{lo}班} other {{lo}–{hi}班}}（单程合计）",
+          "weekly": "每周 {same, select, yes {{lo}班} other {{lo}–{hi}班}}"
+        },
+        "special": {
+          "noRegular": "无定期航班 — 请乘坐 KTX · SRT（约2小时40分）",
+          "irregular": "以不定期 · 季节性航班为主"
+        },
+        "minutes": "{n}分钟",
+        "note": "常规班次概要 · 随季节与星期变化。航班号和准确时间请查看航空公司时刻表。",
+        "byAirline": "各航空公司概要（单程 · 估算）",
+        "share": "占本航线班次的 {pct}%",
+        "links": "各航空公司官方时刻表",
+        "busanNote": "国内线以济州为主，国际线以日本 · 东南亚为主。",
+        "process": {
+          "title": "{airport}机场当前手续耗时",
+          "at": "{at} 基准",
+          "minutes": "{n}分钟",
+          "steps": {
+            "a": "值机 → 身份核验",
+            "b": "身份核验 → 安检",
+            "c": "安检 → 登机",
+            "d": "登机 → 起飞"
+          },
+          "note": "到达机场后请预留手续 {all} 分钟 + 登机截止余量 {buffer} 分钟{floor, select, yes {（至少 {min} 分钟）} other {}} = {lead} 分钟 · 韩国机场公社，每5分钟更新"
         }
       }
     },

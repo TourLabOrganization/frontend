@@ -77,6 +77,8 @@ import { addDays, dateError, MAX_TRIP_DAYS, tripDays } from "./dates";
 import { DayAddPlace } from "./DayAddPlace";
 import { FerryCard } from "./FerryCard";
 import { showFerryCard } from "./ferry";
+import { FlightCard } from "./FlightCard";
+import { jejuAirportFor, showBusanFlights, showJejuFlights } from "./flights";
 import { ulleungSync } from "./island";
 import { plannerHref, scopeHref } from "./query";
 import {
@@ -941,6 +943,23 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               startDate={course.startDate}
             />
           )}
+        {showJejuFlights({
+          island: plan.island,
+          own,
+          choice: plan.choice,
+        }) && (
+          // 출발지가 바뀌면 처음 고를 공항도 바뀌므로 key로 새로 그린다
+          <FlightCard
+            key={`jeju-${plan.originKey}`}
+            kind="jeju"
+            initialAirport={jejuAirportFor(plan.originKey)}
+          />
+        )}
+        {showBusanFlights({
+          destination: plan.destination,
+          own,
+          choice: plan.choice,
+        }) && <FlightCard kind="busan" />}
         <RoutingHowTo className="mt-6" />
       </div>
 

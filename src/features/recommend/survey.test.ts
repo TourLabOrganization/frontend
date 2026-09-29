@@ -19,7 +19,8 @@ import {
   activeBranches,
   optionsOf,
   parseInterests,
-  QUESTION_COUNT,
+  MAX_QUESTIONS,
+  MIN_QUESTIONS,
   questionCount,
   questionPath,
   type SurveyResult,
@@ -302,11 +303,16 @@ describe("답 바꾸기 규칙", () => {
     const other = withAnswer(MIXED, "s4", "food-market_night");
     expect(other).toEqual({ ...COMMON, s4: "food-market_night" });
     expect(questionPath(other)).toEqual([...COMMON_IDS, "b4", "b6"]);
-    // 하나를 빼서 고르는 중이 되면 B 답은 모두 지운다
-    expect(withAnswer(MIXED, "s4", "history")).toEqual({
-      ...COMMON,
-      s4: "history",
-    });
+    // 화면에서는 하나를 빼고(고르는 중) 다른 것을 더한다: 남은 관심사의 B 답은 그 사이에도 남는다
+    const partial = withAnswer(MIXED, "s4", "history");
+    expect(partial).toEqual({ ...COMMON, s4: "history", b2: "a" });
+    const swapped = withAnswer(
+      partial,
+      "s4",
+      toggleInterest(partial.s4, "food-market"),
+    );
+    expect(swapped).toEqual({ ...COMMON, s4: "history_food-market", b2: "a" });
+    expect(evaluate(swapped)).toEqual({ status: "incomplete", next: "b4" });
     expect(withAnswer(MIXED, "s4", undefined)).toEqual({
       ...COMMON,
       s4: undefined,
@@ -355,7 +361,7 @@ describe("묻는 문항 순서", () => {
   });
 
   it("진행 표시 문항 수: 공통 6 + B 1~2(S4 전에는 2)", () => {
-    expect(QUESTION_COUNT).toBe(8);
+    expect([MIN_QUESTIONS, MAX_QUESTIONS]).toEqual([7, 9]);
     expect(questionCount({})).toBe(8);
     expect(questionCount(COMMON)).toBe(8);
     expect(questionCount({ ...COMMON, s4: "nature_sea" })).toBe(7);

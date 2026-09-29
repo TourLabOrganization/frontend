@@ -69,6 +69,47 @@ export type TourCrowd = {
   days: TourCrowdDay[];
 };
 
+/**
+ * 홈 「지금 인기 관광지」의 도시(칩 순서). 플래너 주요 도시(서울 · 부산 · 제주)와 관광객이 많은 도시.
+ * 서버가 도시마다 장소가 많은 시군구(최대 4곳)의 관광지 집중률을 모은다(lib/tour-popular.ts)
+ */
+export const POPULAR_CITIES = [
+  "서울",
+  "부산",
+  "제주",
+  "경주",
+  "강릉",
+  "전주",
+  "인천",
+  "속초",
+] as const;
+export type PopularCity = (typeof POPULAR_CITIES)[number];
+
+/** 인기 관광지 한 곳 */
+export type TourPopularItem = {
+  /** 화면 이름(앱 장소와 맞으면 화면 언어 이름, 아니면 한국관광공사 이름) */
+  name: string;
+  /** 시군구 이름(한국관광공사 signguNm, 한국어) */
+  district: string;
+  /** 그날 집중률(%) */
+  rate: number;
+  /** 이름이 맞는 플래너 장소 id. 없으면 null(목록에서 글자만 둔다) */
+  id: string | null;
+};
+
+/** GET /api/tour/popular 응답. 결과가 없으면 TourEmpty */
+export type TourPopular = {
+  /** 기준 날짜(한국, YYYY-MM-DD). 보통 오늘 */
+  date: string;
+  /** 집중률 높은 순 최대 10곳 */
+  items: TourPopularItem[];
+};
+
+/** 홈 인기 관광지 주소 */
+export function popularPath(city: string, locale: string): string {
+  return `/api/tour/popular?city=${encodeURIComponent(city)}&locale=${encodeURIComponent(locale)}`;
+}
+
 export type TourKind = "audio" | "related" | "crowd";
 
 /** 브라우저가 부르는 우리 Route Handler 주소. 입력은 장소 id(와 화면 언어)뿐이다 */

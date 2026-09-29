@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "閉じる",
     "photoCredit": "写真：{credit}",
+    "photoSources": {
+      "kto": "韓国観光公社",
+      "ktoGallery": "韓国観光公社 観光写真",
+      "wikipedia": "ウィキペディア"
+    },
     "hours": "営業時間",
     "checkIn": "チェックイン {time}",
     "checkOut": "チェックアウト {time}",
@@ -78,6 +83,35 @@
         "snowShowers": "にわか雪",
         "thunderstorm": "雷雨",
         "unknown": "データなし"
+      }
+    },
+    "air": {
+      "title": "微小粒子状物質 · {sido}平均",
+      "values": "PM10 {pm10} · PM2.5 {pm25} µg/m³ · AirKorea",
+      "grade": {
+        "1": "良い",
+        "2": "普通",
+        "3": "悪い",
+        "4": "とても悪い"
+      },
+      "sido": {
+        "서울": "ソウル",
+        "부산": "釜山",
+        "대구": "大邱",
+        "인천": "仁川",
+        "광주": "光州",
+        "대전": "大田",
+        "울산": "蔚山",
+        "세종": "世宗",
+        "경기": "京畿",
+        "강원": "江原",
+        "충북": "忠北",
+        "충남": "忠南",
+        "전북": "全北",
+        "전남": "全南",
+        "경북": "慶北",
+        "경남": "慶南",
+        "제주": "済州"
       }
     },
     "tour": {
@@ -168,7 +202,7 @@
     "myThemesHeading": "マイテーマ",
     "pickCourseHeading": "コースを選ぶ",
     "pickCourseTitle": "あなたに合うテーマとコースを選びます",
-    "pickCourseMeta": "{total}問 · 約1分",
+    "pickCourseMeta": "{min}〜{max}問 · 約1分",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "地域のシティツアー",
@@ -211,7 +245,7 @@
       "add": "コースビルダーに追加",
       "addHint": "経由地のうちアプリにある{count}か所をツアープランナーのコースに追加します",
       "addDisabled": "このコースで立ち寄る場所がまだアプリにないため、コースビルダーに追加できません",
-      "more": "もっと見る（残り{count}件）",
+      "scrollHint": "{count}件 · 枠の中を下にスクロールしてすべて見られます",
       "date": "基準日 {date}",
       "dataNote": "ツアー名・経由地・料金はアプリが翻訳しており、基準日はツアーごとに異なります。シティツアーはバスの時刻に合わせて動くため、コースビルダーの時間は目安です",
       "confirm": {
@@ -230,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "ロケ地{videos}か所 · {transport}",
+    "attractions": {
+      "heading": "いま人気の観光地",
+      "date": "{date} 時点",
+      "note": "韓国観光公社の訪問集中率予測が高い順です。高いほど混雑が予想されます。",
+      "citiesLabel": "都市",
+      "empty": "{city}の訪問集中率予測はまだありません",
+      "error": "人気の観光地を読み込めませんでした",
+      "retry": "再試行",
+      "source": "出典：韓国観光公社 観光地集中率 訪問者推移予測"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",
@@ -254,7 +298,7 @@
     "lastTheme": "1位のテーマ：{theme}",
     "lastAction": "推薦結果をもう一度見る",
     "emptyTitle": "あなたにぴったりのテーマを探します",
-    "emptyMeta": "まだ推薦テーマがありません · {total}問",
+    "emptyMeta": "まだ推薦テーマがありません · {min}〜{max}問",
     "savedHeading": "保存したプラン",
     "savedCount": "{count}件",
     "savedAt": "{date}に保存",
@@ -315,7 +359,7 @@
       },
       "s4": {
         "title": "今回の旅行でいちばんしたいことを2つ選ぶとしたら？",
-        "help": "いちばんしたい関心ごとを2つ選んでください。選んだ関心ごとごとに質問が続きます",
+        "help": "いちばんしたい関心ごとを2つ選んでください。選んだ関心ごとに合わせた質問が続きます",
         "options": {
           "drama": "ドラマ・K-POPのロケ地",
           "performance": "公演・コンサート",
@@ -1129,6 +1173,60 @@
           "times": "直近1年の主な出港",
           "warn": "{month}月はこの航路の欠航率が{pct}と高めです。欠航に備えて航空便か予備日を用意してください。",
           "src": "出典：KOMSA 航路別運航記録"
+        }
+      },
+      "flights": {
+        "title": {
+          "jeju": "済州路線の運航状況",
+          "busan": "金海空港の運航状況"
+        },
+        "direction": "方向",
+        "dir": {
+          "jeju": {
+            "to": "済州行き（出発地を選択）",
+            "from": "済州発（到着地を選択）"
+          },
+          "busan": {
+            "from": "金海発（到着地を選択）",
+            "to": "金海行き（出発地を選択）"
+          }
+        },
+        "fromAirport": "出発空港",
+        "toAirport": "到着空港",
+        "rows": {
+          "airlines": "航空会社",
+          "daily": "1日の便数",
+          "first": "始発",
+          "last": "最終",
+          "duration": "飛行時間"
+        },
+        "airlinesCount": "{count}社 · {names}{more, select, yes { ほか} other {}}",
+        "count": {
+          "daily": "片道 {same, select, yes {{lo}便} other {{lo}〜{hi}便}}",
+          "total": "{same, select, yes {{lo}便} other {{lo}〜{hi}便}}（片道合計）",
+          "weekly": "週 {same, select, yes {{lo}便} other {{lo}〜{hi}便}}"
+        },
+        "special": {
+          "noRegular": "定期便なし — KTX · SRT を利用（約2時間40分）",
+          "irregular": "不定期 · 季節便が中心"
+        },
+        "minutes": "{n}分",
+        "note": "定期便の概要 · 季節・曜日で変わります。便名と正確な時刻は航空会社の時刻表で確認してください。",
+        "byAirline": "航空会社別の運航概要（片道 · 概算）",
+        "share": "この路線の便数の {pct}%",
+        "links": "航空会社の公式時刻表",
+        "busanNote": "国内線は済州路線が中心 · 国際線は日本・東南アジアが中心です。",
+        "process": {
+          "title": "{airport}空港の現在の手続き所要",
+          "at": "{at} 時点",
+          "minutes": "{n}分",
+          "steps": {
+            "a": "チェックイン → 本人確認",
+            "b": "本人確認 → 保安検査",
+            "c": "保安検査 → 搭乗",
+            "d": "搭乗 → 出発"
+          },
+          "note": "空港到着から搭乗まで手続き {all} 分 + 搭乗締切の余裕 {buffer} 分{floor, select, yes {（最低 {min} 分）} other {}} = {lead} 分を見込んでください · 韓国空港公社、5分ごとに更新"
         }
       }
     },

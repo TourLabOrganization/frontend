@@ -118,8 +118,59 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 **키가 필요해 미룬 것** (PoC는 공공데이터포털 키 `DATA_GO_KR_KEY`로 부른다)
 
 - 기상청 단기예보: PoC는 키가 있으면 오늘 · 내일을 기상청 값으로 덮어쓴다(`getKmaForecast`, 위경도 → 예보 격자 변환 포함)
-- 에어코리아 미세먼지: PoC 날씨 칸 아래의 대기질 줄. 그래서 제목은 PoC의 「날씨 · 미세먼지」가 아니라 「날씨」다
-- 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`)
+- 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`). 미세먼지는 아래 `/api/air`로 붙였다
+
+### 인기 관광지 `GET /api/tour/popular?city=&locale=`
+
+홈 「지금 인기 관광지」(`features/home/PopularAttractions`). 코드는 `app/api/tour/popular/route.ts`, 처리는 `lib/tour-popular.ts`(서버 전용), 공통 타입은 `lib/tour.ts`.
+
+- **원천**: 장소 시트 방문 집중률과 같은 한국관광공사 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`.
+  관광지 이름(`tAtsNm`) 없이 `areaCd` · `signguCd`만 넣어 그 시군구 관광지 전체의 날짜별 집중률을 받는다(쪽당 1,000행, 시군구당 최대 5쪽)
+- **도시**: 칩 8곳(`POPULAR_CITIES`: 서울 · 부산 · 제주 · 경주 · 강릉 · 전주 · 인천 · 속초). 도시마다 플래너 장소(숙박 제외)가 많은 시군구 순으로 장소 5곳 이상인 곳 최대 4곳을 부른다(서울: 종로 · 송파 · 영등포 · 용산, 부산: 해운대 · 기장 · 영도 · 부산진)
+- **순위**: 기준 날짜(오늘, 없으면 오늘 이후 가장 이른 날)의 집중률이 높은 순 10곳. 수준(여유 · 보통 · 혼잡)은 장소 시트와 같은 40 · 70% 기준
+- **장소 연결**: 같은 도시 · 같은 시군구 플래너 장소 중 이름 점수(장소 시트 방문 집중률과 같은 규칙) 2점 이상이면 그 장소 id와 화면 언어 이름을 붙이고,
+  홈 목록은 그 줄을 투어 플래너 지도의 장소 시트(`/planner?city=&place=`)로 잇는다. 맞는 장소가 없으면 한국관광공사 이름(한국어)을 글자로만 둔다
+- **입력**: 도시(8곳 중 하나) · 화면 언어뿐. 틀리면 400. 키가 없으면 503, 모든 시군구 실패면 502, 결과가 없으면 `{ "empty": true }` — 홈은 키가 없으면 섹션째 숨긴다
+- **응답**: `{ "date", "items": [{ "name", "district", "rate", "id" }] }`. 캐시 6시간(장소 시트 방문 집중률과 같다)
+
+### 대표 사진 `GET /api/tour/photo?id=`
+
+장소 시트 맨 위 사진. 장소 자료(플래너 `place-details.json` · 테마 `extras.json`)에 사진이 없는 장소만 시트가 부른다. 코드는 `app/api/tour/photo/route.ts`,
+처리는 `lib/tour-photo.ts`(서버 전용), 클라이언트가 쓰는 응답 타입은 `components/ui/place-photo.ts`.
+
+- **순서**(PoC `loadPhoto`): ① 한국관광공사 국문 관광정보 `KorService2/searchKeyword2`의 대표 이미지(`firstimage`) — 제목이 이름과 같음 0 · 이름으로 끝남 1 · 이름으로 시작 2,
+  같지 않으면 제목이 8글자 넘게 길면 제외, 거리 같은 이름 12km · 나머지 3km 이내, 숙박 · 쇼핑 · 코스 제외, 관광지 · 문화시설 · 레포츠가 음식점보다 먼저 →
+  ② 관광사진 `PhotoGalleryService1/gallerySearchList1`(제목이 같거나 서로 품는 사진) → ③ 한국어 위키백과 요약의 대표 이미지(SVG 제외, 800px)
+- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). 키가 없으면 ③만 본다(위키백과는 키가 없다)
+- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
+  시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 한 단계가 실패해도 다음 단계로 넘어간다
+- **캐시**: 7일(대표 사진은 자주 바뀌지 않는다). 클라이언트는 하루
+- **옮기지 않은 것**: PoC 제주 브랜드 콘텐츠 이미지(`api.brandcontents.or.kr`)는 HTTP 주소라 HTTPS 앱에서 브라우저가 막는다
+
+### 미세먼지 `GET /api/air?lat=..&lng=..[&id=..]`
+
+장소 시트 날씨 칸 아래의 「미세먼지 · 시도 평균」 줄(PoC 날씨 · 미세먼지 칸). 코드는 `app/api/air/route.ts`, 순수 함수는 `lib/air-quality.ts`.
+
+- **원천**: 한국환경공단 에어코리아 대기오염정보 `B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty`
+  (`returnType=json` · `numOfRows=200` · `ver=1.3` · `sidoName`). 키 `DATA_GO_KR_KEY`, 공공데이터포털에서 「한국환경공단_에어코리아_대기오염정보」 활용신청 필요
+- **규칙**(PoC `shared.js` `getAirQuality`): 시도 모든 측정소의 PM10 · PM2.5 평균(빈 값 · 「-」 제외, 반올림) → 등급은 둘 중 나쁜 쪽
+  (PM10 30 · 80 · 150, PM2.5 15 · 35 · 75 이하 → 좋음 · 보통 · 나쁨 · 매우나쁨). 측정소 하나를 고르지 않는다
+- **시도 정하기**: `id`(플래너 장소 id)가 있으면 서버가 그 장소의 시군구 코드 앞 2자리로 정한다(광주 · 전남 통합 코드 12는 두 시도청 중 가까운 쪽).
+  코드가 없으면 PoC처럼 가장 가까운 시도청(`SIDO_CENTERS` 17곳). PoC 방식만 쓰면 경주가 울산 값을 받아 코드를 먼저 본다
+- **입력**: 좌표는 날씨와 같은 검사(한국 범위, 소수 2자리). 틀리면 400
+- **응답**: `{ "sido", "pm10", "pm25", "grade": 1–4, "stations", "at" }`. 키가 없으면 503, 외부 실패 · 값 없음이면 502 — 화면은 줄을 숨긴다(PoC와 같다)
+- **캐시**: 서버 fetch 30분(같은 시도의 장소가 한 번의 호출을 함께 쓴다), `Cache-Control` 30분, 클라이언트 `staleTime` 30분.
+  서버에 키가 없으면(`TourApiProvider`) 부르지 않는다
+
+### 공항 수속 소요 `GET /api/airport/process`
+
+플래너 코스 탭 항공편 카드(`features/planner/FlightCard`)의 「○○공항 지금 수속 소요」. 코드는 `app/api/airport/process/route.ts`, 순수 함수는 `lib/airport-process.ts`.
+
+- **원천**: 한국공항공사 공항 소요시간 `B551178/airport-process-time/v1`(`type=json`). 김포 · 제주 · 김해 · 청주 · 대구. 키 `DATA_GO_KR_KEY`, 「한국공항공사_공항 소요시간 정보」 활용신청 필요
+- **규칙**(PoC `getAirportProcess` · `aptLeadMin`): `STY_TCT_AVG_ALL · A · B · C · D`(초) → 분(반올림). 탑승까지 잡을 시간 = 수속 + 20분, 최소 30분(안내 문장에만 쓰고 일정 계산은 바꾸지 않는다)
+- **응답**: `{ "GMP": { "all", "a", "b", "c", "d", "at" }, … }`. 키가 없으면 503, 외부 실패면 502 — 카드는 그 칸만 숨긴다
+- **캐시**: 5분(공사가 5분마다 갱신)
+- **옮기지 않은 것**: PoC 실시간 운항 편성(`loadFlights`)은 PoC에서도 요청 주소(`KAC_ENDPOINT`)가 비어 꺼져 있다. 편성은 PoC 하드코딩 요약(`data/flights.json`)을 보인다
 
 ### 한국관광공사 칸 `GET /api/tour/audio` · `/api/tour/related` · `/api/tour/crowd`
 

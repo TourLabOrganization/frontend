@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "Close",
     "photoCredit": "Photo: {credit}",
+    "photoSources": {
+      "kto": "Korea Tourism Organization",
+      "ktoGallery": "Korea Tourism Organization photo gallery",
+      "wikipedia": "Wikipedia"
+    },
     "hours": "Opening hours",
     "checkIn": "Check-in {time}",
     "checkOut": "Check-out {time}",
@@ -78,6 +83,35 @@
         "snowShowers": "Snow showers",
         "thunderstorm": "Thunderstorm",
         "unknown": "No data"
+      }
+    },
+    "air": {
+      "title": "Fine dust · {sido} average",
+      "values": "PM10 {pm10} · PM2.5 {pm25} µg/m³ · AirKorea",
+      "grade": {
+        "1": "Good",
+        "2": "Moderate",
+        "3": "Unhealthy",
+        "4": "Very unhealthy"
+      },
+      "sido": {
+        "서울": "Seoul",
+        "부산": "Busan",
+        "대구": "Daegu",
+        "인천": "Incheon",
+        "광주": "Gwangju",
+        "대전": "Daejeon",
+        "울산": "Ulsan",
+        "세종": "Sejong",
+        "경기": "Gyeonggi",
+        "강원": "Gangwon",
+        "충북": "Chungbuk",
+        "충남": "Chungnam",
+        "전북": "Jeonbuk",
+        "전남": "Jeonnam",
+        "경북": "Gyeongbuk",
+        "경남": "Gyeongnam",
+        "제주": "Jeju"
       }
     },
     "tour": {
@@ -168,7 +202,7 @@
     "myThemesHeading": "My themes",
     "pickCourseHeading": "Pick my route",
     "pickCourseTitle": "We'll pick the theme and route that suit you",
-    "pickCourseMeta": "{total} questions · about 1 min",
+    "pickCourseMeta": "{min}–{max} questions · about 1 min",
     "courseTitle": "{region}, {duration}",
     "citytour": {
       "heading": "City tours by region",
@@ -211,7 +245,7 @@
       "add": "Add to course builder",
       "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
       "addDisabled": "The places on this tour aren't in the app yet, so it can't be added to the course builder",
-      "more": "Show more ({count} left)",
+      "scrollHint": "{count} tours · scroll inside the box to see them all",
       "date": "As of {date}",
       "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
       "confirm": {
@@ -230,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "{videos, plural, one {# location} other {# locations}} · {transport}",
+    "attractions": {
+      "heading": "Popular spots now",
+      "date": "as of {date}",
+      "note": "Ranked by the Korea Tourism Organization's visitor concentration forecast. Higher means busier.",
+      "citiesLabel": "Cities",
+      "empty": "No visitor concentration forecast for {city} yet",
+      "error": "Couldn't load popular spots",
+      "retry": "Try again",
+      "source": "Source: Korea Tourism Organization visitor concentration forecast"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",
@@ -254,7 +298,7 @@
     "lastTheme": "Top theme: {theme}",
     "lastAction": "See my results again",
     "emptyTitle": "We'll find the theme that suits you",
-    "emptyMeta": "No recommendation yet · {total} questions",
+    "emptyMeta": "No recommendation yet · {min}–{max} questions",
     "savedHeading": "Saved plans",
     "savedCount": "{count}",
     "savedAt": "Saved {date}",
@@ -315,7 +359,7 @@
       },
       "s4": {
         "title": "What are the two things you most want to do on this trip?",
-        "help": "Pick your two top interests. You'll get a follow-up question for each",
+        "help": "Pick your two top interests. Follow-up questions about them come next",
         "options": {
           "drama": "K-drama & K-pop locations",
           "performance": "Shows & concerts",
@@ -1129,6 +1173,60 @@
           "times": "Usual departures",
           "warn": "{monthName} sees {pct} cancellations on this route — keep a flight or a spare day as backup.",
           "src": "Source: KOMSA route sailing records"
+        }
+      },
+      "flights": {
+        "title": {
+          "jeju": "Jeju route flights",
+          "busan": "Gimhae Airport flights"
+        },
+        "direction": "Direction",
+        "dir": {
+          "jeju": {
+            "to": "To Jeju (choose origin)",
+            "from": "From Jeju (choose destination)"
+          },
+          "busan": {
+            "from": "From Gimhae (choose destination)",
+            "to": "To Gimhae (choose origin)"
+          }
+        },
+        "fromAirport": "From",
+        "toAirport": "To",
+        "rows": {
+          "airlines": "Airlines",
+          "daily": "Daily",
+          "first": "First",
+          "last": "Last",
+          "duration": "Flight time"
+        },
+        "airlinesCount": "{count} airlines · {names}{more, select, yes { +} other {}}",
+        "count": {
+          "daily": "{same, select, yes {{lo}} other {{lo}–{hi}}} one-way flights",
+          "total": "{same, select, yes {{lo}} other {{lo}–{hi}}} flights (one-way total)",
+          "weekly": "{same, select, yes {{lo}} other {{lo}–{hi}}} flights a week"
+        },
+        "special": {
+          "noRegular": "No scheduled flights — take KTX/SRT (about 2 h 40 min)",
+          "irregular": "Mostly charter and seasonal flights"
+        },
+        "minutes": "{n} min",
+        "note": "Typical schedule · varies by season and weekday. Check the airline timetables for flight numbers and exact times.",
+        "byAirline": "By airline (one-way, approximate)",
+        "share": "{pct}% of flights on this route",
+        "links": "Airline timetables",
+        "busanNote": "Domestic flights are mainly to Jeju; international routes serve Japan and Southeast Asia.",
+        "process": {
+          "title": "Processing now at {airport} Airport",
+          "at": "as of {at}",
+          "minutes": "{n} min",
+          "steps": {
+            "a": "Check-in → ID check",
+            "b": "ID check → Security",
+            "c": "Security → Boarding",
+            "d": "Boarding → Departure"
+          },
+          "note": "Allow {all} min of processing + {buffer} min before boarding closes{floor, select, yes { (at least {min} min)} other {}} = {lead} min from arrival at the airport · Korea Airports Corporation, updated every 5 min"
         }
       }
     },

@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "닫기",
     "photoCredit": "사진: {credit}",
+    "photoSources": {
+      "kto": "한국관광공사",
+      "ktoGallery": "한국관광공사 관광사진",
+      "wikipedia": "위키백과"
+    },
     "hours": "운영시간",
     "checkIn": "체크인 {time}",
     "checkOut": "체크아웃 {time}",
@@ -78,6 +83,35 @@
         "snowShowers": "눈 소나기",
         "thunderstorm": "뇌우",
         "unknown": "날씨 정보 없음"
+      }
+    },
+    "air": {
+      "title": "미세먼지 · {sido} 평균",
+      "values": "PM10 {pm10} · PM2.5 {pm25} ㎍/㎥ · 에어코리아",
+      "grade": {
+        "1": "좋음",
+        "2": "보통",
+        "3": "나쁨",
+        "4": "매우나쁨"
+      },
+      "sido": {
+        "서울": "서울",
+        "부산": "부산",
+        "대구": "대구",
+        "인천": "인천",
+        "광주": "광주",
+        "대전": "대전",
+        "울산": "울산",
+        "세종": "세종",
+        "경기": "경기",
+        "강원": "강원",
+        "충북": "충북",
+        "충남": "충남",
+        "전북": "전북",
+        "전남": "전남",
+        "경북": "경북",
+        "경남": "경남",
+        "제주": "제주"
       }
     },
     "tour": {
@@ -168,7 +202,7 @@
     "myThemesHeading": "나의 테마",
     "pickCourseHeading": "내 코스 고르기",
     "pickCourseTitle": "나에게 맞는 테마와 코스를 골라 드려요",
-    "pickCourseMeta": "{total}개 문항 · 약 1분",
+    "pickCourseMeta": "{min}~{max}개 문항 · 약 1분",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "지역 시티투어",
@@ -211,7 +245,7 @@
       "add": "코스빌더에 넣기",
       "addHint": "경유지 중 앱에 있는 장소 {count}곳을 투어 플래너 코스에 담아요",
       "addDisabled": "이 코스가 들르는 곳이 아직 앱에 없어 코스빌더에 담을 수 없어요",
-      "more": "더 보기(남은 {count}개)",
+      "scrollHint": "{count}곳 · 칸 안에서 아래로 스크롤해 모두 보세요",
       "date": "기준일 {date}",
       "dataNote": "노선 정보는 코스마다 기준일이 달라요. 시티투어는 버스 시간에 맞춰 움직여서 코스빌더의 일정 시간은 참고용이에요",
       "confirm": {
@@ -230,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "촬영지 {videos}곳 · {transport}",
+    "attractions": {
+      "heading": "지금 인기 관광지",
+      "date": "{date} 기준",
+      "note": "한국관광공사 방문 집중률 예측이 높은 순이에요. 높을수록 붐빌 것으로 예측돼요.",
+      "citiesLabel": "도시",
+      "empty": "{city}의 방문 집중률 예측이 아직 없어요",
+      "error": "인기 관광지를 불러오지 못했어요",
+      "retry": "다시 시도",
+      "source": "출처: 한국관광공사 관광지 집중률 방문자 추이 예측"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",
@@ -254,7 +298,7 @@
     "lastTheme": "1위 테마 {theme}",
     "lastAction": "추천 결과 다시 보기",
     "emptyTitle": "나에게 맞는 테마를 찾아 드려요",
-    "emptyMeta": "아직 추천받은 테마가 없어요 · {total}개 문항",
+    "emptyMeta": "아직 추천받은 테마가 없어요 · {min}~{max}개 문항",
     "savedHeading": "저장된 플랜",
     "savedCount": "{count}개",
     "savedAt": "{date} 저장",
@@ -315,7 +359,7 @@
       },
       "s4": {
         "title": "이번 여행에서 가장 하고 싶은 것 두 가지는 무엇인가요?",
-        "help": "가장 하고 싶은 관심사 두 가지를 골라 주세요. 고른 관심사마다 맞춘 질문이 이어져요",
+        "help": "가장 하고 싶은 관심사 두 가지를 골라 주세요. 고른 관심사에 맞춘 질문이 이어져요",
         "options": {
           "drama": "드라마·K팝 촬영지",
           "performance": "공연·콘서트",
@@ -1129,6 +1173,60 @@
           "times": "최근 1년 주요 출항",
           "warn": "{month}월은 이 항로의 통제율이 {pct}로 높은 편이에요. 결항에 대비해 항공편이나 하루 여유 일정을 함께 잡아 두세요.",
           "src": "출처: 한국해양교통안전공단 항로별 여객선 운항상황 (선박: {ships})"
+        }
+      },
+      "flights": {
+        "title": {
+          "jeju": "제주 노선 운항 현황",
+          "busan": "김해공항 노선 운항 현황"
+        },
+        "direction": "방향",
+        "dir": {
+          "jeju": {
+            "to": "제주 도착 (출발지 선택)",
+            "from": "제주 출발 (도착지 선택)"
+          },
+          "busan": {
+            "from": "김해 출발 (도착지 선택)",
+            "to": "김해 도착 (출발지 선택)"
+          }
+        },
+        "fromAirport": "출발 공항",
+        "toAirport": "도착 공항",
+        "rows": {
+          "airlines": "운항 항공사",
+          "daily": "일 운항",
+          "first": "첫 출발",
+          "last": "막 출발",
+          "duration": "비행 시간"
+        },
+        "airlinesCount": "{count}개사 · {names}{more, select, yes { 외} other {}}",
+        "count": {
+          "daily": "편도 {same, select, yes {{lo}편} other {{lo}~{hi}편}}",
+          "total": "{same, select, yes {{lo}편} other {{lo}~{hi}편}} (편도 합계)",
+          "weekly": "주 {same, select, yes {{lo}편} other {{lo}~{hi}편}}"
+        },
+        "special": {
+          "noRegular": "정기 운항 없음 — KTX · SRT 이용(2시간 40분대)",
+          "irregular": "부정기 · 계절편 위주"
+        },
+        "minutes": "{n}분",
+        "note": "정기 편성 요약 · 시즌 · 요일에 따라 달라집니다. 편명과 정확한 시각은 항공사 시간표에서 확인하세요.",
+        "byAirline": "항공사별 운항 개요 (편도 · 추정)",
+        "share": "노선 편수의 {pct}%",
+        "links": "항공사별 공식 시간표",
+        "busanNote": "국내선은 제주 노선 중심 · 국제선은 일본 · 동남아 위주로 운항합니다.",
+        "process": {
+          "title": "{airport}공항 지금 수속 소요",
+          "at": "{at} 기준",
+          "minutes": "{n}분",
+          "steps": {
+            "a": "체크인 → 신분 확인",
+            "b": "신분 확인 → 보안 검색",
+            "c": "보안 검색 → 탑승",
+            "d": "탑승 → 출발"
+          },
+          "note": "공항 도착 후 탑승까지 수속 {all}분 + 탑승 마감 여유 {buffer}분{floor, select, yes { (최소 {min}분)} other {}} = {lead}분을 잡으세요 · 한국공항공사, 5분마다 갱신"
         }
       }
     },

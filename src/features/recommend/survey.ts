@@ -133,10 +133,10 @@ export const INTEREST_COUNT = 2;
 const INTEREST_SEPARATOR = "_";
 
 /**
- * 안내 문구의 문항 수(공통 6 + 관심사 분기 2). 두 관심사의 분기가 같으면(36개 조합 중 2개) 7개,
- * F1은 필요할 때만 묻는 추가 문항이라 세지 않는다(§11: 7~9개)
+ * 안내 문구의 문항 수 범위(§11): 공통 6 + 관심사 분기 1~2(두 관심사의 분기가 같으면 1) + 필요할 때 F1 → 7~9개
  */
-export const QUESTION_COUNT = COMMON_IDS.length + INTEREST_COUNT;
+export const MIN_QUESTIONS = COMMON_IDS.length + 1;
+export const MAX_QUESTIONS = COMMON_IDS.length + INTEREST_COUNT + 1;
 
 /** S4 관심사 → 분기 문항(명세서 §07) */
 export const BRANCH_BY_INTEREST: Readonly<Record<Interest, BranchId>> = {
@@ -547,7 +547,8 @@ export function typePercents(
 
 /**
  * 답을 바꾼다(화면과 테스트가 함께 쓴다). 같은 보기를 다시 고르면 그대로다. option이 undefined면 답을 지운다(S4를 모두 뺐을 때).
- * - S4를 바꾸면 더 이상 묻지 않는 B 답을 지운다(분기가 바뀐다, §07). 남는 관심사의 B 답은 그대로 둔다
+ * - S4를 바꾸면 더 이상 묻지 않는 B 답을 지운다(분기가 바뀐다, §07). 남는 관심사의 B 답은 그대로 둔다.
+ *   화면에서는 관심사를 하나 빼고(고르는 중) 다른 것을 더해 바꾸므로, 고르는 중에도 남은 관심사의 B 답을 지우지 않는다
  * - S1~S6 · B 중 무엇이든 바꾸면 F1 답을 지운다(F1 후보 E₀가 바뀔 수 있다)
  */
 export function withAnswer(
@@ -560,7 +561,7 @@ export function withAnswer(
   if (option === undefined) delete next[id];
   else next[id] = option;
   if (id === "s4") {
-    const keep = activeBranches(next);
+    const keep = branchesOf(parseInterests(next.s4) ?? []);
     for (const b of BRANCH_IDS) if (!keep.includes(b)) delete next[b];
   }
   if (id !== F1) delete next[F1];

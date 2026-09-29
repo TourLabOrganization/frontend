@@ -120,15 +120,19 @@ export function RecommendFlow() {
             className="mt-2 text-label text-fg-muted"
           >
             {help}
-            {isS4 && (
-              <span className="ml-1 font-semibold text-primary">
-                {t("pickedCount", {
-                  count: interests.length,
-                  total: INTEREST_COUNT,
-                })}
-              </span>
-            )}
           </p>
+          {isS4 && (
+            // 고른 수만 따로 읽힌다(누를 때마다 도움말 전체를 다시 읽지 않게)
+            <p
+              aria-live="polite"
+              className="mt-1 text-label font-semibold text-primary"
+            >
+              {t("pickedCount", {
+                count: interests.length,
+                total: INTEREST_COUNT,
+              })}
+            </p>
+          )}
         </div>
         <div
           role={isS4 ? "group" : "radiogroup"}
