@@ -12,11 +12,15 @@ import { encodeAnswers } from "./answers";
 import {
   type Answers,
   F1,
+  INTEREST_COUNT,
+  type Interest,
   isTypeId,
   optionsOf,
-  QUESTION_COUNT,
+  parseInterests,
   type QuestionId,
+  questionCount,
   questionPath,
+  toggleInterest,
   withAnswer,
 } from "./survey";
 
@@ -25,7 +29,8 @@ type QuestionMessages = Record<
   { title: string; help?: string; options: Record<string, string> }
 >;
 
-// 설문 6.3 흐름(survey.ts): S1~S6 → S4가 정한 B → (필요하면) F1 → 결과. 한 화면에 한 문항, 모두 필수라 건너뛰기가 없다.
+// 설문 6.4 흐름(survey.ts): S1~S6 → S4 두 관심사가 정한 B 1~2개 → (필요하면) F1 → 결과. 한 화면에 한 문항, 모두 필수라 건너뛰기가 없다.
+// S4만 두 개를 고르는 체크박스이고(세 번째는 고를 수 없다), 나머지는 하나를 고르는 라디오다.
 // 끝나면 답을 URL에 담아 결과 화면으로 간다. 앞 문항으로 돌아가 답을 바꾸면 survey.ts withAnswer 규칙대로 뒤 답을 지운다
 export function RecommendFlow() {
   const router = useRouter();
@@ -49,11 +54,19 @@ export function RecommendFlow() {
 
   const path = questionPath(answers);
   const index = path.indexOf(current);
+  const total = questionCount(answers);
+  const isS4 = current === "s4";
+  const interests = isS4 ? (parseInterests(answers.s4) ?? []) : [];
   // B는 지금 고른 보기로 F1이 필요해지면 다음 문항이 있다
   const isLast = index === path.length - 1;
   const isF1 = current === F1;
   const copy = messages[current];
   const selected = answers[current];
+  const isSelected = (option: string) =>
+    isS4 ? interests.includes(option as Interest) : selected === option;
+  const done = isS4
+    ? interests.length === INTEREST_COUNT
+    : selected !== undefined;
   // B는 도움말이 하나(branchHelp)다
   const help = copy.help ?? t("branchHelp");
   // F1의 유형 보기는 유형 이름이 아니라 경험 설명(종이 설문과 같다). 마지막 보기는 「위 경험들이 비슷하게 중요해요」
@@ -84,14 +97,14 @@ export function RecommendFlow() {
       <main className="flex flex-1 flex-col">
         <div className="px-6 pt-2">
           <ProgressBar
-            value={isF1 ? QUESTION_COUNT : index + 1}
-            max={QUESTION_COUNT}
+            value={isF1 ? total : index + 1}
+            max={total}
             label={t("progressLabel")}
           />
           <p className="mt-6 text-label font-semibold text-primary">
             {isF1
               ? t("extraLabel")
-              : t("counter", { current: index + 1, total: QUESTION_COUNT })}
+              : t("counter", { current: index + 1, total })}
           </p>
           <h1
             id={`${current}-title`}
@@ -107,10 +120,18 @@ export function RecommendFlow() {
             className="mt-2 text-label text-fg-muted"
           >
             {help}
+            {isS4 && (
+              <span className="ml-1 font-semibold text-primary">
+                {t("pickedCount", {
+                  count: interests.length,
+                  total: INTEREST_COUNT,
+                })}
+              </span>
+            )}
           </p>
         </div>
         <div
-          role="radiogroup"
+          role={isS4 ? "group" : "radiogroup"}
           aria-labelledby={`${current}-title`}
           aria-describedby={`${current}-help`}
           className="mt-6 flex flex-col gap-2 px-5"
@@ -119,16 +140,30 @@ export function RecommendFlow() {
             <OptionItem
               key={option}
               label={label(option)}
-              selected={selected === option}
+              selected={isSelected(option)}
+              multiple={isS4}
+              disabled={
+                isS4 &&
+                !isSelected(option) &&
+                interests.length >= INTEREST_COUNT
+              }
               onSelect={() =>
-                setAnswers((prev) => withAnswer(prev, current, option))
+                setAnswers((prev) =>
+                  isS4
+                    ? withAnswer(
+                        prev,
+                        "s4",
+                        toggleInterest(prev.s4, option as Interest),
+                      )
+                    : withAnswer(prev, current, option),
+                )
               }
             />
           ))}
         </div>
       </main>
       <BottomBar>
-        <Button block disabled={selected === undefined} onClick={goNext}>
+        <Button block disabled={!done} onClick={goNext}>
           {isLast ? t("seeResult") : t("next")}
         </Button>
       </BottomBar>

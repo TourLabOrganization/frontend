@@ -189,6 +189,7 @@
       "noRegion": "Ninguna región coincide",
       "regionHeading": "{region} · {count, plural, one {# tour} other {# tours}}",
       "rank": "#{rank}",
+      "reserved": "Lugar de {tag}",
       "kind": {
         "loop": "Circular",
         "fixed": "Fija"
@@ -271,6 +272,7 @@
   "Recommend": {
     "progressLabel": "Progreso del cuestionario",
     "counter": "{current} / {total}",
+    "pickedCount": "{count}/{total} elegidos",
     "extraLabel": "Pregunta adicional",
     "next": "Siguiente",
     "seeResult": "Ver resultado",
@@ -312,8 +314,8 @@
         }
       },
       "s4": {
-        "title": "¿Qué es lo que más quieres hacer en este viaje?",
-        "help": "Elige solo tu interés principal. Después verás una pregunta más sobre él",
+        "title": "¿Cuáles son las dos cosas que más quieres hacer en este viaje?",
+        "help": "Elige tus dos intereses principales. Verás una pregunta más sobre cada uno",
         "options": {
           "drama": "Rodajes de K-drama y K-pop",
           "performance": "Shows y conciertos",
@@ -431,7 +433,9 @@
     "categoryShare": "{percent}% {category}",
     "night": "{percent}% con vistas nocturnas",
     "compareCourses": "Comparar 3 rutas",
-    "basis": "Base de cálculo · Encuesta 6.3 · Recomendación 6.4 (cálculo de referencia de la especificación del equipo)"
+    "basis": "Base · Encuesta 6.4 · Recomendación 6.5 (cálculo de referencia del equipo)",
+    "cityToursHeading": "City tours para ti",
+    "cityToursNote": "Elegidos según tu tipo de viajero y tus dos intereses. Cada interés tiene primero un lugar reservado."
   },
   "Clusters": {
     "C1": {

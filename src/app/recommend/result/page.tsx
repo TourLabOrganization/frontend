@@ -7,18 +7,34 @@ import { Chip } from "@/components/ui/Chip";
 import { Screen } from "@/components/ui/Screen";
 import { LocaleSwitch } from "@/components/ui/LocaleSwitch";
 import { TopBar } from "@/components/ui/TopBar";
+import {
+  type CityTour,
+  type CourseScoreProfile,
+  recommendTourPicks,
+  typeProfile,
+} from "@/features/home/citytour";
+import toursData from "@/features/home/data/citytour.json";
+import scoresData from "@/features/home/data/citytour-scores.json";
 import { decodeAnswers, encodeAnswers } from "@/features/recommend/answers";
+import { ResultCityTours } from "@/features/recommend/ResultCityTours";
 import { RememberRecommendation } from "@/features/recommend/RememberRecommendation";
 import { evaluate, typePercents } from "@/features/recommend/survey";
 import {
-  featuredCategory,
+  featuredCategories,
   INTEREST_TERM,
+  interestTerms,
   rankThemes,
   type ThemeScore,
 } from "@/features/recommend/theme-index";
 import { ThemeCard } from "@/features/recommend/ThemeCard";
 import { findTheme } from "@/features/recommend/themes";
 import { themeBackdrop } from "@/features/recommend/works";
+import { cityTourText } from "@/features/translations/text";
+
+const TOURS = toursData as CityTour[];
+/** 노선별 코스 점수 자료(TOURS와 같은 순서, 분석 적격이 아니면 null) */
+const PROFILES = scoresData as (CourseScoreProfile | null)[];
+const TOUR_INDEX = new Map(TOURS.map((tour, i) => [tour, i]));
 
 const percent = (value: number) => Math.round(value * 100);
 /** 보여 줄 추천 테마 수(명세서 §14 상위 3개) */
@@ -26,7 +42,8 @@ const TOP_THEMES = 3;
 /** 복합형 제목에 이름을 모두 적는 유형 수. 넘으면 앞 2개 + 「외 n개 유형」 */
 const NAMED_TYPES = 3;
 
-// 추천 결과. 설문 6.3으로 유형을 정하고(survey.ts evaluate) 추천 6.4로 테마 적합도 지수를 계산해(theme-index.ts) 네트워크 없이 보인다.
+// 추천 결과. 설문 6.4로 유형을 정하고(survey.ts evaluate) 추천 6.5로 테마 적합도 지수(theme-index.ts)와
+// 지역 시티투어 5개(home/citytour.ts recommendTourPicks, 홈 「내 유형 추천」과 같은 계산)를 네트워크 없이 보인다.
 // 명세서 §01에 따라 새 유형 점수를 기존 백엔드 추천(POST /api/v1/recommend)에 넘기지 않는다.
 // data-server가 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md). 완료된 응답이 아니면 설문으로 돌려보낸다
 export default async function RecommendResultPage({
@@ -47,7 +64,7 @@ export default async function RecommendResultPage({
   const common = await getTranslations("Common");
 
   const a0 = encodeAnswers(answers);
-  const { types, interest } = result;
+  const { types, interests } = result;
   const [primary] = types;
   const mixed = types.length > 1;
   // 복합형 비중 칩. 유형마다 반올림하면 합이 99% · 103%가 될 수 있어 합을 맞춘 값을 쓴다(survey.ts typePercents)
@@ -58,8 +75,9 @@ export default async function RecommendResultPage({
       ? names.join(" · ")
       : `${names.slice(0, 2).join(" · ")} ${t("moreTypes", { count: names.length - 2 })}`;
 
-  // 관심사 항: 분류 · 야경이면 지수에 더하고, 드라마 · 공연 · 쇼핑은 자료가 없어 더하지 않는다(null)
-  const term = INTEREST_TERM[interest];
+  // 관심사 항: 두 관심사 중 분류 · 야경이 있는 것의 평균을 지수에 더한다. 드라마 · 공연 · 쇼핑은 자료가 없어 빠진다
+  const terms = interestTerms(interests);
+  const missing = interests.filter((i) => INTEREST_TERM[i] === null);
   const [top, ...rest] = rankThemes(result).slice(0, TOP_THEMES);
   // 지수 · 기여는 소수 첫째 자리까지(확률 · 퍼센트로 보이지 않는다, 명세서 §15)
   const decimal = new Intl.NumberFormat(locale, {
@@ -69,25 +87,38 @@ export default async function RecommendResultPage({
   // 설문에 여행 조건 문항이 없어 코스 화면에 조건(?a=)을 넘기지 않는다
   const themeHref = (slug: string) => `/themes/${slug}?tab=course`;
 
+  // 지역 시티투어 5개: 코스 점수 순위에 관심사마다 한 자리를 먼저 채운다(추천 6.5). 외국어 화면은 고른 노선만 옮긴 글을 붙인다
+  const type = typeProfile(answers);
+  const tourPicks = type
+    ? recommendTourPicks(TOURS, type, PROFILES).map(
+        ({ tour, reservedFor }) => ({
+          index: TOUR_INDEX.get(tour) ?? -1,
+          reservedFor,
+          text: locale === "ko" ? undefined : cityTourText(tour, locale),
+        }),
+      )
+    : [];
+
   function badges(theme: ThemeScore): string[] {
     const type = decimal.format(theme.typePart);
     const list = [
       t("themeIndex", { value: decimal.format(theme.index) }),
-      term === null
+      terms.length === 0
         ? t("typeOnly", { type })
         : t("typeAndInterest", {
             type,
             interest: decimal.format(theme.interestPart),
           }),
     ];
-    const { category, share } = featuredCategory(theme, interest);
-    list.push(
-      t("categoryShare", {
-        category: tcat(category),
-        percent: percent(share),
-      }),
-    );
-    if (term === "night") {
+    for (const { category, share } of featuredCategories(theme, interests)) {
+      list.push(
+        t("categoryShare", {
+          category: tcat(category),
+          percent: percent(share),
+        }),
+      );
+    }
+    if (terms.includes("night")) {
       list.push(t("night", { percent: percent(theme.night) }));
     }
     return list;
@@ -162,11 +193,11 @@ export default async function RecommendResultPage({
             </span>
           </div>
           <p className="mt-1 text-caption text-fg-subtle">{t("indexNote")}</p>
-          {term === null && (
+          {missing.length > 0 && (
             <p className="mt-3 flex items-start gap-1.5 text-caption text-fg-muted">
               <Info size={16} className="mt-0.5 shrink-0" aria-hidden />
               {t("interestMissing", {
-                interest: tq(`s4.options.${interest}`),
+                interest: missing.map((i) => tq(`s4.options.${i}`)).join(" · "),
               })}
             </p>
           )}
@@ -177,7 +208,22 @@ export default async function RecommendResultPage({
               {rest.map((theme) => card(theme, false))}
             </div>
           )}
-          <p className="mt-6 text-micro text-fg-subtle">{t("basis")}</p>
+        </section>
+
+        {tourPicks.length > 0 && (
+          <section className="mt-10 px-5" aria-labelledby="tours-heading">
+            <h2 id="tours-heading" className="text-headline font-bold">
+              {t("cityToursHeading")}
+            </h2>
+            <p className="mt-1 text-caption text-fg-subtle">
+              {t("cityToursNote")}
+            </p>
+            <ResultCityTours picks={tourPicks} />
+          </section>
+        )}
+
+        <section className="mt-6 px-5">
+          <p className="text-micro text-fg-subtle">{t("basis")}</p>
           <p className="mt-1 text-micro text-fg-subtle">
             {common("tmdbCredit")}
           </p>

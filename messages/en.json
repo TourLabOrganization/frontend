@@ -189,6 +189,7 @@
       "noRegion": "No matching region",
       "regionHeading": "{region} · {count, plural, one {# tour} other {# tours}}",
       "rank": "#{rank}",
+      "reserved": "{tag} interest pick",
       "kind": {
         "loop": "Loop",
         "fixed": "Fixed route"
@@ -271,6 +272,7 @@
   "Recommend": {
     "progressLabel": "Question progress",
     "counter": "{current} / {total}",
+    "pickedCount": "{count}/{total} selected",
     "extraLabel": "One more question",
     "next": "Next",
     "seeResult": "See my result",
@@ -312,8 +314,8 @@
         }
       },
       "s4": {
-        "title": "What's the one thing you most want to do on this trip?",
-        "help": "Pick just one — your top interest. You'll get one more question about it",
+        "title": "What are the two things you most want to do on this trip?",
+        "help": "Pick your two top interests. You'll get a follow-up question for each",
         "options": {
           "drama": "K-drama & K-pop locations",
           "performance": "Shows & concerts",
@@ -431,7 +433,9 @@
     "categoryShare": "{percent}% {category}",
     "night": "{percent}% night-view spots",
     "compareCourses": "Compare 3 routes",
-    "basis": "Calculation basis · Survey 6.3 · Recommendation 6.4 (reference calculation in the team specification)"
+    "basis": "Basis · Survey 6.4 · Recommendation 6.5 (team spec reference calculation)",
+    "cityToursHeading": "City tours that fit you",
+    "cityToursNote": "Picked from your travel type and your two interests. Each interest gets one spot first."
   },
   "Clusters": {
     "C1": {

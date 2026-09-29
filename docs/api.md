@@ -83,8 +83,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 
 - 추천 점수 · 일정 계산은 data-server가 정본이다. 백엔드가 중계하는 결과는 프론트에서 다시 계산하지 않고 그대로 보인다.
   백엔드 결과가 이상하면 프론트에서 고치지 않고 백엔드에 알린다
-- **설문 결과(테마 추천)는 `POST /api/v1/recommend`를 부르지 않는다.** 팀 명세서 integrated 6.4(2026-09-29) §01이 새 유형(C1~C10) 이름 · 점수를
-  기존 recommendV4에 그대로 넘기지 않는다고 정했고, 이 API(recommendV4 계열)는 새 설문 6.3을 받지 못하며, data-server에는 설문 6.3 · 추천 6.4 API가 아직 없다.
+- **설문 결과(테마 추천)는 `POST /api/v1/recommend`를 부르지 않는다.** 팀 명세서 integrated 6.5(2026-09-29) §01이 새 유형(C1~C10) 이름 · 점수를
+  기존 recommendV4에 그대로 넘기지 않는다고 정했고, 이 API(recommendV4 계열)는 새 설문 6.4를 받지 못하며, data-server에는 설문 6.4 · 추천 6.5 API가 아직 없다.
   그래서 명세서의 참조 계산(순수 함수)을 프론트로 옮겨 네트워크 없이 계산한다(`features/recommend/survey.ts` · `theme-index.ts`, 규칙은 `docs/structure.md` 「추천과 데이터랩」).
   **data-server가 그 API를 내면 그 API를 부르도록 바꾼다**(그때는 위 원칙대로 받은 결과를 그대로 보인다)
 

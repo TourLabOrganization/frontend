@@ -12,7 +12,7 @@ import { matchesQuery } from "@/lib/text-search";
 import {
   type CityTour,
   type CourseScoreProfile,
-  recommendTours,
+  recommendTourPicks,
   regionCounts,
   typeProfile,
 } from "./citytour";
@@ -45,7 +45,7 @@ function compare(a: string, b: string) {
 }
 
 // 홈 「지역 시티투어」(목업: 배너 다음). 탭 두 칸 「내 유형 추천」 · 「지역별 검색」.
-// 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.3 결과(최종 유형 · 간접 선호 u · S3 · S4 · S6)로 citytour.ts recommendTours를 돌린다.
+// 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.4 결과(최종 유형 · 간접 선호 u · S3 · S4 두 관심사 · S6)로 citytour.ts recommendTourPicks를 돌린다(관심사별 1자리 보장).
 // 추천 기록이 있으면 내 유형 추천이, 없으면 지역별 검색(서울)이 먼저 열린다(목업과 같다).
 // 카드와 「코스빌더에 넣기」는 CityTourCard.tsx(플래너 여행 정보 탭과 함께 쓴다)
 export function CityTourSection({
@@ -66,10 +66,11 @@ export function CityTourSection({
     () => (lastA ? typeProfile(decodeAnswers(lastA)) : null),
     [lastA],
   );
-  const rec = useMemo(
-    () => (type ? recommendTours(TOURS, type, PROFILES) : []),
+  const picks = useMemo(
+    () => (type ? recommendTourPicks(TOURS, type, PROFILES) : []),
     [type],
   );
+  const rec = useMemo(() => picks.map((p) => p.tour), [picks]);
 
   const [chosenMode, setChosenMode] = useState<Mode | null>(null);
   const mode: Mode = chosenMode ?? (rec.length > 0 ? "rec" : "region");
@@ -280,6 +281,9 @@ export function CityTourSection({
                   tour={tour}
                   text={text}
                   rank={mode === "rec" ? i + 1 : undefined}
+                  reservedFor={
+                    mode === "rec" ? picks[i]?.reservedFor : undefined
+                  }
                   onAdd={() => onAdd(tour, text?.name)}
                 />
               );

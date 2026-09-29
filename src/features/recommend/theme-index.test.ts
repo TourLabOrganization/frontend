@@ -2,9 +2,10 @@ import { describe, expect, it } from "vitest";
 import { evaluate, type Answers, type SurveyResult } from "./survey";
 import {
   CATEGORIES,
-  featuredCategory,
+  featuredCategories,
   indirectPreference,
   INTEREST_TERM,
+  interestTerms,
   normalizedTypeProfile,
   rankThemes,
   TYPE_PROFILES,
@@ -12,15 +13,16 @@ import {
 import { THEMES } from "./themes";
 import { REFERENCE_CASES } from "./data/reference-cases";
 
-// 명세서 §15 예제(§37 혼합 응답): 설문 6.3 최종 C4 74.7 · C5 71.1, α 0.5517 · 0.4483
+// 명세서 §15 예제(§37 혼합 응답): 설문 6.4 최종 C4 78.4 · C5 73.6, α 0.5687 · 0.4313
 const MIXED: Answers = {
   s1: "30s",
   s2: "solo",
   s3: "relaxed",
-  s4: "history",
+  s4: "history_nature",
   s5: "quiet",
   s6: "morning",
   b2: "a",
+  b3: "none",
   f1: "balanced",
 };
 
@@ -52,39 +54,39 @@ describe("유형 프로필 W (명세서 §13)", () => {
       );
   });
 
-  it("간접 선호 u: C4 0.5517 · C5 0.4483 → [0.321, 0.434, 0.028, 0.128, 0.090]", () => {
+  it("간접 선호 u: C4 0.5687 · C5 0.4313 → [0.327, 0.429, 0.028, 0.128, 0.086]", () => {
     const u = indirectPreference(complete(MIXED));
-    close(u, [0.32069, 0.434483, 0.027586, 0.127586, 0.089655]);
+    close(u, [0.327463, 0.429403, 0.028433, 0.128433, 0.086269]);
     expect(u.reduce((a, b) => a + b, 0)).toBeCloseTo(1, 12);
   });
 
   it("단일형이면 그 유형의 정규화 프로필이다", () => {
-    const single = complete({ ...MIXED, b2: "none", f1: undefined });
+    const single = complete({ ...MIXED, b2: "none", b3: "a", f1: undefined });
     expect(single.types).toEqual(["C5"]);
     close(indirectPreference(single), normalizedTypeProfile("C5"));
   });
 });
 
 describe("테마 적합도 지수 (명세서 §14 · §15)", () => {
-  it("예제 순서와 값: 왕과 사는 남자 · RESCENE · 케데헌 · 제주 · 부산", () => {
+  it("예제 순서와 값: 왕과 사는 남자 · 제주 · 케데헌 · RESCENE · 부산 (관심사 항은 역사 · 자연 비중의 평균)", () => {
     const ranking = rankThemes(complete(MIXED));
     expect(ranking.map((t) => t.slug)).toEqual([
       "kings-warden",
-      "rescene-route",
-      "kpop-demon-hunters",
       "jeju-k-drama",
+      "kpop-demon-hunters",
+      "rescene-route",
       "busan-film-trip",
     ]);
     close(
       ranking.map((t) => t.index),
-      [31.798165, 25.70552, 25.263197, 23.848271, 18.522067],
+      [30.406435, 28.256644, 24.258385, 23.057768, 20.215158],
     );
-    const [kings, rescene, kpop, jeju, busan] = ranking;
-    close([kings.fit, 0.5 * kings.interest], [0.276972, 0.2]);
-    close([rescene.fit, 0.5 * rescene.interest], [0.221583, 0.164]);
-    close([kpop.fit, 0.5 * kpop.interest], [0.232301, 0.146647]);
-    close([jeju.fit, 0.5 * jeju.interest], [0.275224, 0.0825]);
-    close([busan.fit, 0.5 * busan.interest], [0.207331, 0.0705]);
+    const [kings, jeju, kpop, rescene, busan] = ranking;
+    close([kings.fit, 0.5 * kings.interest], [0.278347, 0.17775]);
+    close([jeju.fit, 0.5 * jeju.interest], [0.27335, 0.1505]);
+    close([kpop.fit, 0.5 * kpop.interest], [0.233495, 0.13038]);
+    close([rescene.fit, 0.5 * rescene.interest], [0.222617, 0.12325]);
+    close([busan.fit, 0.5 * busan.interest], [0.206727, 0.0965]);
   });
 
   it("화면에 나눠 보이는 기여의 합이 지수다 (유형 100F/1.5 + 관심사 100·0.5r/1.5)", () => {
@@ -100,23 +102,41 @@ describe("테마 적합도 지수 (명세서 §14 · §15)", () => {
       expect(t.shares.reduce((a, b) => a + b, 0)).toBeCloseTo(1, 12);
   });
 
-  it("S4 야경이면 관심사 항은 야경 비중(나누지 않은 값)이다", () => {
+  it("S4 야경의 항은 야경 비중(나누지 않은 값)이고, 자료 없는 관심사와 고르면 야경 항만 쓴다", () => {
     const result = complete({
       s1: "20s",
       s2: "couple",
       s3: "moderate",
-      s4: "night",
+      s4: "night_shopping-beauty",
       s5: "trending",
       s6: "evening",
       b6: "b",
+      b7: "a",
+      f1: "balanced",
     });
     expect(INTEREST_TERM.night).toBe("night");
+    expect(interestTerms(result.interests)).toEqual(["night"]);
     const byslug = Object.fromEntries(
       rankThemes(result).map((t) => [t.slug, t]),
     );
     expect(byslug["kings-warden"].interest).toBe(0.056);
     expect(byslug["kpop-demon-hunters"].interest).toBe(0.128);
     expect(byslug["busan-film-trip"].interest).toBe(0.141);
+  });
+
+  it("관심사 항은 두 관심사 항의 평균이다(바다 + 야경)", () => {
+    const result = complete({
+      s1: "20s",
+      s2: "couple",
+      s3: "moderate",
+      s4: "sea_night",
+      s5: "trending",
+      s6: "evening",
+      b3: "c",
+      b6: "b",
+    });
+    const busan = rankThemes(result).find((t) => t.slug === "busan-film-trip")!;
+    expect(busan.interest).toBeCloseTo((busan.shares[4] + 0.141) / 2, 12);
   });
 
   it("S4 드라마 · 공연 · 쇼핑은 관심사 자료가 없어 r = 0이다 (additional_metadata_required)", () => {
@@ -127,11 +147,12 @@ describe("테마 적합도 지수 (명세서 §14 · §15)", () => {
       s1: "teens",
       s2: "solo",
       s3: "packed",
-      s4: "drama",
+      s4: "drama_performance",
       s5: "trending",
       s6: "morning",
       b1: "a",
     });
+    expect(interestTerms(result.interests)).toEqual([]);
     for (const t of rankThemes(result)) {
       expect(t.interest).toBe(0);
       expect(t.interestPart).toBe(0);
@@ -148,29 +169,35 @@ describe("테마 적합도 지수 (명세서 §14 · §15)", () => {
     expect(INTEREST_TERM.sea).toBe("sea");
   });
 
-  it("카드의 분류 비중: 관심사 분류가 0보다 크면 그 분류, 아니면 가장 큰 분류", () => {
+  it("카드의 분류 비중: 관심사 분류가 0보다 크면 그 분류들(관심사 순), 하나도 없으면 가장 큰 분류", () => {
     const bySlug = Object.fromEntries(
       rankThemes(complete(MIXED)).map((t) => [t.slug, t]),
     );
-    // 역사 관심사 → 역사 비중
-    const history = featuredCategory(bySlug["kings-warden"], "history");
-    expect(history.category).toBe("herit");
-    expect(history.share).toBeCloseTo(0.4, 10);
-    // RESCENE 바다 관심사 → 바다 비중
-    const sea = featuredCategory(bySlug["rescene-route"], "sea");
-    expect(sea.category).toBe("sea");
-    expect(sea.share).toBeCloseTo(0.184, 10);
+    // 역사 · 자연 관심사 → 두 비중
+    const both = featuredCategories(bySlug["kings-warden"], [
+      "history",
+      "nature",
+    ]);
+    expect(both.map((x) => x.category)).toEqual(["herit", "heal"]);
+    expect(both[0].share).toBeCloseTo(0.4, 10);
+    expect(both[1].share).toBeCloseTo(0.311, 10);
+    // RESCENE 바다 관심사 → 바다 비중(드라마는 분류가 없어 빠진다)
+    const sea = featuredCategories(bySlug["rescene-route"], ["drama", "sea"]);
+    expect(sea).toHaveLength(1);
+    expect(sea[0].category).toBe("sea");
+    expect(sea[0].share).toBeCloseTo(0.184, 10);
     // 왕과 사는 남자는 바다 0 → 가장 큰 역사
-    expect(featuredCategory(bySlug["kings-warden"], "sea").category).toBe(
-      "herit",
-    );
-    // 야경 · 자료 없는 관심사는 가장 큰 분류(제주 자연)
-    expect(featuredCategory(bySlug["jeju-k-drama"], "night").category).toBe(
-      "heal",
-    );
-    expect(featuredCategory(bySlug["jeju-k-drama"], "drama").category).toBe(
-      "heal",
-    );
+    expect(
+      featuredCategories(bySlug["kings-warden"], ["sea", "night"]).map(
+        (x) => x.category,
+      ),
+    ).toEqual(["herit"]);
+    // 야경 · 자료 없는 관심사만이면 가장 큰 분류(제주 자연)
+    expect(
+      featuredCategories(bySlug["jeju-k-drama"], ["drama", "night"]).map(
+        (x) => x.category,
+      ),
+    ).toEqual(["heal"]);
   });
 
   it("테마 5개 모두 지수를 낸다(THEMES 순서 = 명세서 표 순서)", () => {
