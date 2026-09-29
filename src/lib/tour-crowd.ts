@@ -6,6 +6,8 @@
 import { TOUR_CROWD_SECONDS, type TourCrowd, type TourCrowdDay } from "./tour";
 import {
   fetchTourItems,
+  inSigngu,
+  signguVariants,
   parseTourQuery,
   tourApiKey,
   tourApiUrl,
@@ -88,17 +90,24 @@ export async function findCrowd(
   const keyword = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (keyword.length < 2 || !place.signgu) return null;
   const me = crowdName(keyword);
-  const get = (name: string) =>
-    fetchTourItems(
-      tourApiUrl("TatsCnctrRateService/tatsCnctrRatedList", key, {
-        numOfRows: "100",
-        pageNo: "1",
-        areaCd: place.signgu.slice(0, 2),
-        signguCd: place.signgu,
-        tAtsNm: name,
-      }),
-      TOUR_CROWD_SECONDS,
-    );
+  // 그 시군구(옛 · 새 코드 포함) 행만 쓴다(다른 도시의 같은 이름 관광지가 섞이지 않게). 새 코드로 없으면 옛 코드로 한 번 더
+  const get = async (name: string) => {
+    for (const query of signguVariants(place.signgu)) {
+      const items = await fetchTourItems(
+        tourApiUrl("TatsCnctrRateService/tatsCnctrRatedList", key, {
+          numOfRows: "100",
+          pageNo: "1",
+          areaCd: query.slice(0, 2),
+          signguCd: query,
+          tAtsNm: name,
+        }),
+        TOUR_CROWD_SECONDS,
+      );
+      const mine = items.filter((x) => inSigngu(x, place.signgu));
+      if (mine.length > 0) return mine;
+    }
+    return [];
+  };
   // 검색어 후보: 이름 → (3글자보다 길면) 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름 → 공백을 뺀 이름. 앞 후보에서 한 곳을 고르면 멈춘다
   const names = [
     ...new Set(
