@@ -139,8 +139,8 @@
     "tel": "064-741-8784",
     "url": "http://www.jejucitybus.com/",
     "date": "2026-07-31",
-    "city": null,
-    "placeIds": []
+    "city": "제주",
+    "placeIds": ["jdx36", "nax887", "jdx40", "jdx38", "jdx37", "jdx39"]
   },
   {
     "region": "대구",
