@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { SearchField } from "@/components/ui/SearchField";
 import { cityName, groupCities, regionName } from "@/features/planner/regions";
@@ -17,7 +17,7 @@ import {
   typeProfile,
 } from "./citytour";
 import { CityTourCard, useCityTourAdd } from "./CityTourCard";
-import { CityTourScroll } from "./CityTourScroll";
+import { CityTourMore } from "./CityTourMore";
 import toursData from "./data/citytour.json";
 import scoresData from "./data/citytour-scores.json";
 import { useNameTable } from "@/features/names/NamesProvider";
@@ -71,7 +71,9 @@ export function CityTourSection({
   const mode: Mode = chosenMode ?? (rec.length > 0 ? "rec" : "region");
   const [region, setRegion] = useState(DEFAULT_REGION);
   const [query, setQuery] = useState("");
-  const chipsRef = useRef<HTMLDivElement>(null);
+  // 펼친 권역. null이면 고른 지역이 든 권역(처음엔 서울 → 수도권), ""이면 모두 접힘. 검색 중에는 맞는 권역을 모두 펼친다
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const groupBase = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const recRegions = new Set(rec.map((r) => r.region));
@@ -93,14 +95,9 @@ export function CityTourSection({
   const list =
     mode === "rec" ? rec : TOURS.filter((tour) => tour.region === region);
 
-  // 처음 고른 지역(서울)이 칩 상자 안에 보이게 상자만 스크롤한다(화면은 움직이지 않는다).
-  // 그 지역이 든 권역 묶음의 머리(수도권 …)부터 보이게 한다
-  useEffect(() => {
-    const box = chipsRef.current;
-    const chip = box?.querySelector<HTMLElement>("[aria-pressed='true']");
-    const group = chip?.closest("section") ?? chip;
-    if (box && group) box.scrollTop = group.offsetTop - box.offsetTop;
-  }, [mode]);
+  const searching = query.trim().length > 0;
+  const shownGroup =
+    openGroup ?? GROUPS.find((g) => g.cities.includes(region))?.key ?? "";
 
   const changeMode = (next: Mode) => {
     setChosenMode(next);
@@ -184,71 +181,89 @@ export function CityTourSection({
               placeholder={t("searchPlaceholder")}
               clearLabel={t("searchClear")}
             />
+            {/* 권역(수도권 · 강원권 …)만 먼저 보이고 누르면 그 권역 도시 칩이 펼쳐진다. 칸 속 스크롤을 두지 않는다(대표 결정 2026-09-30) */}
             <div
-              ref={chipsRef}
               role="group"
               aria-label={t("regionsLabel")}
-              // 권역 묶음이 여럿이라 칸을 조금 키우고 칸 안에서 세로로 스크롤한다
-              className="mt-3 max-h-72 overflow-y-auto overscroll-contain"
+              className="mt-3 divide-y divide-line rounded-card ring-1 ring-line"
             >
               {groups.length === 0 ? (
-                <p className="py-2 text-label text-fg-muted">{t("noRegion")}</p>
+                <p className="px-4 py-3 text-label text-fg-muted">
+                  {t("noRegion")}
+                </p>
               ) : (
-                groups.map(({ key, region: macro, cities }) => (
-                  <section
-                    key={key}
-                    aria-label={
-                      macro
-                        ? regionName(macro, locale, names)
-                        : tp("picker.otherRegions")
-                    }
-                    className="border-t border-line py-3 first:border-t-0 first:pt-0"
-                  >
-                    <h4 className="flex items-baseline justify-between text-label font-bold text-fg-muted">
-                      {macro
-                        ? regionName(macro, locale, names)
-                        : tp("picker.otherRegions")}
-                      <span className="text-caption font-medium text-fg-subtle tabular-nums">
-                        {tp("picker.regionCities", { count: cities.length })}
-                      </span>
-                    </h4>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {cities.map((r) => {
-                        const pressed = r === region;
-                        const count = COUNTS.get(r) ?? 0;
-                        const name = cityName(r, locale, names);
-                        return (
-                          <button
-                            key={r}
-                            type="button"
-                            aria-pressed={pressed}
-                            aria-label={t("regionChip", {
-                              region: name,
-                              count,
+                groups.map(({ key, region: macro, cities }) => {
+                  const groupName = macro
+                    ? regionName(macro, locale, names)
+                    : tp("picker.otherRegions");
+                  const expanded = searching || key === shownGroup;
+                  const groupId = `${groupBase}-${key}`;
+                  return (
+                    <section key={key} aria-label={groupName}>
+                      <h4>
+                        <button
+                          type="button"
+                          aria-expanded={expanded}
+                          aria-controls={groupId}
+                          onClick={() => setOpenGroup(expanded ? "" : key)}
+                          className="flex min-h-12 w-full items-center gap-2 px-4 text-left text-label font-bold text-fg transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+                        >
+                          <span className="flex-1">{groupName}</span>
+                          <span className="text-caption font-medium text-fg-subtle tabular-nums">
+                            {tp("picker.regionCities", {
+                              count: cities.length,
                             })}
-                            onClick={() => pickRegion(r)}
-                            className={`flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl px-3 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
-                              pressed
-                                ? "bg-primary-weak font-semibold text-primary-strong"
-                                : "bg-fill font-medium text-fg-muted active:bg-line"
-                            }`}
-                          >
-                            {name}
-                            <span className="text-caption tabular-nums">
-                              {count}
-                            </span>
-                            {recRegions.has(r) && (
-                              <span
-                                aria-hidden
-                                className="size-1.5 rounded-full bg-primary-bright"
-                              />
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </section>
-                ))
+                          </span>
+                          <ChevronDown
+                            size={18}
+                            aria-hidden
+                            className={`shrink-0 text-fg-subtle transition-transform duration-150 motion-reduce:transition-none ${expanded ? "rotate-180" : ""}`}
+                          />
+                        </button>
+                      </h4>
+                      {expanded && (
+                        <div
+                          id={groupId}
+                          className="flex flex-wrap gap-2 px-4 pb-4"
+                        >
+                          {cities.map((r) => {
+                            const pressed = r === region;
+                            const count = COUNTS.get(r) ?? 0;
+                            const name = cityName(r, locale, names);
+                            return (
+                              <button
+                                key={r}
+                                type="button"
+                                aria-pressed={pressed}
+                                aria-label={t("regionChip", {
+                                  region: name,
+                                  count,
+                                })}
+                                onClick={() => pickRegion(r)}
+                                className={`flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl px-3 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                                  pressed
+                                    ? "bg-primary-weak font-semibold text-primary-strong"
+                                    : "bg-fill font-medium text-fg-muted active:bg-line"
+                                }`}
+                              >
+                                {name}
+                                <span className="text-caption tabular-nums">
+                                  {count}
+                                </span>
+                                {recRegions.has(r) && (
+                                  <span
+                                    aria-hidden
+                                    className="size-1.5 rounded-full bg-primary-bright"
+                                  />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </section>
+                  );
+                })
               )}
             </div>
             <p role="status" className="sr-only">
@@ -281,57 +296,49 @@ export function CityTourSection({
             </div>
           ))}
 
-        {/* 내 유형 추천 · 지역별 검색 모두 칸 하나 안에서 스크롤해 모두 본다 */}
+        {/* 내 유형 추천 · 지역별 검색 모두 처음 3곳만 보이고 「더 보기」로 펼친다 */}
         {mode === "rec" && type && rec.length > 0 && (
-          <CityTourScroll
+          <CityTourMore
             label={t("recHeading", {
               type: tc(`${type.types[0]}.name`),
               count: rec.length,
             })}
-            count={rec.length}
-          >
-            <ul className="flex flex-col gap-3">
-              {rec.map((tour, i) => {
-                const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
-                return (
-                  <CityTourCard
-                    key={`${tour.region}|${tour.name}|${i}`}
-                    tour={tour}
-                    text={text}
-                    rank={i + 1}
-                    reservedFor={picks[i]?.reservedFor}
-                    onAdd={() => onAdd(tour, text?.name)}
-                  />
-                );
-              })}
-            </ul>
-          </CityTourScroll>
+            items={rec.map((tour, i) => {
+              const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
+              return (
+                <CityTourCard
+                  key={`${tour.region}|${tour.name}|${i}`}
+                  tour={tour}
+                  text={text}
+                  rank={i + 1}
+                  reservedFor={picks[i]?.reservedFor}
+                  onAdd={() => onAdd(tour, text?.name)}
+                />
+              );
+            })}
+          />
         )}
 
-        {/* 지역을 바꾸면 칸을 새로 만들어 맨 위부터 보인다 */}
+        {/* 지역을 바꾸면 목록을 새로 만들어 접힌 상태로 시작한다 */}
         {mode === "region" && list.length > 0 && (
-          <CityTourScroll
+          <CityTourMore
             key={region}
             label={t("regionHeading", {
               region: cityName(region, locale, names),
               count: list.length,
             })}
-            count={list.length}
-          >
-            <ul className="flex flex-col gap-3">
-              {list.map((tour, i) => {
-                const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
-                return (
-                  <CityTourCard
-                    key={`${tour.region}|${tour.name}|${i}`}
-                    tour={tour}
-                    text={text}
-                    onAdd={() => onAdd(tour, text?.name)}
-                  />
-                );
-              })}
-            </ul>
-          </CityTourScroll>
+            items={list.map((tour, i) => {
+              const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
+              return (
+                <CityTourCard
+                  key={`${tour.region}|${tour.name}|${i}`}
+                  tour={tour}
+                  text={text}
+                  onAdd={() => onAdd(tour, text?.name)}
+                />
+              );
+            })}
+          />
         )}
       </div>
       <p className="mt-4 text-micro text-fg-subtle">{t("dataNote")}</p>

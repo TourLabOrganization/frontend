@@ -7,8 +7,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
+import { ChipRow } from "@/components/ui/ChipRow";
 import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
+import { CategoryIcon } from "@/features/planner/CategoryIcon";
 import type { Place } from "@/features/course/places";
 import { matchesQuery } from "@/lib/text-search";
 import {
@@ -109,7 +111,6 @@ export function MapTab({
   const [filter, setFilter] = useState<Filter>("all");
   // 고른 도시(한국어 이름). null = 전국. 도시가 하나뿐인 테마는 고르지 않는다
   const [picked, setPicked] = useState<string | null>(null);
-  const [listOpen, setListOpen] = useState(true);
   const [query, setQuery] = useState("");
   const [shown, setShown] = useState(INITIAL_ROWS);
   // 「더 보기」 뒤 초점을 옮길 첫 새 행
@@ -258,13 +259,11 @@ export function MapTab({
   return (
     <>
       {multiCity ? (
-        <div className="flex items-center gap-3 px-5 pt-3">
-          <div
-            role="group"
-            aria-label={t("regionsLabel")}
-            className="flex min-w-0 flex-1 gap-2 overflow-x-auto"
-          >
-            {[null, ...cities.map((c) => c.ko)].map((key) => {
+        <div className="px-5 pt-3">
+          {/* 첫 줄에 들어가는 칩만 보이고 바로 옆에 「더보기」(가로 스크롤을 두지 않는다). 장소 수는 칩 아래 줄에 두어 칩이 폭을 다 쓴다 */}
+          <ChipRow
+            groupLabel={t("regionsLabel")}
+            items={[null, ...cities.map((c) => c.ko)].map((key) => {
               const pressed = picked === key;
               const c = cities.find((x) => x.ko === key);
               return (
@@ -283,8 +282,8 @@ export function MapTab({
                 </button>
               );
             })}
-          </div>
-          <p className="shrink-0 text-caption text-fg-subtle tabular-nums">
+          />
+          <p className="mt-1 text-caption text-fg-subtle tabular-nums">
             {t("regionCount", {
               city: city ? cityLabel(city) : t("nation"),
               count: scopeCount,
@@ -297,12 +296,10 @@ export function MapTab({
         </p>
       ) : null}
 
-      <div
-        role="group"
-        aria-label={t("categoriesLabel")}
-        className="flex gap-2 overflow-x-auto px-5 py-3"
-      >
-        {(["all", ...categories] as const).map((c) => {
+      <ChipRow
+        groupLabel={t("categoriesLabel")}
+        className="px-5 py-3"
+        items={(["all", ...categories] as const).map((c) => {
           const pressed = filter === c;
           return (
             <button
@@ -313,17 +310,19 @@ export function MapTab({
                 setFilter(c);
                 resetRows();
               }}
-              className={`min-h-11 shrink-0 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+              className={`flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
                 pressed
                   ? "bg-primary-weak font-semibold text-primary-strong"
                   : "bg-fill font-medium text-fg-muted active:bg-line"
               }`}
             >
+              {/* 투어 플래너 분류 칩과 같은 아이콘 */}
+              {c !== "all" && <CategoryIcon cat={c} size={16} />}
               {c === "all" ? t("all") : tc(`categories.${c}`)}
             </button>
           );
         })}
-      </div>
+      />
 
       <div className="h-[45vh] min-h-72 bg-fill">
         {apiKey ? (
@@ -348,23 +347,14 @@ export function MapTab({
       </div>
 
       <section aria-labelledby="place-list-heading" className="pt-5">
-        <h2 id="place-list-heading" className="px-5">
-          <button
-            type="button"
-            aria-expanded={listOpen}
-            aria-controls="place-list-body"
-            onClick={() => setListOpen((v) => !v)}
-            className="flex min-h-11 w-full items-center justify-between gap-2 rounded-xl text-left text-headline font-bold tabular-nums focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
-          >
-            {t("listHeading", { count: core.length })}
-            <ChevronDown
-              size={24}
-              aria-hidden
-              className={`shrink-0 text-fg-muted transition-transform duration-150 motion-reduce:transition-none ${listOpen ? "" : "-rotate-90"}`}
-            />
-          </button>
+        {/* 목록은 늘 펼쳐 둔다(접기 버튼은 화살표만 있어 뜻이 안 읽히고 목록이 통째로 사라져 뺐다, 대표 결정 2026-09-30). 투어 플래너 목록 제목과 같다 */}
+        <h2
+          id="place-list-heading"
+          className="px-5 text-headline font-bold tabular-nums"
+        >
+          {t("listHeading", { count: core.length })}
         </h2>
-        <div id="place-list-body" hidden={!listOpen}>
+        <div>
           <SearchField
             value={query}
             onChange={(q) => {
