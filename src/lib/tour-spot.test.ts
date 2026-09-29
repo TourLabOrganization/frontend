@@ -6,11 +6,13 @@ import {
 import { isKtoId, ktoId } from "../features/planner/kto-place";
 import {
   FOREIGN_SAME_M,
+  inSigngu,
   ktoCategory,
   ktoCity,
   parseTourQuery,
   pickForeignName,
   resolveTourPlace,
+  signguVariants,
   toKtoPlace,
   withForeignNames,
 } from "./tour-api";
@@ -313,5 +315,20 @@ describe("신규 관광지 외국어 이름", () => {
     expect(out.en).toBe("Mureung Forest Trail");
     expect(out.enByApp).toBeUndefined();
     expect(out.names).toEqual({ zh: "武陵林道" });
+  });
+});
+
+describe("signguVariants · inSigngu", () => {
+  it("강원 51 ↔ 42, 전북 52 ↔ 45. 받은 코드가 앞", () => {
+    expect(signguVariants("51150")).toEqual(["51150", "42150"]);
+    expect(signguVariants("42150")).toEqual(["42150", "51150"]);
+    expect(signguVariants("52111")).toEqual(["52111", "45111"]);
+    expect(signguVariants("50110")).toEqual(["50110"]);
+  });
+  it("행의 signguCd가 그 코드 · 옛 · 새 코드일 때만", () => {
+    expect(inSigngu({ signguCd: "42150" }, "51150")).toBe(true);
+    expect(inSigngu({ signguCd: "51150" }, "51150")).toBe(true);
+    expect(inSigngu({ signguCd: "50110" }, "51150")).toBe(false);
+    expect(inSigngu({}, "51150")).toBe(false);
   });
 });

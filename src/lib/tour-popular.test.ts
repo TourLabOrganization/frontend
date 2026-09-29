@@ -3,6 +3,7 @@ import { isPlannerCity } from "../features/planner/regions";
 import { POPULAR_CITIES } from "./tour";
 import {
   citySigngu,
+  districtItems,
   findPopular,
   isPopularCity,
   matchByLocation,
@@ -367,5 +368,68 @@ describe("findPopular: 이름 · 위치 · 신규 관광지", () => {
     // 서버 전용 필드는 보내지 않는다
     expect(fresh?.place).not.toHaveProperty("signgu");
     expect(byName.get("없는곳")?.id).toBeNull();
+  });
+});
+
+describe("districtItems: 그 시군구 행만", () => {
+  afterEach(() => vi.unstubAllGlobals());
+  const row = (name: string, signgu: string) => ({
+    tAtsNm: name,
+    baseYmd: "20260929",
+    cnctrRate: "80",
+    signguCd: signgu,
+    signguNm: "",
+  });
+  const body = (item: unknown[]) =>
+    Response.json({
+      response: {
+        header: { resultCode: "0000" },
+        body: { items: item.length ? { item } : "", totalCount: item.length },
+      },
+    });
+
+  it("시군구 조건을 무시하고 전국 결과가 와도 다른 도시 관광지(제주 우도)는 뺀다", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        body([
+          row("우도", "50110"),
+          row("경포해변", "51150"),
+          row("해운대", "26350"),
+        ]),
+      ),
+    );
+    const items = await districtItems("51150", "KEY");
+    expect(items.map((x) => x.tAtsNm)).toEqual(["경포해변"]);
+  });
+
+  it("새 코드(강원 51)로 없으면 옛 코드(42)로 부르고, 행의 코드는 앱 코드로 맞춘다", async () => {
+    const asked: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const code = new URL(input).searchParams.get("signguCd") ?? "";
+        asked.push(code);
+        return body(code === "42150" ? [row("경포해변", "42150")] : []);
+      }),
+    );
+    const items = await districtItems("51150", "KEY");
+    expect(asked).toEqual(["51150", "42150"]);
+    expect(items).toEqual([
+      expect.objectContaining({ tAtsNm: "경포해변", signguCd: "51150" }),
+    ]);
+  });
+
+  it("옛 · 새 코드가 없는 시도는 한 번만 부른다", async () => {
+    const asked: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        asked.push(new URL(input).searchParams.get("signguCd") ?? "");
+        return body([]);
+      }),
+    );
+    expect(await districtItems("50110", "KEY")).toEqual([]);
+    expect(asked).toEqual(["50110"]);
   });
 });

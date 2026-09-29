@@ -143,6 +143,30 @@ export function withoutSpaces(name: string, city: string): string[] {
     .map((n) => n.replace(/\s+/g, ""));
 }
 
+/**
+ * 시군구 코드와 그 옛 · 새 코드(강원 42 ↔ 51 · 전북 45 ↔ 52, 뒤 세 자리는 같다). 받은 코드가 맨 앞이다.
+ * 앱 장소는 새 법정동 코드(signgu.json)를 쓰는데 한국관광공사 서비스가 옛 코드로 적은 행을 줄 수 있어 둘 다 같은 시군구로 본다
+ */
+export function signguVariants(code: string): string[] {
+  const pair: Readonly<Record<string, string>> = {
+    "51": "42",
+    "42": "51",
+    "52": "45",
+    "45": "52",
+  };
+  const other = pair[code.slice(0, 2)];
+  return other ? [code, other + code.slice(2)] : [code];
+}
+
+/**
+ * 집중률 행이 그 시군구 것인지(signguCd가 그 코드 또는 옛 · 새 코드). signguCd가 없는 행은 아니라고 본다.
+ * 서비스가 시군구 조건을 무시하고 전국 결과를 주면 다른 도시 관광지(제주 우도 등)가 섞이므로 받은 행을 늘 이것으로 거른다
+ */
+export function inSigngu(item: TourItem, code: string): boolean {
+  const got = String(item.signguCd ?? "").trim();
+  return got !== "" && signguVariants(code).includes(got);
+}
+
 /** 장소의 시군구 코드. 못 구한 곳 · 모르는 id는 "" */
 export function tourPlaceSigngu(id: string): string {
   return Object.hasOwn(SIGNGU, id) ? SIGNGU[id] : "";
