@@ -1312,7 +1312,14 @@
     }
   },
   "Header": {
-    "search": "スポットを探す（ツアープランナー）"
+    "displayMode": {
+      "button": "表示モード、現在{mode}",
+      "listLabel": "表示モード",
+      "modes": {
+        "light": "標準",
+        "dark": "ブラック"
+      }
+    }
   },
   "Notifications": {
     "button": "お知らせ",

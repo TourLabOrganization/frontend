@@ -48,7 +48,7 @@ export function ThemeCard({
         ) : (
           <div
             aria-hidden
-            className="flex h-full flex-col items-center justify-center gap-1.5 bg-fg px-3 text-center text-white"
+            className="flex h-full flex-col items-center justify-center gap-1.5 bg-ink px-3 text-center text-white"
           >
             <MapPin size={featured ? 24 : 20} className="text-primary-bright" />
             <span

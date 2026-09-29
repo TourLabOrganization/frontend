@@ -1312,7 +1312,14 @@
     }
   },
   "Header": {
-    "search": "장소 찾기 (투어 플래너)"
+    "displayMode": {
+      "button": "화면 모드, 지금 {mode}",
+      "listLabel": "화면 모드",
+      "modes": {
+        "light": "기본",
+        "dark": "블랙"
+      }
+    }
   },
   "Notifications": {
     "button": "알림",

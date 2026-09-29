@@ -1312,7 +1312,14 @@
     }
   },
   "Header": {
-    "search": "查找地点（行程规划）"
+    "displayMode": {
+      "button": "显示模式，当前{mode}",
+      "listLabel": "显示模式",
+      "modes": {
+        "light": "默认",
+        "dark": "黑色"
+      }
+    }
   },
   "Notifications": {
     "button": "通知",

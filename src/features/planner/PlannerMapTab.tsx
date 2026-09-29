@@ -36,7 +36,7 @@ import {
   type MapPin,
   PlannerMap,
 } from "./PlannerMap";
-import { REGION_COLORS, REGION_LABELS, REGION_SHAPES } from "./region-shapes";
+import { REGION_COLORS, REGION_SHAPES, regionLabel } from "./region-shapes";
 import { plannerHref } from "./query";
 import {
   CITY_INFO,
@@ -238,6 +238,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       const n = byRegion.get(r.key) ?? 0;
       if (n === 0) return [];
       const label = regionName(r, locale, names);
+      const at = regionLabel(r.key, locale, REGION_CENTER[r.key]);
       return [
         {
           id: r.key,
@@ -246,8 +247,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           title: t("regionMarker", { region: label, count: n }),
           rings: REGION_SHAPES[r.key],
           color: REGION_COLORS[r.key],
-          labelAt: REGION_LABELS[r.key],
-          labelAnchor: REGION_LABELS[r.key].anchor,
+          labelAt: at,
+          labelAnchor: at.anchor,
         },
       ];
     });

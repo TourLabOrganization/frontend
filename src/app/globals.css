@@ -10,6 +10,8 @@
   --color-white: #ffffff;
   --color-black: #000000;
   --color-transparent: transparent;
+  /* 어두운 덮개 · 사진 위 그라데이션 · 대화상자 뒤 막. 화면 모드와 관계없이 늘 어둡다(fg는 블랙 모드에서 밝아진다) */
+  --color-ink: #191f28;
 
   /* 면 */
   --color-surface: #ffffff;
@@ -65,6 +67,30 @@
   --text-micro--line-height: 1.4;
 
   --radius-card: 1.25rem;
+}
+
+/*
+ * 화면 모드(머리줄 「화면 모드」 메뉴, lib/display-mode.ts). <html data-mode>에 붙고 위 토큰 값을 바꾼다.
+ * 토큰 이름은 그대로라 컴포넌트는 고치지 않는다. 카카오 바탕 지도 · 사진 · 분류 색(핀)은 바뀌지 않는다
+ */
+:root[data-mode="dark"] {
+  color-scheme: dark;
+  /* 면 — 페이지 바탕이 가장 어둡고 카드(surface)가 한 단계 밝다 */
+  --color-surface: #16171a;
+  --color-fill: #24262b;
+  --color-fill-weak: #0b0c0e;
+  --color-line: #2f3238;
+  /* 글자 — fg는 surface 대비 15:1, muted 9:1, subtle 6:1 */
+  --color-fg: #f2f4f6;
+  --color-fg-muted: #c4cad3;
+  --color-fg-subtle: #9aa3ae;
+  --color-fg-disabled: #6b7684;
+  /* 브랜드 — primary(버튼 바탕)는 흰 글씨 대비를 지키려고 그대로, 글자 · 약한 바탕만 어두운 바탕에 맞춘다 */
+  --color-primary-strong: #8cbcff;
+  --color-primary-bright: #4c94ff;
+  --color-primary-weak: #13284a;
+  --color-danger: #ff7b72;
+  --color-warning: #f0a33a;
 }
 
 @theme inline {

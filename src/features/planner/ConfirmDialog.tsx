@@ -55,7 +55,7 @@ export function ConfirmDialog({
       onClick={(e) => {
         if (e.target === e.currentTarget) e.currentTarget.close();
       }}
-      className="m-auto w-[calc(100%-2.5rem)] max-w-sm rounded-card bg-surface p-0 text-fg backdrop:bg-fg/40"
+      className="m-auto w-[calc(100%-2.5rem)] max-w-sm rounded-card bg-surface p-0 text-fg backdrop:bg-ink/40"
     >
       <div className="p-6">
         <h2 id={titleId} className="text-headline font-bold">

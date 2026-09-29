@@ -80,7 +80,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
         onClick={(e) => {
           if (e.target === e.currentTarget) close();
         }}
-        className="inset-x-0 mx-auto mt-auto mb-0 h-[80dvh] max-h-[80dvh] w-full max-w-[480px] rounded-t-card bg-surface p-0 text-fg backdrop:bg-fg/40"
+        className="inset-x-0 mx-auto mt-auto mb-0 h-[80dvh] max-h-[80dvh] w-full max-w-[480px] rounded-t-card bg-surface p-0 text-fg backdrop:bg-ink/40"
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between pt-3 pr-3 pl-5">

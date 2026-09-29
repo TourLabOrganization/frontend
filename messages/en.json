@@ -1312,7 +1312,14 @@
     }
   },
   "Header": {
-    "search": "Find places (Tour planner)"
+    "displayMode": {
+      "button": "Display mode, now {mode}",
+      "listLabel": "Display mode",
+      "modes": {
+        "light": "Default",
+        "dark": "Black"
+      }
+    }
   },
   "Notifications": {
     "button": "Notifications",

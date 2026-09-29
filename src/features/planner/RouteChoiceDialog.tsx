@@ -69,7 +69,7 @@ export function RouteChoiceDialog({
       onClick={(e) => {
         if (e.target === e.currentTarget) e.currentTarget.close();
       }}
-      className="m-auto max-h-[calc(100dvh-2.5rem)] w-[calc(100%-2.5rem)] max-w-sm overflow-y-auto rounded-card bg-surface p-0 text-fg backdrop:bg-fg/40"
+      className="m-auto max-h-[calc(100dvh-2.5rem)] w-[calc(100%-2.5rem)] max-w-sm overflow-y-auto rounded-card bg-surface p-0 text-fg backdrop:bg-ink/40"
     >
       <div className="p-6">
         <div className="flex items-start justify-between gap-3">
