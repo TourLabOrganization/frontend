@@ -197,7 +197,11 @@ export function PlaceSheet({
           )}
 
           {/* PoC 순서: 상세 표 다음, 길찾기 앞. 장소가 바뀌면 그 좌표로 새로 부른다 */}
-          <PlaceWeather lat={place.facts.lat} lng={place.facts.lng} />
+          <PlaceWeather
+            lat={place.facts.lat}
+            lng={place.facts.lng}
+            id={place.id}
+          />
           {/* 날씨 다음: 오디오 가이드 · 함께 많이 가는 관광지 Top · 방문 집중률 예측(/api/tour/*). 못 받으면 칸째 숨는다 */}
           {place.id && (
             <PlaceTour

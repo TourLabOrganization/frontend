@@ -80,6 +80,35 @@
         "unknown": "无数据"
       }
     },
+    "air": {
+      "title": "细颗粒物 · {sido}平均",
+      "values": "PM10 {pm10} · PM2.5 {pm25} µg/m³ · AirKorea",
+      "grade": {
+        "1": "良好",
+        "2": "一般",
+        "3": "较差",
+        "4": "很差"
+      },
+      "sido": {
+        "서울": "首尔",
+        "부산": "釜山",
+        "대구": "大邱",
+        "인천": "仁川",
+        "광주": "光州",
+        "대전": "大田",
+        "울산": "蔚山",
+        "세종": "世宗",
+        "경기": "京畿",
+        "강원": "江原",
+        "충북": "忠北",
+        "충남": "忠南",
+        "전북": "全北",
+        "전남": "全南",
+        "경북": "庆北",
+        "경남": "庆南",
+        "제주": "济州"
+      }
+    },
     "tour": {
       "audio": {
         "title": "语音导览",
@@ -1129,6 +1158,60 @@
           "times": "近一年主要出港",
           "warn": "{month}月该航线停航率为{pct}，偏高。为防停航，请同时准备航班或预留一天。",
           "src": "来源：KOMSA 航线运航记录"
+        }
+      },
+      "flights": {
+        "title": {
+          "jeju": "济州航线运行情况",
+          "busan": "金海机场航班概要"
+        },
+        "direction": "方向",
+        "dir": {
+          "jeju": {
+            "to": "飞往济州（选择出发地）",
+            "from": "济州出发（选择目的地）"
+          },
+          "busan": {
+            "from": "金海出发（选择目的地）",
+            "to": "飞往金海（选择出发地）"
+          }
+        },
+        "fromAirport": "出发机场",
+        "toAirport": "到达机场",
+        "rows": {
+          "airlines": "航空公司",
+          "daily": "每日班次",
+          "first": "首班",
+          "last": "末班",
+          "duration": "飞行时间"
+        },
+        "airlinesCount": "{count}家 · {names}{more, select, yes { 等} other {}}",
+        "count": {
+          "daily": "单程 {same, select, yes {{lo}班} other {{lo}–{hi}班}}",
+          "total": "{same, select, yes {{lo}班} other {{lo}–{hi}班}}（单程合计）",
+          "weekly": "每周 {same, select, yes {{lo}班} other {{lo}–{hi}班}}"
+        },
+        "special": {
+          "noRegular": "无定期航班 — 请乘坐 KTX · SRT（约2小时40分）",
+          "irregular": "以不定期 · 季节性航班为主"
+        },
+        "minutes": "{n}分钟",
+        "note": "常规班次概要 · 随季节与星期变化。航班号和准确时间请查看航空公司时刻表。",
+        "byAirline": "各航空公司概要（单程 · 估算）",
+        "share": "占本航线班次的 {pct}%",
+        "links": "各航空公司官方时刻表",
+        "busanNote": "国内线以济州为主，国际线以日本 · 东南亚为主。",
+        "process": {
+          "title": "{airport}机场当前手续耗时",
+          "at": "{at} 基准",
+          "minutes": "{n}分钟",
+          "steps": {
+            "a": "值机 → 身份核验",
+            "b": "身份核验 → 安检",
+            "c": "安检 → 登机",
+            "d": "登机 → 起飞"
+          },
+          "note": "到达机场后请预留手续 {all} 分钟 + 登机截止余量 {buffer} 分钟{floor, select, yes {（至少 {min} 分钟）} other {}} = {lead} 分钟 · 韩国机场公社，每5分钟更新"
         }
       }
     },

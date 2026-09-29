@@ -177,7 +177,12 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
   화면 읽기용 달별 숫자 목록), 최근 1년 주요 출항, 여행월 통제율 **6%** 이상이면 경고 문장, 출처 한 줄. 단계 색은 6% 이상 `warning` · 15% 이상 `danger`(PoC `lvl`). 월 · 숫자 · 기간은 `Intl`
 - 데이터 `data/ferry.json`은 `scripts/build-ferry.mjs`가 PoC `FERRY_ROUTES`(제주 6항 · 울릉 4항) · `FERRY_STATS`(한국해양교통안전공단 항로별 여객선 운항상황,
   odcloud 15146814, 2022-12 ~ 2026-05 실적 중 제주 · 울릉 9개 항로 집계)에서 만든다. 갱신은 PoC 값이 바뀐 뒤 스크립트를 다시 돌린다(실적을 직접 다시 집계하지 않는다)
-- **키가 필요해 옮기지 않은 것**: 제주 항공 운항 현황(`loadFlights` · `KAC_KEY`), 공항 수속 실측(`getAirportProcess`), 휴게소(`loadRests`),
+- **항공편 카드**(`FlightCard`, PoC `flightBoard*` · `busanAir*`): 광역 교통이 항공이고 자가용이 아닐 때, 제주 · 서귀포 여행이면 「제주 노선 운항 현황」,
+  첫 도시가 부산 · 김해 · 양산 · 창원 · 거제면 「김해공항 노선 운항 현황」. 방향 · 공항 고르기(제주 카드는 출발지가 공항이면 그 공항, 아니면 김포부터) →
+  편성 요약 표(운항 항공사 · 일 운항 · 첫 · 막 출발 · 비행 시간) → 항공사별 운항 개요(편도 편수 가운데 값의 비중 막대) → 지금 수속 소요(한국공항공사, `/api/airport/process`, 키가 있을 때) →
+  항공사 공식 시간표 링크. 노선의 항공사표가 있으면 요약의 합계 · 첫 · 막 편을 그 표에서 다시 계산한다(PoC `flightSched`. PoC 김해 카드는 다시 계산하지 않지만 같은 노선이 두 카드에서 달라 보이지 않게 맞췄다).
+  고른 방향 · 공항은 저장하지 않는다(PoC도 화면 상태). 데이터 `data/flights.json`은 `scripts/build-flights.mjs`가 PoC 하드코딩 값(「정기 편성 요약 · 시즌·요일에 따라 변동」)에서 만든다
+- **키가 필요해 옮기지 않은 것**: 제주 항공 실시간 운항 편성(`loadFlights` · `KAC_ENDPOINT`, PoC에서도 주소가 비어 꺼져 있다), 휴게소(`loadRests`),
   지도 검색으로 제주 집 · 숙소를 출발지로 추가(`custom`, 그래서 도민 안내의 「검색으로 집 · 숙소를 지정」은 빼고 「첫날은 출발 시각부터」로 썼다),
   카페리 항만까지 운전의 카카오모빌리티 실측(`ownDriveMin` real, PoC 기본 식만 쓴다)
 
@@ -195,6 +200,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 | `scripts/build-theme-extras.mjs` | 테마 화면 5개 `*.dc.html`                                                                                                               | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center) |
 | `scripts/build-stays.mjs`        | `Tour Planner.dc.html`(`STAYS`)                                                                                                         | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                       |
 | `scripts/build-ferry.mjs`        | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                                                  | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                             |
+| `scripts/build-flights.mjs`      | `Tour Planner.dc.html`(`JEJU_SCHED` · `JEJU_AIR_ROUTES` · `BUSAN_ROUTES` · `BUSAN_SCHED` · `ROUTE_AIRLINES` · `AIRLINE_SCHED`)          | `features/planner/data/flights.json`(제주 노선 10개 공항 · 김해 3개 노선 요약, 항공사표 5개 노선, 항공사 시간표 링크 10개)                    |
 | `scripts/build-names.mjs`        | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)                                      | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                  |
 | `scripts/build-tic.mjs`          | `data/tic.json`(관광안내소 725곳, 칼럼은 `파생 데이터/관광안내소.csv`)                                                                  | `features/planner/data/tic.json`(칸 이름만 붙이고 값은 원천 그대로)                                                                           |
 

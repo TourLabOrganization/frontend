@@ -118,8 +118,32 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 **키가 필요해 미룬 것** (PoC는 공공데이터포털 키 `DATA_GO_KR_KEY`로 부른다)
 
 - 기상청 단기예보: PoC는 키가 있으면 오늘 · 내일을 기상청 값으로 덮어쓴다(`getKmaForecast`, 위경도 → 예보 격자 변환 포함)
-- 에어코리아 미세먼지: PoC 날씨 칸 아래의 대기질 줄. 그래서 제목은 PoC의 「날씨 · 미세먼지」가 아니라 「날씨」다
-- 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`)
+- 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`). 미세먼지는 아래 `/api/air`로 붙였다
+
+### 미세먼지 `GET /api/air?lat=..&lng=..[&id=..]`
+
+장소 시트 날씨 칸 아래의 「미세먼지 · 시도 평균」 줄(PoC 날씨 · 미세먼지 칸). 코드는 `app/api/air/route.ts`, 순수 함수는 `lib/air-quality.ts`.
+
+- **원천**: 한국환경공단 에어코리아 대기오염정보 `B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty`
+  (`returnType=json` · `numOfRows=200` · `ver=1.3` · `sidoName`). 키 `DATA_GO_KR_KEY`, 공공데이터포털에서 「한국환경공단_에어코리아_대기오염정보」 활용신청 필요
+- **규칙**(PoC `shared.js` `getAirQuality`): 시도 모든 측정소의 PM10 · PM2.5 평균(빈 값 · 「-」 제외, 반올림) → 등급은 둘 중 나쁜 쪽
+  (PM10 30 · 80 · 150, PM2.5 15 · 35 · 75 이하 → 좋음 · 보통 · 나쁨 · 매우나쁨). 측정소 하나를 고르지 않는다
+- **시도 정하기**: `id`(플래너 장소 id)가 있으면 서버가 그 장소의 시군구 코드 앞 2자리로 정한다(광주 · 전남 통합 코드 12는 두 시도청 중 가까운 쪽).
+  코드가 없으면 PoC처럼 가장 가까운 시도청(`SIDO_CENTERS` 17곳). PoC 방식만 쓰면 경주가 울산 값을 받아 코드를 먼저 본다
+- **입력**: 좌표는 날씨와 같은 검사(한국 범위, 소수 2자리). 틀리면 400
+- **응답**: `{ "sido", "pm10", "pm25", "grade": 1–4, "stations", "at" }`. 키가 없으면 503, 외부 실패 · 값 없음이면 502 — 화면은 줄을 숨긴다(PoC와 같다)
+- **캐시**: 서버 fetch 30분(같은 시도의 장소가 한 번의 호출을 함께 쓴다), `Cache-Control` 30분, 클라이언트 `staleTime` 30분.
+  서버에 키가 없으면(`TourApiProvider`) 부르지 않는다
+
+### 공항 수속 소요 `GET /api/airport/process`
+
+플래너 코스 탭 항공편 카드(`features/planner/FlightCard`)의 「○○공항 지금 수속 소요」. 코드는 `app/api/airport/process/route.ts`, 순수 함수는 `lib/airport-process.ts`.
+
+- **원천**: 한국공항공사 공항 소요시간 `B551178/airport-process-time/v1`(`type=json`). 김포 · 제주 · 김해 · 청주 · 대구. 키 `DATA_GO_KR_KEY`, 「한국공항공사_공항 소요시간 정보」 활용신청 필요
+- **규칙**(PoC `getAirportProcess` · `aptLeadMin`): `STY_TCT_AVG_ALL · A · B · C · D`(초) → 분(반올림). 탑승까지 잡을 시간 = 수속 + 20분, 최소 30분(안내 문장에만 쓰고 일정 계산은 바꾸지 않는다)
+- **응답**: `{ "GMP": { "all", "a", "b", "c", "d", "at" }, … }`. 키가 없으면 503, 외부 실패면 502 — 카드는 그 칸만 숨긴다
+- **캐시**: 5분(공사가 5분마다 갱신)
+- **옮기지 않은 것**: PoC 실시간 운항 편성(`loadFlights`)은 PoC에서도 요청 주소(`KAC_ENDPOINT`)가 비어 꺼져 있다. 편성은 PoC 하드코딩 요약(`data/flights.json`)을 보인다
 
 ### 한국관광공사 칸 `GET /api/tour/audio` · `/api/tour/related` · `/api/tour/crowd`
 
