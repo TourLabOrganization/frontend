@@ -118,8 +118,10 @@ export type RelatedRow = {
   regionCd: string;
 };
 
-/** PoC 화면(d_rlte)에서 빼는 이름: 영화관 · 주차장 · 화장실 */
-const HIDDEN_NAME = /^(CGV|메가박스|롯데시네마)|주차장|화장실/;
+/** PoC 화면(d_rlte)에서 빼는 이름인지: 영화관 · 주차장 · 화장실 */
+export function hiddenRelatedName(name: string): boolean {
+  return /^(CGV|메가박스|롯데시네마)|주차장|화장실/.test(name);
+}
 
 /**
  * 고른 묶음 → 보일 줄 (PoC getRelatedSpots 뒷부분): rlteRank 순(없으면 99), 이름이 없거나 겹치거나 자기 자신(점수 3)이면 빼고 8개,
@@ -151,7 +153,7 @@ export function relatedRows(
   }
   return out
     .slice(0, RELATED_LIMIT)
-    .filter((row) => !HIDDEN_NAME.test(row.name));
+    .filter((row) => !hiddenRelatedName(row.name));
 }
 
 /** 우리 장소와 비교하는 이름 (relatedName에 대괄호 빼기를 더한 것, PoC d_rlte open) */
@@ -251,6 +253,42 @@ export async function localizeRelated(
   return out;
 }
 
+/** 시군구 전체 목록을 서버 메모리에 두는 수. 넘으면 오래된 것부터 지운다 */
+const BULK_MAX = 20;
+const bulkCache = new Map<string, { at: number; items: Promise<TourItem[]> }>();
+
+/**
+ * 시군구 전체 목록(areaBasedList1, 최대 2,000행 — 경주 202607은 약 0.9MB). Next 데이터 캐시는 한 항목 2MB가 한도이고
+ * 넘으면 캐시 경고가 키가 든 주소를 찍어, 서버 fetch 캐시 대신 서버 메모리에 하루 둔다(PoC _rlteCache와 같다).
+ * 같은 시군구 · 기준월은 한 번만 부른다(부르는 중인 것도 같이 기다린다). 실패는 두지 않는다
+ */
+function bulkItems(key: string, signgu: string, ym: string) {
+  const id = `${signgu}|${ym}`;
+  const hit = bulkCache.get(id);
+  if (hit && Date.now() - hit.at < TOUR_DAY_SECONDS * 1000) return hit.items;
+  const items = fetchTourItems(
+    tourApiUrl("TarRlteTarService1/areaBasedList1", key, {
+      numOfRows: "2000",
+      pageNo: "1",
+      baseYm: ym,
+      areaCd: signgu.slice(0, 2),
+      signguCd: signgu,
+    }),
+    "no-store",
+  );
+  bulkCache.delete(id);
+  bulkCache.set(id, { at: Date.now(), items });
+  items.catch(() => bulkCache.delete(id));
+  while (bulkCache.size > BULK_MAX)
+    bulkCache.delete(bulkCache.keys().next().value!);
+  return items;
+}
+
+/** 테스트용: 서버 메모리의 시군구 전체 목록을 비운다 */
+export function clearRelatedCache(): void {
+  bulkCache.clear();
+}
+
 /**
  * 한국관광공사 연관 관광지 찾기 (PoC getRelatedSpots). 기준월마다 검색어 후보로 searchKeyword1, 없으면 areaBasedList1.
  * 찾으면 { month, rows }(우리 장소와 이은 줄), 끝까지 없으면 null. 외부 실패는 TourApiError
@@ -263,33 +301,26 @@ export async function findRelated(
   const keyword = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (!keyword || !place.signgu) return null;
   const me = relatedName(keyword);
-  const get = (
-    op: "searchKeyword1" | "areaBasedList1",
-    ym: string,
-    extra: Readonly<Record<string, string>> = {},
-  ) => {
-    const bulk = op === "areaBasedList1";
-    return fetchTourItems(
-      tourApiUrl(`TarRlteTarService1/${op}`, key, {
-        numOfRows: bulk ? "2000" : "100",
+  const search = (ym: string, k: string) =>
+    fetchTourItems(
+      tourApiUrl("TarRlteTarService1/searchKeyword1", key, {
+        numOfRows: "100",
         pageNo: "1",
         baseYm: ym,
         areaCd: place.signgu.slice(0, 2),
         signguCd: place.signgu,
-        ...extra,
+        keyword: k,
       }),
-      // 시군구 전체 목록(최대 2,000행)은 Next 데이터 캐시 한도(2MB)를 넘을 수 있고, 넘으면 캐시 경고가 키가 든 주소를 찍는다. 그래서 캐시하지 않는다
-      bulk ? "no-store" : TOUR_DAY_SECONDS,
+      TOUR_DAY_SECONDS,
     );
-  };
   for (const ym of relatedMonths(now)) {
     let rows: TourItem[] = [];
     for (const k of relatedKeywords(keyword)) {
-      rows = pickRelated(await get("searchKeyword1", ym, { keyword: k }), me);
+      rows = pickRelated(await search(ym, k), me);
       if (rows.length > 0) break;
     }
     if (rows.length === 0)
-      rows = pickRelated(await get("areaBasedList1", ym), me);
+      rows = pickRelated(await bulkItems(key, place.signgu, ym), me);
     if (rows.length > 0)
       return {
         month: ym,
