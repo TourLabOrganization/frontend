@@ -153,8 +153,6 @@
     "skip": "Omitir"
   },
   "Home": {
-    "source": "El número de lugares sale de la lista de lugares de cada tema en Tour Navigator",
-    "bannerPhotoCredit": "Foto del banner: Haegeumgang · Wikimedia Commons",
     "tabsLabel": "Vistas de inicio",
     "tabs": {
       "myThemes": "Mis temas",

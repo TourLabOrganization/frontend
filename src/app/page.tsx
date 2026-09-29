@@ -211,11 +211,7 @@ export default async function HomePage() {
         <PopularAttractions />
 
         <section className="px-5">
-          <p className="mt-6 text-micro text-fg-subtle">{t("source")}</p>
-          <p className="mt-1 text-micro text-fg-subtle">
-            {t("bannerPhotoCredit")}
-          </p>
-          <p className="mt-1 text-micro text-fg-subtle">
+          <p className="mt-6 text-micro text-fg-subtle">
             {common("tmdbCredit")}
           </p>
         </section>

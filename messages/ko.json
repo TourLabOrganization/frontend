@@ -153,8 +153,6 @@
     "skip": "건너뛰기"
   },
   "Home": {
-    "source": "장소 수는 Tour Navigator 테마별 장소 목록에서 센 값이에요",
-    "bannerPhotoCredit": "배너 사진: 해금강 · Wikimedia Commons",
     "tabsLabel": "홈 화면",
     "tabs": {
       "myThemes": "내 테마",

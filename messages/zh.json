@@ -153,8 +153,6 @@
     "skip": "跳过"
   },
   "Home": {
-    "source": "地点数量按 Tour Navigator 各主题的地点列表统计",
-    "bannerPhotoCredit": "横幅照片：海金刚 · Wikimedia Commons",
     "tabsLabel": "首页视图",
     "tabs": {
       "myThemes": "我的主题",
