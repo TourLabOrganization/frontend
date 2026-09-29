@@ -30,7 +30,13 @@ import {
 import { extraInScope, rememberPlace, useExtraPlaces } from "./extra-places";
 import { isKtoId, type KtoPlace, spotPath } from "./kto-place";
 import { sortPlaces } from "./list-order";
-import { type MapBubble, type MapPin, PlannerMap } from "./PlannerMap";
+import {
+  type MapArea,
+  type MapBubble,
+  type MapPin,
+  PlannerMap,
+} from "./PlannerMap";
+import { REGION_COLORS, REGION_SHAPES } from "./region-shapes";
 import { plannerHref } from "./query";
 import {
   CITY_INFO,
@@ -218,6 +224,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   // ── 지도 표시 ──
   let bubbles: MapBubble[] = [];
+  let areas: MapArea[] = [];
   let pins: MapPin[] = [];
   const count = (key: (p: PlannerPlace) => string) => {
     const m = new Map<string, number>();
@@ -225,18 +232,21 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
     return m;
   };
   if (scope.kind === "nation" && scope.region === null) {
+    // 전국 보기: 권역을 행정구역 경계 면으로 칠한다(누르면 그 권역 도시 묶음)
     const byRegion = count((p) => p.macro);
-    bubbles = REGIONS.flatMap((r) => {
+    areas = REGIONS.flatMap((r) => {
       const n = byRegion.get(r.key) ?? 0;
       if (n === 0) return [];
       const label = regionName(r, locale, names);
       return [
         {
           id: r.key,
-          ...REGION_CENTER[r.key],
           label,
           count: n,
           title: t("regionMarker", { region: label, count: n }),
+          rings: REGION_SHAPES[r.key],
+          color: REGION_COLORS[r.key],
+          labelAt: REGION_CENTER[r.key],
         },
       ];
     });
@@ -365,6 +375,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             apiKey={apiKey}
             label={t("mapLabel")}
             bubbles={bubbles}
+            areas={areas}
             hideOverlapping={scope.kind === "nation" && scope.region !== null}
             pins={pins}
             fitPoints={fitPoints}

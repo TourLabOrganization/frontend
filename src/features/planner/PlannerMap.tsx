@@ -1,15 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { CustomOverlayMap, useMap } from "react-kakao-maps-sdk";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { CustomOverlayMap, Polygon, useMap } from "react-kakao-maps-sdk";
 import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
 import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
 import { categoryDot } from "./category";
 import { CategoryIcon } from "./CategoryIcon";
 
 // 투어 플래너 지도(카카오). 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
-// 전국 보기는 권역 묶음, 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
-// 묶음은 「수도권 218」처럼 이름과 장소 수를 두 줄로 적은 둥근 버튼이고, 누르면 쓰는 쪽이 주소를 바꾼다.
+// 전국 보기는 권역 면(행정구역 경계를 권역으로 합친 도형, region-shapes.ts), 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
+// 권역 면은 가운데에 「수도권 218」 이름표를 두고, 도시 묶음은 이름과 장소 수를 두 줄로 적은 원형 버튼이다. 누르면 쓰는 쪽이 주소를 바꾼다.
 // 도시 묶음은 가까운 도시끼리 겹치므로 겹치면 장소가 적은 쪽을 숨긴다(확대하면 다시 보인다).
 // 겹침은 지도가 멈출 때(idle)마다 화면 상자를 재서 계산한다(bubble-overlap.ts).
 
@@ -34,6 +34,21 @@ const BUBBLE_SIZE = {
   sm: "size-11 text-[0.625rem] [&>[data-count]]:text-micro",
 } as const;
 
+/** 권역 면(전국 보기). 면을 칠하고 가운데에 이름 · 장소 수 표시를 둔다. 면이나 표시를 누르면 onBubble(id) */
+export type MapArea = {
+  id: string;
+  label: string;
+  count: number;
+  /** 화면 읽기 · 마우스 툴팁 이름. 「수도권 · 장소 218곳」 */
+  title: string;
+  /** 바깥 경계 고리들([위도, 경도]) */
+  rings: readonly (readonly (readonly [number, number])[])[];
+  /** 면 색(#rrggbb) */
+  color: string;
+  /** 이름 표시 자리 */
+  labelAt: LatLng;
+};
+
 export type MapPin = LatLng & {
   id: string;
   cat: string;
@@ -45,6 +60,8 @@ type PlannerMapProps = {
   /** 지도 영역의 이름 */
   label: string;
   bubbles?: readonly MapBubble[];
+  /** 권역 면(전국 보기) */
+  areas?: readonly MapArea[];
   /** 묶음끼리 겹치면 장소 수가 적은 쪽을 숨길지 (도시 묶음) */
   hideOverlapping?: boolean;
   pins?: readonly MapPin[];
@@ -62,6 +79,7 @@ export function PlannerMap({
   apiKey,
   label,
   bubbles = [],
+  areas = [],
   hideOverlapping = false,
   pins = [],
   fitPoints,
@@ -112,6 +130,7 @@ export function PlannerMap({
           </CustomOverlayMap>
         );
       })}
+      <AreaLayer areas={areas} onArea={onBubble} />
       <BubbleLayer
         bubbles={bubbles}
         hideOverlapping={hideOverlapping}
@@ -122,6 +141,58 @@ export function PlannerMap({
 }
 
 /** 묶음의 앵커(0~1). 북서쪽으로 펴면 오른쪽 아래 모서리가 점에 온다 */
+/** 권역 면. 흰 경계선 · 반투명 색으로 칠하고, 마우스를 올린 권역은 조금 진하게 한다 */
+function AreaLayer({
+  areas,
+  onArea,
+}: {
+  areas: readonly MapArea[];
+  onArea?: (id: string) => void;
+}) {
+  const [hover, setHover] = useState<string | null>(null);
+  return areas.map((a) => (
+    <Fragment key={a.id}>
+      <Polygon
+        path={a.rings.map((ring) => ring.map(([lat, lng]) => ({ lat, lng })))}
+        fillColor={a.color}
+        fillOpacity={hover === a.id ? 0.55 : 0.35}
+        strokeColor="#ffffff"
+        strokeWeight={2}
+        strokeOpacity={0.9}
+        onMouseover={() => setHover(a.id)}
+        onMouseout={() => setHover((h) => (h === a.id ? null : h))}
+        onClick={onArea ? () => onArea(a.id) : undefined}
+      />
+      {/* 이름 표시(키보드 · 화면 읽기 프로그램은 이 버튼으로 권역에 들어간다) */}
+      <CustomOverlayMap
+        position={a.labelAt}
+        clickable
+        xAnchor={0.5}
+        yAnchor={0.5}
+        zIndex={a.count}
+      >
+        <button
+          type="button"
+          aria-label={a.title}
+          title={a.title}
+          onClick={onArea ? () => onArea(a.id) : undefined}
+          onMouseEnter={() => setHover(a.id)}
+          onMouseLeave={() => setHover((h) => (h === a.id ? null : h))}
+          className="flex min-h-8 cursor-pointer items-baseline gap-1 rounded-lg bg-surface/90 px-2 py-1 text-caption whitespace-nowrap text-fg shadow-sm ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+        >
+          <span className="font-bold break-keep">{a.label}</span>
+          <span
+            className="font-semibold tabular-nums"
+            style={{ color: a.color }}
+          >
+            {a.count}
+          </span>
+        </button>
+      </CustomOverlayMap>
+    </Fragment>
+  ));
+}
+
 /** 표시는 늘 점 가운데(원형이라 크기가 정해져 있어 긴 이름이 옆 표시를 가리지 않는다) */
 const BUBBLE_ANCHOR = 0.5;
 
