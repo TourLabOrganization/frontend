@@ -1318,7 +1318,9 @@
       "listLabel": "화면 모드",
       "modes": {
         "light": "기본",
-        "dark": "블랙"
+        "dark": "블랙",
+        "forest": "포레스트",
+        "sunset": "선셋 코랄"
       }
     }
   },

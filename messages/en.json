@@ -1318,7 +1318,9 @@
       "listLabel": "Display mode",
       "modes": {
         "light": "Default",
-        "dark": "Black"
+        "dark": "Black",
+        "forest": "Forest",
+        "sunset": "Sunset coral"
       }
     }
   },

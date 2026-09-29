@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Moon, Sun } from "lucide-react";
+import { Check, Leaf, Moon, Sun, Sunset } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 import {
@@ -10,9 +10,9 @@ import {
 } from "@/lib/display-mode";
 import { usePopover } from "./use-popover";
 
-const ICON = { light: Sun, dark: Moon } as const;
+const ICON = { light: Sun, dark: Moon, forest: Leaf, sunset: Sunset } as const;
 
-// 머리줄 「화면 모드」 메뉴(언어 메뉴와 같은 펼침 버튼). 기본 · 블랙 중에서 고르면 바로 바뀌고 쿠키에 남는다(lib/display-mode.ts).
+// 머리줄 「화면 모드」 메뉴(언어 메뉴와 같은 펼침 버튼). 기본 · 블랙 · 포레스트 · 선셋 코랄 중에서 고르면 바로 바뀌고 쿠키에 남는다(lib/display-mode.ts).
 // 처음 모드는 서버가 쿠키로 정해 넘긴다(initial)
 export function DisplayModeSwitch({ initial }: { initial: DisplayMode }) {
   const t = useTranslations("Header.displayMode");

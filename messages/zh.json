@@ -1318,7 +1318,9 @@
       "listLabel": "显示模式",
       "modes": {
         "light": "默认",
-        "dark": "黑色"
+        "dark": "黑色",
+        "forest": "森林",
+        "sunset": "日落珊瑚"
       }
     }
   },

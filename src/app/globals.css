@@ -93,6 +93,44 @@
   --color-warning: #f0a33a;
 }
 
+/*
+ * 포레스트 — 옅은 녹색 바탕 · 녹색 강조(자연 · 힐링 여행). 후보 ④를 대표 요청(2026-09-29)으로 테두리 · 글자를 한 단계 진하게.
+ * 대비(surface 기준): fg 16.7:1 · muted 10.3:1 · subtle 7.1:1(fill 위 6.0:1) · 테두리 1.7:1(후보 1.4:1), primary 흰 글씨 5.8:1
+ */
+:root[data-mode="forest"] {
+  --color-surface: #fbfdfb;
+  --color-fill: #e1ece3;
+  --color-fill-weak: #edf4ee;
+  --color-line: #b3c8b9;
+  --color-fg: #0f1f15;
+  --color-fg-muted: #2d4436;
+  --color-fg-subtle: #455c4e;
+  --color-fg-disabled: #6d8577;
+  --color-primary: #1d7449;
+  --color-primary-strong: #145233;
+  --color-primary-bright: #2c9a62;
+  --color-primary-weak: #d8eee0;
+}
+
+/*
+ * 선셋 코랄 — 크림 바탕 · 코랄/주황 강조(따뜻한 여행). 후보 ⑤를 대표 요청(2026-09-29)으로 테두리 · 글자를 한 단계 진하게.
+ * 대비(surface 기준): fg 17.5:1 · muted 12.1:1 · subtle 8.2:1(fill 위 7.1:1) · 테두리 1.7:1(후보 1.4:1), primary 흰 글씨 5.3:1
+ */
+:root[data-mode="sunset"] {
+  --color-surface: #fffaf6;
+  --color-fill: #fbe6da;
+  --color-fill-weak: #fff3ec;
+  --color-line: #e3b9a4;
+  --color-fg: #22120d;
+  --color-fg-muted: #4a2c22;
+  --color-fg-subtle: #65453a;
+  --color-fg-disabled: #98766a;
+  --color-primary: #bf3f0c;
+  --color-primary-strong: #8f2f08;
+  --color-primary-bright: #e8590f;
+  --color-primary-weak: #ffe2d2;
+}
+
 @theme inline {
   --font-sans: var(--font-stack);
 }
