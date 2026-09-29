@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { REGION_CENTER } from "./data";
 import {
-  REGION_COLORS,
   REGION_LABELS,
   REGION_SHAPES,
   regionLabel,
@@ -25,11 +24,10 @@ function inside(lat: number, lng: number, ring: Ring): boolean {
 }
 
 describe("권역 면 (region-shapes.json)", () => {
-  it("권역 7곳 모두 면 · 색이 있고, 고리는 한국 범위의 닫힌 도형이다", () => {
+  it("권역 7곳 모두 면이 있고, 고리는 한국 범위의 닫힌 도형이다", () => {
     for (const key of REGION_KEYS) {
       const rings = REGION_SHAPES[key];
       expect(rings.length, key).toBeGreaterThan(0);
-      expect(REGION_COLORS[key]).toMatch(/^#[0-9a-f]{6}$/);
       for (const ring of rings) {
         expect(ring.length, key).toBeGreaterThanOrEqual(4);
         for (const [lat, lng] of ring) {

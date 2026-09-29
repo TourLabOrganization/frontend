@@ -32,7 +32,9 @@
       "zoomIn": "Zoom in",
       "zoomOut": "Zoom out",
       "kakaoLogo": "Open in Kakao Map (new window)"
-    }
+    },
+    "chipsMore": "More",
+    "chipsLess": "Less"
   },
   "PlaceSheet": {
     "close": "Close",
@@ -50,8 +52,6 @@
     "stay": "Suggested stay",
     "work": "Title",
     "scene": "Scene",
-    "lat": "Latitude",
-    "lng": "Longitude",
     "source": "Coordinate source",
     "kakao": "Kakao Map",
     "kakaoOpen": "Open place page",
@@ -245,7 +245,8 @@
       "add": "Add to course builder",
       "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
       "addDisabled": "The places on this tour aren't in the app yet, so it can't be added to the course builder",
-      "scrollHint": "{count} tours · scroll inside the box to see them all",
+      "showMore": "Show {count} more",
+      "showLess": "Show less",
       "date": "As of {date}",
       "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
       "confirm": {

@@ -23,11 +23,6 @@ import {
   type TourPopular,
 } from "@/lib/tour";
 
-const LEVEL_BAR: Record<CrowdLevel, string> = {
-  quiet: "bg-primary-bright",
-  moderate: "bg-warning",
-  busy: "bg-danger",
-};
 const LEVEL_TEXT: Record<CrowdLevel, string> = {
   quiet: "text-primary",
   moderate: "text-warning",
@@ -153,21 +148,23 @@ export function PopularAttractions() {
                     <span className="truncate text-body font-semibold">
                       {item.name}
                     </span>
-                    <span className="flex items-center gap-2 text-caption text-fg-muted">
-                      {locale === "ko" && item.district && (
-                        <span className="shrink-0">{item.district}</span>
-                      )}
+                    {/* 막대를 구 이름 앞에 두어 모든 줄에서 같은 자리에서 시작한다(구 이름 길이와 무관).
+                        10곳이 대개 모두 혼잡이라 막대는 브랜드 색으로 두고, 수준은 글자 색으로만 알린다 */}
+                    <span className="mt-1 flex items-center gap-2 text-caption text-fg-muted">
                       <span
                         aria-hidden
-                        className="h-1.5 w-16 overflow-hidden rounded-full bg-fill"
+                        className="h-1.5 w-16 shrink-0 overflow-hidden rounded-full bg-fill"
                       >
                         <span
-                          className={`block h-full rounded-full ${LEVEL_BAR[level]}`}
+                          className="block h-full rounded-full bg-primary-bright"
                           style={{
                             width: `${Math.min(100, Math.max(2, pct))}%`,
                           }}
                         />
                       </span>
+                      {locale === "ko" && item.district && (
+                        <span className="truncate">{item.district}</span>
+                      )}
                     </span>
                   </span>
                   <span className="shrink-0 text-right text-caption tabular-nums">
@@ -176,12 +173,15 @@ export function PopularAttractions() {
                       {tl(level)}
                     </span>
                   </span>
-                  {item.id && (
+                  {/* 앱 장소와 연결되지 않은 줄도 화살표 자리를 비워 두어 % 열이 줄마다 같은 자리에 온다 */}
+                  {item.id ? (
                     <ChevronRight
                       size={20}
                       aria-hidden
                       className="shrink-0 text-fg-subtle"
                     />
+                  ) : (
+                    <span aria-hidden className="size-5 shrink-0" />
                   )}
                 </>
               );

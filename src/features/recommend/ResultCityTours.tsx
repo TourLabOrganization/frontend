@@ -1,7 +1,7 @@
 "use client";
 
 import { CityTourCard, useCityTourAdd } from "@/features/home/CityTourCard";
-import { CityTourScroll } from "@/features/home/CityTourScroll";
+import { CityTourMore } from "@/features/home/CityTourMore";
 import type { CityTour, TourTag } from "@/features/home/citytour";
 import type { CityTourText } from "@/features/translations/text";
 
@@ -20,28 +20,26 @@ export function ResultCityTours({
   label,
 }: {
   picks: readonly ResultTourPick[];
-  /** 스크롤 칸 이름(목록 제목) */
+  /** 목록 이름(목록 제목) */
   label: string;
 }) {
   const { onAdd, dialog } = useCityTourAdd();
   return (
     <>
-      <CityTourScroll label={label} count={picks.length}>
-        <ul className="flex flex-col gap-3">
-          {picks.map(({ tour, reservedFor, text }, i) => {
-            return (
-              <CityTourCard
-                key={`${tour.region}|${tour.name}`}
-                tour={tour}
-                text={text}
-                rank={i + 1}
-                reservedFor={reservedFor}
-                onAdd={() => onAdd(tour, text?.name)}
-              />
-            );
-          })}
-        </ul>
-      </CityTourScroll>
+      {/* 홈과 같이 처음 3곳만 보이고 「더 보기」로 펼친다 */}
+      <CityTourMore
+        label={label}
+        items={picks.map(({ tour, reservedFor, text }, i) => (
+          <CityTourCard
+            key={`${tour.region}|${tour.name}`}
+            tour={tour}
+            text={text}
+            rank={i + 1}
+            reservedFor={reservedFor}
+            onAdd={() => onAdd(tour, text?.name)}
+          />
+        ))}
+      />
       {dialog}
     </>
   );

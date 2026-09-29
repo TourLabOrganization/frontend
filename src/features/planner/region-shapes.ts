@@ -41,14 +41,3 @@ export function regionLabel(
     return { lat: center.lat, lng: center.lng, anchor: 0.5 };
   return REGION_LABELS[key];
 }
-
-/** 권역 면 색(카카오 지도 도형은 #rrggbb만 받는다). 옆 권역끼리 구별되는 색 */
-export const REGION_COLORS: Readonly<Record<RegionKey, string>> = {
-  capital: "#3b82f6",
-  gangwon: "#16a34a",
-  chungcheong: "#f59e0b",
-  daegyeong: "#ef4444",
-  dongnam: "#8b5cf6",
-  honam: "#0891b2",
-  jeju: "#ec4899",
-};

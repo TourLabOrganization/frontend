@@ -80,7 +80,8 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
         onClick={(e) => {
           if (e.target === e.currentTarget) close();
         }}
-        className="inset-x-0 mx-auto mt-auto mb-0 h-[80dvh] max-h-[80dvh] w-full max-w-[480px] rounded-t-card bg-surface p-0 text-fg backdrop:bg-ink/40"
+        // 창 자체는 스크롤하지 않고(스크롤 막대가 두 개 생기지 않게) 아래 도시 목록 칸만 스크롤한다
+        className="inset-x-0 mx-auto mt-auto mb-0 h-[80dvh] max-h-[80dvh] w-full max-w-[480px] overflow-hidden rounded-t-card bg-surface p-0 text-fg backdrop:bg-ink/40"
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between pt-3 pr-3 pl-5">
@@ -124,7 +125,9 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
           <p role="status" className="sr-only">
             {groups.length === 0 ? t("picker.empty") : ""}
           </p>
-          <div className="flex-1 overflow-y-auto px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+          {/* relative: 칩 안 화면 읽기용 글자(sr-only는 absolute)가 이 칸을 기준으로 자리를 잡아 칸 안에서 잘리게 한다.
+              없으면 창(dialog) 기준으로 잡혀 창이 1,300px 넘게 늘고 끝까지 내리면 빈 화면이 나온다 */}
+          <div className="relative flex-1 overflow-y-auto px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
             {groups.length === 0 ? (
               <p className="py-10 text-center text-body text-fg-muted">
                 {t("picker.empty")}
