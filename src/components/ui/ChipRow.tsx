@@ -3,27 +3,27 @@
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
-  type FocusEvent,
   type ReactNode,
-  useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
 
 /**
  * 칩 줄(테마 지도 도시 · 분류, 투어 플래너 분류 · 배지). 가로 스크롤 · 스크롤 막대를 두지 않는다(대표 결정 2026-09-30).
- * 처음엔 한 줄만 보이고, 넘치는 칩이 있으면 끝에 「더보기」를 두어 누르면 모두 펼친다.
- * 새로 고른 칩(aria-pressed)이나 키보드 초점이 가려진 줄에 있으면 저절로 펼친다.
- * 한 줄 높이는 칩 min-h-11(2.75rem)에 초점 테두리 여유(p-1)를 더한 3.25rem
+ * 접었을 때는 첫 줄에 들어가는 칩만 보이고 「더보기」를 마지막 칩 바로 옆에 둔다. 펼치면 칩을 모두 보이고 「접기」는 마지막 칩 뒤에 온다.
+ * 첫 줄에 들어가는 칩 수는 칩을 모두 그린 뒤 재서 정하고(그리기 전에 재어 깜빡이지 않는다), 칸 폭이 바뀌면 다시 잰다.
+ * 가려진 칩은 숨겨(display: none) 키보드 초점이 가지 않고, 잴 때 고른 칩(aria-pressed)이 가려질 자리면 저절로 펼친다
  */
 export function ChipRow({
-  children,
+  items,
   groupLabel,
   className = "",
 }: {
-  children: ReactNode;
+  /** 칩(버튼) 목록 */
+  items: readonly ReactNode[];
   /** 있으면 칩 상자를 이 이름의 묶음(role=group)으로 읽힌다 */
   groupLabel?: string;
   className?: string;
@@ -31,76 +31,96 @@ export function ChipRow({
   const t = useTranslations("Common");
   const boxRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const [overflows, setOverflows] = useState(false);
   const boxId = useId();
-  // 저절로 펼치는 것은 고른 칩이 바뀌었을 때만(사용자가 「접기」를 누르면 그대로 접혀 있게)
-  const lastPressed = useRef<HTMLElement | null>(null);
+  const count = items.length;
+  // 잰 결과(그때의 칩 수와 첫 줄에 보이는 칩 수). 칩 수가 바뀌거나 칸 폭이 바뀌면(null) 다시 잰다
+  const [measured, setMeasured] = useState<{
+    count: number;
+    fit: number;
+  } | null>(null);
+  const fit = measured && measured.count === count ? measured.fit : null;
 
-  /** 첫 줄 아래(가려진 줄)에 있는 요소인지 */
-  const belowFirstRow = useCallback((el: HTMLElement) => {
-    const box = boxRef.current;
-    const first = box?.querySelector<HTMLElement>("button");
-    if (!box || !first) return false;
-    return (
-      el.getBoundingClientRect().top > first.getBoundingClientRect().top + 4
-    );
-  }, []);
-
-  const measure = useCallback(() => {
-    const box = boxRef.current;
-    if (!box) return;
-    // 펼친 상태에서도 「접기」를 두려면 한 줄을 넘는지 알아야 해서, 첫 칩과 마지막 칩의 줄로 잰다
-    const buttons = box.querySelectorAll<HTMLElement>("button");
-    const last = buttons[buttons.length - 1];
-    setOverflows(last ? belowFirstRow(last) : false);
-    const pressed = box.querySelector<HTMLElement>("[aria-pressed='true']");
-    if (pressed !== lastPressed.current) {
-      lastPressed.current = pressed;
-      if (pressed && belowFirstRow(pressed)) setOpen(true);
-    }
-  }, [belowFirstRow]);
-
-  // 칩이 바뀌면(지역 · 분류) 다시 잰다
-  useEffect(() => {
-    measure();
-  });
+  // 칸 폭이 바뀌면 다시 잰다
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
-    const observer = new ResizeObserver(measure);
+    let width = box.clientWidth;
+    const observer = new ResizeObserver(() => {
+      if (box.clientWidth !== width) {
+        width = box.clientWidth;
+        setMeasured(null);
+      }
+    });
     observer.observe(box);
     return () => observer.disconnect();
-  }, [measure]);
+  }, []);
 
-  const onFocus = (e: FocusEvent<HTMLDivElement>) => {
-    if (!open && e.target instanceof HTMLElement && belowFirstRow(e.target))
-      setOpen(true);
-  };
+  useLayoutEffect(() => {
+    if (fit !== null) return;
+    const box = boxRef.current;
+    if (!box) return;
+    const chips = [
+      ...box.querySelectorAll<HTMLElement>(":scope > [data-chip]"),
+    ];
+    const toggle = box.querySelector<HTMLElement>(
+      ":scope > [data-chip-toggle]",
+    );
+    if (chips.length === 0) {
+      setMeasured({ count: 0, fit: 0 });
+      return;
+    }
+    const top = chips[0].getBoundingClientRect().top;
+    let n = chips.filter(
+      (c) => Math.abs(c.getBoundingClientRect().top - top) < 2,
+    ).length;
+    if (n < chips.length) {
+      // 첫 줄 끝(오른쪽 안쪽 여백 앞)에 「더보기」 자리를 낸다
+      const style = getComputedStyle(box);
+      const gap = parseFloat(style.columnGap) || 0;
+      const limit =
+        box.getBoundingClientRect().right -
+        parseFloat(style.paddingRight) -
+        (toggle?.getBoundingClientRect().width ?? 0) -
+        gap;
+      while (n > 1 && chips[n - 1].getBoundingClientRect().right > limit)
+        n -= 1;
+    }
+    setMeasured({ count: chips.length, fit: n });
+    // 고른 칩이 가려질 자리면 펼친다. 잴 때만 보므로, 펼친 뒤 사용자가 「접기」를 누르면 그대로 접혀 있다
+    const pressed = chips.findIndex((c) =>
+      c.querySelector("[aria-pressed='true']"),
+    );
+    if (pressed >= n) setOpen(true);
+  }, [fit]);
+
+  const measuring = fit === null;
+  const hiddenFrom = open || measuring ? count : fit;
+  const hasMore = measuring || fit < count;
 
   return (
-    // 접었을 때는 「더보기」가 첫 줄 오른쪽에, 펼치면 칩이 폭 전체를 쓰고 「접기」는 그 아래 오른쪽에 온다
     <div
-      className={`flex gap-2 ${open ? "flex-col" : "items-start"} ${className}`}
+      ref={boxRef}
+      id={boxId}
+      role={groupLabel ? "group" : undefined}
+      aria-label={groupLabel}
+      // 재는 동안에는 첫 줄만 보이게 잘라 둔다(서버 HTML에서 여러 줄이 잠깐 보이지 않게)
+      className={`flex flex-wrap items-center gap-2 ${
+        measuring && !open ? "max-h-11 overflow-hidden" : ""
+      } ${className}`}
     >
-      <div
-        ref={boxRef}
-        id={boxId}
-        role={groupLabel ? "group" : undefined}
-        aria-label={groupLabel}
-        onFocus={onFocus}
-        className={`-m-1 flex min-w-0 flex-1 flex-wrap gap-2 p-1 ${
-          open ? "" : "max-h-13 overflow-hidden"
-        }`}
-      >
-        {children}
-      </div>
-      {overflows && (
+      {items.map((item, i) => (
+        <div key={i} data-chip hidden={i >= hiddenFrom} className="flex">
+          {item}
+        </div>
+      ))}
+      {hasMore && (
         <button
           type="button"
+          data-chip-toggle
           aria-expanded={open}
           aria-controls={boxId}
           onClick={() => setOpen((v) => !v)}
-          className="flex min-h-11 shrink-0 items-center gap-1 self-end rounded-xl px-2 text-label font-semibold text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+          className="flex min-h-11 shrink-0 items-center gap-1 rounded-xl px-3 text-label font-semibold text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
         >
           {open ? t("chipsLess") : t("chipsMore")}
           <ChevronDown

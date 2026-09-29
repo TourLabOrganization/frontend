@@ -314,14 +314,11 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   return (
     <>
-      {/* 칩 줄: 처음엔 한 줄, 넘치면 「더보기」(가로 스크롤을 두지 않는다). 배지 칩은 분류 칩 다음 줄부터 */}
-      <ChipRow className="px-5 py-3">
-        <div
-          role="group"
-          aria-label={t("categoriesLabel")}
-          className="flex min-w-0 flex-wrap gap-2"
-        >
-          {(["all", ...categories] as const).map((c) => {
+      {/* 칩 줄: 분류 한 줄 · 배지 한 줄. 첫 줄에 들어가는 칩만 보이고 바로 옆에 「더보기」(가로 스크롤을 두지 않는다) */}
+      <div className="flex flex-col gap-2 px-5 py-3">
+        <ChipRow
+          groupLabel={t("categoriesLabel")}
+          items={(["all", ...categories] as const).map((c) => {
             const pressed = filter === c;
             return (
               <button
@@ -340,14 +337,11 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               </button>
             );
           })}
-        </div>
+        />
         {badges.length > 0 && (
-          <div
-            role="group"
-            aria-label={t("badgesLabel")}
-            className="flex min-w-0 flex-wrap gap-2"
-          >
-            {badges.map((b) => {
+          <ChipRow
+            groupLabel={t("badgesLabel")}
+            items={badges.map((b) => {
               const pressed = badge === b;
               return (
                 <button
@@ -365,9 +359,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
                 </button>
               );
             })}
-          </div>
+          />
         )}
-      </ChipRow>
+      </div>
 
       <div className="h-[45vh] min-h-72 bg-fill">
         {apiKey ? (
