@@ -13,7 +13,6 @@ import type { Place } from "@/features/course/places";
 import { matchesQuery } from "@/lib/text-search";
 import {
   cityGroups,
-  displayNumbers,
   distanceLabel,
   inCity,
   orderByCities,
@@ -146,8 +145,6 @@ export function MapTab({
   const byCity = (list: Place[]) =>
     multiCity ? orderByCities(list, cities) : list;
   const core = byCity(corePlaces(places).filter(inFilter));
-  // 화면 번호(1부터): 전체 목록 순서(여러 도시 테마는 도시 칩 순서)의 자리. 걸러 봐도 같은 장소는 같은 번호다
-  const numbers = displayNumbers(places, multiCity ? cities : []);
   const off = byCity(places.filter((p) => p.off && inFilter(p)));
   const selected = places.find((p) => p.id === selectedId) ?? null;
   const rows = [...core, ...(showOff ? off : [])];
@@ -219,7 +216,7 @@ export function MapTab({
             </span>
           ) : (
             <span className="flex size-[26px] shrink-0 items-center justify-center rounded-full bg-primary text-caption font-bold text-white tabular-nums">
-              {numbers.get(p.id)}
+              {p.n}
             </span>
           )}
           <span className="min-w-0 flex-1">
@@ -335,7 +332,7 @@ export function MapTab({
             label={t("mapLabel")}
             pins={[
               ...(showOff ? off : []).map((p) => toPin(p, locale, names)),
-              ...core.map((p) => toPin(p, locale, names, numbers.get(p.id))),
+              ...core.map((p) => toPin(p, locale, names, p.n ?? undefined)),
             ]}
             focus={selected}
             onSelect={setSelectedId}

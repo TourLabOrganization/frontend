@@ -16,7 +16,6 @@ import {
 import { InfoTab } from "@/features/theme/InfoTab";
 import { MapTab, type SceneLink } from "@/features/theme/MapTab";
 import { corePlaces, pad2, placeName } from "@/features/theme/place-meta";
-import { displayNumbers } from "@/features/theme/place-list";
 import { cityName } from "@/features/planner/regions";
 import { StampTab } from "@/features/theme/StampTab";
 import { parseTab, themeHref, type ThemeQuery } from "@/features/theme/tabs";
@@ -72,18 +71,15 @@ export default async function ThemePage({
   const region = theme.regions.map((r) => tr(r)).join(" · ");
   const stats = themePlaceStats(slug);
   const places = getThemePlaces(slug);
-  // 화면 번호(1부터, 지도 탭 전체 목록 순서). 스탬프 북 · 장면 탭 장소 이름도 지도와 같은 번호를 쓴다(place-list.ts displayNumbers)
-  const numbers = displayNumbers(places, getThemeCities(slug));
   const extras = getPlaceExtras(slug);
   const mapHref = (id: string) => themeHref(slug, keep, "map", { place: id });
   const scenePlace = (id: string): ScenePlace | null => {
     const p = places.find((x) => x.id === id);
     if (!p) return null;
     const name = placeName(p, locale, names);
-    const no = numbers.get(id);
     return {
       id,
-      label: no === undefined ? name : `${pad2(no)} ${name}`,
+      label: p.n === null ? name : `${pad2(p.n)} ${name}`,
       href: mapHref(id),
     };
   };
@@ -146,7 +142,7 @@ export default async function ThemePage({
       case "stamp": {
         const toStamp = (p: (typeof places)[number]) => ({
           id: p.id,
-          n: numbers.get(p.id) ?? null,
+          n: p.n,
           name: placeName(p, locale, names),
           mapHref: mapHref(p.id),
         });
@@ -158,12 +154,7 @@ export default async function ThemePage({
             region={
               cities.length === 1 ? cityName(cities[0], locale, names) : region
             }
-            // 지도 탭 전체 목록과 같은 순서(여러 도시 테마는 도시 칩 순서)
-            core={corePlaces(places)
-              .sort(
-                (a, b) => (numbers.get(a.id) ?? 0) - (numbers.get(b.id) ?? 0),
-              )
-              .map(toStamp)}
+            core={corePlaces(places).map(toStamp)}
             all={places.map(toStamp)}
           />
         );
