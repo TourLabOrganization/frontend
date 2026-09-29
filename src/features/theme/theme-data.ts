@@ -49,7 +49,7 @@ export const VIDEO_THEME = "rescene-route";
 
 const CITIES = citiesData as Readonly<Record<string, readonly ThemeCity[]>>;
 
-/** 테마 화면의 도시(칩 순서). 한 도시 테마는 하나, RESCENE는 거제 · 경주 */
+/** 테마 화면의 도시(칩 순서). 한 도시 테마는 하나, RESCENE는 장소 번호 순서(경주 · 거제 · 수원 · 정선 · 대전 · 충주 · 동해) */
 export function getThemeCities(slug: string): readonly ThemeCity[] {
   return CITIES[slug] ?? [];
 }

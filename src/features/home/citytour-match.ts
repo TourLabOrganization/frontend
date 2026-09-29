@@ -36,9 +36,19 @@ export function normalizeName(value: string): string {
     .replace(/[\s·.,]/g, "");
 }
 
+/**
+ * 화살표 없이 번호로만 이은 경유지(「01 제주항국제여객터미널 02 제주항연안여객터미널 03 김만덕기념관 …」, 제주 순환형코스).
+ * 01(1) · 02(2) 번호가 모두 공백 앞에 있을 때만 번호 목록으로 본다(이름 속 숫자는 건드리지 않게)
+ */
+const NUMBERED_LIST = /(?:^|\s)0?1\s+\S[\s\S]*\s0?2\s+\S/;
+
 /** 경유지 문자열을 정류장 이름 목록으로 나눈다. 번호 · 괄호 · 소요 시간 · 「구간:」 머리를 뗀다 */
 export function splitStops(route: string): string[] {
-  return route
+  // 번호 목록이면 번호 자리를 화살표로 바꿔 아래 나누기에 맡긴다
+  const text = NUMBERED_LIST.test(route)
+    ? route.replace(/(?:^|\s)\d{1,2}\s+(?=\S)/g, " → ")
+    : route;
+  return text
     .split(/→|->|>|⇒|,|\/|&|\+|및/)
     .map((s) =>
       s
