@@ -1,0 +1,310 @@
+{
+  "jejuAirports": [
+    { "code": "GMP", "ko": "김포", "en": "Gimpo" },
+    { "code": "ICN", "ko": "인천", "en": "Incheon" },
+    { "code": "PUS", "ko": "김해(부산)", "en": "Gimhae" },
+    { "code": "CJJ", "ko": "청주", "en": "Cheongju" },
+    { "code": "TAE", "ko": "대구", "en": "Daegu" },
+    { "code": "KWJ", "ko": "광주", "en": "Gwangju" },
+    { "code": "RSU", "ko": "여수", "en": "Yeosu" },
+    { "code": "USN", "ko": "울산", "en": "Ulsan" },
+    { "code": "KUV", "ko": "군산", "en": "Gunsan" },
+    { "code": "WJU", "ko": "원주", "en": "Wonju" }
+  ],
+  "jejuSched": {
+    "GMP": {
+      "air": "대한항공·아시아나·제주항공·진에어·티웨이·에어부산·이스타·에어서울",
+      "day": "편도 90~100편",
+      "first": "06:00",
+      "last": "21:30",
+      "dur": 65
+    },
+    "ICN": {
+      "air": "대한항공·아시아나·제주항공·진에어·티웨이",
+      "day": "편도 15~20편",
+      "first": "06:40",
+      "last": "21:00",
+      "dur": 70
+    },
+    "PUS": {
+      "air": "대한항공·에어부산·제주항공·진에어·티웨이",
+      "day": "편도 20~25편",
+      "first": "07:00",
+      "last": "21:00",
+      "dur": 55
+    },
+    "CJJ": {
+      "air": "제주항공·진에어·티웨이·이스타·에어로케이",
+      "day": "편도 12~18편",
+      "first": "07:00",
+      "last": "21:00",
+      "dur": 65
+    },
+    "TAE": {
+      "air": "대한항공·티웨이·제주항공·진에어",
+      "day": "편도 8~12편",
+      "first": "07:30",
+      "last": "20:40",
+      "dur": 60
+    },
+    "KWJ": {
+      "air": "대한항공·제주항공·진에어·티웨이",
+      "day": "편도 6~10편",
+      "first": "07:30",
+      "last": "20:30",
+      "dur": 50
+    },
+    "RSU": {
+      "air": "대한항공·진에어",
+      "day": "편도 2~4편",
+      "first": "08:00",
+      "last": "19:00",
+      "dur": 45
+    },
+    "USN": {
+      "air": "대한항공·진에어·에어부산",
+      "day": "편도 4~6편",
+      "first": "07:00",
+      "last": "20:00",
+      "dur": 60
+    },
+    "KUV": {
+      "air": "진에어·대한항공",
+      "day": "편도 2~3편",
+      "first": "08:00",
+      "last": "18:30",
+      "dur": 60
+    },
+    "WJU": {
+      "air": "진에어",
+      "day": "편도 1~2편",
+      "first": "08:30",
+      "last": "17:30",
+      "dur": 70
+    }
+  },
+  "busanAirports": [
+    { "code": "CJU", "ko": "제주", "en": "Jeju" },
+    { "code": "YNY", "ko": "양양", "en": "Yangyang" },
+    { "code": "GMP", "ko": "김포(서울)", "en": "Gimpo (Seoul)" }
+  ],
+  "busanSched": {
+    "CJU": {
+      "air": "대한항공·에어부산·제주항공·진에어·티웨이",
+      "day": "편도 20~25편",
+      "first": "07:00",
+      "last": "21:00",
+      "dur": 55
+    },
+    "YNY": {
+      "air": "부정기·계절편 위주",
+      "day": "주 2~3편(운항 시)",
+      "first": "09:00",
+      "last": "17:00",
+      "dur": 70
+    },
+    "GMP": {
+      "air": "정기 운항 없음 — KTX·SRT 이용(2시간 40분대)",
+      "day": "—",
+      "first": "—",
+      "last": "—",
+      "dur": 0
+    }
+  },
+  "routeAirlines": {
+    "GMP-CJU": [
+      {
+        "ko": "대한항공",
+        "en": "Korean Air",
+        "day": "18~22편",
+        "win": "06:00–21:00"
+      },
+      {
+        "ko": "아시아나항공",
+        "en": "Asiana",
+        "day": "10~14편",
+        "win": "06:30–21:00"
+      },
+      {
+        "ko": "제주항공",
+        "en": "Jeju Air",
+        "day": "10~14편",
+        "win": "06:20–21:20"
+      },
+      {
+        "ko": "진에어",
+        "en": "Jin Air",
+        "day": "9~12편",
+        "win": "06:30–21:10"
+      },
+      {
+        "ko": "티웨이항공",
+        "en": "T'way",
+        "day": "8~11편",
+        "win": "07:00–21:00"
+      },
+      {
+        "ko": "에어부산",
+        "en": "Air Busan",
+        "day": "6~8편",
+        "win": "07:00–20:30"
+      },
+      {
+        "ko": "이스타항공",
+        "en": "Eastar Jet",
+        "day": "5~8편",
+        "win": "07:20–20:40"
+      },
+      {
+        "ko": "에어서울",
+        "en": "Air Seoul",
+        "day": "4~6편",
+        "win": "08:00–20:00"
+      }
+    ],
+    "PUS-CJU": [
+      {
+        "ko": "대한항공",
+        "en": "Korean Air",
+        "day": "5~7편",
+        "win": "07:00–20:30"
+      },
+      {
+        "ko": "에어부산",
+        "en": "Air Busan",
+        "day": "7~9편",
+        "win": "07:10–21:00"
+      },
+      {
+        "ko": "제주항공",
+        "en": "Jeju Air",
+        "day": "4~6편",
+        "win": "07:30–20:40"
+      },
+      { "ko": "진에어", "en": "Jin Air", "day": "3~5편", "win": "08:00–20:00" },
+      {
+        "ko": "티웨이항공",
+        "en": "T'way",
+        "day": "2~4편",
+        "win": "08:30–19:30"
+      }
+    ],
+    "CJJ-CJU": [
+      {
+        "ko": "제주항공",
+        "en": "Jeju Air",
+        "day": "4~6편",
+        "win": "07:10–20:30"
+      },
+      { "ko": "진에어", "en": "Jin Air", "day": "3~5편", "win": "07:30–20:40" },
+      {
+        "ko": "티웨이항공",
+        "en": "T'way",
+        "day": "3~4편",
+        "win": "08:00–20:00"
+      },
+      {
+        "ko": "이스타항공",
+        "en": "Eastar Jet",
+        "day": "2~4편",
+        "win": "08:20–19:40"
+      },
+      {
+        "ko": "에어로케이",
+        "en": "Aero K",
+        "day": "2~3편",
+        "win": "09:00–19:00"
+      }
+    ],
+    "TAE-CJU": [
+      {
+        "ko": "대한항공",
+        "en": "Korean Air",
+        "day": "2~3편",
+        "win": "07:30–19:30"
+      },
+      {
+        "ko": "티웨이항공",
+        "en": "T'way",
+        "day": "3~5편",
+        "win": "08:00–20:40"
+      },
+      {
+        "ko": "제주항공",
+        "en": "Jeju Air",
+        "day": "2~3편",
+        "win": "08:30–20:00"
+      },
+      { "ko": "진에어", "en": "Jin Air", "day": "2~3편", "win": "09:00–19:30" }
+    ],
+    "KWJ-CJU": [
+      {
+        "ko": "대한항공",
+        "en": "Korean Air",
+        "day": "2~3편",
+        "win": "07:40–19:40"
+      },
+      {
+        "ko": "제주항공",
+        "en": "Jeju Air",
+        "day": "2~3편",
+        "win": "08:10–20:00"
+      },
+      { "ko": "진에어", "en": "Jin Air", "day": "1~3편", "win": "08:40–19:30" },
+      {
+        "ko": "티웨이항공",
+        "en": "T'way",
+        "day": "1~2편",
+        "win": "09:00–18:30"
+      }
+    ]
+  },
+  "airlineLinks": [
+    {
+      "ko": "대한항공",
+      "en": "Korean Air",
+      "url": "https://www.koreanair.com/booking/timetable"
+    },
+    {
+      "ko": "아시아나항공",
+      "en": "Asiana",
+      "url": "https://flyasiana.com/C/KR/KO/booking/timetable"
+    },
+    {
+      "ko": "에어부산",
+      "en": "Air Busan",
+      "url": "https://www.airbusan.com/content/individual/?tabIdx=1"
+    },
+    {
+      "ko": "제주항공",
+      "en": "Jeju Air",
+      "url": "https://www.jejuair.net/ko/prepare/flight/viewScheduleInfo.do"
+    },
+    {
+      "ko": "진에어",
+      "en": "Jin Air",
+      "url": "https://www.jinair.com/booking/timetable"
+    },
+    {
+      "ko": "티웨이항공",
+      "en": "T'way",
+      "url": "https://www.twayair.com/app/booking/timeTable"
+    },
+    {
+      "ko": "이스타항공",
+      "en": "Eastar Jet",
+      "url": "https://www.eastarjet.com/newstar/PGWHC00001"
+    },
+    {
+      "ko": "에어서울",
+      "en": "Air Seoul",
+      "url": "https://flyairseoul.com/CW/ko/booking.do"
+    },
+    { "ko": "에어로케이", "en": "Aero K", "url": "https://www.aerok.com/" },
+    {
+      "ko": "항공정보포털 스케줄 조회",
+      "en": "Airportal schedule search",
+      "url": "https://www.airportal.go.kr/airline/airplaneSchedule.do"
+    }
+  ]
+}

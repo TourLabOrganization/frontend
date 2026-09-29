@@ -80,6 +80,35 @@
         "unknown": "No data"
       }
     },
+    "air": {
+      "title": "Fine dust · {sido} average",
+      "values": "PM10 {pm10} · PM2.5 {pm25} µg/m³ · AirKorea",
+      "grade": {
+        "1": "Good",
+        "2": "Moderate",
+        "3": "Unhealthy",
+        "4": "Very unhealthy"
+      },
+      "sido": {
+        "서울": "Seoul",
+        "부산": "Busan",
+        "대구": "Daegu",
+        "인천": "Incheon",
+        "광주": "Gwangju",
+        "대전": "Daejeon",
+        "울산": "Ulsan",
+        "세종": "Sejong",
+        "경기": "Gyeonggi",
+        "강원": "Gangwon",
+        "충북": "Chungbuk",
+        "충남": "Chungnam",
+        "전북": "Jeonbuk",
+        "전남": "Jeonnam",
+        "경북": "Gyeongbuk",
+        "경남": "Gyeongnam",
+        "제주": "Jeju"
+      }
+    },
     "tour": {
       "audio": {
         "title": "Audio guide",
@@ -1129,6 +1158,60 @@
           "times": "Usual departures",
           "warn": "{monthName} sees {pct} cancellations on this route — keep a flight or a spare day as backup.",
           "src": "Source: KOMSA route sailing records"
+        }
+      },
+      "flights": {
+        "title": {
+          "jeju": "Jeju route flights",
+          "busan": "Gimhae Airport flights"
+        },
+        "direction": "Direction",
+        "dir": {
+          "jeju": {
+            "to": "To Jeju (choose origin)",
+            "from": "From Jeju (choose destination)"
+          },
+          "busan": {
+            "from": "From Gimhae (choose destination)",
+            "to": "To Gimhae (choose origin)"
+          }
+        },
+        "fromAirport": "From",
+        "toAirport": "To",
+        "rows": {
+          "airlines": "Airlines",
+          "daily": "Daily",
+          "first": "First",
+          "last": "Last",
+          "duration": "Flight time"
+        },
+        "airlinesCount": "{count} airlines · {names}{more, select, yes { +} other {}}",
+        "count": {
+          "daily": "{same, select, yes {{lo}} other {{lo}–{hi}}} one-way flights",
+          "total": "{same, select, yes {{lo}} other {{lo}–{hi}}} flights (one-way total)",
+          "weekly": "{same, select, yes {{lo}} other {{lo}–{hi}}} flights a week"
+        },
+        "special": {
+          "noRegular": "No scheduled flights — take KTX/SRT (about 2 h 40 min)",
+          "irregular": "Mostly charter and seasonal flights"
+        },
+        "minutes": "{n} min",
+        "note": "Typical schedule · varies by season and weekday. Check the airline timetables for flight numbers and exact times.",
+        "byAirline": "By airline (one-way, approximate)",
+        "share": "{pct}% of flights on this route",
+        "links": "Airline timetables",
+        "busanNote": "Domestic flights are mainly to Jeju; international routes serve Japan and Southeast Asia.",
+        "process": {
+          "title": "Processing now at {airport} Airport",
+          "at": "as of {at}",
+          "minutes": "{n} min",
+          "steps": {
+            "a": "Check-in → ID check",
+            "b": "ID check → Security",
+            "c": "Security → Boarding",
+            "d": "Boarding → Departure"
+          },
+          "note": "Allow {all} min of processing + {buffer} min before boarding closes{floor, select, yes { (at least {min} min)} other {}} = {lead} min from arrival at the airport · Korea Airports Corporation, updated every 5 min"
         }
       }
     },
