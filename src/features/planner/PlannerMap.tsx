@@ -4,6 +4,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, Polygon, useMap } from "react-kakao-maps-sdk";
 import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
 import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
+import { bubbleText } from "./bubble-text";
 import { categoryDot } from "./category";
 import { CategoryIcon } from "./CategoryIcon";
 
@@ -28,13 +29,13 @@ export type MapBubble = LatLng & {
   size?: "sm" | "md";
 };
 
-/** 묶음 표시 크기별 원 지름 · 글자. 원형이라 가로 · 세로가 같다 */
+/** 묶음 표시 크기별 최소 지름. 원형(aspect-square)이라 이름이 길면 지름이 조금 커진다(최대 max-w) */
 const BUBBLE_SIZE = {
-  md: "size-14 text-micro [&>[data-count]]:text-caption",
-  sm: "size-11 text-[0.625rem] [&>[data-count]]:text-micro",
+  md: "min-w-14 max-w-20",
+  sm: "min-w-11 max-w-16",
 } as const;
 
-/** 권역 면(전국 보기). 면을 칠하고 가운데에 이름 · 장소 수 표시를 둔다. 면이나 표시를 누르면 onBubble(id) */
+/** 권역 면(전국 보기). 면을 칠하고 가운데에 이름표를 둔다(장소 수는 title · aria-label에만). 면이나 이름표를 누르면 onBubble(id) */
 export type MapArea = {
   id: string;
   label: string;
@@ -178,15 +179,9 @@ function AreaLayer({
           onClick={onArea ? () => onArea(a.id) : undefined}
           onMouseEnter={() => setHover(a.id)}
           onMouseLeave={() => setHover((h) => (h === a.id ? null : h))}
-          className="flex min-h-8 cursor-pointer items-baseline gap-1 rounded-lg bg-surface/90 px-2 py-1 text-caption whitespace-nowrap text-fg shadow-sm ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          className="flex min-h-8 cursor-pointer items-center rounded-lg bg-surface/90 px-2 py-1 text-caption font-bold whitespace-nowrap text-fg shadow-sm ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
         >
-          <span className="font-bold break-keep">{a.label}</span>
-          <span
-            className="font-semibold tabular-nums"
-            style={{ color: a.color }}
-          >
-            {a.count}
-          </span>
+          {a.label}
         </button>
       </CustomOverlayMap>
     </Fragment>
@@ -252,6 +247,7 @@ function BubbleLayer({
 
   return bubbles.map((b) => {
     const off = hideOverlapping && hidden.has(b.id);
+    const text = bubbleText(b.label);
     return (
       <CustomOverlayMap
         key={b.id}
@@ -272,15 +268,20 @@ function BubbleLayer({
           aria-hidden={off || undefined}
           tabIndex={off ? -1 : undefined}
           onClick={onBubble ? () => onBubble(b.id) : undefined}
-          // 원형 표시(권역 · 도시 같다). 이름은 원 안에서 한 줄로 줄이고 전체 이름은 title · aria-label에 있다
-          className={`flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-full bg-primary px-1 text-center text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
+          // 원형 표시. 이름은 줄이지 않고 원 안에 다 담는다(긴 이름은 글자를 줄이고 원을 조금 키운다)
+          className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-full bg-primary p-1.5 text-center text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
             BUBBLE_SIZE[b.size ?? "md"]
           } ${off ? "invisible" : ""}`}
         >
-          <span className="max-w-full truncate leading-tight font-semibold">
+          {/* 중 · 일 화면은 body에 break-keep이 없어 한 글자씩 끊긴다. 이름은 단어 사이에서만 줄을 바꾼다 */}
+          <span
+            className={`leading-[1.1] font-semibold break-keep ${text.name}`}
+          >
             {b.label}
           </span>
-          <span data-count className="leading-tight font-bold tabular-nums">
+          <span
+            className={`leading-tight font-bold tabular-nums opacity-90 ${text.count}`}
+          >
             {b.count}
           </span>
         </button>
