@@ -127,14 +127,30 @@ describe("오디 결과 고르기 (PoC loadAudio)", () => {
     ).toBe("北村一景：昌徳宮(チャンドックン)");
   });
 
-  it("좌표가 ±0.12도 밖이면 버린다 (같은 이름의 충북 화양구곡 첨성대)", () => {
+  it("좌표가 ±0.12도 밖이면 버리고, 같은 관광지(tid) 안에서는 음성 있는 해설을 먼저", () => {
     const list = items(odiiEnCheomseongdae);
+    // 첫째는 같은 이름의 충북 화양구곡(tid 338) — 좌표로 빠진다
     expect(list[0].title).toContain("Hwayanggugok");
     const audio = pickOdii(list, at("gjx3", "Cheomseongdae"));
-    expect(audio?.title).toBe("Cheomseong Observatory, A star-gazing tower");
-    // 이 항목은 음성 주소가 없다 → 재생 칸 없이 대본만
-    expect(audio?.audioUrl).toBeUndefined();
-    expect(audio?.playTime).toBeUndefined();
+    // tid 2967의 첫 해설 「Cheomseongdae: On a way to observatory」는 음성이 없어, 음성 있는 해설 중 이름이 겹치는 첫째
+    expect(audio).toMatchObject({
+      title: "At the Cheomseong Observatory (Cheomseongdae)",
+      playTime: 117,
+    });
+    expect(audio?.audioUrl).toMatch(/^https:/);
+  });
+
+  it("한국어 화면도 같은 규칙: 고른 해설에 음성이 없으면 같은 tid의 음성 있는 해설 (실제 항목에서 첫 해설의 음성만 뺐다)", () => {
+    const [first, ...rest] = items(odiiKoBulguksa);
+    const list = [{ ...first, audioUrl: "" }, ...rest];
+    expect(pickOdii(list, at("gjx1", "불국사"))).toMatchObject({
+      title: "부처님의 나라를 지키는 천왕문",
+      playTime: 96,
+    });
+    // 같은 tid에 음성 있는 해설이 없으면 대본만 있는 대표(황리단길 ko: 1건, 음성 없음)
+    const gj4 = pickOdii(items(odiiKoHwangnidan), at("gj4", "황리단길"));
+    expect(gj4?.title).toBe("경주 황리단길");
+    expect(gj4?.audioUrl).toBeUndefined();
   });
 
   it("경계: 모든 항목에서 0.12도를 넘게 떨어진 곳이면 없음, 안이면 고른다", () => {
@@ -202,9 +218,9 @@ describe("외국어 해설을 관광지 번호(tid)로 잇기", () => {
     ).toEqual(["2967", "3415"]);
   });
 
-  it("대표 해설: 같은 tid 중 제목이 관광지 제목과 같은 것 → 품는 것 → 첫째", () => {
+  it("대표 해설: 같은 tid 중 음성 있는 것 먼저, 그 안에서 제목이 관광지 제목과 같은 것 → 품는 것 → 첫째", () => {
     const gjx1 = place("gjx1");
-    // en: 제목이 관광지 제목과 같은 「Bulguksa Temple」(개요, 이 해설은 음성 파일이 없다)
+    // en: 제목이 같은 개요 「Bulguksa Temple」은 음성이 없어, 음성 있는 해설 중 관광지 제목을 품는 첫째
     const en = pickOdiiByTid(
       items(odiiEnBulguksa),
       "2",
@@ -212,10 +228,16 @@ describe("외국어 해설을 관광지 번호(tid)로 잇기", () => {
       gjx1,
     );
     expect(en).toMatchObject({
-      title: "A kingdom of Buddhism where anyone could become a Buddha",
+      title: "Entrance (Bulguksa Temple)",
+      playTime: 111,
     });
-    expect(en?.audioUrl).toBeUndefined();
-    // jp: 모두 「仏国寺」를 품는다 → 첫째(입구)
+    expect(en?.audioUrl).toMatch(/^https:/);
+    // 음성 있는 해설이 없으면 대본만 있는 것에서 같은 기준: 제목이 같은 개요 (실제 항목에서 음성만 뺐다)
+    const noAudio = items(odiiEnBulguksa).map((x) => ({ ...x, audioUrl: "" }));
+    expect(pickOdiiByTid(noAudio, "2", "Bulguksa Temple", gjx1)?.title).toBe(
+      "A kingdom of Buddhism where anyone could become a Buddha",
+    );
+    // jp: 불국사 해설은 모두 음성이 없고 모두 「仏国寺」를 품는다 → 첫째(입구)
     expect(
       pickOdiiByTid(items(odiiJpBulguksa), "2", "仏国寺", gjx1)?.title,
     ).toBe("仏様の国「仏国寺」");
@@ -387,14 +409,15 @@ describe("GET /api/tour/audio", () => {
     expect(asked).toEqual(["story ko|불국사"]);
   });
 
-  it("영어 · 중국어 · 스페인어 화면: 한국어 해설의 tid(2) → en 관광지 「Bulguksa Temple」 → 같은 tid 대표 해설", async () => {
+  it("영어 · 중국어 · 스페인어 화면: 한국어 해설의 tid(2) → en 관광지 「Bulguksa Temple」 → 같은 tid 대표 해설(음성 먼저)", async () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     for (const locale of ["en", "zh", "es"]) {
       clearOdiiCache();
       const asked = stubOdii(REAL);
       const body = await (await call(`id=gjx1&locale=${locale}`)).json();
       expect(body).toMatchObject({
-        title: "A kingdom of Buddhism where anyone could become a Buddha",
+        title: "Entrance (Bulguksa Temple)",
+        playTime: 111,
       });
       expect(hasHangul(JSON.stringify(body))).toBe(false);
       // en 관광지는 1,356곳이라 1,000개씩 두 쪽

@@ -178,12 +178,44 @@ export function odiiAudio(item: TourItem | null): TourAudio | null {
   };
 }
 
-/** pickOdiiItem으로 고른 해설의 응답 */
+/**
+ * 같은 관광지(tid) 해설 중 대표 하나(2026-09-29 팀 결정): 이 칸은 「오디오 가이드」라 음성 파일(audioUrl)이 있는 해설을 먼저 보고,
+ * 그 안에서 제목이 기준 이름과 같은 것 → 품거나 품기는 것 → 첫째. 음성 있는 해설이 없으면 대본만 있는 해설에서 같은 기준
+ */
+function representative(
+  items: readonly TourItem[],
+  name: string,
+): TourItem | null {
+  const key = odiiName(name);
+  const score = (x: TourItem) => {
+    const t = odiiName(x.title);
+    if (!t || !key) return 0;
+    if (t === key) return 2;
+    return t.includes(key) || key.includes(t) ? 1 : 0;
+  };
+  const best = (list: readonly TourItem[]) => {
+    let top: TourItem | null = null;
+    for (const x of list) if (!top || score(x) > score(top)) top = x;
+    return top;
+  };
+  return best(items.filter((x) => audioUrl(x.audioUrl))) ?? best(items);
+}
+
+/**
+ * 한국어 화면 · 이름 검색의 해설: PoC 고르기(pickOdiiItem)로 관광지(tid)를 정하고,
+ * 그 tid의 해설(좌표 ±0.12도 안) 중 대표(음성 먼저, 제목 기준은 장소 이름)
+ */
 export function pickOdii(
   items: readonly TourItem[],
   place: { name: string; lat: number; lng: number },
 ): TourAudio | null {
-  return odiiAudio(pickOdiiItem(items, place));
+  const base = pickOdiiItem(items, place);
+  const tid = String(base?.tid ?? "");
+  if (!base || !tid) return odiiAudio(base);
+  const same = odiiNear(items, place).filter(
+    (x) => String(x.tid ?? "") === tid,
+  );
+  return odiiAudio(representative(same, place.name) ?? base);
 }
 
 /** 오디 관광지(tid) 하나의 그 언어 제목과 좌표 (themeBasedList) */
@@ -278,8 +310,8 @@ export function odiiNearUrl(
 }
 
 /**
- * 같은 관광지(tid)의 해설 중 대표 하나: 대본이 있고 장소 좌표 ±0.12도 안이며(한국어와 같은 기준 — 도 단위 관광지의 먼 해설을 고르지 않게)
- * 한글이 섞이지 않은 것(외국어 화면) 중 제목이 관광지 제목과 같은 것 → 관광지 제목을 품거나 품기는 것 → 첫째. 없으면 null
+ * 외국어 화면에서 같은 관광지(tid)의 해설 중 대표 하나: 대본이 있고 장소 좌표 ±0.12도 안이며(한국어와 같은 기준 — 도 단위 관광지의 먼 해설을 고르지 않게)
+ * 한글이 섞이지 않은 것 중 음성 먼저, 제목 기준은 그 언어 관광지 제목(representative). 없으면 null
  */
 export function pickOdiiByTid(
   items: readonly TourItem[],
@@ -292,16 +324,7 @@ export function pickOdiiByTid(
       String(x.tid ?? "") === tid &&
       !hasHangul(`${x.title ?? ""}${x.audioTitle ?? ""}${x.script ?? ""}`),
   );
-  const key = odiiName(themeTitle);
-  const score = (x: TourItem) => {
-    const t = odiiName(x.title);
-    if (!t || !key) return 0;
-    if (t === key) return 2;
-    return t.includes(key) || key.includes(t) ? 1 : 0;
-  };
-  let best: TourItem | null = null;
-  for (const x of same) if (!best || score(x) > score(best)) best = x;
-  return odiiAudio(best);
+  return odiiAudio(representative(same, themeTitle));
 }
 
 /** 한국어 스토리텔링(PoC STORY_DB). 없으면 null */
