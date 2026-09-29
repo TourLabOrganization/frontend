@@ -94,6 +94,16 @@
 }
 
 /*
+ * 블랙 모드의 파랑 글자(text-primary). primary는 버튼 바탕이라 흰 글씨 대비를 지키려고 그대로 두는데,
+ * 같은 색을 글자로 쓰면 어두운 바탕에서 3.7:1이라 흐리다(시티투어 「코스형」 · 전화 · 선택된 탭 · 설문 진행 등 57곳).
+ * 글자로 쓸 때만 블랙 모드의 primary-bright(#4c94ff)로 바꾼다: surface 6.0:1 · fill 5.0:1 · primary-weak 4.9:1.
+ * 버튼 바탕(bg-primary)과 다른 모드는 그대로다
+ */
+:root[data-mode="dark"] .text-primary {
+  color: var(--color-primary-bright);
+}
+
+/*
  * 포레스트 — 옅은 녹색 바탕 · 녹색 강조(자연 · 힐링 여행). 후보 ④를 대표 요청(2026-09-29)으로 테두리 · 글자를 한 단계 진하게.
  * 대비(surface 기준): fg 16.7:1 · muted 10.3:1 · subtle 7.1:1(fill 위 6.0:1) · 테두리 1.7:1(후보 1.4:1), primary 흰 글씨 5.8:1
  */
