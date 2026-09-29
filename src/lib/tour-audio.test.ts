@@ -14,7 +14,9 @@ import odiiJpNearHwangnidan from "./fixtures/tour/odii-jp-near-hwangnidan.json";
 import odiiJpNearWindyhill from "./fixtures/tour/odii-jp-near-windyhill.json";
 import odiiKoBulguksa from "./fixtures/tour/odii-ko-bulguksa.json";
 import odiiKoCheomseongdae from "./fixtures/tour/odii-ko-cheomseongdae.json";
+import odiiKoHanok from "./fixtures/tour/odii-ko-hanok.json";
 import odiiKoHwangnidan from "./fixtures/tour/odii-ko-hwangnidan.json";
+import odiiKoJeonjuFull from "./fixtures/tour/odii-ko-jeonju-full.json";
 import odiiKoWindyhill from "./fixtures/tour/odii-ko-windyhill.json";
 import themeEnP1 from "./fixtures/tour/odii-theme-en-p1.json";
 import themeEnP2 from "./fixtures/tour/odii-theme-en-p2.json";
@@ -54,6 +56,7 @@ import {
 //   odii-en-gyeongnam  en 「Gyeongsangnam-do」 → tid 617(산청)뿐
 //   odii-{en,jp}-near-{hwangnidan,windyhill}  storyLocationBasedList 반경 1km(황리단길은 앞 4건만 남겼다)
 //   en 「Hwanglidan-gil」 · jp 「ファンリダンギル」 · jp 「慶尚南道(キョンサンナムド)」 이야기 검색은 0건(empty)
+//   odii-ko-jeonju-full  ko 「전주한옥마을」 1건(좌표가 약 37km 남쪽이라 ±0.12도 밖), odii-ko-hanok  ko 「한옥마을」 13건 중 10건
 const items = (body: unknown) => parseTourItems(body) ?? [];
 const place = (id: string) => tourPlace(id)!;
 const at = (id: string, name: string) => ({
@@ -351,6 +354,8 @@ describe("GET /api/tour/audio", () => {
     "story ko|황리단길": odiiKoHwangnidan,
     "story ko|바람의 언덕": odiiKoWindyhill,
     "story ko|첨성대": odiiKoCheomseongdae,
+    "story ko|전주한옥마을": odiiKoJeonjuFull,
+    "story ko|한옥마을": odiiKoHanok,
     "theme en|1": themeEnP1,
     "theme en|2": themeEnP2,
     "theme jp|1": themeJpP1,
@@ -407,6 +412,16 @@ describe("GET /api/tour/audio", () => {
       source: "odii",
     });
     expect(asked).toEqual(["story ko|불국사"]);
+  });
+
+  it("한국어 해설은 앞의 도시 이름을 뗀 이름으로도 찾는다 (전주한옥마을 → 한옥마을 「전주 한옥마을」)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    const asked = stubOdii(REAL);
+    expect(await (await call("id=nax109&locale=ko")).json()).toMatchObject({
+      title: "민족의 자긍심이 낳은 역사",
+      source: "odii",
+    });
+    expect(asked).toEqual(["story ko|전주한옥마을", "story ko|한옥마을"]);
   });
 
   it("영어 · 중국어 · 스페인어 화면: 한국어 해설의 tid(2) → en 관광지 「Bulguksa Temple」 → 같은 tid 대표 해설(음성 먼저)", async () => {

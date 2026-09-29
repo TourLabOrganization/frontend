@@ -6,7 +6,7 @@ import signgu from "../features/planner/data/signgu.json";
 import emptyRes from "./fixtures/tour/empty.json";
 import invalidKey from "./fixtures/tour/invalid-key.json";
 import odiiKo from "./fixtures/tour/odii-ko-bulguksa.json";
-import { parseTourItems, tourApiUrl } from "./tour-api";
+import { parseTourItems, tourApiUrl, withoutCity } from "./tour-api";
 
 // 공공데이터포털 실제 응답(2026-09-29 받음, fixtures/tour). 저장 전에 키를 지웠다
 describe("공공데이터포털 응답 파싱 (parseTourItems)", () => {
@@ -60,6 +60,17 @@ describe("공공데이터포털 주소 (tourApiUrl)", () => {
     expect(url.searchParams.get("MobileApp")).toBe("TourNavigator");
     expect(url.searchParams.get("_type")).toBe("json");
     expect(url.searchParams.get("keyword")).toBe("첨성대");
+  });
+});
+
+describe("앞의 도시 이름을 뗀 검색어 (withoutCity)", () => {
+  it("장소 이름이 도시 이름(locKo)으로 시작하면 뗀다, 떼고 2글자 이상일 때만", () => {
+    expect(withoutCity("전주한옥마을", "전주")).toBe("한옥마을");
+    expect(withoutCity("경주 양남 주상절리", "경주")).toBe("양남 주상절리");
+    expect(withoutCity("고성 통일전망대", "고성(강원)")).toBe("통일전망대");
+    expect(withoutCity("불국사", "경주")).toBeNull();
+    expect(withoutCity("정동심곡 바다부채길", "강릉")).toBeNull();
+    expect(withoutCity("경주역", "경주")).toBeNull();
   });
 });
 

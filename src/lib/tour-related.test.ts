@@ -4,6 +4,8 @@ import invalidKey from "./fixtures/tour/invalid-key.json";
 import areaGyeongju from "./fixtures/tour/rlte-area-47130-202607.json";
 import searchBulguksa from "./fixtures/tour/rlte-search-bulguksa-202607.json";
 import searchGyeongbokgung from "./fixtures/tour/rlte-search-gyeongbokgung-202607.json";
+import searchHanok from "./fixtures/tour/rlte-search-hanok-52111.json";
+import searchNaksan from "./fixtures/tour/rlte-search-naksan.json";
 import { hasHangul } from "./hangul";
 import { parseTourItems, tourPlace } from "./tour-api";
 import {
@@ -28,6 +30,9 @@ import {
 //   rlte-search-bulguksa-202607     searchKeyword1 baseYm=202607 areaCd=47 signguCd=47130 keyword=불국사 (50건, 관광지 「불국사」 하나)
 //   rlte-search-gyeongbokgung-202607 searchKeyword1 baseYm=202607 areaCd=11 signguCd=11110 keyword=경복궁 (50건)
 //   rlte-area-47130-202607          areaBasedList1 경주 202607 (2,000행 · 약 0.9MB 중 관광지 5곳의 순위 10위까지만 남겼다)
+//   rlte-search-naksan              searchKeyword1 202607 서울 종로구 keyword=낙산공원 (50건, 맥도날드 · CGV · 마복림떡볶이가 들어 있다)
+//   rlte-search-hanok-52111         searchKeyword1 202607 전주 완산구 keyword=한옥마을 (50건 중 10건, 관광지는 「남부시장한옥마을야시장」)
+//   rlte-area-47130-202607에는 투썸플레이스가 있는 「경주양남주상절리」 묶음(10위까지)도 남겼다
 //   empty                           결과 없음(연관 관광지 「효우당」 등)
 const items = (body: unknown) => parseTourItems(body) ?? [];
 const ME = relatedName("불국사");
@@ -55,6 +60,22 @@ describe("이름 점수 · 검색어 · 기준월 (PoC score · kws · 기준월
       "경주교",
     ]);
     expect(relatedKeywords("불국사")).toEqual(["불국사"]);
+  });
+
+  it("검색어 후보 마지막에 앞의 도시 이름(locKo)을 뗀 이름", () => {
+    expect(relatedKeywords("전주한옥마을", "전주")).toEqual([
+      "전주한옥마을",
+      "전주한",
+      "한옥마을",
+    ]);
+    expect(relatedKeywords("경주 양남 주상절리", "경주")).toEqual([
+      "경주 양남 주상절리",
+      "경주",
+      "경주양",
+      "양남 주상절리",
+    ]);
+    // 도시 이름으로 시작하지 않으면 그대로
+    expect(relatedKeywords("불국사", "경주")).toEqual(["불국사"]);
   });
 
   it("기준월: 한국 날짜 기준 2 · 3 · 4개월 전", () => {
@@ -177,6 +198,30 @@ describe("보일 줄 (PoC getRelatedSpots 정리 · 숙소 나누기) — 불국
       "소테츠호텔즈더스프라지르/서울명동",
       "L7 명동 바이 롯데호텔",
       "나인트리바이파르나스/서울명동2",
+    ]);
+  });
+
+  it("전국 체인(맥도날드 · CGV)은 순위를 다시 매기기 전에 빼고 로컬 맛집(마복림떡볶이)은 남긴다 — 낙산공원 실제 응답", () => {
+    const me = relatedName("낙산공원");
+    const { items: out, stays } = relatedRows(
+      pickRelated(items(searchNaksan), me),
+      me,
+    );
+    // 원래 6위 맥도날드/신월남부DT점 · 8위 CGV/동대문이 빠지고 9위 남산케이블카가 6위로
+    expect(out.map((r) => `${r.rank}.${r.name}`)).toEqual([
+      "1.팔각정북악스카이",
+      "2.북악스카이웨이",
+      "3.마복림떡볶이",
+      "4.자하손만두",
+      "5.남산공원",
+      "6.남산케이블카",
+      "7.백년토종삼계탕/본점",
+      "8.자유회관",
+    ]);
+    expect(stays.map((r) => r.name)).toEqual([
+      "메리어트 이그제큐티브 아파트먼트/서울",
+      "스탠포드호텔/명동",
+      "스테이호텔/강남",
     ]);
   });
 
@@ -314,7 +359,9 @@ describe("화면 언어로 옮기기 — 불국사 실제 응답", () => {
   });
 });
 
-/** 연관 관광지 실제 응답을 오퍼레이션 · 기준월로 돌려준다. 표에 없으면 실제 빈 응답 */
+/**
+ * 연관 관광지 실제 응답을 「오퍼레이션 기준월 검색어」(없으면 「오퍼레이션 기준월」)로 돌려준다. 표에 없으면 실제 빈 응답
+ */
 function stubRelated(table: Record<string, unknown>) {
   const asked: string[] = [];
   vi.stubGlobal(
@@ -323,8 +370,9 @@ function stubRelated(table: Record<string, unknown>) {
       const url = new URL(input);
       const op = url.pathname.split("/").pop();
       const k = `${op} ${url.searchParams.get("baseYm")}`;
-      asked.push(`${k} ${url.searchParams.get("keyword") ?? ""}`.trim());
-      return Response.json(table[k] ?? emptyRes);
+      const full = `${k} ${url.searchParams.get("keyword") ?? ""}`.trim();
+      asked.push(full);
+      return Response.json(table[full] ?? table[k] ?? emptyRes);
     }),
   );
   return asked;
@@ -384,6 +432,31 @@ describe("연관 관광지 찾기 (검색어 · 기준월 · 전체 목록 순�
     const asked = stubRelated({});
     expect(await findRelated(gjx1, "KEY", now)).toBeNull();
     expect(asked).toHaveLength(6);
+  });
+
+  it("그달 시군구 목록에 있는데 이 장소가 없으면 데이터 없음 — 이전 달로 넘어가지 않는다 (효우당)", async () => {
+    const asked = stubRelated({ "areaBasedList1 202607": areaGyeongju });
+    expect(await findRelated(tourPlace("gj1")!, "KEY", now)).toBeNull();
+    expect(asked).toEqual([
+      "searchKeyword1 202607 효우당",
+      "areaBasedList1 202607",
+    ]);
+  });
+
+  it("앞의 도시 이름을 뗀 이름도 찾고, 이름 점수는 그대로라 다른 관광지는 걸리지 않는다 (전주한옥마을)", async () => {
+    // 「한옥마을」로 찾으면 50건이 오지만 관광지는 「남부시장한옥마을야시장」 — 전주한옥마을과 점수 0
+    const asked = stubRelated({
+      "searchKeyword1 202607 한옥마을": searchHanok,
+      // 그달 시군구 목록이 비지 않았다(경주 실제 목록으로 대신한다) → 3 · 4개월 전은 보지 않는다
+      "areaBasedList1 202607": areaGyeongju,
+    });
+    expect(await findRelated(tourPlace("nax109")!, "KEY", now)).toBeNull();
+    expect(asked).toEqual([
+      "searchKeyword1 202607 전주한옥마을",
+      "searchKeyword1 202607 전주한",
+      "searchKeyword1 202607 한옥마을",
+      "areaBasedList1 202607",
+    ]);
   });
 
   it("주소: 시군구 코드 앞 2자리가 areaCd, 검색은 100행 · 전체 목록은 2,000행", async () => {

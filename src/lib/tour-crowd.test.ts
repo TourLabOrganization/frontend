@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import crowdBulguksa from "./fixtures/tour/crowd-bulguksa.json";
 import crowdDonggung from "./fixtures/tour/crowd-donggung.json";
+import crowdHanok from "./fixtures/tour/crowd-hanok.json";
+import crowdJeonjuhan from "./fixtures/tour/crowd-jeonjuhan.json";
 import emptyRes from "./fixtures/tour/empty.json";
 import invalidKey from "./fixtures/tour/invalid-key.json";
 import { parseTourItems, tourPlace } from "./tour-api";
@@ -15,7 +17,8 @@ import {
 // 관광지 집중률 방문자 추이 예측(TatsCnctrRateService) 실제 응답(2026-09-29 받음, fixtures/tour, 키는 지웠다):
 //   crowd-bulguksa  tAtsNm=불국사 areaCd=47 signguCd=47130 → 「경주 불국사 [유네스코 세계유산]」 30일(2026-09-29 ~ 10-28), 집중률은 소수 글자
 //   crowd-donggung  tAtsNm=동궁과 → 「경주 동궁과 월지」 30일(「동궁과 월지」로 찾아도 같은 30일)
-//   empty           결과 없음(집중률 「효우당」)
+//   crowd-jeonjuhan tAtsNm=전주한 → 「전주한벽문화관」(30일 중 3일만 남겼다), crowd-hanok tAtsNm=한옥마을 → 「전북 전주 한옥마을 [슬로시티]」 30일
+//   empty           결과 없음(집중률 「효우당」 · 「전주한옥마을」)
 const items = (body: unknown) => parseTourItems(body) ?? [];
 
 describe("이름 점수 (PoC getCrowd score)", () => {
@@ -111,6 +114,19 @@ describe("집중률 찾기 (PoC getCrowd)", () => {
     ]);
     expect(crowd?.name).toBe("경주 동궁과 월지");
     expect(crowd?.days[0]).toEqual({ date: "2026-09-29", rate: 59.59 });
+  });
+
+  it("앞 후보에서 한 곳을 고르지 못하면 앞의 도시 이름을 뗀 이름으로 (전주한옥마을 → 한옥마을)", async () => {
+    const asked = stubCrowd({ 전주한: crowdJeonjuhan, 한옥마을: crowdHanok });
+    const crowd = await findCrowd(tourPlace("nax109")!, "KEY", now);
+    // 「전주한옥마을」 0건 → 「전주한」은 전주한벽문화관뿐(이름 점수 0) → 「한옥마을」
+    expect(asked.map((u) => u.searchParams.get("tAtsNm"))).toEqual([
+      "전주한옥마을",
+      "전주한",
+      "한옥마을",
+    ]);
+    expect(crowd?.name).toBe("전북 전주 한옥마을 [슬로시티]");
+    expect(crowd?.days).toHaveLength(30);
   });
 
   it("집중률이 없는 장소는 null (효우당: 실제 0건)", async () => {

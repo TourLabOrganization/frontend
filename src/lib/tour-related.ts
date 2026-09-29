@@ -1,8 +1,9 @@
 // 장소 시트 「함께 많이 가는 관광지 Top」 칸 (GET /api/tour/related?id=&locale=, 서버 전용).
 // 한국관광공사 관광지별 연관 관광지(TarRlteTarService1). PoC shared.js getRelatedSpots와 같은 규칙:
-//   검색어 후보(전체 이름 → 첫 단어 → 정규화한 앞 3글자) × 기준월(2 → 3 → 4개월 전)로 searchKeyword1, 없으면 그달 areaBasedList1.
+//   검색어 후보(전체 이름 → 첫 단어 → 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름)로 가장 최근 기준월(2개월 전) searchKeyword1, 없으면 그달 areaBasedList1.
+//   그달 시군구 목록이 있는데 이 장소가 없으면 데이터 없음으로 보고 이전 달로 넘어가지 않는다(목록이 비었을 때만 3 → 4개월 전).
 //   결과를 관광지 이름(tAtsNm)으로 묶어 이름 점수가 가장 높은 한 곳의 연관 관광지를 rlteRank 순으로, 이름이 겹치거나 자기 자신이면 뺀다.
-//   PoC 화면처럼 영화관 · 주차장 · 화장실은 빼고 보인다(d_rlte).
+//   PoC 화면처럼 주차장 · 화장실을 빼고, 영화관 · 패스트푸드 · 커피 · 편의점 같은 전국 체인 브랜드도 뺀다(팀장 의견, lib/franchise-brands.ts).
 // 숙소(대분류 「숙박」)는 순위 계산에서 빼고 따로 보낸다(2026-09-29 팀 답 — 명세서 §20처럼 관광지 계산에서만 뺀다):
 //   items = 관광지 · 음식만 순위 순 8개(순위는 그 안에서 1부터 다시 매긴다), stays = 숙박만 원래 순위 순 3개.
 // 각 항목은 우리 장소(같은 이름 · 같은 도시)와 이어 placeId를 단다. 외국어 화면은 이어진 항목만,
@@ -12,6 +13,7 @@ import { PLANNER_PLACES, type PlannerPlace } from "../features/planner/data";
 import { cityName } from "../features/planner/regions";
 import { isCategoryKey, placeName } from "../features/theme/place-meta";
 import type { AppLocale } from "../i18n/locales";
+import { isFranchiseName } from "./franchise-brands";
 import { hasHangul } from "./hangul";
 import {
   TOUR_DAY_SECONDS,
@@ -29,6 +31,7 @@ import {
   type TourPlace,
   tourPlaceSigngu,
   tourUnavailable,
+  withoutCity,
 } from "./tour-api";
 import { seoulDate } from "./weather";
 
@@ -87,14 +90,17 @@ export function pickRelated(
   return bestScore > 0 ? best : [];
 }
 
-/** 검색어 후보 (PoC kws): 전체 이름 → 첫 단어 → 정규화한 앞 3글자. 2글자 이상, 겹치면 한 번 */
-export function relatedKeywords(keyword: string): string[] {
+/**
+ * 검색어 후보 (PoC kws): 전체 이름 → 첫 단어 → 정규화한 앞 3글자, 그 뒤에 앞의 도시 이름(city)을 뗀 이름. 2글자 이상, 겹치면 한 번
+ */
+export function relatedKeywords(keyword: string, city = ""): string[] {
   return [
     ...new Set(
       [
         keyword,
         keyword.split(/\s+/)[0],
         relatedName(keyword).slice(0, 3),
+        withoutCity(keyword, city) ?? "",
       ].filter((k) => k && k.length >= 2),
     ),
   ];
@@ -123,9 +129,12 @@ export type RelatedRow = {
   regionCd: string;
 };
 
-/** PoC 화면(d_rlte)에서 빼는 이름인지: 영화관 · 주차장 · 화장실 */
+/**
+ * 보이지 않는 이름인지: PoC 화면(d_rlte)의 주차장 · 화장실, 전국 체인 브랜드(영화관 · 패스트푸드 · 커피 · 편의점 등, 팀장 의견 2026-09-29).
+ * 순위를 다시 매기기 전에 뺀다(관광지 Top 8은 체인을 뺀 뒤 8개)
+ */
 export function hiddenRelatedName(name: string): boolean {
-  return /^(CGV|메가박스|롯데시네마)|주차장|화장실/.test(name);
+  return isFranchiseName(name) || /주차장|화장실/.test(name);
 }
 
 /** 숙소인지: 한국관광공사 연관 관광지 대분류(rlteCtgryLclsNm)가 「숙박」(나머지 대분류는 관광지 · 음식) */
@@ -334,22 +343,24 @@ export async function findRelated(
       }),
       TOUR_DAY_SECONDS,
     );
+  const found = (ym: string, rows: TourItem[]) => {
+    const link = (row: RelatedRow) => ({
+      ...row,
+      place: linkPlace(row, place.id),
+    });
+    const { items, stays } = relatedRows(rows, me);
+    return { month: ym, items: items.map(link), stays: stays.map(link) };
+  };
   for (const ym of relatedMonths(now)) {
-    let rows: TourItem[] = [];
-    for (const k of relatedKeywords(keyword)) {
-      rows = pickRelated(await search(ym, k), me);
-      if (rows.length > 0) break;
+    for (const k of relatedKeywords(keyword, place.locKo)) {
+      const rows = pickRelated(await search(ym, k), me);
+      if (rows.length > 0) return found(ym, rows);
     }
-    if (rows.length === 0)
-      rows = pickRelated(await bulkItems(key, place.signgu, ym), me);
-    if (rows.length > 0) {
-      const link = (row: RelatedRow) => ({
-        ...row,
-        place: linkPlace(row, place.id),
-      });
-      const { items, stays } = relatedRows(rows, me);
-      return { month: ym, items: items.map(link), stays: stays.map(link) };
-    }
+    const bulk = await bulkItems(key, place.signgu, ym);
+    const rows = pickRelated(bulk, me);
+    if (rows.length > 0) return found(ym, rows);
+    // 그달 시군구 목록이 있는데 이 장소가 없으면 데이터 없음 — 이전 달은 보지 않는다(목록이 비었을 때만, 그달 자료가 아직 없는 것으로 보고 이전 달로)
+    if (bulk.length > 0) return null;
   }
   return null;
 }

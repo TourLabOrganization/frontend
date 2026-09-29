@@ -114,6 +114,18 @@ export async function fetchTourPage(
   return { items, total: parseTourTotal(body) };
 }
 
+/**
+ * 장소 이름 앞의 도시 이름(locKo)을 뗀 이름. 떼고 2글자 이상일 때만, 아니면 null.
+ * 「전주한옥마을」 → 「한옥마을」, 「경주 양남 주상절리」 → 「양남 주상절리」. 오디 · 연관 관광지 · 집중률 검색어 후보의 마지막에 넣는다
+ * (전주한옥마을은 연관 관광지 「전주한옥마을」 0건 · 「한옥마을」 50건, 2026-09-29 확인)
+ */
+export function withoutCity(name: string, city: string): string | null {
+  const c = city.replace(/\(.*?\)/g, "").trim();
+  if (!c || !name.startsWith(c)) return null;
+  const rest = name.slice(c.length).trim();
+  return rest.length >= 2 ? rest : null;
+}
+
 /** 장소의 시군구 코드. 못 구한 곳 · 모르는 id는 "" */
 export function tourPlaceSigngu(id: string): string {
   return Object.hasOwn(SIGNGU, id) ? SIGNGU[id] : "";
