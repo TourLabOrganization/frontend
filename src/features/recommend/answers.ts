@@ -5,7 +5,7 @@ import {
   type QuestionId,
 } from "./survey";
 
-// 설문 답을 URL 쿼리 값 한 줄로 바꾼다. 예: s1.30s~s2.solo~s3.relaxed~s4.history~s5.quiet~s6.morning~b2.a~f1.balanced
+// 설문 답을 URL 쿼리 값 한 줄로 바꾼다. 예: s1.30s~s2.solo~s3.relaxed~s4.history_nature~s5.quiet~s6.morning~b2.a~b3.none~f1.balanced
 // 문항 사이는 "~", 문항 id와 보기 사이는 ".". 문항 순서는 고정(S1~S6 → B1~B7 → F1)
 export function encodeAnswers(answers: Answers): string {
   return QUESTION_IDS.flatMap((id) => {

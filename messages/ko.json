@@ -162,6 +162,7 @@
       "noRegion": "일치하는 지역이 없어요",
       "regionHeading": "{region} · {count}개 코스",
       "rank": "{rank}위",
+      "reserved": "{tag} 관심사 자리",
       "kind": {
         "loop": "순환형",
         "fixed": "코스형"
@@ -244,6 +245,7 @@
   "Recommend": {
     "progressLabel": "질문 진행",
     "counter": "{current} / {total}",
+    "pickedCount": "{count}/{total} 선택",
     "extraLabel": "추가 확인 질문",
     "next": "다음",
     "seeResult": "결과 보기",
@@ -285,8 +287,8 @@
         }
       },
       "s4": {
-        "title": "이번 여행에서 가장 하고 싶은 한 가지는 무엇인가요?",
-        "help": "가장 중요한 관심사 한 가지만 골라 주세요. 고른 관심사에 맞춘 질문이 하나 더 나와요",
+        "title": "이번 여행에서 가장 하고 싶은 것 두 가지는 무엇인가요?",
+        "help": "가장 하고 싶은 관심사 두 가지를 골라 주세요. 고른 관심사마다 맞춘 질문이 이어져요",
         "options": {
           "drama": "드라마·K팝 촬영지",
           "performance": "공연·콘서트",
@@ -404,7 +406,9 @@
     "categoryShare": "{category} 장소 {percent}%",
     "night": "야경 명소 {percent}%",
     "compareCourses": "코스 3안 비교하기",
-    "basis": "계산 기준 · 설문 6.3 · 추천 6.4(팀 명세서 참조 계산)"
+    "basis": "계산 기준 · 설문 6.4 · 추천 6.5(팀 명세서 참조 계산)",
+    "cityToursHeading": "나에게 맞는 지역 시티투어",
+    "cityToursNote": "여행 유형과 두 관심사로 고른 코스예요. 관심사마다 맞는 코스를 한 자리씩 먼저 넣었어요."
   },
   "Clusters": {
     "C1": {

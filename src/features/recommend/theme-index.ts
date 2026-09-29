@@ -1,8 +1,8 @@
 import type { Interest, SurveyResult, TypeId } from "./survey";
 import { type ThemeSlug, THEMES } from "./themes";
 
-// 명세서 6.4 추천 연결(§13~§15): 최종 유형 E · α → 5범주 간접 선호 u → 테마 적합도 지수. 순수 함수만 둔다.
-// 정본: 팀 명세서 integrated 6.4(2026-09-29)의 참조 계산(Data-Analytics reference_calc/recommend_reference.recommend의 테마 부분)을 옮겼다.
+// 명세서 6.5 추천 연결(§13~§15): 최종 유형 E · α → 5범주 간접 선호 u → 테마 적합도 지수. 순수 함수만 둔다.
+// 정본: 팀 명세서 integrated 6.5(2026-09-29)의 참조 계산(Data-Analytics reference_calc/recommend_reference.recommend의 테마 부분)을 옮겼다.
 // data-server가 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md).
 // 지역 가산 G · 한류 H · 연령 A · 인구통계 D는 신규 설문만으로 필수 입력을 얻을 수 없어 0이다(§14 · §29 · §30).
 // 지수는 구성 적합도 순서이고 확률 · 퍼센트가 아니다(§15). 지역 시티투어 코사인 점수(§16)와 더하지 않는다
@@ -77,6 +77,19 @@ export const INTEREST_TERM: Readonly<
   "shopping-beauty": null,
 };
 
+/**
+ * S4 두 관심사 중 테마 · 코스 자료가 있는 관심사의 항(INTERESTS 순서). 관심사 항은 이 항들의 평균이다(추천 6.5).
+ * 둘 다 자료가 없으면(드라마 · 공연 · 쇼핑) 빈 배열: 관심사 항이 없다
+ */
+export function interestTerms(
+  interests: readonly Interest[],
+): (Category | "night")[] {
+  return interests.flatMap((i) => {
+    const term = INTEREST_TERM[i];
+    return term === null ? [] : [term];
+  });
+}
+
 /** 관심사 항 계수. 기존 선호 · 관심사 항의 상대 계수 1 : 0.5를 유지한 설계값(§14) */
 const INTEREST_WEIGHT = 0.5;
 /** 최대 가능 합(1 + 0.5). 이 값으로 나눠 0~100 지수를 만든다 */
@@ -116,7 +129,7 @@ export type ThemeScore = {
   night: number;
   /** F_t = u · p̃_t (범주 적합도) */
   fit: number;
-  /** r_t (관심사 항). 관심사 자료가 없으면 0 */
+  /** r_t (관심사 항) = 자료가 있는 관심사 항의 평균. 둘 다 자료가 없으면 0 */
   interest: number;
   /** ThemeIndex_t = 100 · (F_t + 0.5 · r_t) / 1.5 (0~100) */
   index: number;
@@ -127,20 +140,23 @@ export type ThemeScore = {
 
 /** 테마 5개의 적합도 지수. 지수 내림차순, 같으면 THEMES 순서(= 명세서 표 순서). 화면은 상위 3개를 보인다 */
 export function rankThemes(
-  result: Pick<SurveyResult, "types" | "alpha" | "interest">,
+  result: Pick<SurveyResult, "types" | "alpha" | "interests">,
 ): ThemeScore[] {
   const u = indirectPreference(result);
-  const term = INTEREST_TERM[result.interest];
+  const terms = interestTerms(result.interests);
   return THEMES.map((theme, order) => {
     const { categories, night } = THEME_COMPOSITION[theme.slug];
     const shares = normalize(categories);
     const fit = shares.reduce((sum, p, j) => sum + u[j] * p, 0);
     const interest =
-      term === null
+      terms.length === 0
         ? 0
-        : term === "night"
-          ? night
-          : shares[CATEGORIES.indexOf(term)];
+        : terms.reduce(
+            (sum, term) =>
+              sum +
+              (term === "night" ? night : shares[CATEGORIES.indexOf(term)]),
+            0,
+          ) / terms.length;
     const typePart = (100 * fit) / INDEX_SCALE;
     const interestPart = (100 * INTEREST_WEIGHT * interest) / INDEX_SCALE;
     return {
@@ -162,21 +178,22 @@ export function rankThemes(
 }
 
 /**
- * 카드에 보일 분류 비중(p̃ 값): S4 관심사에 대응 분류가 있고 이 테마의 그 비중이 0보다 크면 그 분류,
- * 아니면(야경 · 자료 없는 관심사 · 비중 0) 이 테마에서 가장 큰 분류(같으면 CATEGORIES 앞 분류)
+ * 카드에 보일 분류 비중(p̃ 값): S4 관심사에 대응 분류가 있고 이 테마의 그 비중이 0보다 크면 그 분류(관심사 순서, 최대 2개),
+ * 하나도 없으면(야경 · 자료 없는 관심사 · 비중 0) 이 테마에서 가장 큰 분류 하나(같으면 CATEGORIES 앞 분류)
  */
-export function featuredCategory(
+export function featuredCategories(
   theme: Pick<ThemeScore, "shares">,
-  interest: Interest,
-): { category: Category; share: number } {
-  const term = INTEREST_TERM[interest];
-  if (term !== null && term !== "night") {
+  interests: readonly Interest[],
+): { category: Category; share: number }[] {
+  const out = interestTerms(interests).flatMap((term) => {
+    if (term === "night") return [];
     const share = theme.shares[CATEGORIES.indexOf(term)];
-    if (share > 0) return { category: term, share };
-  }
+    return share > 0 ? [{ category: term, share }] : [];
+  });
+  if (out.length > 0) return out;
   let best = 0;
   theme.shares.forEach((share, j) => {
     if (share > theme.shares[best]) best = j;
   });
-  return { category: CATEGORIES[best], share: theme.shares[best] };
+  return [{ category: CATEGORIES[best], share: theme.shares[best] }];
 }

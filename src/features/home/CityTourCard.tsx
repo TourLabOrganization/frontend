@@ -19,6 +19,7 @@ import {
   tourFare,
   tourHours,
   tourProfile,
+  type TourTag,
   tourTags,
 } from "./citytour";
 
@@ -83,13 +84,21 @@ type CityTourCardProps = {
   text?: CityTourText;
   /** 내 유형 추천의 순위 */
   rank?: number;
+  /** 추천 결과에서 이 코스가 채운 관심사 보장 자리(citytour.ts recommendTourPicks). 없으면 칩을 보이지 않는다 */
+  reservedFor?: TourTag | null;
   onAdd: () => void;
 };
 
 // 코스 카드: 유형 · 분류 칩 · 노선명 · 경로 · 탑승지 · 운행 시간 · 요금 · 홈페이지(새 창) · 전화 · 「코스빌더에 넣기」.
 // 한국어 화면은 원천 그대로. 외국어 화면은 서버가 옮긴 글(text: 노선명 · 경로 · 탑승지 · 요금, features/translations)을 보인다.
 // 경로가 3줄을 넘으면 3줄까지만 보이고 「경로 전체 보기」로 편다
-export function CityTourCard({ tour, text, rank, onAdd }: CityTourCardProps) {
+export function CityTourCard({
+  tour,
+  text,
+  rank,
+  reservedFor,
+  onAdd,
+}: CityTourCardProps) {
   const t = useTranslations("Home.citytour");
   const locale = useLocale();
   const names = useNameTable();
@@ -112,8 +121,15 @@ export function CityTourCard({ tour, text, rank, onAdd }: CityTourCardProps) {
         {t(`kind.${tour.kind}`)}
       </p>
       <h4 className="mt-1 text-body-lg font-bold">{text?.name ?? tour.name}</h4>
-      {tags.length > 0 && (
+      {(tags.length > 0 || reservedFor) && (
         <ul className="mt-2 flex flex-wrap gap-1.5">
+          {reservedFor && (
+            <li>
+              <Chip tone="primary">
+                {t("reserved", { tag: t(`tags.${reservedFor}`) })}
+              </Chip>
+            </li>
+          )}
           {tags.map((tag) => (
             <li key={tag}>
               <Chip>{t(`tags.${tag}`)}</Chip>

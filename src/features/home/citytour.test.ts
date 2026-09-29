@@ -6,6 +6,7 @@ import {
   type CityTour,
   courseScore,
   type CourseScoreProfile,
+  recommendTourPicks,
   recommendTours,
   regionCounts,
   routeOverflows,
@@ -20,60 +21,63 @@ import scoresData from "./data/citytour-scores.json";
 
 const TOURS = toursData as CityTour[];
 
-// 명세서 §15 예제(C4 · C5 복합형, 역사)
+// 명세서 §15 예제(C4 · C5 복합형, 역사 · 자연)
 const MIXED: Answers = {
   s1: "30s",
   s2: "solo",
   s3: "relaxed",
-  s4: "history",
+  s4: "history_nature",
   s5: "quiet",
   s6: "morning",
   b2: "a",
+  b3: "none",
   f1: "balanced",
 };
 
 const SAMPLES: Answers[] = [
   MIXED,
-  // 20대 · 친구와 · 빡빡하게 · 야경 · 핫플 · 저녁 + 인기 야간 명소
+  // 20대 · 친구와 · 빡빡하게 · 야경과 쇼핑 · 핫플 · 저녁 + 인기 야간 명소 · 스파 → C1
   {
     s1: "20s",
     s2: "friends",
     s3: "packed",
-    s4: "night",
+    s4: "night_shopping-beauty",
     s5: "trending",
     s6: "evening",
     b6: "a",
+    b7: "a",
   },
-  // 관심사 자료 없음(드라마): 10대 · 혼자 · 빡빡하게 + 실제 촬영지 → C7
+  // 관심사 자료 없음(드라마 · 공연): 10대 · 혼자 · 빡빡하게 + 실제 촬영지 → C7
   {
     s1: "teens",
     s2: "solo",
     s3: "packed",
-    s4: "drama",
+    s4: "drama_performance",
     s5: "trending",
     s6: "morning",
     b1: "a",
   },
-  // 복합형(C2 · C1, BALANCED): 20대 · 친구와 · 적당히 · 바다 · 핫플 · 저녁 + 동행 사진
+  // 20대 · 친구와 · 적당히 · 드라마와 바다 · 핫플 · 저녁 + 동행 사진 두 번 → C2
   {
     s1: "20s",
     s2: "friends",
     s3: "moderate",
-    s4: "sea",
+    s4: "drama_sea",
     s5: "trending",
     s6: "evening",
+    b1: "c",
     b3: "c",
-    f1: "balanced",
   },
-  // 50대 · 부모님 · 적당히 · 맛집 · 한적한 곳 · 낮 + 지역 미식
+  // 50대 · 부모님 · 적당히 · 맛집과 체험 · 한적한 곳 · 낮 + 지역 미식 · 가족 체험 → C6
   {
     s1: "50s",
     s2: "parents",
     s3: "moderate",
-    s4: "food-market",
+    s4: "food-market_activity",
     s5: "quiet",
     s6: "daytime",
     b4: "a",
+    b5: "a",
   },
 ];
 
@@ -82,7 +86,7 @@ const byId = new Map(
   PROFILES.flatMap((p, i) => (p ? [[p.id, TOURS[i]] as const] : [])),
 );
 
-describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수)", () => {
+describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수 · 관심사별 1자리 보장)", () => {
   it("점수 자료는 citytour.json과 같은 순서의 280칸이고 분석 적격 234코스만 있다", () => {
     expect(PROFILES).toHaveLength(TOURS.length);
     const present = PROFILES.filter((p) => p !== null);
@@ -93,22 +97,35 @@ describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수)", () 
     }
   });
 
-  it("명세서 예제(C4 · C5 복합형, 역사 · 천천히): 해남 · 대전 생태교육 · 아산 · 순천 81.18, 천안 80.52", () => {
-    const got = recommendTours(TOURS, typeProfile(MIXED)!, PROFILES);
-    expect(got.map((t) => [t.region, t.name])).toEqual([
-      ["해남", "해남시티투어"],
-      ["대전", "생태교육"],
-      ["아산", "역사기행 코스"],
-      ["순천", "(기획투어)나이트가든투어"],
-      ["천안", "목요일"],
+  it("명세서 예제(C4 · C5 복합형, 역사 · 자연 · 천천히): 해남(역사 자리) · 대전 생태교육(자연 자리) · 아산 · 순천 81.34, 파주 80.83", () => {
+    const picks = recommendTourPicks(TOURS, typeProfile(MIXED)!, PROFILES);
+    expect(
+      picks.map((p) => [p.tour.region, p.tour.name, p.reservedFor]),
+    ).toEqual([
+      ["해남", "해남시티투어", "history"],
+      ["대전", "생태교육", "nature"],
+      ["아산", "역사기행 코스", null],
+      ["순천", "(기획투어)나이트가든투어", null],
+      ["파주", "2026 파주시티투어 당일코스(목요일)", null],
     ]);
-    const type = typeProfile(MIXED)!;
-    const scores = got.map(
-      (tour) => courseScore(PROFILES[TOURS.indexOf(tour)]!, type).score,
+    [81.343917, 81.343917, 81.343917, 81.343917, 80.825055].forEach((v, k) =>
+      expect(picks[k].score).toBeCloseTo(v, 5),
     );
-    [81.179956, 81.179956, 81.179956, 81.179956, 80.51904].forEach((v, k) =>
-      expect(scores[k]).toBeCloseTo(v, 5),
-    );
+    expect(picks[0].fit).toBeCloseTo(95.150267, 5);
+  });
+
+  it("보장 자리는 순위 밖의 코스라도 먼저 채우고, 보여 주는 순서는 순위 순이다", () => {
+    for (const answers of SAMPLES) {
+      const type = typeProfile(answers)!;
+      const picks = recommendTourPicks(TOURS, type, PROFILES);
+      const reserved = picks.flatMap((p) =>
+        p.reservedFor ? [p.reservedFor] : [],
+      );
+      // 분류가 있는 관심사마다 한 자리(234코스에서는 늘 채울 코스가 있다)
+      expect(reserved).toEqual(type.tags);
+      for (let k = 1; k < picks.length; k++)
+        expect(picks[k].score).toBeLessThanOrEqual(picks[k - 1].score + 1e-9);
+    }
   });
 
   it("가산 항이 없으면 점수는 범주 적합 100 · cos · 커버리지다", () => {
@@ -117,7 +134,7 @@ describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수)", () 
       pace: null,
       eveningNight: false,
     };
-    expect(type.tag).toBeNull();
+    expect(type.tags).toEqual([]);
     for (const p of PROFILES.filter((x) => x !== null)) {
       const s = courseScore(p, type);
       expect(s.score).toBeCloseTo(s.fit, 10);
@@ -136,31 +153,39 @@ describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수)", () 
     }
   });
 
-  it("유형 요약: 명세서 예제는 C4 · C5, u = [0.321, 0.434, 0.028, 0.128, 0.090], 역사 · 천천히 · 저녁 가산 없음", () => {
+  it("유형 요약: 명세서 예제는 C4 · C5, u = [0.327, 0.429, 0.028, 0.128, 0.086], 역사 · 자연 · 천천히 · 저녁 가산 없음", () => {
     const type = typeProfile(MIXED)!;
     expect(type.types).toEqual(["C4", "C5"]);
-    expect(type.tag).toBe("history");
+    expect(type.tags).toEqual(["history", "nature"]);
     expect(type.pace).toBe("relaxed");
     expect(type.eveningNight).toBe(false);
-    [0.32069, 0.434483, 0.027586, 0.127586, 0.089655].forEach((v, k) =>
+    [0.327463, 0.429403, 0.028433, 0.128433, 0.086269].forEach((v, k) =>
       expect(type.preference[k]).toBeCloseTo(v, 5),
     );
   });
 
-  it("S6 저녁 · 밤까지는 S4가 야경이 아닐 때만 야경 가산이다", () => {
-    expect(typeProfile(SAMPLES[1])!.tag).toBe("night");
+  it("S6 저녁 · 밤까지는 S4에 야경이 없을 때만 야경 가산이다", () => {
+    expect(typeProfile(SAMPLES[1])!.tags).toEqual(["night"]);
     expect(typeProfile(SAMPLES[1])!.eveningNight).toBe(false);
     expect(typeProfile(SAMPLES[3])!.eveningNight).toBe(true);
     expect(typeProfile(SAMPLES[3])!.pace).toBeNull();
   });
 
   it("드라마 · 공연 · 쇼핑 관심사는 경유지 분류가 없다", () => {
-    expect(typeProfile(SAMPLES[2])!.tag).toBeNull();
+    expect(typeProfile(SAMPLES[2])!.tags).toEqual([]);
+    expect(typeProfile(SAMPLES[3])!.tags).toEqual(["sea"]);
     expect(typeProfile(SAMPLES[2])!.types).toEqual(["C7"]);
   });
 
-  it("완료되지 않은 답 · 예전 15문항 기록이면 유형이 없다", () => {
+  it("완료되지 않은 답 · 예전 15문항 기록 · S4 한 가지였던 설문 6.3 기록이면 유형이 없다", () => {
     expect(typeProfile({ s1: "20s" })).toBeNull();
+    expect(
+      typeProfile(
+        decodeAnswers(
+          "s1.30s~s2.solo~s3.relaxed~s4.history~s5.quiet~s6.morning~b2.a~f1.balanced",
+        ),
+      ),
+    ).toBeNull();
     expect(
       typeProfile(decodeAnswers("q1.60s~q2.spouse~q3.relaxed~q4.history")),
     ).toBeNull();
@@ -169,13 +194,18 @@ describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수)", () 
   for (const [n, c] of REFERENCE_CASES.entries()) {
     it(`Python 참조 계산과 같은 지역 대표 5개 · 점수 (사례 ${n + 1})`, () => {
       const type = typeProfile(c.answers)!;
-      const got = recommendTours(TOURS, type, PROFILES);
-      expect(got).toEqual(c.tours.map((t) => byId.get(t.courseId)));
-      got.forEach((tour, k) =>
-        expect(
-          courseScore(PROFILES[TOURS.indexOf(tour)]!, type).score,
-        ).toBeCloseTo(c.tours[k].score, 9),
+      const picks = recommendTourPicks(TOURS, type, PROFILES);
+      expect(picks.map((p) => p.tour)).toEqual(
+        c.tours.map((t) => byId.get(t.courseId)),
       );
+      expect(recommendTours(TOURS, type, PROFILES)).toEqual(
+        picks.map((p) => p.tour),
+      );
+      picks.forEach((p, k) => {
+        expect(p.score).toBeCloseTo(c.tours[k].score, 9);
+        expect(p.fit).toBeCloseTo(c.tours[k].fit, 9);
+        expect(p.reservedFor).toBe(c.tours[k].reservedFor);
+      });
     });
   }
 });

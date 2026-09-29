@@ -162,6 +162,7 @@
       "noRegion": "一致する地域がありません",
       "regionHeading": "{region} · {count}コース",
       "rank": "{rank}位",
+      "reserved": "{tag}の関心枠",
       "kind": {
         "loop": "循環",
         "fixed": "コース型"
@@ -244,6 +245,7 @@
   "Recommend": {
     "progressLabel": "質問の進み具合",
     "counter": "{current} / {total}",
+    "pickedCount": "{count}/{total} 選択",
     "extraLabel": "追加の確認質問",
     "next": "次へ",
     "seeResult": "結果を見る",
@@ -285,8 +287,8 @@
         }
       },
       "s4": {
-        "title": "今回の旅行でいちばんしたいことは何ですか？",
-        "help": "いちばん大切な関心ごとを1つだけ選んでください。選んだ関心ごとに合わせた質問がもう1つ出ます",
+        "title": "今回の旅行でいちばんしたいことを2つ選ぶとしたら？",
+        "help": "いちばんしたい関心ごとを2つ選んでください。選んだ関心ごとごとに質問が続きます",
         "options": {
           "drama": "ドラマ・K-POPのロケ地",
           "performance": "公演・コンサート",
@@ -404,7 +406,9 @@
     "categoryShare": "{category}のスポット {percent}%",
     "night": "夜景スポット {percent}%",
     "compareCourses": "コース3案を比べる",
-    "basis": "計算基準 · アンケート6.3 · 推薦6.4（チーム仕様書の参照計算）"
+    "basis": "計算基準 · アンケート 6.4 · 推薦 6.5（チーム仕様書の参照計算）",
+    "cityToursHeading": "あなたに合う地域シティツアー",
+    "cityToursNote": "旅行タイプと2つの関心ごとから選んだコースです。関心ごとごとに合うコースを1枠ずつ先に入れました。"
   },
   "Clusters": {
     "C1": {
