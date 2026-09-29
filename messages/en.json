@@ -189,7 +189,7 @@
       "noRegion": "No matching region",
       "regionHeading": "{region} · {count, plural, one {# tour} other {# tours}}",
       "rank": "#{rank}",
-      "reserved": "{tag} interest pick",
+      "reserved": "{tag} pick",
       "kind": {
         "loop": "Loop",
         "fixed": "Fixed route"
@@ -210,7 +210,7 @@
       "call": "Call",
       "add": "Add to course builder",
       "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
-      "addDisabled": "None of the stops match places in the app, so this tour can't be added",
+      "addDisabled": "The places on this tour aren't in the app yet, so it can't be added to the course builder",
       "more": "Show more ({count} left)",
       "date": "As of {date}",
       "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
@@ -435,7 +435,7 @@
     "compareCourses": "Compare 3 routes",
     "basis": "Basis · Survey 6.4 · Recommendation 6.5 (team spec reference calculation)",
     "cityToursHeading": "City tours that fit you",
-    "cityToursNote": "Picked from your travel type and your two interests. Each interest gets one spot first."
+    "cityToursNote": "Picked from your travel type and your two interests. Each interest gets one course first, marked as a “pick”."
   },
   "Clusters": {
     "C1": {
