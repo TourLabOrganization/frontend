@@ -15,6 +15,7 @@ import {
 import { decodeTrip } from "@/features/course/trip";
 import { CityTourSection } from "@/features/home/CityTourSection";
 import { HeroCarousel } from "@/features/home/HeroCarousel";
+import { PopularAttractions } from "@/features/home/PopularAttractions";
 import { Splash } from "@/features/home/Splash";
 import { SPLASH_COOKIE } from "@/features/home/splash-cookie";
 import { ThemeTile } from "@/features/home/ThemeTile";
@@ -53,7 +54,7 @@ const POPULAR: readonly {
 ];
 
 // 홈. 목업 순서: 머리줄(언어 메뉴 · 검색 · 알림) → 위쪽 탭 → 배너 → 지역 시티투어 → 나의 테마(+ 테마 추가) → 내 코스 고르기
-// → 지금 인기 코스 → 출처 → 하단 탭.
+// → 지금 인기 코스 → 지금 인기 관광지(한국관광공사 방문 집중률, 키가 있을 때) → 출처 → 하단 탭.
 // 첫 방문(세션 쿠키 없음)이면 로고 시작 화면을 먼저 덮는다. 서버에서 정해서 깜빡이지 않는다.
 // 포스터는 TMDB 이미지(features/recommend/works.ts), 숫자는 features/course/data/places.json에서 계산한 값이다
 export default async function HomePage() {
@@ -204,6 +205,11 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+        </section>
+
+        <PopularAttractions />
+
+        <section className="px-5">
           <p className="mt-6 text-micro text-fg-subtle">{t("source")}</p>
           <p className="mt-1 text-micro text-fg-subtle">
             {t("bannerPhotoCredit")}

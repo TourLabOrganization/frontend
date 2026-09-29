@@ -120,6 +120,19 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - 기상청 단기예보: PoC는 키가 있으면 오늘 · 내일을 기상청 값으로 덮어쓴다(`getKmaForecast`, 위경도 → 예보 격자 변환 포함)
 - 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`). 미세먼지는 아래 `/api/air`로 붙였다
 
+### 인기 관광지 `GET /api/tour/popular?city=&locale=`
+
+홈 「지금 인기 관광지」(`features/home/PopularAttractions`). 코드는 `app/api/tour/popular/route.ts`, 처리는 `lib/tour-popular.ts`(서버 전용), 공통 타입은 `lib/tour.ts`.
+
+- **원천**: 장소 시트 방문 집중률과 같은 한국관광공사 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`.
+  관광지 이름(`tAtsNm`) 없이 `areaCd` · `signguCd`만 넣어 그 시군구 관광지 전체의 날짜별 집중률을 받는다(쪽당 1,000행, 시군구당 최대 5쪽)
+- **도시**: 칩 8곳(`POPULAR_CITIES`: 서울 · 부산 · 제주 · 경주 · 강릉 · 전주 · 여수 · 속초). 도시마다 플래너 장소(숙박 제외)가 많은 시군구 순으로 도시 장소의 10% 이상인 곳 최대 4곳을 부른다
+- **순위**: 기준 날짜(오늘, 없으면 오늘 이후 가장 이른 날)의 집중률이 높은 순 10곳. 수준(여유 · 보통 · 혼잡)은 장소 시트와 같은 40 · 70% 기준
+- **장소 연결**: 같은 도시 · 같은 시군구 플래너 장소 중 이름 점수(장소 시트 방문 집중률과 같은 규칙) 2점 이상이면 그 장소 id와 화면 언어 이름을 붙이고,
+  홈 목록은 그 줄을 투어 플래너 지도의 장소 시트(`/planner?city=&place=`)로 잇는다. 맞는 장소가 없으면 한국관광공사 이름(한국어)을 글자로만 둔다
+- **입력**: 도시(8곳 중 하나) · 화면 언어뿐. 틀리면 400. 키가 없으면 503, 모든 시군구 실패면 502, 결과가 없으면 `{ "empty": true }` — 홈은 키가 없으면 섹션째 숨긴다
+- **응답**: `{ "date", "items": [{ "name", "district", "rate", "id" }] }`. 캐시 6시간(장소 시트 방문 집중률과 같다)
+
 ### 대표 사진 `GET /api/tour/photo?id=`
 
 장소 시트 맨 위 사진. 장소 자료(플래너 `place-details.json` · 테마 `extras.json`)에 사진이 없는 장소만 시트가 부른다. 코드는 `app/api/tour/photo/route.ts`,

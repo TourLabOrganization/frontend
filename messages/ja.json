@@ -264,6 +264,16 @@
       "geoje": "COAST"
     },
     "popularMeta": "ロケ地{videos}か所 · {transport}",
+    "attractions": {
+      "heading": "いま人気の観光地",
+      "date": "{date} 時点",
+      "note": "韓国観光公社の訪問集中率予測が高い順です。高いほど混雑が予想されます。",
+      "citiesLabel": "都市",
+      "empty": "{city}の訪問集中率予測はまだありません",
+      "error": "人気の観光地を読み込めませんでした",
+      "retry": "再試行",
+      "source": "出典：韓国観光公社 観光地集中率 訪問者推移予測"
+    },
     "access": {
       "ktx": "KTX",
       "srt": "SRT",
