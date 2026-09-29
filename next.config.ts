@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
       // 장소 사진 (features/theme/data/extras.json). PoC의 img는 Special:FilePath 주소라 upload로 넘겨준다
       { protocol: "https", hostname: "commons.wikimedia.org" },
       { protocol: "https", hostname: "upload.wikimedia.org" },
+      // 장소 대표 사진 (app/api/tour/photo). 한국관광공사 관광정보 · 관광사진
+      { protocol: "https", hostname: "tong.visitkorea.or.kr" },
       // RESCENE 영상 썸네일 (features/theme/FilmTab.tsx)
       { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
     ],

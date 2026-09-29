@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "Cerrar",
     "photoCredit": "Foto: {credit}",
+    "photoSources": {
+      "kto": "Organización de Turismo de Corea",
+      "ktoGallery": "Galería de fotos de la Organización de Turismo de Corea",
+      "wikipedia": "Wikipedia"
+    },
     "hours": "Horario",
     "checkIn": "Entrada {time}",
     "checkOut": "Salida {time}",

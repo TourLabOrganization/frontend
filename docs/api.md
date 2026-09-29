@@ -120,6 +120,20 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - 기상청 단기예보: PoC는 키가 있으면 오늘 · 내일을 기상청 값으로 덮어쓴다(`getKmaForecast`, 위경도 → 예보 격자 변환 포함)
 - 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`). 미세먼지는 아래 `/api/air`로 붙였다
 
+### 대표 사진 `GET /api/tour/photo?id=`
+
+장소 시트 맨 위 사진. 장소 자료(플래너 `place-details.json` · 테마 `extras.json`)에 사진이 없는 장소만 시트가 부른다. 코드는 `app/api/tour/photo/route.ts`,
+처리는 `lib/tour-photo.ts`(서버 전용), 클라이언트가 쓰는 응답 타입은 `components/ui/place-photo.ts`.
+
+- **순서**(PoC `loadPhoto`): ① 한국관광공사 국문 관광정보 `KorService2/searchKeyword2`의 대표 이미지(`firstimage`) — 제목이 이름과 같음 0 · 이름으로 끝남 1 · 이름으로 시작 2,
+  같지 않으면 제목이 8글자 넘게 길면 제외, 거리 같은 이름 12km · 나머지 3km 이내, 숙박 · 쇼핑 · 코스 제외, 관광지 · 문화시설 · 레포츠가 음식점보다 먼저 →
+  ② 관광사진 `PhotoGalleryService1/gallerySearchList1`(제목이 같거나 서로 품는 사진) → ③ 한국어 위키백과 요약의 대표 이미지(SVG 제외, 800px)
+- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). 키가 없으면 ③만 본다(위키백과는 키가 없다)
+- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
+  시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 한 단계가 실패해도 다음 단계로 넘어간다
+- **캐시**: 7일(대표 사진은 자주 바뀌지 않는다). 클라이언트는 하루
+- **옮기지 않은 것**: PoC 제주 브랜드 콘텐츠 이미지(`api.brandcontents.or.kr`)는 HTTP 주소라 HTTPS 앱에서 브라우저가 막는다
+
 ### 미세먼지 `GET /api/air?lat=..&lng=..[&id=..]`
 
 장소 시트 날씨 칸 아래의 「미세먼지 · 시도 평균」 줄(PoC 날씨 · 미세먼지 칸). 코드는 `app/api/air/route.ts`, 순수 함수는 `lib/air-quality.ts`.

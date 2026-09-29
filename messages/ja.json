@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "閉じる",
     "photoCredit": "写真：{credit}",
+    "photoSources": {
+      "kto": "韓国観光公社",
+      "ktoGallery": "韓国観光公社 観光写真",
+      "wikipedia": "ウィキペディア"
+    },
     "hours": "営業時間",
     "checkIn": "チェックイン {time}",
     "checkOut": "チェックアウト {time}",

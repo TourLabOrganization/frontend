@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "关闭",
     "photoCredit": "照片：{credit}",
+    "photoSources": {
+      "kto": "韩国观光公社",
+      "ktoGallery": "韩国观光公社旅游图片",
+      "wikipedia": "维基百科"
+    },
     "hours": "营业时间",
     "checkIn": "入住 {time}",
     "checkOut": "退房 {time}",

@@ -37,6 +37,11 @@
   "PlaceSheet": {
     "close": "닫기",
     "photoCredit": "사진: {credit}",
+    "photoSources": {
+      "kto": "한국관광공사",
+      "ktoGallery": "한국관광공사 관광사진",
+      "wikipedia": "위키백과"
+    },
     "hours": "운영시간",
     "checkIn": "체크인 {time}",
     "checkOut": "체크아웃 {time}",
