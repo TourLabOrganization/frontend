@@ -97,7 +97,9 @@ export function CityTourScroll({
           aria-label={label}
           tabIndex={0}
           onScroll={measure}
-          className="max-h-[30rem] [scrollbar-width:none] overflow-y-auto overscroll-contain rounded-card bg-fill-weak py-3 pr-6 pl-3 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright md:max-h-[34rem] [&::-webkit-scrollbar]:hidden"
+          // relative: 카드 안 화면 읽기용 글자(sr-only는 absolute)가 칸을 기준으로 자리를 잡아 칸 안에서 잘리게 한다.
+          // 없으면 칸 밖 기준으로 잡혀 마지막 카드 위치만큼 페이지가 길어진다(홈 화성 약 4,250px 빈 공간)
+          className="relative max-h-[30rem] [scrollbar-width:none] overflow-y-auto overscroll-contain rounded-card bg-fill-weak py-3 pr-6 pl-3 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright md:max-h-[34rem] [&::-webkit-scrollbar]:hidden"
         >
           {children}
         </div>

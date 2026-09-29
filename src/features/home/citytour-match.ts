@@ -42,14 +42,17 @@ export function normalizeName(value: string): string {
  */
 const NUMBERED_LIST = /(?:^|\s)0?1\s+\S[\s\S]*\s0?2\s+\S/;
 
-/** 경유지 문자열을 정류장 이름 목록으로 나눈다. 번호 · 괄호 · 소요 시간 · 「구간:」 머리를 뗀다 */
+/**
+ * 경유지 문자열을 정류장 이름 목록으로 나눈다. 번호 · 괄호 · 소요 시간 · 「구간:」 머리를 뗀다.
+ * 포항 코스는 _, 대청호코스는 ↔, 광양 코스는 전각 ＆로 경유지를 잇는다. ~ · 가운뎃점은 괄호 속 기간이나 이름 안에 쓰여 나누지 않는다
+ */
 export function splitStops(route: string): string[] {
   // 번호 목록이면 번호 자리를 화살표로 바꿔 아래 나누기에 맡긴다
   const text = NUMBERED_LIST.test(route)
     ? route.replace(/(?:^|\s)\d{1,2}\s+(?=\S)/g, " → ")
     : route;
   return text
-    .split(/→|->|>|⇒|,|\/|&|\+|및/)
+    .split(/→|->|>|⇒|↔|⇔|,|\/|&|＆|_|\+|및/)
     .map((s) =>
       s
         .replace(/[①-⑳❶-❿]/g, "")
