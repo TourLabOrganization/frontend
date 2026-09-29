@@ -37,6 +37,8 @@ describe("도시 · 시군구", () => {
     // 서울: 종로 · 송파 · 영등포 · 용산(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
     expect(citySigngu("서울")).toEqual(["11110", "11710", "11560", "11170"]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
+    expect(citySigngu("인천")).toHaveLength(4);
+    expect(POPULAR_CITIES).not.toContain("여수");
     expect(citySigngu("없는도시")).toEqual([]);
   });
 

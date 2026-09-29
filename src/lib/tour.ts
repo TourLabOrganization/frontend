@@ -80,7 +80,7 @@ export const POPULAR_CITIES = [
   "경주",
   "강릉",
   "전주",
-  "여수",
+  "인천",
   "속초",
 ] as const;
 export type PopularCity = (typeof POPULAR_CITIES)[number];
