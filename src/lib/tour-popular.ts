@@ -1,7 +1,7 @@
 // 홈 「지금 인기 관광지」(GET /api/tour/popular?city=&locale=, 서버 전용).
 // 한국관광공사 관광지 집중률 방문자 추이 예측(TatsCnctrRateService tatsCnctrRatedList)을 관광지 이름(tAtsNm) 없이 시군구 단위로 불러
 // 그 시군구 관광지 전체의 날짜별 집중률을 받고, 기준 날짜(오늘, 없으면 오늘 이후 가장 이른 날)의 집중률이 높은 순으로 10곳을 고른다.
-//   - 시군구: 도시의 플래너 장소(숙박 제외)가 많은 시군구 코드 순으로, 도시 장소의 10% 이상인 곳만 최대 4곳(호출 수를 묶는다)
+//   - 시군구: 도시의 플래너 장소(숙박 제외)가 많은 시군구 코드 순으로, 장소 5곳 이상인 곳만 최대 4곳(호출 수를 묶는다)
 //   - 이름이 맞는 플래너 장소가 있으면(장소 시트 방문 집중률과 같은 이름 점수, 같은 시군구 · 2점 이상) 그 장소 id와 화면 언어 이름을 붙인다
 //   - 집중률은 방문 예측 지표이고 순위는 「그날 붐빌 것으로 예측된 순서」다(인기 = 방문 집중)
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 상대 경로로 import한다. 이름표(중 · 일 · 서)는 Route Handler가 넘긴다.
@@ -31,6 +31,8 @@ import { type AppLocale, locales } from "../i18n/locales";
 
 /** 도시당 부르는 시군구 수 상한 */
 export const POPULAR_MAX_DISTRICTS = 4;
+/** 부를 시군구의 최소 장소 수(숙박 제외). 서울 · 부산처럼 장소가 여러 구에 퍼진 도시도 주요 구를 고르게 */
+export const POPULAR_MIN_PLACES = 5;
 /** 보여 줄 관광지 수 */
 export const POPULAR_COUNT = 10;
 /** 한 시군구에서 받는 쪽 수 상한(쪽당 1,000행: 관광지 수 × 약 30일) */
@@ -41,23 +43,21 @@ export function isPopularCity(v: unknown): v is PopularCity {
   return (POPULAR_CITIES as readonly unknown[]).includes(v);
 }
 
-/** 도시의 시군구 코드: 플래너 장소(숙박 제외)가 많은 순, 도시 장소의 10% 이상, 최대 4곳 */
+/** 도시의 시군구 코드: 플래너 장소(숙박 제외)가 많은 순(같으면 코드 순), 장소 5곳 이상, 최대 4곳 */
 export function citySigngu(
   city: string,
   places: readonly PlannerPlace[] = PLANNER_PLACES,
   signguOf: (id: string) => string = tourPlaceSigngu,
 ): string[] {
   const counts = new Map<string, number>();
-  let total = 0;
   for (const p of places) {
     if (p.locKo !== city || p.cat === "stay") continue;
     const code = signguOf(p.id);
     if (!/^\d{5}$/.test(code)) continue;
     counts.set(code, (counts.get(code) ?? 0) + 1);
-    total++;
   }
   return [...counts.entries()]
-    .filter(([, n]) => n >= Math.max(1, total * 0.1))
+    .filter(([, n]) => n >= POPULAR_MIN_PLACES)
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, POPULAR_MAX_DISTRICTS)
     .map(([code]) => code);
