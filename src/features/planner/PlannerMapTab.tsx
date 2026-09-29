@@ -73,6 +73,10 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const course = useCourseToggle();
 
   const scopePlaces = useMemo(() => placesInScope(scope), [scope]);
+  const scopeIds = useMemo(
+    () => new Set(scopePlaces.map((p) => p.id)),
+    [scopePlaces],
+  );
   const [filter, setFilter] = useState<Filter>("all");
   const [badge, setBadge] = useState<BadgeKey | null>(null);
   const [query, setQuery] = useState("");
@@ -459,6 +463,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       <PlaceSheet
         place={
           selected && {
+            id: selected.id,
             name: placeName(selected, locale, names),
             // 체류 시간은 상세 표 「권장 체류」에만 둔다(머리줄과 겹치지 않게)
             meta: [
@@ -502,6 +507,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           setSelectedId(null);
           course.clearStatus();
         }}
+        // 함께 많이 가는 관광지: 지금 범위(도시 · 권역 · 전국)에 있는 장소만 그 시트로 바꾼다
+        onOpenPlace={openPlace}
+        canOpenPlace={(id) => scopeIds.has(id)}
         actions={
           selected && (
             <>

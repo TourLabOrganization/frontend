@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { ReplayButton } from "@/features/home/ReplayButton";
 import { NamesProvider } from "@/features/names/NamesProvider";
 import { loadNameTable } from "@/features/names/server";
+import { TourApiProvider } from "@/components/ui/tour-api-context";
 import { Providers } from "./providers";
 // 한글 글리프를 unicode-range로 나눠 둔 동적 서브셋. 화면에 쓰인 글자 조각만 내려받는다
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
@@ -27,6 +28,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const locale = await getLocale();
   // 중 · 일 · 스페인어 화면일 때만 그 언어의 권역 · 도시 · 장소 이름표를 싣는다(features/names)
   const names = await loadNameTable(locale);
+  // 공공데이터포털 키(서버 전용)가 있는지만 내려 준다. 없으면 장소 시트의 한국관광공사 칸이 Route Handler를 부르지 않는다(lib/tour-api.ts)
+  const tourApi = Boolean(process.env.DATA_GO_KR_KEY?.trim());
 
   return (
     <html lang={locale} className="h-full antialiased">
@@ -37,7 +40,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       >
         <NextIntlClientProvider>
           <NamesProvider names={names}>
-            <Providers>{children}</Providers>
+            <TourApiProvider enabled={tourApi}>
+              <Providers>{children}</Providers>
+            </TourApiProvider>
           </NamesProvider>
           <ReplayButton />
         </NextIntlClientProvider>

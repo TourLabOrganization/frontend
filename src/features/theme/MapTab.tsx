@@ -431,6 +431,8 @@ export function MapTab({
         extra={selected ? extras[selected.id] : undefined}
         scene={selected ? sceneLinks[selected.id] : undefined}
         text={selected ? texts?.[selected.id] : undefined}
+        onOpenPlace={setSelectedId}
+        canOpenPlace={(id) => places.some((p) => p.id === id)}
         onClose={() => setSelectedId(null)}
       />
     </>

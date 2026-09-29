@@ -80,6 +80,32 @@
         "unknown": "날씨 정보 없음"
       }
     },
+    "tour": {
+      "audio": {
+        "title": "오디오 가이드",
+        "player": "{title} 음성 해설",
+        "playTime": "재생 시간 {time}",
+        "more": "더 읽기",
+        "less": "접기",
+        "sourceOdii": "한국관광공사 오디오 가이드(오디)",
+        "sourceStory": "관광 스토리텔링 · 한국관광공사"
+      },
+      "related": {
+        "title": "함께 많이 가는 관광지 Top",
+        "rank": "{rank}위",
+        "source": "한국관광공사 관광지별 연관 관광지 · 기준 {month}"
+      },
+      "crowd": {
+        "title": "방문 집중률 예측",
+        "levels": {
+          "quiet": "여유",
+          "moderate": "보통",
+          "busy": "혼잡"
+        },
+        "note": "예측값이라 실제와 다를 수 있어요.",
+        "source": "한국관광공사 관광지 집중률 방문자 추이 예측 ({name})"
+      }
+    },
     "badges": "배지",
     "appTranslated": "이름 · 설명 일부는 앱이 번역했어요."
   },
