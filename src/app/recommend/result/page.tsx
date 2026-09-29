@@ -26,9 +26,9 @@ const TOP_THEMES = 3;
 /** 복합형 제목에 이름을 모두 적는 유형 수. 넘으면 앞 2개 + 「외 n개 유형」 */
 const NAMED_TYPES = 3;
 
-// 추천 결과. 설문 6.1로 유형을 정하고(survey.ts evaluate) 추천 6.2로 테마 적합도 지수를 계산해(theme-index.ts) 네트워크 없이 보인다.
+// 추천 결과. 설문 6.3으로 유형을 정하고(survey.ts evaluate) 추천 6.4로 테마 적합도 지수를 계산해(theme-index.ts) 네트워크 없이 보인다.
 // 명세서 §01에 따라 새 유형 점수를 기존 백엔드 추천(POST /api/v1/recommend)에 넘기지 않는다.
-// data-server가 6.2 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md). 완료된 응답이 아니면 설문으로 돌려보낸다
+// data-server가 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md). 완료된 응답이 아니면 설문으로 돌려보낸다
 export default async function RecommendResultPage({
   searchParams,
 }: PageProps<"/recommend/result">) {

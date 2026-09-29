@@ -1,0 +1,1825 @@
+[
+  {
+    "id": "ct_ff41044d0b7080",
+    "shares": [0.2, 0, 0, 0, 0.8],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_4ba7f5cc1ffeda",
+    "shares": [0.4, 0.4, 0.2, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_5082aae98cb9d3",
+    "shares": [0, 0.5, 0, 0, 0.5],
+    "coverage": 1,
+    "visits": 2,
+    "night": true
+  },
+  {
+    "id": "ct_1def3d2a58e430",
+    "shares": [
+      0.2727272727272727, 0.45454545454545453, 0.09090909090909091,
+      0.09090909090909091, 0.09090909090909091
+    ],
+    "coverage": 1,
+    "visits": 11,
+    "night": false
+  },
+  {
+    "id": "ct_edd6e5375f387f",
+    "shares": [0.1, 0.5, 0.2, 0, 0.2],
+    "coverage": 1,
+    "visits": 10,
+    "night": false
+  },
+  {
+    "id": "ct_c83f7c6960b76b",
+    "shares": [0.1, 0.3, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 10,
+    "night": false
+  },
+  {
+    "id": "ct_8171ca90d9fa99",
+    "shares": [
+      0.16666666666666666, 0.5, 0, 0.16666666666666666, 0.16666666666666666
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": true
+  },
+  {
+    "id": "ct_98323d74dbd87a",
+    "shares": [
+      0.2692307692307692, 0.5384615384615384, 0, 0.11538461538461539,
+      0.07692307692307693
+    ],
+    "coverage": 1,
+    "visits": 13,
+    "night": false
+  },
+  {
+    "id": "ct_4e0d701d9aadd5",
+    "shares": [0, 0.5, 0.25, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": true
+  },
+  null,
+  null,
+  {
+    "id": "ct_da6b197f9d64eb",
+    "shares": [0.4, 0.6, 0, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_1d6ad4598dff93",
+    "shares": [0.2, 0.4, 0.2, 0, 0],
+    "coverage": 0.8,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_d3a976675ffc53",
+    "shares": [0.25, 0.75, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_9857f916bfa916",
+    "shares": [
+      0.07142857142857142, 0.5, 0.2857142857142857, 0.14285714285714285, 0
+    ],
+    "coverage": 1,
+    "visits": 14,
+    "night": false
+  },
+  {
+    "id": "ct_b75e8d4cf1e318",
+    "shares": [0, 0.3333333333333333, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": true
+  },
+  {
+    "id": "ct_4b24fed6566e54",
+    "shares": [0.5, 0.5, 0, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  {
+    "id": "ct_49fb403c953735",
+    "shares": [
+      0.7142857142857143, 0.14285714285714285, 0, 0.07142857142857142,
+      0.07142857142857142
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_b97fea5cc3f414",
+    "shares": [0.25, 0.25, 0.3333333333333333, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_941018a965809c",
+    "shares": [
+      0.16666666666666666, 0.3333333333333333, 0.08333333333333333,
+      0.16666666666666666, 0.25
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": true
+  },
+  {
+    "id": "ct_83465bf3a690f2",
+    "shares": [
+      0.2857142857142857, 0.35714285714285715, 0, 0, 0.35714285714285715
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": true
+  },
+  {
+    "id": "ct_0b7a755a267601",
+    "shares": [0.25, 0.625, 0, 0, 0.125],
+    "coverage": 1,
+    "visits": 4,
+    "night": true
+  },
+  {
+    "id": "ct_0f4dbe3b938a90",
+    "shares": [
+      0.16666666666666666, 0.16666666666666666, 0.5, 0, 0.16666666666666666
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_ff41dfabaec78b",
+    "shares": [0.2, 0.2, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": true
+  },
+  {
+    "id": "ct_a70933018dfe45",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_64b3f2e630ba51",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_a7f13a177e5633",
+    "shares": [
+      0, 0.3333333333333333, 0.1111111111111111, 0, 0.5555555555555556
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  {
+    "id": "ct_a1bc285f9c2881",
+    "shares": [0.4, 0, 0.1, 0.2, 0.3],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_1845f5c9950df4",
+    "shares": [0, 0.4, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": true
+  },
+  {
+    "id": "ct_aa2937d4d2a2d0",
+    "shares": [0.4, 0.2, 0.2, 0.1, 0.1],
+    "coverage": 1,
+    "visits": 10,
+    "night": false
+  },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  {
+    "id": "ct_a8823fdcbfa445",
+    "shares": [0, 0.2, 0.3, 0, 0.5],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  {
+    "id": "ct_52fe5a29aee3e7",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_17e0dd4d30822e",
+    "shares": [0.6, 0.2, 0.2, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_20eb1ae44f44d4",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_d1e99a0d119f73",
+    "shares": [
+      0.35714285714285715, 0.2857142857142857, 0.21428571428571427, 0, 0
+    ],
+    "coverage": 0.8571428571428571,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_78497ddd68fd45",
+    "shares": [
+      0.1111111111111111, 0.2222222222222222, 0.6666666666666666, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  null,
+  null,
+  {
+    "id": "ct_6b62f6c5e28b9c",
+    "shares": [
+      0, 0.42857142857142855, 0.2857142857142857, 0, 0.2857142857142857
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_b8b6f8a37ebdf8",
+    "shares": [
+      0.1, 0.13333333333333333, 0.6333333333333333, 0, 0.13333333333333333
+    ],
+    "coverage": 1,
+    "visits": 10,
+    "night": true
+  },
+  null,
+  {
+    "id": "ct_572b4d8191127a",
+    "shares": [
+      0.6666666666666666, 0.16666666666666666, 0, 0.16666666666666666, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_c93b13bf48e761",
+    "shares": [
+      0.16666666666666666, 0.5833333333333334, 0.08333333333333333,
+      0.16666666666666666, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_e613bd3839189c",
+    "shares": [
+      0.42857142857142855, 0, 0.2857142857142857, 0.14285714285714285, 0
+    ],
+    "coverage": 0.8571428571428571,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_c543fc703f1159",
+    "shares": [0.5, 0, 0.3333333333333333, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_73908901775f5c",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_68e342ed3c052f",
+    "shares": [0.2, 0, 0.4, 0.4, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_84ffabae716404",
+    "shares": [0, 0.25, 0.25, 0.25, 0.25],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_1d32ffebd246d5",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_c722d90ff66eb2",
+    "shares": [0, 0.25, 0.125, 0.625, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_8b988867d0e267",
+    "shares": [0, 0.5, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_ba06e511559567",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_94cebe436c068a",
+    "shares": [0.2, 0.2, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_330d0bc9cd3d05",
+    "shares": [0.2, 0.2, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_3ed5105d35b251",
+    "shares": [0.75, 0.125, 0.125, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_e4444e050c482f",
+    "shares": [
+      0.3333333333333333, 0, 0.3333333333333333, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_566165b1b827e0",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0.16666666666666666,
+      0.16666666666666666, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_6bfb1cb10f19bb",
+    "shares": [0.6666666666666666, 0.3333333333333333, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_2c0d1fe873d818",
+    "shares": [0.5, 0.25, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_a11be8ffeee88a",
+    "shares": [0.2, 0.4, 0.2, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_36b90ac2b7ebec",
+    "shares": [
+      0.16666666666666666, 0.3333333333333333, 0.16666666666666666,
+      0.16666666666666666, 0.16666666666666666
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_cba721781124d5",
+    "shares": [
+      0.14285714285714285, 0.14285714285714285, 0.7142857142857143, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_809907e22355c9",
+    "shares": [0.25, 0.5, 0, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_ed3a5516a8c6ca",
+    "shares": [0, 0.25, 0.5, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_bd00bd65a80b11",
+    "shares": [0.4, 0.4, 0.2, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_8e34c83e5dbe39",
+    "shares": [0, 0.3333333333333333, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_f48a1e387a5d08",
+    "shares": [0, 0, 1, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  null,
+  null,
+  {
+    "id": "ct_3dd54d8970e115",
+    "shares": [0, 0.2, 0.4, 0.4, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_77585e7300bc39",
+    "shares": [0, 0.7142857142857143, 0.2857142857142857, 0, 0],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_d756b69f16e800",
+    "shares": [
+      0.16666666666666666, 0.16666666666666666, 0.5, 0.16666666666666666, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_a726fc60353090",
+    "shares": [0.4, 0, 0.4, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_86dc46ed127655",
+    "shares": [0.2, 0.2, 0.4, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_c68da356b898d6",
+    "shares": [
+      0.14285714285714285, 0, 0.5714285714285714, 0, 0.2857142857142857
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_7cdced2e0d065a",
+    "shares": [
+      0.3333333333333333, 0.2222222222222222, 0.2222222222222222,
+      0.2222222222222222, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  {
+    "id": "ct_bd2de54ec11e6b",
+    "shares": [0, 0.25, 0.25, 0.25, 0],
+    "coverage": 0.75,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_79a18eaed83932",
+    "shares": [0.5, 0.25, 0, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_956d44d9a821ed",
+    "shares": [0.25, 0.25, 0.25, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_a98893fa363590",
+    "shares": [0, 0.3333333333333333, 0, 0.3333333333333333, 0],
+    "coverage": 0.6666666666666666,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_36cdd5661df6fd",
+    "shares": [0.2, 0.4, 0.4, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_69c07f148cbc8b",
+    "shares": [0.2, 0.4, 0.4, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_de90b5933f0b40",
+    "shares": [0.2, 0.2, 0.2, 0.4, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_bdc4b066f6280d",
+    "shares": [0.5, 0, 0.2857142857142857, 0.21428571428571427, 0],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_ec90f983bc7ed6",
+    "shares": [0.5625, 0.25, 0.125, 0.0625, 0],
+    "coverage": 1,
+    "visits": 8,
+    "night": false
+  },
+  {
+    "id": "ct_40252d247000a5",
+    "shares": [0.25, 0.5, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": true
+  },
+  {
+    "id": "ct_ab2a31c9b0dd1c",
+    "shares": [0.25, 0.375, 0, 0.125, 0.125],
+    "coverage": 0.875,
+    "visits": 8,
+    "night": false
+  },
+  {
+    "id": "ct_b96c711c2cd94d",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_03101958100a14",
+    "shares": [
+      0.5454545454545454, 0.36363636363636365, 0.09090909090909091, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 11,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_abd1e371e69550",
+    "shares": [0, 0.4, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_516add9e1cef4a",
+    "shares": [0, 0.25, 0.5, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_ebbc3131233e25",
+    "shares": [0, 0.6666666666666666, 0.3333333333333333, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_2827a8d7943bdf",
+    "shares": [0, 0.42857142857142855, 0.5714285714285714, 0, 0],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_c825dbc2a63555",
+    "shares": [0.5, 0, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_f534f220e539af",
+    "shares": [
+      0.6666666666666666, 0.16666666666666666, 0.16666666666666666, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_9f8a8ca65b1ebb",
+    "shares": [0.6666666666666666, 0, 0.3333333333333333, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_d916d0f4237246",
+    "shares": [0.3333333333333333, 0, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_62dfed5cce4635",
+    "shares": [0.3333333333333333, 0.6666666666666666, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_5c692156a089c1",
+    "shares": [0.3333333333333333, 0.5, 0.16666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_d3c228b00ede2b",
+    "shares": [0, 0.3333333333333333, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_4be058672a95ae",
+    "shares": [0, 0.5, 0.14285714285714285, 0, 0.35714285714285715],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_83afdb6c6bad30",
+    "shares": [0.2, 0.4, 0, 0, 0.4],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_1c691124e74222",
+    "shares": [0.75, 0, 0, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_0e4d7f0c7de8e2",
+    "shares": [0.6, 0.4, 0, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_62ce3cfd4b2223",
+    "shares": [0.8333333333333334, 0, 0, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_b53b246e98a9cd",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_59c60fcaf04aa6",
+    "shares": [0.25, 0.25, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_30fd00f9cfda89",
+    "shares": [0, 0, 0, 0, 1],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_0ed3eb88438a1d",
+    "shares": [0, 0.5, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_008becedc70ab4",
+    "shares": [0, 0, 0, 0, 1],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_2be78db2f756ab",
+    "shares": [0.16666666666666666, 0, 0.5, 0, 0.3333333333333333],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_424fda831e8a80",
+    "shares": [0.16666666666666666, 0, 0.5, 0.3333333333333333, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_55438211f07ef0",
+    "shares": [
+      0.16666666666666666, 0, 0.3333333333333333, 0.16666666666666666,
+      0.3333333333333333
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_3aa92169f5cb7c",
+    "shares": [0.4, 0.2, 0.2, 0, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_c343406b7388f2",
+    "shares": [0.5, 0, 0, 0, 0.5],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_5728bf247a42c1",
+    "shares": [0.125, 0.25, 0.5, 0.125, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_0af000fbdb8ad6",
+    "shares": [0, 0.4, 0.2, 0.4, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_fc9f85899d40a4",
+    "shares": [0.6, 0.4, 0, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_a3932d2baa3d16",
+    "shares": [0.4, 0.4, 0, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_b3b0773f44a533",
+    "shares": [0, 0, 1, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_ec6acb453717fd",
+    "shares": [0, 0.6666666666666666, 0, 0, 0.3333333333333333],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_14b70a907c3324",
+    "shares": [
+      0, 0.3333333333333333, 0.3333333333333333, 0, 0.3333333333333333
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_0ebeda6387230e",
+    "shares": [0, 0, 0.4, 0, 0.6],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_b2af495e1760b5",
+    "shares": [0, 0, 0, 0.25, 0.75],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_b6060e0e38a765",
+    "shares": [
+      0, 0.21428571428571427, 0.14285714285714285, 0.07142857142857142,
+      0.5714285714285714
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_a7d1b6cc26e056",
+    "shares": [
+      0, 0.14285714285714285, 0.14285714285714285, 0, 0.7142857142857143
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_0946c67481033f",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_6beed8d2daa9dc",
+    "shares": [0, 0.4, 0.6, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": true
+  },
+  {
+    "id": "ct_f355a62ad61675",
+    "shares": [0, 0.4, 0.6, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_fe508b5dbba88f",
+    "shares": [0.125, 0.625, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_a8b35f46bb8621",
+    "shares": [0, 0.4, 0.6, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_4212deac479d6b",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_a8b6f564bf7384",
+    "shares": [0, 0.6666666666666666, 0, 0.3333333333333333, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_3e1bfccd397508",
+    "shares": [0, 0.6666666666666666, 0, 0.3333333333333333, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_037c18bb42946f",
+    "shares": [0.5, 0.25, 0, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_ca13864967c1fb",
+    "shares": [0, 0.25, 0.5, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_6df930eb64d3ad",
+    "shares": [
+      0.16666666666666666, 0.6666666666666666, 0.16666666666666666, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_82edd01ea220e6",
+    "shares": [0, 1, 0, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_4e89a607500203",
+    "shares": [0.2, 0.2, 0, 0.2, 0.4],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_596ccaeb2861f9",
+    "shares": [
+      0.16666666666666666, 0.3333333333333333, 0, 0.3333333333333333,
+      0.16666666666666666
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_74128602fb5dca",
+    "shares": [0, 0.5, 0.125, 0, 0.375],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_72a42eb150b5d4",
+    "shares": [
+      0.1111111111111111, 0.5, 0.3333333333333333, 0.05555555555555555, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  {
+    "id": "ct_2c5b83ca1acb5c",
+    "shares": [
+      0.1111111111111111, 0.5, 0.3333333333333333, 0.05555555555555555, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  {
+    "id": "ct_dfc58b1c3324c1",
+    "shares": [0.25, 0.3333333333333333, 0.25, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_166c38f36d6640",
+    "shares": [0.25, 0.5, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_38e990a88a3094",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_452018aaa6c847",
+    "shares": [0.2, 0.6, 0, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_d0cdc53f7d6755",
+    "shares": [0, 0.3, 0.4, 0.3, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_aa87321b8b5003",
+    "shares": [
+      0.08333333333333333, 0.4166666666666667, 0.20833333333333334,
+      0.16666666666666666, 0.125
+    ],
+    "coverage": 1,
+    "visits": 12,
+    "night": false
+  },
+  {
+    "id": "ct_1d8d8a70616c41",
+    "shares": [
+      0.42857142857142855, 0.2857142857142857, 0.2857142857142857, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_caab077d4954a7",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_084dcff739bc51",
+    "shares": [0.6666666666666666, 0.08333333333333333, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 12,
+    "night": false
+  },
+  {
+    "id": "ct_8de53de429d379",
+    "shares": [0, 0, 0.25, 0.5, 0.25],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_ac7ca37140e6b6",
+    "shares": [0, 0.4, 0.2, 0.2, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_00435b9cca499b",
+    "shares": [0.2, 0.2, 0.3, 0.2, 0.1],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_e346ea988fedc3",
+    "shares": [
+      0.16666666666666666, 0.16666666666666666, 0.16666666666666666, 0.25, 0.25
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_7dba0d730780c9",
+    "shares": [0, 0.5, 0.3333333333333333, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_ba3c89379bf8c1",
+    "shares": [0.5, 0.3333333333333333, 0.16666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_c188dbb343674a",
+    "shares": [0.4, 0.4, 0, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_507ac7569b1306",
+    "shares": [
+      0, 0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_6be92119035c7f",
+    "shares": [
+      0.42857142857142855, 0.42857142857142855, 0.14285714285714285, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_2528f0bf880396",
+    "shares": [0, 0.5, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_9d994e07488f57",
+    "shares": [0, 0.2, 0.2, 0.4, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_343d3a1d62c8a5",
+    "shares": [
+      0.5555555555555556, 0.2222222222222222, 0.2222222222222222, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  {
+    "id": "ct_506425657ddce1",
+    "shares": [0.5, 0.2, 0.2, 0.1, 0],
+    "coverage": 1,
+    "visits": 10,
+    "night": false
+  },
+  {
+    "id": "ct_1dab0b645e521d",
+    "shares": [0.5, 0.16666666666666666, 0.3333333333333333, 0, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_820bca31911e89",
+    "shares": [0.6, 0.1, 0.3, 0, 0],
+    "coverage": 1,
+    "visits": 10,
+    "night": false
+  },
+  {
+    "id": "ct_e588b4efe19ef3",
+    "shares": [0.6666666666666666, 0.3333333333333333, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_987d7b91b042a8",
+    "shares": [
+      0.3333333333333333, 0.3333333333333333, 0, 0.16666666666666666,
+      0.16666666666666666
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_75d07d35d33328",
+    "shares": [
+      0.20588235294117646, 0.058823529411764705, 0.5588235294117647,
+      0.058823529411764705, 0.11764705882352941
+    ],
+    "coverage": 1,
+    "visits": 17,
+    "night": false
+  },
+  {
+    "id": "ct_ff36074cae8347",
+    "shares": [0.25, 0.25, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  {
+    "id": "ct_cec518ee1213c1",
+    "shares": [0.75, 0, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_e4521f5325216f",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_82e2c317c54d7e",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_6e6a0f2ecaee7f",
+    "shares": [0.75, 0.125, 0.125, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_68d8eff6357673",
+    "shares": [0.125, 0.375, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_f6d09076696e6d",
+    "shares": [0, 0.25, 0.5, 0, 0.25],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_618497cad743bc",
+    "shares": [0.25, 0.25, 0.25, 0, 0.25],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_88364cbd4a5650",
+    "shares": [0, 0.4, 0.6, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_23c35eeaf17398",
+    "shares": [
+      0.14814814814814814, 0.4444444444444444, 0.2592592592592593,
+      0.14814814814814814, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_cf9f8ad6cdda8f",
+    "shares": [0, 0.5, 0.25, 0, 0],
+    "coverage": 0.75,
+    "visits": 4,
+    "night": true
+  },
+  {
+    "id": "ct_661e12e8488117",
+    "shares": [0, 0.5, 0.5, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  {
+    "id": "ct_f0549cce13f623",
+    "shares": [0, 1, 0, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  {
+    "id": "ct_0d96bb8740671d",
+    "shares": [0.6666666666666666, 0.3333333333333333, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_1a59c2f3801f38",
+    "shares": [0.6666666666666666, 0, 0.3333333333333333, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_d038c55e01951b",
+    "shares": [0.3333333333333333, 0.6666666666666666, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_c59f7d050e72e0",
+    "shares": [0.5, 0.5, 0, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  {
+    "id": "ct_db611b0ecd14e4",
+    "shares": [1, 0, 0, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_4309f65e431d83",
+    "shares": [0.25, 0.5, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_1b0e0fd1157aaa",
+    "shares": [0.6666666666666666, 0.3333333333333333, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_fa87b733ddf357",
+    "shares": [0.5, 0.5, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_636360ac200b66",
+    "shares": [0.8, 0.1, 0.1, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_45e65111200294",
+    "shares": [0.5, 0.3333333333333333, 0, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_6c466761af057c",
+    "shares": [0.25, 0.5, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_7799bf62ca5138",
+    "shares": [0.3333333333333333, 0.6666666666666666, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_2d10b95a5e902e",
+    "shares": [0.5, 0.3333333333333333, 0, 0.16666666666666666, 0],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_6f6ed56249f477",
+    "shares": [0.25, 0.75, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_e353674363d7f4",
+    "shares": [0.125, 0.375, 0.375, 0, 0],
+    "coverage": 0.875,
+    "visits": 8,
+    "night": false
+  },
+  {
+    "id": "ct_c53b5abd9a30ab",
+    "shares": [
+      0.2857142857142857, 0.2857142857142857, 0.42857142857142855, 0, 0
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_a0af2538872792",
+    "shares": [
+      0, 0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_15ca3909485d66",
+    "shares": [
+      0.14285714285714285, 0.2857142857142857, 0.2857142857142857,
+      0.2857142857142857, 0
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_2f8d9c4d57db08",
+    "shares": [
+      0.14285714285714285, 0.2857142857142857, 0.2857142857142857,
+      0.14285714285714285, 0.14285714285714285
+    ],
+    "coverage": 1,
+    "visits": 7,
+    "night": false
+  },
+  {
+    "id": "ct_61845aa89a1c1a",
+    "shares": [
+      0.22727272727272727, 0.2727272727272727, 0.36363636363636365,
+      0.13636363636363635, 0
+    ],
+    "coverage": 1,
+    "visits": 11,
+    "night": false
+  },
+  {
+    "id": "ct_9845cf0683e6c7",
+    "shares": [0.4, 0, 0.4, 0.2, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_53a12bc8caced9",
+    "shares": [
+      0.3333333333333333, 0.16666666666666666, 0.3333333333333333,
+      0.16666666666666666, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_a33d720535a1e1",
+    "shares": [0.6666666666666666, 0.3333333333333333, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_7d1c2151bda037",
+    "shares": [0.6, 0, 0.4, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_02181b9e7a671f",
+    "shares": [0.7, 0, 0.1, 0, 0.2],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_6b11aef24a24ef",
+    "shares": [0.3333333333333333, 0.6666666666666666, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_f8bd00d4bc40b3",
+    "shares": [0.5, 0.5, 0, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": true
+  },
+  {
+    "id": "ct_cfd77d72cf4c59",
+    "shares": [0.5, 0.25, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_8163a6f43e6f4a",
+    "shares": [0, 0.3333333333333333, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_f558345dd00dbf",
+    "shares": [0.5, 0.5, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_c3ec7bb154c2c1",
+    "shares": [0.3333333333333333, 0.5, 0.16666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_5997fa12423936",
+    "shares": [0.3333333333333333, 0.6666666666666666, 0, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_7350d2221bf4e5",
+    "shares": [0.6, 0.1, 0.3, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_a8a8ecfbd0eefc",
+    "shares": [
+      0.4166666666666667, 0.16666666666666666, 0, 0.4166666666666667, 0
+    ],
+    "coverage": 1,
+    "visits": 6,
+    "night": false
+  },
+  {
+    "id": "ct_3f9d81407b910a",
+    "shares": [0.4, 0.6, 0, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_3764c5ee83c6b9",
+    "shares": [0.75, 0, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_1c94bb0caf5c4f",
+    "shares": [0.4, 0, 0.6, 0, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_f55bded1011de2",
+    "shares": [0, 1, 0, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_5e83dbf18d6227",
+    "shares": [0.25, 0, 0.375, 0, 0.375],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_2390c56fce5420",
+    "shares": [
+      0.16666666666666666, 0.3333333333333333, 0.4444444444444444,
+      0.05555555555555555, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  {
+    "id": "ct_658464b2619d71",
+    "shares": [0.625, 0.125, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_c4d1ab4265b00c",
+    "shares": [0.625, 0.125, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_6ec0ad7a54e92d",
+    "shares": [
+      0.1111111111111111, 0.3333333333333333, 0.3333333333333333,
+      0.2222222222222222, 0
+    ],
+    "coverage": 1,
+    "visits": 9,
+    "night": false
+  },
+  null,
+  null,
+  null,
+  {
+    "id": "ct_104171b078b959",
+    "shares": [0.75, 0.25, 0, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_fcbc8def0ff021",
+    "shares": [0.625, 0.25, 0, 0.125, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_2d7ad6be7d0219",
+    "shares": [0.875, 0.125, 0, 0, 0],
+    "coverage": 1,
+    "visits": 8,
+    "night": false
+  },
+  {
+    "id": "ct_2749460936eb31",
+    "shares": [0.75, 0, 0.25, 0, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_2921659630cea0",
+    "shares": [0, 0, 1, 0, 0],
+    "coverage": 1,
+    "visits": 2,
+    "night": false
+  },
+  {
+    "id": "ct_10510d067f8caa",
+    "shares": [0.3333333333333333, 0, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_59f67b28d9aad1",
+    "shares": [0, 0.6666666666666666, 0.3333333333333333, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  null,
+  {
+    "id": "ct_1fe72a79d47a7f",
+    "shares": [0.5, 0, 0.25, 0.25, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_82029ce72f5013",
+    "shares": [0, 0, 0.8333333333333334, 0, 0.16666666666666666],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_c0c761a6bb3927",
+    "shares": [0.1, 0, 0.8, 0.1, 0],
+    "coverage": 1,
+    "visits": 5,
+    "night": false
+  },
+  {
+    "id": "ct_c410c248858e88",
+    "shares": [0, 0.25, 0.25, 0.5, 0],
+    "coverage": 1,
+    "visits": 4,
+    "night": false
+  },
+  {
+    "id": "ct_52149303f1b0d4",
+    "shares": [0, 0.3333333333333333, 0.6666666666666666, 0, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_07b4b0458851e1",
+    "shares": [0.6666666666666666, 0, 0, 0.3333333333333333, 0],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_aabd87818ef08f",
+    "shares": [
+      0, 0.3333333333333333, 0.3333333333333333, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  },
+  {
+    "id": "ct_a407c821a8382e",
+    "shares": [
+      0.3333333333333333, 0, 0.3333333333333333, 0.3333333333333333, 0
+    ],
+    "coverage": 1,
+    "visits": 3,
+    "night": false
+  }
+]

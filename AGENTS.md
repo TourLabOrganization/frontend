@@ -53,7 +53,7 @@ Next.js 16 (App Router) / React 19 / TypeScript / Tailwind CSS 4. 모바일부�
 - 모든 호출에 시간 제한(`signal: AbortSignal.timeout(8000)`)을 두고, 실패하면 화면에 실패 문구와 다시 시도를 보인다.
   자주 안 바뀌는 조회는 `next: { revalidate: 3600 }`
 - 추천 점수 · 일정 계산은 data-server가 정본이다. API로 받은 결과는 프론트에서 다시 계산하지 않고 그대로 보여 준다 (`docs/api.md`)
-- 예외: 테마 추천 설문(설문 6.1 · 추천 6.2)은 data-server에 그 API가 생기기 전까지 팀 명세서의 참조 계산을 프론트에서 한다
+- 예외: 테마 추천 설문(설문 6.3 · 추천 6.4)은 data-server에 그 API가 생기기 전까지 팀 명세서의 참조 계산을 프론트에서 한다
   (`features/recommend/survey.ts` · `theme-index.ts`). API가 생기면 그 API를 부르도록 바꾼다 (`docs/api.md`)
 
 ### 3. API 키를 코드에 적지 않는다

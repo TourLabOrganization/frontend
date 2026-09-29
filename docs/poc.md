@@ -16,7 +16,7 @@
 | CORS 프록시(계획) — Cloudflare Workers / Vercel Function | Route Handler가 그 역할을 한다 (`docs/security.md`)                                                                                                                                                                                               |
 | Google Maps 스크립트 직접 로드                           | 카카오 지도 · `react-kakao-maps-sdk` (`docs/stack.md`)                                                                                                                                                                                            |
 | 인라인 `style=""`                                        | Tailwind 클래스와 토큰 (`docs/ui.md`)                                                                                                                                                                                                             |
-| `테마 추천 알고리즘/`(Python 오프라인 파이프라인)        | 설문 · 테마 추천은 이 파이프라인 대신 팀 명세서 integrated 6.2(설문 6.1 · 추천 6.2)의 참조 계산을 `src/features/recommend/survey.ts` · `theme-index.ts`로 옮겼다(`docs/structure.md` 「추천과 데이터랩」). 유형 프로필 W는 PoC `CL`과 같은 값이다 |
+| `테마 추천 알고리즘/`(Python 오프라인 파이프라인)        | 설문 · 테마 추천은 이 파이프라인 대신 팀 명세서 integrated 6.4(설문 6.3 · 추천 6.4)의 참조 계산을 `src/features/recommend/survey.ts` · `theme-index.ts`로 옮겼다(`docs/structure.md` 「추천과 데이터랩」). 유형 프로필 W는 PoC `CL`과 같은 값이다 |
 | 체류·일정 계산 (`체류시간 산정/stay_schedule.js`)        | `src/features/course/`(stay_schedule.js 이식). 장소·관문 데이터는 `scripts/build-places.mjs`로 만든다                                                                                                                                             |
 
 ## 데이터 동기화 기록
