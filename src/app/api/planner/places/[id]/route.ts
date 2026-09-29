@@ -11,6 +11,7 @@ import {
   placeDescEn,
   sourceText,
 } from "@/features/translations/text";
+import { loadAppPlaceNames } from "@/features/names/server";
 import { isKtoId } from "@/features/planner/kto-place";
 import { locales } from "@/i18n/locales";
 import { ktoDetailResponse } from "@/lib/tour-spot";
@@ -27,6 +28,7 @@ function viewOf(
   id: string,
   detail: PlannerPlaceDetail,
   locale: string,
+  appNames: Readonly<Record<string, string>>,
 ): PlannerPlaceView {
   const place = findPlace(id);
   if (locale === "ko")
@@ -38,10 +40,13 @@ function viewOf(
     };
   const descEn =
     detail.desc?.en ?? (detail.desc?.ko ? placeDescEn(detail.desc.ko) : null);
-  // 이름을 앱이 옮겼는가: 원천에 영어 이름이 없던 장소이고, 그 언어 공식 명칭(중 · 일)도 없다
+  // 이름을 앱이 옮겼는가: 그 언어 공식 명칭(중 · 일)이 없고, 앱이 옮긴 그 언어 이름(중 · 일 · 스페인어)을 쓰거나
+  // 떨어져 쓰는 영어 이름이 앱이 옮긴 것(원천에 영어 이름이 없던 장소)이다
   const officialName =
     (locale === "zh" && detail.zh) || (locale === "ja" && detail.ja);
-  const nameByApp = Object.hasOwn(APP_NAMES, id) && !officialName;
+  const nameByApp =
+    !officialName &&
+    (Object.hasOwn(appNames, id) || Object.hasOwn(APP_NAMES, id));
   const descByApp = !detail.desc?.en && !!descEn;
   return {
     desc: descEn ?? undefined,
@@ -68,7 +73,7 @@ export async function GET(
   const locale = new URL(request.url).searchParams.get("locale");
   const view =
     locale && (locales as readonly string[]).includes(locale)
-      ? viewOf(id, detail, locale)
+      ? viewOf(id, detail, locale, await loadAppPlaceNames(locale))
       : null;
   // 번역이 빠진 곳이 생겨도 한국어 원문을 외국어 화면에 보내지 않는다(테스트가 막지만 한 번 더)
   if (view && locale !== "ko") {

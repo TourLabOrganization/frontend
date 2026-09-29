@@ -187,17 +187,18 @@ export default async function HomePage() {
           <h2 id="home-courses" className="text-headline font-bold">
             {t("popularHeading")}
           </h2>
-          <ul className="-mx-5 mt-4 flex snap-x gap-3 overflow-x-auto px-5 pb-1">
+          {/* 두 코스를 한 줄에 나란히 둔다(좌우 스크롤 없이) */}
+          <ul className="mt-4 grid grid-cols-2 gap-3">
             {courses.map((c) => (
-              <li key={c.key} className="w-64 shrink-0 snap-start">
+              <li key={c.key} className="min-w-0">
                 <Link
                   href={c.href}
-                  className="flex h-full flex-col rounded-card bg-surface p-4 ring-1 ring-line transition duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-fill motion-reduce:transition-none"
+                  className="flex h-full flex-col rounded-card bg-surface p-3 ring-1 ring-line transition duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:scale-[0.99] active:bg-fill motion-reduce:transition-none"
                 >
                   <span className="text-micro font-bold tracking-wide text-primary">
                     {t(`popular.${c.key}`)}
                   </span>
-                  <span className="mt-1 text-body-lg font-bold">{c.title}</span>
+                  <span className="mt-1 text-body font-bold">{c.title}</span>
                   <span className="mt-1 text-caption text-fg-subtle">
                     {c.meta}
                   </span>

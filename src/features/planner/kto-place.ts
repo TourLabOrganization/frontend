@@ -25,6 +25,12 @@ export type KtoPlace = PlannerPlace & {
   photo?: string;
   /** 주소(addr1) */
   addr?: string;
+  /**
+   * 중 · 일 · 스페인어 이름(한국관광공사 다국어 관광정보에서 좌표로 찾은 공식 이름). 없는 언어는 영어 이름을 쓴다(placeName)
+   */
+  names?: Partial<Record<"zh" | "ja" | "es", string>>;
+  /** 영어 이름을 한국관광공사 영문 관광정보에서 못 찾아 앱이 로마자로 옮겼으면 true(장소 시트 「앱이 번역했어요」) */
+  enByApp?: boolean;
 };
 
 /** 신규 관광지 한 곳을 받는 주소(지도 링크로 바로 열었을 때) */

@@ -34,8 +34,10 @@ import {
   type TourPlace,
   tourPlaceSigngu,
   tourUnavailable,
+  withForeignNames,
   withoutCity,
 } from "./tour-api";
+import { romanize } from "./romanize";
 import { crowdName, crowdScore } from "./tour-crowd";
 import { seoulDate } from "./weather";
 import { type AppLocale, locales } from "../i18n/locales";
@@ -278,8 +280,13 @@ export async function resolveSpot(
     { name: spot.name, lat: kto.lat, lng: kto.lng },
     city,
   );
-  // 지도 · 목록은 고른 도시(칩)로 연다
-  return near ?? { ...kto, pickCity: city };
+  if (near) return near;
+  // 지도 · 목록은 고른 도시(칩)로 연다. 외국어 이름은 다국어 관광정보에서 찾는다
+  return withForeignNames(
+    { ...kto, pickCity: city },
+    String(item?.contenttypeid ?? ""),
+    key,
+  );
 }
 
 /** 이름이 맞는 플래너 장소(같은 도시 · 같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳) */
@@ -350,11 +357,17 @@ export async function findPopular(
         }
       }
       const base = { district: s.district, rate: s.rate };
-      if (!place) return { ...base, name: s.name, id: null };
+      // 앱 장소가 없는 이름은 외국어 화면에서 로마자로(한글을 보이지 않는다)
+      if (!place)
+        return {
+          ...base,
+          name: locale === "ko" ? s.name : romanize(s.name),
+          id: null,
+        };
       if ("signgu" in place)
         return {
           ...base,
-          name: s.name,
+          name: locale === "ko" ? s.name : placeName(place, locale, names),
           id: place.id,
           place: publicKtoPlace(place),
         };

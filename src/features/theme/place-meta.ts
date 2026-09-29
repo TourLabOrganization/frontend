@@ -19,16 +19,21 @@ export function isCategoryKey(cat: string): cat is CategoryKey {
 }
 
 /**
- * 화면 언어의 장소 이름. 중 · 일은 이름표(names)의 공식 명칭, 없으면 영어 → 한국어 순으로 떨어진다(PoC 규칙).
- * 스페인어는 영어 이름을 쓴다
+ * 화면 언어의 장소 이름. 중 · 일 · 스페인어는 이름표(names: 공식 명칭 → 앱이 옮긴 이름),
+ * 신규 관광지는 장소에 실린 다국어 이름, 없으면 영어 → 한국어 순으로 떨어진다
  */
 export function placeName(
-  place: Pick<Place, "id" | "ko" | "en">,
+  place: Pick<Place, "id" | "ko" | "en"> & {
+    /** 신규 관광지(kto:)의 중 · 일 · 스페인어 이름(features/planner/kto-place.ts) */
+    names?: Partial<Record<string, string>>;
+  },
   locale: string,
   names: NameTable = EMPTY_NAMES,
 ) {
   if (locale === "ko") return place.ko;
-  return names.places[place.id] || place.en || place.ko;
+  return (
+    names.places[place.id] || place.names?.[locale] || place.en || place.ko
+  );
 }
 
 /** 핵심 장소(목록 안, off가 아닌 곳)를 순번 순서로 */

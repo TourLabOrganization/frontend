@@ -4,7 +4,11 @@ import { placeName } from "../theme/place-meta";
 import es from "./data/es.json";
 import ja from "./data/ja.json";
 import zh from "./data/zh.json";
-import { loadNameTable } from "./server";
+import plannerPlaces from "../planner/data/places.json";
+import appEs from "../translations/data/place-names.es.json";
+import appJa from "../translations/data/place-names.ja.json";
+import appZh from "../translations/data/place-names.zh.json";
+import { loadAppPlaceNames, loadNameTable } from "./server";
 
 describe("언어별 이름표 (features/names)", () => {
   const place = { id: "gj1", ko: "효우당", en: "Hyowoodang" };
@@ -42,8 +46,64 @@ describe("언어별 이름표 (features/names)", () => {
       expect(Object.keys(table.places)).toHaveLength(0);
       expect(Object.keys(table.cities)).toHaveLength(0);
     }
+    // 중국어 화면: 공식 명칭 + 앱이 옮긴 이름 = 모든 플래너 장소
     expect(Object.keys((await loadNameTable("zh")).places).length).toBe(
-      Object.keys(zh.places).length,
+      Object.keys(zh.places).length + Object.keys(appZh).length,
     );
+  });
+});
+
+describe("앱이 옮긴 장소 이름 (translations/data/place-names.<언어>.json)", () => {
+  const ids = plannerPlaces.map((p) => p.id);
+  const tables = [
+    [
+      "zh",
+      appZh as Record<string, string>,
+      zh.places as Record<string, string>,
+    ],
+    [
+      "ja",
+      appJa as Record<string, string>,
+      ja.places as Record<string, string>,
+    ],
+    [
+      "es",
+      appEs as Record<string, string>,
+      es.places as Record<string, string>,
+    ],
+  ] as const;
+
+  it.each(tables)("%s: 한글 없음 · 빈 값 없음 · 모르는 id 없음", (_, app) => {
+    const known = new Set(ids);
+    for (const [id, name] of Object.entries(app)) {
+      expect(known.has(id), id).toBe(true);
+      expect(name.trim(), id).toBe(name);
+      expect(name.length, id).toBeGreaterThan(0);
+      expect(/[ㄱ-ㆎ가-힣]/.test(name), `${id} ${name}`).toBe(false);
+    }
+  });
+
+  it.each(tables)(
+    "%s: 공식 명칭이 없는 장소만 채우고, 둘을 합치면 모든 플래너 장소에 이름이 있다",
+    (_, app, official) => {
+      for (const id of Object.keys(app))
+        expect(Object.hasOwn(official, id), id).toBe(false);
+      const missing = ids.filter(
+        (id) => !Object.hasOwn(app, id) && !Object.hasOwn(official, id),
+      );
+      expect(missing).toEqual([]);
+    },
+  );
+
+  it("이름표는 공식 명칭 → 앱이 옮긴 이름 순으로 합친다", async () => {
+    const table = await loadNameTable("zh");
+    const officialId = Object.keys(zh.places)[0];
+    const appId = Object.keys(appZh)[0];
+    expect(table.places[officialId]).toBe(
+      (zh.places as Record<string, string>)[officialId],
+    );
+    expect(table.places[appId]).toBe((appZh as Record<string, string>)[appId]);
+    expect(await loadAppPlaceNames("en")).toEqual({});
+    expect(await loadNameTable("en")).toEqual(await loadNameTable("ko"));
   });
 });

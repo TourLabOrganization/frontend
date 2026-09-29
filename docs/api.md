@@ -160,7 +160,12 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **브라우저**: 홈에서 신규 관광지 줄을 누르거나 링크로 받으면 localStorage `tn.extraPlaces`(최근 200곳, `features/planner/extra-places.ts`)에 장소를 기억한다.
   투어 플래너 지도 · 목록(도시는 `pickCity`, 권역은 `macro`) · 장소 시트 · 코스 담기 · 코스 탭이 앱 장소처럼 쓴다(`place-lookup.ts` `findAnyPlace` · `isKnownPlace`).
   코스는 id만 저장하므로 기억해 둔 장소가 없으면 코스에서 빠진다
-- **한계**: 이름은 한국관광공사 국문 이름뿐이라 외국어 화면에도 한국어 이름이 보인다(앱 장소는 번역 이름). 자동 코스 후보(`auto`)에는 넣지 않는다
+- **외국어 이름**(`withForeignNames`): 영문 · 중문(간체) · 일문 · 스페인어 관광정보(`EngService2` · `ChsService2` · `JpnService2` · `SpnService2`)의
+  `locationBasedList2`(반경 200m, 거리순)에서 좌표 50m 안 · 같은 콘텐츠 타입(국문 12 → 다국어 76 등) 중 가장 가까운 곳의 이름을 쓴다(7일 캐시).
+  못 찾거나 실패한 언어는 건너뛴다 — 영어는 앱이 옮긴 로마자(`lib/romanize.ts`, `enByApp`), 중 · 일 · 스페인어는 영어 이름을 쓴다.
+  외국어 화면에서 로마자 이름이면 장소 시트에 「앱이 번역했어요」. 다국어 서비스도 각각 공공데이터포털 활용신청이 필요하다(신청하지 않으면 로마자 이름)
+- 홈 인기 관광지의 글자만인 곳(앱 장소 · 신규 관광지 모두 없음)은 외국어 화면에서 로마자로 적는다
+- **한계**: 자동 코스 후보(`auto`)에는 넣지 않는다
 
 ### 대표 사진 `GET /api/tour/photo?id=`
 

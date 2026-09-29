@@ -50,7 +50,8 @@ export async function tourSpotResponse(request: Request): Promise<Response> {
 
 /**
  * 신규 관광지의 장소 시트 필드(PlannerPlaceDetail). 설명 · 주소는 한국어뿐이라 외국어 화면(view)에는 보내지 않는다
- * (앱 장소처럼 한국어 원문을 외국어 화면에 보이지 않는다). 좌표 기준 줄은 「한국관광공사」 출처로 적는다
+ * (앱 장소처럼 한국어 원문을 외국어 화면에 보이지 않는다). 좌표 기준 줄은 「한국관광공사」 출처로 적는다.
+ * 외국어 화면에서 이름이 앱이 옮긴 로마자면 「앱이 번역했어요」(appTranslated)
  */
 export function ktoDetail(
   place: TourPlace,
@@ -70,7 +71,11 @@ export function ktoDetail(
           source: detail.src?.ko,
           appTranslated: false,
         }
-      : { appTranslated: false };
+      : {
+          // 이름을 앱이 로마자로 옮겼는가: 그 언어 공식 이름이 없고 영어 이름도 로마자다
+          appTranslated:
+            !place.names?.[locale as "zh" | "ja" | "es"] && !!place.enByApp,
+        };
   return { ...detail, view };
 }
 
