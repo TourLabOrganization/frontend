@@ -25,7 +25,7 @@ type QuestionMessages = Record<
   { title: string; help?: string; options: Record<string, string> }
 >;
 
-// 설문 6.1 흐름(survey.ts): S1~S6 → S4가 정한 B → (필요하면) F1 → 결과. 한 화면에 한 문항, 모두 필수라 건너뛰기가 없다.
+// 설문 6.3 흐름(survey.ts): S1~S6 → S4가 정한 B → (필요하면) F1 → 결과. 한 화면에 한 문항, 모두 필수라 건너뛰기가 없다.
 // 끝나면 답을 URL에 담아 결과 화면으로 간다. 앞 문항으로 돌아가 답을 바꾸면 survey.ts withAnswer 규칙대로 뒤 답을 지운다
 export function RecommendFlow() {
   const router = useRouter();

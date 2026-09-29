@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { decodeAnswers } from "../recommend/answers";
-import { type Answers, evaluate } from "../recommend/survey";
-import { indirectPreference } from "../recommend/theme-index";
+import { REFERENCE_CASES } from "../recommend/data/reference-cases";
+import type { Answers } from "../recommend/survey";
 import {
   type CityTour,
+  courseScore,
+  type CourseScoreProfile,
   recommendTours,
   regionCounts,
   routeOverflows,
@@ -14,65 +16,9 @@ import {
   typeProfile,
 } from "./citytour";
 import toursData from "./data/citytour.json";
+import scoresData from "./data/citytour-scores.json";
 
 const TOURS = toursData as CityTour[];
-
-// ── 목업 원본(standalone 「Tour Navigator.html」 홈 renderVals)을 옮긴 비교 기준. 적합도만 간접 선호 u의 내적으로 바꿨다 ──
-const KW = [
-  /궁|성곽|읍성|산성|사찰|[가-힣]사$|향교|서원|박물관|유적|고분|릉|왕|역사|문화재|한옥|민속|전통|사지|탑|기념관/,
-  /산$|산 |숲|수목원|공원|호수|저수지|계곡|습지|정원|폭포|자연|생태|휴양림|둘레길|꽃|농원|수변/,
-  /체험|테마파크|랜드|케이블카|레일|짚|루지|월드|과학관|전망대|스카이|목장|놀이/,
-  /시장|먹거리|맛|음식|카페|막걸리|와이너리|양조|빵|맥주|술/,
-  /해수욕장|해변|[가-힣]항$|바다|섬|포구|해안|등대|해상|해양|방조제/,
-];
-type Row = [string, string, string, string, string];
-function mockProf(x: Row) {
-  const st = String(x[4] || "")
-    .split(/→|->|-|,|·/)
-    .map((t) => t.replace(/\(.*?\)/g, "").trim())
-    .filter(Boolean);
-  const v = [0, 0, 0, 0, 0];
-  st.forEach((t) =>
-    KW.forEach((r, k) => {
-      if (r.test(t)) v[k]++;
-    }),
-  );
-  const n = Math.max(1, st.length);
-  const night = /야간|야경|나이트|밤|야시장|달빛|별빛/.test(x[1] + x[4])
-    ? 1
-    : 0;
-  return { v: v.map((y) => y / n), night, stops: st.length };
-}
-function mockRec(
-  CT: Row[],
-  R: { u: readonly number[]; cat: number | "night" | null },
-) {
-  const sc = CT.map((x, i) => {
-    const p = mockProf(x);
-    const fit = p.v.reduce((s, y, k) => s + y * R.u[k], 0);
-    const bonus =
-      0.5 * (R.cat === null ? 0 : R.cat === "night" ? p.night : p.v[R.cat]);
-    return { x, i, s: fit + bonus + (p.stops >= 3 ? 0.02 : 0) };
-  }).sort((a, b) => b.s - a.s);
-  const seen: Record<string, 1> = {};
-  const rec: Row[] = [];
-  for (const z of sc) {
-    if (seen[z.x[0]]) continue;
-    seen[z.x[0]] = 1;
-    rec.push(z.x);
-    if (rec.length >= 5) break;
-  }
-  return rec.map((x) => x[1]);
-}
-/** S4 관심사 → 목업 분류 index(역사 0 · 자연 1 · 체험 2 · 먹거리 3 · 바다 4, 야경). 드라마 · 공연 · 쇼핑은 없다 */
-const S4_CAT: Record<string, number | "night"> = {
-  history: 0,
-  nature: 1,
-  sea: 4,
-  "food-market": 3,
-  activity: 2,
-  night: "night",
-};
 
 // 명세서 §15 예제(C4 · C5 복합형, 역사)
 const MIXED: Answers = {
@@ -131,36 +77,81 @@ const SAMPLES: Answers[] = [
   },
 ];
 
-describe("recommendTours (내 유형 추천)", () => {
-  it.each(SAMPLES.map((a, i) => [i, a] as const))(
-    "목업 규칙(적합도 = 분류 비율 · u)과 같은 5개를 같은 순서로 고른다 (예시 %i)",
-    (_, answers) => {
-      const type = typeProfile(answers)!;
-      const result = evaluate(answers);
-      if (result.status !== "complete") throw new Error("incomplete");
-      const R = {
-        u: indirectPreference(result),
-        cat: S4_CAT[answers.s4!] ?? null,
-      };
-      const rows = TOURS.map((t) => [t.region, t.name, "", "", t.route] as Row);
-      const got = recommendTours(TOURS, type).map((t) => t.name);
-      expect(got).toEqual(mockRec(rows, R));
-      expect(got).toHaveLength(5);
-    },
-  );
+const PROFILES = scoresData as (CourseScoreProfile | null)[];
+const byId = new Map(
+  PROFILES.flatMap((p, i) => (p ? [[p.id, TOURS[i]] as const] : [])),
+);
 
-  it("한 지역에서 한 노선만 고른다", () => {
-    const got = recommendTours(TOURS, typeProfile(MIXED)!);
-    expect(new Set(got.map((t) => t.region)).size).toBe(got.length);
+describe("recommendTours (내 유형 추천, 명세서 §16 코스 점수)", () => {
+  it("점수 자료는 citytour.json과 같은 순서의 280칸이고 분석 적격 234코스만 있다", () => {
+    expect(PROFILES).toHaveLength(TOURS.length);
+    const present = PROFILES.filter((p) => p !== null);
+    expect(present).toHaveLength(234);
+    for (const p of present) {
+      expect(p.shares.reduce((a, b) => a + b, 0)).toBeCloseTo(p.coverage, 8);
+      expect(p.visits).toBeGreaterThanOrEqual(2);
+    }
   });
 
-  it("명세서 예제는 C4 · C5 복합형 · u = [0.3, 0.45, 0.025, 0.125, 0.1] · 관심사 역사", () => {
+  it("명세서 예제(C4 · C5 복합형, 역사 · 천천히): 해남 · 대전 생태교육 · 아산 · 순천 81.18, 천안 80.52", () => {
+    const got = recommendTours(TOURS, typeProfile(MIXED)!, PROFILES);
+    expect(got.map((t) => [t.region, t.name])).toEqual([
+      ["해남", "해남시티투어"],
+      ["대전", "생태교육"],
+      ["아산", "역사기행 코스"],
+      ["순천", "(기획투어)나이트가든투어"],
+      ["천안", "목요일"],
+    ]);
+    const type = typeProfile(MIXED)!;
+    const scores = got.map(
+      (tour) => courseScore(PROFILES[TOURS.indexOf(tour)]!, type).score,
+    );
+    [81.179956, 81.179956, 81.179956, 81.179956, 80.51904].forEach((v, k) =>
+      expect(scores[k]).toBeCloseTo(v, 5),
+    );
+  });
+
+  it("가산 항이 없으면 점수는 범주 적합 100 · cos · 커버리지다", () => {
+    const type = {
+      ...typeProfile(SAMPLES[2])!,
+      pace: null,
+      eveningNight: false,
+    };
+    expect(type.tag).toBeNull();
+    for (const p of PROFILES.filter((x) => x !== null)) {
+      const s = courseScore(p, type);
+      expect(s.score).toBeCloseTo(s.fit, 10);
+      expect(s.score).toBeGreaterThanOrEqual(0);
+      expect(s.score).toBeLessThanOrEqual(100 + 1e-9);
+    }
+  });
+
+  it("한 지역에서 한 노선만, 분석 적격 코스만 고른다", () => {
+    for (const answers of SAMPLES) {
+      const got = recommendTours(TOURS, typeProfile(answers)!, PROFILES);
+      expect(got).toHaveLength(5);
+      expect(new Set(got.map((t) => t.region)).size).toBe(5);
+      for (const tour of got)
+        expect(PROFILES[TOURS.indexOf(tour)]).not.toBeNull();
+    }
+  });
+
+  it("유형 요약: 명세서 예제는 C4 · C5, u = [0.321, 0.434, 0.028, 0.128, 0.090], 역사 · 천천히 · 저녁 가산 없음", () => {
     const type = typeProfile(MIXED)!;
     expect(type.types).toEqual(["C4", "C5"]);
     expect(type.tag).toBe("history");
-    [0.3, 0.45, 0.025, 0.125, 0.1].forEach((v, k) =>
-      expect(type.preference[k]).toBeCloseTo(v, 10),
+    expect(type.pace).toBe("relaxed");
+    expect(type.eveningNight).toBe(false);
+    [0.32069, 0.434483, 0.027586, 0.127586, 0.089655].forEach((v, k) =>
+      expect(type.preference[k]).toBeCloseTo(v, 5),
     );
+  });
+
+  it("S6 저녁 · 밤까지는 S4가 야경이 아닐 때만 야경 가산이다", () => {
+    expect(typeProfile(SAMPLES[1])!.tag).toBe("night");
+    expect(typeProfile(SAMPLES[1])!.eveningNight).toBe(false);
+    expect(typeProfile(SAMPLES[3])!.eveningNight).toBe(true);
+    expect(typeProfile(SAMPLES[3])!.pace).toBeNull();
   });
 
   it("드라마 · 공연 · 쇼핑 관심사는 경유지 분류가 없다", () => {
@@ -174,6 +165,19 @@ describe("recommendTours (내 유형 추천)", () => {
       typeProfile(decodeAnswers("q1.60s~q2.spouse~q3.relaxed~q4.history")),
     ).toBeNull();
   });
+
+  for (const [n, c] of REFERENCE_CASES.entries()) {
+    it(`Python 참조 계산과 같은 지역 대표 5개 · 점수 (사례 ${n + 1})`, () => {
+      const type = typeProfile(c.answers)!;
+      const got = recommendTours(TOURS, type, PROFILES);
+      expect(got).toEqual(c.tours.map((t) => byId.get(t.courseId)));
+      got.forEach((tour, k) =>
+        expect(
+          courseScore(PROFILES[TOURS.indexOf(tour)]!, type).score,
+        ).toBeCloseTo(c.tours[k].score, 9),
+      );
+    });
+  }
 });
 
 describe("tourProfile · tourTags", () => {

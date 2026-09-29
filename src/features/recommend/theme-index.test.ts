@@ -10,8 +10,9 @@ import {
   TYPE_PROFILES,
 } from "./theme-index";
 import { THEMES } from "./themes";
+import { REFERENCE_CASES } from "./data/reference-cases";
 
-// 명세서 §15 예제(§37 혼합 응답): 최종 C4 13 · C5 13, α 각 0.5
+// 명세서 §15 예제(§37 혼합 응답): 설문 6.3 최종 C4 74.7 · C5 71.1, α 0.5517 · 0.4483
 const MIXED: Answers = {
   s1: "30s",
   s2: "solo",
@@ -36,15 +37,12 @@ const close = (got: readonly number[], want: readonly number[]) => {
 };
 
 describe("유형 프로필 W (명세서 §13)", () => {
-  it("행 합으로 나눠 쓴다: C8 · C9", () => {
+  it("행 합으로 나눠 쓴다: C8 · C9(추천 6.3 개정값, 합 1)", () => {
     close(
       normalizedTypeProfile("C8"),
       [0.079208, 0.257426, 0, 0.435644, 0.227723],
     );
-    close(
-      normalizedTypeProfile("C9"),
-      [0.020202, 0.333333, 0.070707, 0.212121, 0.363636],
-    );
+    close(normalizedTypeProfile("C9"), [0.02, 0.3, 0.07, 0.11, 0.5]);
     for (const c of Object.keys(
       TYPE_PROFILES,
     ) as (keyof typeof TYPE_PROFILES)[])
@@ -54,9 +52,9 @@ describe("유형 프로필 W (명세서 §13)", () => {
       );
   });
 
-  it("간접 선호 u: C4 · C5 각 0.5 → [0.300, 0.450, 0.025, 0.125, 0.100]", () => {
+  it("간접 선호 u: C4 0.5517 · C5 0.4483 → [0.321, 0.434, 0.028, 0.128, 0.090]", () => {
     const u = indirectPreference(complete(MIXED));
-    close(u, [0.3, 0.45, 0.025, 0.125, 0.1]);
+    close(u, [0.32069, 0.434483, 0.027586, 0.127586, 0.089655]);
     expect(u.reduce((a, b) => a + b, 0)).toBeCloseTo(1, 12);
   });
 
@@ -79,14 +77,14 @@ describe("테마 적합도 지수 (명세서 §14 · §15)", () => {
     ]);
     close(
       ranking.map((t) => t.index),
-      [31.518333, 25.495, 25.02002, 24.23, 18.645],
+      [31.798165, 25.70552, 25.263197, 23.848271, 18.522067],
     );
     const [kings, rescene, kpop, jeju, busan] = ranking;
-    close([kings.fit, 0.5 * kings.interest], [0.272775, 0.2]);
-    close([rescene.fit, 0.5 * rescene.interest], [0.218425, 0.164]);
-    close([kpop.fit, 0.5 * kpop.interest], [0.228654, 0.146647]);
-    close([jeju.fit, 0.5 * jeju.interest], [0.28095, 0.0825]);
-    close([busan.fit, 0.5 * busan.interest], [0.209175, 0.0705]);
+    close([kings.fit, 0.5 * kings.interest], [0.276972, 0.2]);
+    close([rescene.fit, 0.5 * rescene.interest], [0.221583, 0.164]);
+    close([kpop.fit, 0.5 * kpop.interest], [0.232301, 0.146647]);
+    close([jeju.fit, 0.5 * jeju.interest], [0.275224, 0.0825]);
+    close([busan.fit, 0.5 * busan.interest], [0.207331, 0.0705]);
   });
 
   it("화면에 나눠 보이는 기여의 합이 지수다 (유형 100F/1.5 + 관심사 100·0.5r/1.5)", () => {
@@ -185,4 +183,17 @@ describe("테마 적합도 지수 (명세서 §14 · §15)", () => {
     ]);
     expect(rankThemes(complete(MIXED))).toHaveLength(5);
   });
+});
+
+describe("Python 참조 계산과 같은 값 (recommend_reference.py 테마 부분)", () => {
+  for (const [n, c] of REFERENCE_CASES.entries()) {
+    it(`사례 ${n + 1}: 간접 선호 u · 테마 지수 · 상위 3개`, () => {
+      const result = complete(c.answers);
+      close(indirectPreference(result), c.preference);
+      const ranking = rankThemes(result);
+      for (const t of ranking)
+        expect(t.index, t.slug).toBeCloseTo(c.themeIndex[t.slug], 9);
+      expect(ranking.slice(0, 3).map((t) => t.slug)).toEqual(c.themeTop3);
+    });
+  }
 });
