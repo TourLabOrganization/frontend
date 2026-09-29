@@ -1,0 +1,31 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "562",
+            "tlid": "1360",
+            "stid": "2083",
+            "stlid": "5487",
+            "title": "Jeongdong-simgok Badabuchae-gil Trail",
+            "mapX": "129.04592",
+            "mapY": "37.681946",
+            "audioTitle": "Stroll along this beautiful beach as the waves roll in",
+            "script": "Jeongdong-simgok Badabuchae-gil Trail Stroll along this beautiful beach as the waves roll in   Jeongdong-simgok Badabuchae-gil Trail is a 2.9-kilometer-long walking path along the beach. It receives its name from its location and shape of the land along the trail. “Jeongdong” refers to the eastward direction from the residence of the king in Hanyang, or present-day Seoul, which was the capital during the Joseon Dynasty (1392-1910). “Simgok” refers to a village that is located inside a deep valley. Badabuchae-gil, or fan-shaped road, comes from the rock formations on the trail that resemble an open fan facing the sea.  Begin your journey from the ticket office and go down a set of steep wooden stairs to arrive at the trail, where you’ll be greeted by a breathtaking view of the coast. The nearby coastal terrace has a stepped landscape that follows the coastline. The seaside cliffs were carved by waves, which created protrusions and recessions along the surface. This created a flat, terraced surface with a gradual incline towards the sea that rises above the water. The fan-shaped rock formation is designated as Natural Monument No. 437. It’s the only coastal terrace in the country, and offers a glimpse of 23 million years of geological history.  You can expect to have a splendid view of the sea as you continue on your walk, eventually arriving at Mongdol Beach. Here, the mongdol, or round stones, including a turtle-shaped rock and a rock that looks like a soldier's helmet, have been shaped by the waves. The soldier's helmet formation stands in tribute to the legend of the great general Gang Gam-chan (948-1031) of the Goryeo Dynasty (918-1392), who was said to have defeated tigers that were threatening the local villagers.  The next stop is the fan-shaped rock observation deck. It’s built on top of a rock shaped like an open fan, and offers a view of the trail, where we started our tour. The final destination is Simgok Sea Observation Deck, which presents a stunning view of the ocean and is where visitors may feel as if they are floating above the water.",
+            "playTime": "161",
+            "audioUrl": "",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20170920110201",
+            "modifiedtime": "20170920110201"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "3611",
+            "tlid": "5668",
+            "themeCategory": "",
+            "addr1": "全羅北道",
+            "addr2": "全州市",
+            "title": "全州韓屋村",
+            "mapX": "127.151944",
+            "mapY": "35.8175",
+            "langCheck": "11111",
+            "langCode": "jp",
+            "imageUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/sightImage/service/3611.jpg",
+            "createdtime": "20250528195227",
+            "modifiedtime": "20250529135339"
+          },
+          {
+            "tid": "3612",
+            "tlid": "5669",
+            "themeCategory": "",
+            "addr1": "全羅南道",
+            "addr2": "潭陽郡",
+            "title": "潭陽竹緑苑",
+            "mapX": "126.985278",
+            "mapY": "35.326389",
+            "langCheck": "11111",
+            "langCode": "jp",
+            "imageUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/sightImage/service/3612.jpg",
+            "createdtime": "20250528195348",
+            "modifiedtime": "20250529135429"
+          }
+        ]
+      },
+      "numOfRows": 134,
+      "pageNo": 2,
+      "totalCount": 1134
+    }
+  }
+}

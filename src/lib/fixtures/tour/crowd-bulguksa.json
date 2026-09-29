@@ -1,0 +1,284 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "baseYmd": "20260929",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "41.2"
+          },
+          {
+            "baseYmd": "20260930",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "46.66"
+          },
+          {
+            "baseYmd": "20261001",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "70.63"
+          },
+          {
+            "baseYmd": "20261002",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "93.51"
+          },
+          {
+            "baseYmd": "20261003",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "86.46"
+          },
+          {
+            "baseYmd": "20261004",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "87.88"
+          },
+          {
+            "baseYmd": "20261005",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "99.95"
+          },
+          {
+            "baseYmd": "20261006",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "41.46"
+          },
+          {
+            "baseYmd": "20261007",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "41.42"
+          },
+          {
+            "baseYmd": "20261008",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "41.61"
+          },
+          {
+            "baseYmd": "20261009",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "70.69"
+          },
+          {
+            "baseYmd": "20261010",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "74.59"
+          },
+          {
+            "baseYmd": "20261011",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "74.45"
+          },
+          {
+            "baseYmd": "20261012",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "42.95"
+          },
+          {
+            "baseYmd": "20261013",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "41.04"
+          },
+          {
+            "baseYmd": "20261014",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "42.71"
+          },
+          {
+            "baseYmd": "20261015",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "40.8"
+          },
+          {
+            "baseYmd": "20261016",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "53.91"
+          },
+          {
+            "baseYmd": "20261017",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "81.05"
+          },
+          {
+            "baseYmd": "20261018",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "80.76"
+          },
+          {
+            "baseYmd": "20261019",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "47.23"
+          },
+          {
+            "baseYmd": "20261020",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "42.84"
+          },
+          {
+            "baseYmd": "20261021",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "44.33"
+          },
+          {
+            "baseYmd": "20261022",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "44.34"
+          },
+          {
+            "baseYmd": "20261023",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "50.41"
+          },
+          {
+            "baseYmd": "20261024",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "83.21"
+          },
+          {
+            "baseYmd": "20261025",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "84.62"
+          },
+          {
+            "baseYmd": "20261026",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "50.36"
+          },
+          {
+            "baseYmd": "20261027",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "45.85"
+          },
+          {
+            "baseYmd": "20261028",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 불국사 [유네스코 세계유산]",
+            "cnctrRate": "47.05"
+          }
+        ]
+      },
+      "numOfRows": 30,
+      "pageNo": 1,
+      "totalCount": 30
+    }
+  }
+}

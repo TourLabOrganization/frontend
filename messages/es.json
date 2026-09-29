@@ -80,6 +80,33 @@
         "unknown": "Sin datos"
       }
     },
+    "tour": {
+      "audio": {
+        "title": "Audioguía",
+        "player": "Audioguía: {title}",
+        "playTime": "Duración {time}",
+        "more": "Leer más",
+        "less": "Ver menos",
+        "sourceOdii": "Audioguía de la Organización de Turismo de Corea (Odii)",
+        "sourceStory": "Historias de viaje · Organización de Turismo de Corea"
+      },
+      "related": {
+        "title": "Top de lugares visitados juntos",
+        "rank": "N.º {rank}",
+        "stays": "Alojamientos que se eligen juntos",
+        "source": "Organización de Turismo de Corea, lugares relacionados · datos de {month}"
+      },
+      "crowd": {
+        "title": "Previsión de afluencia",
+        "levels": {
+          "quiet": "Tranquilo",
+          "moderate": "Moderado",
+          "busy": "Concurrido"
+        },
+        "note": "Son previsiones y pueden no coincidir con la afluencia real.",
+        "source": "Organización de Turismo de Corea, previsión de concentración de visitantes"
+      }
+    },
     "badges": "Insignias",
     "appTranslated": "Algunos nombres y descripciones los tradujo la app."
   },

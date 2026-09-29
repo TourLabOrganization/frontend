@@ -1,0 +1,41 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "baseYmd": "20260929",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전주한벽문화관",
+            "cnctrRate": "39.59"
+          },
+          {
+            "baseYmd": "20260930",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전주한벽문화관",
+            "cnctrRate": "43.16"
+          },
+          {
+            "baseYmd": "20261001",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전주한벽문화관",
+            "cnctrRate": "46.88"
+          }
+        ]
+      },
+      "numOfRows": 30,
+      "pageNo": 1,
+      "totalCount": 30
+    }
+  }
+}

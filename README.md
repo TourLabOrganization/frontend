@@ -43,8 +43,8 @@
 
 ## 들어 있지 않은 것
 
-로그인 화면, 외부 API Route Handler(지금 Route Handler는 플래너 장소 시트의 설명 · 사진을 돌려주는 `/api/planner/places/[id]` 하나다).
-필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
+로그인 화면. 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
+Route Handler는 플래너 장소 시트의 설명 · 사진(`/api/planner/places/[id]`), 날씨(`/api/weather`), 한국관광공사 칸(`/api/tour/*` — 오디오 가이드 · 함께 많이 가는 관광지 · 방문 집중률)이 있다(`docs/api.md`).
 
 홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
 테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, 카카오 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
@@ -69,11 +69,12 @@ cp .env.example .env.local
 
 `.env.local`에 채울 값:
 
-| 이름                        | 설명                                                                                          |
-| --------------------------- | --------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_BASE_URL`  | 백엔드 주소. 개발 서버는 `https://3.36.114.238.nip.io`, 로컬 백엔드는 `http://localhost:8080` |
-| `NEXT_PUBLIC_KAKAO_MAP_KEY` | 카카오 지도 JavaScript 키. 카카오 앱에 등록한 도메인(`localhost:5173` 등)에서만 동작한다      |
-| `DATA_GO_KR_KEY` 외         | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md`                      |
+| 이름                        | 설명                                                                                                                              |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL`  | 백엔드 주소. 개발 서버는 `https://3.36.114.238.nip.io`, 로컬 백엔드는 `http://localhost:8080`                                     |
+| `NEXT_PUBLIC_KAKAO_MAP_KEY` | 카카오 지도 JavaScript 키. 카카오 앱에 등록한 도메인(`localhost:5173` 등)에서만 동작한다                                          |
+| `DATA_GO_KR_KEY`            | 서버 전용. 공공데이터포털 디코딩 키. 장소 시트의 오디오 가이드 · 연관 관광지 · 집중률 세 API 활용신청 필요(없으면 그 칸이 숨는다) |
+| 그 밖의 서버 전용 키        | 서버 전용 외부 API 키. 목록과 규칙은 `.env.example` · `docs/security.md`                                                          |
 
 ### 실행
 
@@ -105,3 +106,4 @@ Vercel에 GitHub 저장소를 연결해 배포한다.
 - 프로덕션 브랜치는 `develop`이다. `develop`에 머지되면 프로덕션에 반영된다
 - PR마다 미리보기 주소가 생긴다
 - 환경변수는 Vercel 프로젝트 설정의 Environment Variables에 넣는다 (`.env.example`과 같은 이름)
+- 서버(Vercel Function)는 서울(`icn1`)에서 돈다(`vercel.json`의 `regions`). 기본값은 미국 동부(`iad1`)인데, 서버가 부르는 백엔드(AWS 서울)와 한국관광공사 공공 API가 모두 한국에 있어 호출마다 태평양을 왕복하지 않게 옮겼다. Hobby 요금제는 한 지역만 고를 수 있다

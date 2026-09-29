@@ -80,6 +80,33 @@
         "unknown": "データなし"
       }
     },
+    "tour": {
+      "audio": {
+        "title": "音声ガイド",
+        "player": "音声ガイド：{title}",
+        "playTime": "再生時間 {time}",
+        "more": "続きを読む",
+        "less": "閉じる",
+        "sourceOdii": "韓国観光公社 音声ガイド（Odii）",
+        "sourceStory": "観光ストーリー · 韓国観光公社"
+      },
+      "related": {
+        "title": "一緒によく訪れるスポット TOP",
+        "rank": "{rank}位",
+        "stays": "一緒によく選ばれる宿",
+        "source": "韓国観光公社 関連観光地データ · {month}時点"
+      },
+      "crowd": {
+        "title": "混雑予測",
+        "levels": {
+          "quiet": "空き",
+          "moderate": "普通",
+          "busy": "混雑"
+        },
+        "note": "予測値のため、実際とは異なる場合があります。",
+        "source": "韓国観光公社 観光地集中率 訪問者推移予測"
+      }
+    },
     "badges": "バッジ",
     "appTranslated": "名称・説明の一部はアプリが翻訳しています。"
   },

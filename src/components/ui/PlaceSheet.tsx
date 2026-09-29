@@ -6,10 +6,13 @@ import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 import { buttonClassName } from "./Button";
 import { Chip } from "./Chip";
+import { PlaceTour } from "./PlaceTour";
 import { PlaceWeather } from "./PlaceWeather";
 import { breakBeforeContact, formatStayHours } from "./stay-hours";
 
 export type PlaceSheetPlace = {
+  /** 플래너 장소 id(테마 장소도 같은 id다). 있으면 날씨 칸 다음에 한국관광공사 칸(오디오 가이드 · 함께 많이 가는 관광지 · 방문 집중률)을 둔다 */
+  id?: string;
   /** 제목(화면 언어의 장소 이름). 사진의 대체 글도 이 이름이다 */
   name: string;
   /** 제목 아래 한 줄. 「경주 · 문화유산·전통체험」처럼 " · "로 잇는다. 체류 시간은 상세 표(권장 체류)에만 둔다 */
@@ -53,6 +56,10 @@ type PlaceSheetProps = {
   children?: React.ReactNode;
   /** 「길찾기」 옆 버튼들. 쓰는 화면이 정한다 (테마: 저장 · 스탬프, 플래너: 코스에 담기) */
   actions?: React.ReactNode;
+  /** 「함께 많이 가는 관광지」에서 우리 장소를 누르면 그 장소로 시트를 바꾼다(쓰는 화면의 장소 열기) */
+  onOpenPlace?: (id: string) => void;
+  /** 이 화면에서 열 수 있는 장소인지. 아니면 그 줄은 글자만 둔다 */
+  canOpenPlace?: (id: string) => boolean;
   onClose: () => void;
 };
 
@@ -62,10 +69,13 @@ export function PlaceSheet({
   place,
   children,
   actions,
+  onOpenPlace,
+  canOpenPlace,
   onClose,
 }: PlaceSheetProps) {
   const t = useTranslations("PlaceSheet");
   const ref = useRef<HTMLDialogElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
   // 받지 못한 사진 주소. 깨진 사진 칸 대신 사진 없이 보인다
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -76,6 +86,18 @@ export function PlaceSheet({
     if (place && !dialog.open) dialog.showModal();
     if (!place && dialog.open) dialog.close();
   }, [place]);
+
+  // 열린 채로 다른 장소로 바뀌면(함께 많이 가는 관광지) 맨 위로 올리고 제목으로 초점을 옮긴다(누른 줄이 사라지므로)
+  const placeId = place?.id;
+  const shownId = useRef(placeId);
+  useEffect(() => {
+    const previous = shownId.current;
+    shownId.current = placeId;
+    const dialog = ref.current;
+    if (!dialog?.open || !previous || !placeId || previous === placeId) return;
+    dialog.scrollTop = 0;
+    titleRef.current?.focus();
+  }, [placeId]);
 
   const meta = place?.meta?.filter(Boolean) ?? [];
 
@@ -124,7 +146,12 @@ export function PlaceSheet({
             </figure>
           )}
 
-          <h2 id={titleId} className="text-headline font-bold">
+          <h2
+            ref={titleRef}
+            id={titleId}
+            tabIndex={-1}
+            className="text-headline font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          >
             {place.name}
           </h2>
           {meta.length > 0 && (
@@ -171,6 +198,15 @@ export function PlaceSheet({
 
           {/* PoC 순서: 상세 표 다음, 길찾기 앞. 장소가 바뀌면 그 좌표로 새로 부른다 */}
           <PlaceWeather lat={place.facts.lat} lng={place.facts.lng} />
+          {/* 날씨 다음: 오디오 가이드 · 함께 많이 가는 관광지 Top · 방문 집중률 예측(/api/tour/*). 못 받으면 칸째 숨는다 */}
+          {place.id && (
+            <PlaceTour
+              key={place.id}
+              id={place.id}
+              onOpenPlace={onOpenPlace}
+              canOpenPlace={canOpenPlace}
+            />
+          )}
 
           <div className="mt-5 flex flex-wrap gap-2">
             <a

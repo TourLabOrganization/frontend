@@ -1,0 +1,44 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "2879",
+            "tlid": "4418",
+            "themeCategory": "",
+            "addr1": "Jeollabuk-do",
+            "addr2": "Jeonju-si",
+            "title": "Jeonju",
+            "mapX": "127.157229",
+            "mapY": "35.812612",
+            "langCheck": "11110",
+            "langCode": "en",
+            "imageUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/sightImage/service/2879.jpg",
+            "createdtime": "20230112112853",
+            "modifiedtime": "20241205102704"
+          },
+          {
+            "tid": "2880",
+            "tlid": "4446",
+            "themeCategory": "",
+            "addr1": "Gyeongsangnam-do",
+            "addr2": "",
+            "title": "Gyeongsangnam-do ",
+            "mapX": "128.64149",
+            "mapY": "34.774663",
+            "langCheck": "11110",
+            "langCode": "en",
+            "imageUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/sightImage/service/2880.jpg",
+            "createdtime": "20230113103013",
+            "modifiedtime": "20250803151657"
+          }
+        ]
+      },
+      "numOfRows": 356,
+      "pageNo": 2,
+      "totalCount": 1356
+    }
+  }
+}

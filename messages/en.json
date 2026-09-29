@@ -80,6 +80,33 @@
         "unknown": "No data"
       }
     },
+    "tour": {
+      "audio": {
+        "title": "Audio guide",
+        "player": "Audio guide: {title}",
+        "playTime": "Length {time}",
+        "more": "Read more",
+        "less": "Show less",
+        "sourceOdii": "Korea Tourism Organization audio guide (Odii)",
+        "sourceStory": "Travel stories · Korea Tourism Organization"
+      },
+      "related": {
+        "title": "Top places visited together",
+        "rank": "No. {rank}",
+        "stays": "Stays often chosen together",
+        "source": "Korea Tourism Organization related attractions · as of {month}"
+      },
+      "crowd": {
+        "title": "Crowd forecast",
+        "levels": {
+          "quiet": "Quiet",
+          "moderate": "Moderate",
+          "busy": "Busy"
+        },
+        "note": "These are forecasts and may differ from actual crowds.",
+        "source": "Korea Tourism Organization visitor concentration forecast"
+      }
+    },
     "badges": "Badges",
     "appTranslated": "Some names and descriptions were translated by the app."
   },

@@ -121,6 +121,66 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - 에어코리아 미세먼지: PoC 날씨 칸 아래의 대기질 줄. 그래서 제목은 PoC의 「날씨 · 미세먼지」가 아니라 「날씨」다
 - 붙일 때는 키를 서버 환경변수로 읽는 별도 Route Handler로 만든다(`docs/security.md`)
 
+### 한국관광공사 칸 `GET /api/tour/audio` · `/api/tour/related` · `/api/tour/crowd`
+
+장소 시트(`components/ui/PlaceTour`)의 날씨 칸 다음 세 칸(2026-09-29 팀 요청). 코드는 `app/api/tour/*/route.ts`,
+처리는 `lib/tour-audio.ts` · `tour-related.ts` · `tour-crowd.ts`(vitest가 `@/` 경로를 풀지 못해 Route Handler는 이 함수를 부르기만 한다),
+공통(키 · 주소 · 응답 파싱 · 장소 찾기)은 `lib/tour-api.ts`, 화면과 함께 쓰는 타입 · 순수 함수는 `lib/tour.ts`.
+규칙의 정본은 PoC 코드다: `Tour Planner.dc.html` `loadAudio` · `STORY_DB` · `getCrowd` · `crowdLvl`, `shared.js` `getRelatedSpots`.
+
+| Route Handler                       | 칸                        | 부르는 공공 API (공공데이터포털, 한국관광공사 B551011)                                          | 키               | 캐시                                |
+| ----------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------- |
+| `GET /api/tour/audio?id=&locale=`   | 오디오 가이드             | 관광지 오디오 가이드(오디) `Odii/storySearchList` · `themeBasedList` · `storyLocationBasedList` | `DATA_GO_KR_KEY` | 1일(관광지 목록은 서버 메모리)      |
+| `GET /api/tour/related?id=&locale=` | 함께 많이 가는 관광지 Top | 관광지별 연관 관광지 `TarRlteTarService1/searchKeyword1` · `areaBasedList1`                     | `DATA_GO_KR_KEY` | 1일(`areaBasedList1`은 서버 메모리) |
+| `GET /api/tour/crowd?id=`           | 방문 집중률 예측          | 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`                        | `DATA_GO_KR_KEY` | 6시간                               |
+
+- **키**: 서버 환경변수 `DATA_GO_KR_KEY`(공공데이터포털 디코딩 키, 세 API 모두 활용신청 필요, `docs/security.md`). 주소 · 응답 · 오류 문구 · 로그에 넣지 않는다
+- **입력**: 장소 id(플래너 장소 id. 테마 장소도 같은 id)와 화면 언어뿐이다. 한국어 이름 · 좌표 · 시군구 코드는 서버가 장소 데이터에서 찾는다
+  (아무 검색어나 대신 불러 주는 중계가 되지 않게). id가 없거나 언어가 5개 언어가 아니면 400, 모르는 id는 404
+- **시군구 코드**: 연관 관광지 · 집중률은 `areaCd`(앞 2자리) · `signguCd`(법정동 5자리)를 받는다. PoC는 카카오 REST 좌표 → 행정구역으로 구하지만 우리에게는 REST 키가 없어,
+  카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 3,118곳을 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 3,118곳 모두 구함).
+  Route Handler만 읽는다(클라이언트 번들에 넣지 않는다, `lib/tour-api.test.ts`)
+- **응답**
+  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story" }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 보인다.
+    대표는 음성 파일(`audioUrl`)이 있는 해설 먼저, 그 안에서 제목이 기준 이름(한국어 화면은 장소 이름, 외국어 화면은 그 언어 관광지 제목)과 같은 것 → 품는 것 → 첫째.
+    음성 있는 해설이 없으면 대본만 있는 해설에서 같은 기준(2026-09-29 팀 결정 — 이 칸은 「오디오 가이드」다). 음성 주소(https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
+    재생 시간(`playTime`, 초)을 보인다(PoC는 대본만 보였다). 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 한국관광공사 관광 스토리텔링 31곳
+    (`features/planner/data/stories.json`, `scripts/build-stories.mjs`로 PoC `STORY_DB`에서 옮김)
+  - 오디 언어 코드(2026-09-29 실제 호출로 확인, PoC와 다르다): 오디에는 ko · en · jp 자료만 있다(PoC의 `ja` · `ch`는 0건). 화면 언어 → 코드는 ko → ko, en → en, ja → jp, zh → en, es → en
+  - 외국어 화면은 오디 관광지 번호 `tid`로 잇는다(`tid`는 언어가 달라도 같다, 해설 번호 `stid`는 다르다). 이름은 언어마다 달라서
+    (우리 영어 이름 Hwangnidan-gil ↔ 오디 관광지 Hwanglidan-gil ↔ 오디 해설 Hwangnidan Street) 이름 검색이 자주 비었다
+    1. 한국어 이름으로 ko 해설을 찾아(한국어 화면과 같은 기준: 좌표 ±0.12도 · 이름 겹침) `tid`를 얻는다. 같은 기준의 해설이 `tid`만 달리 여럿이면 차례로 본다.
+       한국어 이름으로 고를 해설이 없으면 앞의 도시 이름(`locKo`)을 뗀 이름(「전주한옥마을」 → 「한옥마을」), 그다음 공백을 뺀 이름으로 찾는다(한국어 화면도 같다).
+       공백을 뺀 이름은 이름에 공백이 있을 때만이고, 도시 이름을 뗀 이름에도 공백이 있으면 그것도 공백을 뺀다(「정동심곡 바다부채길」은 0건 · 「정동심곡바다부채길」은 2건, 2026-09-29 확인)
+       (바람의 언덕: 1139 · 2880, 영어 해설은 2880에만)
+    2. 그 언어 관광지 목록(`Odii/themeBasedList`, 1,000개씩 en 2쪽 · jp 2쪽)에서 `tid`의 제목을 찾는다. 목록은 서버 메모리에 하루 둔다(한 쪽 약 0.3MB, 서버 fetch 캐시에 넣지 않는다)
+    3. 그 제목으로 그 언어 이야기 검색 → 같은 `tid`이고 좌표 ±0.12도 안인 해설 중 대표(음성 먼저 → 제목이 관광지 제목과 같은 것 → 품는 것 → 첫째).
+       없으면 그 ko 해설 좌표 둘레 1km(`Odii/storyLocationBasedList`, 가까운 순)의 그 언어 해설에서 같은 `tid`(해설 제목이 관광지 제목과 다를 때 — 황리단길 · 바람의 언덕)
+    4. 일본어는 jp → 없으면 en. `tid`를 알지만 그 언어들에 없으면 숨긴다. ko 해설이 없어 `tid`를 모를 때만 그 언어 이름(영어 이름 · 일본어 공식 명칭)으로 찾는다
+  - related `{ month: "YYYYMM", items: [{ rank, name, category, region, placeId? }], stays: [{ name, category, region, placeId? }] }`: 검색어 후보 · 이름 점수 · 순위.
+    검색어 후보는 전체 이름 → 첫 단어 → 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름 → 공백을 뺀 이름(오디오와 같은 규칙)이고, 가장 최근 기준월(2개월 전)에서 후보를 모두 보고 없으면 그달 시군구 전체 목록에서 고른다.
+    그달 목록이 있는데 이 장소가 없으면 데이터 없음으로 보고 이전 달로 넘어가지 않는다(목록이 비었을 때만 3 → 4개월 전, 데이터 없는 곳도 호출이 한 달치로 끝난다).
+    주차장 · 화장실(PoC 화면)과 전국 체인 브랜드(맥도날드 · 스타벅스 · CGV · 편의점 등 `lib/franchise-brands.ts`, 팀장 의견 2026-09-29 — 「/」 앞 이름이 브랜드로 시작하면)는 순위를 매기기 전에 뺀다.
+    마복림떡볶이 · 교리김밥/경주본점 같은 지역 가게와 백화점 · 면세점 · 시장은 남긴다.
+    숙소는 순위 계산에서 빼고 따로 보낸다(2026-09-29 팀 답, 명세서 §20처럼 관광지 계산에서만 뺀다): 한국관광공사 대분류(`rlteCtgryLclsNm`)는 관광지 · 음식 · 숙박이고,
+    `items`는 관광지 · 음식만 순위 순 8개(순위는 그 안에서 1부터 다시 매긴다), `stays`는 숙박만 원래 순위 순 3개(순위 번호 없이).
+    화면은 순위 목록 아래 「함께 많이 찾는 숙소」로 보이고, 숙소가 없으면 그 부분을 그리지 않는다. `items`가 비면 결과 없음이다.
+    같은 이름(정규화) · 같은 도시(시군구 코드 또는 시도 · 시군구 이름)인 우리 장소면 `placeId`를 달고, 화면은 그 화면에서 열 수 있는 장소(플래너: 지금 범위, 테마: 그 테마 장소)만 눌러 그 장소 시트로 바꾼다.
+    외국어 화면은 이어진 항목만 그 언어 장소 이름(`placeName`) · 우리 분류 이름(`Course.categories`) · 우리 도시 이름으로 보낸다
+  - crowd `{ name, days: [{ date: "YYYY-MM-DD", rate }] }`: 이름 점수로 한 곳, 오늘(한국 날짜)부터 날짜순(실제로 30일이 온다). 집중률은 소수(41.2)로 온다.
+    검색어 후보는 이름 → (3글자보다 길면) 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름 → 공백을 뺀 이름(오디오와 같은 규칙)이고, 앞 후보에서 한 곳을 고르면 멈춘다(전주한옥마을은 「한옥마을」로 「전북 전주 한옥마을 [슬로시티]」)
+    화면은 7일을 가로 막대와 정수 %(반올림)와 수준 글자로 보이고, 수준은 받은 값 그대로 판정한다(70 이상 혼잡 · 40 이상 보통 · 그 아래 여유. 69.6은 「70%」 · 보통)
+  - 결과 없음은 `{ empty: true }`. 외국어 화면에 한글이 섞인 값(대본 · 이름)은 보내지 않는다(`docs/i18n.md`)
+- **실패**: 키 없음 503 `{ "message": "not configured" }`(한국어 오디오만 스토리텔링 또는 결과 없음 200). 시간 제한(8초) · HTTP 오류 · `resultCode`가 `0000` · `00`이 아님 · 모양이 다른 응답은
+  502 `{ "message": "tour api unavailable" }`. 화면은 실패 · 키 없음 · 결과 없음이면 칸째 숨긴다(오류 문구 · 빈 상자를 남기지 않는다)
+- **키가 없을 때**: 루트 레이아웃이 키가 있는지(참 · 거짓만)를 `TourApiProvider`(`components/ui/tour-api-context.tsx`)로 내려 주고, 없으면 장소 시트가 연관 관광지 · 집중률 · 외국어 오디오를
+  부르지 않는다(503이 브라우저 콘솔 오류로 남지 않게). 한국어 화면의 오디오 가이드만 부른다(스토리텔링)
+- **캐시**: 서버 fetch `next: { revalidate }`(오디오 · 연관 관광지 1일, 집중률 6시간), 응답 `Cache-Control: public, max-age=`(같은 간격), 클라이언트 TanStack Query `staleTime` 같은 간격.
+  `areaBasedList1`(최대 2,000행, 경주 202607은 약 0.9MB)은 Next 데이터 캐시 한도(2MB)를 넘으면 경고에 키가 든 주소가 찍혀, 서버 fetch 캐시 대신 서버 메모리에 하루 둔다
+  (시군구 · 기준월마다 한 번, 최근 20개). 키 없음 · 외부 실패 때 대신 보내는 스토리텔링은 `no-store`
+- **출처 표기**: 칸 아래에 「한국관광공사 오디오 가이드(오디)」 · 「관광 스토리텔링 · 한국관광공사」 · 「한국관광공사 관광지별 연관 관광지 · 기준 {월}」 ·
+  「한국관광공사 관광지 집중률 방문자 추이 예측」(5개 언어, `PlaceSheet.tour`). 집중률 칸에는 예측값이라는 안내를 둔다
+
 ## 인증
 
 - 로그인하면 access token(30분)과 refresh token(14일)을 받는다. `saveTokens()`로 저장한다(localStorage)

@@ -1,0 +1,48 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "2880",
+            "tlid": "4446",
+            "stid": "2703",
+            "stlid": "15033",
+            "title": "Windy Hill ",
+            "mapX": "128.663143",
+            "mapY": "34.744742",
+            "audioTitle": "Windy Hill ",
+            "script": "  A place where the windmill adds an exotic feel This is the windy hill. As one of the Eight Scenic Views of Geoje, it is the most unique tourist attraction in the southern area of the region. Walking up on a hill by the sea after purchasing a ticket at the ticket booth, you will feel the breeze that will make your walk more pleasant. It seems like a nice place to read as there is grass and bench.  Stretch your arms wide and feel the peacefulness of the sea as if embracing the vast sea. The fishing boats on the sea add to the peaceful view to make visitors feel relaxed and understand the true aesthetic of slowness.  The windmill, which is the symbol of this place, was built in 2009. Since it is difficult to spot windmills in Korea, they were used as a filming sites for popular TV series and films. It used to be called “Tthebatneul,” which means a hill covered with strap, but its name changed to “Windy Hill” in 2002.",
+            "playTime": "69",
+            "audioUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/audio/56/15009.mp3",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20230113092658",
+            "modifiedtime": "20230113092700"
+          },
+          {
+            "tid": "2880",
+            "tlid": "4446",
+            "stid": "2712",
+            "stlid": "15060",
+            "title": "Sinseondae Observatory",
+            "mapX": "128.664563",
+            "mapY": "34.737531",
+            "audioTitle": "Sinseondae Observatory",
+            "script": "Sinseondae Observatory, located on the beach across the Windy Hill of Dojangpo Village, offers picturesque views of the southern coast of Korea.  The white and red colored sculpture meaning Sinseondae in Korean creates a nice photo spot with a sea background. Some are here to make wishes while looking at the Sinseondae Terrace with two hands closed. There are parking lot and convenient facilities that would make your long-staying comfortable. Sinseondae Terrace is said to be the place where Taoist hermits used to stay. The beauty of this spot supports the legend. Along with the neighboring islands, the sea, and rocks that form a harmony, the white waves crashing on rock creates a picturesque view.",
+            "playTime": "51",
+            "audioUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/audio/56/15018.mp3",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20230113094314",
+            "modifiedtime": "20230113094315"
+          }
+        ]
+      },
+      "numOfRows": 2,
+      "pageNo": 1,
+      "totalCount": 2
+    }
+  }
+}

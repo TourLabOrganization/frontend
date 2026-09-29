@@ -1,0 +1,284 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "baseYmd": "20260929",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "58.5"
+          },
+          {
+            "baseYmd": "20260930",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "63.95"
+          },
+          {
+            "baseYmd": "20261001",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "85.41"
+          },
+          {
+            "baseYmd": "20261002",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "94.52"
+          },
+          {
+            "baseYmd": "20261003",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "98.61"
+          },
+          {
+            "baseYmd": "20261004",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "99.16"
+          },
+          {
+            "baseYmd": "20261005",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "95.19"
+          },
+          {
+            "baseYmd": "20261006",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "62.4"
+          },
+          {
+            "baseYmd": "20261007",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "58.83"
+          },
+          {
+            "baseYmd": "20261008",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "57.85"
+          },
+          {
+            "baseYmd": "20261009",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "98.45"
+          },
+          {
+            "baseYmd": "20261010",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "94.47"
+          },
+          {
+            "baseYmd": "20261011",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "93.27"
+          },
+          {
+            "baseYmd": "20261012",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "51.39"
+          },
+          {
+            "baseYmd": "20261013",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "62.36"
+          },
+          {
+            "baseYmd": "20261014",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "62.36"
+          },
+          {
+            "baseYmd": "20261015",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "57.33"
+          },
+          {
+            "baseYmd": "20261016",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "71.73"
+          },
+          {
+            "baseYmd": "20261017",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "98.09"
+          },
+          {
+            "baseYmd": "20261018",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "93.2"
+          },
+          {
+            "baseYmd": "20261019",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "54.49"
+          },
+          {
+            "baseYmd": "20261020",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "53.71"
+          },
+          {
+            "baseYmd": "20261021",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "56.27"
+          },
+          {
+            "baseYmd": "20261022",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "57.6"
+          },
+          {
+            "baseYmd": "20261023",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "75.54"
+          },
+          {
+            "baseYmd": "20261024",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "98.08"
+          },
+          {
+            "baseYmd": "20261025",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "92.05"
+          },
+          {
+            "baseYmd": "20261026",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "53.77"
+          },
+          {
+            "baseYmd": "20261027",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "54.88"
+          },
+          {
+            "baseYmd": "20261028",
+            "areaCd": "52",
+            "areaNm": "전북특별자치도",
+            "signguCd": "52111",
+            "signguNm": "전주시 완산구",
+            "tAtsNm": "전북 전주 한옥마을 [슬로시티]",
+            "cnctrRate": "54.18"
+          }
+        ]
+      },
+      "numOfRows": 30,
+      "pageNo": 1,
+      "totalCount": 30
+    }
+  }
+}

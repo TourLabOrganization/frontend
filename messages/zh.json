@@ -80,6 +80,33 @@
         "unknown": "无数据"
       }
     },
+    "tour": {
+      "audio": {
+        "title": "语音导览",
+        "player": "语音导览：{title}",
+        "playTime": "时长 {time}",
+        "more": "阅读更多",
+        "less": "收起",
+        "sourceOdii": "韩国观光公社语音导览（Odii）",
+        "sourceStory": "旅游故事 · 韩国观光公社"
+      },
+      "related": {
+        "title": "常一起去的景点 TOP",
+        "rank": "第{rank}名",
+        "stays": "常一起选择的住宿",
+        "source": "韩国观光公社景点关联数据 · 截至{month}"
+      },
+      "crowd": {
+        "title": "游客集中度预测",
+        "levels": {
+          "quiet": "宽松",
+          "moderate": "一般",
+          "busy": "拥挤"
+        },
+        "note": "以上为预测值，可能与实际情况不同。",
+        "source": "韩国观光公社景点游客集中度趋势预测"
+      }
+    },
     "badges": "徽章",
     "appTranslated": "部分名称和介绍由本应用翻译。"
   },

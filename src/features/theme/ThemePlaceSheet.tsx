@@ -41,6 +41,10 @@ type ThemePlaceSheetProps = {
   scene?: SceneLink;
   /** 외국어 화면의 옮긴 글(운영시간 · 좌표 기준). 한국어 화면은 없다 */
   text?: ThemePlaceText;
+  /** 함께 많이 가는 관광지에서 이 테마 장소를 누르면 그 장소 시트로 바꾼다 */
+  onOpenPlace?: (id: string) => void;
+  /** 이 테마의 장소인지(아니면 글자만) */
+  canOpenPlace?: (id: string) => boolean;
   onClose: () => void;
 };
 
@@ -53,6 +57,8 @@ export function ThemePlaceSheet({
   extra,
   scene,
   text,
+  onOpenPlace,
+  canOpenPlace,
   onClose,
 }: ThemePlaceSheetProps) {
   const t = useTranslations("Theme.sheet");
@@ -73,6 +79,7 @@ export function ThemePlaceSheet({
     <PlaceSheet
       place={
         place && {
+          id: place.id,
           name: placeName(place, locale, names),
           // 체류 시간은 상세 표 「권장 체류」에만 둔다(머리줄과 겹치지 않게)
           meta: [isCategoryKey(place.cat) ? tc(`categories.${place.cat}`) : ""],
@@ -106,6 +113,11 @@ export function ThemePlaceSheet({
         setStampStatus("");
         onClose();
       }}
+      onOpenPlace={(id) => {
+        setStampStatus("");
+        onOpenPlace?.(id);
+      }}
+      canOpenPlace={canOpenPlace}
       actions={
         place && (
           <>
