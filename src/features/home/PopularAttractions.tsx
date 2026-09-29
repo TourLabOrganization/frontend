@@ -8,6 +8,7 @@ import { useId, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useTourApi } from "@/components/ui/tour-api-context";
 import { useNameTable } from "@/features/names/NamesProvider";
+import { rememberPlace } from "@/features/planner/extra-places";
 import { plannerHref } from "@/features/planner/query";
 import { cityName } from "@/features/planner/regions";
 import {
@@ -190,6 +191,10 @@ export function PopularAttractions() {
                   {item.id ? (
                     <Link
                       href={plannerHref({ city, place: item.id })}
+                      // 신규 관광지(앱 장소 데이터에 없는 곳)는 기억해 두어 지도 · 코스에서 앱 장소처럼 쓴다
+                      onClick={() => {
+                        if (item.place) rememberPlace(item.place);
+                      }}
                       className={`${row} rounded-card focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill`}
                     >
                       {body}

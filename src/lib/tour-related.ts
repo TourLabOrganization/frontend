@@ -373,7 +373,7 @@ export async function findRelated(
  * 순위 목록(items)이 비면 숙소만 있어도 결과 없음이다(이 칸은 관광지 칸이고 숙소는 그 아래 덧붙임)
  */
 export async function tourRelatedResponse(request: Request): Promise<Response> {
-  const query = parseTourQuery(request, true);
+  const query = await parseTourQuery(request, true);
   if ("error" in query) return query.error;
   const { place, locale } = query;
   const key = tourApiKey();

@@ -1,6 +1,7 @@
 // 장소 시트의 한국관광공사 칸(오디오 가이드 · 함께 많이 가는 관광지 Top · 방문 집중률 예측).
 // 공공데이터포털 API는 Route Handler(app/api/tour/*)가 서버 키로 부르고(lib/tour-api.ts · tour-audio.ts · tour-related.ts · tour-crowd.ts),
 // 장소 시트(components/ui/PlaceTour)가 그 결과를 그린다. 여기에는 두 쪽이 함께 쓰는 타입 · 순수 함수만 둔다(키 · 무거운 데이터를 import하지 않는다).
+import type { KtoPlace } from "../features/planner/kto-place";
 import { addDays, seoulDate } from "./weather";
 
 /** Route Handler · 외부 호출 시간 제한(ms) */
@@ -93,8 +94,13 @@ export type TourPopularItem = {
   district: string;
   /** 그날 집중률(%) */
   rate: number;
-  /** 이름이 맞는 플래너 장소 id. 없으면 null(목록에서 글자만 둔다) */
+  /**
+   * 맞는 장소 id. 이름이 같거나(표기 차이 포함) 한국관광공사 좌표 근처에 있는 앱 장소 id,
+   * 앱 장소가 없으면 신규 관광지 id(kto:<contentid>). 둘 다 못 찾으면 null(목록에서 글자만 둔다)
+   */
   id: string | null;
+  /** 신규 관광지면 그 장소(브라우저가 기억해 지도 · 코스에 넣는다) */
+  place?: KtoPlace;
 };
 
 /** GET /api/tour/popular 응답. 결과가 없으면 TourEmpty */
