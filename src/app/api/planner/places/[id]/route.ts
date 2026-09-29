@@ -17,7 +17,7 @@ import { locales } from "@/i18n/locales";
 import { ktoDetailResponse } from "@/lib/tour-spot";
 
 // 투어 플래너 장소 한 곳의 무거운 필드(설명 · 사진 · 중일 이름 · 좌표 근거 · 카카오 장소 URL).
-// 3,118곳 전체(약 650KB)를 클라이언트 번들에 넣지 않으려고, 장소 시트를 열 때 한 곳씩 여기서 받는다
+// 3,109곳 전체(약 650KB)를 클라이언트 번들에 넣지 않으려고, 장소 시트를 열 때 한 곳씩 여기서 받는다
 // (features/planner/use-place-detail.ts). 데이터는 빌드에 들어 있는 JSON이라 외부 호출은 없다.
 // ?locale=<언어>를 붙이면 그 언어로 옮긴 설명 · 운영시간 · 좌표 기준(view)을 함께 돌려준다.
 // 번역 표(features/translations)도 무거워 여기서만 읽는다(docs/i18n.md)

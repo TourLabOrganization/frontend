@@ -129,7 +129,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   받은 행은 그 시군구 것(`signguCd`가 그 코드 또는 옛 · 새 코드: 강원 42 ↔ 51 · 전북 45 ↔ 52)만 남긴다 — 서비스가 시군구 조건을 무시하고 전국 결과를 주면
   다른 도시 관광지(제주 우도 등)가 강릉 · 속초 · 전주 목록에 섞였다(2026-09-29 대표 제보). 새 코드로 그 시군구 행이 없으면 옛 코드로 한 번 더 부르고,
   행의 코드는 앱 코드(새 법정동)로 맞춘다(`districtItems`, `lib/tour-api.ts` `signguVariants` · `inSigngu`). 장소 시트 방문 집중률도 같은 규칙이다
-- **도시**: 칩 8곳(`POPULAR_CITIES`: 서울 · 부산 · 제주 · 경주 · 강릉 · 전주 · 인천 · 속초). 도시마다 플래너 장소(숙박 제외)가 많은 시군구 순으로 장소 5곳 이상인 곳 최대 4곳을 부른다(서울: 종로 · 송파 · 영등포 · 용산, 부산: 해운대 · 기장 · 영도 · 부산진)
+- **도시**: 칩 8곳(`POPULAR_CITIES`: 서울 · 부산 · 제주 · 경주 · 강릉 · 전주 · 인천 · 속초). 도시마다 플래너 장소(숙박 제외)가 많은 시군구 순으로 장소 5곳 이상인 곳 최대 4곳을 부른다(서울: 종로 · 송파 · 용산 · 마포, 부산: 해운대 · 기장 · 영도 · 부산진)
 - **순위**: 기준 날짜(오늘, 없으면 오늘 이후 가장 이른 날)의 집중률이 높은 순 10곳. 수준(여유 · 보통 · 혼잡)은 장소 시트와 같은 40 · 70% 기준
 - **장소 연결**: 세 단계로 잇고, 홈 목록은 이은 줄을 투어 플래너 지도의 장소 시트(`/planner?city=&place=`)로 연다
   1. **이름**: 같은 도시 · 같은 시군구 플래너 장소 중 이름 점수 2점 이상(`nameScore`). 장소 시트 방문 집중률의 규칙(괄호 · 공백 · 가운뎃점 무시, 같음 3 · 품음 2)에
@@ -226,7 +226,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **입력**: 장소 id(플래너 장소 id. 테마 장소도 같은 id)와 화면 언어뿐이다. 한국어 이름 · 좌표 · 시군구 코드는 서버가 장소 데이터에서 찾는다
   (아무 검색어나 대신 불러 주는 중계가 되지 않게). id가 없거나 언어가 5개 언어가 아니면 400, 모르는 id는 404
 - **시군구 코드**: 연관 관광지 · 집중률은 `areaCd`(앞 2자리) · `signguCd`(법정동 5자리)를 받는다. PoC는 카카오 REST 좌표 → 행정구역으로 구하지만 우리에게는 REST 키가 없어,
-  카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 3,118곳을 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 3,118곳 모두 구함).
+  카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 장소마다 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 모두 구함. 지금 3,109곳).
   Route Handler만 읽는다(클라이언트 번들에 넣지 않는다, `lib/tour-api.test.ts`)
 - **응답**
   - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story" }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 보인다.

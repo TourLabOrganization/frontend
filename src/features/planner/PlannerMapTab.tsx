@@ -57,7 +57,7 @@ import { useNameTable } from "@/features/names/NamesProvider";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
 const INITIAL_ROWS = 10;
-/** 「더 보기」 한 번에 더 보이는 수. 전국 3,118곳을 한꺼번에 그리지 않는다 */
+/** 「더 보기」 한 번에 더 보이는 수. 전국 3,109곳을 한꺼번에 그리지 않는다 */
 const PAGE_SIZE = 60;
 /** 권역 화면의 카카오 지도 레벨(축척 막대 32km). 권역마다 같은 축척으로 도시 묶음을 본다 */
 const REGION_LEVEL = 12;
