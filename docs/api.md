@@ -128,11 +128,11 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 공통(키 · 주소 · 응답 파싱 · 장소 찾기)은 `lib/tour-api.ts`, 화면과 함께 쓰는 타입 · 순수 함수는 `lib/tour.ts`.
 규칙의 정본은 PoC 코드다: `Tour Planner.dc.html` `loadAudio` · `STORY_DB` · `getCrowd` · `crowdLvl`, `shared.js` `getRelatedSpots`.
 
-| Route Handler                       | 칸                        | 부르는 공공 API (공공데이터포털, 한국관광공사 B551011)                      | 키               | 캐시                                |
-| ----------------------------------- | ------------------------- | --------------------------------------------------------------------------- | ---------------- | ----------------------------------- |
-| `GET /api/tour/audio?id=&locale=`   | 오디오 가이드             | 관광지 오디오 가이드(오디) `Odii/storySearchList`                           | `DATA_GO_KR_KEY` | 1일                                 |
-| `GET /api/tour/related?id=&locale=` | 함께 많이 가는 관광지 Top | 관광지별 연관 관광지 `TarRlteTarService1/searchKeyword1` · `areaBasedList1` | `DATA_GO_KR_KEY` | 1일(`areaBasedList1`은 서버 메모리) |
-| `GET /api/tour/crowd?id=`           | 방문 집중률 예측          | 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`    | `DATA_GO_KR_KEY` | 6시간                               |
+| Route Handler                       | 칸                        | 부르는 공공 API (공공데이터포털, 한국관광공사 B551011)                                          | 키               | 캐시                                |
+| ----------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------- |
+| `GET /api/tour/audio?id=&locale=`   | 오디오 가이드             | 관광지 오디오 가이드(오디) `Odii/storySearchList` · `themeBasedList` · `storyLocationBasedList` | `DATA_GO_KR_KEY` | 1일(관광지 목록은 서버 메모리)      |
+| `GET /api/tour/related?id=&locale=` | 함께 많이 가는 관광지 Top | 관광지별 연관 관광지 `TarRlteTarService1/searchKeyword1` · `areaBasedList1`                     | `DATA_GO_KR_KEY` | 1일(`areaBasedList1`은 서버 메모리) |
+| `GET /api/tour/crowd?id=`           | 방문 집중률 예측          | 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`                        | `DATA_GO_KR_KEY` | 6시간                               |
 
 - **키**: 서버 환경변수 `DATA_GO_KR_KEY`(공공데이터포털 디코딩 키, 세 API 모두 활용신청 필요, `docs/security.md`). 주소 · 응답 · 오류 문구 · 로그에 넣지 않는다
 - **입력**: 장소 id(플래너 장소 id. 테마 장소도 같은 id)와 화면 언어뿐이다. 한국어 이름 · 좌표 · 시군구 코드는 서버가 장소 데이터에서 찾는다
@@ -144,9 +144,15 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story" }`: 좌표 ±0.12도 안 · 이름 겹침으로 한 곳. 음성 주소(`audioUrl`, https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
     재생 시간(`playTime`, 초)을 보인다(PoC는 대본만 보였다). 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 한국관광공사 관광 스토리텔링 31곳
     (`features/planner/data/stories.json`, `scripts/build-stories.mjs`로 PoC `STORY_DB`에서 옮김)
-  - 오디 언어 코드 · 검색어(2026-09-29 실제 호출로 확인, PoC와 다르다): 오디에는 ko · en · jp 자료만 있다(PoC의 `ja` · `ch`는 0건).
-    화면 언어 → 코드는 ko → ko, en → en, ja → jp, zh → en, es → en. 오디는 그 언어 제목에서 찾아서(불국사를 「불국사」로 찾으면 en · jp 0건, 「Bulguksa」로 찾으면 en 9건)
-    검색어는 그 언어 이름이다: 한국어 이름, 영어 이름(영 · 중 · 스페인어), 일본어 공식 명칭(이름표에 있을 때) → 없거나 결과가 없으면 영어 이름
+  - 오디 언어 코드(2026-09-29 실제 호출로 확인, PoC와 다르다): 오디에는 ko · en · jp 자료만 있다(PoC의 `ja` · `ch`는 0건). 화면 언어 → 코드는 ko → ko, en → en, ja → jp, zh → en, es → en
+  - 외국어 화면은 오디 관광지 번호 `tid`로 잇는다(`tid`는 언어가 달라도 같다, 해설 번호 `stid`는 다르다). 이름은 언어마다 달라서
+    (우리 영어 이름 Hwangnidan-gil ↔ 오디 관광지 Hwanglidan-gil ↔ 오디 해설 Hwangnidan Street) 이름 검색이 자주 비었다
+    1. 한국어 이름으로 ko 해설을 찾아(한국어 화면과 같은 기준: 좌표 ±0.12도 · 이름 겹침) `tid`를 얻는다. 같은 기준의 해설이 `tid`만 달리 여럿이면 차례로 본다
+       (바람의 언덕: 1139 · 2880, 영어 해설은 2880에만)
+    2. 그 언어 관광지 목록(`Odii/themeBasedList`, 1,000개씩 en 2쪽 · jp 2쪽)에서 `tid`의 제목을 찾는다. 목록은 서버 메모리에 하루 둔다(한 쪽 약 0.3MB, 서버 fetch 캐시에 넣지 않는다)
+    3. 그 제목으로 그 언어 이야기 검색 → 같은 `tid`이고 좌표 ±0.12도 안인 해설 중 대표(제목이 관광지 제목과 같은 것 → 품는 것 → 첫째).
+       없으면 그 ko 해설 좌표 둘레 1km(`Odii/storyLocationBasedList`, 가까운 순)의 그 언어 해설에서 같은 `tid`(해설 제목이 관광지 제목과 다를 때 — 황리단길 · 바람의 언덕)
+    4. 일본어는 jp → 없으면 en. `tid`를 알지만 그 언어들에 없으면 숨긴다. ko 해설이 없어 `tid`를 모를 때만 그 언어 이름(영어 이름 · 일본어 공식 명칭)으로 찾는다
   - related `{ month: "YYYYMM", items: [{ rank, name, category, region, placeId? }] }`: 기준월 2 → 3 → 4개월 전, 검색어 후보 · 이름 점수 · 순위 · 8개(PoC 화면처럼 영화관 · 주차장 · 화장실은 뺀다).
     같은 이름(정규화) · 같은 도시(시군구 코드 또는 시도 · 시군구 이름)인 우리 장소면 `placeId`를 달고, 화면은 그 화면에서 열 수 있는 장소(플래너: 지금 범위, 테마: 그 테마 장소)만 눌러 그 장소 시트로 바꾼다.
     외국어 화면은 이어진 항목만 그 언어 장소 이름(`placeName`) · 우리 분류 이름(`Course.categories`) · 우리 도시 이름으로 보낸다
