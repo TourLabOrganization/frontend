@@ -104,7 +104,7 @@ export function ChipRow({
       role={groupLabel ? "group" : undefined}
       aria-label={groupLabel}
       // 재는 동안에는 첫 줄만 보이게 잘라 둔다(서버 HTML에서 여러 줄이 잠깐 보이지 않게)
-      className={`flex flex-wrap items-center gap-2 ${
+      className={`relative flex flex-wrap items-center gap-2 ${
         measuring && !open ? "max-h-11 overflow-hidden" : ""
       } ${className}`}
     >
