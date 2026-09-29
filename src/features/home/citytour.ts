@@ -7,9 +7,10 @@ import {
 import { indirectPreference } from "../recommend/theme-index";
 
 // 홈 「지역 시티투어」의 데이터 가공. 순수 함수만 둔다.
-// 분류 · 내 유형 추천 규칙은 팀장 목업(2026-09-27 standalone 「Tour Navigator.html」 홈 renderVals의 KW · prof · tags · rec)을 옮겼다.
-// 내 유형 추천의 적합도만 설문 6.1 · 추천 6.2 결과(간접 선호 u)로 바꿨다(recommendTours).
-// 데이터는 data/citytour.json(scripts/build-citytour.mjs가 PoC data/citytour.json으로 만든다. 손으로 고치지 않는다)
+// 카드 분류 칩 규칙은 팀장 목업(2026-09-27 standalone 「Tour Navigator.html」 홈 renderVals의 KW · prof · tags)을 옮겼다.
+// 내 유형 추천(recommendTours)은 명세서 integrated 6.4 §16의 코스 점수다(Data-Analytics reference_calc/recommend_reference.py와 같은 식).
+// 데이터는 data/citytour.json(scripts/build-citytour.mjs가 PoC data/citytour.json으로 만든다)과
+// data/citytour-scores.json(scripts/build-citytour-scores.mjs가 Data-Analytics eligible_courses.csv로 만든다). 둘 다 손으로 고치지 않는다
 
 export type CityTour = {
   /** 도시(시군) 한국어 이름 */
@@ -116,6 +117,27 @@ export type TypeProfile = {
   preference: readonly number[];
   /** S4 관심사의 경유지 분류. 드라마 · 공연 · 쇼핑은 분류가 없어 null */
   tag: TourTag | null;
+  /** S3 여행 속도 가산 방향: 빡빡하게 → 방문지 많은 코스, 천천히 → 적은 코스. 적당히면 null */
+  pace: "packed" | "relaxed" | null;
+  /** S6 「저녁 · 밤까지」이고 S4가 야경이 아니면 야경 코스 가산(S4 야경이면 관심사 항이 이미 야경이다) */
+  eveningNight: boolean;
+};
+
+/**
+ * 분석 적격 코스의 점수 자료(data/citytour-scores.json 한 칸). 경로 해석 · 경유지 연결 · 범주 분류를 거친 값이다.
+ * 목업 분류(tourProfile)는 한 경유지가 여러 분류에 들어 커버리지 ≤ 1이 성립하지 않아 점수에 쓰지 않는다
+ */
+export type CourseScoreProfile = {
+  /** 분석 코스 id(Data-Analytics analysis_course_id). 점수가 같으면 이 순서로 보인다 */
+  id: string;
+  /** 범주 비중(역사 · 자연 · 체험 · 음식 · 바다). 합이 coverage */
+  shares: readonly number[];
+  /** 범주 분류 커버리지(0~1] */
+  coverage: number;
+  /** 방문 후보 수 */
+  visits: number;
+  /** 야경 코스 */
+  night: boolean;
 };
 
 /** 추천 답으로 유형 요약을 만든다. 완료된 응답이 아니면(예전 15문항 기록 포함) null */
@@ -126,42 +148,85 @@ export function typeProfile(answers: Answers): TypeProfile | null {
     types: result.types,
     preference: indirectPreference(result),
     tag: INTEREST_TAG[result.interest] ?? null,
+    pace:
+      answers.s3 === "packed" || answers.s3 === "relaxed" ? answers.s3 : null,
+    eveningNight: answers.s6 === "evening" && result.interest !== "night",
   };
 }
 
 /** 추천 개수(목업: 5개) */
 export const RECOMMEND_COUNT = 5;
 
+/** 가산 계수(명세서 §16 course_score). 관심사는 테마 지수와 같은 0.5, 야경 · 여행 속도는 0.1 */
+const INTEREST_WEIGHT = 0.5;
+const NIGHT_WEIGHT = 0.1;
+const PACE_WEIGHT = 0.1;
+
+export type CourseScore = {
+  /** cos(u, p) */
+  cosine: number;
+  /** 범주 적합 = 100 · cos · coverage(가산 전) */
+  fit: number;
+  /** 최종 점수 = 100 · (cos · coverage + Σ w · b) / (1 + Σ w). 적용되는 가산 항만 분모에 넣어 늘 0~100 */
+  score: number;
+};
+
 /**
- * 내 유형 추천(목업 rec에서 적합도만 바꿨다).
- * 점수 = 적합도(노선 분류 비율 · 간접 선호 u의 내적. 예전 1 · 2위 군집 확률 섞기를 대신한다)
- *      + 0.5 × S4 관심사 한 개의 분류 비율(야경은 야간 여부) + 경유지 3곳 이상이면 0.02.
- * 점수 높은 순으로 한 지역에 한 노선씩 5개.
- * 명세서 §16의 코사인 × coverage 순위는 팀 참조 패키지의 적격 179코스 자료(eligible_courses.csv)가 있어야 같은 값이 나온다.
- * 목업 노선 분류(tourProfile)는 한 경유지가 여러 분류에 들어가 coverage ≤ 1이 성립하지 않아 그 식을 그대로 쓰지 않았다
+ * 코스 점수(명세서 §16, recommend_reference.recommend의 코스 부분).
+ * - 관심사(0.5): S4 역사 · 자연 · 체험 · 음식 · 바다면 그 범주 비중, 야경이면 야경 코스 여부. 드라마 · 공연 · 쇼핑은 항이 없다
+ * - 야경(0.1): S6 저녁 · 밤까지이고 S4가 야경이 아니면 야경 코스 여부
+ * - 여행 속도(0.1): 방문 후보 3곳 이하 0 ~ 8곳 이상 1인 길이 L. 빡빡하게는 L, 천천히는 1 − L
  */
-export function recommendTours<
-  T extends Pick<CityTour, "name" | "route" | "region">,
->(tours: readonly T[], type: TypeProfile): T[] {
+export function courseScore(
+  profile: CourseScoreProfile,
+  type: TypeProfile,
+): CourseScore {
+  const u = type.preference;
+  const p = profile.shares;
+  const norm = (v: readonly number[]) => Math.hypot(...v);
+  const cosine =
+    u.reduce((sum, x, k) => sum + x * p[k], 0) / (norm(u) * norm(p));
+  const night = Number(profile.night);
+  const length = Math.min(Math.max((profile.visits - 3) / 5, 0), 1);
+  const terms: [number, number][] = [];
+  if (type.tag === "night") terms.push([INTEREST_WEIGHT, night]);
+  else if (type.tag !== null)
+    terms.push([INTEREST_WEIGHT, p[TOUR_CATEGORIES.indexOf(type.tag)]]);
+  if (type.eveningNight) terms.push([NIGHT_WEIGHT, night]);
+  if (type.pace !== null)
+    terms.push([PACE_WEIGHT, type.pace === "packed" ? length : 1 - length]);
+  const bonus = terms.reduce((sum, [w, b]) => sum + w * b, 0);
+  const scale = 1 + terms.reduce((sum, [w]) => sum + w, 0);
+  const fit = cosine * profile.coverage;
+  return { cosine, fit: 100 * fit, score: (100 * (fit + bonus)) / scale };
+}
+
+/**
+ * 내 유형 추천: 분석 적격 코스(profiles가 null이 아닌 노선)만 코스 점수(courseScore)로 정렬해 한 지역에 한 노선씩 5개.
+ * 점수가 같으면 cos, 커버리지가 큰 순, 그다음 분석 코스 id 순이다(명세서 참조 계산과 같은 순서).
+ * profiles는 tours와 같은 순서(data/citytour-scores.json)
+ */
+export function recommendTours<T extends Pick<CityTour, "region">>(
+  tours: readonly T[],
+  type: TypeProfile,
+  profiles: readonly (CourseScoreProfile | null)[],
+): T[] {
   const scored = tours
-    .map((tour) => {
-      const p = tourProfile(tour);
-      const fit = p.share.reduce(
-        (sum, v, k) => sum + v * type.preference[k],
-        0,
-      );
-      const interest =
-        type.tag === null
-          ? 0
-          : type.tag === "night"
-            ? Number(p.night)
-            : p.share[TOUR_CATEGORIES.indexOf(type.tag)];
-      return {
-        tour,
-        score: fit + 0.5 * interest + (p.stops >= 3 ? 0.02 : 0),
-      };
+    .flatMap((tour, i) => {
+      const profile = profiles[i];
+      return profile ? [{ tour, profile, ...courseScore(profile, type) }] : [];
     })
-    .sort((a, b) => b.score - a.score);
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        b.cosine - a.cosine ||
+        b.profile.coverage - a.profile.coverage ||
+        (a.profile.id < b.profile.id
+          ? -1
+          : a.profile.id > b.profile.id
+            ? 1
+            : 0),
+    );
 
   const seen = new Set<string>();
   const out: T[] = [];

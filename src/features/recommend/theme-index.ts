@@ -1,9 +1,9 @@
 import type { Interest, SurveyResult, TypeId } from "./survey";
 import { type ThemeSlug, THEMES } from "./themes";
 
-// 명세서 6.2 추천 연결(§13~§15): 최종 유형 E · α → 5범주 간접 선호 u → 테마 적합도 지수. 순수 함수만 둔다.
-// 정본: 팀 명세서 integrated 6.2(2026-09-28)의 참조 계산(recommend_reference.recommend의 테마 부분)을 옮겼다.
-// data-server가 6.2 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md).
+// 명세서 6.4 추천 연결(§13~§15): 최종 유형 E · α → 5범주 간접 선호 u → 테마 적합도 지수. 순수 함수만 둔다.
+// 정본: 팀 명세서 integrated 6.4(2026-09-29)의 참조 계산(Data-Analytics reference_calc/recommend_reference.recommend의 테마 부분)을 옮겼다.
+// data-server가 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md).
 // 지역 가산 G · 한류 H · 연령 A · 인구통계 D는 신규 설문만으로 필수 입력을 얻을 수 없어 0이다(§14 · §29 · §30).
 // 지수는 구성 적합도 순서이고 확률 · 퍼센트가 아니다(§15). 지역 시티투어 코사인 점수(§16)와 더하지 않는다
 
@@ -16,7 +16,7 @@ type CategoryVector = readonly [number, number, number, number, number];
 
 /**
  * 유형별 범주 프로필 W(명세서 §13 표 = 기존 앱의 유형 프로필, PoC 「Tour Navigator Home.dc.html」 CL과 같은 값).
- * 개정 이름에 맞춰 다시 추정한 값이 아니다(§13). 합이 1이 아닌 유형(C8 1.01 · C9 0.99)이 있어 행 합으로 나눠 쓴다.
+ * 개정 이름에 맞춰 다시 추정한 값이 아니다(§13). C9는 추천 6.3 개정값(바다 0.50 · 자연 0.30 · 음식 0.11)이다. 합이 1이 아닌 유형(C8 1.01)이 있어 행 합으로 나눠 쓴다.
  * 홈 시티투어 내 유형 추천(features/home/citytour.ts)도 이 표로 만든 간접 선호(indirectPreference)를 쓴다
  */
 export const TYPE_PROFILES: Readonly<Record<TypeId, CategoryVector>> = {
@@ -28,7 +28,7 @@ export const TYPE_PROFILES: Readonly<Record<TypeId, CategoryVector>> = {
   C6: [0.2, 0.05, 0.05, 0.7, 0],
   C7: [0.21, 0.03, 0.35, 0.27, 0.14],
   C8: [0.08, 0.26, 0, 0.44, 0.23],
-  C9: [0.02, 0.33, 0.07, 0.21, 0.36],
+  C9: [0.02, 0.3, 0.07, 0.11, 0.5],
   C10: [0.31, 0.19, 0.19, 0.13, 0.18],
 };
 

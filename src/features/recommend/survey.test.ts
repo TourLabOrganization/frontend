@@ -20,11 +20,13 @@ import {
   questionPath,
   type SurveyResult,
   TYPE_IDS,
+  TYPE_MAX_RAW,
   typePercents,
   withAnswer,
 } from "./survey";
+import { REFERENCE_CASES } from "./data/reference-cases";
 
-// 명세서 §15 · §37 예제: 30대 · 혼자 · 천천히 · 역사·유적 · 한적한 곳 · 아침 일찍부터 + B2 문화유산 산책
+// 명세서 §15 · §37 · 설문 문항지 §09 예제: 30대 · 혼자 · 천천히 · 역사·유적 · 한적한 곳 · 아침 일찍부터 + B2 문화유산 산책
 const COMMON: Answers = {
   s1: "30s",
   s2: "solo",
@@ -41,27 +43,35 @@ function complete(answers: Answers): SurveyResult {
   return result;
 }
 
-describe("명세서 §37 전체 응답 원장", () => {
-  it("혼합 예제: 최종 원점수 · F1 후보 · E · α · R", () => {
-    const result = complete(MIXED);
-    expect(result.scores).toEqual({
-      C1: 1,
-      C2: 2,
-      C3: 1,
-      C4: 13,
-      C5: 13,
-      C6: 1,
-      C7: 1,
-      C8: 1,
-      C9: 0,
-      C10: 4,
+describe("명세서 §37 전체 응답 원장 (설문 6.3, 100점 환산)", () => {
+  it("유형별 최대 원점수는 명세서 표와 같다", () => {
+    expect(TYPE_MAX_RAW).toEqual({
+      C1: 18,
+      C2: 15,
+      C3: 16,
+      C4: 17,
+      C5: 18,
+      C6: 10,
+      C7: 14,
+      C8: 11,
+      C9: 9,
+      C10: 9,
     });
+  });
+
+  it("혼합 예제: 최종 점수 · F1 후보 · E · α · R", () => {
+    const result = complete(MIXED);
+    // 원점수 C4 11 · C5 11에 F1 균형 10점씩: C4 11/17 · C5 11/18 × 100 + 10
+    expect(result.scores.C4).toBeCloseTo(74.705882, 5);
+    expect(result.scores.C5).toBeCloseTo(71.111111, 5);
+    expect(result.scores.C10).toBeCloseTo(44.444444, 5);
+    expect(result.scores.C9).toBe(0);
     expect(result.f1Candidates).toEqual(["C4", "C5"]);
     expect(result.types).toEqual(["C4", "C5"]);
-    expect(result.alpha.C4).toBeCloseTo(0.5, 10);
-    expect(result.alpha.C5).toBeCloseTo(0.5, 10);
-    expect(result.weights.C4).toBeCloseTo(0.46394, 5);
-    expect(result.weights.C5).toBeCloseTo(0.46394, 5);
+    expect(result.alpha.C4).toBeCloseTo(0.551725, 5);
+    expect(result.alpha.C5).toBeCloseTo(0.448275, 5);
+    expect(result.weights.C4).toBeCloseTo(0.46881, 5);
+    expect(result.weights.C5).toBeCloseTo(0.38091, 5);
     // R은 10개 전체, α는 E 안에서 나눈 값이라 다르다(§12)
     expect(TYPE_IDS.reduce((sum, c) => sum + result.weights[c], 0)).toBeCloseTo(
       1,
@@ -70,34 +80,34 @@ describe("명세서 §37 전체 응답 원장", () => {
     expect(result.interest).toBe("history");
   });
 
-  it("원장은 문항 순서대로 문항 · 보기 · 가산이다", () => {
-    expect(complete(MIXED).ledger).toEqual([
-      { question: "s1", option: "30s", scores: { C2: 2, C5: 1 } },
-      {
-        question: "s2",
-        option: "solo",
-        scores: { C1: 1, C5: 3, C7: 1, C8: 1 },
-      },
-      { question: "s3", option: "relaxed", scores: { C4: 2, C5: 3 } },
-      { question: "s4", option: "history", scores: { C3: 1, C4: 3, C10: 3 } },
-      { question: "s5", option: "quiet", scores: { C4: 1, C5: 3, C6: 1 } },
-      { question: "s6", option: "morning", scores: { C4: 2, C5: 1 } },
-      { question: "b2", option: "a", scores: { C4: 3, C10: 1 } },
-      { question: "f1", option: "balanced", scores: { C4: 2, C5: 2 } },
+  it("원장은 문항 순서대로 문항 · 보기 · 원점수 · 100점 척도 기여다", () => {
+    const ledger = complete(MIXED).ledger;
+    expect(ledger.map((e) => [e.question, e.option, e.scores])).toEqual([
+      ["s1", "30s", { C2: 2, C5: 1 }],
+      ["s2", "solo", { C1: 1, C5: 3, C7: 1, C8: 1 }],
+      ["s3", "relaxed", { C4: 2, C5: 3 }],
+      ["s4", "history", { C3: 1, C4: 3, C10: 3 }],
+      ["s5", "quiet", { C4: 1, C5: 3, C6: 1 }],
+      ["s6", "morning", { C4: 2, C5: 1 }],
+      ["b2", "a", { C4: 3, C10: 1 }],
+      ["f1", "balanced", { C4: 10, C5: 10 }],
     ]);
+    // 원점수 1점 = 100 / 최대 원점수. F1은 처음부터 100점 척도라 그대로다
+    expect(ledger[0].points.C2).toBeCloseTo(200 / 15, 10);
+    expect(ledger[7].points).toEqual({ C4: 10, C5: 10 });
   });
 
-  it("B2 A까지 C4 11 · C5 11이라 F1을 묻는다", () => {
+  it("B2 A까지 C4 64.7 · C5 61.1(차 3.6 ≤ 12)이라 F1을 묻는다", () => {
     const answers = { ...COMMON, b2: "a" };
     expect(evaluate(answers)).toEqual({ status: "incomplete", next: "f1" });
     expect(f1Candidates(answers)).toEqual(["C4", "C5"]);
   });
 
-  it("같은 공통 응답에서 B2 없음: C4 8 · C5 11 · C10 3, F1 없이 C5 단일형", () => {
+  it("같은 공통 응답에서 B2 없음: C4 47.1 · C5 61.1 · C10 33.3, F1 없이 C5 단일형", () => {
     const result = complete({ ...COMMON, b2: "none" });
-    expect(result.scores.C4).toBe(8);
-    expect(result.scores.C5).toBe(11);
-    expect(result.scores.C10).toBe(3);
+    expect(result.scores.C4).toBeCloseTo(47.058824, 5);
+    expect(result.scores.C5).toBeCloseTo(61.111111, 5);
+    expect(result.scores.C10).toBeCloseTo(33.333333, 5);
     expect(result.f1Candidates).toEqual([]);
     expect(result.types).toEqual(["C5"]);
     expect(result.alpha).toEqual({ C5: 1 });
@@ -105,20 +115,30 @@ describe("명세서 §37 전체 응답 원장", () => {
       question: "b2",
       option: "none",
       scores: {},
+      points: {},
     });
   });
 
-  it("F1에서 유형을 고르면 그 유형만 +4 (C5 15 · C4 11, 차 4라 C5 단일형)", () => {
+  it("F1에서 유형을 고르면 그 유형만 +20 (C5 81.1 · C4 64.7, 차 16.4라 C5 단일형)", () => {
     const result = complete({ ...COMMON, b2: "a", f1: "C5" });
-    expect(result.scores.C5).toBe(15);
-    expect(result.scores.C4).toBe(11);
+    expect(result.scores.C5).toBeCloseTo(81.111111, 5);
+    expect(result.scores.C4).toBeCloseTo(64.705882, 5);
     expect(result.f1Candidates).toEqual(["C4", "C5"]);
     expect(result.types).toEqual(["C5"]);
     expect(result.alpha).toEqual({ C5: 1 });
   });
 
-  it("복합형은 점수 내림차순, 같으면 C 번호 순이고 α는 2점 차에 2배다", () => {
-    // 20대(C2 3) · 친구와(C1 3) · 적당히 · 바다(C2 2) · 핫플(C1 3) · 저녁(C1 2 · C2 2) · B3 동행 사진(C2 3 · C9 1)
+  it("S4 바다는 C2 +1 · C3 +1 · C9 +4다 (6.2)", () => {
+    expect(complete({ ...COMMON, s4: "sea", b3: "none" }).ledger[3]).toEqual({
+      question: "s4",
+      option: "sea",
+      scores: { C2: 1, C3: 1, C9: 4 },
+      points: { C2: 100 / 15, C3: 100 / 16, C9: 400 / 9 },
+    });
+  });
+
+  it("복합형은 점수 내림차순, 같으면 C 번호 순이고 α는 12점 차에 2배다", () => {
+    // 20대 · 친구와 · 적당히 · 바다 · 핫플 · 저녁 · B3 동행 사진
     const answers: Answers = {
       s1: "20s",
       s2: "friends",
@@ -128,44 +148,53 @@ describe("명세서 §37 전체 응답 원장", () => {
       s6: "evening",
       b3: "c",
     };
-    // C1 2+3+3+2 = 10, C2 3+1+2+2+3 = 11 → F1 후보 C1 · C2
-    expect(f1Candidates(answers)).toEqual(["C1", "C2"]);
-    const result = complete({ ...answers, f1: "C1" });
-    expect(result.scores.C1).toBe(14);
-    expect(result.scores.C2).toBe(11);
-    expect(result.types).toEqual(["C1"]);
+    // C1 10/18 · C2 10/15 · C9 5/9 → 55.6 · 66.7 · 55.6, F1 후보 C1 · C2 · C9(C 번호 순)
+    expect(f1Candidates(answers)).toEqual(["C1", "C2", "C9"]);
+    const picked = complete({ ...answers, f1: "C1" });
+    expect(picked.scores.C1).toBeCloseTo(75.555556, 5);
+    expect(picked.types).toEqual(["C1", "C2"]);
+    expect(picked.alpha.C1! / picked.alpha.C2!).toBeCloseTo(
+      2 ** ((75.555556 - 66.666667) / 12),
+      5,
+    );
+    expect(complete({ ...answers, f1: "C2" }).types).toEqual(["C2"]);
     const balanced = complete({ ...answers, f1: "balanced" });
-    expect(balanced.types).toEqual(["C2", "C1"]);
-    expect(balanced.alpha.C2! / balanced.alpha.C1!).toBeCloseTo(Math.SQRT2, 10);
+    expect(balanced.types).toEqual(["C2", "C1", "C9"]);
+    expect(balanced.alpha.C1).toBeCloseTo(balanced.alpha.C9!, 12);
+    expect(balanced.alpha.C2! / balanced.alpha.C1!).toBeCloseTo(
+      2 ** ((66.666667 - 55.555556) / 12),
+      5,
+    );
   });
 
   it("복합형 비중 칩: 같은 비중은 같은 숫자로, 합은 되도록 100에 맞춘다", () => {
-    expect(typePercents(complete(MIXED))).toEqual([50, 50]);
-    // 9개 유형: 10대 · 친구와 · 적당히 · 자연·숲길 · 대표 명소 · 낮 · B3 동행 사진 · F1 비슷하게 중요
-    // C1~C4 4점, C5 · C7 · C8 · C9 3점, C6 2점에 4/9씩 → 유형마다 반올림하면 14 · 10 · 7로 합 103
-    const nine = complete({
-      s1: "teens",
+    expect(typePercents(complete(MIXED))).toEqual([55, 45]);
+    const balanced = complete({
+      s1: "20s",
       s2: "friends",
       s3: "moderate",
-      s4: "nature",
-      s5: "landmark",
-      s6: "daytime",
+      s4: "sea",
+      s5: "trending",
+      s6: "evening",
       b3: "c",
       f1: "balanced",
     });
-    expect(nine.types).toEqual([
-      "C1",
-      "C2",
-      "C3",
-      "C4",
-      "C5",
-      "C7",
-      "C8",
-      "C9",
-      "C6",
-    ]);
-    expect(typePercents(nine)).toEqual([13, 13, 13, 13, 10, 10, 10, 10, 7]);
+    // α 0.487 · 0.256 · 0.256 → 48 · 25 · 25에서 1이 남아 소수 부분이 가장 큰 C2에 더한다
+    expect(typePercents(balanced)).toEqual([49, 25, 25]);
   });
+});
+
+describe("Python 참조 계산과 같은 값 (Data-Analytics score_survey.py · recommend_reference.py)", () => {
+  for (const [n, c] of REFERENCE_CASES.entries()) {
+    it(`사례 ${n + 1}: 점수 · E · α`, () => {
+      const result = complete(c.answers);
+      for (const type of TYPE_IDS)
+        expect(result.scores[type], type).toBeCloseTo(c.scores[type], 9);
+      expect(result.types).toEqual(c.types);
+      for (const type of c.types)
+        expect(result.alpha[type], type).toBeCloseTo(c.alpha[type]!, 9);
+    });
+  }
 });
 
 describe("입력 상태 (명세서 §11)", () => {
@@ -279,7 +308,7 @@ describe("묻는 문항 순서", () => {
 });
 
 describe("전수 경로 (명세서 §41)", () => {
-  it("공통+분기 47,628경로 · F1 포함 완료 141,833경로 · 최종 E 최대 9개 · C1~C10 모두 단일 결과 도달", () => {
+  it("공통+분기 47,628경로 · F1 포함 완료 109,552경로 · 최종 E 최대 9개 · C1~C10 모두 단일 결과 도달", () => {
     let branchPaths = 0;
     let completePaths = 0;
     let maxTypes = 0;
@@ -305,7 +334,7 @@ describe("전수 경로 (명세서 §41)", () => {
       const percents = typePercents(result);
       result.types.slice(1).forEach((c, i) => {
         const prev = result.types[i];
-        if (result.scores[prev] === result.scores[c])
+        if (Math.abs(result.scores[prev] - result.scores[c]) < 1e-9)
           expect(percents[i + 1]).toBe(percents[i]);
         else expect(percents[i + 1]).toBeLessThanOrEqual(percents[i]);
       });
@@ -331,7 +360,7 @@ describe("전수 경로 (명세서 §41)", () => {
     }
 
     expect(branchPaths).toBe(47628);
-    expect(completePaths).toBe(141833);
+    expect(completePaths).toBe(109552);
     expect(maxTypes).toBe(9);
     expect([...singles].sort()).toEqual([...TYPE_IDS].sort());
     // 비중 합: 같은 비중 묶음을 다 채울 수 없는 경로만 98 · 99로 남는다
@@ -348,12 +377,13 @@ describe("전수 경로 (명세서 §41)", () => {
         question: branch,
         option: "none",
         scores: {},
+        points: {},
       });
       if (!needsF1) {
         const common = result.ledger.slice(0, 6);
         for (const c of TYPE_IDS)
           expect(result.scores[c]).toBe(
-            common.reduce((sum, e) => sum + (e.scores[c] ?? 0), 0),
+            common.reduce((sum, e) => sum + (e.points[c] ?? 0), 0),
           );
       }
     }

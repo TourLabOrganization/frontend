@@ -11,16 +11,20 @@ import { LAST_RECOMMENDATION_KEY, useLocalValue } from "@/lib/local-store";
 import { matchesQuery } from "@/lib/text-search";
 import {
   type CityTour,
+  type CourseScoreProfile,
   recommendTours,
   regionCounts,
   typeProfile,
 } from "./citytour";
 import { CityTourCard, useCityTourAdd } from "./CityTourCard";
 import toursData from "./data/citytour.json";
+import scoresData from "./data/citytour-scores.json";
 import { useNameTable } from "@/features/names/NamesProvider";
 import type { CityTourText } from "@/features/translations/text";
 
 const TOURS = toursData as CityTour[];
+/** 노선별 코스 점수 자료(TOURS와 같은 순서, 분석 적격이 아니면 null) */
+const PROFILES = scoresData as (CourseScoreProfile | null)[];
 /** 노선 → data/citytour.json 순서(서버가 넘기는 옮긴 글 texts와 같은 순서) */
 const TOUR_INDEX = new Map(TOURS.map((tour, i) => [tour, i]));
 const COUNTS = regionCounts(TOURS);
@@ -41,7 +45,7 @@ function compare(a: string, b: string) {
 }
 
 // 홈 「지역 시티투어」(목업: 배너 다음). 탭 두 칸 「내 유형 추천」 · 「지역별 검색」.
-// 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.1 결과(최종 유형 · 간접 선호 u · S4 관심사)로 citytour.ts recommendTours를 돌린다.
+// 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.3 결과(최종 유형 · 간접 선호 u · S3 · S4 · S6)로 citytour.ts recommendTours를 돌린다.
 // 추천 기록이 있으면 내 유형 추천이, 없으면 지역별 검색(서울)이 먼저 열린다(목업과 같다).
 // 카드와 「코스빌더에 넣기」는 CityTourCard.tsx(플래너 여행 정보 탭과 함께 쓴다)
 export function CityTourSection({
@@ -62,7 +66,10 @@ export function CityTourSection({
     () => (lastA ? typeProfile(decodeAnswers(lastA)) : null),
     [lastA],
   );
-  const rec = useMemo(() => (type ? recommendTours(TOURS, type) : []), [type]);
+  const rec = useMemo(
+    () => (type ? recommendTours(TOURS, type, PROFILES) : []),
+    [type],
+  );
 
   const [chosenMode, setChosenMode] = useState<Mode | null>(null);
   const mode: Mode = chosenMode ?? (rec.length > 0 ? "rec" : "region");
