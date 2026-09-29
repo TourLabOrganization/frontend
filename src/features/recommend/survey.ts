@@ -1,10 +1,11 @@
-// 테마 추천 설문 6.3: 공통 S1~S6 + S4가 정한 관심사 분기 B1~B7 중 1개 + 필요할 때만 확인 문항 F1. 순수 함수만 둔다.
-// 정본: 팀 명세서 「Tour Navigator 신규 설문 통합 상세명세서」 integrated 6.4(2026-09-29) §04~§12 · §37 · §41과
-// Data-Analytics 저장소 survey/implementation/score_survey.py(설문 6.3 참조 계산).
+// 테마 추천 설문 6.4: 공통 S1~S6(S4는 관심사 두 가지) + S4의 두 관심사가 정한 분기 B1~B7 중 1~2개 + 필요할 때만 확인 문항 F1. 순수 함수만 둔다.
+// 정본: 팀 명세서 「Tour Navigator 신규 설문 통합 상세명세서」 integrated 6.5(2026-09-29) §04~§12 · §37 · §41과
+// Data-Analytics 저장소 survey/implementation/score_survey.py(설문 6.4 참조 계산).
 // 명세서 §01이 새 유형 이름 · 점수를 기존 recommendV4(백엔드 POST /api/v1/recommend)에 넘기지 않는다고 정해서,
 // 명세서의 참조 계산(score_survey.evaluate)을 프론트로 옮겼다. data-server가 이 API를 내면 그 API를 부르도록 바꿀 임시본이다(docs/api.md).
-// 6.1 → 6.3에서 바뀐 것: S4 바다 가산(C2 +1 · C3 +1 · C9 +4, 6.2), 유형별 100점 환산 · 경계 12점 · F1 +20 · 가중치 2^(차/12)(6.3).
-// 모든 문항은 한 개 고르기 · 필수이고 건너뛰기가 없다. 국내 · 해외 · 예산 · 정보 경로 · 앱 언어 가산은 없앴다(§04 · §38): 모든 응답자가 C1~C10 후보다.
+// 6.1 → 6.4에서 바뀐 것: S4 바다 가산(C2 +1 · C3 +1 · C9 +4, 6.2), 유형별 100점 환산 · 경계 12점 · F1 +20 · 가중치 2^(차/12)(6.3),
+// S4 관심사 두 가지(두 보기 점수를 모두 더하고, 두 관심사의 B를 B 번호 순서로 모두 묻는다. 같은 B면 한 번, 6.4).
+// S4만 서로 다른 두 개를 고르고 나머지는 한 개 고르기다. 모두 필수이고 건너뛰기가 없다. 국내 · 해외 · 예산 · 정보 경로 · 앱 언어 가산은 없앴다(§04 · §38): 모든 응답자가 C1~C10 후보다.
 // 보기 id는 주소(?a=)에 쓰는 바뀌지 않는 값이다. 화면 문구는 messages의 Recommend.questions(문항) · Clusters(유형)에 있다.
 
 /**
@@ -47,15 +48,12 @@ export const QUESTION_IDS: readonly QuestionId[] = [
   F1,
 ];
 
-/** 문항 수(공통 6 + 관심사 분기 1). F1은 필요할 때만 묻는 추가 문항이라 세지 않는다(§11: 보통 7개, F1이 필요하면 8개) */
-export const QUESTION_COUNT = COMMON_IDS.length + 1;
-
-/** 문항별로 고른 보기 id. 답하지 않은 문항은 키가 없다 */
+/** 문항별로 고른 보기 id. 답하지 않은 문항은 키가 없다. S4는 관심사 id를 INTERESTS 순서로 「_」로 이은 값이다(예: history_nature) */
 export type Answers = Partial<Record<QuestionId, string>>;
 
 // 공통 문항 점수표(명세서 §05~§06). 보기 순서는 명세서 선택지 A · B · C … 순서다.
 // 보기 id는 예전 설문 Q1 · Q2 · Q3 · Q4 · Q5 · Q8의 id를 그대로 쓰고, 값도 예전 scoring.ts SCORE_TABLE의 그 행들과 같다
-// (명세서 표와 한 칸씩 대조했다). S4는 이제 한 개만 고른다
+// (명세서 표와 한 칸씩 대조했다). S4는 서로 다른 두 개를 고르고 두 보기의 점수를 모두 더한다
 const COMMON_SCORES: Readonly<
   Record<CommonId, Readonly<Record<string, TypeScores>>>
 > = {
@@ -115,7 +113,7 @@ export const COMMON_OPTIONS: Readonly<Record<CommonId, readonly string[]>> = {
   s6: Object.keys(COMMON_SCORES.s6),
 };
 
-/** S4 관심사(가장 하고 싶은 한 가지) */
+/** S4 관심사(가장 하고 싶은 것 두 가지의 보기) */
 export const INTERESTS = [
   "drama",
   "performance",
@@ -128,6 +126,17 @@ export const INTERESTS = [
   "shopping-beauty",
 ] as const;
 export type Interest = (typeof INTERESTS)[number];
+
+/** S4에서 고르는 관심사 수 */
+export const INTEREST_COUNT = 2;
+/** S4 답에서 관심사 사이 구분자. 주소 ?a=에서 「+」는 공백으로 읽히므로 URL에서 바뀌지 않는 「_」를 쓴다 */
+const INTEREST_SEPARATOR = "_";
+
+/**
+ * 안내 문구의 문항 수(공통 6 + 관심사 분기 2). 두 관심사의 분기가 같으면(36개 조합 중 2개) 7개,
+ * F1은 필요할 때만 묻는 추가 문항이라 세지 않는다(§11: 7~9개)
+ */
+export const QUESTION_COUNT = COMMON_IDS.length + INTEREST_COUNT;
 
 /** S4 관심사 → 분기 문항(명세서 §07) */
 export const BRANCH_BY_INTEREST: Readonly<Record<Interest, BranchId>> = {
@@ -186,8 +195,8 @@ export type LedgerEntry = {
 /** 완료된 응답의 계산 결과 */
 export type SurveyResult = {
   status: "complete";
-  /** S4 관심사. 테마 지수의 관심사 항과 시티투어 관심사에 쓴다 */
-  interest: Interest;
+  /** S4 관심사 두 개(INTERESTS 순서). 테마 지수의 관심사 항과 시티투어 관심사에 쓴다 */
+  interests: Interest[];
   /** 유형별 점수 s(10개, 100점 척도). 원점수를 유형 최대 원점수로 환산한 값의 합 + F1 가산 */
   scores: Record<TypeId, number>;
   /** 문항 순서대로의 원장 */
@@ -225,17 +234,81 @@ function isBranchId(id: QuestionId): id is BranchId {
   return (BRANCH_IDS as readonly string[]).includes(id);
 }
 
-/** 이 문항이 받을 수 있는 보기인지. F1은 유형 코드 · BALANCED면 알려진 보기다(후보인지는 evaluate가 본다) */
+/**
+ * S4 답 → 관심사 목록. 모르는 관심사 · 중복 · INTERESTS 순서가 아닌 값 · 3개 이상이면 null.
+ * 하나뿐인 값(고르는 중)은 목록 1개로 읽는다(완료는 evaluate가 두 개인지 본다)
+ */
+export function parseInterests(value: string | undefined): Interest[] | null {
+  if (value === undefined) return [];
+  const parts = value.split(INTEREST_SEPARATOR);
+  if (parts.length > INTEREST_COUNT || !parts.every(isInterest)) return null;
+  const order = parts.map((p) => INTERESTS.indexOf(p));
+  if (order.some((o, i) => i > 0 && o <= order[i - 1])) return null;
+  return parts;
+}
+
+/** 관심사 목록 → S4 답(INTERESTS 순서). 비면 undefined */
+export function joinInterests(
+  interests: readonly Interest[],
+): string | undefined {
+  if (interests.length === 0) return undefined;
+  return INTERESTS.filter((i) => interests.includes(i)).join(
+    INTEREST_SEPARATOR,
+  );
+}
+
+/**
+ * S4 보기를 누른다: 고른 것이면 빼고, 아니면 더한다. 이미 두 개면 더하지 않는다(그대로 돌려준다).
+ * 돌려준 값을 withAnswer(answers, "s4", …)에 넣는다
+ */
+export function toggleInterest(
+  value: string | undefined,
+  interest: Interest,
+): string | undefined {
+  const current = parseInterests(value) ?? [];
+  if (current.includes(interest))
+    return joinInterests(current.filter((i) => i !== interest));
+  if (current.length >= INTEREST_COUNT) return value;
+  return joinInterests([...current, interest]);
+}
+
+/** 이 문항이 받을 수 있는 보기인지. F1은 유형 코드 · BALANCED면 알려진 보기다(후보인지는 evaluate가 본다). S4는 관심사 1~2개 */
 export function isKnownOption(id: QuestionId, option: string): boolean {
   if (id === F1) return option === BALANCED || isTypeId(option);
+  if (id === "s4") {
+    const interests = parseInterests(option);
+    return interests !== null && interests.length > 0;
+  }
   if (isBranchId(id))
     return (BRANCH_OPTIONS as readonly string[]).includes(option);
   return COMMON_OPTIONS[id].includes(option);
 }
 
+/** 관심사들의 분기 문항(B 번호 순서, 같은 B는 한 번) */
+function branchesOf(interests: readonly Interest[]): BranchId[] {
+  const set = new Set(interests.map((i) => BRANCH_BY_INTEREST[i]));
+  return BRANCH_IDS.filter((b) => set.has(b));
+}
+
+/** S4 두 보기의 원점수 합 */
+function interestScores(interests: readonly Interest[]): TypeScores {
+  const out: TypeScores = {};
+  for (const interest of interests)
+    for (const [c, v] of Object.entries(COMMON_SCORES.s4[interest]))
+      out[c as TypeId] = (out[c as TypeId] ?? 0) + v;
+  return out;
+}
+
+/** S4에서 고를 수 있는 두 관심사 조합 36개(INTERESTS 순서) */
+export const INTEREST_PAIRS: readonly (readonly [Interest, Interest])[] =
+  INTERESTS.flatMap((a, i) =>
+    INTERESTS.slice(i + 1).map((b) => [a, b] as const),
+  );
+
 /**
- * 유형별 최대 원점수: 한 경로(S1~S6 + B 한 개)에서 그 유형이 받을 수 있는 가장 큰 원점수(§12).
- * S4가 분기를 정하므로 S4와 그 분기의 B는 함께 고른다. 명세서 값은 C1 18 · C2 15 · C3 16 · C4 17 · C5 18 · C6 10 · C7 14 · C8 11 · C9 9 · C10 9
+ * 유형별 최대 원점수: 한 경로(S1~S6 + 활성 B)에서 그 유형이 받을 수 있는 가장 큰 원점수(§12).
+ * S4의 두 관심사가 분기를 정하므로 두 관심사와 그 분기의 B는 함께 고른다.
+ * 명세서 값은 C1 23 · C2 19 · C3 20 · C4 19 · C5 22 · C6 10 · C7 17 · C8 11 · C9 11 · C10 15
  */
 function typeMaxRaw(): Record<TypeId, number> {
   const best = (options: readonly TypeScores[], c: TypeId) =>
@@ -247,10 +320,13 @@ function typeMaxRaw(): Record<TypeId, number> {
         0,
       );
       const s4 = Math.max(
-        ...INTERESTS.map(
-          (interest) =>
-            (COMMON_SCORES.s4[interest][c] ?? 0) +
-            best(Object.values(BRANCH_SCORES[BRANCH_BY_INTEREST[interest]]), c),
+        ...INTEREST_PAIRS.map(
+          (pair) =>
+            (interestScores(pair)[c] ?? 0) +
+            branchesOf(pair).reduce(
+              (sum, b) => sum + best(Object.values(BRANCH_SCORES[b]), c),
+              0,
+            ),
         ),
       );
       return [c, rest + s4];
@@ -287,15 +363,18 @@ function withinGap(scores: Record<TypeId, number>): TypeId[] {
   return TYPE_IDS.filter((c) => max - scores[c] <= CANDIDATE_GAP + EPSILON);
 }
 
-/** S4 답의 분기 문항. S4가 없거나 모르는 값이면 null */
-function activeBranch(answers: Answers): BranchId | null {
-  return isInterest(answers.s4) ? BRANCH_BY_INTEREST[answers.s4] : null;
+/** S4 답의 분기 문항(B 번호 순서). S4를 두 개 고르지 않았으면 빈 배열 */
+export function activeBranches(answers: Answers): BranchId[] {
+  const interests = parseInterests(answers.s4);
+  return interests && interests.length === INTEREST_COUNT
+    ? branchesOf(interests)
+    : [];
 }
 
 type Base =
   | { status: "incomplete"; next: QuestionId }
   | { status: "invalid" }
-  | { status: "base"; interest: Interest; ledger: LedgerEntry[] };
+  | { status: "base"; interests: Interest[]; ledger: LedgerEntry[] };
 
 /** S1~S6 + 활성 B까지 */
 function scoreBase(answers: Answers): Base {
@@ -309,23 +388,34 @@ function scoreBase(answers: Answers): Base {
   for (const id of COMMON_IDS) {
     const option = answers[id];
     if (option === undefined) return { status: "incomplete", next: id };
-    const scores = COMMON_SCORES[id][option];
+    if (id === "s4") {
+      // 두 개를 다 고르기 전(하나)은 아직 답하지 않은 것이다
+      const interests = parseInterests(option) ?? [];
+      if (interests.length < INTEREST_COUNT)
+        return { status: "incomplete", next: id };
+    }
+    const scores =
+      id === "s4"
+        ? interestScores(parseInterests(option) ?? [])
+        : COMMON_SCORES[id][option];
     ledger.push({ question: id, option, scores, points: toPoints(scores) });
   }
 
-  const interest = answers.s4 as Interest;
-  const branch = BRANCH_BY_INTEREST[interest];
-  if (BRANCH_IDS.some((b) => b !== branch && answers[b] !== undefined))
+  const interests = parseInterests(answers.s4) as Interest[];
+  const branches = branchesOf(interests);
+  if (BRANCH_IDS.some((b) => !branches.includes(b) && answers[b] !== undefined))
     return { status: "invalid" };
-  const option = answers[branch] as BranchOption | undefined;
-  if (option === undefined) return { status: "incomplete", next: branch };
-  const scores = BRANCH_SCORES[branch][option];
-  ledger.push({ question: branch, option, scores, points: toPoints(scores) });
-  return { status: "base", interest, ledger };
+  for (const branch of branches) {
+    const option = answers[branch] as BranchOption | undefined;
+    if (option === undefined) return { status: "incomplete", next: branch };
+    const scores = BRANCH_SCORES[branch][option];
+    ledger.push({ question: branch, option, scores, points: toPoints(scores) });
+  }
+  return { status: "base", interests, ledger };
 }
 
 /**
- * F1 후보 E₀ = {c : max(s⁰) − s⁰_c ≤ 12}(s⁰ = S1~S6 + 활성 B의 100점 척도 점수). 2개 이상일 때만 F1을 한 번 묻는다(§11).
+ * F1 후보 E₀ = {c : max(s⁰) − s⁰_c ≤ 12}(s⁰ = S1~S6 + 활성 B 1~2개의 100점 척도 점수). 2개 이상일 때만 F1을 한 번 묻는다(§11).
  * 보기 순서는 종이 설문처럼 C 번호 순이다(점수 순이 아니다). F1이 필요 없거나 아직 정할 수 없으면 빈 배열
  */
 export function f1Candidates(answers: Answers): TypeId[] {
@@ -345,20 +435,27 @@ export function optionsOf(id: QuestionId, answers: Answers): readonly string[] {
   return COMMON_OPTIONS[id];
 }
 
-/** 지금 답으로 묻는 문항 순서: S1~S6 → 활성 B(S4를 답했을 때) → F1(필요할 때) */
+/** 지금 답으로 묻는 문항 순서: S1~S6 → 활성 B 1~2개(S4를 두 개 골랐을 때, B 번호 순) → F1(필요할 때) */
 export function questionPath(answers: Answers): QuestionId[] {
-  const path: QuestionId[] = [...COMMON_IDS];
-  const branch = activeBranch(answers);
-  if (branch) path.push(branch);
+  const path: QuestionId[] = [...COMMON_IDS, ...activeBranches(answers)];
   if (f1Candidates(answers).length > 0) path.push(F1);
   return path;
+}
+
+/**
+ * 진행 표시의 문항 수(공통 6 + 관심사 분기 1~2). F1은 필요할 때만 묻는 추가 문항이라 세지 않는다.
+ * S4를 고르기 전에는 분기가 두 개라고 본다(두 관심사의 분기가 같은 경우는 36개 조합 중 2개뿐이다)
+ */
+export function questionCount(answers: Answers): number {
+  const branches = activeBranches(answers).length;
+  return COMMON_IDS.length + (branches || INTEREST_COUNT);
 }
 
 /** 응답을 계산한다(명세서 score_survey.evaluate) */
 export function evaluate(answers: Answers): Evaluation {
   const base = scoreBase(answers);
   if (base.status !== "base") return base;
-  const { interest } = base;
+  const { interests } = base;
   const ledger = [...base.ledger];
 
   const candidates = withinGap(sumScores(ledger));
@@ -395,7 +492,7 @@ export function evaluate(answers: Answers): Evaluation {
   const all = TYPE_IDS.reduce((sum, c) => sum + weight(c), 0);
   return {
     status: "complete",
-    interest,
+    interests,
     scores,
     ledger,
     f1Candidates: needsF1 ? candidates : [],
@@ -449,18 +546,23 @@ export function typePercents(
 }
 
 /**
- * 답을 바꾼다(화면과 테스트가 함께 쓴다). 같은 보기를 다시 고르면 그대로다.
- * - S4를 바꾸면 B와 F1 답을 지운다(분기가 바뀐다, §07)
+ * 답을 바꾼다(화면과 테스트가 함께 쓴다). 같은 보기를 다시 고르면 그대로다. option이 undefined면 답을 지운다(S4를 모두 뺐을 때).
+ * - S4를 바꾸면 더 이상 묻지 않는 B 답을 지운다(분기가 바뀐다, §07). 남는 관심사의 B 답은 그대로 둔다
  * - S1~S6 · B 중 무엇이든 바꾸면 F1 답을 지운다(F1 후보 E₀가 바뀔 수 있다)
  */
 export function withAnswer(
   answers: Answers,
   id: QuestionId,
-  option: string,
+  option: string | undefined,
 ): Answers {
   if (answers[id] === option) return answers;
-  const next: Answers = { ...answers, [id]: option };
-  if (id === "s4") for (const b of BRANCH_IDS) delete next[b];
+  const next: Answers = { ...answers };
+  if (option === undefined) delete next[id];
+  else next[id] = option;
+  if (id === "s4") {
+    const keep = activeBranches(next);
+    for (const b of BRANCH_IDS) if (!keep.includes(b)) delete next[b];
+  }
   if (id !== F1) delete next[F1];
   return next;
 }

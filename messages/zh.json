@@ -162,6 +162,7 @@
       "noRegion": "没有匹配的地区",
       "regionHeading": "{region} · {count}条路线",
       "rank": "第{rank}名",
+      "reserved": "{tag}兴趣名额",
       "kind": {
         "loop": "循环型",
         "fixed": "固定路线型"
@@ -244,6 +245,7 @@
   "Recommend": {
     "progressLabel": "答题进度",
     "counter": "{current} / {total}",
+    "pickedCount": "已选 {count}/{total}",
     "extraLabel": "补充确认问题",
     "next": "下一步",
     "seeResult": "查看结果",
@@ -285,8 +287,8 @@
         }
       },
       "s4": {
-        "title": "这次旅行你最想做的一件事是什么？",
-        "help": "请只选一个最重要的兴趣。之后会再出现一个与之相关的问题",
+        "title": "这次旅行你最想做的两件事是什么？",
+        "help": "请选择两个最想做的兴趣。每个兴趣之后都会有一个相关问题",
         "options": {
           "drama": "韩剧·K-POP拍摄地",
           "performance": "演出·演唱会",
@@ -404,7 +406,9 @@
     "categoryShare": "{category}地点 {percent}%",
     "night": "夜景地点 {percent}%",
     "compareCourses": "比较3条路线方案",
-    "basis": "计算依据 · 问卷6.3 · 推荐6.4（团队规格说明书的参考计算）"
+    "basis": "计算依据 · 问卷 6.4 · 推荐 6.5（团队规格参考计算）",
+    "cityToursHeading": "适合你的地区城市观光",
+    "cityToursNote": "根据旅行类型和两个兴趣挑选的路线。每个兴趣先保留一个名额。"
   },
   "Clusters": {
     "C1": {
