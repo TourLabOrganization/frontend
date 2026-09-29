@@ -33,9 +33,9 @@ const REGION_CITY_COUNT = {
 };
 
 describe("플래너 데이터", () => {
-  it("장소는 3,118곳이고 id가 겹치지 않는다", () => {
-    expect(PLANNER_PLACES).toHaveLength(3118);
-    expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(3118);
+  it("장소는 3,109곳이고(원천 3,118곳에서 맥도날드 9곳 제외) id가 겹치지 않는다", () => {
+    expect(PLANNER_PLACES).toHaveLength(3109);
+    expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(3109);
   });
 
   it("도시 고르기 장소 수: 전용 화면 도시는 전용 화면 장소 + 같은 도시의 전국 목록 장소", () => {
@@ -47,7 +47,7 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      서울: 262,
+      서울: 256,
       부산: 182,
       제주: 171,
       영월: 28,
@@ -60,15 +60,15 @@ describe("플래너 데이터", () => {
     const sum = [...PLACE_COUNT_BY_CITY.values()].reduce((a, b) => a + b, 0);
     const nationOnly = PLANNER_PLACES.filter((p) => !p.pickCity).length;
     expect(PLACE_COUNT_BY_CITY.size).toBe(124);
-    expect(sum).toBe(3104);
+    expect(sum).toBe(3095);
     expect(nationOnly).toBe(14);
-    expect(sum + nationOnly).toBe(3118);
+    expect(sum + nationOnly).toBe(3109);
     for (const [city, n] of PLACE_COUNT_BY_CITY) {
       const list = placesInScope({ kind: "city", city });
       expect(list, city).toHaveLength(n);
       expect(list.every((p) => p.locKo === city)).toBe(true);
     }
-    expect(placesInScope({ kind: "nation", region: null })).toHaveLength(3118);
+    expect(placesInScope({ kind: "nation", region: null })).toHaveLength(3109);
   });
 
   it("권역 묶음 이름과 장소 수가 목업 지도와 같다", () => {
@@ -88,11 +88,11 @@ describe("플래너 데이터", () => {
       ]),
     );
     expect(byRegion).toEqual({
-      capital: 690,
+      capital: 683,
       gangwon: 372,
-      chungcheong: 441,
+      chungcheong: 440,
       daegyeong: 369,
-      dongnam: 641,
+      dongnam: 640,
       honam: 432,
       jeju: 173,
     });
@@ -110,11 +110,11 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      capital: [21, 688],
+      capital: [21, 681],
       gangwon: [18, 369],
-      chungcheong: [19, 441],
+      chungcheong: [19, 440],
       daegyeong: [16, 366],
-      dongnam: [19, 637],
+      dongnam: [19, 636],
       honam: [30, 432],
       jeju: [1, 171],
     });

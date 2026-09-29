@@ -41,8 +41,9 @@ describe("도시 · 시군구", () => {
       for (const code of codes) expect(code).toMatch(/^\d{5}$/);
     }
     expect(citySigngu("경주")).toEqual(["47130"]);
-    // 서울: 종로 · 송파 · 영등포 · 용산(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
-    expect(citySigngu("서울")).toEqual(["11110", "11710", "11560", "11170"]);
+    // 서울: 종로 · 송파 · 용산 · 마포(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
+    // 맥도날드 9곳을 뺀 뒤 영등포(11560)가 13곳으로 줄어 같은 13곳 중 코드 순으로 마포(11440)가 들어간다
+    expect(citySigngu("서울")).toEqual(["11110", "11710", "11170", "11440"]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("인천")).toHaveLength(4);
     expect(POPULAR_CITIES).not.toContain("여수");

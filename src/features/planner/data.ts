@@ -4,7 +4,7 @@ import { REGION_KEYS, type RegionKey } from "./regions";
 
 // 투어 플래너의 장소와 장소로 계산하는 값(도시별 장소 수 · 도시 묶음 · 권역 가운데). 권역 · 도시 이름 · 관문 · 출발지는 regions.ts.
 // data/places.json: Tour-Navigator-App/체류시간 산정/체류시간_장소별.csv(체류 · 운영시간 · 플래그 · 배지)와
-//                   Tour Planner.dc.html DATA · 파생 데이터/장소.csv를 id로 합친 장소 3,118곳의 가벼운 필드.
+//                   Tour Planner.dc.html DATA · 파생 데이터/장소.csv를 id로 합친 장소 3,109곳의 가벼운 필드(맥도날드 9곳은 빌드에서 뺀다, EXCLUDED).
 //                   분류(cat) · 영어 이름 · 지정구역(vz) · 데이터랩 인기 순위(popRank)는 data-server places.json 값이다(scripts/data-server.mjs)
 // 설명 · 사진 · 중일 이름 · 좌표 근거 · 카카오 장소 URL 같은 무거운 필드는 data/place-details.json에 따로 두고,
 // 장소 시트를 열 때 Route Handler(/api/planner/places/[id])로 받는다(use-place-detail.ts). 이 파일은 그 JSON을 import하지 않는다.

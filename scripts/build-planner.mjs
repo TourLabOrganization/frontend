@@ -313,6 +313,13 @@ function samePlace(n, s) {
 const screenIds = new Set();
 const cityDuplicates = [];
 
+/**
+ * 앱에 넣지 않는 장소(대표 결정). 원천에는 남아 있어도 places.json · place-details.json에서 뺀다.
+ * 2026-09-29: 맥도날드 드라이브스루 9곳(투어 플래너 장소로 맞지 않는다) — 이름에 「맥도날드」가 든 곳
+ */
+const EXCLUDED = (p) => /맥도날드/.test(p.ko ?? "");
+let excluded = 0;
+
 const places = [];
 const details = {};
 const seen = new Set();
@@ -320,6 +327,10 @@ for (const [key, group] of Object.entries(DATA)) {
   for (const p of group.places) {
     if (seen.has(p.id)) continue;
     seen.add(p.id);
+    if (EXCLUDED(p)) {
+      excluded++;
+      continue;
+    }
     const r = csvById.get(p.id);
     const d = derivedById.get(p.id);
     if (!d) derivedMismatch.dataOnly++;
@@ -521,6 +532,7 @@ const write = (file, data) => {
   console.log("wrote", file);
 };
 // 원천에 영어 이름이 없는 장소는 앱이 만든 영어 이름으로 채운다(scripts/place-names.mjs, docs/i18n.md)
+console.log(`제외한 장소 ${excluded}곳(EXCLUDED)`);
 const nameFill = fillPlaceNames(places);
 console.log(
   `영어 이름 채움 ${nameFill.filled}곳, 번역 표에 없음 ${nameFill.missing.length}곳`,

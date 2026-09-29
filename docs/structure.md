@@ -194,7 +194,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 
 | 스크립트                          | 입력(PoC)                                                                                                                                                                  | 출력                                                                                                                                          |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `scripts/build-planner.mjs`       | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) · data-server `places.json`                                    | `features/planner/data/places.json`(3,118곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                |
+| `scripts/build-planner.mjs`       | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) · data-server `places.json`                                    | `features/planner/data/places.json`(3,109곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                |
 | `scripts/build-wide.mjs`          | `Tour Planner.dc.html`(`METRO_STATIONS` · `BUSAN_STATIONS` · 호선 순서 · 색 · 이름 · `ORIGIN_ALT`)                                                                         | `features/planner/data/wide.json`(지하철 출발 · 귀가역, 수단별 대체 관문)                                                                     |
 | `scripts/build-places.mjs`        | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html` · data-server `places.json`                                                                       | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                             |
 | `scripts/build-citytour.mjs`      | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다                                                                      | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                            |
@@ -208,7 +208,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 
 data-server 합치기 (`scripts/data-server.mjs`)
 
-- data-server(팀 데이터 정본, 읽기만)의 `data/derived/places.json`(3,118곳)을 id로 합친다. 필드 뜻은 data-server `docs/contract.md`
+- data-server(팀 데이터 정본, 읽기만)의 `data/derived/places.json`(3,118곳)을 id로 합친다. 맥도날드 드라이브스루 9곳은 빌드에서 뺀다(`build-planner.mjs` `EXCLUDED`, 대표 결정 2026-09-29) — 앱 장소는 3,109곳. 필드 뜻은 data-server `docs/contract.md`
 - 경로: 두 스크립트의 마지막 인자 → 환경변수 `DATA_SERVER_DIR` → 기본값 `../data-server`(이 리포 옆 클론). 파일이 없으면 멈춘다.
   스크립트가 끝에 data-server 커밋과 바뀐 값 수를 출력한다. 다시 만들면 위 「마지막 동기화」 줄의 커밋을 고친다
 - 합치는 필드(나머지 필드와 순서는 PoC 원천 그대로):
@@ -223,7 +223,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - 가벼운 필드(`places.json`, 클라이언트 번들에 들어간다): `course/places.ts` `Place` 필드(`id` · `n` · `ko` · `en` · `locKo` · `cat` · `lat` · `lng` · `min` · `hrs` · `open` · `close` · `yt` · `off` · `k100` · `un` · `bf` · `auto`) + `macro`(권역) · `pickCity`(도시 고르기 도시) · `vz`(지정구역 문구) · `popRank`(데이터랩 인기 순위). `cat` · `en` · `vz` · `popRank`는 data-server 값
 - 무거운 필드(`place-details.json`, id → 값): `desc`(설명 한 · 영) · `img` · `imgCredit` · `zh` · `ja`(중 · 일 장소명) · `src`(좌표 근거) · `url`(카카오 장소 URL) · `ct`(시티투어 경유) · `rs`(연관관광지).
   클라이언트는 이 JSON을 import하지 않는다. 장소 시트를 열 때 Route Handler `app/api/planner/places/[id]/route.ts`가 한 곳(1KB 안팎)만 돌려주고
-  `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,118곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
+  `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,109곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
 - 신규 관광지(`kto:<contentid>`): `places.json`에 없는 한국관광공사 관광지. 홈 인기 관광지가 이름 · 위치로도 앱 장소를 못 찾을 때 만들고,
   브라우저가 localStorage `tn.extraPlaces`(`features/planner/extra-places.ts`)에 같은 필드로 기억해 지도 · 장소 시트 · 코스가 앱 장소처럼 쓴다.
   무거운 필드 · 장소 시트 칸은 서버가 한국관광공사 공통정보로 만든다(`lib/tour-spot.ts`, `docs/api.md` 「신규 관광지」)
@@ -261,7 +261,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 ### 홈 지역 시티투어
 
 - 데이터 가공(분류 칩 · 내 유형 추천 · 지역 집계)은 `features/home/citytour.ts`, 경유지 → 플래너 장소 대조는 `citytour-match.ts`. 둘 다 목업(9/27 standalone) 규칙을 옮긴 순수 함수다
-- 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,118곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
+- 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,109곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
 - 부분 이름 대조도 목업보다 조였다(대표 결정 2026-09-28, 「해운대(미포)」가 해운대가야밀면 식당에 대조되던 오류): 이름이 같은 장소 → 이름이 서로를 품는 장소 중
   관광지(먹거리 밖)를 먼저, 먹거리는 시티투어 경유(`ct`) 장소 · 장소 이름이 경유지 이름으로 끝나는 곳(「광복로」 → 부산 광복로) · 시장 · 골목 · 거리 경유지일 때만.
   후보가 여럿이면 `ct` → 이름 길이 차이가 가장 작은 곳, 같은 순위면 대조하지 않는다. 경유지는 `+`로도 나눈다
@@ -315,7 +315,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 ### 저장한 장소 (`tn.savedPlaces`)
 
 - 장소 시트의 「저장」(북마크). `{ id, source, savedAt, name: { ko, en } }[]`. `source`는 테마 slug 또는 `planner`이고, 같은 장소도 출처가 다르면 따로 저장한다.
-  `name`은 ME가 장소 데이터(플래너 3,118곳)를 불러오지 않고 이름을 보이려고 저장할 때 적어 둔다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlaces` · `toggleSavedPlace` · `useSavedPlaces`)
+  `name`은 ME가 장소 데이터(플래너 3,109곳)를 불러오지 않고 이름을 보이려고 저장할 때 적어 둔다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlaces` · `toggleSavedPlace` · `useSavedPlaces`)
 - ME 「저장한 장소」는 저장한 순서대로, 누르면 테마는 `/themes/{slug}?tab=map&place={id}`, 플래너는 `/planner?place={id}`(시트가 열린 지도 탭)
 - 테마 스탬프 탭 아래쪽 「저장한 장소」는 그 테마(`source`)에서 저장한 것만. 예전 테마별 북마크 `tn.bookmarks.{slug}`는 읽지 않는다
 - 스탬프(`tn.stamps.{slug}`, `features/theme/storage.ts`)는 시트 · 스탬프 탭이 함께 쓰는 토글이다. PoC 코드(`d_toggleStamp`)에 위치 확인 규칙이 없어 위치를 보지 않는다
