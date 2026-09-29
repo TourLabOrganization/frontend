@@ -343,8 +343,9 @@ function CrowdForecast({ id }: { id: string }) {
       <TourHeader icon={UsersRound} titleId={titleId} title={t("title")} />
       <ul className="flex flex-col gap-2 border-t border-line px-4 py-3">
         {days.map((d) => {
+          // 화면에는 정수 %로 반올림해 보이고, 수준(40 · 70)은 받은 값 그대로 판정한다(69.6 → 「70%」 · 보통)
           const pct = Math.round(d.rate);
-          const level = crowdLevel(pct);
+          const level = crowdLevel(d.rate);
           const [y, m, day] = d.date.split("-").map(Number);
           return (
             <li
