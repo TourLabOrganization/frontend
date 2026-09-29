@@ -3,7 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { Button, ButtonLink } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/Button";
 import { SearchField } from "@/components/ui/SearchField";
 import { cityName } from "@/features/planner/regions";
 import { decodeAnswers } from "@/features/recommend/answers";
@@ -31,10 +31,6 @@ const TOUR_INDEX = new Map(TOURS.map((tour, i) => [tour, i]));
 const COUNTS = regionCounts(TOURS);
 /** 처음 고른 지역(목업과 같다) */
 const DEFAULT_REGION = "서울";
-/** 목록에 처음 보이는 수. 나머지는 「더 보기」로 */
-const INITIAL_ROWS = 3;
-/** 「더 보기」 한 번에 더 보이는 수 */
-const PAGE_SIZE = 10;
 
 type Mode = "rec" | "region";
 
@@ -77,9 +73,6 @@ export function CityTourSection({
   const mode: Mode = chosenMode ?? (rec.length > 0 ? "rec" : "region");
   const [region, setRegion] = useState(DEFAULT_REGION);
   const [query, setQuery] = useState("");
-  const [shown, setShown] = useState(INITIAL_ROWS);
-  const [focusIndex, setFocusIndex] = useState<number | null>(null);
-  const listRef = useRef<HTMLUListElement>(null);
   const chipsRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -100,8 +93,6 @@ export function CityTourSection({
   );
   const list =
     mode === "rec" ? rec : TOURS.filter((tour) => tour.region === region);
-  const visible = list.slice(0, shown);
-  const remaining = list.length - visible.length;
 
   // 처음 고른 지역(서울)이 칩 상자 안에 보이게 상자만 스크롤한다(화면은 움직이지 않는다)
   useEffect(() => {
@@ -110,22 +101,11 @@ export function CityTourSection({
     if (box && chip) box.scrollTop = chip.offsetTop - box.offsetTop - 8;
   }, [mode]);
 
-  useEffect(() => {
-    if (focusIndex === null) return;
-    listRef.current
-      ?.querySelectorAll<HTMLElement>("[data-card]")
-      [focusIndex]?.focus();
-  }, [focusIndex]);
-
   const changeMode = (next: Mode) => {
     setChosenMode(next);
-    setShown(INITIAL_ROWS);
-    setFocusIndex(null);
   };
   const pickRegion = (r: string) => {
     setRegion(r);
-    setShown(INITIAL_ROWS);
-    setFocusIndex(null);
   };
 
   const modes: { key: Mode; label: string }[] = [
@@ -272,7 +252,7 @@ export function CityTourSection({
             </div>
           ))}
 
-        {/* 내 유형 추천(5곳)은 칸 하나 안에서 스크롤해 모두 본다. 지역별 검색은 「더 보기」로 늘린다 */}
+        {/* 내 유형 추천 · 지역별 검색 모두 칸 하나 안에서 스크롤해 모두 본다 */}
         {mode === "rec" && type && rec.length > 0 && (
           <CityTourScroll
             label={t("recHeading", {
@@ -299,37 +279,30 @@ export function CityTourSection({
           </CityTourScroll>
         )}
 
+        {/* 지역을 바꾸면 칸을 새로 만들어 맨 위부터 보인다 */}
         {mode === "region" && list.length > 0 && (
-          <ul ref={listRef} className="mt-3 flex flex-col gap-3">
-            {visible.map((tour, i) => {
-              const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
-              return (
-                <CityTourCard
-                  key={`${tour.region}|${tour.name}|${i}`}
-                  tour={tour}
-                  text={text}
-                  onAdd={() => onAdd(tour, text?.name)}
-                />
-              );
+          <CityTourScroll
+            key={region}
+            label={t("regionHeading", {
+              region: cityName(region, locale, names),
+              count: list.length,
             })}
-          </ul>
-        )}
-
-        {mode === "region" && remaining > 0 && (
-          <Button
-            variant="secondary"
-            size="md"
-            block
-            className="mt-3"
-            onClick={() => {
-              setFocusIndex(visible.length);
-              setShown((n) => n + PAGE_SIZE);
-            }}
+            count={list.length}
           >
-            <span className="tabular-nums">
-              {t("more", { count: remaining })}
-            </span>
-          </Button>
+            <ul className="flex flex-col gap-3">
+              {list.map((tour, i) => {
+                const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
+                return (
+                  <CityTourCard
+                    key={`${tour.region}|${tour.name}|${i}`}
+                    tour={tour}
+                    text={text}
+                    onAdd={() => onAdd(tour, text?.name)}
+                  />
+                );
+              })}
+            </ul>
+          </CityTourScroll>
         )}
       </div>
       <p className="mt-4 text-micro text-fg-subtle">{t("dataNote")}</p>

@@ -245,7 +245,6 @@
       "add": "Add to course builder",
       "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
       "addDisabled": "None of the stops match places in the app, so this tour can't be added",
-      "more": "Show more ({count} left)",
       "scrollHint": "{count} tours · scroll inside the box to see them all",
       "date": "As of {date}",
       "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
