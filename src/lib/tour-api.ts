@@ -11,6 +11,7 @@ import {
 import { isKtoId, type KtoPlace, ktoId } from "../features/planner/kto-place";
 import signguData from "../features/planner/data/signgu.json";
 import { type AppLocale, locales } from "../i18n/locales";
+import { romanize } from "./romanize";
 import { TOUR_TIMEOUT_MS } from "./tour";
 
 /** 한국관광공사(B551011) 공공데이터포털 API 주소 */
@@ -263,7 +264,9 @@ export function toKtoPlace(
     id,
     n: null,
     ko,
-    en: "",
+    // 영문 관광정보에서 찾으면 바꾼다(withForeignNames)
+    en: romanize(ko),
+    enByApp: true,
     locKo: city.locKo,
     pickCity: city.locKo,
     macro: city.macro,
@@ -299,7 +302,112 @@ export async function fetchKtoPlace(
     }),
     KTO_PLACE_SECONDS,
   );
-  return items.length > 0 ? toKtoPlace(items[0]) : null;
+  const place = items.length > 0 ? toKtoPlace(items[0]) : null;
+  return place
+    ? withForeignNames(place, String(items[0].contenttypeid ?? ""), key)
+    : null;
+}
+
+/** 한국관광공사 다국어 관광정보 서비스(언어 → 서비스 이름) */
+export const KTO_LANG_SERVICES = {
+  en: "EngService2",
+  zh: "ChsService2",
+  ja: "JpnService2",
+  es: "SpnService2",
+} as const;
+type KtoLang = keyof typeof KTO_LANG_SERVICES;
+
+/** 국문 콘텐츠 타입 → 다국어 서비스 콘텐츠 타입(관광지 76 · 문화시설 78 · 축제 85 · 레포츠 75 · 숙박 80 · 쇼핑 79 · 음식 82) */
+const FOREIGN_TYPE: Readonly<Record<string, string>> = {
+  "12": "76",
+  "14": "78",
+  "15": "85",
+  "28": "75",
+  "32": "80",
+  "38": "79",
+  "39": "82",
+};
+/** 같은 곳으로 볼 다국어 관광지와의 거리(m). 같은 원천이라 좌표가 거의 같다 */
+export const FOREIGN_SAME_M = 50;
+
+/**
+ * 다국어 서비스의 위치 기반 목록에서 신규 관광지와 같은 곳의 이름: 좌표 50m 안, 콘텐츠 타입이 같으면(아는 타입일 때) 가장 가까운 곳.
+ * 한글이 섞인 이름 · 빈 이름은 쓰지 않는다. 없으면 null
+ */
+export function pickForeignName(
+  items: readonly TourItem[],
+  place: Pick<TourPlace, "lat" | "lng">,
+  contenttypeid: string,
+): string | null {
+  const type = FOREIGN_TYPE[contenttypeid];
+  let best: string | null = null;
+  let min = Infinity;
+  for (const x of items) {
+    const title = String(x.title ?? "").trim();
+    if (!title || /[ㄱ-ㆎ가-힣]/.test(title)) continue;
+    if (type && String(x.contenttypeid ?? "") !== type) continue;
+    const lat = Number(x.mapy);
+    const lng = Number(x.mapx);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+    const r = Math.PI / 180;
+    const d =
+      2 *
+      6371000 *
+      Math.asin(
+        Math.sqrt(
+          Math.sin(((lat - place.lat) * r) / 2) ** 2 +
+            Math.cos(place.lat * r) *
+              Math.cos(lat * r) *
+              Math.sin(((lng - place.lng) * r) / 2) ** 2,
+        ),
+      );
+    if (d <= FOREIGN_SAME_M && d < min) {
+      min = d;
+      best = title;
+    }
+  }
+  return best;
+}
+
+/**
+ * 신규 관광지에 외국어 이름을 붙인다: 영 · 중 · 일 · 스페인어 관광정보의 위치 기반 목록(locationBasedList2, 반경 200m)에서 같은 곳을 찾는다.
+ * 한 언어가 실패하거나 못 찾으면 그 언어만 건너뛴다(영어는 로마자 이름이 남고, 중 · 일 · 스페인어는 화면이 영어 이름을 쓴다)
+ */
+export async function withForeignNames(
+  place: TourPlace,
+  contenttypeid: string,
+  key: string,
+): Promise<TourPlace> {
+  const langs = Object.keys(KTO_LANG_SERVICES) as KtoLang[];
+  const found = await Promise.allSettled(
+    langs.map(async (lang) => {
+      const items = await fetchTourItems(
+        tourApiUrl(`${KTO_LANG_SERVICES[lang]}/locationBasedList2`, key, {
+          numOfRows: "20",
+          pageNo: "1",
+          arrange: "E",
+          mapX: String(place.lng),
+          mapY: String(place.lat),
+          radius: "200",
+        }),
+        KTO_PLACE_SECONDS,
+      );
+      return pickForeignName(items, place, contenttypeid);
+    }),
+  );
+  const out: TourPlace = { ...place };
+  const names: NonNullable<TourPlace["names"]> = {};
+  langs.forEach((lang, i) => {
+    const r = found[i];
+    const name = r.status === "fulfilled" ? r.value : null;
+    if (!name) return;
+    if (lang === "en") {
+      out.en = name;
+      delete out.enByApp;
+    } else names[lang] = name;
+  });
+  if (Object.keys(names).length > 0) out.names = names;
+  return out;
 }
 
 /** 앱 장소 또는 신규 관광지(kto:). 모르는 id · 키 없음 · 외부 실패면 null */

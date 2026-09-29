@@ -5,11 +5,14 @@ import {
 } from "../features/planner/extra-places";
 import { isKtoId, ktoId } from "../features/planner/kto-place";
 import {
+  FOREIGN_SAME_M,
   ktoCategory,
   ktoCity,
   parseTourQuery,
+  pickForeignName,
   resolveTourPlace,
   toKtoPlace,
+  withForeignNames,
 } from "./tour-api";
 import { tourPhotoResponse } from "./tour-photo";
 import { ktoDetail, tourSpotResponse } from "./tour-spot";
@@ -97,7 +100,9 @@ describe("toKtoPlace", () => {
     expect(p).toMatchObject({
       id: "kto:126508",
       ko: "무릉숲길",
-      en: "",
+      // 영문 관광정보에서 못 찾으면 로마자
+      en: "Mureungsupgil",
+      enByApp: true,
       locKo: "경주",
       pickCity: "경주",
       macro: "daegyeong",
@@ -197,8 +202,17 @@ describe("장소 시트 필드(ktoDetail)", () => {
       img: "https://tong.visitkorea.or.kr/cms/a.jpg",
       view: { desc: "숲길\n산책로", appTranslated: false },
     });
-    const en = ktoDetail(place, "en");
-    expect(en.view).toEqual({ appTranslated: false });
+    // 로마자 이름이면 앱 번역 안내, 그 언어 공식 이름이 있으면 없다
+    expect(ktoDetail(place, "en").view).toEqual({ appTranslated: true });
+    expect(
+      ktoDetail({ ...place, names: { ja: "ムルン森の道" } }, "ja").view,
+    ).toEqual({ appTranslated: false });
+    expect(
+      ktoDetail(
+        { ...place, en: "Mureung Forest Trail", enByApp: undefined },
+        "zh",
+      ).view,
+    ).toEqual({ appTranslated: false });
   });
 });
 
@@ -213,8 +227,11 @@ describe("대표 사진", () => {
       src: "https://tong.visitkorea.or.kr/cms/a.jpg",
       source: "kto",
     });
-    // 공통정보 한 번만(검색 · 위키백과를 부르지 않는다)
-    expect(fn).toHaveBeenCalledTimes(1);
+    // 사진 검색 · 관광사진 · 위키백과를 부르지 않는다(공통정보 · 다국어 이름만)
+    const paths = fn.mock.calls.map((c) => new URL(c[0]).pathname);
+    expect(
+      paths.filter((p) => /searchKeyword2|gallery|wikipedia/.test(p)),
+    ).toEqual([]);
   });
 });
 
@@ -244,5 +261,57 @@ describe("브라우저가 기억한 신규 관광지", () => {
     expect(extraInScope(list, { kind: "nation", region: null })).toHaveLength(
       1,
     );
+  });
+});
+
+describe("신규 관광지 외국어 이름", () => {
+  const place = toKtoPlace(common)!;
+  const near = (title: string, dLat = 0, type = "76") => ({
+    title,
+    contenttypeid: type,
+    mapy: String(35.95 + dLat),
+    mapx: "129.05",
+  });
+
+  it("pickForeignName: 50m 안 · 같은 타입 · 가장 가까운 곳, 한글 이름은 뺀다", () => {
+    expect(FOREIGN_SAME_M).toBe(50);
+    // 0.0003도 ≈ 33m, 0.001도 ≈ 111m
+    expect(
+      pickForeignName(
+        [near("Far", 0.001), near("Near", 0.0003), near("Nearest", 0.0001)],
+        place,
+        "12",
+      ),
+    ).toBe("Nearest");
+    expect(pickForeignName([near("Museum", 0, "78")], place, "12")).toBeNull();
+    expect(pickForeignName([near("무릉숲길")], place, "12")).toBeNull();
+    // 모르는 타입이면 타입을 보지 않는다
+    expect(pickForeignName([near("Any", 0, "78")], place, "")).toBe("Any");
+  });
+
+  it("withForeignNames: 언어마다 다국어 관광정보에서 찾고, 실패한 언어만 건너뛴다", async () => {
+    const byService: Record<string, unknown[] | "fail"> = {
+      EngService2: [near("Mureung Forest Trail")],
+      ChsService2: [near("武陵林道")],
+      JpnService2: "fail",
+      SpnService2: [],
+    };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        const service = url.pathname.split("/").at(-2) ?? "";
+        const v = byService[service];
+        expect(url.searchParams.get("mapX")).toBe("129.05");
+        expect(url.searchParams.get("radius")).toBe("200");
+        if (v === "fail" || v === undefined)
+          return new Response("x", { status: 500 });
+        return tourBody(v);
+      }),
+    );
+    const out = await withForeignNames(place, "12", "KEY");
+    expect(out.en).toBe("Mureung Forest Trail");
+    expect(out.enByApp).toBeUndefined();
+    expect(out.names).toEqual({ zh: "武陵林道" });
   });
 });
