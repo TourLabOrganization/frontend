@@ -1313,7 +1313,14 @@
     }
   },
   "Header": {
-    "search": "Buscar lugares (planificador)"
+    "displayMode": {
+      "button": "Modo de visualización, ahora {mode}",
+      "listLabel": "Modo de visualización",
+      "modes": {
+        "light": "Predeterminado",
+        "dark": "Negro"
+      }
+    }
   },
   "Notifications": {
     "button": "Notificaciones",

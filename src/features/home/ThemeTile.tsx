@@ -57,7 +57,7 @@ export function ThemeTile({
         ) : (
           <div
             aria-hidden
-            className="flex h-full flex-col items-center justify-center gap-2 bg-fg px-2 text-center text-white"
+            className="flex h-full flex-col items-center justify-center gap-2 bg-ink px-2 text-center text-white"
           >
             <Icon size={24} className="text-primary-bright" />
             <span className="text-label font-bold">{name}</span>

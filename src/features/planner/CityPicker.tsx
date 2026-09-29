@@ -81,7 +81,7 @@ export function CityPicker({ city, selected, tab }: CityPickerProps) {
           if (e.target === e.currentTarget) close();
         }}
         // 창 자체는 스크롤하지 않고(스크롤 막대가 두 개 생기지 않게) 아래 도시 목록 칸만 스크롤한다
-        className="inset-x-0 mx-auto mt-auto mb-0 h-[80dvh] max-h-[80dvh] w-full max-w-[480px] overflow-hidden rounded-t-card bg-surface p-0 text-fg backdrop:bg-fg/40"
+        className="inset-x-0 mx-auto mt-auto mb-0 h-[80dvh] max-h-[80dvh] w-full max-w-[480px] overflow-hidden rounded-t-card bg-surface p-0 text-fg backdrop:bg-ink/40"
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between pt-3 pr-3 pl-5">

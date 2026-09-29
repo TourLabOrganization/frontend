@@ -139,7 +139,7 @@ export function PlaceSheet({
       onClick={(e) => {
         if (e.target === e.currentTarget) e.currentTarget.close();
       }}
-      className="inset-x-0 mx-auto mt-auto mb-0 max-h-[88dvh] w-full max-w-[480px] overflow-y-auto rounded-t-card bg-surface p-0 text-fg backdrop:bg-fg/40"
+      className="inset-x-0 mx-auto mt-auto mb-0 max-h-[88dvh] w-full max-w-[480px] overflow-y-auto rounded-t-card bg-surface p-0 text-fg backdrop:bg-ink/40"
     >
       {place && (
         <div className="px-5 pt-3 pb-[max(1.5rem,env(safe-area-inset-bottom))]">

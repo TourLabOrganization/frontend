@@ -234,7 +234,7 @@ function VideoMedia({
     const params = new URLSearchParams({ autoplay: "1" });
     if (card.start) params.set("start", String(card.start));
     return (
-      <div className="aspect-video bg-fg">
+      <div className="aspect-video bg-ink">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${card.id}?${params.toString()}`}
           title={t("videoTitle", { title: name })}
@@ -260,7 +260,7 @@ function VideoMedia({
         className="object-cover"
       />
       <span className="absolute inset-0 flex items-center justify-center">
-        <span className="flex size-14 items-center justify-center rounded-full bg-fg/70 text-white transition-transform duration-150 group-active:scale-95 motion-reduce:transition-none">
+        <span className="flex size-14 items-center justify-center rounded-full bg-ink/70 text-white transition-transform duration-150 group-active:scale-95 motion-reduce:transition-none">
           <Play size={24} className="translate-x-0.5" aria-hidden />
         </span>
       </span>

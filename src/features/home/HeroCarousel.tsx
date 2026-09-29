@@ -96,7 +96,7 @@ export function HeroCarousel() {
     <section
       aria-roledescription="carousel"
       aria-label={t("carouselLabel")}
-      className="relative h-[22rem] touch-pan-y overflow-hidden bg-fg text-white select-none"
+      className="relative h-[22rem] touch-pan-y overflow-hidden bg-ink text-white select-none"
       onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
       onPointerLeave={(e) => {
         if (e.pointerType === "mouse") setHovered(false);
@@ -152,19 +152,19 @@ export function HeroCarousel() {
                 />
                 <div
                   aria-hidden
-                  className="absolute inset-0 bg-gradient-to-b from-fg/80 via-fg/20 to-fg/70"
+                  className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/20 to-ink/70"
                 />
                 {/* 아래 조작(번호 · 멈춤 · 점 줄) 뒤를 더 진하게 덮는다. 영상 아래쪽에 박힌 자막이 점 줄 아래로 비치지 않게 */}
                 <div
                   aria-hidden
-                  className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-fg from-25% via-fg/75 via-60% to-fg/0"
+                  className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ink from-25% via-ink/75 via-60% to-ink/0"
                 />
                 <Link
                   href={`/themes/${slug}`}
                   draggable={false}
                   className="absolute inset-0 block px-14 pt-5 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
                 >
-                  <span className="inline-block bg-white px-2 py-1 text-micro font-bold tracking-[0.14em] text-fg">
+                  <span className="inline-block bg-white px-2 py-1 text-micro font-bold tracking-[0.14em] text-ink">
                     {t(`banners.${slug}.kicker`)}
                   </span>
                   <span className="mt-3 block text-title font-bold">
@@ -197,7 +197,7 @@ export function HeroCarousel() {
           type="button"
           onClick={() => go(index + step)}
           aria-label={t(key === "prev" ? "prevSlide" : "nextSlide")}
-          className={`absolute top-1/2 ${side} flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-fg/45 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-white active:bg-fg/70 motion-reduce:transition-none`}
+          className={`absolute top-1/2 ${side} flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-ink/45 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-white active:bg-ink/70 motion-reduce:transition-none`}
         >
           <Icon size={24} aria-hidden />
         </button>

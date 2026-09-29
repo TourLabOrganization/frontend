@@ -26,3 +26,18 @@ export const REGION_LABELS: Readonly<
   dongnam: { lat: 35.3, lng: 127.9, anchor: 0 },
   jeju: { lat: 33.38, lng: 126.55, anchor: 0.5 },
 };
+
+/**
+ * 권역 이름표 자리(화면 언어별). 한국어 · 중국어 · 일본어는 권역 이름이 짧아(수도권 · 首都圏) 수도권 · 강원권을
+ * 예전처럼 장소 좌표 평균(center) 가운데에 둔다(대표 요청 2026-09-29). 나머지 권역과 영어 · 스페인어는 REGION_LABELS
+ */
+export function regionLabel(
+  key: RegionKey,
+  locale: string,
+  center: { lat: number; lng: number },
+): { lat: number; lng: number; anchor: 0 | 0.5 | 1 } {
+  const short = locale === "ko" || locale === "zh" || locale === "ja";
+  if (short && (key === "capital" || key === "gangwon"))
+    return { lat: center.lat, lng: center.lng, anchor: 0.5 };
+  return REGION_LABELS[key];
+}

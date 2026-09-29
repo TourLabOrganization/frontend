@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { REGION_CENTER } from "./data";
-import { REGION_LABELS, REGION_SHAPES, type Ring } from "./region-shapes";
+import {
+  REGION_LABELS,
+  REGION_SHAPES,
+  regionLabel,
+  type Ring,
+} from "./region-shapes";
 import { REGION_KEYS } from "./regions";
 
 /** 점이 고리 안에 있는지(짝홀 규칙) */
@@ -56,6 +61,22 @@ describe("권역 면 (region-shapes.json)", () => {
       expect(REGION_LABELS[east].anchor).toBe(0);
       expect(REGION_LABELS[west].lng).toBeLessThan(REGION_LABELS[east].lng);
     }
+  });
+
+  it("한국어 · 중국어 · 일본어는 수도권 · 강원권 이름표를 장소 좌표 평균 가운데에(예전 자리), 영어 · 스페인어는 펼친다", () => {
+    for (const locale of ["ko", "zh", "ja"])
+      for (const key of ["capital", "gangwon"] as const)
+        expect(regionLabel(key, locale, REGION_CENTER[key])).toEqual({
+          ...REGION_CENTER[key],
+          anchor: 0.5,
+        });
+    for (const locale of ["en", "es"])
+      expect(regionLabel("capital", locale, REGION_CENTER.capital)).toBe(
+        REGION_LABELS.capital,
+      );
+    expect(regionLabel("honam", "ko", REGION_CENTER.honam)).toBe(
+      REGION_LABELS.honam,
+    );
   });
 
   it("울릉도는 경북권 면에 들어 있다", () => {
