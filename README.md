@@ -43,8 +43,8 @@
 
 ## 들어 있지 않은 것
 
-로그인 화면, 외부 API Route Handler(지금 Route Handler는 플래너 장소 시트의 설명 · 사진을 돌려주는 `/api/planner/places/[id]` 하나다).
-필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
+로그인 화면. 필요해질 때 추가한다. 라이브러리는 `docs/stack.md`의 표에서 고른다.
+Route Handler는 플래너 장소 시트의 설명 · 사진(`/api/planner/places/[id]`), 날씨(`/api/weather`), 한국관광공사 칸(`/api/tour/*` — 오디오 가이드 · 함께 많이 가는 관광지 · 방문 집중률)이 있다(`docs/api.md`).
 
 홈(`/` — 첫 방문 로고 시작 화면, 배너, 나의 테마, 추천 코스, 하단 탭), 테마 추천(`/recommend`),
 테마 화면(`/themes/[themeId]` — 하단 탭 지도 · 코스 3안 · 영화 속 장면 · 스탬프 · 여행 정보, 카카오 지도), ME(`/me` — 추천받은 나의 테마, 저장된 플랜)는 있다.
