@@ -18,7 +18,7 @@ import {
 //   crowd-bulguksa  tAtsNm=불국사 areaCd=47 signguCd=47130 → 「경주 불국사 [유네스코 세계유산]」 30일(2026-09-29 ~ 10-28), 집중률은 소수 글자
 //   crowd-donggung  tAtsNm=동궁과 → 「경주 동궁과 월지」 30일(「동궁과 월지」로 찾아도 같은 30일)
 //   crowd-jeonjuhan tAtsNm=전주한 → 「전주한벽문화관」(30일 중 3일만 남겼다), crowd-hanok tAtsNm=한옥마을 → 「전북 전주 한옥마을 [슬로시티]」 30일
-//   empty           결과 없음(집중률 「효우당」 · 「전주한옥마을」)
+//   empty           결과 없음(집중률 「효우당」 · 「전주한옥마을」 · 「정동심곡 바다부채길」 · 「정동심」 · 「정동심곡바다부채길」)
 const items = (body: unknown) => parseTourItems(body) ?? [];
 
 describe("이름 점수 (PoC getCrowd score)", () => {
@@ -127,6 +127,16 @@ describe("집중률 찾기 (PoC getCrowd)", () => {
     ]);
     expect(crowd?.name).toBe("전북 전주 한옥마을 [슬로시티]");
     expect(crowd?.days).toHaveLength(30);
+  });
+
+  it("이름에 공백이 있으면 마지막에 공백을 뺀 이름으로 (정동심곡 바다부채길: 셋 다 실제 0건)", async () => {
+    const asked = stubCrowd({});
+    expect(await findCrowd(tourPlace("nax739")!, "KEY", now)).toBeNull();
+    expect(asked.map((u) => u.searchParams.get("tAtsNm"))).toEqual([
+      "정동심곡 바다부채길",
+      "정동심",
+      "정동심곡바다부채길",
+    ]);
   });
 
   it("집중률이 없는 장소는 null (효우당: 실제 0건)", async () => {

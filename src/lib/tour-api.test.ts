@@ -6,7 +6,12 @@ import signgu from "../features/planner/data/signgu.json";
 import emptyRes from "./fixtures/tour/empty.json";
 import invalidKey from "./fixtures/tour/invalid-key.json";
 import odiiKo from "./fixtures/tour/odii-ko-bulguksa.json";
-import { parseTourItems, tourApiUrl, withoutCity } from "./tour-api";
+import {
+  parseTourItems,
+  tourApiUrl,
+  withoutCity,
+  withoutSpaces,
+} from "./tour-api";
 
 // 공공데이터포털 실제 응답(2026-09-29 받음, fixtures/tour). 저장 전에 키를 지웠다
 describe("공공데이터포털 응답 파싱 (parseTourItems)", () => {
@@ -71,6 +76,24 @@ describe("앞의 도시 이름을 뗀 검색어 (withoutCity)", () => {
     expect(withoutCity("불국사", "경주")).toBeNull();
     expect(withoutCity("정동심곡 바다부채길", "강릉")).toBeNull();
     expect(withoutCity("경주역", "경주")).toBeNull();
+  });
+});
+
+describe("공백을 뺀 검색어 (withoutSpaces)", () => {
+  it("이름에 공백이 있을 때만 공백을 뺀 이름, 도시 이름을 뗀 이름에도 공백이 있으면 그것도", () => {
+    expect(withoutSpaces("정동심곡 바다부채길", "강릉")).toEqual([
+      "정동심곡바다부채길",
+    ]);
+    expect(withoutSpaces("경주 양남 주상절리", "경주")).toEqual([
+      "경주양남주상절리",
+      "양남주상절리",
+    ]);
+    // 도시 이름을 뗀 이름(「통일전망대」)에 공백이 없으면 전체 이름의 것 하나
+    expect(withoutSpaces("고성 통일전망대", "고성(강원)")).toEqual([
+      "고성통일전망대",
+    ]);
+    expect(withoutSpaces("전주한옥마을", "전주")).toEqual([]);
+    expect(withoutSpaces("불국사", "경주")).toEqual([]);
   });
 });
 

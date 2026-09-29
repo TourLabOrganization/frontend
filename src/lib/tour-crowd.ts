@@ -1,6 +1,6 @@
 // 장소 시트 「방문 집중률 예측」 칸 (GET /api/tour/crowd?id=, 서버 전용).
 // 한국관광공사 관광지 집중률 방문자 추이 예측(TatsCnctrRateService tatsCnctrRatedList). PoC Tour Planner.dc.html getCrowd와 같은 규칙:
-//   관광지 이름(tAtsNm) 부분일치로 찾고, 못 찾으면 이름이 3글자보다 길 때 정규화한 앞 3글자, 그다음 앞의 도시 이름을 뗀 이름으로 다시 찾는다.
+//   관광지 이름(tAtsNm) 부분일치로 찾고, 못 찾으면 이름이 3글자보다 길 때 정규화한 앞 3글자, 그다음 앞의 도시 이름을 뗀 이름, 공백을 뺀 이름으로 다시 찾는다.
 //   결과를 tAtsNm으로 묶어 이름 점수(같은 이름 3 · 한쪽이 다른 쪽을 품음 2)가 가장 높은 한 곳, 점수 0이면 없음. 날짜(baseYmd) → 집중률(cnctrRate)
 // 수준(여유 · 보통 · 혼잡)은 화면이 정한다(lib/tour.ts crowdLevel)
 import { TOUR_CROWD_SECONDS, type TourCrowd, type TourCrowdDay } from "./tour";
@@ -15,6 +15,7 @@ import {
   type TourPlace,
   tourUnavailable,
   withoutCity,
+  withoutSpaces,
 } from "./tour-api";
 import { seoulDate } from "./weather";
 
@@ -98,13 +99,14 @@ export async function findCrowd(
       }),
       TOUR_CROWD_SECONDS,
     );
-  // 검색어 후보: 이름 → (3글자보다 길면) 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름. 앞 후보에서 한 곳을 고르면 멈춘다
+  // 검색어 후보: 이름 → (3글자보다 길면) 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름 → 공백을 뺀 이름. 앞 후보에서 한 곳을 고르면 멈춘다
   const names = [
     ...new Set(
       [
         keyword,
         keyword.length > 3 ? me.slice(0, 3) : "",
         withoutCity(keyword, place.locKo) ?? "",
+        ...withoutSpaces(keyword, place.locKo),
       ].filter((n) => n.length >= 2),
     ),
   ];

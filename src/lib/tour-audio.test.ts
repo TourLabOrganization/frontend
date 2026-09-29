@@ -3,6 +3,7 @@ import plannerPlaces from "../features/planner/data/places.json";
 import stories from "../features/planner/data/stories.json";
 import emptyRes from "./fixtures/tour/empty.json";
 import invalidKey from "./fixtures/tour/invalid-key.json";
+import odiiEnBadabuchae from "./fixtures/tour/odii-en-badabuchae.json";
 import odiiEnBulguksa from "./fixtures/tour/odii-en-bulguksa.json";
 import odiiEnCheomseongdae from "./fixtures/tour/odii-en-cheomseongdae.json";
 import odiiJpChangdeokgung from "./fixtures/tour/odii-jp-changdeokgung.json";
@@ -12,6 +13,7 @@ import odiiEnNearWindyhill from "./fixtures/tour/odii-en-near-windyhill.json";
 import odiiJpBulguksa from "./fixtures/tour/odii-jp-bulguksa.json";
 import odiiJpNearHwangnidan from "./fixtures/tour/odii-jp-near-hwangnidan.json";
 import odiiJpNearWindyhill from "./fixtures/tour/odii-jp-near-windyhill.json";
+import odiiKoBadabuchae from "./fixtures/tour/odii-ko-badabuchae.json";
 import odiiKoBulguksa from "./fixtures/tour/odii-ko-bulguksa.json";
 import odiiKoCheomseongdae from "./fixtures/tour/odii-ko-cheomseongdae.json";
 import odiiKoHanok from "./fixtures/tour/odii-ko-hanok.json";
@@ -50,13 +52,15 @@ import {
 //   invalid-key           등록되지 않은 키(HTTP 403, OpenAPI_ServiceResponse)
 // 외국어 화면의 관광지 번호(tid) 잇기에 쓰는 실제 응답:
 //   odii-ko-hwangnidan · odii-ko-windyhill · odii-ko-cheomseongdae  한국어 해설 검색(tid 1312 · 1139와 2880 · 338 · 2967 · 3415)
-//   odii-theme-{en,jp}-p{1,2}  관광지 목록 themeBasedList 1,000개씩 두 쪽(en 1,356 · jp 1,134곳 중 tid 2 · 617 · 1312 · 2880 등만 남겼다)
+//   odii-theme-{en,jp}-p{1,2}  관광지 목록 themeBasedList 1,000개씩 두 쪽(en 1,356 · jp 1,134곳 중 tid 2 · 562 · 617 · 1312 · 2880 등만 남겼다)
 //   odii-theme-search-ko-hwangnidan  themeSearchList ko 「황리단길」 → tid 1312
 //   odii-jp-bulguksa  jp 「仏国寺」(14건 중 10건). en 「Bulguksa Temple」 응답은 「Bulguksa」와 똑같아 odii-en-bulguksa를 쓴다
 //   odii-en-gyeongnam  en 「Gyeongsangnam-do」 → tid 617(산청)뿐
 //   odii-{en,jp}-near-{hwangnidan,windyhill}  storyLocationBasedList 반경 1km(황리단길은 앞 4건만 남겼다)
 //   en 「Hwanglidan-gil」 · jp 「ファンリダンギル」 · jp 「慶尚南道(キョンサンナムド)」 이야기 검색은 0건(empty)
 //   odii-ko-jeonju-full  ko 「전주한옥마을」 1건(좌표가 약 37km 남쪽이라 ±0.12도 밖), odii-ko-hanok  ko 「한옥마을」 13건 중 10건
+//   odii-ko-badabuchae  ko 「정동심곡바다부채길」 2건(tid 562, 음성 파일 없이 대본만). 「정동심곡 바다부채길」(공백)로 찾으면 0건(empty)
+//   odii-en-badabuchae  en 「Jeongdong-simgok Badabuchae-gil Trail」 1건(tid 562, 음성 파일 없이 대본만)
 const items = (body: unknown) => parseTourItems(body) ?? [];
 const place = (id: string) => tourPlace(id)!;
 const at = (id: string, name: string) => ({
@@ -356,6 +360,7 @@ describe("GET /api/tour/audio", () => {
     "story ko|첨성대": odiiKoCheomseongdae,
     "story ko|전주한옥마을": odiiKoJeonjuFull,
     "story ko|한옥마을": odiiKoHanok,
+    "story ko|정동심곡바다부채길": odiiKoBadabuchae,
     "theme en|1": themeEnP1,
     "theme en|2": themeEnP2,
     "theme jp|1": themeJpP1,
@@ -363,6 +368,7 @@ describe("GET /api/tour/audio", () => {
     "story en|Bulguksa Temple": odiiEnBulguksa,
     "story jp|仏国寺": odiiJpBulguksa,
     "story en|Gyeongsangnam-do": odiiEnGyeongnam,
+    "story en|Jeongdong-simgok Badabuchae-gil Trail": odiiEnBadabuchae,
     "near en|129.20971,35.837533": odiiEnNearHwangnidan,
     "near jp|129.20971,35.837533": odiiJpNearHwangnidan,
     "near en|128.663143,34.744742": odiiEnNearWindyhill,
@@ -422,6 +428,41 @@ describe("GET /api/tour/audio", () => {
       source: "odii",
     });
     expect(asked).toEqual(["story ko|전주한옥마을", "story ko|한옥마을"]);
+  });
+
+  it("한국어 해설은 공백을 뺀 이름으로도 찾는다 (정동심곡 바다부채길 → 「정동심곡바다부채길」, 음성 파일이 없어 대본만)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    const asked = stubOdii(REAL);
+    const body = await (await call("id=nax739&locale=ko")).json();
+    expect(body).toEqual({
+      title: "파도 소리 들으며 해안 절경을 걷는다",
+      script: expect.stringContaining("정동심곡바다부채길"),
+      source: "odii",
+    });
+    // 도시 이름(강릉)으로 시작하지 않아 도시 이름을 뗀 이름은 없다
+    expect(asked).toEqual([
+      "story ko|정동심곡 바다부채길",
+      "story ko|정동심곡바다부채길",
+    ]);
+  });
+
+  it("외국어 화면도 그 한국어 해설의 tid(562)로 잇는다 → en 관광지 「Jeongdong-simgok Badabuchae-gil Trail」", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    const asked = stubOdii(REAL);
+    const body = await (await call("id=nax739&locale=en")).json();
+    expect(body).toMatchObject({
+      title: "Stroll along this beautiful beach as the waves roll in",
+      source: "odii",
+    });
+    expect(hasHangul(JSON.stringify(body))).toBe(false);
+    expect(asked).toEqual([
+      "story ko|정동심곡 바다부채길",
+      "story ko|정동심곡바다부채길",
+      "theme en|1",
+      "theme en|2",
+      "story en|Jeongdong-simgok Badabuchae-gil Trail",
+    ]);
   });
 
   it("영어 · 중국어 · 스페인어 화면: 한국어 해설의 tid(2) → en 관광지 「Bulguksa Temple」 → 같은 tid 대표 해설(음성 먼저)", async () => {

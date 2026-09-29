@@ -58,24 +58,37 @@ describe("이름 점수 · 검색어 · 기준월 (PoC score · kws · 기준월
       "경주 교촌마을",
       "경주",
       "경주교",
+      // 이름에 공백이 있으면 끝에 공백을 뺀 이름
+      "경주교촌마을",
     ]);
     expect(relatedKeywords("불국사")).toEqual(["불국사"]);
   });
 
-  it("검색어 후보 마지막에 앞의 도시 이름(locKo)을 뗀 이름", () => {
+  it("그 뒤에 앞의 도시 이름(locKo)을 뗀 이름", () => {
     expect(relatedKeywords("전주한옥마을", "전주")).toEqual([
       "전주한옥마을",
       "전주한",
       "한옥마을",
+    ]);
+    // 도시 이름으로 시작하지 않으면 그대로
+    expect(relatedKeywords("불국사", "경주")).toEqual(["불국사"]);
+  });
+
+  it("마지막에 공백을 뺀 이름: 이름에 공백이 있을 때만, 도시 이름을 뗀 이름에도 공백이 있으면 그것도", () => {
+    expect(relatedKeywords("정동심곡 바다부채길", "강릉")).toEqual([
+      "정동심곡 바다부채길",
+      "정동심곡",
+      "정동심",
+      "정동심곡바다부채길",
     ]);
     expect(relatedKeywords("경주 양남 주상절리", "경주")).toEqual([
       "경주 양남 주상절리",
       "경주",
       "경주양",
       "양남 주상절리",
+      "경주양남주상절리",
+      "양남주상절리",
     ]);
-    // 도시 이름으로 시작하지 않으면 그대로
-    expect(relatedKeywords("불국사", "경주")).toEqual(["불국사"]);
   });
 
   it("기준월: 한국 날짜 기준 2 · 3 · 4개월 전", () => {
@@ -455,6 +468,21 @@ describe("연관 관광지 찾기 (검색어 · 기준월 · 전체 목록 순�
       "searchKeyword1 202607 전주한옥마을",
       "searchKeyword1 202607 전주한",
       "searchKeyword1 202607 한옥마을",
+      "areaBasedList1 202607",
+    ]);
+  });
+
+  it("공백을 뺀 이름은 검색어 후보의 마지막, 그다음 그달 시군구 목록 (정동심곡 바다부채길: 실제 0건)", async () => {
+    const asked = stubRelated({
+      // 그달 시군구 목록이 비지 않았다(경주 실제 목록으로 대신한다) → 3 · 4개월 전은 보지 않는다
+      "areaBasedList1 202607": areaGyeongju,
+    });
+    expect(await findRelated(tourPlace("nax739")!, "KEY", now)).toBeNull();
+    expect(asked).toEqual([
+      "searchKeyword1 202607 정동심곡 바다부채길",
+      "searchKeyword1 202607 정동심곡",
+      "searchKeyword1 202607 정동심",
+      "searchKeyword1 202607 정동심곡바다부채길",
       "areaBasedList1 202607",
     ]);
   });

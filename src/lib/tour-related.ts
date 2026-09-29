@@ -1,6 +1,6 @@
 // 장소 시트 「함께 많이 가는 관광지 Top」 칸 (GET /api/tour/related?id=&locale=, 서버 전용).
 // 한국관광공사 관광지별 연관 관광지(TarRlteTarService1). PoC shared.js getRelatedSpots와 같은 규칙:
-//   검색어 후보(전체 이름 → 첫 단어 → 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름)로 가장 최근 기준월(2개월 전) searchKeyword1, 없으면 그달 areaBasedList1.
+//   검색어 후보(전체 이름 → 첫 단어 → 정규화한 앞 3글자 → 앞의 도시 이름을 뗀 이름 → 공백을 뺀 이름)로 가장 최근 기준월(2개월 전) searchKeyword1, 없으면 그달 areaBasedList1.
 //   그달 시군구 목록이 있는데 이 장소가 없으면 데이터 없음으로 보고 이전 달로 넘어가지 않는다(목록이 비었을 때만 3 → 4개월 전).
 //   결과를 관광지 이름(tAtsNm)으로 묶어 이름 점수가 가장 높은 한 곳의 연관 관광지를 rlteRank 순으로, 이름이 겹치거나 자기 자신이면 뺀다.
 //   PoC 화면처럼 주차장 · 화장실을 빼고, 영화관 · 패스트푸드 · 커피 · 편의점 같은 전국 체인 브랜드도 뺀다(팀장 의견, lib/franchise-brands.ts).
@@ -32,6 +32,7 @@ import {
   tourPlaceSigngu,
   tourUnavailable,
   withoutCity,
+  withoutSpaces,
 } from "./tour-api";
 import { seoulDate } from "./weather";
 
@@ -91,7 +92,8 @@ export function pickRelated(
 }
 
 /**
- * 검색어 후보 (PoC kws): 전체 이름 → 첫 단어 → 정규화한 앞 3글자, 그 뒤에 앞의 도시 이름(city)을 뗀 이름. 2글자 이상, 겹치면 한 번
+ * 검색어 후보 (PoC kws): 전체 이름 → 첫 단어 → 정규화한 앞 3글자, 그 뒤에 앞의 도시 이름(city)을 뗀 이름 → 공백을 뺀 이름(withoutSpaces).
+ * 2글자 이상, 겹치면 한 번
  */
 export function relatedKeywords(keyword: string, city = ""): string[] {
   return [
@@ -101,6 +103,7 @@ export function relatedKeywords(keyword: string, city = ""): string[] {
         keyword.split(/\s+/)[0],
         relatedName(keyword).slice(0, 3),
         withoutCity(keyword, city) ?? "",
+        ...withoutSpaces(keyword, city),
       ].filter((k) => k && k.length >= 2),
     ),
   ];

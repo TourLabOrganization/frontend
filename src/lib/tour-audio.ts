@@ -22,6 +22,7 @@ import {
   type TourPlace,
   tourUnavailable,
   withoutCity,
+  withoutSpaces,
 } from "./tour-api";
 
 /** 오디 언어 코드. 오디에는 ko · en · jp 자료만 있다(2026-09-29 확인, 중국어 ch · zh · cn 등은 0건) */
@@ -375,16 +376,19 @@ export async function tourAudioResponse(request: Request): Promise<Response> {
 }
 
 /**
- * 한국어 해설 검색: 장소 한국어 이름 → 앞의 도시 이름을 뗀 이름(「전주한옥마을」 → 「한옥마을」). 고를 해설(좌표 ±0.12도, 이름 겹침)이
+ * 한국어 해설 검색: 장소 한국어 이름 → 앞의 도시 이름을 뗀 이름(「전주한옥마을」 → 「한옥마을」) →
+ * 공백을 뺀 이름(「정동심곡 바다부채길」 → 「정동심곡바다부채길」). 고를 해설(좌표 ±0.12도, 이름 겹침)이
  * 나온 첫 검색의 결과와 그 검색어. 한국어 화면과 외국어 화면의 관광지(tid) 찾기가 함께 쓴다
  */
 async function koSearch(
   key: string,
   place: TourPlace,
 ): Promise<{ items: TourItem[]; name: string }> {
-  const names = [place.ko, withoutCity(place.ko, place.locKo)].filter(
-    (n): n is string => Boolean(n),
-  );
+  const names = [
+    place.ko,
+    withoutCity(place.ko, place.locKo) ?? "",
+    ...withoutSpaces(place.ko, place.locKo),
+  ].filter(Boolean);
   for (const name of names) {
     const items = await fetchTourItems(
       odiiUrl(key, { langCode: "ko", keyword: name }),
@@ -414,7 +418,7 @@ async function searchAudio(
 
 /**
  * 외국어 화면의 해설 (2026-09-29 팀 규칙). 오디 관광지 번호 tid는 언어가 달라도 같다(불국사 ko · en 모두 2, 해설 번호 stid는 다르다).
- * 1. 한국어 이름(없으면 앞의 도시 이름을 뗀 이름)으로 ko 해설을 찾고(한국어 화면과 같은 기준) 그 tid를 얻는다. 같은 기준의 해설이 tid만 달리 여럿이면 차례로 본다
+ * 1. 한국어 이름(없으면 앞의 도시 이름을 뗀 이름 → 공백을 뺀 이름)으로 ko 해설을 찾고(한국어 화면과 같은 기준) 그 tid를 얻는다. 같은 기준의 해설이 tid만 달리 여럿이면 차례로 본다
  * 2. 그 언어 관광지 목록(themeBasedList, 서버 메모리)에서 tid의 제목을 찾는다. 일본어는 jp → 없으면 en
  * 3. 그 제목으로 그 언어 이야기 검색 → 같은 tid 해설만 남겨 대표 하나. 해설 제목이 관광지 제목과 달라 없으면
  *    (관광지 「Hwanglidan-gil」 ↔ 해설 「Hwangnidan Street」, 관광지가 도 단위 「Gyeongsangnam-do」 ↔ 해설 「Windy Hill」)

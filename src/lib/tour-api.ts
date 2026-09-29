@@ -116,7 +116,7 @@ export async function fetchTourPage(
 
 /**
  * 장소 이름 앞의 도시 이름(locKo)을 뗀 이름. 떼고 2글자 이상일 때만, 아니면 null.
- * 「전주한옥마을」 → 「한옥마을」, 「경주 양남 주상절리」 → 「양남 주상절리」. 오디 · 연관 관광지 · 집중률 검색어 후보의 마지막에 넣는다
+ * 「전주한옥마을」 → 「한옥마을」, 「경주 양남 주상절리」 → 「양남 주상절리」. 오디 · 연관 관광지 · 집중률 검색어 후보에서 공백을 뺀 이름(withoutSpaces) 앞에 넣는다
  * (전주한옥마을은 연관 관광지 「전주한옥마을」 0건 · 「한옥마을」 50건, 2026-09-29 확인)
  */
 export function withoutCity(name: string, city: string): string | null {
@@ -124,6 +124,17 @@ export function withoutCity(name: string, city: string): string | null {
   if (!c || !name.startsWith(c)) return null;
   const rest = name.slice(c.length).trim();
   return rest.length >= 2 ? rest : null;
+}
+
+/**
+ * 공백을 뺀 검색어 후보: 이름에 공백이 있으면 공백을 뺀 이름, 앞의 도시 이름을 뗀 이름(withoutCity)에도 공백이 있으면 그것도 공백을 뺀 이름.
+ * 「정동심곡 바다부채길」 → 「정동심곡바다부채길」, 「경주 양남 주상절리」 → 「경주양남주상절리」 · 「양남주상절리」. 세 칸 모두 검색어 후보의 마지막에 넣는다
+ * (정동심곡 바다부채길의 오디 ko 해설은 제목이 「정동심곡바다부채길」이라 공백 있는 이름으로는 0건, 2026-09-29 확인)
+ */
+export function withoutSpaces(name: string, city: string): string[] {
+  return [name, withoutCity(name, city) ?? ""]
+    .filter((n) => /\s/.test(n))
+    .map((n) => n.replace(/\s+/g, ""));
 }
 
 /** 장소의 시군구 코드. 못 구한 곳 · 모르는 id는 "" */

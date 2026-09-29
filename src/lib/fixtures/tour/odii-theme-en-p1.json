@@ -20,6 +20,21 @@
             "modifiedtime": "20250609183759"
           },
           {
+            "tid": "562",
+            "tlid": "1360",
+            "themeCategory": "",
+            "addr1": "Gangwon-do",
+            "addr2": "Gangneung-si",
+            "title": "Jeongdong-simgok Badabuchae-gil Trail",
+            "mapX": "129.04592",
+            "mapY": "37.681946",
+            "langCheck": "11110",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20190923194610",
+            "modifiedtime": "20201214113200"
+          },
+          {
             "tid": "617",
             "tlid": "1481",
             "themeCategory": "",
