@@ -17,6 +17,7 @@ import {
   typeProfile,
 } from "./citytour";
 import { CityTourCard, useCityTourAdd } from "./CityTourCard";
+import { CityTourScroll } from "./CityTourScroll";
 import toursData from "./data/citytour.json";
 import scoresData from "./data/citytour-scores.json";
 import { useNameTable } from "@/features/names/NamesProvider";
@@ -271,7 +272,34 @@ export function CityTourSection({
             </div>
           ))}
 
-        {list.length > 0 && (
+        {/* 내 유형 추천(5곳)은 칸 하나 안에서 스크롤해 모두 본다. 지역별 검색은 「더 보기」로 늘린다 */}
+        {mode === "rec" && type && rec.length > 0 && (
+          <CityTourScroll
+            label={t("recHeading", {
+              type: tc(`${type.types[0]}.name`),
+              count: rec.length,
+            })}
+            count={rec.length}
+          >
+            <ul className="flex flex-col gap-3">
+              {rec.map((tour, i) => {
+                const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
+                return (
+                  <CityTourCard
+                    key={`${tour.region}|${tour.name}|${i}`}
+                    tour={tour}
+                    text={text}
+                    rank={i + 1}
+                    reservedFor={picks[i]?.reservedFor}
+                    onAdd={() => onAdd(tour, text?.name)}
+                  />
+                );
+              })}
+            </ul>
+          </CityTourScroll>
+        )}
+
+        {mode === "region" && list.length > 0 && (
           <ul ref={listRef} className="mt-3 flex flex-col gap-3">
             {visible.map((tour, i) => {
               const text = texts?.[TOUR_INDEX.get(tour) ?? -1];
@@ -280,10 +308,6 @@ export function CityTourSection({
                   key={`${tour.region}|${tour.name}|${i}`}
                   tour={tour}
                   text={text}
-                  rank={mode === "rec" ? i + 1 : undefined}
-                  reservedFor={
-                    mode === "rec" ? picks[i]?.reservedFor : undefined
-                  }
                   onAdd={() => onAdd(tour, text?.name)}
                 />
               );
@@ -291,7 +315,7 @@ export function CityTourSection({
           </ul>
         )}
 
-        {remaining > 0 && (
+        {mode === "region" && remaining > 0 && (
           <Button
             variant="secondary"
             size="md"

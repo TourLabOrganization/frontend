@@ -218,7 +218,7 @@ export default async function RecommendResultPage({
             <p className="mt-1 text-caption text-fg-subtle">
               {t("cityToursNote")}
             </p>
-            <ResultCityTours picks={tourPicks} />
+            <ResultCityTours picks={tourPicks} label={t("cityToursHeading")} />
           </section>
         )}
 

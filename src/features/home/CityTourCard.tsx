@@ -113,7 +113,7 @@ export function CityTourCard({
     <li
       data-card
       tabIndex={-1}
-      className="rounded-card p-4 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+      className="rounded-card bg-surface p-4 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
     >
       <p className="text-caption font-semibold text-primary">
         {rank !== undefined &&
