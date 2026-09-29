@@ -141,7 +141,9 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 3,118곳을 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 3,118곳 모두 구함).
   Route Handler만 읽는다(클라이언트 번들에 넣지 않는다, `lib/tour-api.test.ts`)
 - **응답**
-  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story" }`: 좌표 ±0.12도 안 · 이름 겹침으로 한 곳. 음성 주소(`audioUrl`, https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
+  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story" }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 보인다.
+    대표는 음성 파일(`audioUrl`)이 있는 해설 먼저, 그 안에서 제목이 기준 이름(한국어 화면은 장소 이름, 외국어 화면은 그 언어 관광지 제목)과 같은 것 → 품는 것 → 첫째.
+    음성 있는 해설이 없으면 대본만 있는 해설에서 같은 기준(2026-09-29 팀 결정 — 이 칸은 「오디오 가이드」다). 음성 주소(https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
     재생 시간(`playTime`, 초)을 보인다(PoC는 대본만 보였다). 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 한국관광공사 관광 스토리텔링 31곳
     (`features/planner/data/stories.json`, `scripts/build-stories.mjs`로 PoC `STORY_DB`에서 옮김)
   - 오디 언어 코드(2026-09-29 실제 호출로 확인, PoC와 다르다): 오디에는 ko · en · jp 자료만 있다(PoC의 `ja` · `ch`는 0건). 화면 언어 → 코드는 ko → ko, en → en, ja → jp, zh → en, es → en
@@ -150,7 +152,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
     1. 한국어 이름으로 ko 해설을 찾아(한국어 화면과 같은 기준: 좌표 ±0.12도 · 이름 겹침) `tid`를 얻는다. 같은 기준의 해설이 `tid`만 달리 여럿이면 차례로 본다
        (바람의 언덕: 1139 · 2880, 영어 해설은 2880에만)
     2. 그 언어 관광지 목록(`Odii/themeBasedList`, 1,000개씩 en 2쪽 · jp 2쪽)에서 `tid`의 제목을 찾는다. 목록은 서버 메모리에 하루 둔다(한 쪽 약 0.3MB, 서버 fetch 캐시에 넣지 않는다)
-    3. 그 제목으로 그 언어 이야기 검색 → 같은 `tid`이고 좌표 ±0.12도 안인 해설 중 대표(제목이 관광지 제목과 같은 것 → 품는 것 → 첫째).
+    3. 그 제목으로 그 언어 이야기 검색 → 같은 `tid`이고 좌표 ±0.12도 안인 해설 중 대표(음성 먼저 → 제목이 관광지 제목과 같은 것 → 품는 것 → 첫째).
        없으면 그 ko 해설 좌표 둘레 1km(`Odii/storyLocationBasedList`, 가까운 순)의 그 언어 해설에서 같은 `tid`(해설 제목이 관광지 제목과 다를 때 — 황리단길 · 바람의 언덕)
     4. 일본어는 jp → 없으면 en. `tid`를 알지만 그 언어들에 없으면 숨긴다. ko 해설이 없어 `tid`를 모를 때만 그 언어 이름(영어 이름 · 일본어 공식 명칭)으로 찾는다
   - related `{ month: "YYYYMM", items: [{ rank, name, category, region, placeId? }] }`: 기준월 2 → 3 → 4개월 전, 검색어 후보 · 이름 점수 · 순위 · 8개(PoC 화면처럼 영화관 · 주차장 · 화장실은 뺀다).
