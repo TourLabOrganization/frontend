@@ -153,8 +153,6 @@
     "skip": "Skip"
   },
   "Home": {
-    "source": "Place counts come from the Tour Navigator place list for each theme",
-    "bannerPhotoCredit": "Banner photo: Haegeumgang · Wikimedia Commons",
     "tabsLabel": "Home views",
     "tabs": {
       "myThemes": "My themes",

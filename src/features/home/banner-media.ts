@@ -18,7 +18,7 @@ export type BannerVideo = {
 // 599초(9:59)부터 거제 항구 부두를 함께 걷는 장면. 영상 자막 「원이의 거제 투어」로 원이 영상임을 확인했다. 대표 선택(2026-09-29).
 // 이전 영상(왕구랜드 절친소 EP1, 2026-09-28)과 달리 이 영상은 유튜브 「유료 프로모션 포함」 안내가 붙는다(watch 페이지 paidContentOverlay).
 // 외부 삽입 허용은 oEmbed · playableInEmbed로 확인했다(2026-09-29).
-// 포스터는 같은 테마의 거제 촬영지 해금강 사진(Wikimedia Commons, 홈 아래 출처 줄에 표기)
+// 포스터는 같은 테마의 거제 촬영지 해금강 사진(Wikimedia Commons. 홈 아래 출처 줄은 대표 요청으로 뺐다, 2026-09-29)
 export const BANNER_VIDEO: Partial<Record<ThemeSlug, BannerVideo>> = {
   "rescene-route": {
     id: "OrCOflk2QmQ",
