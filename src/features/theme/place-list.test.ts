@@ -4,6 +4,7 @@ import cities from "./data/cities.json";
 import { corePlaces } from "./place-meta";
 import {
   cityGroups,
+  displayNumbers,
   distanceLabel,
   hasViews,
   haversineKm,
@@ -175,5 +176,30 @@ describe("searchCards", () => {
 
   it("빈 검색어는 모두", () => {
     expect(searchCards(cards, "  ")).toHaveLength(2);
+  });
+});
+
+describe("displayNumbers", () => {
+  it("RESCENE은 도시 칩 순서(거제부터) 1번부터, 같은 도시 안은 원래 순번 순서", () => {
+    const places = getThemePlaces("rescene-route");
+    const numbers = displayNumbers(places, RESCENE);
+    const ordered = orderByCities(corePlaces(places), RESCENE);
+    expect(ordered[0].locKo).toBe("거제");
+    expect(numbers.get(ordered[0].id)).toBe(1);
+    // 핵심 장소 수만큼 1 … N이 빠짐없이 한 번씩
+    expect([...numbers.values()].sort((a, b) => a - b)).toEqual(
+      ordered.map((_, i) => i + 1),
+    );
+    // 목록 밖 장소(off)는 번호가 없다
+    for (const p of places.filter((x) => x.off))
+      expect(numbers.has(p.id)).toBe(false);
+  });
+
+  it("한 도시 테마는 원래 순번 순서 그대로 1번부터", () => {
+    const places = getThemePlaces("kings-warden");
+    const numbers = displayNumbers(places, [YEONGWOL]);
+    expect(corePlaces(places).map((p) => numbers.get(p.id))).toEqual(
+      corePlaces(places).map((_, i) => i + 1),
+    );
   });
 });

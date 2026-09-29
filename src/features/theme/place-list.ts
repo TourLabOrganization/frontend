@@ -1,5 +1,6 @@
 import type { Place } from "../course/places";
 import { matchesQuery } from "../../lib/text-search";
+import { corePlaces } from "./place-meta";
 
 // 테마 화면 지도 탭 목록 · 영화 탭 카드의 가공 규칙. 목업(9/27 standalone 테마 화면 5개)과 PoC 테마 파일의 규칙을 옮긴 순수 함수다.
 
@@ -61,6 +62,20 @@ export function orderByCities<T extends Pick<Place, "locKo">>(
   };
   // Array.prototype.sort는 안정 정렬이라 같은 순위끼리는 원래 순서가 유지된다
   return [...places].sort((a, b) => rank(a) - rank(b));
+}
+
+/**
+ * 화면에 보이는 장소 번호(1부터). 핵심 장소를 지도 탭 전체 목록과 같은 순서(여러 도시 테마는 도시 칩 순서, 같은 도시 안은 원래 순번)로 세운 자리다.
+ * 지도 탭 목록 · 번호 핀 · 스탬프 북 · 장면 탭 장소 이름이 모두 이 번호를 쓴다. 대표 결정(9/29): RESCENE이 거제부터 보이는데 8번부터 시작하던 것을 1번부터로.
+ * 데이터의 순번(n)은 바꾸지 않는다(코스 일정이 방문 순서로 쓴다, course/schedule.ts)
+ */
+export function displayNumbers(
+  places: readonly Pick<Place, "id" | "locKo" | "off" | "n">[],
+  cities: readonly Pick<ThemeCity, "ko">[],
+): Map<string, number> {
+  const core = corePlaces(places);
+  const ordered = cities.length > 1 ? orderByCities(core, cities) : core;
+  return new Map(ordered.map((p, i) => [p.id, i + 1]));
 }
 
 /** 목록 순서대로 도시별 장소 수. 「경주 · 7개 장소」 묶음 머리에 쓴다 */
