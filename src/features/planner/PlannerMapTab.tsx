@@ -233,11 +233,6 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           label,
           count: n,
           title: t("regionMarker", { region: label, count: n }),
-          // 아주 긴 이름(수도권 영어 이름)은 서해 쪽으로 펴서 강원 · 충청 표시를 가리지 않게 한다
-          offset:
-            label.length > 16 && REGION_CENTER[r.key].lng < 127.8
-              ? ("northwest" as const)
-              : undefined,
         },
       ];
     });
@@ -257,6 +252,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           label,
           count: n,
           title: t("cityMarker", { city: label, count: n }),
+          // 권역 안 도시는 권역 표시보다 조금 작게
+          size: "sm" as const,
         },
       ];
     });

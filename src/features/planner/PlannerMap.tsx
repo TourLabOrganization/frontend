@@ -24,12 +24,15 @@ export type MapBubble = LatLng & {
   count: number;
   /** 화면 읽기 · 마우스 툴팁 이름. 「수도권 · 장소 218곳」 */
   title: string;
-  /**
-   * 표시를 점의 북서쪽으로 펼칠지. 없으면 점 가운데.
-   * 이름이 아주 긴 권역(영어 「Seoul Metropolitan Area」)이 옆 권역을 가리지 않게 바다 쪽으로 편다
-   */
-  offset?: "northwest";
+  /** 크기. 권역은 md(기본), 권역 안에서 도시를 모아 볼 때는 sm(조금 작게, 도시가 촘촘해도 덜 겹친다) */
+  size?: "sm" | "md";
 };
+
+/** 묶음 표시 크기별 원 지름 · 글자. 원형이라 가로 · 세로가 같다 */
+const BUBBLE_SIZE = {
+  md: "size-14 text-micro [&>[data-count]]:text-caption",
+  sm: "size-11 text-[0.625rem] [&>[data-count]]:text-micro",
+} as const;
 
 export type MapPin = LatLng & {
   id: string;
@@ -115,9 +118,8 @@ export function PlannerMap({
 }
 
 /** 묶음의 앵커(0~1). 북서쪽으로 펴면 오른쪽 아래 모서리가 점에 온다 */
-function anchorOf(b: MapBubble) {
-  return b.offset === "northwest" ? 1 : 0.5;
-}
+/** 표시는 늘 점 가운데(원형이라 크기가 정해져 있어 긴 이름이 옆 표시를 가리지 않는다) */
+const BUBBLE_ANCHOR = 0.5;
 
 /** 권역 · 도시 묶음. hideOverlapping이면 지도가 멈출 때마다 겹친 묶음 중 장소가 적은 쪽을 숨긴다 */
 function BubbleLayer({
@@ -146,7 +148,7 @@ function BubbleLayer({
       );
       const width = el.offsetWidth;
       const height = el.offsetHeight;
-      const anchor = anchorOf(b);
+      const anchor = BUBBLE_ANCHOR;
       boxes.push({
         id: b.id,
         count: b.count,
@@ -180,8 +182,8 @@ function BubbleLayer({
         key={b.id}
         position={{ lat: b.lat, lng: b.lng }}
         clickable
-        xAnchor={anchorOf(b)}
-        yAnchor={anchorOf(b)}
+        xAnchor={BUBBLE_ANCHOR}
+        yAnchor={BUBBLE_ANCHOR}
         zIndex={b.count}
       >
         <button
@@ -195,15 +197,15 @@ function BubbleLayer({
           aria-hidden={off || undefined}
           tabIndex={off ? -1 : undefined}
           onClick={onBubble ? () => onBubble(b.id) : undefined}
-          className={`flex min-h-11 max-w-24 min-w-11 cursor-pointer flex-col items-center justify-center rounded-2xl bg-primary px-2.5 py-1 text-center whitespace-normal text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
-            off ? "invisible" : ""
-          }`}
+          // 원형 표시(권역 · 도시 같다). 이름은 원 안에서 한 줄로 줄이고 전체 이름은 title · aria-label에 있다
+          className={`flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-full bg-primary px-1 text-center text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
+            BUBBLE_SIZE[b.size ?? "md"]
+          } ${off ? "invisible" : ""}`}
         >
-          {/* 중 · 일 화면은 body에 break-keep이 없어 「首都 / 圈」처럼 한 글자씩 끊긴다. 이름은 단어 단위로만 줄바꿈한다 */}
-          <span className="text-micro leading-tight font-semibold break-keep">
+          <span className="max-w-full truncate leading-tight font-semibold">
             {b.label}
           </span>
-          <span className="text-caption leading-tight font-bold tabular-nums">
+          <span data-count className="leading-tight font-bold tabular-nums">
             {b.count}
           </span>
         </button>
