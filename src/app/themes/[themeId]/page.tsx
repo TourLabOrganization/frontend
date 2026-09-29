@@ -31,7 +31,7 @@ import { ThemeTabBar } from "@/features/theme/ThemeTabBar";
 import { LegacyBookmarksMigration } from "@/features/theme/LegacyBookmarksMigration";
 import { workTitle } from "@/features/theme/work-titles";
 import { themeNameTable } from "@/features/theme/theme-name-table";
-import { loadNameTable } from "@/features/names/server";
+import { loadAppPlaceNames, loadNameTable } from "@/features/names/server";
 import type { ThemePlaceText } from "@/features/theme/ThemePlaceSheet";
 import {
   hasHangul,
@@ -66,6 +66,8 @@ export default async function ThemePage({
   const t = await getTranslations("Theme");
   const locale = await getLocale();
   const names = await loadNameTable(locale);
+  // 앱이 옮긴 장소 이름(중 · 일 · 스페인어, 공식 명칭이 없는 곳). 지도 탭 장소 시트의 「앱이 번역했어요」 안내에 쓴다
+  const appNames = await loadAppPlaceNames(locale);
 
   const slug = theme.slug;
   const region = theme.regions.map((r) => tr(r)).join(" · ");
@@ -175,6 +177,7 @@ export default async function ThemePage({
             texts[p.id] = {
               hours: phraseText(p.hrs, locale),
               source: sourceText(extras[p.id]?.src, locale),
+              ...(Object.hasOwn(appNames, p.id) ? { appTranslated: true } : {}),
             };
         for (const p of places) {
           const e = extras[p.id];
