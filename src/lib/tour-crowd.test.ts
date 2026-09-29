@@ -119,12 +119,13 @@ describe("집중률 찾기 (PoC getCrowd)", () => {
   it("앞 후보에서 한 곳을 고르지 못하면 앞의 도시 이름을 뗀 이름으로 (전주한옥마을 → 한옥마을)", async () => {
     const asked = stubCrowd({ 전주한: crowdJeonjuhan, 한옥마을: crowdHanok });
     const crowd = await findCrowd(tourPlace("nax109")!, "KEY", now);
-    // 「전주한옥마을」 0건 → 「전주한」은 전주한벽문화관뿐(이름 점수 0) → 「한옥마을」
-    expect(asked.map((u) => u.searchParams.get("tAtsNm"))).toEqual([
-      "전주한옥마을",
-      "전주한",
-      "한옥마을",
-    ]);
+    // 「전주한옥마을」 0건(새 코드 52 · 옛 코드 45 모두) → 「전주한」은 전주한벽문화관뿐(이름 점수 0) → 「한옥마을」
+    const names = asked.map((u) => u.searchParams.get("tAtsNm"));
+    expect([...new Set(names)]).toEqual(["전주한옥마을", "전주한", "한옥마을"]);
+    // 새 코드로 없으면 옛 코드(전북 45)로 한 번 더 부른다
+    expect(
+      asked.slice(0, 2).map((u) => u.searchParams.get("signguCd")),
+    ).toEqual(["52111", "45111"]);
     expect(crowd?.name).toBe("전북 전주 한옥마을 [슬로시티]");
     expect(crowd?.days).toHaveLength(30);
   });
@@ -132,11 +133,32 @@ describe("집중률 찾기 (PoC getCrowd)", () => {
   it("이름에 공백이 있으면 마지막에 공백을 뺀 이름으로 (정동심곡 바다부채길: 셋 다 실제 0건)", async () => {
     const asked = stubCrowd({});
     expect(await findCrowd(tourPlace("nax739")!, "KEY", now)).toBeNull();
-    expect(asked.map((u) => u.searchParams.get("tAtsNm"))).toEqual([
-      "정동심곡 바다부채길",
-      "정동심",
-      "정동심곡바다부채길",
-    ]);
+    expect([
+      ...new Set(asked.map((u) => u.searchParams.get("tAtsNm"))),
+    ]).toEqual(["정동심곡 바다부채길", "정동심", "정동심곡바다부채길"]);
+  });
+
+  it("다른 시군구 행은 쓰지 않는다(서비스가 시군구 조건을 무시하고 전국 결과를 줄 때)", async () => {
+    const row = (name: string, signgu: string) => ({
+      tAtsNm: name,
+      baseYmd: "20260929",
+      cnctrRate: "50",
+      signguCd: signgu,
+    });
+    const body = (item: unknown[]) => ({
+      response: {
+        header: { resultCode: "0000" },
+        body: { items: { item }, totalCount: item.length },
+      },
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Response.json(body([row("불국사", "11110"), row("불국사", "50110")])),
+      ),
+    );
+    // 경주(47130) 불국사: 같은 이름이지만 다른 시군구 행뿐이라 없음
+    expect(await findCrowd(tourPlace("gjx1")!, "KEY", now)).toBeNull();
   });
 
   it("집중률이 없는 장소는 null (효우당: 실제 0건)", async () => {

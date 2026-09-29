@@ -23,6 +23,8 @@ import {
 import {
   fetchTourItems,
   fetchTourPage,
+  inSigngu,
+  signguVariants,
   KTO_PLACE_SECONDS,
   publicKtoPlace,
   toKtoPlace,
@@ -310,22 +312,35 @@ export function matchPlace(
   return best;
 }
 
-async function districtItems(code: string, key: string): Promise<TourItem[]> {
-  const all: TourItem[] = [];
-  for (let page = 1; page <= MAX_PAGES; page++) {
-    const { items, total } = await fetchTourPage(
-      tourApiUrl("TatsCnctrRateService/tatsCnctrRatedList", key, {
-        numOfRows: String(ROWS),
-        pageNo: String(page),
-        areaCd: code.slice(0, 2),
-        signguCd: code,
-      }),
-      TOUR_CROWD_SECONDS,
-    );
-    all.push(...items);
-    if (items.length < ROWS || all.length >= total) break;
+/**
+ * 한 시군구의 집중률 행. 받은 행 중 그 시군구(옛 · 새 코드 포함) 것만 남기고 signguCd를 앱 코드로 맞춘다(matchPlace가 앱 코드로 비교한다).
+ * 새 코드(강원 51 · 전북 52)로 불러 그 시군구 행이 없으면 옛 코드(42 · 45)로 한 번 더 부른다
+ */
+export async function districtItems(
+  code: string,
+  key: string,
+): Promise<TourItem[]> {
+  for (const query of signguVariants(code)) {
+    const all: TourItem[] = [];
+    for (let page = 1; page <= MAX_PAGES; page++) {
+      const { items, total } = await fetchTourPage(
+        tourApiUrl("TatsCnctrRateService/tatsCnctrRatedList", key, {
+          numOfRows: String(ROWS),
+          pageNo: String(page),
+          areaCd: query.slice(0, 2),
+          signguCd: query,
+        }),
+        TOUR_CROWD_SECONDS,
+      );
+      all.push(...items);
+      if (items.length < ROWS || all.length >= total) break;
+    }
+    const mine = all
+      .filter((x) => inSigngu(x, code))
+      .map((x) => ({ ...x, signguCd: code }));
+    if (mine.length > 0) return mine;
   }
-  return all;
+  return [];
 }
 
 /** 도시의 인기 관광지. 한 시군구가 실패해도 나머지로 만든다(모두 실패면 오류) */
