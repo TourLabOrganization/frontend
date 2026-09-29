@@ -1,0 +1,1239 @@
+{
+  "Metadata": {
+    "title": "Tour Navigator",
+    "description": "映像の中の場所をたどって歩く旅行プランアプリ"
+  },
+  "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "最初からやり直す",
+    "brand": "TOUR NAVIGATOR",
+    "back": "戻る",
+    "next": "次へ",
+    "tmdbCredit": "ポスター・スチル画像：TMDB。本サービスはTMDBによる保証・認定を受けたものではありません",
+    "mapLoadError": "地図を読み込めませんでした。下のスポット一覧はそのまま使えます",
+    "localeMenu": {
+      "first": "Multi",
+      "second": "Language",
+      "current": "言語を選択、現在は{name}",
+      "listLabel": "言語"
+    },
+    "map": {
+      "typeLabel": "地図の種類",
+      "roadmap": "地図",
+      "satellite": "衛星",
+      "locate": "現在地",
+      "locating": "現在地を探しています…",
+      "located": "現在地に移動しました",
+      "insecure": "位置情報は安全な接続（HTTPS）でのみ使えます",
+      "denied": "位置情報がオフです。ブラウザの設定で許可してください",
+      "unavailable": "現在地を取得できませんでした。しばらくしてからお試しください",
+      "myLocation": "現在地",
+      "zoomLabel": "ズーム",
+      "zoomIn": "拡大",
+      "zoomOut": "縮小",
+      "kakaoLogo": "Kakaoマップで開く（新しいウィンドウ）"
+    }
+  },
+  "PlaceSheet": {
+    "close": "閉じる",
+    "photoCredit": "写真：{credit}",
+    "hours": "営業時間",
+    "checkIn": "チェックイン {time}",
+    "checkOut": "チェックアウト {time}",
+    "directions": "経路",
+    "newWindow": "（新しいウィンドウ）",
+    "stay": "推奨滞在",
+    "work": "作品",
+    "scene": "シーン",
+    "lat": "緯度",
+    "lng": "経度",
+    "source": "座標の基準",
+    "kakao": "カカオマップ",
+    "kakaoOpen": "スポットページを開く",
+    "video": "このスポットの映像を見る",
+    "factsLabel": "スポット情報",
+    "save": "保存",
+    "saved": "保存済み",
+    "savedStatus": "保存したスポットに追加しました",
+    "unsavedStatus": "保存したスポットから外しました",
+    "weather": {
+      "title": "天気",
+      "today": "今日",
+      "yesterday": "昨日",
+      "tomorrow": "明日",
+      "loading": "天気を読み込み中です",
+      "error": "天気を読み込めませんでした",
+      "retry": "再試行",
+      "credit": "天気：Open-Meteo（CC BY 4.0）",
+      "max": "最高気温",
+      "rain": "降水量",
+      "kinds": {
+        "clear": "晴れ",
+        "cloudy": "くもり",
+        "fog": "霧",
+        "drizzle": "霧雨",
+        "rain": "雨",
+        "snow": "雪",
+        "showers": "にわか雨",
+        "snowShowers": "にわか雪",
+        "thunderstorm": "雷雨",
+        "unknown": "データなし"
+      }
+    },
+    "badges": "バッジ",
+    "appTranslated": "名称・説明の一部はアプリが翻訳しています。"
+  },
+  "Splash": {
+    "title": {
+      "first": "さあ、一緒に",
+      "second": "旅に出よう！"
+    },
+    "description": "映像のあの場面へ、テーマ別の旅を始めよう！",
+    "skip": "スキップ"
+  },
+  "Home": {
+    "source": "スポット数はTour Navigatorのテーマ別スポット一覧から数えた値です",
+    "bannerPhotoCredit": "バナー写真：海金剛 · Wikimedia Commons",
+    "tabsLabel": "ホーム画面",
+    "tabs": {
+      "myThemes": "マイテーマ",
+      "planner": "ツアープランナー"
+    },
+    "carouselLabel": "おすすめテーマ",
+    "slideLabel": "{current} / {total}",
+    "pause": "バナーの自動切り替えを停止",
+    "play": "バナーの自動切り替えを再開",
+    "goToSlide": "バナー{current}を表示",
+    "prevSlide": "前のバナー",
+    "nextSlide": "次のバナー",
+    "banners": {
+      "rescene-route": {
+        "kicker": "RESCENE ROUTE",
+        "titleFirst": "映像の中の道を",
+        "titleSecond": "そのまま歩く",
+        "description": "ロケ地と移動ルートをまとめて計画"
+      },
+      "kings-warden": {
+        "kicker": "王と生きる男",
+        "titleFirst": "端宗が歩いた道を",
+        "titleSecond": "寧越で出会う",
+        "description": "清泠浦から荘陵まで、流配の道をたどる"
+      },
+      "kpop-demon-hunters": {
+        "kicker": "KPOPガールズ！デーモン・ハンターズ",
+        "titleFirst": "HUNTR/Xのソウルを",
+        "titleSecond": "歩いてたどる",
+        "description": "駱山公園の城郭道から蚕室の最終ステージまで"
+      },
+      "jeju-k-drama": {
+        "kicker": "済州 K-DRAMA",
+        "titleFirst": "二つのドラマが",
+        "titleSecond": "通り過ぎた海岸線",
+        "description": "『おつかれさま』と『私たちのブルース』、同じ島の違う時間"
+      },
+      "busan-film-trip": {
+        "kicker": "釜山映画紀行",
+        "titleFirst": "映画が最も多く",
+        "titleSecond": "撮られた街",
+        "description": "甘川から海雲台まで、スクリーンの釜山を歩く"
+      }
+    },
+    "myThemesHeading": "マイテーマ",
+    "pickCourseHeading": "コースを選ぶ",
+    "pickCourseTitle": "あなたに合うテーマとコースを選びます",
+    "pickCourseMeta": "{total}問 · 約1分",
+    "courseTitle": "{region} {duration}",
+    "citytour": {
+      "heading": "地域のシティツアー",
+      "meta": "{regions}地域 · {tours}コース",
+      "tabsLabel": "シティツアーの表示",
+      "tabRec": "タイプ別おすすめ",
+      "tabRecCount": "タイプ別おすすめ {count}",
+      "tabRegion": "地域から探す",
+      "recEmpty": "テーマ推薦を受けると、あなたのタイプに合うコースを選びます",
+      "recEmptyAction": "テーマ推薦を受ける",
+      "recHeading": "{type}の旅行者に合うコース {count}件",
+      "searchLabel": "地域を検索",
+      "searchPlaceholder": "地域名で検索（韓国語・英語、例：Yeosu）",
+      "searchClear": "検索語を消去",
+      "searchStatus": "一致する地域 {count}件",
+      "regionsLabel": "地域",
+      "regionChip": "{region}、{count}コース",
+      "noRegion": "一致する地域がありません",
+      "regionHeading": "{region} · {count}コース",
+      "rank": "{rank}位",
+      "kind": {
+        "loop": "循環",
+        "fixed": "コース型"
+      },
+      "tags": {
+        "history": "歴史",
+        "nature": "自然",
+        "activity": "体験",
+        "food": "グルメ",
+        "sea": "海",
+        "night": "夜景"
+      },
+      "board": "乗車",
+      "hours": "運行",
+      "fare": "料金",
+      "homepage": "公式サイト",
+      "newWindow": "（新しいウィンドウ）",
+      "call": "電話",
+      "add": "コースビルダーに追加",
+      "addHint": "経由地のうちアプリにある{count}か所をツアープランナーのコースに追加します",
+      "addDisabled": "経由地にアプリのスポットと一致する場所がないため、コースビルダーに追加できません",
+      "more": "もっと見る（残り{count}件）",
+      "date": "基準日 {date}",
+      "dataNote": "ツアー名・経由地・料金はアプリが翻訳しており、基準日はツアーごとに異なります。シティツアーはバスの時刻に合わせて動くため、コースビルダーの時間は目安です",
+      "confirm": {
+        "title": "追加したコースを入れ替えますか？",
+        "body": "ツアープランナーに追加した{count}か所の代わりに、「{name}」の経由地{placeCount}か所を追加します",
+        "cancel": "キャンセル",
+        "confirm": "入れ替える"
+      },
+      "routeExpand": "経路をすべて表示",
+      "routeCollapse": "経路を閉じる"
+    },
+    "addTheme": "テーマ追加",
+    "popularHeading": "いま人気のコース",
+    "popular": {
+      "gyeongju": "UNESCO",
+      "geoje": "COAST"
+    },
+    "popularMeta": "ロケ地{videos}か所 · {transport}",
+    "access": {
+      "ktx": "KTX",
+      "srt": "SRT",
+      "bus": "バス",
+      "air": "飛行機",
+      "ship": "フェリー",
+      "metro": "電車",
+      "own": "車"
+    },
+    "bannerVideo": {
+      "resceneGeoje": "RESCENE 巨済の動画"
+    }
+  },
+  "Nav": {
+    "label": "メインメニュー",
+    "home": "ホーム",
+    "recommend": "コースを選ぶ",
+    "me": "ME"
+  },
+  "Me": {
+    "title": "ME",
+    "lastTheme": "1位のテーマ：{theme}",
+    "lastAction": "推薦結果をもう一度見る",
+    "emptyTitle": "あなたにぴったりのテーマを探します",
+    "emptyMeta": "まだ推薦テーマがありません · {total}問",
+    "savedHeading": "保存したプラン",
+    "savedCount": "{count}件",
+    "savedAt": "{date}に保存",
+    "remove": "{name}を削除",
+    "savedEmpty": "保存したプランはありません。テーマのコース画面やツアープランナーのコースタブで[コース保存]を押してください。",
+    "openPlanner": "ツアープランナーを開く",
+    "plannerMeta": "{city} · {duration} · {count}か所",
+    "typeHeading": "私の旅行者タイプ",
+    "typeName": "{type}の旅行者",
+    "retry": "もう一度診断",
+    "placesHeading": "保存したスポット",
+    "placesCount": "{count}か所",
+    "placesEmpty": "保存したスポットはありません。スポット詳細で[保存]を押してください。"
+  },
+  "Recommend": {
+    "progressLabel": "質問の進み具合",
+    "counter": "{current} / {total}",
+    "extraLabel": "追加の確認質問",
+    "next": "次へ",
+    "seeResult": "結果を見る",
+    "branchHelp": "したい体験がなければ「なし」を選んでください",
+    "questions": {
+      "s1": {
+        "title": "年代はどちらですか？",
+        "help": "似た旅行者のデータから旅行タイプを探します",
+        "options": {
+          "teens": "10代",
+          "20s": "20代",
+          "30s": "30代",
+          "40s": "40代",
+          "50s": "50代",
+          "60s": "60代",
+          "70s-plus": "70代以上"
+        }
+      },
+      "s2": {
+        "title": "今回の旅行は誰と一緒ですか？",
+        "help": "今回の旅行に一緒に行く人を選んでください",
+        "options": {
+          "solo": "ひとり",
+          "friends": "友人と",
+          "couple": "恋人と",
+          "spouse": "配偶者と",
+          "kids-family": "子ども連れの家族",
+          "parents": "両親と一緒に",
+          "social-group": "仲間・サークル"
+        }
+      },
+      "s3": {
+        "title": "どんなペースで旅行したいですか？",
+        "help": "今回の旅行のペースを選んでください",
+        "options": {
+          "packed": "ぎっしり、たくさん見たい",
+          "moderate": "ほどほど、見るのと休むのが半々",
+          "relaxed": "ゆっくり、歩いて休んでのんびり"
+        }
+      },
+      "s4": {
+        "title": "今回の旅行でいちばんしたいことは何ですか？",
+        "help": "いちばん大切な関心ごとを1つだけ選んでください。選んだ関心ごとに合わせた質問がもう1つ出ます",
+        "options": {
+          "drama": "ドラマ・K-POPのロケ地",
+          "performance": "公演・コンサート",
+          "history": "歴史・遺跡",
+          "nature": "自然・森の道",
+          "sea": "海",
+          "food-market": "グルメ・市場",
+          "activity": "体験・アクティビティ",
+          "night": "夜景",
+          "shopping-beauty": "ショッピング・美容・スパ"
+        }
+      },
+      "s5": {
+        "title": "どんな雰囲気の場所が好きですか？",
+        "help": "行きたい場所の雰囲気を選んでください",
+        "options": {
+          "trending": "いま話題のスポット",
+          "landmark": "誰もが知る定番の名所",
+          "quiet": "人の少ない静かな場所"
+        }
+      },
+      "s6": {
+        "title": "1日のうち、いつ旅行を楽しみたいですか？",
+        "help": "旅行したい時間帯を選んでください",
+        "options": {
+          "morning": "朝早くから",
+          "daytime": "昼間中心",
+          "evening": "夕方・夜まで"
+        }
+      },
+      "b1": {
+        "title": "コンテンツに関連して、どんな時間をいちばん過ごしたいですか？",
+        "options": {
+          "a": "好きな作品やアーティストの実際のロケ地や関連スポットを訪ねたい",
+          "b": "ポップアップや公演の周りの人気スポットをいくつも回りたい",
+          "c": "作品の雰囲気を感じながら、同行者と写真を残したい",
+          "none": "なし"
+        }
+      },
+      "b2": {
+        "title": "歴史のある場所では、何をいちばんしたいですか？",
+        "options": {
+          "a": "解説を聞きながら、文化遺産の周りを落ち着いて歩きたい",
+          "b": "伝統工芸や生活文化を自分で体験しながら、深く知りたい",
+          "c": "家族と一緒に、わかりやすい解説やミッション型の体験に参加したい",
+          "none": "なし"
+        }
+      },
+      "b3": {
+        "title": "自然の中や海では、どんな時間がいちばん好きですか？",
+        "options": {
+          "a": "静かな1か所に長くとどまって、歩いたり休んだりしたい",
+          "b": "海岸や森のいくつもの展望スポットを回りたい",
+          "c": "同行者と景色を見ながら話したり、写真を残したりしたい",
+          "none": "なし"
+        }
+      },
+      "b4": {
+        "title": "グルメスポットや市場では、何をいちばん楽しみにしていますか？",
+        "options": {
+          "a": "その土地の名物料理や市場の食べ物をいろいろ味わいたい",
+          "b": "いま人気のレストランやカフェに行きたい",
+          "c": "同行者と雰囲気のいい店でゆっくり食事したい",
+          "none": "なし"
+        }
+      },
+      "b5": {
+        "title": "どんな体験をいちばんしてみたいですか？",
+        "options": {
+          "a": "子どもや家族と一緒にできる、ものづくりや遊びの体験がいい",
+          "b": "初めての活動や流行りのアクティビティに挑戦したい",
+          "c": "地域の伝統技術や生活文化を直接学びたい",
+          "none": "なし"
+        }
+      },
+      "b6": {
+        "title": "夜景を見るとき、どんな時間をいちばん過ごしたいですか？",
+        "options": {
+          "a": "人気の夜の名所をいくつも回りたい",
+          "b": "同行者と眺めを楽しみながら、写真と思い出を残したい",
+          "c": "人の少ない夜の散歩道で、静かに休みたい",
+          "none": "なし"
+        }
+      },
+      "b7": {
+        "title": "自分のための時間として、何をいちばん望みますか？",
+        "options": {
+          "a": "スパや美容体験で、心と体を整えたい",
+          "b": "好きなブランドや地域の商品を、ゆっくり買い物したい",
+          "c": "近くの静かな散歩道や休憩所で休む時間のほうがいい",
+          "none": "なし"
+        }
+      },
+      "f1": {
+        "title": "今回の旅行で、いちばん譲れない体験は何ですか？",
+        "help": "同じくらい合う旅行タイプが複数あるので、もう1つだけ質問します。同じくらい大切なら最後の項目を選んでください",
+        "options": {
+          "balanced": "上の体験はどれも同じくらい大切"
+        }
+      }
+    }
+  },
+  "Result": {
+    "badge": "私の旅行タイプ",
+    "mixedTagline": "{count}つの魅力をあわせ持つ",
+    "moreTypes": "ほか{count}タイプ",
+    "typeShare": "{name}の比重 {percent}%",
+    "recommendedThemes": "おすすめテーマ",
+    "evidenceLabel": "おすすめの根拠",
+    "indexNote": "適合度指数（0〜100）は旅行タイプと関心ごとから計算した値です。確率ではありません。",
+    "interestMissing": "「{interest}」はまだテーマ構成データがないため、指数に加えていません。",
+    "themeIndex": "適合度指数 {value}",
+    "typeAndInterest": "タイプ {type} + 関心 {interest}",
+    "typeOnly": "タイプ {type}",
+    "categoryShare": "{category}のスポット {percent}%",
+    "night": "夜景スポット {percent}%",
+    "compareCourses": "コース3案を比べる",
+    "basis": "計算基準 · アンケート6.3 · 推薦6.4（チーム仕様書の参照計算）"
+  },
+  "Clusters": {
+    "C1": {
+      "name": "トレンド探索型",
+      "experience": "話題のスポットや新しい体験を探して回る",
+      "tagline": "話題の場所にいち早く行く",
+      "description": "話題のスポットを巡って新しい体験を楽しむ旅が合っています。"
+    },
+    "C2": {
+      "name": "風景同行型",
+      "experience": "同行者と景色や雰囲気を楽しみながら思い出を残す",
+      "tagline": "一緒に景色と雰囲気を楽しむ",
+      "description": "同行者と景色や雰囲気を楽しみ、思い出を残す旅が合っています。"
+    },
+    "C3": {
+      "name": "ファミリー体験型",
+      "experience": "子どもや家族と一緒に楽しめる体験をする",
+      "tagline": "子どもと一緒に体験を楽しむ",
+      "description": "子どもや家族と一緒に楽しめる体験のある旅が合っています。"
+    },
+    "C4": {
+      "name": "文化散策型",
+      "experience": "文化遺産や町の話を聞きながら落ち着いて歩く",
+      "tagline": "話を聞きながらゆっくり歩く",
+      "description": "文化遺産や町の話を聞きながら落ち着いて歩く旅が合っています。"
+    },
+    "C5": {
+      "name": "静かな休息型",
+      "experience": "ひとりで、または静かな環境で歩いて休む",
+      "tagline": "静かに歩いてひと休みする",
+      "description": "ひとりで、または静かな場所で歩いて休む旅が合っています。"
+    },
+    "C6": {
+      "name": "ローカルグルメ型",
+      "experience": "市場や地元の名店を中心に旅する",
+      "tagline": "その土地の味を訪ねる",
+      "description": "市場や地元の名店を中心に巡る旅が合っています。"
+    },
+    "C7": {
+      "name": "Kカルチャー探訪型",
+      "experience": "好きな韓国コンテンツのロケ地や関連スポットを訪ねる",
+      "tagline": "好きなコンテンツの世界へ旅立つ",
+      "description": "好きな韓国コンテンツのロケ地や関連スポットを訪ねる旅が合っています。"
+    },
+    "C8": {
+      "name": "ウェルネス・ショッピング型",
+      "experience": "スパや美容体験、またはショッピングで自分のための時間を過ごす",
+      "tagline": "自分のための時間を満喫する",
+      "description": "スパや美容体験、ショッピングで自分のための時間を過ごす旅が合っています。"
+    },
+    "C9": {
+      "name": "自然・海洋型",
+      "experience": "森や海岸の風景を広く巡る",
+      "tagline": "森と海の風景を訪ねる",
+      "description": "森や海岸の風景を広く巡る旅が合っています。"
+    },
+    "C10": {
+      "name": "歴史・伝統体験型",
+      "experience": "遺跡の歴史や伝統文化を深く学んだり、直接体験したりする",
+      "tagline": "昔の物語を深く学ぶ",
+      "description": "遺跡の歴史や伝統文化を深く学んだり、直接体験したりする旅が合っています。"
+    }
+  },
+  "Themes": {
+    "kings-warden": {
+      "name": "王と生きる男"
+    },
+    "kpop-demon-hunters": {
+      "name": "KPOPガールズ！デーモン・ハンターズ"
+    },
+    "rescene-route": {
+      "name": "RESCENE Route"
+    },
+    "jeju-k-drama": {
+      "name": "済州 K-Drama"
+    },
+    "busan-film-trip": {
+      "name": "釜山映画紀行"
+    }
+  },
+  "Course": {
+    "planTabsLabel": "コース3案",
+    "plans": {
+      "classic": {
+        "name": "定番",
+        "description": "映像の中の場所と代表的な名所（韓国観光100選・世界遺産）を組み合わせた基本コースです。"
+      },
+      "trend": {
+        "name": "トレンド",
+        "description": "映像の中の場所を先に入れ、残りの時間は基本候補で埋めます。"
+      },
+      "quiet": {
+        "name": "穴場",
+        "description": "代表的な名所と映像の中の場所を除き、テーマ地域の癒やし・エコスポットを優先します。"
+      }
+    },
+    "sameAsClassic": "この条件では定番と同じコースになります",
+    "fallbackNotice": "混雑度・検索トレンドのデータが接続されると、戦略文書の重み付けに切り替わります",
+    "tripBasis": "ソウル駅を{depTime}に出発し、最終日は{retTime}に旅行地を出発する想定です",
+    "accessibleNotice": "バリアフリー情報のあるスポットだけを入れました",
+    "dayTrip": "日帰り",
+    "nightsDays": "{nights}泊{days}日",
+    "placeCount": "スポット{count}か所",
+    "stayTotal": "滞在 {duration}",
+    "moveTotal": "移動 {duration}",
+    "day": "{day}日目",
+    "arrive": "到着",
+    "leave": "出発",
+    "move": "移動 {duration}",
+    "wait": "開場待ち {duration}",
+    "stay": "滞在 {duration}",
+    "videoBadge": "映像の中の場所",
+    "k100Badge": "韓国観光100選",
+    "unescoBadge": "世界遺産",
+    "categories": {
+      "herit": "文化遺産·伝統体験",
+      "heal": "癒やし·エコ·体験",
+      "activity": "テーマパーク·体験",
+      "food": "ローカル商圏·グルメ",
+      "sea": "海洋·自然景観",
+      "stay": "宿泊"
+    },
+    "duration": {
+      "m": "{m}分",
+      "h": "{h}時間",
+      "hm": "{h}時間{m}分"
+    },
+    "empty": "条件に合うスポットがなく、コースを作れませんでした",
+    "emptyHelp": "条件を変えてもう一度探してみてください",
+    "emptyDay": "この日に入れられるスポットがありません",
+    "unappliedNotice": "データがまだないため反映していない条件：{conditions}",
+    "condition": "{name}（{value}）",
+    "conditionNames": {
+      "when": "出発時期",
+      "walk": "1日の歩行"
+    },
+    "savePlan": "コース保存",
+    "saved": "保存済み"
+  },
+  "Trip": {
+    "q10": {
+      "options": {
+        "this-weekend": "今週末",
+        "this-month": "今月",
+        "later": "来月以降"
+      }
+    },
+    "q11": {
+      "options": {
+        "day-trip": "日帰り",
+        "1-night": "1泊2日",
+        "2-nights-plus": "2泊3日以上"
+      }
+    },
+    "q12": {
+      "options": {
+        "car": "自家用車",
+        "public-transit": "公共交通",
+        "flight": "飛行機",
+        "tour-bus": "団体バス"
+      }
+    },
+    "q13": {
+      "options": {
+        "under-1h": "1時間以内",
+        "1-3h": "1〜3時間",
+        "over-3h": "3時間以上"
+      }
+    },
+    "q14": {
+      "options": {
+        "pet": "ペット同伴",
+        "accessible": "バリアフリー",
+        "indoor-rain": "雨の日は屋内中心"
+      }
+    }
+  },
+  "Theme": {
+    "tabsLabel": "テーマ画面のタブ",
+    "tabs": {
+      "map": "地図",
+      "course": "コース",
+      "film": "映画",
+      "stamp": "スタンプ",
+      "info": "旅行情報"
+    },
+    "stats": "{region} · スポット{places}か所 · 映像の中の場所{videos}か所",
+    "map": {
+      "categoriesLabel": "スポットの分類",
+      "all": "すべて",
+      "mapLabel": "テーマスポットの地図",
+      "noKey": "地図キーがないため地図を表示できませんでした。下のスポット一覧はそのまま使えます",
+      "listHeading": "スポット一覧 · {count}",
+      "searchLabel": "スポットを検索",
+      "searchPlaceholder": "スポット名で探す",
+      "searchClear": "検索語を消去",
+      "searchEmpty": "「{query}」の検索結果はありません",
+      "searchStatus": "検索結果 {count}か所",
+      "more": "もっと見る（残り{count}か所）",
+      "showOff": "一覧外のスポット{count}か所を見る",
+      "regionsLabel": "地域",
+      "nation": "全国",
+      "regionCount": "{city} · {count}か所",
+      "distance": "{km} km",
+      "filmLink": "映画",
+      "videoLink": "映像",
+      "filmLinkLabel": "{name}のシーンを見る"
+    },
+    "sheet": {
+      "stamp": "スタンプを押す",
+      "stamped": "スタンプ済み",
+      "stampedStatus": "スタンプを押しました",
+      "unstampedStatus": "スタンプを取り消しました"
+    },
+    "course": {
+      "daysLabel": "日程",
+      "transportLabel": "移動手段",
+      "mapLabel": "コース地図"
+    },
+    "film": {
+      "kicker": "映画の中の場面",
+      "kickerVideo": "映像の中の場面",
+      "title": "映画のあの場所",
+      "titleVideo": "映像のあの場所",
+      "sortLabel": "並べ替え",
+      "sortAsc": "シーン順",
+      "sortDesc": "逆順",
+      "searchLabel": "シーン・場所を検索",
+      "searchPlaceholder": "シーンのタイトルや場所名",
+      "sceneLabel": "シーン{number}",
+      "places": "登場スポット",
+      "watch": "シーンを探す",
+      "play": "{title}の映像を再生",
+      "videoTitle": "{title}の映像",
+      "empty": "該当するシーンがありません",
+      "newWindow": "（新しいウィンドウ）",
+      "sortPopular": "人気順",
+      "sortLatest": "新着順",
+      "views": "{count, number}回再生",
+      "searchClear": "検索語を消去",
+      "searchStatus": "検索結果 {count}件",
+      "translatedNote": "シーンのタイトルはアプリが翻訳しています。"
+    },
+    "stamp": {
+      "kicker": "チェックイン",
+      "title": "{region} · スタンプ帳",
+      "progressLabel": "スタンプ収集",
+      "progress": "{count} / {total} 取得 · {percent}%",
+      "done": "取得済み",
+      "notDone": "未取得",
+      "openMap": "{name}を地図で見る",
+      "savedHeading": "保存したスポット · {count}",
+      "savedEmpty": "保存したスポットはありません",
+      "remove": "{name}を削除"
+    },
+    "info": {
+      "title": "旅行情報",
+      "workKicker": "作品",
+      "linksHeading": "もっと知る",
+      "newWindow": "（新しいウィンドウ）",
+      "kings-warden": {
+        "workTitle": "王と生きる男（2026）"
+      },
+      "kpop-demon-hunters": {
+        "workTitle": "KPOPガールズ！デーモン・ハンターズ（2025）"
+      },
+      "jeju-k-drama": {
+        "workTitle": "おつかれさま（2025）"
+      },
+      "busan-film-trip": {
+        "workTitle": "Train to Busan（2016）"
+      },
+      "datalabHeading": "データラボで見る{region}",
+      "stayPerVisit": "1回の訪問あたり滞在 {duration}",
+      "stayIndex": "全国平均の{index}倍",
+      "visitsToSeeAll": "アプリのスポットをすべて見るのに必要な訪問 {visits}回",
+      "datalabSource": "出典 · 韓国観光データラボ · 全国データ · {year}年時点",
+      "datalabFailed": "データラボの情報を読み込めませんでした",
+      "datalabLoading": "データラボの情報を読み込み中",
+      "fanHeading": "ファン交流チャンネル",
+      "fanBody": "公式コミュニティとチャンネルでファンとつながろう。",
+      "fullSchedule": "全日程を見る"
+    },
+    "tabsVideo": {
+      "film": "映像",
+      "info": "ファンコミュニティ"
+    }
+  },
+  "Regions": {
+    "seoul": "ソウル",
+    "busan": "釜山",
+    "gangwon": "江原",
+    "gyeongbuk": "慶北",
+    "gyeongnam": "慶南",
+    "jeju": "済州"
+  },
+  "Planner": {
+    "title": "ツアープランナー",
+    "scopesLabel": "地域",
+    "nation": "全国",
+    "cityButton": "都市",
+    "cityButtonLabel": "都市を選ぶ",
+    "cityButtonCurrentLabel": "{city}、別の都市を選ぶ",
+    "tabsLabel": "ツアープランナーのタブ",
+    "tabs": {
+      "map": "地図",
+      "course": "コース",
+      "info": "旅行情報"
+    },
+    "courseBadge": "追加したスポット{count}か所",
+    "regionChip": "{region} · {count}か所",
+    "regionChipClear": "{region} · {count}か所、選択を解除",
+    "picker": {
+      "title": "都市を選ぶ",
+      "close": "閉じる",
+      "searchLabel": "都市を検索",
+      "searchPlaceholder": "都市名（韓国語・英語）",
+      "regionCities": "{count}都市",
+      "placeCount": "スポット{count}か所",
+      "empty": "該当する都市がありません",
+      "otherRegions": "その他の地域"
+    },
+    "map": {
+      "categoriesLabel": "スポットの分類",
+      "all": "すべて",
+      "badgesLabel": "バッジ",
+      "badges": {
+        "pop": "データラボ人気",
+        "un": "世界遺産",
+        "k100": "韓国観光100選",
+        "bf": "バリアフリー観光地",
+        "zone": "観光特区 · 観光団地"
+      },
+      "mapLabel": "ツアープランナーの地図",
+      "noKey": "地図キーがないため地図を表示できませんでした。下のスポット一覧はそのまま使えます",
+      "regionMarker": "{region} · スポット{count}か所",
+      "cityMarker": "{city} · スポット{count}か所",
+      "listHeading": "スポット一覧 · {count}",
+      "popNote": "韓国観光データラボの人気観光地ランキングに入っている場所を先に表示します",
+      "searchLabel": "スポットを検索",
+      "searchPlaceholder": "スポット名・都市名で探す",
+      "searchClear": "検索語を消去",
+      "searchEmpty": "「{query}」の検索結果はありません",
+      "searchStatus": "検索結果 {count}か所",
+      "more": "もっと見る（残り{count}か所）",
+      "empty": "この分類に当てはまるスポットがありません",
+      "add": "{name}をコースに追加",
+      "addedStatus": "コースに追加しました：{name}",
+      "removedStatus": "コースから外しました：{name}",
+      "popRank": "データラボ人気{rank}位"
+    },
+    "sheet": {
+      "add": "コースに追加",
+      "remove": "コースから外す",
+      "detailLoading": "説明と写真を読み込み中です",
+      "detailError": "説明と写真を読み込めませんでした",
+      "detailRetry": "再試行",
+      "setStay": "コースの宿に指定",
+      "unsetStay": "宿の指定を解除"
+    },
+    "confirm": {
+      "title": "別の都市のスポットです",
+      "body": "コースには1つの都市のスポットしか入れられません。追加済みの{from}のスポット{count}か所を外して、{to}で新しく追加しますか？",
+      "cancel": "キャンセル",
+      "confirm": "外して追加"
+    },
+    "course": {
+      "kicker": "コースビルダー",
+      "title": "{city} · 今日のルート",
+      "titleTrip": "{city} · {nights}泊{days}日のルート",
+      "plan": {
+        "label": "マイプラン",
+        "labelSuffix": "名",
+        "placeholder": "例：秋の2泊3日",
+        "save": "コース保存",
+        "saved": "保存済み",
+        "savedStatus": "「{name}」を保存しました。MEで確認できます",
+        "nameRequired": "プラン名を入力してください",
+        "emptyCourse": "追加したスポットがありません。スポットを追加してから保存してください"
+      },
+      "dates": {
+        "heading": "日付",
+        "start": "出発日",
+        "end": "帰着日",
+        "tripLabel": "旅行期間",
+        "dayTrip": "日帰り",
+        "nights": "{nights}泊{days}日",
+        "errorOrder": "帰着日は出発日と同じ日かそれ以降にしてください",
+        "errorTooLong": "旅行は{max}日まで計画できます",
+        "calendar": "旅行日カレンダー",
+        "prevMonth": "前の月",
+        "nextMonth": "次の月",
+        "hintStart": "出発日と帰着日を順に選ぶと、日程が日別に分かれます。",
+        "hintEnd": "帰着日をもう一度選んでください。",
+        "endPending": "選択中",
+        "notSet": "今日",
+        "mark": {
+          "today": "今日",
+          "start": "出発日",
+          "end": "帰着日",
+          "single": "出発日",
+          "inside": "旅行期間",
+          "blocked": "{max}日を超えて選べません"
+        }
+      },
+      "trip": {
+        "heading": "出発 · 帰着",
+        "origin": "出発地",
+        "depTime": "出発時刻（出発地）",
+        "retTime": "旅行地の出発時刻",
+        "retHint": "最終日はこの時刻までに予定を終えます",
+        "originEnd": "帰着地",
+        "originSame": "出発地と同じ"
+      },
+      "wide": {
+        "heading": "広域交通",
+        "modes": {
+          "bus": "バス",
+          "rail": "鉄道",
+          "air": "飛行機",
+          "ship": "フェリー",
+          "metro": "地下鉄",
+          "own": "自家用車"
+        },
+        "short": {
+          "hub": "到着地になし",
+          "island": "車で行けません",
+          "islandMetro": "船のみ"
+        },
+        "reason": {
+          "hub": "{hub}には{mode}の路線がありません",
+          "island": "島のため自家用車では行けません",
+          "islandMetro": "島のため地下鉄では行けません。船を選んでください",
+          "noCity": "都市を選ぶかスポットを追加すると、広域交通を選べます"
+        },
+        "access": "{origin} → {hub} · 約{duration}"
+      },
+      "local": {
+        "heading": "現地移動",
+        "driving": "車（レンタカー）",
+        "transit": "公共交通",
+        "own": "自家用車",
+        "ownNote": "自家用車の場合、現地も同じ車で移動します"
+      },
+      "summary": {
+        "label": "コースの概要",
+        "stops": "経由地",
+        "stopsValue": "{count}か所",
+        "km": "総距離",
+        "kmValue": "{km}km",
+        "time": "所要時間"
+      },
+      "list": {
+        "heading": "追加したスポット · {count}",
+        "empty": "まだ追加したスポットがありません。地図でスポットを追加するか、下から推奨コースを読み込んでください",
+        "stay": "宿に指定済み"
+      },
+      "goMap": "地図でスポットを追加",
+      "moveUp": "{name}を上へ移動",
+      "moveDown": "{name}を下へ移動",
+      "remove": "{name}をコースから外す",
+      "removed": "コースから外しました：{name}",
+      "actions": {
+        "recommend": "推奨コースを読み込む",
+        "recommendHint": "{source}のおすすめスポットでコースを埋めます",
+        "recommendNoScope": "都市や圏域を選ぶと推奨コースを読み込めます",
+        "recommendEmpty": "今の設定では追加できるスポットがありません。日付や時刻を変えてみてください",
+        "recommended": "推奨コース{count}か所を読み込みました",
+        "clear": "コースを空にする",
+        "cleared": "コースを空にしました"
+      },
+      "confirmRecommend": {
+        "title": "推奨コースに入れ替えますか？",
+        "body": "追加済みの{count}か所を外して、{source}の推奨コースに入れ替えます",
+        "confirm": "入れ替える"
+      },
+      "confirmClear": {
+        "title": "コースを空にしますか？",
+        "body": "追加済みの{count}か所をすべて外します。日付・出発地の設定は残ります",
+        "confirm": "空にする"
+      },
+      "confirmLoad": {
+        "title": "保存したプランを読み込みますか？",
+        "body": "今追加している{count}か所の代わりに「{name}」プラン（{planCount}か所）を読み込みます",
+        "confirm": "読み込む"
+      },
+      "cancel": "キャンセル",
+      "load": {
+        "loaded": "「{name}」プランを読み込みました",
+        "missing": "保存したプランが見つかりませんでした。削除された可能性があります"
+      },
+      "schedule": {
+        "heading": "日別スケジュール",
+        "dayDate": "{month}月{day}日（{weekday}）",
+        "dropped": "時間が足りず、{count}か所を日程に入れられませんでした",
+        "droppedHint": "日数を増やすか、順番を変えてみてください",
+        "emptyDay": "この日の予定はまだありません",
+        "refill": "推奨コースを{days}日に合わせて読み込み直す"
+      },
+      "booking": {
+        "heading": "予約",
+        "ktx": "KTX予約",
+        "srt": "SRT予約",
+        "bus": "バス予約",
+        "rent": "レンタカー予約",
+        "stay": "宿泊予約",
+        "lotte": "ロッテレンタカー",
+        "socar": "SOCAR",
+        "yanolja": "Yanolja",
+        "goodchoice": "Goodchoice",
+        "agoda": "Agoda",
+        "bookingCom": "Booking.com",
+        "newWindow": "（新しいウィンドウ）",
+        "air": "航空券予約",
+        "ship": "旅客船予約",
+        "metro": "電車時刻表",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com",
+        "skRent": "SKレンタカー",
+        "rentalcars": "Rentalcars"
+      },
+      "stay": {
+        "dec": "{name}の滞在時間を15分減らす",
+        "inc": "{name}の滞在時間を15分増やす",
+        "rec": "おすすめ {duration}",
+        "reset": "おすすめに戻す",
+        "resetLabel": "{name}の滞在時間をおすすめに戻す",
+        "changed": "{name}の滞在時間 {duration}"
+      },
+      "dayAdd": {
+        "open": "スポット追加",
+        "openLabel": "{day}日目にスポット追加",
+        "search": "この日に入れる場所を検索",
+        "clear": "クリア",
+        "results": "検索結果",
+        "cityPlaces": "{city}のスポット",
+        "none": "一致する場所がありません。",
+        "hint": "その日の最後のスポットの後に入れます。時間が足りなければ翌日に回ります",
+        "added": "{day}日目に追加しました：{name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km}km",
+        "modes": {
+          "transit": "公共交通",
+          "driving": "レンタカー",
+          "own": "マイカー",
+          "wide": "広域移動"
+        },
+        "out": "行き",
+        "back": "帰り",
+        "route": "{from} → {to}",
+        "access": "{mode} · 約{duration}"
+      },
+      "nightStay": {
+        "label": "宿泊",
+        "labelFor": "{day}日目の夜の宿：",
+        "picked": "指定済み",
+        "generic": "宿 {letter}",
+        "genericMeta": "{area} 周辺 · 未指定",
+        "sample": "例",
+        "sampleNote": "例として挙げた宿泊エリアです。実際の予約情報ではありません。",
+        "nearby": "周辺の宿",
+        "ownHeading": "その夜の宿に指定",
+        "samplesHeading": "宿泊エリアの例 · 地図検索",
+        "place": "スポット",
+        "setAsStay": "宿に指定済み",
+        "distance": "{km} km",
+        "mapNewWindow": "（地図検索、新しいウィンドウ）",
+        "book": "宿泊予約",
+        "setStatus": "{name}を{day}日目の夜の宿に指定しました",
+        "unsetStatus": "{name}の宿の指定を解除しました"
+      },
+      "metro": {
+        "start": "出発地 · 路線 → 駅",
+        "city": "出発の電車駅",
+        "end": "帰着地 · 路線 → 駅",
+        "line": "路線",
+        "station": "駅",
+        "linePlaceholder": "路線を選択",
+        "stationPlaceholder": "駅を選択",
+        "endPlaceholder": "出発駅と同じ",
+        "lineChanged": "路線を変えたので駅の選択を空にしました。駅をもう一度選んでください。",
+        "lineNo": "{n}号線",
+        "cityLineNo": "{city}{n}号線",
+        "cities": {
+          "incheon": "仁川",
+          "busan": "釜山",
+          "daegu": "大邱",
+          "daejeon": "大田",
+          "gwangju": "光州"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "電車",
+          "bus": "高速バス",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "航空便",
+          "ship": "旅客船",
+          "own": "自家用車",
+          "car": "タクシー・車",
+          "carferry": "カーフェリー"
+        },
+        "depart": "出発",
+        "leave": "旅行地を出発",
+        "ride": "{mode}で{duration}後に到着",
+        "wait": "待ち{duration} → {time} {mode}に乗車",
+        "transfer": "乗り換え{duration} → {time} {mode}に乗車",
+        "board": "{mode}に乗車",
+        "arrive": "到着拠点",
+        "home": "帰着",
+        "note": "時刻は距離に基づく目安です。実際の便は予約画面で確認してください。",
+        "gateway": "乗換拠点",
+        "routeChange": "経路変更",
+        "alt": "ほかの広域ルート{count}件",
+        "arrivalTag": "到着後",
+        "arrivalSub": "≈ {mode} {duration} · {km}km",
+        "arrivalModes": {
+          "transit": "公共交通",
+          "driving": "車"
+        },
+        "directions": "経路",
+        "directionsLabel": "{from}から{to}までの経路（新しいウィンドウ）"
+      },
+      "route": {
+        "kickerIn": "広域ルートの選択",
+        "kickerOut": "帰りのルートの選択",
+        "titleIn": "{origin} → {city}のルートが{count}通りあります",
+        "titleOut": "{city} → {origin}の帰りのルートが{count}通りあります",
+        "body": "広域交通を一つ選んでください。選んだルートで乗換拠点と日程の時刻を計算し直します。",
+        "foot": "閉じると既定のルート（強調表示）を使います。コースカードの「経路変更」からいつでも変えられます。",
+        "direct": "{mode} · 直行",
+        "transfers": "{mode} · 乗り換え{count}回",
+        "times": "{dep}発 → {arr}着",
+        "current": "現在のルート",
+        "close": "閉じる",
+        "picked": "{mode}のルートに変えました",
+        "modes": {
+          "bus": "高速バス",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "航空便",
+          "ship": "旅客船",
+          "metro": "広域電車"
+        }
+      },
+      "jejuOwn": {
+        "kicker": "自家用車 · 済州",
+        "title": "済州は島のため自家用車だけでは行けません。済州在住ですか？",
+        "resident": "はい、在住 — 車のみ",
+        "ferry": "いいえ — カーフェリー",
+        "residentNote": "在住者 — 島内を自家用車だけで移動します。広域移動がないため、1日目は出発時刻から始まります。",
+        "ferryNote": "木浦・莞島・麗水・釜山などからカーフェリーに車を載せて渡ります。下のフェリー時刻で港を選んでください。車両の積み込みは出航1時間前までが一般的です。"
+      },
+      "ulleung": {
+        "kicker": "鬱陵航路",
+        "title": "鬱陵島へは船のみ",
+        "body": "鉄道・高速バス・航空便がないため、出発地と帰着地は鬱陵航路のある四つの港だけで集計します。出発地は浦項旅客船ターミナルに設定しました。お好みの港に変更してください。",
+        "portsLabel": "出発できる港 · 所要",
+        "foot": "所要時間は航路ごとの固定航海時間に乗船手続40分を加えたものです。入港先は便により道洞・苧洞・沙洞と異なり、悪天候で欠航になることがあります。",
+        "ok": "了解しました",
+        "close": "閉じる"
+      },
+      "ferry": {
+        "title": {
+          "jeju": "済州フェリー時刻",
+          "ulleung": "鬱陵島フェリー時刻"
+        },
+        "port": "出発港",
+        "rows": {
+          "op": "船会社",
+          "dur": "所要時間",
+          "day": "便数",
+          "first": "始発",
+          "last": "最終",
+          "arr": "到着港"
+        },
+        "note": "本土発の目安です。曜日・季節・天候で便数や時刻が変わり欠航もあるため、予約前に船会社の時刻表をご確認ください。",
+        "book": "乗船券予約",
+        "operator": "船会社の時刻表",
+        "stat": {
+          "label": "運航実績 · {route}",
+          "range": "{from}–{to} · {n}便",
+          "yearly": "年間欠航率",
+          "tripMonth": "{month}月の欠航率（旅行月）",
+          "worst": "最も荒れる月",
+          "monthPct": "{month}月 {pct}",
+          "bars": "月別欠航率",
+          "barTrip": "{label} · 旅行月",
+          "times": "直近1年の主な出港",
+          "warn": "{month}月はこの航路の欠航率が{pct}と高めです。欠航に備えて航空便か予備日を用意してください。",
+          "src": "出典：KOMSA 航路別運航記録"
+        }
+      }
+    },
+    "info": {
+      "title": "旅行情報",
+      "selectLabel": "選択した地域",
+      "selectPlaceholder": "都市を選んでください",
+      "hubHeading": "広域の玄関口",
+      "hubNone": "玄関口の情報がありません",
+      "hubPick": "都市を選ぶと、その都市の広域の玄関口が表示されます",
+      "modesLabel": "移動手段",
+      "modes": {
+        "ktx": "KTX",
+        "srt": "SRT",
+        "bus": "高速バス",
+        "air": "飛行機",
+        "ship": "フェリー",
+        "metro": "広域電車"
+      },
+      "linksHeading": "地域別の観光案内",
+      "newWindow": "（新しいウィンドウ）",
+      "defaultRegion": "既定の地域",
+      "more": "もっと見る ({shown} / {total})",
+      "call": "電話",
+      "citytour": {
+        "title": "{city} シティツアー",
+        "meta": "{count}コース",
+        "empty": "この地域のシティツアーは登録されていません。",
+        "source": "出典：全国シティツアー標準データ · {date} · コース情報はアプリが翻訳しています。"
+      },
+      "tic": {
+        "title": "{city} 観光案内所",
+        "meta": "{count}か所",
+        "hotline": "1330 観光通訳案内 · 24時間",
+        "hotlineSub": "日本語・英語・中国語などで案内",
+        "onlyMine": "日本語対応のみ ({count})",
+        "emptyMine": "日本語対応の案内所がありません。1330へお電話ください。",
+        "empty": "この地域の観光案内所は登録されていません。",
+        "hours": "営業",
+        "closed": "休業",
+        "map": "地図",
+        "source": "出典：韓国観光公社 · 名称・住所はアプリが翻訳"
+      }
+    },
+    "howTo": {
+      "heading": "移動のコツ",
+      "steps": {
+        "wide": "まず広域交通（バス・鉄道・飛行機・船・地下鉄・マイカー）を選びます。選んだ手段に合うターミナル・駅・空港・港だけが出発地・帰着地として表示されます。",
+        "origin": "地下鉄を選んだら、路線 → 駅名の順に選びます。",
+        "route": "目的地までの経路が二つ以上ある場合（例：KTX / 高速バス）、案内画面で経路を選びます。自宅からターミナル・駅までの区間も一緒に計算されます。",
+        "local": "現地の移動はレンタカーか公共交通から選びます。日付と出発時刻を決めると、1日ごとの動線とスポット間の移動時間が計算され、滞在時間はスポットごとに変えられます。",
+        "stay": "1泊以上なら、日付ごとに宿の候補と予約ボタンが付きます。宿泊スポットは観光時間の計算から外れます。",
+        "jeju": "済州は飛行機・船・マイカー（島民、または船と一緒に）のみ選べます。"
+      }
+    }
+  },
+  "NotFound": {
+    "title": "ページが見つかりません",
+    "description": "アドレスが変わったか、存在しないページです。ホームから探し直してください",
+    "home": "ホームへ"
+  },
+  "Error": {
+    "title": "画面を表示できませんでした",
+    "description": "しばらくしてからもう一度お試しください",
+    "retry": "再試行",
+    "home": "ホームへ"
+  },
+  "Datalab": {
+    "regions": {
+      "seoul": "ソウル",
+      "busan": "釜山",
+      "gyeongju": "慶州",
+      "jeju": "済州",
+      "geoje": "巨済",
+      "yeongwol": "寧越"
+    },
+    "tfiLabel": "地域×テーマ強度（TFI）",
+    "themes": {
+      "herit": "歴史・文化遺産",
+      "heal": "自然・癒やし",
+      "activity": "体験・アクティビティ",
+      "food": "グルメ"
+    }
+  },
+  "Header": {
+    "search": "スポットを探す（ツアープランナー）"
+  },
+  "Notifications": {
+    "button": "お知らせ",
+    "buttonUnread": "お知らせ、未読{count}件",
+    "heading": "お知らせ",
+    "markAll": "すべて既読にする",
+    "empty": "新しいお知らせはありません",
+    "unread": "未読：",
+    "recommend": {
+      "title": "テーマ推薦の結果があります",
+      "body": "私の旅行者タイプ · {type}"
+    },
+    "planner": {
+      "title": "ツアープランナーのコースに追加したスポットがあります",
+      "body": "{count}か所 · コースタブで続きを組み立てましょう"
+    },
+    "saved": {
+      "title": "保存したプランがあります",
+      "body": "{count}件 · MEからもう一度開けます"
+    },
+    "citytour": {
+      "title": "地域のシティツアーを見られます",
+      "body": "{regions}地域 · {tours}コース · 基準日{date}まで"
+    }
+  },
+  "Plans": {
+    "label": "マイプラン",
+    "labelSuffix": "名",
+    "placeholder": "プラン名（任意）",
+    "store": "保存一覧 ({count})",
+    "storeEmpty": "保存したプランはありません",
+    "overwrite": "「{name}」に上書き保存",
+    "overwritten": "保存一覧の「{name}」を更新しました",
+    "load": "読込",
+    "loadLabel": "{name}を読み込む",
+    "loaded": "「{name}」を読み込みました",
+    "current": "表示中",
+    "deleteLabel": "{name}を削除",
+    "deleted": "「{name}」を削除しました",
+    "savedStatus": "プランを保存しました。MEで確認できます",
+    "cancel": "キャンセル",
+    "confirmOverwrite": {
+      "title": "プランを上書きしますか？",
+      "body": "保存一覧の「{name}」を今のコースに置き換えます",
+      "confirm": "上書き"
+    },
+    "confirmDelete": {
+      "title": "削除しますか？",
+      "body": "「{name}」を保存一覧から削除します。元に戻せません",
+      "confirm": "削除"
+    }
+  }
+}

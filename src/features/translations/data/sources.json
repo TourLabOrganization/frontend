@@ -1,0 +1,38 @@
+{
+  "카카오 좌표": {
+    "en": "Kakao coordinates",
+    "zh": "Kakao坐标",
+    "ja": "Kakao座標",
+    "es": "Coordenadas de Kakao"
+  },
+  "한국관광공사 연관 관광지": {
+    "en": "KTO related attractions",
+    "zh": "韩国观光公社关联景点",
+    "ja": "韓国観光公社 関連観光地",
+    "es": "Atracciones relacionadas (KTO)"
+  },
+  "한국관광공사 연관 관광지(숙박)": {
+    "en": "KTO related attractions (lodging)",
+    "zh": "韩国观光公社关联景点（住宿）",
+    "ja": "韓国観光公社 関連観光地（宿泊）",
+    "es": "Atracciones relacionadas (KTO, alojamiento)"
+  },
+  "전국시티투어 경유지": {
+    "en": "National city tour stop",
+    "zh": "全国城市观光途经点",
+    "ja": "全国シティツアー経由地",
+    "es": "Parada de city tour nacional"
+  },
+  "Google geocoding": {
+    "en": "Google geocoding",
+    "zh": "Google地理编码",
+    "ja": "Googleジオコーディング",
+    "es": "Geocodificación de Google"
+  },
+  "Address-based": {
+    "en": "Address-based coordinates",
+    "zh": "基于地址的坐标",
+    "ja": "住所ベースの座標",
+    "es": "Coordenadas por dirección"
+  }
+}

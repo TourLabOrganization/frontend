@@ -1,0 +1,1239 @@
+{
+  "Metadata": {
+    "title": "Tour Navigator",
+    "description": "A trip planner that follows the places you saw on screen"
+  },
+  "Common": {
+    "replay": "REPLAY",
+    "replayLabel": "Restart from the beginning",
+    "brand": "TOUR NAVIGATOR",
+    "back": "Back",
+    "next": "Next",
+    "tmdbCredit": "Posters and stills: TMDB. This product is not endorsed or certified by TMDB.",
+    "mapLoadError": "The map couldn't load. The place list below still works",
+    "localeMenu": {
+      "first": "Multi",
+      "second": "Language",
+      "current": "Choose language, now {name}",
+      "listLabel": "Languages"
+    },
+    "map": {
+      "typeLabel": "Map type",
+      "roadmap": "Map",
+      "satellite": "Satellite",
+      "locate": "My location",
+      "locating": "Finding your location…",
+      "located": "Moved to your location",
+      "insecure": "Location needs a secure (HTTPS) connection",
+      "denied": "Location access is off. Allow it in your browser settings",
+      "unavailable": "Couldn't get your location. Try again shortly",
+      "myLocation": "Your location",
+      "zoomLabel": "Zoom",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "kakaoLogo": "Open in Kakao Map (new window)"
+    }
+  },
+  "PlaceSheet": {
+    "close": "Close",
+    "photoCredit": "Photo: {credit}",
+    "hours": "Opening hours",
+    "checkIn": "Check-in {time}",
+    "checkOut": "Check-out {time}",
+    "directions": "Directions",
+    "newWindow": "(opens in a new window)",
+    "stay": "Suggested stay",
+    "work": "Title",
+    "scene": "Scene",
+    "lat": "Latitude",
+    "lng": "Longitude",
+    "source": "Coordinate source",
+    "kakao": "Kakao Map",
+    "kakaoOpen": "Open place page",
+    "video": "Watch the clip",
+    "factsLabel": "Place details",
+    "save": "Save",
+    "saved": "Saved",
+    "savedStatus": "Added to saved places",
+    "unsavedStatus": "Removed from saved places",
+    "weather": {
+      "title": "Weather",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "tomorrow": "Tomorrow",
+      "loading": "Loading the weather…",
+      "error": "Couldn't load the weather",
+      "retry": "Try again",
+      "credit": "Weather: Open-Meteo (CC BY 4.0)",
+      "max": "High",
+      "rain": "Precipitation",
+      "kinds": {
+        "clear": "Clear",
+        "cloudy": "Cloudy",
+        "fog": "Fog",
+        "drizzle": "Drizzle",
+        "rain": "Rain",
+        "snow": "Snow",
+        "showers": "Showers",
+        "snowShowers": "Snow showers",
+        "thunderstorm": "Thunderstorm",
+        "unknown": "No data"
+      }
+    },
+    "badges": "Badges",
+    "appTranslated": "Some names and descriptions were translated by the app."
+  },
+  "Splash": {
+    "title": {
+      "first": "From now on,",
+      "second": "we travel together!"
+    },
+    "description": "Step into the scenes you love and start a trip by theme!",
+    "skip": "Skip"
+  },
+  "Home": {
+    "source": "Place counts come from the Tour Navigator place list for each theme",
+    "bannerPhotoCredit": "Banner photo: Haegeumgang · Wikimedia Commons",
+    "tabsLabel": "Home views",
+    "tabs": {
+      "myThemes": "My themes",
+      "planner": "Tour planner"
+    },
+    "carouselLabel": "Featured themes",
+    "slideLabel": "{current} / {total}",
+    "pause": "Pause banner rotation",
+    "play": "Resume banner rotation",
+    "goToSlide": "Show banner {current}",
+    "prevSlide": "Previous banner",
+    "nextSlide": "Next banner",
+    "banners": {
+      "rescene-route": {
+        "kicker": "RESCENE ROUTE",
+        "titleFirst": "Walk the road",
+        "titleSecond": "you saw on screen",
+        "description": "Plan filming spots and the route between them in one go"
+      },
+      "kings-warden": {
+        "kicker": "THE KING'S WARDEN",
+        "titleFirst": "Meet King Danjong's path",
+        "titleSecond": "in Yeongwol",
+        "description": "From Cheongnyeongpo to Jangneung, along the route of his exile"
+      },
+      "kpop-demon-hunters": {
+        "kicker": "KPOP DEMON HUNTERS",
+        "titleFirst": "Follow HUNTR/X's Seoul",
+        "titleSecond": "on foot",
+        "description": "From the Naksan Park fortress wall to the final stage in Jamsil"
+      },
+      "jeju-k-drama": {
+        "kicker": "JEJU K-DRAMA",
+        "titleFirst": "The coastline",
+        "titleSecond": "two dramas passed by",
+        "description": "When Life Gives You Tangerines and Our Blues: one island, two times"
+      },
+      "busan-film-trip": {
+        "kicker": "BUSAN FILM TRIP",
+        "titleFirst": "The city where",
+        "titleSecond": "the most films were shot",
+        "description": "From Gamcheon to Haeundae, walk the Busan of the big screen"
+      }
+    },
+    "myThemesHeading": "My themes",
+    "pickCourseHeading": "Pick my route",
+    "pickCourseTitle": "We'll pick the theme and route that suit you",
+    "pickCourseMeta": "{total} questions · about 1 min",
+    "courseTitle": "{region}, {duration}",
+    "citytour": {
+      "heading": "City tours by region",
+      "meta": "{regions} regions · {tours} tours",
+      "tabsLabel": "City tour view",
+      "tabRec": "For your type",
+      "tabRecCount": "For your type {count}",
+      "tabRegion": "By region",
+      "recEmpty": "Take the theme finder and we'll pick tours that fit your traveler type",
+      "recEmptyAction": "Take the theme finder",
+      "recHeading": "{count} tours for {type}",
+      "searchLabel": "Search regions",
+      "searchPlaceholder": "Search a region (e.g. Yeosu)",
+      "searchClear": "Clear search",
+      "searchStatus": "{count, plural, one {# region} other {# regions}} found",
+      "regionsLabel": "Regions",
+      "regionChip": "{region}, {count, plural, one {# tour} other {# tours}}",
+      "noRegion": "No matching region",
+      "regionHeading": "{region} · {count, plural, one {# tour} other {# tours}}",
+      "rank": "#{rank}",
+      "kind": {
+        "loop": "Loop",
+        "fixed": "Fixed route"
+      },
+      "tags": {
+        "history": "History",
+        "nature": "Nature",
+        "activity": "Activities",
+        "food": "Food",
+        "sea": "Sea",
+        "night": "Night"
+      },
+      "board": "Boarding",
+      "hours": "Hours",
+      "fare": "Fare",
+      "homepage": "Website",
+      "newWindow": "(opens in a new window)",
+      "call": "Call",
+      "add": "Add to course builder",
+      "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
+      "addDisabled": "None of the stops match places in the app, so this tour can't be added",
+      "more": "Show more ({count} left)",
+      "date": "As of {date}",
+      "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
+      "confirm": {
+        "title": "Replace your course?",
+        "body": "Replace the {count, plural, one {# place} other {# places}} in your planner course with {placeCount, plural, one {# stop} other {# stops}} from “{name}”",
+        "cancel": "Cancel",
+        "confirm": "Replace"
+      },
+      "routeExpand": "Show full route",
+      "routeCollapse": "Show less"
+    },
+    "addTheme": "Add theme",
+    "popularHeading": "Popular routes now",
+    "popular": {
+      "gyeongju": "UNESCO",
+      "geoje": "COAST"
+    },
+    "popularMeta": "{videos, plural, one {# location} other {# locations}} · {transport}",
+    "access": {
+      "ktx": "KTX",
+      "srt": "SRT",
+      "bus": "Bus",
+      "air": "Flight",
+      "ship": "Ferry",
+      "metro": "Subway",
+      "own": "By car"
+    },
+    "bannerVideo": {
+      "resceneGeoje": "RESCENE Geoje video"
+    }
+  },
+  "Nav": {
+    "label": "Main menu",
+    "home": "Home",
+    "recommend": "Pick my route",
+    "me": "ME"
+  },
+  "Me": {
+    "title": "ME",
+    "lastTheme": "Top theme: {theme}",
+    "lastAction": "See my results again",
+    "emptyTitle": "We'll find the theme that suits you",
+    "emptyMeta": "No recommendation yet · {total} questions",
+    "savedHeading": "Saved plans",
+    "savedCount": "{count}",
+    "savedAt": "Saved {date}",
+    "remove": "Delete {name}",
+    "savedEmpty": "No saved plans yet. Tap [Save route] on a theme route screen or [Save course] in the tour planner.",
+    "openPlanner": "Open tour planner",
+    "plannerMeta": "{city} · {duration} · {count, plural, one {# place} other {# places}}",
+    "typeHeading": "My traveler type",
+    "typeName": "{type}",
+    "retry": "Try again",
+    "placesHeading": "Saved places",
+    "placesCount": "{count, plural, one {# place} other {# places}}",
+    "placesEmpty": "No saved places yet. Tap [Save] on a place."
+  },
+  "Recommend": {
+    "progressLabel": "Question progress",
+    "counter": "{current} / {total}",
+    "extraLabel": "One more question",
+    "next": "Next",
+    "seeResult": "See my result",
+    "branchHelp": "If none of these is what you want, pick “None”",
+    "questions": {
+      "s1": {
+        "title": "What's your age group?",
+        "help": "We match you with travelers like you",
+        "options": {
+          "teens": "Teens",
+          "20s": "20s",
+          "30s": "30s",
+          "40s": "40s",
+          "50s": "50s",
+          "60s": "60s",
+          "70s-plus": "70 or older"
+        }
+      },
+      "s2": {
+        "title": "Who's with you on this trip?",
+        "help": "Pick who's joining you on this trip",
+        "options": {
+          "solo": "Just me",
+          "friends": "With friends",
+          "couple": "With my partner",
+          "spouse": "With my spouse",
+          "kids-family": "With kids and family",
+          "parents": "With my parents",
+          "social-group": "With a club or group"
+        }
+      },
+      "s3": {
+        "title": "How do you want to pace your trip?",
+        "help": "Pick the pace for this trip",
+        "options": {
+          "packed": "Packed — I want to see a lot",
+          "moderate": "Balanced — half sightseeing, half rest",
+          "relaxed": "Slow — walking and resting at an easy pace"
+        }
+      },
+      "s4": {
+        "title": "What's the one thing you most want to do on this trip?",
+        "help": "Pick just one — your top interest. You'll get one more question about it",
+        "options": {
+          "drama": "K-drama & K-pop locations",
+          "performance": "Shows & concerts",
+          "history": "History & heritage",
+          "nature": "Nature & forest trails",
+          "sea": "The sea",
+          "food-market": "Food & markets",
+          "activity": "Experiences & activities",
+          "night": "Night views",
+          "shopping-beauty": "Shopping, beauty & spa"
+        }
+      },
+      "s5": {
+        "title": "What kind of vibe do you like in a place?",
+        "help": "Pick the feel of places you want to visit",
+        "options": {
+          "trending": "Trending hot spots",
+          "landmark": "Landmarks everyone knows",
+          "quiet": "Quiet spots with few people"
+        }
+      },
+      "s6": {
+        "title": "When in the day do you want to enjoy your trip?",
+        "help": "Pick the time of day you want to travel",
+        "options": {
+          "morning": "From early morning",
+          "daytime": "Mostly daytime",
+          "evening": "Into the evening"
+        }
+      },
+      "b1": {
+        "title": "When it comes to content, how do you most want to spend your time?",
+        "options": {
+          "a": "I want to visit real filming locations and places linked to works or artists I love",
+          "b": "I want to check out several popular spots around pop-ups and shows",
+          "c": "I want to feel the mood of the work and take photos with my companions",
+          "none": "None"
+        }
+      },
+      "b2": {
+        "title": "What do you most want to do at historic sites?",
+        "options": {
+          "a": "I want to listen to the commentary and walk calmly around heritage sites",
+          "b": "I want to try traditional crafts or everyday culture myself and learn in depth",
+          "c": "I want to join easy guided tours or mission-style activities with my family",
+          "none": "None"
+        }
+      },
+      "b3": {
+        "title": "What kind of time do you like best in nature or by the sea?",
+        "options": {
+          "a": "I want to stay long in one quiet spot, walking and resting",
+          "b": "I want to visit several viewpoints along the coast and in the forest",
+          "c": "I want to take in the views, talk, and take photos with my companions",
+          "none": "None"
+        }
+      },
+      "b4": {
+        "title": "What are you most looking forward to at restaurants or markets?",
+        "options": {
+          "a": "I want to try a variety of the region's signature dishes and market food",
+          "b": "I want to go to restaurants and cafés that are popular right now",
+          "c": "I want a relaxed meal somewhere with a nice atmosphere with my companions",
+          "none": "None"
+        }
+      },
+      "b5": {
+        "title": "What kind of experience do you most want to try?",
+        "options": {
+          "a": "I like making or play activities that kids and family can do together",
+          "b": "I want to take on something new or a trending activity",
+          "c": "I want to learn local traditional skills and everyday culture firsthand",
+          "none": "None"
+        }
+      },
+      "b6": {
+        "title": "When you take in night views, how do you most want to spend the time?",
+        "options": {
+          "a": "I want to visit several popular night spots",
+          "b": "I want to enjoy the view and make photos and memories with my companions",
+          "c": "I want to rest quietly on a night walking path with few people",
+          "none": "None"
+        }
+      },
+      "b7": {
+        "title": "What do you most want from your time for yourself?",
+        "options": {
+          "a": "I want to care for body and mind with a spa or beauty treatment",
+          "b": "I want to shop at my own pace for favorite brands or local products",
+          "c": "I'd rather rest on a quiet walking path or at a rest spot nearby",
+          "none": "None"
+        }
+      },
+      "f1": {
+        "title": "Which experience would you least want to give up on this trip?",
+        "help": "A few travel types fit you about equally, so we have one more question. If they matter about the same, pick the last option",
+        "options": {
+          "balanced": "These experiences matter about equally to me"
+        }
+      }
+    }
+  },
+  "Result": {
+    "badge": "My travel type",
+    "mixedTagline": "A mix of {count} styles",
+    "moreTypes": "and {count} more types",
+    "typeShare": "{name} share {percent}%",
+    "recommendedThemes": "Themes for you",
+    "evidenceLabel": "Why we picked it",
+    "indexNote": "The fit index (0–100) is calculated from your travel type and interest. It isn't a probability.",
+    "interestMissing": "There's no theme composition data for “{interest}” yet, so it wasn't added to the index.",
+    "themeIndex": "Fit index {value}",
+    "typeAndInterest": "Type {type} + interest {interest}",
+    "typeOnly": "Type {type}",
+    "categoryShare": "{percent}% {category}",
+    "night": "{percent}% night-view spots",
+    "compareCourses": "Compare 3 routes",
+    "basis": "Calculation basis · Survey 6.3 · Recommendation 6.4 (reference calculation in the team specification)"
+  },
+  "Clusters": {
+    "C1": {
+      "name": "Trend Seeker",
+      "experience": "Seeking out popular places and new experiences",
+      "tagline": "First to find what's new",
+      "description": "Trips spent seeking out popular places and enjoying new experiences suit you best."
+    },
+    "C2": {
+      "name": "Scenic Companion",
+      "experience": "Enjoying views and atmosphere with companions and making memories",
+      "tagline": "Enjoying views and atmosphere together",
+      "description": "Trips where you enjoy views and atmosphere with your companions and make memories suit you best."
+    },
+    "C3": {
+      "name": "Family Experience",
+      "experience": "Doing activities that kids and family can enjoy together",
+      "tagline": "Hands-on fun with the kids",
+      "description": "Trips with activities that kids and family can enjoy together suit you best."
+    },
+    "C4": {
+      "name": "Culture Stroller",
+      "experience": "Walking calmly while hearing the stories of heritage sites and neighborhoods",
+      "tagline": "Walking slowly, listening to stories",
+      "description": "Trips where you walk calmly while hearing the stories of heritage sites and neighborhoods suit you best."
+    },
+    "C5": {
+      "name": "Quiet Retreat",
+      "experience": "Walking and resting alone or somewhere quiet",
+      "tagline": "Walking and resting quietly",
+      "description": "Trips where you walk and rest alone or somewhere quiet suit you best."
+    },
+    "C6": {
+      "name": "Local Foodie",
+      "experience": "Traveling around markets and local eateries",
+      "tagline": "Travel for the local flavors",
+      "description": "Trips centered on markets and local eateries suit you best."
+    },
+    "C7": {
+      "name": "K-Culture Explorer",
+      "experience": "Visiting filming locations and places linked to Korean content you love",
+      "tagline": "Step into the content you love",
+      "description": "Trips to filming locations and places linked to Korean content you love suit you best."
+    },
+    "C8": {
+      "name": "Wellness & Shopping",
+      "experience": "Spending time for yourself with spa and beauty treatments or shopping",
+      "tagline": "Enjoying time for yourself",
+      "description": "Trips where you spend time for yourself with spa and beauty treatments and shopping suit you best."
+    },
+    "C9": {
+      "name": "Nature & Coast",
+      "experience": "Exploring wide stretches of forest and coastal scenery",
+      "tagline": "Seeking out forest and sea views",
+      "description": "Trips exploring wide stretches of forest and coastal scenery suit you best."
+    },
+    "C10": {
+      "name": "History & Tradition",
+      "experience": "Learning in depth about historic sites and traditional culture, or trying it firsthand",
+      "tagline": "Learning the stories of the past in depth",
+      "description": "Trips where you learn in depth about historic sites and traditional culture, or try it firsthand, suit you best."
+    }
+  },
+  "Themes": {
+    "kings-warden": {
+      "name": "The King's Warden"
+    },
+    "kpop-demon-hunters": {
+      "name": "KPop Demon Hunters"
+    },
+    "rescene-route": {
+      "name": "RESCENE Route"
+    },
+    "jeju-k-drama": {
+      "name": "Jeju K-Drama"
+    },
+    "busan-film-trip": {
+      "name": "Busan Film Trip"
+    }
+  },
+  "Course": {
+    "planTabsLabel": "Three route plans",
+    "plans": {
+      "classic": {
+        "name": "Classic",
+        "description": "The standard route, mixing on-screen spots with landmarks (Korea's Top 100 and UNESCO)."
+      },
+      "trend": {
+        "name": "Trending",
+        "description": "On-screen spots first, with any spare time filled from the standard list."
+      },
+      "quiet": {
+        "name": "Quiet",
+        "description": "Skips landmarks and on-screen spots, and puts the area's nature and healing spots first."
+      }
+    },
+    "sameAsClassic": "Under these conditions, this plan matches the Classic route",
+    "fallbackNotice": "Once crowd and search-trend data is connected, these plans will switch to the weights in the strategy document",
+    "tripBasis": "Based on leaving Seoul Station at {depTime} and leaving the destination at {retTime} on the last day",
+    "accessibleNotice": "Only places with barrier-free information are included",
+    "dayTrip": "Day trip",
+    "nightsDays": "{nights, plural, one {# night} other {# nights}}, {days} days",
+    "placeCount": "{count, plural, one {# place} other {# places}}",
+    "stayTotal": "{duration} at places",
+    "moveTotal": "{duration} on the move",
+    "day": "Day {day}",
+    "arrive": "Arrive",
+    "leave": "Leave",
+    "move": "{duration} to next stop",
+    "wait": "{duration} wait for opening",
+    "stay": "Stay {duration}",
+    "videoBadge": "On screen",
+    "k100Badge": "Korea's Top 100",
+    "unescoBadge": "UNESCO",
+    "categories": {
+      "herit": "Heritage & Tradition",
+      "heal": "Healing & Eco",
+      "activity": "Theme Park & Activity",
+      "food": "Local & Food",
+      "sea": "Coast & Nature",
+      "stay": "Stay"
+    },
+    "duration": {
+      "m": "{m} min",
+      "h": "{h} hr",
+      "hm": "{h} hr {m} min"
+    },
+    "empty": "No places match your conditions, so we couldn't build a route",
+    "emptyHelp": "Try again with different conditions",
+    "emptyDay": "No places fit into this day",
+    "unappliedNotice": "Not reflected yet (no data): {conditions}",
+    "condition": "{name} ({value})",
+    "conditionNames": {
+      "when": "Travel dates",
+      "walk": "Daily walking"
+    },
+    "savePlan": "Save route",
+    "saved": "Saved"
+  },
+  "Trip": {
+    "q10": {
+      "options": {
+        "this-weekend": "This weekend",
+        "this-month": "This month",
+        "later": "Next month or later"
+      }
+    },
+    "q11": {
+      "options": {
+        "day-trip": "Day trip",
+        "1-night": "2 days, 1 night",
+        "2-nights-plus": "3 days or more"
+      }
+    },
+    "q12": {
+      "options": {
+        "car": "Car",
+        "public-transit": "Public transit",
+        "flight": "Plane",
+        "tour-bus": "Tour bus"
+      }
+    },
+    "q13": {
+      "options": {
+        "under-1h": "Up to 1 hour",
+        "1-3h": "1–3 hours",
+        "over-3h": "3 hours or more"
+      }
+    },
+    "q14": {
+      "options": {
+        "pet": "Traveling with a pet",
+        "accessible": "Step-free access",
+        "indoor-rain": "Mostly indoors if it rains"
+      }
+    }
+  },
+  "Theme": {
+    "tabsLabel": "Theme tabs",
+    "tabs": {
+      "map": "Map",
+      "course": "Course",
+      "film": "Film",
+      "stamp": "Stamps",
+      "info": "Travel info"
+    },
+    "stats": "{region} · {places} places · {videos} on screen",
+    "map": {
+      "categoriesLabel": "Place categories",
+      "all": "All",
+      "mapLabel": "Map of theme places",
+      "noKey": "The map couldn't load because no map key is set. The place list below still works",
+      "listHeading": "Places · {count}",
+      "searchLabel": "Search places",
+      "searchPlaceholder": "Find by place name",
+      "searchClear": "Clear search",
+      "searchEmpty": "No places match “{query}”",
+      "searchStatus": "{count, plural, one {# place found} other {# places found}}",
+      "more": "Show more ({count} left)",
+      "showOff": "Show {count} more places",
+      "regionsLabel": "Regions",
+      "nation": "Nationwide",
+      "regionCount": "{city} · {count, plural, one {# place} other {# places}}",
+      "distance": "{km} km",
+      "filmLink": "Film",
+      "videoLink": "Video",
+      "filmLinkLabel": "See the scene at {name}"
+    },
+    "sheet": {
+      "stamp": "Check in",
+      "stamped": "Checked in",
+      "stampedStatus": "Checked in here",
+      "unstampedStatus": "Check-in removed"
+    },
+    "course": {
+      "daysLabel": "Trip length",
+      "transportLabel": "Getting around",
+      "mapLabel": "Course map"
+    },
+    "film": {
+      "kicker": "Film scenes",
+      "kickerVideo": "Video scenes",
+      "title": "Where the scenes were shot",
+      "titleVideo": "Where the videos were shot",
+      "sortLabel": "Sort",
+      "sortAsc": "Scene order",
+      "sortDesc": "Reverse",
+      "searchLabel": "Search scenes and places",
+      "searchPlaceholder": "Scene title or place name",
+      "sceneLabel": "Scene {number}",
+      "places": "Places in this scene",
+      "watch": "Find this scene",
+      "play": "Play video: {title}",
+      "videoTitle": "Video: {title}",
+      "empty": "No scenes match your search",
+      "newWindow": "(opens in a new window)",
+      "sortPopular": "Popular",
+      "sortLatest": "Latest",
+      "views": "{count, plural, one {# view} other {# views}}",
+      "searchClear": "Clear search",
+      "searchStatus": "{count, plural, one {# result} other {# results}}",
+      "translatedNote": "Scene titles were translated by the app."
+    },
+    "stamp": {
+      "kicker": "Check-in",
+      "title": "{region} · Stamp book",
+      "progressLabel": "Stamps collected",
+      "progress": "{count} / {total} collected · {percent}%",
+      "done": "Collected",
+      "notDone": "Not yet",
+      "openMap": "Show {name} on the map",
+      "savedHeading": "Saved places · {count}",
+      "savedEmpty": "No saved places yet",
+      "remove": "Remove {name}"
+    },
+    "info": {
+      "title": "Travel info",
+      "workKicker": "The work",
+      "linksHeading": "Learn more",
+      "newWindow": "(opens in a new window)",
+      "kings-warden": {
+        "workTitle": "The King's Warden (2026)"
+      },
+      "kpop-demon-hunters": {
+        "workTitle": "KPop Demon Hunters (2025)"
+      },
+      "jeju-k-drama": {
+        "workTitle": "When Life Gives You Tangerines (2025)"
+      },
+      "busan-film-trip": {
+        "workTitle": "Train to Busan (2016)"
+      },
+      "datalabHeading": "{region} through the Data Lab",
+      "stayPerVisit": "{duration} per visit",
+      "stayIndex": "{index}× the national average",
+      "visitsToSeeAll": "Visits needed to see every place in the app: {visits}",
+      "datalabSource": "Source · Korea Tourism Data Lab · nationwide data · as of {year}",
+      "datalabFailed": "Couldn't load Data Lab information",
+      "datalabLoading": "Loading Data Lab information",
+      "fanHeading": "Fan channels",
+      "fanBody": "Join fans through the official community and channels.",
+      "fullSchedule": "Full schedule"
+    },
+    "tabsVideo": {
+      "film": "Video",
+      "info": "Fan Channel"
+    }
+  },
+  "Regions": {
+    "seoul": "Seoul",
+    "busan": "Busan",
+    "gangwon": "Gangwon",
+    "gyeongbuk": "Gyeongbuk",
+    "gyeongnam": "Gyeongnam",
+    "jeju": "Jeju"
+  },
+  "Planner": {
+    "title": "Tour Planner",
+    "scopesLabel": "Region",
+    "nation": "All",
+    "cityButton": "City",
+    "cityButtonLabel": "Choose a city",
+    "cityButtonCurrentLabel": "{city}, choose another city",
+    "tabsLabel": "Tour planner tabs",
+    "tabs": {
+      "map": "Map",
+      "course": "Course",
+      "info": "Travel info"
+    },
+    "courseBadge": "{count, plural, one {# place added} other {# places added}}",
+    "regionChip": "{region} · {count, plural, one {# place} other {# places}}",
+    "regionChipClear": "{region} · {count, plural, one {# place} other {# places}}, clear",
+    "picker": {
+      "title": "Choose a city",
+      "close": "Close",
+      "searchLabel": "Search cities",
+      "searchPlaceholder": "City name (Korean or English)",
+      "regionCities": "{count, plural, one {# city} other {# cities}}",
+      "placeCount": "{count, plural, one {# place} other {# places}}",
+      "empty": "No matching cities",
+      "otherRegions": "Other regions"
+    },
+    "map": {
+      "categoriesLabel": "Place categories",
+      "all": "All",
+      "badgesLabel": "Badges",
+      "badges": {
+        "pop": "Data Lab popular",
+        "un": "UNESCO",
+        "k100": "Korea's Top 100",
+        "bf": "Barrier-free",
+        "zone": "Tourist zone · complex"
+      },
+      "mapLabel": "Tour planner map",
+      "noKey": "The map couldn't load because no map key is set. The place list below still works",
+      "regionMarker": "{region} · {count, plural, one {# place} other {# places}}",
+      "cityMarker": "{city} · {count, plural, one {# place} other {# places}}",
+      "listHeading": "Places · {count}",
+      "popNote": "Places ranked in Korea Tourism Data Lab's popular attractions come first",
+      "searchLabel": "Search places",
+      "searchPlaceholder": "Find by place or city name",
+      "searchClear": "Clear search",
+      "searchEmpty": "No places match “{query}”",
+      "searchStatus": "{count, plural, one {# place found} other {# places found}}",
+      "more": "Show more ({count} left)",
+      "empty": "No places in this category",
+      "add": "Add {name} to course",
+      "addedStatus": "Added to course: {name}",
+      "removedStatus": "Removed from course: {name}",
+      "popRank": "Data Lab popular #{rank}"
+    },
+    "sheet": {
+      "add": "Add to course",
+      "remove": "Remove from course",
+      "detailLoading": "Loading the description and photo…",
+      "detailError": "Couldn't load the description and photo",
+      "detailRetry": "Try again",
+      "setStay": "Set as course stay",
+      "unsetStay": "Remove as stay"
+    },
+    "confirm": {
+      "title": "This place is in another city",
+      "body": "A course can only hold places from one city. Clear the {count, plural, one {# place} other {# places}} from {from} and start again in {to}?",
+      "cancel": "Cancel",
+      "confirm": "Clear and add"
+    },
+    "course": {
+      "kicker": "Course builder",
+      "title": "{city} · Today's route",
+      "titleTrip": "{city} · {days}-day route",
+      "plan": {
+        "label": "My plan",
+        "labelSuffix": "name",
+        "placeholder": "e.g. Autumn 3 days",
+        "save": "Save course",
+        "saved": "Saved",
+        "savedStatus": "Saved “{name}”. You can find it in ME",
+        "nameRequired": "Enter a plan name",
+        "emptyCourse": "No places yet. Add places before saving"
+      },
+      "dates": {
+        "heading": "Dates",
+        "start": "Departure date",
+        "end": "Return date",
+        "tripLabel": "Trip length",
+        "dayTrip": "Day trip",
+        "nights": "{days} days, {nights, plural, one {# night} other {# nights}}",
+        "errorOrder": "The return date must be on or after the departure date",
+        "errorTooLong": "You can plan up to {max} days",
+        "calendar": "Trip date calendar",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month",
+        "hintStart": "Pick a start date, then an end date — the course splits across those days",
+        "hintEnd": "Now pick your return date",
+        "endPending": "Picking…",
+        "notSet": "Today",
+        "mark": {
+          "today": "today",
+          "start": "start date",
+          "end": "return date",
+          "single": "start date",
+          "inside": "in your trip",
+          "blocked": "can't go beyond {max} days"
+        }
+      },
+      "trip": {
+        "heading": "Start · return",
+        "origin": "Starting point",
+        "depTime": "Depart (origin)",
+        "retTime": "Depart (destination)",
+        "retHint": "Plans on the last day end by this time",
+        "originEnd": "Return to",
+        "originSame": "Same as departure"
+      },
+      "wide": {
+        "heading": "Long-distance transport",
+        "modes": {
+          "bus": "Bus",
+          "rail": "Train",
+          "air": "Flight",
+          "ship": "Ferry",
+          "metro": "Subway",
+          "own": "Own car"
+        },
+        "short": {
+          "hub": "Not at destination",
+          "island": "No road access",
+          "islandMetro": "Ferry only"
+        },
+        "reason": {
+          "hub": "{hub} has no {mode} service",
+          "island": "It is an island, so you cannot drive there",
+          "islandMetro": "It is an island, so you cannot get there by subway. Choose the ferry",
+          "noCity": "Pick a city or add places to choose transport"
+        },
+        "access": "{origin} → {hub} · about {duration}"
+      },
+      "local": {
+        "heading": "Getting around",
+        "driving": "Driving (rental)",
+        "transit": "Transit",
+        "own": "Own car",
+        "ownNote": "With your own car, you drive it locally too"
+      },
+      "summary": {
+        "label": "Course summary",
+        "stops": "Stops",
+        "stopsValue": "{count}",
+        "km": "Distance",
+        "kmValue": "{km} km",
+        "time": "Est. time"
+      },
+      "list": {
+        "heading": "Places · {count}",
+        "empty": "No places yet. Add places on the map, or load a suggested course below",
+        "stay": "Set as stay"
+      },
+      "goMap": "Add places on the map",
+      "moveUp": "Move {name} up",
+      "moveDown": "Move {name} down",
+      "remove": "Remove {name} from course",
+      "removed": "Removed from course: {name}",
+      "actions": {
+        "recommend": "Load suggested course",
+        "recommendHint": "Fills the course with suggested places in {source}",
+        "recommendNoScope": "Pick a city or region to load a suggested course",
+        "recommendEmpty": "No places fit these settings. Try other dates or times",
+        "recommended": "Loaded a suggested course with {count, plural, one {# place} other {# places}}",
+        "clear": "Clear course",
+        "cleared": "Course cleared"
+      },
+      "confirmRecommend": {
+        "title": "Replace with the suggested course?",
+        "body": "This removes your {count, plural, one {# place} other {# places}} and loads the suggested course for {source}",
+        "confirm": "Replace"
+      },
+      "confirmClear": {
+        "title": "Clear the course?",
+        "body": "{count, plural, one {This removes the # place} other {This removes all # places}}. Your dates and starting point stay",
+        "confirm": "Clear"
+      },
+      "confirmLoad": {
+        "title": "Open the saved plan?",
+        "body": "This replaces your {count, plural, one {# place} other {# places}} with “{name}” ({planCount, plural, one {# place} other {# places}})",
+        "confirm": "Open"
+      },
+      "cancel": "Cancel",
+      "load": {
+        "loaded": "Opened “{name}”",
+        "missing": "We couldn't find that saved plan. It may have been deleted"
+      },
+      "schedule": {
+        "heading": "Day-by-day plan",
+        "dayDate": "{weekday}, {monthName} {day}",
+        "dropped": "{count, plural, one {# place didn't} other {# places didn't}} fit in the time available",
+        "droppedHint": "Add days or change the order",
+        "emptyDay": "Nothing planned for this day yet",
+        "refill": "Reload the suggested course for {days} days"
+      },
+      "booking": {
+        "heading": "Bookings",
+        "ktx": "Book KTX",
+        "srt": "Book SRT",
+        "bus": "Book a bus",
+        "rent": "Rent a car",
+        "stay": "Book a stay",
+        "lotte": "Lotte Rent-a-car",
+        "socar": "SOCAR",
+        "yanolja": "Yanolja",
+        "goodchoice": "Goodchoice",
+        "agoda": "Agoda",
+        "bookingCom": "Booking.com",
+        "newWindow": "(opens in a new window)",
+        "air": "Book flight",
+        "ship": "Book ferry",
+        "metro": "Metro timetable",
+        "airbnb": "Airbnb",
+        "tripCom": "Trip.com",
+        "skRent": "SK Rent-a-car",
+        "rentalcars": "Rentalcars"
+      },
+      "stay": {
+        "dec": "15 minutes less at {name}",
+        "inc": "15 minutes more at {name}",
+        "rec": "Suggested {duration}",
+        "reset": "Reset",
+        "resetLabel": "Reset the stay at {name} to the suggested time",
+        "changed": "{duration} at {name}"
+      },
+      "dayAdd": {
+        "open": "Add place",
+        "openLabel": "Add place to day {day}",
+        "search": "Search a place for this day",
+        "clear": "Clear",
+        "results": "Results",
+        "cityPlaces": "Places in {city}",
+        "none": "No matching place",
+        "hint": "It goes after the day's last stop. If the day is full, it moves to the next day",
+        "added": "Added to day {day}: {name}"
+      },
+      "legs": {
+        "leg": "{mode} · {duration} · {km} km",
+        "modes": {
+          "transit": "Transit",
+          "driving": "Rental car",
+          "own": "Own car",
+          "wide": "Intercity"
+        },
+        "out": "Getting there",
+        "back": "Getting home",
+        "route": "{from} → {to}",
+        "access": "{mode} · about {duration}"
+      },
+      "nightStay": {
+        "label": "Overnight",
+        "labelFor": "Stay for night of day {day}:",
+        "picked": "Your pick",
+        "generic": "Stay {letter}",
+        "genericMeta": "{area} area · not assigned",
+        "sample": "Example",
+        "sampleNote": "Example stay areas, not real booking info.",
+        "nearby": "Nearby",
+        "ownHeading": "Set as that night's stay",
+        "samplesHeading": "Example stay areas · map search",
+        "place": "Place",
+        "setAsStay": "set as stay",
+        "distance": "{km} km",
+        "mapNewWindow": "(map search, opens in a new window)",
+        "book": "Book a stay",
+        "setStatus": "Set {name} as the stay for night of day {day}",
+        "unsetStatus": "Removed {name} as a stay"
+      },
+      "metro": {
+        "start": "Start · line → station",
+        "city": "Departure metro station",
+        "end": "Return · line → station",
+        "line": "Line",
+        "station": "Station",
+        "linePlaceholder": "Choose a line",
+        "stationPlaceholder": "Choose a station",
+        "endPlaceholder": "Same as start",
+        "lineChanged": "Line changed, so the station was cleared. Pick a station again.",
+        "lineNo": "Line {n}",
+        "cityLineNo": "{city} Line {n}",
+        "cities": {
+          "incheon": "Incheon",
+          "busan": "Busan",
+          "daegu": "Daegu",
+          "daejeon": "Daejeon",
+          "gwangju": "Gwangju"
+        }
+      },
+      "chain": {
+        "modes": {
+          "metro": "Metro",
+          "bus": "Intercity bus",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "Flight",
+          "ship": "Ferry",
+          "own": "Own car",
+          "car": "Taxi/car",
+          "carferry": "Car ferry"
+        },
+        "depart": "Depart",
+        "leave": "Leave destination",
+        "ride": "{mode} {duration} ride",
+        "wait": "Wait {duration} → {time} {mode} departs",
+        "transfer": "Transfer {duration} → {time} {mode} departs",
+        "board": "{mode}",
+        "arrive": "Arrival gateway",
+        "home": "Home",
+        "note": "Times are distance-based estimates. Check the actual timetable when booking.",
+        "gateway": "Gateway",
+        "routeChange": "Change route",
+        "alt": "{count, plural, one {# other route} other {# other routes}}",
+        "arrivalTag": "On arrival",
+        "arrivalSub": "≈ {mode} {duration} · {km} km",
+        "arrivalModes": {
+          "transit": "Transit",
+          "driving": "Car"
+        },
+        "directions": "Route",
+        "directionsLabel": "Directions from {from} to {to} (new window)"
+      },
+      "route": {
+        "kickerIn": "Choose intercity route",
+        "kickerOut": "Choose return route",
+        "titleIn": "{count, plural, one {# way} other {# ways}} to {city}",
+        "titleOut": "{count, plural, one {# way} other {# ways}} home from {city}",
+        "body": "Pick one intercity route. Gateways and the day schedule are recalculated from it.",
+        "foot": "Closing keeps the highlighted default. Change it any time from the course card.",
+        "direct": "{mode} · direct",
+        "transfers": "{mode} · {count, plural, one {# transfer} other {# transfers}}",
+        "times": "{dep} dep → {arr} arr",
+        "current": "Current route",
+        "close": "Close",
+        "picked": "Switched to the {mode} route",
+        "modes": {
+          "bus": "Intercity bus",
+          "ktx": "KTX",
+          "srt": "SRT",
+          "air": "Flight",
+          "ship": "Ferry",
+          "metro": "Metro"
+        }
+      },
+      "jejuOwn": {
+        "kicker": "Own car · Jeju",
+        "title": "Jeju is an island — you can’t get there by car alone. Do you live in Jeju?",
+        "resident": "Yes, I live in Jeju — car only",
+        "ferry": "No — take the car ferry",
+        "residentNote": "Resident — you drive within the island only. With no intercity leg, day 1 starts at your departure time.",
+        "ferryNote": "Ship your car on a ferry from Mokpo, Wando, Yeosu or Busan. Pick a port in the ferry timetable below; vehicles usually board 1 hour before departure."
+      },
+      "ulleung": {
+        "kicker": "Ulleung ferry",
+        "title": "Ulleungdo is reached only by ferry",
+        "body": "There is no rail, bus or air service to the island, so departure and return are counted only from the four ports with Ulleung sailings. Departure has been set to Pohang Ferry Terminal — switch it to the port you want.",
+        "portsLabel": "Ports served · duration",
+        "foot": "Durations are each route’s fixed sailing time plus 40 minutes for boarding. The arrival port varies by sailing (Dodong, Jeodong or Sadong) and crossings can be cancelled in rough weather.",
+        "ok": "Got it",
+        "close": "Close"
+      },
+      "ferry": {
+        "title": {
+          "jeju": "Jeju ferry timetable",
+          "ulleung": "Ulleungdo ferry timetable"
+        },
+        "port": "Departure port",
+        "rows": {
+          "op": "Operator",
+          "dur": "Crossing",
+          "day": "Sailings",
+          "first": "First",
+          "last": "Last",
+          "arr": "Arrives"
+        },
+        "note": "Indicative departures from the mainland. Frequency and times change by weekday, season and weather, and sailings can be cancelled — check the operator timetable before booking.",
+        "book": "Book (KSA island ferry)",
+        "operator": "Operator timetable",
+        "stat": {
+          "label": "Track record · {route}",
+          "range": "{from}–{to} · {n} sailings",
+          "yearly": "Cancelled (all year)",
+          "tripMonth": "{monthName} (your trip)",
+          "worst": "Worst month",
+          "monthPct": "{monthName} {pct}",
+          "bars": "Cancellation rate by month",
+          "barTrip": "{label} · your trip",
+          "times": "Usual departures",
+          "warn": "{monthName} sees {pct} cancellations on this route — keep a flight or a spare day as backup.",
+          "src": "Source: KOMSA route sailing records"
+        }
+      }
+    },
+    "info": {
+      "title": "Travel info",
+      "selectLabel": "Selected area",
+      "selectPlaceholder": "Choose a city",
+      "hubHeading": "Gateway",
+      "hubNone": "No gateway information",
+      "hubPick": "Choose a city to see its gateway",
+      "modesLabel": "Transport",
+      "modes": {
+        "ktx": "KTX",
+        "srt": "SRT",
+        "bus": "Express bus",
+        "air": "Flights",
+        "ship": "Ferry",
+        "metro": "Metro rail"
+      },
+      "linksHeading": "Regional tourism guides",
+      "newWindow": "(opens in a new window)",
+      "defaultRegion": "Default",
+      "more": "Show more ({shown} / {total})",
+      "call": "Call",
+      "citytour": {
+        "title": "City tours · {city}",
+        "meta": "{count} courses",
+        "empty": "No city tours listed for this region.",
+        "source": "Source: National city tour standard data · {date} · Course info translated by the app."
+      },
+      "tic": {
+        "title": "Tourist info centers · {city}",
+        "meta": "{count}",
+        "hotline": "1330 Korea Travel Hotline · 24 h",
+        "hotlineSub": "English, Japanese, Chinese and more",
+        "onlyMine": "English-speaking only ({count})",
+        "emptyMine": "No center here lists English support. Call 1330 for interpretation.",
+        "empty": "No info centers listed for this region.",
+        "hours": "Hours",
+        "closed": "Closed",
+        "map": "Map",
+        "source": "Source: KTO tourist info centers · Kakao coordinates · Names and addresses translated by the app"
+      }
+    },
+    "howTo": {
+      "heading": "How routing works",
+      "steps": {
+        "wide": "Pick the long-distance mode first (bus, rail, air, ship, metro, own car). Only matching terminals, stations, airports or ports appear as start/return points.",
+        "origin": "For metro, pick line → station.",
+        "route": "If there are two or more routes (e.g. KTX / express bus), choose one in the prompt. The leg from home to the terminal is included.",
+        "local": "Choose rental car or public transit for local travel. Set date and start time to get a day-by-day route with travel times; stay time is editable per place.",
+        "stay": "Stays of one night or more get lodging candidates and booking links per day. Lodging is excluded from sightseeing time.",
+        "jeju": "Jeju allows air, ship, or own car (residents, or with a ferry) only."
+      }
+    }
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "This address may have changed or doesn't exist. Try again from home",
+    "home": "Go home"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "description": "Please try again in a moment",
+    "retry": "Try again",
+    "home": "Go home"
+  },
+  "Datalab": {
+    "regions": {
+      "seoul": "Seoul",
+      "busan": "Busan",
+      "gyeongju": "Gyeongju",
+      "jeju": "Jeju",
+      "geoje": "Geoje",
+      "yeongwol": "Yeongwol"
+    },
+    "tfiLabel": "Region × theme strength (TFI)",
+    "themes": {
+      "herit": "Heritage & culture",
+      "heal": "Nature & healing",
+      "activity": "Experiences & activities",
+      "food": "Food"
+    }
+  },
+  "Header": {
+    "search": "Find places (Tour planner)"
+  },
+  "Notifications": {
+    "button": "Notifications",
+    "buttonUnread": "Notifications, {count} unread",
+    "heading": "Notifications",
+    "markAll": "Mark all read",
+    "empty": "No notifications",
+    "unread": "Unread:",
+    "recommend": {
+      "title": "Your theme finder result is ready",
+      "body": "Your traveler type · {type}"
+    },
+    "planner": {
+      "title": "You have places in your planner course",
+      "body": "{count, plural, one {# place} other {# places}} · continue in the Course tab"
+    },
+    "saved": {
+      "title": "You have saved plans",
+      "body": "{count, plural, one {# plan} other {# plans}} · open them again in ME"
+    },
+    "citytour": {
+      "title": "City tours by region",
+      "body": "{regions} regions · {tours} tours · updated up to {date}"
+    }
+  },
+  "Plans": {
+    "label": "My plans",
+    "labelSuffix": "name",
+    "placeholder": "Plan name (optional)",
+    "store": "View saved ({count})",
+    "storeEmpty": "No saved plans yet",
+    "overwrite": "Update “{name}”",
+    "overwritten": "Updated “{name}” in your saved plans",
+    "load": "Load",
+    "loadLabel": "Load {name}",
+    "loaded": "Loaded “{name}”",
+    "current": "Showing now",
+    "deleteLabel": "Delete {name}",
+    "deleted": "Deleted “{name}”",
+    "savedStatus": "Plan saved. You can find it in ME",
+    "cancel": "Cancel",
+    "confirmOverwrite": {
+      "title": "Update this plan?",
+      "body": "“{name}” in your saved plans will be replaced with the current course",
+      "confirm": "Update"
+    },
+    "confirmDelete": {
+      "title": "Delete this plan?",
+      "body": "“{name}” will be removed from your saved plans. This can't be undone",
+      "confirm": "Delete"
+    }
+  }
+}
