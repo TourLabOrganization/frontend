@@ -6,16 +6,34 @@ import invalidKey from "./fixtures/tour/invalid-key.json";
 import odiiEnBulguksa from "./fixtures/tour/odii-en-bulguksa.json";
 import odiiEnCheomseongdae from "./fixtures/tour/odii-en-cheomseongdae.json";
 import odiiJpChangdeokgung from "./fixtures/tour/odii-jp-changdeokgung.json";
+import odiiEnGyeongnam from "./fixtures/tour/odii-en-gyeongnam.json";
+import odiiEnNearHwangnidan from "./fixtures/tour/odii-en-near-hwangnidan.json";
+import odiiEnNearWindyhill from "./fixtures/tour/odii-en-near-windyhill.json";
+import odiiJpBulguksa from "./fixtures/tour/odii-jp-bulguksa.json";
+import odiiJpNearHwangnidan from "./fixtures/tour/odii-jp-near-hwangnidan.json";
+import odiiJpNearWindyhill from "./fixtures/tour/odii-jp-near-windyhill.json";
 import odiiKoBulguksa from "./fixtures/tour/odii-ko-bulguksa.json";
+import odiiKoCheomseongdae from "./fixtures/tour/odii-ko-cheomseongdae.json";
+import odiiKoHwangnidan from "./fixtures/tour/odii-ko-hwangnidan.json";
+import odiiKoWindyhill from "./fixtures/tour/odii-ko-windyhill.json";
+import themeEnP1 from "./fixtures/tour/odii-theme-en-p1.json";
+import themeEnP2 from "./fixtures/tour/odii-theme-en-p2.json";
+import themeJpP1 from "./fixtures/tour/odii-theme-jp-p1.json";
+import themeJpP2 from "./fixtures/tour/odii-theme-jp-p2.json";
+import themeSearchKoHwangnidan from "./fixtures/tour/odii-theme-search-ko-hwangnidan.json";
 import { hasHangul } from "./hangul";
 import { parseTourItems, tourPlace } from "./tour-api";
 import {
   audioForLocale,
   audioUrl,
+  clearOdiiCache,
   ODII_LANG,
+  odiiKoCandidates,
   odiiQueries,
+  odiiThemes,
   odiiUrl,
   pickOdii,
+  pickOdiiByTid,
   playSeconds,
   storyFor,
   tourAudioResponse,
@@ -28,6 +46,14 @@ import {
 //   odii-jp-changdeokgung langCode=jp keyword=昌徳宮 (3건). 「慶州 瞻星台」로 찾으면 0건(empty.json)
 //   empty                 결과 없음(오디 「효우당」 등, items가 빈 문자열)
 //   invalid-key           등록되지 않은 키(HTTP 403, OpenAPI_ServiceResponse)
+// 외국어 화면의 관광지 번호(tid) 잇기에 쓰는 실제 응답:
+//   odii-ko-hwangnidan · odii-ko-windyhill · odii-ko-cheomseongdae  한국어 해설 검색(tid 1312 · 1139와 2880 · 338 · 2967 · 3415)
+//   odii-theme-{en,jp}-p{1,2}  관광지 목록 themeBasedList 1,000개씩 두 쪽(en 1,356 · jp 1,134곳 중 tid 2 · 617 · 1312 · 2880 등만 남겼다)
+//   odii-theme-search-ko-hwangnidan  themeSearchList ko 「황리단길」 → tid 1312
+//   odii-jp-bulguksa  jp 「仏国寺」(14건 중 10건). en 「Bulguksa Temple」 응답은 「Bulguksa」와 똑같아 odii-en-bulguksa를 쓴다
+//   odii-en-gyeongnam  en 「Gyeongsangnam-do」 → tid 617(산청)뿐
+//   odii-{en,jp}-near-{hwangnidan,windyhill}  storyLocationBasedList 반경 1km(황리단길은 앞 4건만 남겼다)
+//   en 「Hwanglidan-gil」 · jp 「ファンリダンギル」 · jp 「慶尚南道(キョンサンナムド)」 이야기 검색은 0건(empty)
 const items = (body: unknown) => parseTourItems(body) ?? [];
 const place = (id: string) => tourPlace(id)!;
 const at = (id: string, name: string) => ({
@@ -146,6 +172,97 @@ describe("오디 결과 고르기 (PoC loadAudio)", () => {
   });
 });
 
+describe("외국어 해설을 관광지 번호(tid)로 잇기", () => {
+  it("tid는 언어가 달라도 같다: 황리단길 ko 1312 = en 「Hwanglidan-gil」 = jp 「ファンリダンギル」", () => {
+    expect(items(themeSearchKoHwangnidan)[0]).toMatchObject({
+      tid: "1312",
+      title: "황리단길",
+    });
+    expect(items(odiiKoHwangnidan)[0].tid).toBe("1312");
+    const en = odiiThemes([...items(themeEnP1), ...items(themeEnP2)]);
+    const jp = odiiThemes([...items(themeJpP1), ...items(themeJpP2)]);
+    expect(en.get("1312")?.title).toBe("Hwanglidan-gil");
+    expect(jp.get("1312")?.title).toBe("ファンリダンギル");
+    expect(en.get("2")?.title).toBe("Bulguksa Temple");
+    // 관광지 제목의 끝 공백은 뗀다(「Gyeongsangnam-do 」)
+    expect(en.get("2880")?.title).toBe("Gyeongsangnam-do");
+  });
+
+  it("한국어 해설 후보: 같은 기준으로 고를 수 있는 것 모두 (바람의 언덕: 같은 제목 · 좌표로 tid 1139 · 2880)", () => {
+    expect(
+      odiiKoCandidates(items(odiiKoWindyhill), at("gz4", "바람의 언덕")).map(
+        (x) => x.tid,
+      ),
+    ).toEqual(["1139", "2880"]);
+    // 첨성대: 충북 화양구곡(338)은 좌표로 빠지고 이름이 겹치는 2967 · 3415
+    expect(
+      odiiKoCandidates(items(odiiKoCheomseongdae), at("gjx3", "첨성대")).map(
+        (x) => x.tid,
+      ),
+    ).toEqual(["2967", "3415"]);
+  });
+
+  it("대표 해설: 같은 tid 중 제목이 관광지 제목과 같은 것 → 품는 것 → 첫째", () => {
+    const gjx1 = place("gjx1");
+    // en: 제목이 관광지 제목과 같은 「Bulguksa Temple」(개요, 이 해설은 음성 파일이 없다)
+    const en = pickOdiiByTid(
+      items(odiiEnBulguksa),
+      "2",
+      "Bulguksa Temple",
+      gjx1,
+    );
+    expect(en).toMatchObject({
+      title: "A kingdom of Buddhism where anyone could become a Buddha",
+    });
+    expect(en?.audioUrl).toBeUndefined();
+    // jp: 모두 「仏国寺」를 품는다 → 첫째(입구)
+    expect(
+      pickOdiiByTid(items(odiiJpBulguksa), "2", "仏国寺", gjx1)?.title,
+    ).toBe("仏様の国「仏国寺」");
+  });
+
+  it("해설 제목이 관광지 제목과 달라도 좌표 둘레 결과에서 같은 tid를 고른다", () => {
+    const gj4 = place("gj4");
+    expect(
+      pickOdiiByTid(items(odiiEnNearHwangnidan), "1312", "Hwanglidan-gil", gj4),
+    ).toMatchObject({ title: "Creating new history for Gyeongju" });
+    expect(
+      pickOdiiByTid(
+        items(odiiJpNearHwangnidan),
+        "1312",
+        "ファンリダンギル",
+        gj4,
+      ),
+    ).toMatchObject({ title: "ファンニダンギル", playTime: 100 });
+    // 도 단위 관광지(2880 「Gyeongsangnam-do」)는 제목이 겹치는 해설이 없어 가까운 첫째
+    expect(
+      pickOdiiByTid(
+        items(odiiEnNearWindyhill),
+        "2880",
+        "Gyeongsangnam-do",
+        place("gz4"),
+      )?.title,
+    ).toBe("Windy Hill");
+  });
+
+  it("다른 tid · 먼 곳 · 한글 해설은 고르지 않는다", () => {
+    const gz4 = place("gz4");
+    // 「Gyeongsangnam-do」로 찾으면 산청(617)만 온다
+    expect(
+      pickOdiiByTid(items(odiiEnGyeongnam), "2880", "Gyeongsangnam-do", gz4),
+    ).toBeNull();
+    expect(
+      pickOdiiByTid(items(odiiEnNearWindyhill), "2880", "Gyeongsangnam-do", {
+        lat: 37.5,
+        lng: 127,
+      }),
+    ).toBeNull();
+    expect(
+      pickOdiiByTid(items(odiiKoBulguksa), "2", "불국사", place("gjx1")),
+    ).toBeNull();
+  });
+});
+
 describe("한국어 스토리텔링 대체 (PoC STORY_DB)", () => {
   it("31곳이 모두 플래너 장소 이름과 맞는다", () => {
     const names = new Set(plannerPlaces.map((p) => p.ko));
@@ -183,14 +300,24 @@ describe("GET /api/tour/audio", () => {
   const call = (qs: string) =>
     tourAudioResponse(new Request(`http://localhost/api/tour/audio?${qs}`));
 
-  /** 오디 실제 응답을 언어 코드 · 검색어로 돌려준다. 표에 없는 검색은 실제 빈 응답 */
+  /**
+   * 오디 실제 응답을 오퍼레이션 · 언어 · 검색어(또는 쪽 · 좌표)로 돌려준다. 표에 없으면 실제 빈 응답.
+   * 이야기 검색 「story 언어|검색어」, 관광지 목록 「theme 언어|쪽」, 좌표 둘레 「near 언어|경도,위도」
+   */
   function stubOdii(table: Record<string, unknown>) {
     const asked: string[] = [];
     vi.stubGlobal(
       "fetch",
       vi.fn(async (input: string) => {
         const url = new URL(input);
-        const k = `${url.searchParams.get("langCode")}|${url.searchParams.get("keyword")}`;
+        const q = url.searchParams;
+        const op = url.pathname.split("/").pop();
+        const k =
+          op === "themeBasedList"
+            ? `theme ${q.get("langCode")}|${q.get("pageNo")}`
+            : op === "storyLocationBasedList"
+              ? `near ${q.get("langCode")}|${q.get("mapX")},${q.get("mapY")}`
+              : `story ${q.get("langCode")}|${q.get("keyword")}`;
         asked.push(k);
         return Response.json(table[k] ?? emptyRes);
       }),
@@ -198,10 +325,25 @@ describe("GET /api/tour/audio", () => {
     return asked;
   }
   const REAL = {
-    "ko|불국사": odiiKoBulguksa,
-    "en|Bulguksa": odiiEnBulguksa,
-    "en|Cheomseongdae": odiiEnCheomseongdae,
-    "jp|昌徳宮": odiiJpChangdeokgung,
+    "story ko|불국사": odiiKoBulguksa,
+    "story ko|황리단길": odiiKoHwangnidan,
+    "story ko|바람의 언덕": odiiKoWindyhill,
+    "story ko|첨성대": odiiKoCheomseongdae,
+    "theme en|1": themeEnP1,
+    "theme en|2": themeEnP2,
+    "theme jp|1": themeJpP1,
+    "theme jp|2": themeJpP2,
+    "story en|Bulguksa Temple": odiiEnBulguksa,
+    "story jp|仏国寺": odiiJpBulguksa,
+    "story en|Gyeongsangnam-do": odiiEnGyeongnam,
+    "near en|129.20971,35.837533": odiiEnNearHwangnidan,
+    "near jp|129.20971,35.837533": odiiJpNearHwangnidan,
+    "near en|128.663143,34.744742": odiiEnNearWindyhill,
+    "near jp|128.663143,34.744742": odiiJpNearWindyhill,
+    // tid를 모를 때(한국어 해설 없음)의 그 언어 이름 검색
+    "story en|Bulguksa": odiiEnBulguksa,
+    "story jp|昌徳宮": odiiJpChangdeokgung,
+    "story en|Cheomseongdae": odiiEnCheomseongdae,
   };
 
   it("키가 없으면: 한국어 화면은 스토리텔링 또는 결과 없음(캐시하지 않는다), 외국어 화면은 503", async () => {
@@ -242,39 +384,118 @@ describe("GET /api/tour/audio", () => {
       playTime: 121,
       source: "odii",
     });
-    expect(asked).toEqual(["ko|불국사"]);
+    expect(asked).toEqual(["story ko|불국사"]);
   });
 
-  it("영어 · 중국어 · 스페인어 화면은 영어 이름으로 en 자료", async () => {
+  it("영어 · 중국어 · 스페인어 화면: 한국어 해설의 tid(2) → en 관광지 「Bulguksa Temple」 → 같은 tid 대표 해설", async () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     for (const locale of ["en", "zh", "es"]) {
+      clearOdiiCache();
       const asked = stubOdii(REAL);
       const body = await (await call(`id=gjx1&locale=${locale}`)).json();
-      expect(body).toMatchObject({ title: "Entrance (Bulguksa Temple)" });
+      expect(body).toMatchObject({
+        title: "A kingdom of Buddhism where anyone could become a Buddha",
+      });
       expect(hasHangul(JSON.stringify(body))).toBe(false);
-      expect(asked).toEqual(["en|Bulguksa"]);
+      // en 관광지는 1,356곳이라 1,000개씩 두 쪽
+      expect(asked).toEqual([
+        "story ko|불국사",
+        "theme en|1",
+        "theme en|2",
+        "story en|Bulguksa Temple",
+      ]);
     }
   });
 
-  it("일본어 화면: 공식 명칭으로 jp, 결과가 없거나 명칭이 없으면 영어", async () => {
+  it("일본어 화면: jp 관광지 「仏国寺」의 해설", async () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    const asked = stubOdii(REAL);
+    expect(await (await call("id=gjx1&locale=ja")).json()).toMatchObject({
+      title: "仏様の国「仏国寺」",
+    });
+    expect(asked).toEqual([
+      "story ko|불국사",
+      "theme jp|1",
+      "theme jp|2",
+      "story jp|仏国寺",
+    ]);
+  });
+
+  it("황리단길: 관광지 제목(Hwanglidan-gil)으로는 0건 → 한국어 해설 좌표 둘레에서 같은 tid(1312)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    let asked = stubOdii(REAL);
+    expect(await (await call("id=gj4&locale=en")).json()).toMatchObject({
+      title: "Creating new history for Gyeongju",
+    });
+    expect(asked.slice(3)).toEqual([
+      "story en|Hwanglidan-gil",
+      "near en|129.20971,35.837533",
+    ]);
+    asked = stubOdii(REAL);
+    expect(await (await call("id=gj4&locale=ja")).json()).toMatchObject({
+      title: "ファンニダンギル",
+      playTime: 100,
+    });
+  });
+
+  it("바람의 언덕: 첫 tid(1139)는 en · jp에 없어 다음 tid(2880, 도 단위 관광지)의 좌표 둘레 해설", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    const asked = stubOdii(REAL);
+    expect(await (await call("id=gz4&locale=en")).json()).toMatchObject({
+      title: "Windy Hill",
+      playTime: 69,
+    });
+    expect(asked.slice(3)).toEqual([
+      "story en|Gyeongsangnam-do",
+      "near en|128.663143,34.744742",
+    ]);
+    stubOdii(REAL);
+    expect(await (await call("id=gz4&locale=ja")).json()).toMatchObject({
+      title: "風の丘",
+    });
+  });
+
+  it("tid를 알지만 그 언어 관광지 목록에 없으면 숨긴다(그 언어 이름으로 찾지 않는다)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    // 첨성대 tid 2967 · 3415는 잘라 낸 목록에 없다
+    const asked = stubOdii(REAL);
+    expect(await (await call("id=gjx3&locale=en")).json()).toEqual({
+      empty: true,
+    });
+    expect(asked).not.toContain("story en|Cheomseongdae");
+  });
+
+  it("한국어 해설이 없어 tid를 모르면 그 언어 이름으로 찾는다(일본어는 공식 명칭 → 영어)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    // 창덕궁: 한국어 해설 표에 없어 실제 빈 응답 → 일본어 공식 명칭 「昌徳宮」
     let asked = stubOdii(REAL);
     expect(await (await call("id=kdx1&locale=ja")).json()).toMatchObject({
       title: "北村一景：昌徳宮(チャンドックン)",
     });
-    expect(asked).toEqual(["jp|昌徳宮"]);
-
-    // 첨성대: 일본어 공식 명칭 「慶州 瞻星台」로는 0건(실제) → 영어
+    expect(asked).toEqual(["story ko|창덕궁", "story jp|昌徳宮"]);
+    // 효우당: 어디에도 없으면 결과 없음
     asked = stubOdii(REAL);
-    expect(await (await call("id=gjx3&locale=ja")).json()).toMatchObject({
-      title: "Cheomseong Observatory, A star-gazing tower",
+    expect(await (await call("id=gj1&locale=en")).json()).toEqual({
+      empty: true,
     });
-    expect(asked).toEqual(["jp|慶州 瞻星台", "en|Cheomseongdae"]);
+    expect(asked).toEqual(["story ko|효우당", "story en|Hyowoodang"]);
+  });
 
-    // 불국사: 일본어 공식 명칭이 이름표에 없다 → 바로 영어
-    asked = stubOdii(REAL);
-    await call("id=gjx1&locale=ja");
-    expect(asked).toEqual(["en|Bulguksa"]);
+  it("관광지 목록은 서버 메모리에 두고 한 번만 받는다", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    const asked = stubOdii(REAL);
+    await call("id=gjx1&locale=en");
+    await call("id=gj4&locale=en");
+    expect(asked.filter((k) => k.startsWith("theme "))).toEqual([
+      "theme en|1",
+      "theme en|2",
+    ]);
   });
 
   it("오디에 결과가 없으면 한국어 화면은 스토리텔링, 외국어 화면은 결과 없음", async () => {
@@ -288,9 +509,10 @@ describe("GET /api/tour/audio", () => {
     });
   });
 
-  it("외국어 화면에 한글 대본이 오면 결과 없음 (en 검색에 한국어 실제 응답을 돌려 본다)", async () => {
+  it("외국어 화면에 한글 해설이 오면 고르지 않는다 (en 검색에 한국어 실제 응답을 돌려 본다)", async () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
-    stubOdii({ "en|Bulguksa": odiiKoBulguksa });
+    clearOdiiCache();
+    stubOdii({ ...REAL, "story en|Bulguksa Temple": odiiKoBulguksa });
     const body = await (await call("id=gjx1&locale=en")).json();
     expect(body).toEqual({ empty: true });
   });

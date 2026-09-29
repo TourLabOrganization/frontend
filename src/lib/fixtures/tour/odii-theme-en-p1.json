@@ -1,0 +1,59 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "2",
+            "tlid": "6",
+            "themeCategory": "Silla History Tour",
+            "addr1": "Gyeongsangbuk-do",
+            "addr2": "Gyeongju-si",
+            "title": "Bulguksa Temple",
+            "mapX": "129.332099",
+            "mapY": "35.790122",
+            "langCheck": "11111",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20190923194000",
+            "modifiedtime": "20250609183759"
+          },
+          {
+            "tid": "617",
+            "tlid": "1481",
+            "themeCategory": "",
+            "addr1": "Gyeongsangnam-do",
+            "addr2": "Sancheong-gun",
+            "title": "Sancheong",
+            "mapX": "127.87348",
+            "mapY": "35.415512",
+            "langCheck": "11110",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20190923194617",
+            "modifiedtime": "20191025222237"
+          },
+          {
+            "tid": "1312",
+            "tlid": "2358",
+            "themeCategory": "Silla History Tour",
+            "addr1": "Gyeongsangbuk-do",
+            "addr2": "Gyeongju-si",
+            "title": "Hwanglidan-gil",
+            "mapX": "129.20971",
+            "mapY": "35.837533",
+            "langCheck": "11111",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20190923194707",
+            "modifiedtime": "20250609191557"
+          }
+        ]
+      },
+      "numOfRows": 1000,
+      "pageNo": 1,
+      "totalCount": 1356
+    }
+  }
+}

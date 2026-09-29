@@ -64,6 +64,15 @@ export function parseTourItems(body: unknown): TourItem[] | null {
   return list.filter((x): x is TourItem => typeof x === "object" && x !== null);
 }
 
+/** 공공데이터포털 JSON 응답의 전체 건수(body.totalCount). 없으면 0 */
+export function parseTourTotal(body: unknown): number {
+  const total = Number(
+    (body as { response?: { body?: { totalCount?: unknown } } } | null)
+      ?.response?.body?.totalCount,
+  );
+  return Number.isFinite(total) ? total : 0;
+}
+
 /** 캐시 방법. 초 = 서버 fetch 캐시(revalidate), no-store = 캐시하지 않음 */
 export type TourCache = number | "no-store";
 
@@ -72,6 +81,14 @@ export async function fetchTourItems(
   url: string,
   cache: TourCache,
 ): Promise<TourItem[]> {
+  return (await fetchTourPage(url, cache)).items;
+}
+
+/** fetchTourItems와 같고, 여러 쪽으로 나눠 받을 때 쓰는 전체 건수(totalCount)를 함께 돌려준다 */
+export async function fetchTourPage(
+  url: string,
+  cache: TourCache,
+): Promise<{ items: TourItem[]; total: number }> {
   let res: Response;
   try {
     res = await fetch(url, {
@@ -94,7 +111,7 @@ export async function fetchTourItems(
   }
   const items = parseTourItems(body);
   if (!items) throw new TourApiError("tour api result code");
-  return items;
+  return { items, total: parseTourTotal(body) };
 }
 
 /** 장소의 시군구 코드. 못 구한 곳 · 모르는 id는 "" */

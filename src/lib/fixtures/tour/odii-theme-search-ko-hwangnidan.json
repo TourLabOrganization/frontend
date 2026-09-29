@@ -1,0 +1,29 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "1312",
+            "tlid": "2357",
+            "themeCategory": "신라역사여행",
+            "addr1": "경상북도",
+            "addr2": "경주시",
+            "title": "황리단길",
+            "mapX": "129.20971",
+            "mapY": "35.837533",
+            "langCheck": "11111",
+            "langCode": "ko",
+            "imageUrl": "",
+            "createdtime": "20190923194707",
+            "modifiedtime": "20250609191557"
+          }
+        ]
+      },
+      "numOfRows": 1,
+      "pageNo": 1,
+      "totalCount": 1
+    }
+  }
+}
