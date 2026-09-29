@@ -26,7 +26,7 @@ describe("도시 · 시군구", () => {
     expect(isPopularCity("평양")).toBe(false);
   });
 
-  it("도시마다 장소가 많은 시군구 최대 4곳(10% 이상)", () => {
+  it("도시마다 장소가 많은 시군구 최대 4곳(5곳 이상)", () => {
     for (const c of POPULAR_CITIES) {
       const codes = citySigngu(c);
       expect(codes.length, c).toBeGreaterThan(0);
@@ -34,23 +34,35 @@ describe("도시 · 시군구", () => {
       for (const code of codes) expect(code).toMatch(/^\d{5}$/);
     }
     expect(citySigngu("경주")).toEqual(["47130"]);
-    expect(citySigngu("서울")[0]).toBe("11110"); // 종로구가 가장 많다
+    // 서울: 종로 · 송파 · 영등포 · 용산(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
+    expect(citySigngu("서울")).toEqual(["11110", "11710", "11560", "11170"]);
+    expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("없는도시")).toEqual([]);
   });
 
-  it("합성 자료: 10% 미만 시군구는 뺀다", () => {
-    const places = [
-      ...Array.from({ length: 9 }, (_, i) => ({
-        id: `a${i}`,
+  it("합성 자료: 장소 5곳 미만 시군구는 빼고, 숙박은 세지 않는다", () => {
+    const spots = (prefix: string, n: number, cat = "herit") =>
+      Array.from({ length: n }, (_, i) => ({
+        id: `${prefix}${i}`,
         locKo: "X",
-        cat: "herit",
-      })),
-      { id: "b0", locKo: "X", cat: "herit" },
-      { id: "s0", locKo: "X", cat: "stay" },
+        cat,
+      }));
+    const places = [
+      ...spots("a", 9),
+      ...spots("b", 5),
+      ...spots("c", 4),
+      ...spots("d", 6, "stay"),
     ] as never[];
-    const sg = (id: string) => (id.startsWith("a") ? "11110" : "11140");
-    // b0은 10곳 중 1곳 = 10%라 들어가고, 숙박은 세지 않는다
-    expect(citySigngu("X", places, sg)).toEqual(["11110", "11140"]);
+    const codes: Record<string, string> = {
+      a: "11110",
+      b: "11140",
+      c: "11170",
+      d: "11200",
+    };
+    expect(citySigngu("X", places, (id) => codes[id[0]] ?? "")).toEqual([
+      "11110",
+      "11140",
+    ]);
   });
 });
 
