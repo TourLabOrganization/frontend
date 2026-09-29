@@ -34,7 +34,6 @@ import { cityTourText } from "@/features/translations/text";
 const TOURS = toursData as CityTour[];
 /** 노선별 코스 점수 자료(TOURS와 같은 순서, 분석 적격이 아니면 null) */
 const PROFILES = scoresData as (CourseScoreProfile | null)[];
-const TOUR_INDEX = new Map(TOURS.map((tour, i) => [tour, i]));
 
 const percent = (value: number) => Math.round(value * 100);
 /** 보여 줄 추천 테마 수(명세서 §14 상위 3개) */
@@ -92,7 +91,7 @@ export default async function RecommendResultPage({
   const tourPicks = type
     ? recommendTourPicks(TOURS, type, PROFILES).map(
         ({ tour, reservedFor }) => ({
-          index: TOUR_INDEX.get(tour) ?? -1,
+          tour,
           reservedFor,
           text: locale === "ko" ? undefined : cityTourText(tour, locale),
         }),
@@ -193,14 +192,15 @@ export default async function RecommendResultPage({
             </span>
           </div>
           <p className="mt-1 text-caption text-fg-subtle">{t("indexNote")}</p>
-          {missing.length > 0 && (
-            <p className="mt-3 flex items-start gap-1.5 text-caption text-fg-muted">
+          {missing.map((i) => (
+            <p
+              key={i}
+              className="mt-3 flex items-start gap-1.5 text-caption text-fg-muted"
+            >
               <Info size={16} className="mt-0.5 shrink-0" aria-hidden />
-              {t("interestMissing", {
-                interest: missing.map((i) => tq(`s4.options.${i}`)).join(" · "),
-              })}
+              {t("interestMissing", { interest: tq(`s4.options.${i}`) })}
             </p>
-          )}
+          ))}
 
           <div className="mt-6">{card(top, true)}</div>
           {rest.length > 0 && (

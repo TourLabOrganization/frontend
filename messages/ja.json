@@ -141,7 +141,7 @@
     "myThemesHeading": "マイテーマ",
     "pickCourseHeading": "コースを選ぶ",
     "pickCourseTitle": "あなたに合うテーマとコースを選びます",
-    "pickCourseMeta": "{total}問 · 約1分",
+    "pickCourseMeta": "{min}〜{max}問 · 約1分",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "地域のシティツアー",
@@ -227,7 +227,7 @@
     "lastTheme": "1位のテーマ：{theme}",
     "lastAction": "推薦結果をもう一度見る",
     "emptyTitle": "あなたにぴったりのテーマを探します",
-    "emptyMeta": "まだ推薦テーマがありません · {total}問",
+    "emptyMeta": "まだ推薦テーマがありません · {min}〜{max}問",
     "savedHeading": "保存したプラン",
     "savedCount": "{count}件",
     "savedAt": "{date}に保存",
@@ -288,7 +288,7 @@
       },
       "s4": {
         "title": "今回の旅行でいちばんしたいことを2つ選ぶとしたら？",
-        "help": "いちばんしたい関心ごとを2つ選んでください。選んだ関心ごとごとに質問が続きます",
+        "help": "いちばんしたい関心ごとを2つ選んでください。選んだ関心ごとに合わせた質問が続きます",
         "options": {
           "drama": "ドラマ・K-POPのロケ地",
           "performance": "公演・コンサート",

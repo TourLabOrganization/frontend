@@ -2,14 +2,11 @@
 
 import { CityTourCard, useCityTourAdd } from "@/features/home/CityTourCard";
 import type { CityTour, TourTag } from "@/features/home/citytour";
-import toursData from "@/features/home/data/citytour.json";
 import type { CityTourText } from "@/features/translations/text";
 
-const TOURS = toursData as CityTour[];
-
-/** 추천 결과의 시티투어 한 줄: data/citytour.json 순서 번호와 채운 관심사 보장 자리 */
+/** 추천 결과의 시티투어 한 줄: 노선(서버가 고른 5개만 넘겨 노선 전체 표를 브라우저에 싣지 않는다)과 채운 관심사 보장 자리 */
 export type ResultTourPick = {
-  index: number;
+  tour: CityTour;
   reservedFor: TourTag | null;
   /** 외국어 화면에서 보일 글(서버가 번역 표로 만든다). 한국어 화면은 없다 */
   text?: CityTourText;
@@ -26,11 +23,10 @@ export function ResultCityTours({
   return (
     <>
       <ul className="mt-4 flex flex-col gap-3">
-        {picks.map(({ index, reservedFor, text }, i) => {
-          const tour = TOURS[index];
+        {picks.map(({ tour, reservedFor, text }, i) => {
           return (
             <CityTourCard
-              key={index}
+              key={`${tour.region}|${tour.name}`}
               tour={tour}
               text={text}
               rank={i + 1}

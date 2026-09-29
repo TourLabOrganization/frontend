@@ -141,7 +141,7 @@
     "myThemesHeading": "我的主题",
     "pickCourseHeading": "挑选我的路线",
     "pickCourseTitle": "为你挑选合适的主题和路线",
-    "pickCourseMeta": "{total}道题 · 约1分钟",
+    "pickCourseMeta": "{min}–{max}道题 · 约1分钟",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "各地城市观光巴士",
@@ -227,7 +227,7 @@
     "lastTheme": "排名第一的主题：{theme}",
     "lastAction": "再次查看推荐结果",
     "emptyTitle": "为你找到合适的主题",
-    "emptyMeta": "还没有推荐主题 · {total}道题",
+    "emptyMeta": "还没有推荐主题 · {min}–{max}道题",
     "savedHeading": "已保存的行程",
     "savedCount": "{count}个",
     "savedAt": "{date} 保存",
@@ -288,7 +288,7 @@
       },
       "s4": {
         "title": "这次旅行你最想做的两件事是什么？",
-        "help": "请选择两个最想做的兴趣。每个兴趣之后都会有一个相关问题",
+        "help": "请选择两个最想做的兴趣。之后会出现与之相关的问题",
         "options": {
           "drama": "韩剧·K-POP拍摄地",
           "performance": "演出·演唱会",

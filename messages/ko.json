@@ -141,7 +141,7 @@
     "myThemesHeading": "나의 테마",
     "pickCourseHeading": "내 코스 고르기",
     "pickCourseTitle": "나에게 맞는 테마와 코스를 골라 드려요",
-    "pickCourseMeta": "{total}개 문항 · 약 1분",
+    "pickCourseMeta": "{min}~{max}개 문항 · 약 1분",
     "courseTitle": "{region} {duration}",
     "citytour": {
       "heading": "지역 시티투어",
@@ -227,7 +227,7 @@
     "lastTheme": "1위 테마 {theme}",
     "lastAction": "추천 결과 다시 보기",
     "emptyTitle": "나에게 맞는 테마를 찾아 드려요",
-    "emptyMeta": "아직 추천받은 테마가 없어요 · {total}개 문항",
+    "emptyMeta": "아직 추천받은 테마가 없어요 · {min}~{max}개 문항",
     "savedHeading": "저장된 플랜",
     "savedCount": "{count}개",
     "savedAt": "{date} 저장",
@@ -288,7 +288,7 @@
       },
       "s4": {
         "title": "이번 여행에서 가장 하고 싶은 것 두 가지는 무엇인가요?",
-        "help": "가장 하고 싶은 관심사 두 가지를 골라 주세요. 고른 관심사마다 맞춘 질문이 이어져요",
+        "help": "가장 하고 싶은 관심사 두 가지를 골라 주세요. 고른 관심사에 맞춘 질문이 이어져요",
         "options": {
           "drama": "드라마·K팝 촬영지",
           "performance": "공연·콘서트",
