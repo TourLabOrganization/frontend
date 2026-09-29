@@ -114,7 +114,8 @@ describe("투어 플래너 일정 (buildPlannerSchedule)", () => {
           );
           expect(plan.dropped, `${city} · ${origin} · ${depTime}`).toEqual([]);
         }
-  });
+    // 도시 × 출발지 × 시각을 모두 돌아 혼자서도 4초 남짓 걸린다. 설문 전수 경로 테스트와 함께 돌면 기본 5초를 넘기므로 여유를 둔다
+  }, 30_000);
 
   it("빈 코스는 경유지 0 · 거리 0 · 시간 0", () => {
     const plan = buildPlannerSchedule([], settingsFor(3, "transit"), null);

@@ -168,7 +168,7 @@
     "myThemesHeading": "Mis temas",
     "pickCourseHeading": "Elige mi ruta",
     "pickCourseTitle": "Te elegimos el tema y la ruta ideales",
-    "pickCourseMeta": "{total} preguntas · 1 min",
+    "pickCourseMeta": "{min}–{max} preguntas · 1 min",
     "courseTitle": "{region} · {duration}",
     "citytour": {
       "heading": "City tours por región",
@@ -254,7 +254,7 @@
     "lastTheme": "Tema principal: {theme}",
     "lastAction": "Ver mis resultados",
     "emptyTitle": "Encontramos el tema ideal para ti",
-    "emptyMeta": "Aún sin recomendación · {total} preguntas",
+    "emptyMeta": "Aún sin recomendación · {min}–{max} preguntas",
     "savedHeading": "Planes guardados",
     "savedCount": "{count}",
     "savedAt": "Guardado el {date}",
@@ -315,7 +315,7 @@
       },
       "s4": {
         "title": "¿Cuáles son las dos cosas que más quieres hacer en este viaje?",
-        "help": "Elige tus dos intereses principales. Verás una pregunta más sobre cada uno",
+        "help": "Elige tus dos intereses principales. Después verás preguntas sobre ellos",
         "options": {
           "drama": "Rodajes de K-drama y K-pop",
           "performance": "Shows y conciertos",

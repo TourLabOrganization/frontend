@@ -168,7 +168,7 @@
     "myThemesHeading": "My themes",
     "pickCourseHeading": "Pick my route",
     "pickCourseTitle": "We'll pick the theme and route that suit you",
-    "pickCourseMeta": "{total} questions · about 1 min",
+    "pickCourseMeta": "{min}–{max} questions · about 1 min",
     "courseTitle": "{region}, {duration}",
     "citytour": {
       "heading": "City tours by region",
@@ -254,7 +254,7 @@
     "lastTheme": "Top theme: {theme}",
     "lastAction": "See my results again",
     "emptyTitle": "We'll find the theme that suits you",
-    "emptyMeta": "No recommendation yet · {total} questions",
+    "emptyMeta": "No recommendation yet · {min}–{max} questions",
     "savedHeading": "Saved plans",
     "savedCount": "{count}",
     "savedAt": "Saved {date}",
@@ -315,7 +315,7 @@
       },
       "s4": {
         "title": "What are the two things you most want to do on this trip?",
-        "help": "Pick your two top interests. You'll get a follow-up question for each",
+        "help": "Pick your two top interests. Follow-up questions about them come next",
         "options": {
           "drama": "K-drama & K-pop locations",
           "performance": "Shows & concerts",
