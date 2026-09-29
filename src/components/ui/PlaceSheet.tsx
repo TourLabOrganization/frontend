@@ -261,7 +261,7 @@ export function PlaceSheet({
   );
 }
 
-/** 상세 표. 운영시간 · 권장 체류 · 작품 · 장면 · 위도 · 경도 · 좌표 기준 · 카카오맵 (PoC 장소 상세 d_rows 순서) */
+/** 상세 표. 운영시간 · 권장 체류 · 작품 · 장면 · 좌표 기준(아래에 위도 · 경도) · 카카오맵 (PoC 장소 상세 d_rows 순서) */
 function PlaceFactsTable({ facts }: { facts: PlaceFacts }) {
   const t = useTranslations("PlaceSheet");
   const rows: { key: string; label: string; value: React.ReactNode }[] = [
@@ -280,9 +280,19 @@ function PlaceFactsTable({ facts }: { facts: PlaceFacts }) {
     { key: "stay", label: t("stay"), value: facts.stay },
     { key: "work", label: t("work"), value: facts.work },
     { key: "scene", label: t("scene"), value: facts.scene },
-    { key: "lat", label: t("lat"), value: facts.lat.toFixed(6) },
-    { key: "lng", label: t("lng"), value: facts.lng.toFixed(6) },
-    { key: "source", label: t("source"), value: facts.source },
+    // 위도 · 경도는 따로 두 줄을 차지하지 않고 좌표 기준 아래 작은 글자로 둔다(정보는 그대로)
+    {
+      key: "source",
+      label: t("source"),
+      value: (
+        <>
+          {facts.source}
+          <span className="block text-caption text-fg-subtle">
+            {facts.lat.toFixed(6)}, {facts.lng.toFixed(6)}
+          </span>
+        </>
+      ),
+    },
     {
       key: "kakao",
       label: t("kakao"),

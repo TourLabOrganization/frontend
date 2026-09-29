@@ -62,7 +62,7 @@ public/                 정적 파일
 - 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG` + `MACRO_OF`)에 있다. 권역 이름은 목업 지도가 그리는 `MACRO_REGION` 이름(경북권 · 경남권 · 전라권 …)이다
 - 도시별 장소 수(`placeCounts`, `pickCity` 기준. 도시 보기 규칙은 아래 「도시 보기」)도 `regions.json`에 있다(빌드 스크립트가 센다). 도시 고르기 · 여행 정보 탭 도시 선택은 이 값(`regions.ts` `PLACE_COUNT_BY_CITY` · `CITY_GROUPS`)을 쓰고
   `data.ts`(places.json)를 import하지 않는다. 여행 정보 탭 클라이언트 컴포넌트가 places.json에 닿지 않는지는 `planner/info-bundle.test.ts`가 확인한다
-- 지도 탭 전국 보기는 권역을 행정구역 경계 면으로 칠한다(`region-shapes.ts`, 통계청 2018 시도 경계를 권역으로 합친 것). 면 가운데에 「수도권 690」 이름표를 두고, 면이나 이름표를 누르면 그 권역(`?region=`)의 도시 묶음(원형)으로 들어간다
+- 지도 탭 전국 보기는 권역을 행정구역 경계 면으로 칠한다(`region-shapes.ts`, 통계청 2018 시도 경계를 권역으로 합친 것). 땅은 흰빛으로 눌러 바탕 지도 글씨를 줄이고, 경계선 · 마우스를 올린 권역 · 이름표는 브랜드 파랑이다(`PlannerMap` `AREA_FILL` · `AREA_ACCENT`, 값은 globals.css 토큰). 면 가운데에 「수도권」 이름표를 두고, 면이나 이름표를 누르면 그 권역(`?region=`)의 도시 묶음(원형)으로 들어간다
 - 지도 탭은 분류 칩과 배지 칩(데이터랩 인기 · 유네스코 · 한국관광 100선 · 열린관광지 · 관광특구 · 관광단지, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
   - 데이터랩 인기 = `popRank`(한국관광 데이터랩 인기관광지 순위 1~100)가 있는 곳 173곳(경주 · 거제 · 부산 · 제주 · 서울 · 영월 6개 지역).
     목록 행 · 장소 시트에 「데이터랩 인기 {n}위」 배지를 붙인다

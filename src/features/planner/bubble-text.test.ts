@@ -3,7 +3,13 @@ import { bubbleText } from "./bubble-text";
 
 describe("bubbleText (도시 묶음 글자 크기)", () => {
   it("짧은 이름은 기본, 긴 이름일수록 이름 · 수 글자를 줄인다", () => {
+    // 2~3글자(한국어 도시 이름 대부분)는 12px
     expect(bubbleText("서울")).toEqual({
+      name: "text-[0.75rem]",
+      count: "text-[0.625rem]",
+    });
+    expect(bubbleText("서귀포").name).toBe("text-[0.75rem]");
+    expect(bubbleText("Seoul")).toEqual({
       name: "text-[0.625rem]",
       count: "text-[0.5625rem]",
     });

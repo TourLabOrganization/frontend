@@ -50,8 +50,6 @@
     "stay": "Suggested stay",
     "work": "Title",
     "scene": "Scene",
-    "lat": "Latitude",
-    "lng": "Longitude",
     "source": "Coordinate source",
     "kakao": "Kakao Map",
     "kakaoOpen": "Open place page",

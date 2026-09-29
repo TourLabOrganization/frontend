@@ -36,8 +36,6 @@ export type MapArea = {
   title: string;
   /** 바깥 경계 고리들([위도, 경도]) */
   rings: readonly (readonly (readonly [number, number])[])[];
-  /** 면 색(#rrggbb) */
-  color: string;
   /** 이름 표시 자리 */
   labelAt: LatLng;
   /** 이름표를 자리에서 어느 쪽으로 펼칠지(카카오 xAnchor: 1 서쪽 · 0 동쪽 · 0.5 가운데) */
@@ -137,6 +135,13 @@ export function PlannerMap({
 
 /** 묶음의 앵커(0~1). 북서쪽으로 펴면 오른쪽 아래 모서리가 점에 온다 */
 /** 권역 면. 흰 경계선 · 반투명 색으로 칠하고, 마우스를 올린 권역은 조금 진하게 한다 */
+/**
+ * 권역 면 색. 카카오 지도 도형은 CSS 변수를 못 받아 #rrggbb로 적고, 값은 globals.css 토큰과 같게 둔다.
+ * 땅은 흰빛(--color-surface)으로 눌러 바탕 지도 글씨를 줄이고, 경계선 · 마우스를 올린 권역은 브랜드 파랑(--color-primary-bright)
+ */
+const AREA_FILL = "#ffffff";
+const AREA_ACCENT = "#3182f6";
+
 function AreaLayer({
   areas,
   onArea,
@@ -149,9 +154,9 @@ function AreaLayer({
     <Fragment key={a.id}>
       <Polygon
         path={a.rings.map((ring) => ring.map(([lat, lng]) => ({ lat, lng })))}
-        fillColor={a.color}
-        fillOpacity={hover === a.id ? 0.55 : 0.35}
-        strokeColor="#ffffff"
+        fillColor={hover === a.id ? AREA_ACCENT : AREA_FILL}
+        fillOpacity={hover === a.id ? 0.35 : 0.6}
+        strokeColor={AREA_ACCENT}
         strokeWeight={2}
         strokeOpacity={0.9}
         onMouseover={() => setHover(a.id)}
@@ -173,7 +178,7 @@ function AreaLayer({
           onClick={onArea ? () => onArea(a.id) : undefined}
           onMouseEnter={() => setHover(a.id)}
           onMouseLeave={() => setHover((h) => (h === a.id ? null : h))}
-          className="flex min-h-6 cursor-pointer items-center rounded-md bg-surface/90 px-1.5 py-0.5 text-micro font-bold whitespace-nowrap text-fg shadow-sm ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          className="flex min-h-6 cursor-pointer items-center rounded-md bg-primary px-1.5 py-0.5 text-micro font-bold whitespace-nowrap text-white shadow-sm ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
         >
           {a.label}
         </button>

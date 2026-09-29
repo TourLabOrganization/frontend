@@ -8,6 +8,8 @@
 export function bubbleText(label: string): { name: string; count: string } {
   let longest = Math.max(...label.split(/\s+/).map((w) => w.length));
   if (/\s/.test(label.trim())) longest = Math.max(longest, 6);
+  // 한국어 도시 이름은 대부분 2~3글자라 원 안에 여유가 있다. 이 경우만 읽기 쉬운 12px로 키운다(3글자 36px < 원 안쪽 48px)
+  if (longest <= 3) return { name: "text-[0.75rem]", count: "text-[0.625rem]" };
   if (longest <= 5)
     return { name: "text-[0.625rem]", count: "text-[0.5625rem]" };
   if (longest <= 8)
