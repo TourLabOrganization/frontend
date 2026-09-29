@@ -106,3 +106,4 @@ Vercel에 GitHub 저장소를 연결해 배포한다.
 - 프로덕션 브랜치는 `develop`이다. `develop`에 머지되면 프로덕션에 반영된다
 - PR마다 미리보기 주소가 생긴다
 - 환경변수는 Vercel 프로젝트 설정의 Environment Variables에 넣는다 (`.env.example`과 같은 이름)
+- 서버(Vercel Function)는 서울(`icn1`)에서 돈다(`vercel.json`의 `regions`). 기본값은 미국 동부(`iad1`)인데, 서버가 부르는 백엔드(AWS 서울)와 한국관광공사 공공 API가 모두 한국에 있어 호출마다 태평양을 왕복하지 않게 옮겼다. Hobby 요금제는 한 지역만 고를 수 있다
