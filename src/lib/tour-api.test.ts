@@ -3,49 +3,44 @@ import { dirname, join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import plannerPlaces from "../features/planner/data/places.json";
 import signgu from "../features/planner/data/signgu.json";
+import emptyRes from "./fixtures/tour/empty.json";
+import invalidKey from "./fixtures/tour/invalid-key.json";
+import odiiKo from "./fixtures/tour/odii-ko-bulguksa.json";
 import { parseTourItems, tourApiUrl } from "./tour-api";
 
-const wrap = (header: unknown, items: unknown) => ({
-  response: { header, body: { items, numOfRows: 10, pageNo: 1 } },
-});
-const OK = { resultCode: "0000", resultMsg: "OK" };
-
+// 공공데이터포털 실제 응답(2026-09-29 받음, fixtures/tour). 저장 전에 키를 지웠다
 describe("공공데이터포털 응답 파싱 (parseTourItems)", () => {
-  it("items.item 배열", () => {
-    expect(parseTourItems(wrap(OK, { item: [{ a: 1 }, { a: 2 }] }))).toEqual([
-      { a: 1 },
-      { a: 2 },
-    ]);
+  it("items.item 배열 (오디 「불국사」 10건)", () => {
+    const items = parseTourItems(odiiKo);
+    expect(items).toHaveLength(10);
+    expect(items?.[0]).toMatchObject({ title: "경주 불국사", langCode: "ko" });
   });
 
-  it("items.item 객체 하나", () => {
-    expect(parseTourItems(wrap(OK, { item: { a: 1 } }))).toEqual([{ a: 1 }]);
+  it("items.item 객체 하나도 배열로 (실제 응답은 1건이어도 배열로 왔다 — PoC처럼 객체 하나도 받는다)", () => {
+    const one = odiiKo.response.body.items.item[0];
+    const body = {
+      response: {
+        ...odiiKo.response,
+        body: { ...odiiKo.response.body, items: { item: one } },
+      },
+    };
+    expect(parseTourItems(body)).toEqual([one]);
   });
 
-  it("결과 없음: items가 빈 문자열이거나 item이 없다", () => {
-    expect(parseTourItems(wrap(OK, ""))).toEqual([]);
-    expect(parseTourItems(wrap(OK, {}))).toEqual([]);
-    expect(parseTourItems({ response: { header: OK } })).toEqual([]);
-  });
-
-  it("resultCode 00도 성공", () => {
-    expect(
-      parseTourItems(wrap({ resultCode: "00" }, { item: [{ a: 1 }] })),
-    ).toEqual([{ a: 1 }]);
+  it("결과 없음: items가 빈 문자열 (오디 「효우당」 실제 응답)", () => {
+    expect(emptyRes.response.body.items).toBe("");
+    expect(parseTourItems(emptyRes)).toEqual([]);
   });
 
   it("resultCode가 0000 · 00이 아니거나 없으면 실패(null)", () => {
-    expect(
-      parseTourItems(
-        wrap(
-          { resultCode: "30", resultMsg: "SERVICE_KEY_IS_NOT_REGISTERED" },
-          "",
-        ),
-      ),
-    ).toBeNull();
-    expect(parseTourItems(wrap({ resultCode: "22" }, { item: [] }))).toBeNull();
-    expect(parseTourItems(wrap({}, { item: [{ a: 1 }] }))).toBeNull();
-    expect(parseTourItems({ response: {} })).toBeNull();
+    // 등록되지 않은 키의 실제 응답(HTTP 403): response.header가 없다
+    expect(parseTourItems(invalidKey)).toBeNull();
+    // 일일 한도 초과(22) 같은 오류 코드는 실제로 만들 수 없어, 실제 빈 응답의 resultCode만 바꿔 본다
+    const withCode = (resultCode: string) => ({
+      response: { ...emptyRes.response, header: { resultCode, resultMsg: "" } },
+    });
+    expect(parseTourItems(withCode("22"))).toBeNull();
+    expect(parseTourItems(withCode("00"))).toEqual([]);
     expect(parseTourItems(null)).toBeNull();
     expect(parseTourItems("<OpenAPI_ServiceResponse>")).toBeNull();
   });

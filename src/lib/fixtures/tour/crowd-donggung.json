@@ -1,0 +1,284 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "baseYmd": "20260929",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "59.59"
+          },
+          {
+            "baseYmd": "20260930",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "68.94"
+          },
+          {
+            "baseYmd": "20261001",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "79.86"
+          },
+          {
+            "baseYmd": "20261002",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "98.28"
+          },
+          {
+            "baseYmd": "20261003",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "99.96"
+          },
+          {
+            "baseYmd": "20261004",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "99.85"
+          },
+          {
+            "baseYmd": "20261005",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "91.17"
+          },
+          {
+            "baseYmd": "20261006",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "59"
+          },
+          {
+            "baseYmd": "20261007",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "62.36"
+          },
+          {
+            "baseYmd": "20261008",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "60.3"
+          },
+          {
+            "baseYmd": "20261009",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "99.73"
+          },
+          {
+            "baseYmd": "20261010",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "87.46"
+          },
+          {
+            "baseYmd": "20261011",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "87.82"
+          },
+          {
+            "baseYmd": "20261012",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "45.18"
+          },
+          {
+            "baseYmd": "20261013",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "52.98"
+          },
+          {
+            "baseYmd": "20261014",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "58.5"
+          },
+          {
+            "baseYmd": "20261015",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "59.57"
+          },
+          {
+            "baseYmd": "20261016",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "64.26"
+          },
+          {
+            "baseYmd": "20261017",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "92.3"
+          },
+          {
+            "baseYmd": "20261018",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "88.94"
+          },
+          {
+            "baseYmd": "20261019",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "53.34"
+          },
+          {
+            "baseYmd": "20261020",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "53.67"
+          },
+          {
+            "baseYmd": "20261021",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "61.37"
+          },
+          {
+            "baseYmd": "20261022",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "60.16"
+          },
+          {
+            "baseYmd": "20261023",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "61.63"
+          },
+          {
+            "baseYmd": "20261024",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "87.56"
+          },
+          {
+            "baseYmd": "20261025",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "87.51"
+          },
+          {
+            "baseYmd": "20261026",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "51.95"
+          },
+          {
+            "baseYmd": "20261027",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "49.34"
+          },
+          {
+            "baseYmd": "20261028",
+            "areaCd": "47",
+            "areaNm": "경상북도",
+            "signguCd": "47130",
+            "signguNm": "경주시",
+            "tAtsNm": "경주 동궁과 월지",
+            "cnctrRate": "57.59"
+          }
+        ]
+      },
+      "numOfRows": 30,
+      "pageNo": 1,
+      "totalCount": 30
+    }
+  }
+}
