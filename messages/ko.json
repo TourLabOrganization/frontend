@@ -32,7 +32,9 @@
       "zoomIn": "확대",
       "zoomOut": "축소",
       "kakaoLogo": "Kakao 맵으로 이동(새창열림)"
-    }
+    },
+    "chipsMore": "더보기",
+    "chipsLess": "접기"
   },
   "PlaceSheet": {
     "close": "닫기",
@@ -243,7 +245,8 @@
       "add": "코스빌더에 넣기",
       "addHint": "경유지 중 앱에 있는 장소 {count}곳을 투어 플래너 코스에 담아요",
       "addDisabled": "이 코스가 들르는 곳이 아직 앱에 없어 코스빌더에 담을 수 없어요",
-      "scrollHint": "{count}곳 · 칸 안에서 아래로 스크롤해 모두 보세요",
+      "showMore": "{count}개 코스 더 보기",
+      "showLess": "접기",
       "date": "기준일 {date}",
       "dataNote": "노선 정보는 코스마다 기준일이 달라요. 시티투어는 버스 시간에 맞춰 움직여서 코스빌더의 일정 시간은 참고용이에요",
       "confirm": {

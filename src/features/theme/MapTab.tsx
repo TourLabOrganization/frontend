@@ -7,8 +7,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
+import { ChipRow } from "@/components/ui/ChipRow";
 import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
+import { CategoryIcon } from "@/features/planner/CategoryIcon";
 import type { Place } from "@/features/course/places";
 import { matchesQuery } from "@/lib/text-search";
 import {
@@ -258,12 +260,9 @@ export function MapTab({
   return (
     <>
       {multiCity ? (
-        <div className="flex items-center gap-3 px-5 pt-3">
-          <div
-            role="group"
-            aria-label={t("regionsLabel")}
-            className="flex min-w-0 flex-1 gap-2 overflow-x-auto"
-          >
+        <div className="flex items-start gap-3 px-5 pt-3">
+          {/* 처음엔 한 줄, 넘치면 「더보기」(가로 스크롤을 두지 않는다) */}
+          <ChipRow groupLabel={t("regionsLabel")} className="min-w-0 flex-1">
             {[null, ...cities.map((c) => c.ko)].map((key) => {
               const pressed = picked === key;
               const c = cities.find((x) => x.ko === key);
@@ -283,8 +282,8 @@ export function MapTab({
                 </button>
               );
             })}
-          </div>
-          <p className="shrink-0 text-caption text-fg-subtle tabular-nums">
+          </ChipRow>
+          <p className="flex min-h-11 shrink-0 items-center text-caption text-fg-subtle tabular-nums">
             {t("regionCount", {
               city: city ? cityLabel(city) : t("nation"),
               count: scopeCount,
@@ -297,11 +296,7 @@ export function MapTab({
         </p>
       ) : null}
 
-      <div
-        role="group"
-        aria-label={t("categoriesLabel")}
-        className="flex gap-2 overflow-x-auto px-5 py-3"
-      >
+      <ChipRow groupLabel={t("categoriesLabel")} className="px-5 py-3">
         {(["all", ...categories] as const).map((c) => {
           const pressed = filter === c;
           return (
@@ -313,17 +308,19 @@ export function MapTab({
                 setFilter(c);
                 resetRows();
               }}
-              className={`min-h-11 shrink-0 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+              className={`flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-4 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
                 pressed
                   ? "bg-primary-weak font-semibold text-primary-strong"
                   : "bg-fill font-medium text-fg-muted active:bg-line"
               }`}
             >
+              {/* 투어 플래너 분류 칩과 같은 아이콘 */}
+              {c !== "all" && <CategoryIcon cat={c} size={16} />}
               {c === "all" ? t("all") : tc(`categories.${c}`)}
             </button>
           );
         })}
-      </div>
+      </ChipRow>
 
       <div className="h-[45vh] min-h-72 bg-fill">
         {apiKey ? (

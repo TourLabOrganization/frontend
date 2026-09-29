@@ -4,6 +4,7 @@ import { Check, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ChipRow } from "@/components/ui/ChipRow";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { PlaceSheet } from "@/components/ui/PlaceSheet";
@@ -313,11 +314,12 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
 
   return (
     <>
-      <div className="flex gap-2 overflow-x-auto px-5 py-3">
+      {/* 칩 줄: 처음엔 한 줄, 넘치면 「더보기」(가로 스크롤을 두지 않는다). 배지 칩은 분류 칩 다음 줄부터 */}
+      <ChipRow className="px-5 py-3">
         <div
           role="group"
           aria-label={t("categoriesLabel")}
-          className="flex shrink-0 gap-2"
+          className="flex min-w-0 flex-wrap gap-2"
         >
           {(["all", ...categories] as const).map((c) => {
             const pressed = filter === c;
@@ -343,7 +345,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           <div
             role="group"
             aria-label={t("badgesLabel")}
-            className="flex shrink-0 gap-2 border-l border-line pl-2"
+            className="flex min-w-0 flex-wrap gap-2"
           >
             {badges.map((b) => {
               const pressed = badge === b;
@@ -365,7 +367,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             })}
           </div>
         )}
-      </div>
+      </ChipRow>
 
       <div className="h-[45vh] min-h-72 bg-fill">
         {apiKey ? (
