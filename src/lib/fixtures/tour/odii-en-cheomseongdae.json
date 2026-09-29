@@ -1,0 +1,82 @@
+{
+  "response": {
+    "header": { "resultCode": "0000", "resultMsg": "OK" },
+    "body": {
+      "items": {
+        "item": [
+          {
+            "tid": "338",
+            "tlid": "1033",
+            "stid": "1191",
+            "stlid": "3312",
+            "title": "The 5th Valley, Cheomseongdae Observatory (Hwayanggugok Valley)",
+            "mapX": "127.8140735",
+            "mapY": "36.6656852",
+            "audioTitle": "The 5th Valley, Cheomseongdae Observatory (Hwayanggugok Valley)",
+            "script": "The 5th Valley, Cheomseongdae Observatory  At the entrance of Domyeongsan Mountain, there is “Cheomseongdae,” a tower of huge rocks cut into pieces and it boasts a magnificent view. The name was given to mean “Observatory where people could see the stars from atop a rock piled up.” It is somewhat different from how Western people observed stars through a telescope. However, it is a place where you can feel our ancestors' desire to research and study the stars.  There are as many writings engraved on Cheomseongdae as anywhere else. For example, a writing by Song Si-yeol illustrated the political relation between Joseon and Ming Dynasty at that time.   Besides, there is another writing that took reference from the work of a Ming Dynasty’s servant. The interpretation of such writing is “A King should be as clean as a jar for ice cubes; Joseon should be loyal to the Ming Dynasty.”   Also, King Seonjo engraved the words in gratitude to Ming Dynasty for sending reinforcements during the Imjinwaeran (the Japanese Invasion of Korea), stating, 'Even though the Yellow River in China bends and turns over ten thousand times, it always flows eastward.'  While you are enjoying the refreshing atmosphere here in Hwayanggugok Valley, don’t forget to check out the Cheomseongdae! ",
+            "playTime": "88",
+            "audioUrl": "",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20160623042924",
+            "modifiedtime": "20241206142651"
+          },
+          {
+            "tid": "2967",
+            "tlid": "4651",
+            "stid": "446",
+            "stlid": "2072",
+            "title": "Cheomseongdae: On a way to observatory",
+            "mapX": "129.218714",
+            "mapY": "35.834417",
+            "audioTitle": "Cheomseong Observatory, A star-gazing tower",
+            "script": "Cheomseong Observatory, A star-gazing tower  [Teacher]  This structure is called Cheomgseong Observatory, the star-gazing tower.            [Student]  Well, for me, it’s more like a tower. But as a tower, it's neither gorgeous nor tall.  So... I first guessed it might be a storage or chimney. To be honest, I don't understand why it is a famous cultural heritage.             [Teacher]  Judging from its appearance, you may think so. Well, you might be surprised if I tell you this is the oldest astronomical observatory in the East built in the 7th century.          [Student] An astronomical observatory? Did they really observe stars there? An observatory is supposed to be in the mountain.            [Teacher]  Today, observatories are built in the mountains to stay away from the bright lights of cities. But in Silla, they didn't have to climb up high to watch stars because there was no air pollution or bright lights at that time.    [Student]  I see. Then why were Silla people so interested in astronomy?   [Teacher]  Yes. In ancient agricultural societies, astronomical observation was extremely important.  By observing stars, people were able to predict floods and draughts and astronomical events like solar and lunar eclipses. And they believed a sudden appearance of a new star or death of a large star were the signs that something important might happen to their kingdom.          [Student]  Oh, so they were keen on studying the movement of stars to foretell the future of their kingdom.           [Teacher]  Exactly. Then why don't we go to see how Silla people observed stars up there? ",
+            "playTime": "122",
+            "audioUrl": "",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20150701163110",
+            "modifiedtime": "20231228140658"
+          },
+          {
+            "tid": "2967",
+            "tlid": "4651",
+            "stid": "448",
+            "stlid": "2073",
+            "title": "At the Cheomseong Observatory (Cheomseongdae)",
+            "mapX": "129.219008",
+            "mapY": "35.83464",
+            "audioTitle": "At the Cheomseong Observatory (Cheomseongdae)",
+            "script": "The astronomical observatory of Cheomseongdae has both rectangular edges and round parts with graceful carves. The round part and the rectangular part each represents the sky and the earth.  According to the records, the square window opening in the middle was the hole through which people went in and out of the observatory. Supporting this explanation are the small holes that were found inside. It’s believed that they were made by people leaning a ladder against the inner wall. This indicates that people went into the observatory through the window opening using a ladder, and then climbed up another ladder from the inside to the top, to observe stars. Below the window opening is filled with dirt and gravel, which makes a strong platform for people to stand on.  A total of 362 blocks were used to build the observatory. The number of blocks represents the number of days in a year in a lunar calendar. The 12 layers of stone blocks represent 12 months that make up a year. This suggests that the observatory might have served as a calendar for people of Silla.  This observatory was near the royal palace of Silla. An astronomical observatory needed to be close to the palace, so that any changes observed in the sky could be promptly reported to the king.  Since Cheomseongdae Observatory was built, records of observations of solar and lunar eclipses, appearance of comets and extreme weather events were made more frequently. The observations are also known to be very accurate. Cheomseongdae Observatory carries both a significant scientific value and beautiful appearance, making it a perfect example of Silla’s advanced knowledge of science and refined artistry. ",
+            "playTime": "117",
+            "audioUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/audio/56/17955.mp3",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20150701163148",
+            "modifiedtime": "20240102130243"
+          },
+          {
+            "tid": "2967",
+            "tlid": "4651",
+            "stid": "450",
+            "stlid": "10767",
+            "title": "Look Around Cheomseongdae Observatory (Cheomgseongdae Observatory)",
+            "mapX": "129.2190165",
+            "mapY": "35.8347281",
+            "audioTitle": "Look Around Cheomseongdae Observatory (Cheomgseongdae Observatory)",
+            "script": "The fact that ancient people observed stars doesn't solely indicate their curiosity but also reflects their grasp of 'astronomy,' the study of celestial changes. Astronomy held significant importance in agricultural societies due to its direct correlation with weather patterns, crucial for farming.  It was intricately intertwined with politics. Believing that royal authority was divinely bestowed, people regarded celestial changes as indicative of human world transformations. For instance, meteors or comets were perceived as ominous omens signalling the imminent demise of someone important.  Hence, interpreting celestial phenomena served as a means to validate political legitimacy for both nobility and the populace. Astronomy remained a closely guarded secret, accessible only to a select few. National calendars were also confidential due to their inclusion of pivotal astronomical occurrences like solar and lunar eclipses. This notion stemmed from the belief in governing the country in alignment with the will and supremacy of heaven.  The prevailing view of Cheomseongdae Observatory suggests it was an astronomical observatory, but its actual function remains controversial. Let's explore the divergent perspectives.  Some researchers argue that during the Silla period, Cheomseongdae was used solely to measure sun-induced shadow lengths and not for astronomical investigations. They contend that its structure, including the square window and the installation of observation instruments like Honcheonui, seems unsuitable. Climbing in and out of the tower daily would have been inconvenient for astronomers. Instead, they posit that people utilized it to understand various solar terms like Chunbun, Chubun Haji, and Dongji, applying this knowledge to agriculture, serving as a sundial hub.  Others perceive Cheomseongdae Observatory as an object or altar for religious purposes. Queen Seondeok, the tower's builder, expressed in her will a desire to be buried in Doricheon after her death. Doricheon symbolizes the sky at the summit of Sumisan Mountain, a sacred place in Buddhism. Advocates of this view assert that Cheomseongdae Observatory 's design mirrors Sumisan, suggesting a religious connotation.  Lastly, some scholars view Cheomseongdae Observatory as a 'space well,' a passage connecting the celestial realm (inhabited by gods) and the earthly world (inhabited by people). The Silla people perceived wells constructed of piled stones on the ground, akin to Cheomseongdae Observatory, as such passages. Given Queen Seondeok's various political challenges during her reign, she might have sought to fortify her authority by establishing a connection to the heavens through Cheomseongdae Observatory.  Having acquainted yourself with these theories, take a moment to observe Cheomseongdae. Envision the Silla people coming and going. Which story resonates the most with you? ",
+            "playTime": "206",
+            "audioUrl": "https://sfj608538-sfj608538.ktcdn.co.kr/file/audio/56/17957.mp3",
+            "langCode": "en",
+            "imageUrl": "",
+            "createdtime": "20211125105800",
+            "modifiedtime": "20231228182504"
+          }
+        ]
+      },
+      "numOfRows": 4,
+      "pageNo": 1,
+      "totalCount": 4
+    }
+  }
+}

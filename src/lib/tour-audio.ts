@@ -1,8 +1,10 @@
 // 장소 시트 오디오 가이드 칸 (GET /api/tour/audio?id=&locale=, 서버 전용).
 // 한국관광공사 관광지 오디오 가이드(오디, Odii storySearchList). PoC Tour Planner.dc.html loadAudio와 같은 규칙:
-// 장소 한국어 이름으로 찾고(langCode = ODII_LANG), 대본이 있고 좌표가 ±0.12도 안인 것 중 이름이 겹치는 것, 없으면 그 첫째.
+// 장소 이름으로 찾고, 대본이 있고 좌표가 ±0.12도 안인 것 중 이름이 겹치는 것, 없으면 그 첫째.
+// 다만 언어 코드와 검색어는 2026-09-29 실제 호출로 확인한 값으로 고쳤다(ODII_LANG · odiiQueries).
 // 한국어 화면은 오디 결과가 없으면 한국관광공사 관광 스토리텔링(PoC STORY_DB · d_story*, data/stories.json)으로 대신한다.
-// PoC는 대본만 보였지만 요청이 「오디오북」이라 응답에 음성 주소가 있으면 넘겨 재생한다.
+// PoC는 대본만 보였지만 요청이 「오디오북」이라 응답의 음성 주소(audioUrl)로 재생한다.
+import { loadNameTable } from "../features/names/server";
 import storiesData from "../features/planner/data/stories.json";
 import type { AppLocale } from "../i18n/locales";
 import { hasHangul } from "./hangul";
@@ -18,14 +20,42 @@ import {
   tourUnavailable,
 } from "./tour-api";
 
-/** 화면 언어 → 오디 langCode (PoC ODII_LANG. 중국어는 ch, 스페인어는 오디에 없어 영어) */
-export const ODII_LANG: Readonly<Record<AppLocale, string>> = {
+/** 오디 언어 코드. 오디에는 ko · en · jp 자료만 있다(2026-09-29 확인, 중국어 ch · zh · cn 등은 0건) */
+export type OdiiLang = "ko" | "en" | "jp";
+
+/**
+ * 화면 언어 → 오디 langCode. PoC ODII_LANG의 ja: "ja" · zh: "ch"는 0건이라 일본어는 jp,
+ * 중국어 · 스페인어는 영어로 부른다
+ */
+export const ODII_LANG: Readonly<Record<AppLocale, OdiiLang>> = {
   ko: "ko",
   en: "en",
-  ja: "ja",
-  zh: "ch",
+  ja: "jp",
+  zh: "en",
   es: "en",
 };
+
+/** 오디 검색 한 번: 언어 코드와 검색어(그 언어의 장소 이름). 결과 고르기의 이름 겹침도 이 이름으로 본다 */
+export type OdiiQuery = { langCode: OdiiLang; keyword: string };
+
+/**
+ * 오디 검색 순서. 오디는 그 언어의 제목에서 찾는다(불국사를 한국어 이름으로 찾으면 en · jp 모두 0건, 「Bulguksa」로 찾으면 en 9건).
+ * 한국어 화면 = 한국어 이름(PoC). 영어 · 중국어 · 스페인어 = 영어 이름.
+ * 일본어 = 일본어 공식 명칭(이름표에 있을 때, jp) → 없거나 결과가 없으면 영어 이름(앱의 이름 떨어짐 규칙 「그 언어 → 영어」와 같다)
+ */
+export function odiiQueries(
+  place: { ko: string; en: string },
+  locale: AppLocale,
+  jaName?: string,
+): OdiiQuery[] {
+  if (locale === "ko") return [{ langCode: "ko", keyword: place.ko }];
+  const en: OdiiQuery[] = place.en
+    ? [{ langCode: ODII_LANG.en, keyword: place.en }]
+    : [];
+  if (locale === "ja" && jaName)
+    return [{ langCode: ODII_LANG.ja, keyword: jaName }, ...en];
+  return en;
+}
 
 /** 오디 결과를 장소 좌표와 비교하는 한계(위도 · 경도 각각, 도). PoC ±0.12 */
 export const ODII_NEAR_DEG = 0.12;
@@ -38,17 +68,13 @@ const STORIES = storiesData as Readonly<
   Record<string, { t: string; s: string }>
 >;
 
-/** 오디 이야기 검색 주소 (PoC와 같은 인자: 10개, 검색어는 화면 언어와 상관없이 한국어 이름) */
-export function odiiUrl(
-  key: string,
-  locale: AppLocale,
-  keyword: string,
-): string {
+/** 오디 이야기 검색 주소 (PoC와 같은 인자: 10개) */
+export function odiiUrl(key: string, query: OdiiQuery): string {
   return tourApiUrl("Odii/storySearchList", key, {
     numOfRows: "10",
     pageNo: "1",
-    langCode: ODII_LANG[locale],
-    keyword,
+    langCode: query.langCode,
+    keyword: query.keyword,
   });
 }
 
@@ -82,14 +108,14 @@ export function playSeconds(value: unknown): number | undefined {
 /**
  * 오디 결과에서 한 곳 고르기 (PoC loadAudio):
  * 대본(script)이 있고, 장소 좌표와 오디 좌표(mapY 위도 · mapX 경도)가 모두 ±0.12도 안(오디 좌표가 없으면 통과)인 것 중
- * 제목이 장소 이름을 품거나 장소 이름이 제목을 품는 것(공백 · 가운뎃점 · 괄호 무시), 없으면 그 첫째. 없으면 null
+ * 제목이 장소 이름(검색어)을 품거나 장소 이름이 제목을 품는 것(공백 · 가운뎃점 · 괄호 무시), 없으면 그 첫째. 없으면 null
  */
 export function pickOdii(
   items: readonly TourItem[],
-  place: { ko: string; lat: number; lng: number },
+  place: { name: string; lat: number; lng: number },
 ): TourAudio | null {
   const norm = (v: unknown) => String(v ?? "").replace(/\s|·|\(|\)/g, "");
-  const key = norm(place.ko);
+  const key = norm(place.name);
   const near = items.filter((x) => {
     if (!x.script) return false;
     if (!place.lat || !x.mapY) return true;
@@ -147,13 +173,20 @@ export async function tourAudioResponse(request: Request): Promise<Response> {
     if (locale !== "ko") return tourNotConfigured();
     return tourJson(story ?? { empty: true }, 0);
   }
-  let audio: TourAudio | null;
+  const jaName =
+    locale === "ja" ? (await loadNameTable("ja")).places[place.id] : undefined;
+  let audio: TourAudio | null = null;
   try {
-    const items = await fetchTourItems(
-      odiiUrl(key, locale, place.ko),
-      TOUR_DAY_SECONDS,
-    );
-    audio = audioForLocale(pickOdii(items, place), locale);
+    for (const q of odiiQueries(place, locale, jaName)) {
+      const items = await fetchTourItems(odiiUrl(key, q), TOUR_DAY_SECONDS);
+      const picked = pickOdii(items, {
+        name: q.keyword,
+        lat: place.lat,
+        lng: place.lng,
+      });
+      audio = audioForLocale(picked, locale);
+      if (audio) break;
+    }
   } catch {
     return story ? tourJson(story, 0) : tourUnavailable();
   }
