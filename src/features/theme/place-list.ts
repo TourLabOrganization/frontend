@@ -48,7 +48,7 @@ export function inCity(place: Pick<Place, "locKo">, city: string | null) {
 }
 
 /**
- * 여러 도시 테마(RESCENE)의 전국 목록 순서. 도시 칩 순서(data/cities.json — 거제 · 경주 · 수원 · 정선 · 대전 · 충주 · 동해)대로 묶고,
+ * 여러 도시 테마(RESCENE)의 전국 목록 순서. 도시 칩 순서(data/cities.json — 경주 · 거제 · 수원 · 정선 · 대전 · 충주 · 동해, 장소 번호 순)대로 묶고,
  * 칩에 없는 도시는 원래 순서대로 뒤에 둔다. 같은 도시 안의 순서(장소 번호)는 그대로다
  */
 export function orderByCities<T extends Pick<Place, "locKo">>(

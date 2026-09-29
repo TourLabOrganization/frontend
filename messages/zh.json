@@ -223,7 +223,7 @@
       "noRegion": "没有匹配的地区",
       "regionHeading": "{region} · {count}条路线",
       "rank": "第{rank}名",
-      "reserved": "{tag}兴趣名额",
+      "reserved": "{tag}精选",
       "kind": {
         "loop": "循环型",
         "fixed": "固定路线型"
@@ -244,7 +244,7 @@
       "call": "致电",
       "add": "加入行程编排",
       "addHint": "将途经点中应用内已有的{count}处地点加入行程规划",
-      "addDisabled": "途经点中没有与应用内地点匹配的地方，无法加入行程编排",
+      "addDisabled": "这条路线途经的地点尚未收录在应用中，无法加入行程编排",
       "scrollHint": "共{count}条 · 在框内向下滚动查看全部",
       "date": "基准日 {date}",
       "dataNote": "路线名称、途经点和票价由本应用翻译，各路线的基准日也不同。城市观光巴士按班车时刻运行，行程编排中的时间仅供参考",
@@ -479,7 +479,7 @@
     "compareCourses": "比较3条路线方案",
     "basis": "计算依据 · 问卷 6.4 · 推荐 6.5（团队规格参考计算）",
     "cityToursHeading": "适合你的地区城市观光",
-    "cityToursNote": "根据旅行类型和两个兴趣挑选的路线。每个兴趣先保留一个名额。"
+    "cityToursNote": "根据旅行类型和两个兴趣挑选的路线。每个兴趣先选出一条路线，并标为“精选”。"
   },
   "Clusters": {
     "C1": {

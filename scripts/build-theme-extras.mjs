@@ -26,6 +26,7 @@
 //     PoC가 적어 둔 때의 숫자다(실시간 조회수는 YouTube Data API 키가 필요하다). '조회수 —'처럼 숫자가 없으면 넣지 않는다.
 // 도시 (DATA의 도시 → cities.json):
 //   화면의 도시 칩 목록(`cities:['nation','geoje','gyeongju'].map(`)의 순서대로 { ko, en, lat, lng: center }.
+//   여러 도시 테마(RESCENE)는 마지막에 칩을 장소 번호 순(그 도시 목록 장소의 가장 작은 번호)으로 다시 세운다(대표 결정 2026-09-29).
 //   'nation'(전국 보기)은 도시가 아니라 뺀다. 지도 탭 목록의 거리(도시 center에서 장소까지 직선거리)와 도시 칩에 쓴다.
 //   전국 보기가 있는 테마(RESCENE)는 칩 목록 뒤에 전국(nation) 목록의 나머지 도시를 더한다(대표 요청 2026-09-28: 리센느가 간 도시를 모두 칩으로).
 //   순서는 places.json(PoC 장소 목록) 순서, 목록 장소(off가 아닌 곳)가 있는 도시만. PoC DATA에 그 도시 화면이 없어서
@@ -180,6 +181,17 @@ for (const [slug, file] of THEME_FILES) {
         lng: info?.lng ?? mean("lng"),
       });
     }
+  }
+  // 여러 도시 테마(RESCENE)는 칩 순서를 장소 번호 순서로 맞춘다(그 도시 목록 장소 중 가장 작은 번호 순).
+  // 지도 탭 전국 목록이 칩 순서로 묶이므로 경주 1~7 → 거제 8~21 → 수원 22~ …처럼 번호가 보이는 순서와 같아진다.
+  // 대표 결정(2026-09-29). PoC 화면의 칩은 거제 · 경주 순이다. 번호(n)는 코스 일정의 방문 순서라 바꾸지 않는다
+  if (cities[slug].length > 1) {
+    const listed = places[slug].filter((p) => !p.off);
+    const first = (ko) =>
+      Math.min(
+        ...listed.filter((p) => p.locKo === ko).map((p) => p.n ?? Infinity),
+      );
+    cities[slug].sort((a, b) => first(a.ko) - first(b.ko));
   }
 
   scenes[slug] =
