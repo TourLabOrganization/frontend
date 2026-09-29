@@ -51,10 +51,10 @@ describe("scopeCity · inCity", () => {
     expect(scopeCity(RESCENE, "없는 도시")).toBeNull();
   });
 
-  it("RESCENE 도시 칩은 목업 순서(거제 · 경주) 뒤에 전국 목록의 나머지 도시(PoC 장소 목록 순서)", () => {
+  it("RESCENE 도시 칩은 장소 번호 순서(경주 1~7 · 거제 8~21 · 수원 22~ …, 대표 결정 2026-09-29)", () => {
     expect(RESCENE.map((c) => c.ko)).toEqual([
-      "거제",
       "경주",
+      "거제",
       "수원",
       "정선",
       "대전",
@@ -102,21 +102,24 @@ describe("cityGroups", () => {
 });
 
 describe("orderByCities", () => {
-  it("RESCENE 전국 목록은 도시 칩 순서(거제 · 경주 · 수원 · 정선 · 대전 · 충주 · 동해)로 묶는다", () => {
+  it("RESCENE 전국 목록은 도시 칩 순서(경주 · 거제 · 수원 · 정선 · 대전 · 충주 · 동해)로 묶는다", () => {
     const core = corePlaces(getThemePlaces("rescene-route"));
     const ordered = orderByCities(core, RESCENE);
     const groups = cityGroups(ordered);
     expect(groups).toEqual([
-      { city: "거제", count: 14 },
       { city: "경주", count: 7 },
+      { city: "거제", count: 14 },
       { city: "수원", count: 5 },
       { city: "정선", count: 2 },
       { city: "대전", count: 4 },
       { city: "충주", count: 2 },
       { city: "동해", count: 2 },
     ]);
-    // 같은 도시 안에서는 번호 순서 그대로
-    expect(ordered.slice(0, 3).map((p) => p.n)).toEqual([8, 9, 10]);
+    // 칩이 번호 순서라 전국 목록의 번호가 1부터 차례로 보인다
+    expect(ordered.map((p) => p.n)).toEqual(
+      [...core.map((p) => p.n)].sort((a, b) => (a ?? 0) - (b ?? 0)),
+    );
+    expect(ordered[0].n).toBe(1);
     expect(ordered).toHaveLength(core.length);
   });
 
@@ -128,7 +131,7 @@ describe("orderByCities", () => {
   it("칩에 없는 도시는 원래 순서대로 뒤에 둔다", () => {
     const core = corePlaces(getThemePlaces("rescene-route"));
     const groups = cityGroups(orderByCities(core, RESCENE.slice(0, 2)));
-    expect(groups.slice(0, 2).map((g) => g.city)).toEqual(["거제", "경주"]);
+    expect(groups.slice(0, 2).map((g) => g.city)).toEqual(["경주", "거제"]);
     expect(groups.slice(2)).toEqual(cityGroups(core).slice(2));
   });
 });
