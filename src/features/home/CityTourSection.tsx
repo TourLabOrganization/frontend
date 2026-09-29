@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { SearchField } from "@/components/ui/SearchField";
-import { cityName } from "@/features/planner/regions";
+import { cityName, groupCities, regionName } from "@/features/planner/regions";
 import { decodeAnswers } from "@/features/recommend/answers";
 import { LAST_RECOMMENDATION_KEY, useLocalValue } from "@/lib/local-store";
 import { matchesQuery } from "@/lib/text-search";
@@ -34,12 +34,8 @@ const DEFAULT_REGION = "서울";
 
 type Mode = "rec" | "region";
 
-/** 코드 포인트 순서 비교. 서버와 브라우저의 Intl 차이로 하이드레이션이 어긋나지 않게 Collator를 쓰지 않는다 */
-function compare(a: string, b: string) {
-  const x = a.toLowerCase();
-  const y = b.toLowerCase();
-  return x < y ? -1 : x > y ? 1 : 0;
-}
+/** 지역별 검색 칩 묶음: 투어 플래너 도시 고르기와 같은 권역(수도권 · 강원권 …), 권역 안은 대표 도시 → 노선 많은 순 */
+const GROUPS = groupCities(COUNTS.keys(), (c) => COUNTS.get(c) ?? 0);
 
 // 홈 「지역 시티투어」(목업: 배너 다음). 탭 두 칸 「내 유형 추천」 · 「지역별 검색」.
 // 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.4 결과(최종 유형 · 간접 선호 u · S3 · S4 두 관심사 · S6)로 citytour.ts recommendTourPicks를 돌린다(관심사별 1자리 보장).
@@ -53,6 +49,8 @@ export function CityTourSection({
 }) {
   const t = useTranslations("Home.citytour");
   const tc = useTranslations("Clusters");
+  // 권역 묶음 머리(기타 지역 · 도시 수)는 투어 플래너 도시 고르기 문구를 같이 쓴다
+  const tp = useTranslations("Planner");
   const locale = useLocale();
   const names = useNameTable();
   const { onAdd, dialog } = useCityTourAdd();
@@ -77,28 +75,31 @@ export function CityTourSection({
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const recRegions = new Set(rec.map((r) => r.region));
-  const regions = useMemo(
+  // 검색어로 권역 묶음 안의 도시를 거른다(도시가 없는 권역은 빠진다)
+  const groups = useMemo(
     () =>
-      [...COUNTS.keys()]
-        .filter((r) =>
+      GROUPS.map((g) => ({
+        ...g,
+        cities: g.cities.filter((r) =>
           matchesQuery(
             [r, cityName(r, "en"), cityName(r, locale, names)],
             query,
           ),
-        )
-        .sort((a, b) =>
-          compare(cityName(a, locale, names), cityName(b, locale, names)),
         ),
+      })).filter((g) => g.cities.length > 0),
     [query, locale, names],
   );
+  const regionTotal = groups.reduce((n, g) => n + g.cities.length, 0);
   const list =
     mode === "rec" ? rec : TOURS.filter((tour) => tour.region === region);
 
-  // 처음 고른 지역(서울)이 칩 상자 안에 보이게 상자만 스크롤한다(화면은 움직이지 않는다)
+  // 처음 고른 지역(서울)이 칩 상자 안에 보이게 상자만 스크롤한다(화면은 움직이지 않는다).
+  // 그 지역이 든 권역 묶음의 머리(수도권 …)부터 보이게 한다
   useEffect(() => {
     const box = chipsRef.current;
     const chip = box?.querySelector<HTMLElement>("[aria-pressed='true']");
-    if (box && chip) box.scrollTop = chip.offsetTop - box.offsetTop - 8;
+    const group = chip?.closest("section") ?? chip;
+    if (box && group) box.scrollTop = group.offsetTop - box.offsetTop;
   }, [mode]);
 
   const changeMode = (next: Mode) => {
@@ -187,43 +188,71 @@ export function CityTourSection({
               ref={chipsRef}
               role="group"
               aria-label={t("regionsLabel")}
-              className="mt-3 flex max-h-40 flex-wrap gap-2 overflow-y-auto"
+              // 권역 묶음이 여럿이라 칸을 조금 키우고 칸 안에서 세로로 스크롤한다
+              className="mt-3 max-h-72 overflow-y-auto overscroll-contain"
             >
-              {regions.length === 0 ? (
+              {groups.length === 0 ? (
                 <p className="py-2 text-label text-fg-muted">{t("noRegion")}</p>
               ) : (
-                regions.map((r) => {
-                  const pressed = r === region;
-                  const count = COUNTS.get(r) ?? 0;
-                  const name = cityName(r, locale, names);
-                  return (
-                    <button
-                      key={r}
-                      type="button"
-                      aria-pressed={pressed}
-                      aria-label={t("regionChip", { region: name, count })}
-                      onClick={() => pickRegion(r)}
-                      className={`flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl px-3 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
-                        pressed
-                          ? "bg-primary-weak font-semibold text-primary-strong"
-                          : "bg-fill font-medium text-fg-muted active:bg-line"
-                      }`}
-                    >
-                      {name}
-                      <span className="text-caption tabular-nums">{count}</span>
-                      {recRegions.has(r) && (
-                        <span
-                          aria-hidden
-                          className="size-1.5 rounded-full bg-primary-bright"
-                        />
-                      )}
-                    </button>
-                  );
-                })
+                groups.map(({ key, region: macro, cities }) => (
+                  <section
+                    key={key}
+                    aria-label={
+                      macro
+                        ? regionName(macro, locale, names)
+                        : tp("picker.otherRegions")
+                    }
+                    className="border-t border-line py-3 first:border-t-0 first:pt-0"
+                  >
+                    <h4 className="flex items-baseline justify-between text-label font-bold text-fg-muted">
+                      {macro
+                        ? regionName(macro, locale, names)
+                        : tp("picker.otherRegions")}
+                      <span className="text-caption font-medium text-fg-subtle tabular-nums">
+                        {tp("picker.regionCities", { count: cities.length })}
+                      </span>
+                    </h4>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {cities.map((r) => {
+                        const pressed = r === region;
+                        const count = COUNTS.get(r) ?? 0;
+                        const name = cityName(r, locale, names);
+                        return (
+                          <button
+                            key={r}
+                            type="button"
+                            aria-pressed={pressed}
+                            aria-label={t("regionChip", {
+                              region: name,
+                              count,
+                            })}
+                            onClick={() => pickRegion(r)}
+                            className={`flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl px-3 text-label whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                              pressed
+                                ? "bg-primary-weak font-semibold text-primary-strong"
+                                : "bg-fill font-medium text-fg-muted active:bg-line"
+                            }`}
+                          >
+                            {name}
+                            <span className="text-caption tabular-nums">
+                              {count}
+                            </span>
+                            {recRegions.has(r) && (
+                              <span
+                                aria-hidden
+                                className="size-1.5 rounded-full bg-primary-bright"
+                              />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
+                ))
               )}
             </div>
             <p role="status" className="sr-only">
-              {query.trim() ? t("searchStatus", { count: regions.length }) : ""}
+              {query.trim() ? t("searchStatus", { count: regionTotal }) : ""}
             </p>
             <h3 className="mt-5 text-body-lg font-bold tabular-nums">
               {t("regionHeading", {

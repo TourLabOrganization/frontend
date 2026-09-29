@@ -142,26 +142,37 @@ export type CityGroup = {
   cities: readonly string[];
 };
 
-/** 도시 고르기 묶음 (Tour Planner.dc.html cityGroups). 장소가 없는 권역은 빠진다 */
-export const CITY_GROUPS: readonly CityGroup[] = (() => {
+/**
+ * 도시들을 권역별로 묶는다 (Tour Planner.dc.html cityGroups). 권역 순서는 REGIONS, 권역 안은 대표 도시 먼저 · 나머지는 count 많은 순
+ * (같으면 REG 순서). 여러 권역에 든 도시는 앞 권역에만 넣고, 어느 권역에도 없는 도시는 마지막 "etc" 묶음. 도시가 없는 권역은 빠진다.
+ * 투어 플래너 도시 고르기(장소 수)와 홈 시티투어 지역별 검색(노선 수)이 쓴다
+ */
+export function groupCities(
+  cities: Iterable<string>,
+  count: (city: string) => number,
+): CityGroup[] {
+  const pool = new Set(cities);
   const placed = new Set<string>();
   const out: CityGroup[] = [];
   for (const r of REGIONS) {
-    const cities = r.cities.filter(
-      (c) => PLACE_COUNT_BY_CITY.has(c) && !placed.has(c),
-    );
-    cities.forEach((c) => placed.add(c));
+    const inRegion = r.cities.filter((c) => pool.has(c) && !placed.has(c));
+    inRegion.forEach((c) => placed.add(c));
     const pin = REGION_PIN[r.key];
-    const count = (c: string) => PLACE_COUNT_BY_CITY.get(c) ?? 0;
-    const sorted = [...cities].sort((a, b) =>
+    const sorted = [...inRegion].sort((a, b) =>
       a === pin ? -1 : b === pin ? 1 : count(b) - count(a),
     );
     if (sorted.length > 0) out.push({ key: r.key, region: r, cities: sorted });
   }
-  const rest = [...PLACE_COUNT_BY_CITY.keys()].filter((c) => !placed.has(c));
+  const rest = [...pool].filter((c) => !placed.has(c));
   if (rest.length > 0) out.push({ key: "etc", region: null, cities: rest });
   return out;
-})();
+}
+
+/** 도시 고르기 묶음 (Tour Planner.dc.html cityGroups). 장소가 있는 도시만 */
+export const CITY_GROUPS: readonly CityGroup[] = groupCities(
+  PLACE_COUNT_BY_CITY.keys(),
+  (c) => PLACE_COUNT_BY_CITY.get(c) ?? 0,
+);
 
 /** 장소가 하나 이상 있는 도시인지 (?city= 검사) */
 export function isPlannerCity(value: unknown): value is string {
