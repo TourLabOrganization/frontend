@@ -335,7 +335,7 @@
     "url": "https://gwangyang.go.kr/tour/menu.es?mid=a31004030000",
     "date": "2026-07-29",
     "city": "광양",
-    "placeIds": ["ctt39", "ctt40", "ctt41", "ctu9"]
+    "placeIds": ["ctt39", "ctt40", "ctt41", "ctu9", "ctu10"]
   },
   {
     "region": "광양",
@@ -2893,8 +2893,8 @@
     "tel": "054-262-3803",
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
-    "city": null,
-    "placeIds": []
+    "city": "포항",
+    "placeIds": ["nax226", "nax225", "nax227"]
   },
   {
     "region": "포항",
@@ -2908,8 +2908,8 @@
     "tel": "054-262-3803",
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
-    "city": null,
-    "placeIds": []
+    "city": "포항",
+    "placeIds": ["nax227", "nax229", "nax827"]
   },
   {
     "region": "포항",
@@ -2923,8 +2923,8 @@
     "tel": "054-262-3803",
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
-    "city": null,
-    "placeIds": []
+    "city": "포항",
+    "placeIds": ["nax1111", "nax226", "nax227"]
   },
   {
     "region": "포항",
@@ -2938,8 +2938,8 @@
     "tel": "054-262-3803",
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
-    "city": null,
-    "placeIds": []
+    "city": "포항",
+    "placeIds": ["nax1111", "nax226", "nax225"]
   },
   {
     "region": "서천",
@@ -3614,8 +3614,8 @@
     "tel": "042-252-7725",
     "url": "",
     "date": "2020-12-17",
-    "city": null,
-    "placeIds": []
+    "city": "대전",
+    "placeIds": ["ctt311"]
   },
   {
     "region": "대전",
