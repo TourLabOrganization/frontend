@@ -10,6 +10,23 @@ export const REGION_SHAPES = shapesData as unknown as Readonly<
   Record<RegionKey, readonly Ring[]>
 >;
 
+/**
+ * 권역 이름표 자리 · 펼칠 쪽(xAnchor). 서쪽 권역(수도권 · 충청권 · 전라권)은 이 점에서 서쪽으로, 동쪽 권역(강원권 · 경북권 · 경남권)은 동쪽으로 펼쳐
+ * 전국을 작게 볼 때도 영어 · 스페인어처럼 긴 이름(「Área Metropolitana de Seúl」)이 옆 권역 이름표와 겹치지 않는다.
+ * 점은 모두 그 권역 면 안이다(region-shapes.test.ts)
+ */
+export const REGION_LABELS: Readonly<
+  Record<RegionKey, { lat: number; lng: number; anchor: 0 | 0.5 | 1 }>
+> = {
+  capital: { lat: 37.62, lng: 127.4, anchor: 1 },
+  chungcheong: { lat: 36.42, lng: 127.6, anchor: 1 },
+  honam: { lat: 35.25, lng: 127.3, anchor: 1 },
+  gangwon: { lat: 37.75, lng: 128.0, anchor: 0 },
+  daegyeong: { lat: 36.3, lng: 128.3, anchor: 0 },
+  dongnam: { lat: 35.3, lng: 127.9, anchor: 0 },
+  jeju: { lat: 33.38, lng: 126.55, anchor: 0.5 },
+};
+
 /** 권역 면 색(카카오 지도 도형은 #rrggbb만 받는다). 옆 권역끼리 구별되는 색 */
 export const REGION_COLORS: Readonly<Record<RegionKey, string>> = {
   capital: "#3b82f6",

@@ -36,7 +36,7 @@ import {
   type MapPin,
   PlannerMap,
 } from "./PlannerMap";
-import { REGION_COLORS, REGION_SHAPES } from "./region-shapes";
+import { REGION_COLORS, REGION_LABELS, REGION_SHAPES } from "./region-shapes";
 import { plannerHref } from "./query";
 import {
   CITY_INFO,
@@ -246,7 +246,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           title: t("regionMarker", { region: label, count: n }),
           rings: REGION_SHAPES[r.key],
           color: REGION_COLORS[r.key],
-          labelAt: REGION_CENTER[r.key],
+          labelAt: REGION_LABELS[r.key],
+          labelAnchor: REGION_LABELS[r.key].anchor,
         },
       ];
     });
@@ -266,8 +267,6 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           label,
           count: n,
           title: t("cityMarker", { city: label, count: n }),
-          // 권역 안 도시는 권역 표시보다 조금 작게
-          size: "sm" as const,
         },
       ];
     });

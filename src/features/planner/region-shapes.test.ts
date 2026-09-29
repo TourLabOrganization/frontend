@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { REGION_CENTER } from "./data";
-import { REGION_COLORS, REGION_SHAPES, type Ring } from "./region-shapes";
+import {
+  REGION_COLORS,
+  REGION_LABELS,
+  REGION_SHAPES,
+  type Ring,
+} from "./region-shapes";
 import { REGION_KEYS } from "./regions";
 
 /** 점이 고리 안에 있는지(짝홀 규칙) */
@@ -36,13 +41,26 @@ describe("권역 면 (region-shapes.json)", () => {
     }
   });
 
-  it("권역 이름표 자리(장소 좌표 평균)는 그 권역 면 안에 있다", () => {
+  it("권역 이름표 자리 · 장소 좌표 평균은 그 권역 면 안에 있다", () => {
     for (const key of REGION_KEYS) {
-      const { lat, lng } = REGION_CENTER[key];
-      expect(
-        REGION_SHAPES[key].some((ring) => inside(lat, lng, ring)),
-        key,
-      ).toBe(true);
+      for (const { lat, lng } of [REGION_LABELS[key], REGION_CENTER[key]])
+        expect(
+          REGION_SHAPES[key].some((ring) => inside(lat, lng, ring)),
+          key,
+        ).toBe(true);
+    }
+  });
+
+  it("이름표는 서쪽 권역은 서쪽으로 · 동쪽 권역은 동쪽으로 펼쳐, 맞닿은 권역끼리 펼친 방향이 서로 멀어진다", () => {
+    const pairs = [
+      ["capital", "gangwon"],
+      ["chungcheong", "daegyeong"],
+      ["honam", "dongnam"],
+    ] as const;
+    for (const [west, east] of pairs) {
+      expect(REGION_LABELS[west].anchor).toBe(1);
+      expect(REGION_LABELS[east].anchor).toBe(0);
+      expect(REGION_LABELS[west].lng).toBeLessThan(REGION_LABELS[east].lng);
     }
   });
 
