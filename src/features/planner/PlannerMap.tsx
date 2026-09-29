@@ -25,15 +25,7 @@ export type MapBubble = LatLng & {
   count: number;
   /** 화면 읽기 · 마우스 툴팁 이름. 「수도권 · 장소 218곳」 */
   title: string;
-  /** 크기. 권역은 md(기본), 권역 안에서 도시를 모아 볼 때는 sm(조금 작게, 도시가 촘촘해도 덜 겹친다) */
-  size?: "sm" | "md";
 };
-
-/** 묶음 표시 크기별 최소 지름. 원형(aspect-square)이라 이름이 길면 지름이 조금 커진다(최대 max-w) */
-const BUBBLE_SIZE = {
-  md: "min-w-14 max-w-20",
-  sm: "min-w-11 max-w-16",
-} as const;
 
 /** 권역 면(전국 보기). 면을 칠하고 가운데에 이름표를 둔다(장소 수는 title · aria-label에만). 면이나 이름표를 누르면 onBubble(id) */
 export type MapArea = {
@@ -48,6 +40,8 @@ export type MapArea = {
   color: string;
   /** 이름 표시 자리 */
   labelAt: LatLng;
+  /** 이름표를 자리에서 어느 쪽으로 펼칠지(카카오 xAnchor: 1 서쪽 · 0 동쪽 · 0.5 가운데) */
+  labelAnchor: number;
 };
 
 export type MapPin = LatLng & {
@@ -168,7 +162,7 @@ function AreaLayer({
       <CustomOverlayMap
         position={a.labelAt}
         clickable
-        xAnchor={0.5}
+        xAnchor={a.labelAnchor}
         yAnchor={0.5}
         zIndex={a.count}
       >
@@ -179,7 +173,7 @@ function AreaLayer({
           onClick={onArea ? () => onArea(a.id) : undefined}
           onMouseEnter={() => setHover(a.id)}
           onMouseLeave={() => setHover((h) => (h === a.id ? null : h))}
-          className="flex min-h-8 cursor-pointer items-center rounded-lg bg-surface/90 px-2 py-1 text-caption font-bold whitespace-nowrap text-fg shadow-sm ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
+          className="flex min-h-6 cursor-pointer items-center rounded-md bg-surface/90 px-1.5 py-0.5 text-micro font-bold whitespace-nowrap text-fg shadow-sm ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
         >
           {a.label}
         </button>
@@ -268,10 +262,10 @@ function BubbleLayer({
           aria-hidden={off || undefined}
           tabIndex={off ? -1 : undefined}
           onClick={onBubble ? () => onBubble(b.id) : undefined}
-          // 원형 표시. 이름은 줄이지 않고 원 안에 다 담는다(긴 이름은 글자를 줄이고 원을 조금 키운다)
-          className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-full bg-primary p-1.5 text-center text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
-            BUBBLE_SIZE[b.size ?? "md"]
-          } ${off ? "invisible" : ""}`}
+          // 원형 표시. 지름은 모두 같고(3.5rem), 이름은 줄이지 않고 원 안에 다 담는다(긴 이름은 글자를 줄인다, bubble-text.ts)
+          className={`flex size-14 cursor-pointer flex-col items-center justify-center rounded-full bg-primary p-1 text-center text-white ring-2 ring-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright ${
+            off ? "invisible" : ""
+          }`}
         >
           {/* 중 · 일 화면은 body에 break-keep이 없어 한 글자씩 끊긴다. 이름은 단어 사이에서만 줄을 바꾼다 */}
           <span
