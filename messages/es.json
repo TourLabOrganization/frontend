@@ -93,6 +93,7 @@
       "related": {
         "title": "Top de lugares visitados juntos",
         "rank": "N.º {rank}",
+        "stays": "Alojamientos que se eligen juntos",
         "source": "Organización de Turismo de Corea, lugares relacionados · datos de {month}"
       },
       "crowd": {

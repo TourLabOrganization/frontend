@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
+  BedDouble,
   ChevronDown,
   ChevronRight,
   ChevronUp,
@@ -27,6 +28,7 @@ import {
   tourPath,
   type TourRelated,
   type TourRelatedItem,
+  type TourRelatedStay,
   upcomingCrowdDays,
 } from "@/lib/tour";
 import { useTourApi } from "./tour-api-context";
@@ -217,7 +219,11 @@ function formatMonth(ym: string, locale: string): string | null {
   }).format(Date.UTC(Number(m[1]), Number(m[2]) - 1, 1));
 }
 
-/** 함께 많이 가는 관광지 Top: 순위 · 이름 · 분류(최대 8). 이 화면에서 열 수 있는 우리 장소는 누르면 그 장소 시트로 */
+/**
+ * 함께 많이 가는 관광지 Top: 순위 · 이름 · 분류(관광지 · 음식 최대 8, 순위는 그 안에서 다시 매긴 것).
+ * 그 아래 「함께 많이 찾는 숙소」(숙박 최대 3, 순위 번호 없이 — 숙소는 순위 계산에서 뺐다). 숙소가 없으면 그 부분은 그리지 않는다.
+ * 이 화면에서 열 수 있는 우리 장소는 누르면 그 장소 시트로
+ */
 function RelatedSpots({
   id,
   onOpenPlace,
@@ -232,8 +238,35 @@ function RelatedSpots({
   if (!enabled) return null;
   if (query.isPending) return <TourSkeleton lines={4} />;
   const items = Array.isArray(query.data?.items) ? query.data.items : [];
+  const stays = Array.isArray(query.data?.stays) ? query.data.stays : [];
   const month = query.data ? formatMonth(query.data.month, locale) : null;
   if (items.length === 0 || !month) return null;
+
+  /** 우리 장소이고 이 화면에서 열 수 있으면 누르는 줄, 아니면 글자만 */
+  const line = (placeId: string | undefined, content: React.ReactNode) => {
+    const openable =
+      placeId !== undefined &&
+      onOpenPlace !== undefined &&
+      (canOpenPlace?.(placeId) ?? false);
+    return openable ? (
+      <button
+        type="button"
+        onClick={() => onOpenPlace(placeId)}
+        className="flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
+      >
+        {content}
+        <ChevronRight
+          size={16}
+          className="shrink-0 text-fg-subtle"
+          aria-hidden
+        />
+      </button>
+    ) : (
+      <div className="flex min-h-11 items-center gap-3 px-4 py-2.5">
+        {content}
+      </div>
+    );
+  };
 
   return (
     <section
@@ -242,36 +275,26 @@ function RelatedSpots({
     >
       <TourHeader icon={Route} titleId={titleId} title={t("title")} />
       <ol className="divide-y divide-line border-y border-line">
-        {items.map((item) => {
-          const placeId = item.placeId;
-          const openable =
-            placeId !== undefined &&
-            onOpenPlace !== undefined &&
-            (canOpenPlace?.(placeId) ?? false);
-          return (
-            <li key={`${item.rank}-${item.name}`}>
-              {openable ? (
-                <button
-                  type="button"
-                  onClick={() => onOpenPlace(placeId)}
-                  className="flex min-h-11 w-full items-center gap-3 px-4 py-2.5 text-left transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
-                >
-                  <RelatedRow item={item} />
-                  <ChevronRight
-                    size={16}
-                    className="shrink-0 text-fg-subtle"
-                    aria-hidden
-                  />
-                </button>
-              ) : (
-                <div className="flex min-h-11 items-center gap-3 px-4 py-2.5">
-                  <RelatedRow item={item} />
-                </div>
-              )}
-            </li>
-          );
-        })}
+        {items.map((item) => (
+          <li key={`${item.rank}-${item.name}`}>
+            {line(item.placeId, <RelatedRow item={item} />)}
+          </li>
+        ))}
       </ol>
+      {stays.length > 0 && (
+        <div className="border-b border-line">
+          <h4 className="px-4 pt-3 pb-1 text-caption font-semibold text-fg-muted">
+            {t("stays")}
+          </h4>
+          <ul className="divide-y divide-line">
+            {stays.map((stay) => (
+              <li key={stay.name}>
+                {line(stay.placeId, <StayRow stay={stay} />)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <p className="px-4 py-2.5 text-micro text-fg-subtle">
         {t("source", { month })}
       </p>
@@ -290,13 +313,31 @@ function RelatedRow({ item }: { item: TourRelatedItem }) {
         {item.rank}
       </span>
       <span className="sr-only">{t("rank", { rank: item.rank })}</span>
-      <span className="flex min-w-0 flex-1 flex-col">
-        <span className="text-label font-semibold">{item.name}</span>
-        {item.category && (
-          <span className="text-caption text-fg-muted">{item.category}</span>
-        )}
-      </span>
+      <RelatedName name={item.name} category={item.category} />
     </>
+  );
+}
+
+/** 숙소 한 줄: 순위 번호 자리에 침대 표시(장식) */
+function StayRow({ stay }: { stay: TourRelatedStay }) {
+  return (
+    <>
+      <span aria-hidden className="w-6 shrink-0 text-fg-subtle">
+        <BedDouble size={16} />
+      </span>
+      <RelatedName name={stay.name} category={stay.category} />
+    </>
+  );
+}
+
+function RelatedName({ name, category }: { name: string; category: string }) {
+  return (
+    <span className="flex min-w-0 flex-1 flex-col">
+      <span className="text-label font-semibold">{name}</span>
+      {category && (
+        <span className="text-caption text-fg-muted">{category}</span>
+      )}
+    </span>
   );
 }
 

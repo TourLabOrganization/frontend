@@ -28,7 +28,7 @@ export type TourAudio = {
 
 /** 함께 많이 가는 관광지 한 곳 */
 export type TourRelatedItem = {
-  /** 연관 순위(rlteRank) */
+  /** 순위(관광지 · 음식 안에서 1부터 다시 매긴 순위) */
   rank: number;
   /** 한국어 화면은 한국관광공사 이름, 외국어 화면은 이어진 우리 장소의 그 언어 이름 */
   name: string;
@@ -40,11 +40,17 @@ export type TourRelatedItem = {
   placeId?: string;
 };
 
+/** 함께 많이 찾는 숙소 한 곳(순위 번호 없이 보인다) */
+export type TourRelatedStay = Omit<TourRelatedItem, "rank">;
+
 /** GET /api/tour/related 응답 */
 export type TourRelated = {
   /** 기준월 YYYYMM */
   month: string;
+  /** 관광지 · 음식(한국관광공사 대분류)만 순위 순 최대 8곳. rank는 이 안에서 1부터 다시 매긴 순위 */
   items: TourRelatedItem[];
+  /** 숙박만 한국관광공사 순위 순 최대 3곳(순위 계산에서 뺀 숙소) */
+  stays: TourRelatedStay[];
 };
 
 /** 하루 방문 집중률 예측 */

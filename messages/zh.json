@@ -93,6 +93,7 @@
       "related": {
         "title": "常一起去的景点 TOP",
         "rank": "第{rank}名",
+        "stays": "常一起选择的住宿",
         "source": "韩国观光公社景点关联数据 · 截至{month}"
       },
       "crowd": {

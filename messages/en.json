@@ -93,6 +93,7 @@
       "related": {
         "title": "Top places visited together",
         "rank": "No. {rank}",
+        "stays": "Stays often chosen together",
         "source": "Korea Tourism Organization related attractions · as of {month}"
       },
       "crowd": {

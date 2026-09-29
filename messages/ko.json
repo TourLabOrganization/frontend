@@ -93,6 +93,7 @@
       "related": {
         "title": "함께 많이 가는 관광지 Top",
         "rank": "{rank}위",
+        "stays": "함께 많이 찾는 숙소",
         "source": "한국관광공사 관광지별 연관 관광지 · 기준 {month}"
       },
       "crowd": {

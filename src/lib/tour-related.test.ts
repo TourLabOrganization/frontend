@@ -13,7 +13,9 @@ import {
   linkPlace,
   localizeRelated,
   pickRelated,
+  isStayRow,
   RELATED_LIMIT,
+  RELATED_STAY_LIMIT,
   relatedKeywords,
   relatedMonths,
   relatedName,
@@ -110,21 +112,31 @@ describe("한 곳 고르기 (PoC pick) — 경주 시군구 전체 목록", () =
   });
 });
 
-describe("보일 줄 (PoC getRelatedSpots 정리) — 불국사 실제 응답", () => {
+describe("보일 줄 (PoC getRelatedSpots 정리 · 숙소 나누기) — 불국사 실제 응답", () => {
   const rows = pickRelated(items(searchBulguksa), ME);
 
-  it("rlteRank 순 8개, 분류는 소분류, 지역은 시도 · 시군구", () => {
-    const out = relatedRows(rows, ME);
+  it("대분류는 관광지 · 음식 · 숙박 세 가지, 숙소는 「숙박」", () => {
+    const count = (lcls: string) =>
+      rows.filter((x) => x.rlteCtgryLclsNm === lcls).length;
+    expect([count("관광지"), count("음식"), count("숙박")]).toEqual([
+      20, 23, 7,
+    ]);
+    expect(rows.filter(isStayRow)).toHaveLength(7);
+  });
+
+  it("순위 목록: 숙박을 뺀 관광지 · 음식만 rlteRank 순 8개, 순위는 그 안에서 1부터 다시 매긴다", () => {
+    const { items: out } = relatedRows(rows, ME);
     expect(out).toHaveLength(RELATED_LIMIT);
+    // 원래 순위 6(한화리조트/경주) · 8(소노캄/경주) · 10(코오롱호텔)은 숙소라 빠지고 9 · 11위가 올라온다
     expect(out.map((r) => `${r.rank}.${r.name}`)).toEqual([
       "1.국립경주박물관",
       "2.첨성대",
       "3.황리단길",
       "4.문무대왕릉",
       "5.동궁과월지",
-      "6.한화리조트/경주",
-      "7.석굴암",
-      "8.소노캄/경주",
+      "6.석굴암",
+      "7.보문관광단지",
+      "8.맷돌순두부",
     ]);
     expect(out[0]).toEqual({
       rank: 1,
@@ -135,12 +147,45 @@ describe("보일 줄 (PoC getRelatedSpots 정리) — 불국사 실제 응답", 
     });
   });
 
+  it("숙소: 숙박만 원래 순위 순 3개(7곳 중)", () => {
+    const { stays } = relatedRows(rows, ME);
+    expect(stays).toHaveLength(RELATED_STAY_LIMIT);
+    expect(stays.map((r) => `${r.rank}.${r.name}.${r.category}`)).toEqual([
+      "6.한화리조트/경주.콘도미니엄",
+      "8.소노캄/경주.콘도미니엄",
+      "10.코오롱호텔.호텔",
+    ]);
+  });
+
+  it("서울 경복궁도 호텔 3곳이 숙소로 빠진다", () => {
+    const me = relatedName("경복궁");
+    const { items: out, stays } = relatedRows(
+      pickRelated(items(searchGyeongbokgung), me),
+      me,
+    );
+    expect(out.map((r) => r.name)).toEqual([
+      "북촌한옥마을",
+      "남산케이블카",
+      "광장시장",
+      "토속촌삼계탕",
+      "남대문시장",
+      "신라면세점/서울점",
+      "창덕궁",
+      "남산골한옥마을",
+    ]);
+    expect(stays.map((r) => r.name)).toEqual([
+      "소테츠호텔즈더스프라지르/서울명동",
+      "L7 명동 바이 롯데호텔",
+      "나인트리바이파르나스/서울명동2",
+    ]);
+  });
+
   it("순서가 섞여 와도 순위대로, 장소 자신과 같은 이름은 뺀다", () => {
     const shuffled = [...rows].reverse();
-    expect(relatedRows(shuffled, ME)[0].name).toBe("국립경주박물관");
-    // 「국립경주박물관」 시트라면 1위 줄이 자기 자신이다
-    const self = relatedRows(rows, relatedName("국립경주박물관"));
-    expect(self[0].name).toBe("첨성대");
+    expect(relatedRows(shuffled, ME).items[0].name).toBe("국립경주박물관");
+    // 「국립경주박물관」 시트라면 1위 줄이 자기 자신이다 → 첨성대가 1위
+    const self = relatedRows(rows, relatedName("국립경주박물관")).items;
+    expect(self[0]).toMatchObject({ rank: 1, name: "첨성대" });
     expect(self.some((r) => r.name === "국립경주박물관")).toBe(false);
   });
 });
@@ -154,21 +199,29 @@ describe("우리 장소 잇기 (같은 이름 · 같은 도시)", () => {
   );
 
   it("경주: 이름(정규화) · 시군구 코드가 같은 플래너 장소", () => {
-    expect(bulguksa.map((r) => linkPlace(r, "gjx1")?.id ?? null)).toEqual([
-      "gjx4",
-      "gjx3",
-      "gj4",
-      "gjx9",
-      "gj3", // 「동궁과월지」 ↔ 「동궁과 월지」
-      null, // 한화리조트/경주
-      "gjx5",
-      null, // 소노캄/경주
+    expect(bulguksa.items.map((r) => linkPlace(r, "gjx1")?.id ?? null)).toEqual(
+      [
+        "gjx4",
+        "gjx3",
+        "gj4",
+        "gjx9",
+        "gj3", // 「동궁과월지」 ↔ 「동궁과 월지」
+        "gjx5",
+        "gjx18",
+        "ro161",
+      ],
+    );
+    // 숙소 셋은 우리 장소에 없다(한화리조트/경주 · 소노캄/경주 · 코오롱호텔)
+    expect(bulguksa.stays.map((r) => linkPlace(r, "gjx1"))).toEqual([
+      null,
+      null,
+      null,
     ]);
   });
 
   it("서울: 종로구 · 중구 관광지도 서울 장소와 잇는다", () => {
     const linked = Object.fromEntries(
-      seoul.map((r) => [r.name, linkPlace(r, "x")?.id ?? null]),
+      seoul.items.map((r) => [r.name, linkPlace(r, "x")?.id ?? null]),
     );
     expect(linked["북촌한옥마을"]).toBe("kd2");
     expect(linked["광장시장"]).toBe("kdx17");
@@ -177,8 +230,12 @@ describe("우리 장소 잇기 (같은 이름 · 같은 도시)", () => {
   });
 
   it("다른 도시의 같은 이름이면 잇지 않고, 지역 정보가 없으면 이름만 보고 잇는다 (실제 줄의 지역 값만 바꿨다)", () => {
-    const cheom = bulguksa.find((r) => r.name === "첨성대")!;
-    const inSeoul = { ...cheom, region: seoul[0].region, regionCd: "11110" };
+    const cheom = bulguksa.items.find((r) => r.name === "첨성대")!;
+    const inSeoul = {
+      ...cheom,
+      region: seoul.items[0].region,
+      regionCd: "11110",
+    };
     expect(linkPlace(inSeoul, "gjx1")).toBeNull();
     expect(linkPlace({ ...cheom, region: "", regionCd: "" }, "gjx1")?.id).toBe(
       "gjx3",
@@ -186,15 +243,19 @@ describe("우리 장소 잇기 (같은 이름 · 같은 도시)", () => {
   });
 
   it("자기 자신은 잇지 않는다", () => {
-    const cheom = bulguksa.find((r) => r.name === "첨성대")!;
+    const cheom = bulguksa.items.find((r) => r.name === "첨성대")!;
     expect(linkPlace(cheom, "gjx3")).toBeNull();
   });
 });
 
 describe("화면 언어로 옮기기 — 불국사 실제 응답", () => {
-  const linked = relatedRows(pickRelated(items(searchBulguksa), ME), ME).map(
-    (row) => ({ ...row, place: linkPlace(row, "gjx1") }),
-  );
+  const split = relatedRows(pickRelated(items(searchBulguksa), ME), ME);
+  const link = (row: (typeof split.items)[number]) => ({
+    ...row,
+    place: linkPlace(row, "gjx1"),
+  });
+  const linked = split.items.map(link);
+  const stays = split.stays.map(link);
 
   it("한국어 화면은 한국관광공사 값 그대로, 이어진 곳은 placeId", async () => {
     const out = await localizeRelated(linked, "ko");
@@ -206,7 +267,7 @@ describe("화면 언어로 옮기기 — 불국사 실제 응답", () => {
       region: "경상북도 경주시",
       placeId: "gjx4",
     });
-    expect(out[5]).toEqual({
+    expect((await localizeRelated(stays, "ko"))[0]).toEqual({
       rank: 6,
       name: "한화리조트/경주",
       category: "콘도미니엄",
@@ -222,8 +283,12 @@ describe("화면 언어로 옮기기 — 불국사 실제 응답", () => {
       [3, "Hwangnidan-gil", "Local & Food", "Gyeongju"],
       [4, "Tomb of King Munmu", "Heritage & Tradition", "Gyeongju"],
       [5, "Donggung & Wolji", "Heritage & Tradition", "Gyeongju"],
-      [7, "Seokguram Grotto", "Heritage & Tradition", "Gyeongju"],
+      [6, "Seokguram Grotto", "Heritage & Tradition", "Gyeongju"],
+      [7, "Bomun Resort Complex", "Theme Park & Activity", "Gyeongju"],
+      [8, "Maetdol Sundubu", "Local & Food", "Gyeongju"],
     ]);
+    // 숙소 셋은 우리 장소와 이어지지 않아 외국어 화면에는 없다
+    expect(await localizeRelated(stays, "en")).toEqual([]);
     const zh = await localizeRelated(linked, "zh");
     expect(zh[0]).toMatchObject({ name: "国立庆州博物馆", region: "庆州" });
     const ja = await localizeRelated(linked, "ja");
@@ -241,6 +306,8 @@ describe("화면 언어로 옮기기 — 불국사 실제 응답", () => {
         "gjx9",
         "gj3",
         "gjx5",
+        "gjx18",
+        "ro161",
       ]);
       expect(hasHangul(JSON.stringify(list))).toBe(false);
     }
@@ -274,15 +341,20 @@ describe("연관 관광지 찾기 (검색어 · 기준월 · 전체 목록 순�
     const found = await findRelated(gjx1, "KEY", now);
     expect(asked).toEqual(["searchKeyword1 202607 불국사"]);
     expect(found?.month).toBe("202607");
-    expect(found?.rows.map((r) => r.place?.id ?? null)).toEqual([
+    expect(found?.items.map((r) => r.place?.id ?? null)).toEqual([
       "gjx4",
       "gjx3",
       "gj4",
       "gjx9",
       "gj3",
-      null,
       "gjx5",
-      null,
+      "gjx18",
+      "ro161",
+    ]);
+    expect(found?.stays.map((r) => r.name)).toEqual([
+      "한화리조트/경주",
+      "소노캄/경주",
+      "코오롱호텔",
     ]);
   });
 
@@ -290,7 +362,12 @@ describe("연관 관광지 찾기 (검색어 · 기준월 · 전체 목록 순�
     const asked = stubRelated({ "areaBasedList1 202607": areaGyeongju });
     const first = await findRelated(gjx1, "KEY", now);
     expect(first?.month).toBe("202607");
-    expect(first?.rows[0].name).toBe("국립경주박물관");
+    expect(first?.items[0].name).toBe("국립경주박물관");
+    expect(first?.stays.map((r) => r.name)).toEqual([
+      "한화리조트/경주",
+      "소노캄/경주",
+      "코오롱호텔",
+    ]);
     await findRelated(gjx1, "KEY", now);
     expect(asked).toEqual([
       "searchKeyword1 202607 불국사",
@@ -377,26 +454,44 @@ describe("GET /api/tour/related", () => {
     expect((await call("id=gjx1&locale=ko")).status).toBe(502);
   });
 
-  it("결과: 기준월과 항목(하루 캐시), 외국어 화면은 이어진 곳만", async () => {
+  it("결과: 기준월 · 순위 목록 · 숙소(하루 캐시), 외국어 화면은 이어진 곳만", async () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     stubRelated({ "searchKeyword1 202607": searchBulguksa });
     const res = await call("id=gjx1&locale=ko");
     expect(res.headers.get("Cache-Control")).toBe("public, max-age=86400");
     const body = (await res.json()) as {
       month: string;
-      items: { name: string; placeId?: string }[];
+      items: { rank: number; name: string; placeId?: string }[];
+      stays: Record<string, unknown>[];
     };
     expect(body.month).toBe("202607");
     expect(body.items).toHaveLength(8);
     expect(body.items[0]).toMatchObject({
+      rank: 1,
       name: "국립경주박물관",
       placeId: "gjx4",
     });
+    // 숙소는 순위 번호 없이
+    expect(body.stays).toEqual([
+      {
+        name: "한화리조트/경주",
+        category: "콘도미니엄",
+        region: "경상북도 경주시",
+      },
+      {
+        name: "소노캄/경주",
+        category: "콘도미니엄",
+        region: "경상북도 경주시",
+      },
+      { name: "코오롱호텔", category: "호텔", region: "경상북도 경주시" },
+    ]);
 
     const en = (await (await call("id=gjx1&locale=en")).json()) as {
       items: { placeId?: string }[];
+      stays: unknown[];
     };
-    expect(en.items).toHaveLength(6);
+    expect(en.items).toHaveLength(8);
+    expect(en.stays).toEqual([]);
     expect(hasHangul(JSON.stringify(en))).toBe(false);
   });
 

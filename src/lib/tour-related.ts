@@ -1,8 +1,10 @@
 // 장소 시트 「함께 많이 가는 관광지 Top」 칸 (GET /api/tour/related?id=&locale=, 서버 전용).
 // 한국관광공사 관광지별 연관 관광지(TarRlteTarService1). PoC shared.js getRelatedSpots와 같은 규칙:
 //   검색어 후보(전체 이름 → 첫 단어 → 정규화한 앞 3글자) × 기준월(2 → 3 → 4개월 전)로 searchKeyword1, 없으면 그달 areaBasedList1.
-//   결과를 관광지 이름(tAtsNm)으로 묶어 이름 점수가 가장 높은 한 곳의 연관 관광지를 rlteRank 순으로, 이름이 겹치거나 자기 자신이면 빼고 8개.
+//   결과를 관광지 이름(tAtsNm)으로 묶어 이름 점수가 가장 높은 한 곳의 연관 관광지를 rlteRank 순으로, 이름이 겹치거나 자기 자신이면 뺀다.
 //   PoC 화면처럼 영화관 · 주차장 · 화장실은 빼고 보인다(d_rlte).
+// 숙소(대분류 「숙박」)는 순위 계산에서 빼고 따로 보낸다(2026-09-29 팀 답 — 명세서 §20처럼 관광지 계산에서만 뺀다):
+//   items = 관광지 · 음식만 순위 순 8개(순위는 그 안에서 1부터 다시 매긴다), stays = 숙박만 원래 순위 순 3개.
 // 각 항목은 우리 장소(같은 이름 · 같은 도시)와 이어 placeId를 단다. 외국어 화면은 이어진 항목만,
 // 그 언어 장소 이름(장소 시트와 같은 placeName 규칙)과 우리 분류 이름으로 보낸다(한국관광공사 분류 · 한국어 이름을 보내지 않는다).
 import { loadNameTable } from "../features/names/server";
@@ -30,8 +32,10 @@ import {
 } from "./tour-api";
 import { seoulDate } from "./weather";
 
-/** 보이는 최대 수 (PoC 8) */
+/** 순위 목록(관광지 · 음식)의 최대 수 (PoC 8) */
 export const RELATED_LIMIT = 8;
+/** 숙소 목록의 최대 수 */
+export const RELATED_STAY_LIMIT = 3;
 
 /** 이름 비교용 정규화 (PoC nz: '/부제' · 괄호 · 공백 · 가운뎃점 · 문장부호 무시, 소문자) */
 export function relatedName(value: unknown): string {
@@ -107,6 +111,7 @@ export function relatedMonths(now: Date): string[] {
 
 /** 연관 관광지 한 곳 */
 export type RelatedRow = {
+  /** 순위 목록은 관광지 · 음식 안에서 다시 매긴 순위, 숙소는 한국관광공사 순위(rlteRank) */
   rank: number;
   /** 한국관광공사 이름 */
   name: string;
@@ -123,37 +128,49 @@ export function hiddenRelatedName(name: string): boolean {
   return /^(CGV|메가박스|롯데시네마)|주차장|화장실/.test(name);
 }
 
+/** 숙소인지: 한국관광공사 연관 관광지 대분류(rlteCtgryLclsNm)가 「숙박」(나머지 대분류는 관광지 · 음식) */
+export function isStayRow(x: TourItem): boolean {
+  return String(x.rlteCtgryLclsNm ?? "").trim() === "숙박";
+}
+
 /**
- * 고른 묶음 → 보일 줄 (PoC getRelatedSpots 뒷부분): rlteRank 순(없으면 99), 이름이 없거나 겹치거나 자기 자신(점수 3)이면 빼고 8개,
- * 그 뒤 PoC 화면처럼 영화관 · 주차장 · 화장실을 뺀다
+ * 고른 묶음 → 보일 줄 (PoC getRelatedSpots 뒷부분): rlteRank 순(없으면 99), 이름이 없거나 겹치거나 자기 자신(점수 3)이면 빼고,
+ * PoC 화면처럼 영화관 · 주차장 · 화장실을 뺀 뒤 숙소를 나눈다.
+ * items = 관광지 · 음식 8개(순위는 1부터 다시 매긴다), stays = 숙박 3개(한국관광공사 순위 순)
  */
 export function relatedRows(
   rows: readonly TourItem[],
   me: string,
-): RelatedRow[] {
+): { items: RelatedRow[]; stays: RelatedRow[] } {
   const rank = (x: TourItem) => {
     const n = Number(x.rlteRank || 99);
     return Number.isFinite(n) ? n : 99;
   };
-  const out: RelatedRow[] = [];
+  const spots: RelatedRow[] = [];
+  const stays: RelatedRow[] = [];
   const seen = new Set<string>();
   for (const x of [...rows].sort((a, b) => rank(a) - rank(b))) {
     const name = String(x.rlteTatsNm ?? "").trim();
     if (!name || seen.has(name) || relatedScore(name, me) === 3) continue;
     seen.add(name);
-    out.push({
-      rank: Number(x.rlteRank) || out.length + 1,
+    if (hiddenRelatedName(name)) continue;
+    const row = {
+      rank: rank(x),
       name,
       category: String(
         x.rlteCtgrySclsNm || x.rlteCtgryMclsNm || x.rlteCtgryLclsNm || "",
       ),
       region: [x.rlteRegnNm, x.rlteSignguNm].filter(Boolean).join(" "),
       regionCd: String(x.rlteSignguCd ?? ""),
-    });
+    };
+    (isStayRow(x) ? stays : spots).push(row);
   }
-  return out
-    .slice(0, RELATED_LIMIT)
-    .filter((row) => !hiddenRelatedName(row.name));
+  return {
+    items: spots
+      .slice(0, RELATED_LIMIT)
+      .map((row, i) => ({ ...row, rank: i + 1 })),
+    stays: stays.slice(0, RELATED_STAY_LIMIT),
+  };
 }
 
 /** 우리 장소와 비교하는 이름 (relatedName에 대괄호 빼기를 더한 것, PoC d_rlte open) */
@@ -297,7 +314,11 @@ export async function findRelated(
   place: TourPlace,
   key: string,
   now = new Date(),
-): Promise<{ month: string; rows: LinkedRow[] } | null> {
+): Promise<{
+  month: string;
+  items: LinkedRow[];
+  stays: LinkedRow[];
+} | null> {
   const keyword = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (!keyword || !place.signgu) return null;
   const me = relatedName(keyword);
@@ -321,19 +342,22 @@ export async function findRelated(
     }
     if (rows.length === 0)
       rows = pickRelated(await bulkItems(key, place.signgu, ym), me);
-    if (rows.length > 0)
-      return {
-        month: ym,
-        rows: relatedRows(rows, me).map((row) => ({
-          ...row,
-          place: linkPlace(row, place.id),
-        })),
-      };
+    if (rows.length > 0) {
+      const link = (row: RelatedRow) => ({
+        ...row,
+        place: linkPlace(row, place.id),
+      });
+      const { items, stays } = relatedRows(rows, me);
+      return { month: ym, items: items.map(link), stays: stays.map(link) };
+    }
   }
   return null;
 }
 
-/** GET /api/tour/related 처리. 응답 { month, items } · 결과 없음 { empty: true } */
+/**
+ * GET /api/tour/related 처리. 응답 { month, items, stays } · 결과 없음 { empty: true }.
+ * 순위 목록(items)이 비면 숙소만 있어도 결과 없음이다(이 칸은 관광지 칸이고 숙소는 그 아래 덧붙임)
+ */
 export async function tourRelatedResponse(request: Request): Promise<Response> {
   const query = parseTourQuery(request, true);
   if ("error" in query) return query.error;
@@ -346,8 +370,21 @@ export async function tourRelatedResponse(request: Request): Promise<Response> {
   } catch {
     return tourUnavailable();
   }
-  const items = found ? await localizeRelated(found.rows, locale) : [];
+  const items = found ? await localizeRelated(found.items, locale) : [];
+  const stays = found ? await localizeRelated(found.stays, locale) : [];
   const body: TourRelated | { empty: true } =
-    found && items.length > 0 ? { month: found.month, items } : { empty: true };
+    found && items.length > 0
+      ? {
+          month: found.month,
+          items,
+          // 숙소는 순위 번호 없이 보인다
+          stays: stays.map(({ name, category, region, placeId }) => ({
+            name,
+            category,
+            region,
+            ...(placeId ? { placeId } : {}),
+          })),
+        }
+      : { empty: true };
   return tourJson(body, TOUR_DAY_SECONDS);
 }

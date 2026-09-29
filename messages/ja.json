@@ -93,6 +93,7 @@
       "related": {
         "title": "一緒によく訪れるスポット TOP",
         "rank": "{rank}位",
+        "stays": "一緒によく選ばれる宿",
         "source": "韓国観光公社 関連観光地データ · {month}時点"
       },
       "crowd": {
