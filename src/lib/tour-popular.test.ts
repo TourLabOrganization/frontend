@@ -1,12 +1,18 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { isPlannerCity } from "../features/planner/regions";
 import { POPULAR_CITIES } from "./tour";
 import {
   citySigngu,
+  findPopular,
   isPopularCity,
+  matchByLocation,
   matchPlace,
+  nameOverlap,
+  nameScore,
+  pickSpotItem,
   POPULAR_MAX_DISTRICTS,
   rankSpots,
+  spotName,
 } from "./tour-popular";
 
 const row = (name: string, date: string, rate: number, signgu = "47130") => ({
@@ -142,5 +148,224 @@ describe("matchPlace", () => {
     expect(
       matchPlace({ name: "불국사", signgu: "11110" }, "경주", places, sg),
     ).toBeNull();
+  });
+});
+
+describe("표기 차이 맞추기", () => {
+  it("끝말(해수욕장 · 해변, 전통시장 · 시장)과 괄호 · 공백을 맞춘다", () => {
+    expect(spotName("해운대해수욕장")).toBe("해운대해변");
+    expect(spotName("해운대 해변")).toBe("해운대해변");
+    expect(spotName("망원시장(망원전통시장)")).toBe("망원시장");
+    expect(spotName("남대문 전통시장")).toBe("남대문시장");
+  });
+
+  it("nameScore: 같은 곳의 다른 표기는 3, 품으면 2, 끝말만 겹치면 0", () => {
+    expect(nameScore("해운대해수욕장", "해운대 해변", "부산")).toBe(3);
+    expect(nameScore("경주 대릉원", "대릉원", "경주")).toBe(3);
+    expect(nameScore("대릉원", "경주 대릉원", "경주")).toBe(3);
+    expect(nameScore("남대문시장", "남대문 전통시장", "서울")).toBe(3);
+    expect(nameScore("불국사", "불국사 석가탑", "경주")).toBe(2);
+    expect(nameScore("송정해수욕장", "해운대 해변", "부산")).toBe(0);
+    expect(nameScore("석굴암", "불국사", "경주")).toBe(0);
+  });
+
+  it("nameOverlap: 글자쌍 겹침", () => {
+    expect(nameOverlap("동궁과월지", "동궁과 월지")).toBe(1);
+    expect(nameOverlap("국립경주박물관", "경주박물관")).toBeGreaterThan(0.5);
+    expect(nameOverlap("불국사", "석굴암")).toBe(0);
+    expect(nameOverlap("가", "가")).toBe(0);
+  });
+});
+
+describe("matchByLocation", () => {
+  const places = [
+    {
+      id: "a",
+      ko: "쪽샘 44호 신라공주묘",
+      locKo: "경주",
+      cat: "herit",
+      lat: 35.8397,
+      lng: 129.2163,
+    },
+    {
+      id: "b",
+      ko: "국립경주박물관",
+      locKo: "경주",
+      cat: "herit",
+      lat: 35.8292,
+      lng: 129.2279,
+    },
+    {
+      id: "c",
+      ko: "숙소",
+      locKo: "경주",
+      cat: "stay",
+      lat: 35.83975,
+      lng: 129.21635,
+    },
+    {
+      id: "d",
+      ko: "다른 도시",
+      locKo: "부산",
+      cat: "herit",
+      lat: 35.8398,
+      lng: 129.2164,
+    },
+  ] as never[];
+
+  it("250m 안이면 이름이 달라도 가장 가까운 같은 도시 장소(숙박 · 다른 도시 제외)", () => {
+    expect(
+      matchByLocation(
+        { name: "쪽샘지구", lat: 35.8399, lng: 129.2165 },
+        "경주",
+        places,
+      )?.id,
+    ).toBe("a");
+  });
+
+  it("1km 안은 이름 글자가 절반 이상 겹칠 때만", () => {
+    // b에서 약 600m
+    const at = { lat: 35.8346, lng: 129.2279 };
+    expect(
+      matchByLocation({ name: "경주박물관", ...at }, "경주", places)?.id,
+    ).toBe("b");
+    expect(
+      matchByLocation({ name: "월정교", ...at }, "경주", places),
+    ).toBeNull();
+  });
+
+  it("1km 밖이면 없음", () => {
+    expect(
+      matchByLocation(
+        { name: "쪽샘", lat: 35.9, lng: 129.2163 },
+        "경주",
+        places,
+      ),
+    ).toBeNull();
+  });
+});
+
+describe("pickSpotItem", () => {
+  const item = (
+    title: string,
+    type = "12",
+    regn = "47",
+    sgg = "130",
+    contentid = "1",
+  ) => ({
+    title,
+    contenttypeid: type,
+    lDongRegnCd: regn,
+    lDongSignguCd: sgg,
+    contentid,
+  });
+
+  it("같은 시군구 · 이름 점수 높은 곳 · 관광지 타입 먼저. 코스 · 숙박은 뺀다", () => {
+    const spot = { name: "대릉원", signgu: "47130" };
+    expect(
+      pickSpotItem(
+        [
+          item("경주 대릉원 일원", "12", "47", "130", "2"),
+          item("대릉원", "39", "47", "130", "3"),
+          item("대릉원", "12", "47", "130", "4"),
+        ],
+        spot,
+      )?.contentid,
+    ).toBe("4");
+    expect(pickSpotItem([item("대릉원", "12", "11", "110")], spot)).toBeNull();
+    expect(
+      pickSpotItem([item("대릉원", "25"), item("대릉원", "32")], spot),
+    ).toBeNull();
+    expect(pickSpotItem([item("천마총")], spot)).toBeNull();
+  });
+});
+
+describe("findPopular: 이름 · 위치 · 신규 관광지", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  const tourBody = (item: unknown[]) =>
+    Response.json({
+      response: {
+        header: { resultCode: "0000" },
+        body: { items: item.length ? { item } : "", totalCount: item.length },
+      },
+    });
+
+  it("이름으로 앱 장소, 못 찾으면 한국관광공사 좌표 근처 앱 장소, 그래도 없으면 신규 관광지(kto:)", async () => {
+    const day = "20260929";
+    const crowd = ["불국사", "쪽샘지구", "무릉숲길", "없는곳"].map(
+      (name, i) => ({
+        tAtsNm: name,
+        baseYmd: day,
+        cnctrRate: String(90 - i),
+        signguCd: "47130",
+        signguNm: "경주시",
+      }),
+    );
+    const search: Record<string, unknown[]> = {
+      쪽샘지구: [
+        {
+          contentid: "111",
+          title: "쪽샘지구",
+          contenttypeid: "12",
+          mapy: "35.8399",
+          mapx: "129.2165",
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+        },
+      ],
+      무릉숲길: [
+        {
+          contentid: "222",
+          title: "무릉숲길",
+          contenttypeid: "12",
+          cat1: "A01",
+          mapy: "35.95",
+          mapx: "129.05",
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+          firstimage: "http://tong.visitkorea.or.kr/a.jpg",
+          addr1: "경상북도 경주시",
+        },
+      ],
+    };
+    const calls: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        calls.push(url.pathname);
+        if (url.pathname.endsWith("tatsCnctrRatedList")) return tourBody(crowd);
+        if (url.pathname.endsWith("searchKeyword2"))
+          return tourBody(search[url.searchParams.get("keyword") ?? ""] ?? []);
+        return new Response("no", { status: 500 });
+      }),
+    );
+    const popular = await findPopular(
+      "경주",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-09-29T03:00:00Z"),
+    );
+    const byName = new Map(popular!.items.map((x) => [x.name, x]));
+    expect(byName.get("불국사")?.id).toBe("gjx1");
+    // 이름이 맞은 곳은 한국관광공사를 부르지 않는다
+    expect(calls.filter((c) => c.endsWith("searchKeyword2"))).toHaveLength(3);
+    const jjok = popular!.items.find((x) => x.id === "gj2");
+    expect(jjok?.place).toBeUndefined();
+    const fresh = byName.get("무릉숲길");
+    expect(fresh?.id).toBe("kto:222");
+    expect(fresh?.place).toMatchObject({
+      id: "kto:222",
+      ko: "무릉숲길",
+      locKo: "경주",
+      pickCity: "경주",
+      cat: "heal",
+      photo: "https://tong.visitkorea.or.kr/a.jpg",
+    });
+    // 서버 전용 필드는 보내지 않는다
+    expect(fresh?.place).not.toHaveProperty("signgu");
+    expect(byName.get("없는곳")?.id).toBeNull();
   });
 });

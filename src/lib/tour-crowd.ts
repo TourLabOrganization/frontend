@@ -120,7 +120,7 @@ export async function findCrowd(
 
 /** GET /api/tour/crowd 처리. 응답 { name, days } · 결과 없음 { empty: true } */
 export async function tourCrowdResponse(request: Request): Promise<Response> {
-  const query = parseTourQuery(request, false);
+  const query = await parseTourQuery(request, false);
   if ("error" in query) return query.error;
   const key = tourApiKey();
   if (!key) return tourNotConfigured();

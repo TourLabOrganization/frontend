@@ -3,7 +3,12 @@
 // 입력은 장소 id뿐이다. 한국어 이름 · 좌표 · 시군구 코드는 서버가 장소 데이터에서 찾는다(아무 검색어나 대신 불러 주는 중계가 되지 않게).
 // 시군구 코드(data/signgu.json)는 여기서만 읽는다(클라이언트 번들에 넣지 않는다, tour-api.test.ts).
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 상대 경로로 import한다.
-import { findPlace, type PlannerPlace } from "../features/planner/data";
+import {
+  findPlace,
+  PLANNER_PLACES,
+  type PlannerPlace,
+} from "../features/planner/data";
+import { isKtoId, type KtoPlace, ktoId } from "../features/planner/kto-place";
 import signguData from "../features/planner/data/signgu.json";
 import { type AppLocale, locales } from "../i18n/locales";
 import { TOUR_TIMEOUT_MS } from "./tour";
@@ -142,13 +147,178 @@ export function tourPlaceSigngu(id: string): string {
   return Object.hasOwn(SIGNGU, id) ? SIGNGU[id] : "";
 }
 
-/** 칸을 불러올 장소(플래너 장소 + 시군구 코드) */
-export type TourPlace = PlannerPlace & { signgu: string };
+/** 칸을 불러올 장소(플래너 장소 + 시군구 코드). 신규 관광지(kto:)는 대표 사진 · 주소 · 개요도 있다 */
+export type TourPlace = KtoPlace & { signgu: string; overview?: string };
 
+/** 앱 장소(places.json)만 찾는다 */
 export function tourPlace(id: string): TourPlace | null {
   const place = findPlace(id);
   if (!place) return null;
   return { ...place, signgu: tourPlaceSigngu(place.id) };
+}
+
+/** 신규 관광지 공통정보를 다시 부르는 간격(초). 이름 · 좌표 · 사진은 자주 바뀌지 않는다 */
+export const KTO_PLACE_SECONDS = 7 * 24 * 3600;
+
+/** 신규 관광지의 기본 체류(분). 앱 장소의 분류별 흔한 값 */
+const KTO_MINUTES: Readonly<Record<string, number>> = {
+  activity: 90,
+  food: 60,
+  stay: 720,
+};
+
+/**
+ * 한국관광공사 분류 → 앱 분류(herit · heal · activity · food · sea · stay).
+ * 콘텐츠 타입(contenttypeid) · 옛 대분류(cat1) · 새 분류체계(lclsSystm1) 중 아는 값을 쓴다. 자연 · 관광지는 이름에 바다 말이 있으면 sea, 아니면 heal
+ */
+export function ktoCategory(item: TourItem): string {
+  const type = String(item.contenttypeid ?? "");
+  const cat1 = String(item.cat1 ?? "");
+  const lcls = String(item.lclsSystm1 ?? "");
+  if (type === "32" || cat1 === "B02" || lcls === "AC") return "stay";
+  if (type === "39" || cat1 === "A05" || lcls === "FD") return "food";
+  if (
+    ["15", "28", "38"].includes(type) ||
+    ["A03", "A04"].includes(cat1) ||
+    ["LS", "SH", "EV", "EX"].includes(lcls)
+  )
+    return "activity";
+  if (type === "14" || cat1 === "A02" || ["HS", "VE"].includes(lcls))
+    return "herit";
+  const name = String(item.title ?? "");
+  return /해수욕장|해변|해안|바다|포구|등대|섬|항$/.test(name) ? "sea" : "heal";
+}
+
+/**
+ * 신규 관광지의 도시(locKo) · 권역(macro): 같은 시군구 코드의 앱 장소(숙박 제외)가 가장 많이 속한 도시.
+ * 시군구 코드가 없거나 그 시군구에 앱 장소가 없으면 좌표가 가장 가까운 앱 장소의 도시. 앱 장소가 없으면 null
+ */
+export function ktoCity(
+  signgu: string,
+  lat: number,
+  lng: number,
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+  signguOf: (id: string) => string = tourPlaceSigngu,
+): Pick<PlannerPlace, "locKo" | "macro"> | null {
+  const pool = places.filter((p) => p.cat !== "stay");
+  const same = signgu ? pool.filter((p) => signguOf(p.id) === signgu) : [];
+  if (same.length > 0) {
+    const counts = new Map<string, { n: number; p: PlannerPlace }>();
+    for (const p of same) {
+      const c = counts.get(p.locKo);
+      if (c) c.n++;
+      else counts.set(p.locKo, { n: 1, p });
+    }
+    const best = [...counts.values()].sort((a, b) => b.n - a.n)[0].p;
+    return { locKo: best.locKo, macro: best.macro };
+  }
+  let near: PlannerPlace | null = null;
+  let min = Infinity;
+  for (const p of pool) {
+    const d =
+      (p.lat - lat) ** 2 +
+      ((p.lng - lng) * Math.cos((lat * Math.PI) / 180)) ** 2;
+    if (d < min) {
+      min = d;
+      near = p;
+    }
+  }
+  return near ? { locKo: near.locKo, macro: near.macro } : null;
+}
+
+/** http 사진 주소를 https로. 모양이 다르면 "" */
+function httpsUrl(src: unknown): string {
+  const s = String(src ?? "")
+    .trim()
+    .replace(/^http:\/\//i, "https://");
+  return /^https:\/\/[^\s"'<>]+$/.test(s) ? s : "";
+}
+
+/**
+ * 국문 관광정보 항목(searchKeyword2 · detailCommon2) → 신규 관광지. 콘텐츠 id · 이름 · 한국 안 좌표가 없으면 null.
+ * 시군구 코드는 법정동 코드(lDongRegnCd 2자리 + lDongSignguCd 3자리)로 만든다(앱 장소의 signgu.json과 같은 체계)
+ */
+export function toKtoPlace(
+  item: TourItem,
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+  signguOf: (id: string) => string = tourPlaceSigngu,
+): TourPlace | null {
+  const id = ktoId(item.contentid);
+  const ko = String(item.title ?? "").trim();
+  const lat = Number(item.mapy);
+  const lng = Number(item.mapx);
+  if (!id || !ko || !Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  if (lat < 32 || lat > 39 || lng < 124 || lng > 132) return null;
+  const regn = String(item.lDongRegnCd ?? "").trim();
+  const sgg = String(item.lDongSignguCd ?? "").trim();
+  const signgu = /^\d{2}$/.test(regn) && /^\d{3}$/.test(sgg) ? regn + sgg : "";
+  const city = ktoCity(signgu, lat, lng, places, signguOf);
+  if (!city) return null;
+  const cat = ktoCategory(item);
+  const overview = String(item.overview ?? "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .trim();
+  return {
+    id,
+    n: null,
+    ko,
+    en: "",
+    locKo: city.locKo,
+    pickCity: city.locKo,
+    macro: city.macro,
+    cat,
+    lat,
+    lng,
+    min: KTO_MINUTES[cat] ?? 60,
+    hrs: "",
+    open: null,
+    close: null,
+    yt: false,
+    off: true,
+    k100: false,
+    un: false,
+    bf: false,
+    auto: false,
+    photo: httpsUrl(item.firstimage) || httpsUrl(item.firstimage2),
+    addr: String(item.addr1 ?? "").trim(),
+    signgu,
+    ...(overview ? { overview } : {}),
+  };
+}
+
+/** 신규 관광지 한 곳(국문 관광정보 공통정보 detailCommon2). 키가 없거나 결과가 없으면 null, 외부 실패는 TourApiError */
+export async function fetchKtoPlace(
+  id: string,
+  key: string | null,
+): Promise<TourPlace | null> {
+  if (!key || !isKtoId(id)) return null;
+  const items = await fetchTourItems(
+    tourApiUrl("KorService2/detailCommon2", key, {
+      contentId: id.slice("kto:".length),
+    }),
+    KTO_PLACE_SECONDS,
+  );
+  return items.length > 0 ? toKtoPlace(items[0]) : null;
+}
+
+/** 앱 장소 또는 신규 관광지(kto:). 모르는 id · 키 없음 · 외부 실패면 null */
+export async function resolveTourPlace(id: string): Promise<TourPlace | null> {
+  const place = tourPlace(id);
+  if (place || !isKtoId(id)) return place;
+  try {
+    return await fetchKtoPlace(id, tourApiKey());
+  } catch {
+    return null;
+  }
+}
+
+/** 브라우저에 보내는 신규 관광지(서버에서만 쓰는 시군구 코드 · 개요를 뺀다) */
+export function publicKtoPlace(place: TourPlace): KtoPlace {
+  const rest: KtoPlace & { signgu?: string; overview?: string } = { ...place };
+  delete rest.signgu;
+  delete rest.overview;
+  return rest;
 }
 
 /** 쿼리 검사 결과. 틀리면 돌려줄 응답(400 · 404) */
@@ -156,13 +326,13 @@ export type TourQuery =
   { place: TourPlace; locale: AppLocale } | { error: Response };
 
 /**
- * 쿼리 검사: id(필수, 플래너 장소)와 locale(needLocale이면 필수, 5개 언어).
- * 빠졌거나 틀린 값은 400, 모르는 장소 id는 404
+ * 쿼리 검사: id(필수, 플래너 장소 또는 신규 관광지 kto:)와 locale(needLocale이면 필수, 5개 언어).
+ * 빠졌거나 틀린 값은 400, 모르는 장소 id는 404(신규 관광지를 풀지 못해도 404)
  */
-export function parseTourQuery(
+export async function parseTourQuery(
   request: Request,
   needLocale: boolean,
-): TourQuery {
+): Promise<TourQuery> {
   const params = new URL(request.url).searchParams;
   const id = params.get("id")?.trim() ?? "";
   if (!id)
@@ -175,7 +345,7 @@ export function parseTourQuery(
     return {
       error: Response.json({ message: "invalid locale" }, { status: 400 }),
     };
-  const place = tourPlace(id);
+  const place = await resolveTourPlace(id);
   if (!place)
     return { error: Response.json({ message: "not found" }, { status: 404 }) };
   return { place, locale: locale ?? "ko" };

@@ -27,6 +27,8 @@ import {
   REGION_CENTER,
   type Scope,
 } from "./data";
+import { extraInScope, rememberPlace, useExtraPlaces } from "./extra-places";
+import { isKtoId, type KtoPlace, spotPath } from "./kto-place";
 import { sortPlaces } from "./list-order";
 import { type MapBubble, type MapPin, PlannerMap } from "./PlannerMap";
 import { plannerHref } from "./query";
@@ -72,7 +74,12 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const apiKey = process.env.NEXT_PUBLIC_KAKAO_MAP_KEY;
   const course = useCourseToggle();
 
-  const scopePlaces = useMemo(() => placesInScope(scope), [scope]);
+  // 앱 장소 + 브라우저가 기억해 둔 신규 관광지(kto:, 홈 「지금 인기 관광지」에서 연 곳)
+  const extras = useExtraPlaces();
+  const scopePlaces = useMemo<readonly PlannerPlace[]>(
+    () => [...placesInScope(scope), ...extraInScope(extras, scope)],
+    [scope, extras],
+  );
   const scopeIds = useMemo(
     () => new Set(scopePlaces.map((p) => p.id)),
     [scopePlaces],
@@ -81,8 +88,10 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const [badge, setBadge] = useState<BadgeKey | null>(null);
   const [query, setQuery] = useState("");
   const [shown, setShown] = useState(INITIAL_ROWS);
+  // 신규 관광지는 기억해 두기 전(링크로 바로 연 때)이라도 고른다. 아래에서 받아 기억하면 시트가 열린다
   const [selectedId, setSelectedId] = useState<string | null>(
-    initialPlace && scopePlaces.some((p) => p.id === initialPlace)
+    initialPlace &&
+      (isKtoId(initialPlace) || scopePlaces.some((p) => p.id === initialPlace))
       ? initialPlace
       : null,
   );
@@ -134,6 +143,25 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   );
   const visible = filtered.slice(0, shown);
   const selected = scopePlaces.find((p) => p.id === selectedId) ?? null;
+
+  // 기억해 두지 않은 신규 관광지를 링크(?place=kto:…)로 열면 서버에서 받아 기억한다(키가 없거나 못 찾으면 열지 않는다)
+  const missingSpot =
+    initialPlace &&
+    isKtoId(initialPlace) &&
+    !extras.some((p) => p.id === initialPlace)
+      ? initialPlace
+      : null;
+  useEffect(() => {
+    if (!missingSpot) return;
+    const ctrl = new AbortController();
+    fetch(spotPath(missingSpot), { signal: ctrl.signal })
+      .then((res) => (res.ok ? (res.json() as Promise<KtoPlace>) : null))
+      .then((place) => {
+        if (place) rememberPlace(place);
+      })
+      .catch(() => {});
+    return () => ctrl.abort();
+  }, [missingSpot]);
   const detail = usePlaceDetail(selected?.id ?? null);
 
   useEffect(() => {

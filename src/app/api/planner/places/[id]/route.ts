@@ -11,7 +11,9 @@ import {
   placeDescEn,
   sourceText,
 } from "@/features/translations/text";
+import { isKtoId } from "@/features/planner/kto-place";
 import { locales } from "@/i18n/locales";
+import { ktoDetailResponse } from "@/lib/tour-spot";
 
 // 투어 플래너 장소 한 곳의 무거운 필드(설명 · 사진 · 중일 이름 · 좌표 근거 · 카카오 장소 URL).
 // 3,118곳 전체(약 650KB)를 클라이언트 번들에 넣지 않으려고, 장소 시트를 열 때 한 곳씩 여기서 받는다
@@ -54,6 +56,12 @@ export async function GET(
   ctx: RouteContext<"/api/planner/places/[id]">,
 ) {
   const { id } = await ctx.params;
+  // 신규 관광지(kto:)는 한국관광공사 공통정보에서 만든다(lib/tour-spot.ts)
+  if (isKtoId(id))
+    return ktoDetailResponse(
+      id,
+      new URL(request.url).searchParams.get("locale"),
+    );
   if (!Object.hasOwn(DETAILS, id))
     return Response.json({ message: "not found" }, { status: 404 });
   const detail = DETAILS[id];

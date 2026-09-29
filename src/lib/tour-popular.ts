@@ -2,7 +2,12 @@
 // 한국관광공사 관광지 집중률 방문자 추이 예측(TatsCnctrRateService tatsCnctrRatedList)을 관광지 이름(tAtsNm) 없이 시군구 단위로 불러
 // 그 시군구 관광지 전체의 날짜별 집중률을 받고, 기준 날짜(오늘, 없으면 오늘 이후 가장 이른 날)의 집중률이 높은 순으로 10곳을 고른다.
 //   - 시군구: 도시의 플래너 장소(숙박 제외)가 많은 시군구 코드 순으로, 장소 5곳 이상인 곳만 최대 4곳(호출 수를 묶는다)
-//   - 이름이 맞는 플래너 장소가 있으면(장소 시트 방문 집중률과 같은 이름 점수, 같은 시군구 · 2점 이상) 그 장소 id와 화면 언어 이름을 붙인다
+//   - 각 관광지를 앱 장소와 잇는다(장소 id와 화면 언어 이름을 붙인다). 세 단계:
+//     ① 이름: 장소 시트 방문 집중률과 같은 이름 점수에 표기 차이(앞의 도시 이름 · 해수욕장/해변 · 전통시장/시장)를 맞춘 이름도 본다. 같은 시군구 · 2점 이상
+//     ② 위치: 이름으로 못 찾으면 한국관광공사 국문 관광정보(searchKeyword2)에서 같은 관광지를 찾아, 그 좌표 250m 안의 앱 장소
+//        (1km 안이면 이름 글자가 절반 이상 겹칠 때) — 이름이 아주 다르게 적힌 같은 곳
+//     ③ 신규 관광지: 그래도 없으면 한국관광공사 콘텐츠 id로 신규 관광지(kto:<contentid>)를 만든다. 장소 시트 칸 · 지도 · 코스가 앱 장소처럼 된다
+//        (features/planner/kto-place.ts). 한국관광공사에서도 못 찾으면 id 없이 글자만 둔다
 //   - 집중률은 방문 예측 지표이고 순위는 「그날 붐빌 것으로 예측된 순서」다(인기 = 방문 집중)
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 상대 경로로 import한다. 이름표(중 · 일 · 서)는 Route Handler가 넘긴다.
 import { PLANNER_PLACES, type PlannerPlace } from "../features/planner/data";
@@ -16,14 +21,20 @@ import {
   type TourPopularItem,
 } from "./tour";
 import {
+  fetchTourItems,
   fetchTourPage,
+  KTO_PLACE_SECONDS,
+  publicKtoPlace,
+  toKtoPlace,
   tourApiKey,
   tourApiUrl,
   type TourItem,
   tourJson,
   tourNotConfigured,
+  type TourPlace,
   tourPlaceSigngu,
   tourUnavailable,
+  withoutCity,
 } from "./tour-api";
 import { crowdName, crowdScore } from "./tour-crowd";
 import { seoulDate } from "./weather";
@@ -122,6 +133,155 @@ export function rankSpots(
   return { date, spots };
 }
 
+/** 표기 차이를 맞춘 이름: 괄호 · 공백 · 가운뎃점을 빼고(crowdName) 같은 뜻의 끝말을 하나로(해수욕장 · 해안 → 해변, 전통시장 · 재래시장 → 시장) */
+export function spotName(value: unknown): string {
+  return crowdName(value)
+    .replace(/(해수욕장|해안)$/, "해변")
+    .replace(/(전통시장|재래시장)$/, "시장");
+}
+
+/** 비교할 이름들: 그대로 · 앞의 도시 이름을 뗀 이름, 각각 표기 차이를 맞춘다(2글자 이상) */
+function nameVariants(name: string, city: string): string[] {
+  const raw = [name, city ? (withoutCity(name, city) ?? "") : ""];
+  return [...new Set(raw.map(spotName))].filter((n) => n.length >= 2);
+}
+
+/**
+ * 이름 점수(3 같음 · 2 한쪽이 다른 쪽을 품음 · 0 아님). 장소 시트 방문 집중률의 점수(crowdScore)에 더해
+ * 표기 차이를 맞춘 이름끼리도 비교한다. 맞춘 이름으로 품는지 볼 때는 짧은 쪽이 3글자 이상이어야 한다(「해변」 같은 끝말만 겹치지 않게)
+ */
+export function nameScore(spot: string, place: string, city: string): number {
+  let best = crowdScore(spot, crowdName(place));
+  if (best === 3) return 3;
+  for (const a of nameVariants(spot, city))
+    for (const b of nameVariants(place, city)) {
+      if (a === b) return 3;
+      const short = a.length <= b.length ? a : b;
+      if (short.length >= 3 && (a.includes(b) || b.includes(a))) best = 2;
+    }
+  return best;
+}
+
+/** 두 이름의 글자쌍(bigram) 겹침(Dice, 0~1). 표기 차이를 맞춘 이름으로 본다 */
+export function nameOverlap(a: string, b: string): number {
+  const pairs = (s: string) => {
+    const n = spotName(s);
+    const out: string[] = [];
+    for (let i = 0; i < n.length - 1; i++) out.push(n.slice(i, i + 2));
+    return out;
+  };
+  const x = pairs(a);
+  const y = pairs(b);
+  if (x.length === 0 || y.length === 0) return 0;
+  const rest = [...y];
+  let hit = 0;
+  for (const p of x) {
+    const i = rest.indexOf(p);
+    if (i >= 0) {
+      hit++;
+      rest.splice(i, 1);
+    }
+  }
+  return (2 * hit) / (x.length + y.length);
+}
+
+/** 위치로 같은 곳을 보는 거리(m). 이 안이면 이름이 달라도 같은 곳 */
+export const SAME_SPOT_M = 250;
+/** 이 거리(m) 안이면 이름 글자가 절반 이상 겹칠 때 같은 곳 */
+export const NEAR_SPOT_M = 1000;
+/** NEAR_SPOT_M 안에서 같은 곳으로 볼 이름 겹침 */
+export const NEAR_SPOT_OVERLAP = 0.5;
+
+function meters(lat1: number, lng1: number, lat2: number, lng2: number) {
+  const r = Math.PI / 180;
+  const a =
+    Math.sin(((lat2 - lat1) * r) / 2) ** 2 +
+    Math.cos(lat1 * r) *
+      Math.cos(lat2 * r) *
+      Math.sin(((lng2 - lng1) * r) / 2) ** 2;
+  return 2 * 6371000 * Math.asin(Math.sqrt(a));
+}
+
+/**
+ * 한국관광공사 좌표 근처의 앱 장소(같은 도시, 숙박 제외): 250m 안에서 가장 가까운 곳,
+ * 없으면 1km 안에서 이름 글자가 절반 이상 겹치는 가장 가까운 곳. 없으면 null
+ */
+export function matchByLocation(
+  spot: { name: string; lat: number; lng: number },
+  city: string,
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+): PlannerPlace | null {
+  let best: PlannerPlace | null = null;
+  let bestD = Infinity;
+  for (const p of places) {
+    if (p.locKo !== city || p.cat === "stay") continue;
+    const d = meters(spot.lat, spot.lng, p.lat, p.lng);
+    if (d > NEAR_SPOT_M || d >= bestD) continue;
+    if (d > SAME_SPOT_M && nameOverlap(spot.name, p.ko) < NEAR_SPOT_OVERLAP)
+      continue;
+    best = p;
+    bestD = d;
+  }
+  return best;
+}
+
+/** 관광지 검색에서 뺄 콘텐츠 타입: 여행코스 25 · 숙박 32 */
+const SKIP_TYPES = new Set(["25", "32"]);
+/** 같은 점수면 앞에 둘 타입: 관광지 12 · 문화시설 14 · 레포츠 28 · 쇼핑 38 */
+const SPOT_TYPES = new Set(["12", "14", "28", "38"]);
+
+/**
+ * 국문 관광정보 검색 결과에서 인기 관광지와 같은 곳 하나: 시군구 코드(법정동)가 있으면 같은 시군구만,
+ * 이름 점수 2 이상 중 높은 곳 → 관광지 타입 → 먼저 나온 곳. 없으면 null
+ */
+export function pickSpotItem(
+  items: readonly TourItem[],
+  spot: Pick<RankedSpot, "name" | "signgu">,
+): TourItem | null {
+  const scored = items.flatMap((x, i) => {
+    if (SKIP_TYPES.has(String(x.contenttypeid ?? ""))) return [];
+    const code = `${String(x.lDongRegnCd ?? "")}${String(x.lDongSignguCd ?? "")}`;
+    if (
+      /^\d{5}$/.test(spot.signgu) &&
+      /^\d{5}$/.test(code) &&
+      code !== spot.signgu
+    )
+      return [];
+    const score = nameScore(spot.name, String(x.title ?? ""), "");
+    if (score < 2) return [];
+    const typed = SPOT_TYPES.has(String(x.contenttypeid ?? "")) ? 0 : 1;
+    return [{ x, score, typed, i }];
+  });
+  scored.sort((a, b) => b.score - a.score || a.typed - b.typed || a.i - b.i);
+  return scored[0]?.x ?? null;
+}
+
+/** 이름으로 못 찾은 관광지: 한국관광공사에서 찾아 위치로 앱 장소를, 없으면 신규 관광지를 돌려준다. 못 찾으면 null */
+export async function resolveSpot(
+  spot: Pick<RankedSpot, "name" | "signgu">,
+  city: string,
+  key: string,
+): Promise<PlannerPlace | TourPlace | null> {
+  const items = await fetchTourItems(
+    tourApiUrl("KorService2/searchKeyword2", key, {
+      numOfRows: "30",
+      pageNo: "1",
+      arrange: "A",
+      keyword: spot.name,
+    }),
+    KTO_PLACE_SECONDS,
+  );
+  const item = pickSpotItem(items, spot);
+  const kto = item ? toKtoPlace(item) : null;
+  if (!kto) return null;
+  const near = matchByLocation(
+    { name: spot.name, lat: kto.lat, lng: kto.lng },
+    city,
+  );
+  // 지도 · 목록은 고른 도시(칩)로 연다
+  return near ?? { ...kto, pickCity: city };
+}
+
 /** 이름이 맞는 플래너 장소(같은 도시 · 같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳) */
 export function matchPlace(
   spot: Pick<RankedSpot, "name" | "signgu">,
@@ -134,7 +294,7 @@ export function matchPlace(
   for (const p of places) {
     if (p.locKo !== city || p.cat === "stay") continue;
     if (spot.signgu && signguOf(p.id) !== spot.signgu) continue;
-    const score = crowdScore(spot.name, crowdName(p.ko));
+    const score = nameScore(spot.name, p.ko, city);
     if (score > bestScore) {
       best = p;
       bestScore = score;
@@ -179,17 +339,28 @@ export async function findPopular(
     throw new Error("popular: all districts failed");
   const ranked = rankSpots(ok, seoulDate(now));
   if (!ranked) return null;
-  const items: TourPopularItem[] = ranked.spots
-    .slice(0, POPULAR_COUNT)
-    .map((s) => {
-      const place = matchPlace(s, city);
-      return {
-        name: place ? placeName(place, locale, names) : s.name,
-        district: s.district,
-        rate: s.rate,
-        id: place?.id ?? null,
-      };
-    });
+  const items: TourPopularItem[] = await Promise.all(
+    ranked.spots.slice(0, POPULAR_COUNT).map(async (s) => {
+      let place: PlannerPlace | TourPlace | null = matchPlace(s, city);
+      if (!place) {
+        try {
+          place = await resolveSpot(s, city, key);
+        } catch {
+          // 한국관광공사 검색이 막히면 글자만 둔다
+        }
+      }
+      const base = { district: s.district, rate: s.rate };
+      if (!place) return { ...base, name: s.name, id: null };
+      if ("signgu" in place)
+        return {
+          ...base,
+          name: s.name,
+          id: place.id,
+          place: publicKtoPlace(place),
+        };
+      return { ...base, name: placeName(place, locale, names), id: place.id };
+    }),
+  );
   return { date: ranked.date, items };
 }
 

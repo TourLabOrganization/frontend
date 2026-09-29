@@ -59,14 +59,14 @@ import {
   useToday,
 } from "./course-store";
 import {
-  findPlace,
   isPlannerCity,
-  isPlannerPlace,
   PLANNER_PLACES,
   type PlannerPlace,
   placesInScope,
   type Scope,
 } from "./data";
+import { useExtraPlaces } from "./extra-places";
+import { findAnyPlace, isKnownPlace } from "./place-lookup";
 import {
   addLocalDays,
   stayBookingLinks,
@@ -165,7 +165,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const router = useRouter();
   const hydrated = useHydrated();
   const today = useToday();
-  const store = usePlannerCourse(isPlannerPlace);
+  const store = usePlannerCourse(isKnownPlace);
+  // 코스에 담은 신규 관광지(kto:)는 브라우저가 기억해 둔 장소에서 찾는다. 바뀌면 다시 그린다
+  useExtraPlaces();
   const course = store.course;
   const savedPlans = parsePlannerPlans(useLocalValue(SAVED_PLANS_KEY));
   const id = useId();
@@ -192,9 +194,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   // 「경로 변경」으로 연 경로 선택 창(PoC routeAskOpen). 없으면 스스로 열 때만 열린다
   const [routeOpen, setRouteOpen] = useState<RouteAskTarget | null>(null);
 
-  // 데이터에서 없어진 id는 건너뛴다. 체류 시간은 사용자가 바꾼 값(stayOv)을 넣는다(PoC courseList)
+  // 데이터에서 없어진 id는 건너뛴다(신규 관광지는 기억해 둔 장소에서 찾는다). 체류 시간은 사용자가 바꾼 값(stayOv)을 넣는다(PoC courseList)
   const basePlaces = course.placeIds
-    .map((pid) => findPlace(pid))
+    .map((pid) => findAnyPlace(pid))
     .filter((p): p is PlannerPlace => p !== undefined);
   const places = withStayOverrides(basePlaces, course.stayOv);
 
@@ -525,7 +527,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     const on = inCourse.has(p.id);
     store.replace(
       course.city ?? p.locKo,
-      toggleNightStay(course.placeIds, p.id, anchor, findPlace),
+      toggleNightStay(course.placeIds, p.id, anchor, findAnyPlace),
     );
     const name = placeName(p, locale, names);
     setStatus(
@@ -595,7 +597,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
       keepStays(
         list.map((p) => p.id),
         course.placeIds,
-        findPlace,
+        findAnyPlace,
         list[0].locKo,
       ),
     );
