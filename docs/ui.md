@@ -26,10 +26,11 @@
 | `warning`        | `#B45309` | 배편 운항 실적의 통제율 6% 이상(흰 5.0:1, fill 4.6:1)                                                            |
 | `ink`            | `#191F28` | 사진 위 그라데이션 · 어두운 덮개 · 대화상자 뒤 막. 화면 모드와 관계없이 늘 어둡다(`fg`는 블랙 모드에서 밝아진다) |
 
-**화면 모드**: 머리줄 「화면 모드」 메뉴(`components/ui/DisplayModeSwitch.tsx`)로 기본 · 블랙을 고른다. 고른 값은 쿠키 `display_mode`에 두고
+**화면 모드**: 머리줄 「화면 모드」 메뉴(`components/ui/DisplayModeSwitch.tsx`)로 기본 · 블랙 · 포레스트 · 선셋 코랄을 고른다(포레스트 · 선셋 코랄은 후보 5안 중 대표가 고른 것, 2026-09-29). 고른 값은 쿠키 `display_mode`에 두고
 루트 레이아웃이 `<html data-mode>`를 처음부터 그린다(깜빡임 없음, `lib/display-mode.ts`). 블랙 모드는 `globals.css`의 `:root[data-mode="dark"]`가
 면 · 글자 · 약한 브랜드 색 토큰 값만 바꾼다(토큰 이름은 그대로라 컴포넌트는 고치지 않는다). `primary`(버튼 바탕)는 흰 글씨 대비를 지키려고 그대로 둔다.
-카카오 바탕 지도 · 사진 · 분류 색은 바뀌지 않는다. 세 번째 모드는 `DISPLAY_MODES`에 더하고 같은 방식으로 토큰을 덮는다
+포레스트 · 선셋 코랄은 밝은 모드라 `primary`까지 그 모드 색으로 바꾸고, 테두리(`line`) · 글자는 후보보다 한 단계 진하게 했다(값과 대비는 `globals.css` 주석).
+카카오 바탕 지도 · 사진 · 분류 색은 바뀌지 않는다. 모드를 더할 때는 `DISPLAY_MODES` · `THEME_COLOR` · 메뉴 아이콘 · 문구(`Header.displayMode.modes`)에 더하고 같은 방식으로 토큰을 덮는다
 
 장소 분류 색(`cat-*`)은 투어 플래너 지도 핀(색 점)과 분류 아이콘(목록 · 분류 칩 · 담은 장소, `features/planner/CategoryIcon.tsx`)에만 쓴다. 분류는 색만으로 나누지 않고
 언제나 분류 이름(`Course.categories`)을 함께 보인다. 여섯 색 모두 흰 바탕 대비 4.5:1 이상이다.

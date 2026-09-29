@@ -1318,7 +1318,9 @@
       "listLabel": "Modo de visualización",
       "modes": {
         "light": "Predeterminado",
-        "dark": "Negro"
+        "dark": "Negro",
+        "forest": "Bosque",
+        "sunset": "Coral atardecer"
       }
     }
   },
