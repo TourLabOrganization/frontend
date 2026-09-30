@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { SearchField } from "@/components/ui/SearchField";
+import { markSheetReturn } from "@/lib/sheet-return";
 import { hasViews, type SceneSort, searchCards, sortCards } from "./place-list";
 import { SECONDARY_LINK_CLASS } from "./place-meta";
 
@@ -184,6 +185,8 @@ export function FilmTab({ cards, video }: FilmTabProps) {
                         <li key={p.id}>
                           <Link
                             href={p.href}
+                            // 지도 탭의 장소 시트를 닫으면 이 탭(누른 자리)으로 돌아온다(lib/sheet-return.ts)
+                            onClick={() => markSheetReturn(p.id)}
                             className="inline-flex min-h-11 items-center rounded-lg bg-primary-weak px-3 text-label font-medium text-primary-strong transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none"
                           >
                             {p.label}

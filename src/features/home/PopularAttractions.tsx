@@ -4,13 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useState } from "react";
+import { useId } from "react";
 import { Button } from "@/components/ui/Button";
 import { useTourApi } from "@/components/ui/tour-api-context";
 import { useNameTable } from "@/features/names/NamesProvider";
 import { rememberPlace } from "@/features/planner/extra-places";
 import { plannerHref } from "@/features/planner/query";
 import { cityName } from "@/features/planner/regions";
+import { POPULAR_CITY_KEY, useLocalValue, writeLocal } from "@/lib/local-store";
+import { markSheetReturn } from "@/lib/sheet-return";
 import {
   type CrowdLevel,
   crowdLevel,
@@ -50,7 +52,11 @@ export function PopularAttractions() {
   const names = useNameTable();
   const enabled = useTourApi();
   const id = useId();
-  const [city, setCity] = useState<PopularCity>(POPULAR_CITIES[0]);
+  // 고른 도시는 이 브라우저에 둔다(장소를 열었다가 돌아오면 같은 도시 · 같은 자리). 서버 렌더와 첫 수화는 첫 도시
+  const stored = useLocalValue(POPULAR_CITY_KEY);
+  const city: PopularCity =
+    POPULAR_CITIES.find((c) => c === stored) ?? POPULAR_CITIES[0];
+  const setCity = (c: PopularCity) => writeLocal(POPULAR_CITY_KEY, c);
   const query = useQuery({
     queryKey: ["popular", city, locale],
     queryFn: () => fetchPopular(city, locale),
@@ -192,9 +198,11 @@ export function PopularAttractions() {
                   {item.id ? (
                     <Link
                       href={plannerHref({ city, place: item.id })}
-                      // 신규 관광지(앱 장소 데이터에 없는 곳)는 기억해 두어 지도 · 코스에서 앱 장소처럼 쓴다
+                      // 신규 관광지(앱 장소 데이터에 없는 곳)는 기억해 두어 지도 · 코스에서 앱 장소처럼 쓴다.
+                      // 시트를 닫으면 이 목록(같은 도시 · 같은 스크롤)으로 돌아온다(lib/sheet-return.ts)
                       onClick={() => {
                         if (item.place) rememberPlace(item.place);
+                        if (item.id) markSheetReturn(item.id);
                       }}
                       className={`${row} rounded-card focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill`}
                     >
