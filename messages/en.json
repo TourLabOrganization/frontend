@@ -312,6 +312,54 @@
     "placesCount": "{count, plural, one {# place} other {# places}}",
     "placesEmpty": "No saved places yet. Tap [Save] on a place."
   },
+  "Auth": {
+    "email": "Email",
+    "password": "Password",
+    "nickname": "Nickname",
+    "showPassword": "Show password",
+    "passwordHelp": "{passwordMin}–{passwordMax} characters",
+    "errors": {
+      "emailRequired": "Enter your email",
+      "emailInvalid": "Check the email format, e.g. name@example.com",
+      "emailTooLong": "Email can be up to {emailMax} characters",
+      "passwordRequired": "Enter your password",
+      "passwordLength": "Use {passwordMin}–{passwordMax} characters for your password",
+      "nicknameRequired": "Enter a nickname",
+      "nicknameTooLong": "Nickname can be up to {nicknameMax} characters",
+      "loginFailed": "Email or password is incorrect",
+      "emailTaken": "This email is already registered",
+      "invalidInput": "Please check what you entered",
+      "unavailable": "Couldn't reach the server. Please try again in a moment"
+    },
+    "login": {
+      "title": "Log in",
+      "metaTitle": "Log in · Tour Navigator",
+      "submit": "Log in",
+      "joined": "You're signed up. Please log in",
+      "noAccount": "Don't have an account?",
+      "toSignup": "Sign up"
+    },
+    "signup": {
+      "title": "Sign up",
+      "metaTitle": "Sign up · Tour Navigator",
+      "submit": "Sign up",
+      "hasAccount": "Already have an account?",
+      "toLogin": "Log in",
+      "loginInstead": "Log in with this email"
+    },
+    "account": {
+      "title": "Account",
+      "guest": "You can use every feature without logging in. Your saved plans and places stay in this browser.",
+      "login": "Log in",
+      "signup": "Sign up",
+      "greeting": "Hi, {nickname}",
+      "logout": "Log out",
+      "localOnly": "Your saved plans and places are still kept only in this browser.",
+      "loading": "Loading your account…",
+      "loadError": "Couldn't load your account",
+      "retry": "Try again"
+    }
+  },
   "Recommend": {
     "progressLabel": "Question progress",
     "counter": "{current} / {total}",

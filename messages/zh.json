@@ -312,6 +312,54 @@
     "placesCount": "{count}处",
     "placesEmpty": "还没有收藏的地点。请在地点详情中点击[收藏]。"
   },
+  "Auth": {
+    "email": "邮箱",
+    "password": "密码",
+    "nickname": "昵称",
+    "showPassword": "显示密码",
+    "passwordHelp": "{passwordMin}–{passwordMax}个字符",
+    "errors": {
+      "emailRequired": "请输入邮箱",
+      "emailInvalid": "请检查邮箱格式，例如 name@example.com",
+      "emailTooLong": "邮箱最多{emailMax}个字符",
+      "passwordRequired": "请输入密码",
+      "passwordLength": "密码须为{passwordMin}–{passwordMax}个字符",
+      "nicknameRequired": "请输入昵称",
+      "nicknameTooLong": "昵称最多{nicknameMax}个字符",
+      "loginFailed": "邮箱或密码不正确",
+      "emailTaken": "该邮箱已注册",
+      "invalidInput": "请检查输入的内容",
+      "unavailable": "无法连接服务器，请稍后再试"
+    },
+    "login": {
+      "title": "登录",
+      "metaTitle": "登录 · Tour Navigator",
+      "submit": "登录",
+      "joined": "注册成功，请登录",
+      "noAccount": "还没有账号？",
+      "toSignup": "注册"
+    },
+    "signup": {
+      "title": "注册",
+      "metaTitle": "注册 · Tour Navigator",
+      "submit": "注册",
+      "hasAccount": "已有账号？",
+      "toLogin": "登录",
+      "loginInstead": "用此邮箱登录"
+    },
+    "account": {
+      "title": "账号",
+      "guest": "无需登录即可使用全部功能。已保存的行程和收藏的地点会保留在此浏览器中。",
+      "login": "登录",
+      "signup": "注册",
+      "greeting": "{nickname}，你好",
+      "logout": "退出登录",
+      "localOnly": "已保存的行程和收藏的地点目前仍只保留在此浏览器中。",
+      "loading": "正在加载账号信息",
+      "loadError": "无法加载账号信息",
+      "retry": "重试"
+    }
+  },
   "Recommend": {
     "progressLabel": "答题进度",
     "counter": "{current} / {total}",
