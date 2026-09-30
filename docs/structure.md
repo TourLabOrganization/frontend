@@ -317,10 +317,11 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - 장소 시트의 「저장」(북마크). `{ id, source, savedAt, name: { ko, en } }[]`. `source`는 테마 slug 또는 `planner`이고, 같은 장소도 출처가 다르면 따로 저장한다.
   `name`은 ME가 장소 데이터(플래너 3,109곳)를 불러오지 않고 이름을 보이려고 저장할 때 적어 둔다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlaces` · `toggleSavedPlace` · `useSavedPlaces`)
 - ME 「저장한 장소」는 저장한 순서대로, 누르면 테마는 `/themes/{slug}?tab=map&place={id}`, 플래너는 `/planner?place={id}`(시트가 열린 지도 탭)
-- 다른 화면에서 장소 시트를 여는 링크(ME 저장한 장소, 홈 「지금 인기 관광지」)는 누를 때 그 탭의 sessionStorage에 장소 id를 남긴다(`lib/sheet-return.ts`).
+- 다른 화면 · 다른 탭에서 장소 시트를 여는 링크(ME 저장한 장소, 홈 「지금 인기 관광지」, 테마 스탬프 · 영화 탭, 플래너 코스 탭)는 누를 때 그 탭의 sessionStorage에 장소 id를 남긴다(`lib/sheet-return.ts`).
   지도 탭은 처음 연 장소(`?place=`)와 표시가 같으면 시트를 닫을 때(X · Esc · 바깥) 뒤로 가기로 누른 자리에 돌아간다(스크롤 그대로).
   주소에 넣지 않는 것은 공유받은 주소로 연 사람이 시트를 닫을 때 앱 밖으로 나가지 않게 하려는 것이다.
-  홈 인기 관광지의 고른 도시는 localStorage `tn.popularCity`에 둬서 돌아와도 같은 도시가 보인다. 같은 화면 안에서 탭만 바꾸는 링크(코스 탭 → 지도 탭)는 해당하지 않는다
+  홈 인기 관광지의 고른 도시는 localStorage `tn.popularCity`에 둬서 돌아와도 같은 도시가 보인다.
+  플래너 코스 탭의 장소 링크는 그래서 탭 바꾸기(replace)가 아니라 기록을 하나 쌓는다(뒤로 가기가 코스 탭으로 온다). 하단 탭 바 · 빈 코스의 「지도로」는 전처럼 replace다
 - 테마 스탬프 탭 아래쪽 「저장한 장소」는 그 테마(`source`)에서 저장한 것만. 예전 테마별 북마크 `tn.bookmarks.{slug}`는 읽지 않는다
 - 스탬프(`tn.stamps.{slug}`, `features/theme/storage.ts`)는 시트 · 스탬프 탭이 함께 쓰는 토글이다. PoC 코드(`d_toggleStamp`)에 위치 확인 규칙이 없어 위치를 보지 않는다
 

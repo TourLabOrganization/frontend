@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Chip } from "@/components/ui/Chip";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { useSavedPlaces } from "@/lib/local-store";
+import { markSheetReturn } from "@/lib/sheet-return";
 import { pad2 } from "./place-meta";
 import { useIdList } from "./storage";
 
@@ -87,6 +88,8 @@ export function StampTab({ slug, region, core, all }: StampTabProps) {
               </button>
               <Link
                 href={p.mapHref}
+                // 지도 탭의 장소 시트를 닫으면 이 탭(누른 자리)으로 돌아온다(lib/sheet-return.ts)
+                onClick={() => markSheetReturn(p.id)}
                 aria-label={t("openMap", { name: p.name })}
                 className="absolute top-1 right-1 flex size-11 items-center justify-center rounded-full text-fg-muted transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-line motion-reduce:transition-none"
               >
@@ -115,6 +118,7 @@ export function StampTab({ slug, region, core, all }: StampTabProps) {
               >
                 <Link
                   href={p.mapHref}
+                  onClick={() => markSheetReturn(p.id)}
                   className="flex min-h-14 min-w-0 flex-1 items-center gap-3 rounded-card px-4 py-3 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                 >
                   <MapPin

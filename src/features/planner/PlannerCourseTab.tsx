@@ -34,6 +34,7 @@ import {
   useLocalValue,
   writePlannerPlans,
 } from "@/lib/local-store";
+import { markSheetReturn } from "@/lib/sheet-return";
 import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { CourseBookingLinks } from "./CourseBookingLinks";
@@ -1052,7 +1053,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
                           ? plannerHref({ city: p.pickCity, place: p.id })
                           : plannerHref({ region: p.macro, place: p.id })
                       }
-                      replace
+                      // 탭 바꾸기(replace)와 달리 기록을 하나 쌓는다. 지도 탭의 장소 시트를 닫으면 뒤로 가기로
+                      // 이 코스 탭(누른 자리)에 돌아온다(lib/sheet-return.ts)
+                      onClick={() => markSheetReturn(p.id)}
                       scroll={false}
                       className="ml-1 flex min-h-11 min-w-0 flex-1 flex-col justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
                     >

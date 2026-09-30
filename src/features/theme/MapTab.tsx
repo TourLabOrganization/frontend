@@ -13,7 +13,7 @@ import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
 import { CategoryIcon } from "@/features/planner/CategoryIcon";
 import type { Place } from "@/features/course/places";
-import { takeSheetReturn } from "@/lib/sheet-return";
+import { returnFromSheet } from "@/lib/sheet-return";
 import { matchesQuery } from "@/lib/text-search";
 import {
   cityGroups,
@@ -428,8 +428,8 @@ export function MapTab({
         canOpenPlace={(id) => places.some((p) => p.id === id)}
         onClose={() => {
           setSelectedId(null);
-          // ME 저장한 장소에서 눌러 연 장소면 뒤로 가기로 누른 자리에 돌아간다(PlannerMapTab과 같다, lib/sheet-return.ts)
-          if (takeSheetReturn(initialPlace)) router.back();
+          // ME 저장한 장소 · 스탬프 · 영화 탭에서 눌러 연 장소면 뒤로 가기로 누른 자리에 돌아간다(PlannerMapTab과 같다, lib/sheet-return.ts)
+          returnFromSheet(initialPlace, () => router.back());
         }}
       />
     </>

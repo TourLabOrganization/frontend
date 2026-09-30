@@ -48,7 +48,7 @@ import {
   regionName,
 } from "./regions";
 import { PLANNER_SOURCE } from "@/lib/local-store";
-import { takeSheetReturn } from "@/lib/sheet-return";
+import { returnFromSheet } from "@/lib/sheet-return";
 import { matchesQuery } from "@/lib/text-search";
 import { isStay } from "./stays";
 import { useCourseToggle } from "./use-course-toggle";
@@ -548,8 +548,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
         onClose={() => {
           setSelectedId(null);
           course.clearStatus();
-          // 다른 화면(홈 인기 관광지 · ME 저장한 장소)에서 눌러 연 장소면 뒤로 가기로 누른 자리에 돌아간다(그 화면의 스크롤 그대로, lib/sheet-return.ts)
-          if (takeSheetReturn(initialPlace)) router.back();
+          // 다른 화면 · 탭(홈 인기 관광지 · ME 저장한 장소 · 코스 탭)에서 눌러 연 장소면 뒤로 가기로 누른 자리에 돌아간다(스크롤 그대로, lib/sheet-return.ts)
+          returnFromSheet(initialPlace, () => router.back());
         }}
         // 함께 많이 가는 관광지: 지금 범위(도시 · 권역 · 전국)에 있는 장소만 그 시트로 바꾼다
         onOpenPlace={openPlace}
