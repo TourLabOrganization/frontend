@@ -4,6 +4,7 @@ import { type AuthTokens, saveTokens } from "@/lib/api/client";
 import {
   type AuthLoginRequest,
   type AuthSignupRequest,
+  demoLogin,
   fetchMe,
   login,
   logout,
@@ -47,6 +48,16 @@ export function useLogin(next: string) {
   const signIn = useSignIn(next);
   return useMutation({
     mutationFn: (body: AuthLoginRequest) => login(body),
+    onSuccess: signIn,
+    networkMode: NETWORK_MODE,
+  });
+}
+
+/** 공용 테스트 계정으로 로그인 → next로(로그인 화면 「테스트 계정으로 로그인」) */
+export function useDemoLogin(next: string) {
+  const signIn = useSignIn(next);
+  return useMutation({
+    mutationFn: demoLogin,
     onSuccess: signIn,
     networkMode: NETWORK_MODE,
   });

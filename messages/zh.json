@@ -335,6 +335,7 @@
       "title": "登录",
       "metaTitle": "登录 · Tour Navigator",
       "submit": "登录",
+      "demo": "使用测试账号登录",
       "joined": "注册成功，请登录",
       "noAccount": "还没有账号？",
       "toSignup": "注册"

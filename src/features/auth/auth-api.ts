@@ -68,6 +68,19 @@ export function signup(body: AuthSignupRequest) {
   });
 }
 
+/**
+ * 공용 테스트 계정으로 로그인. 비밀번호는 서버에만 있어서 백엔드가 아니라 이 앱의 Route Handler(app/api/auth/demo)를 부른다.
+ * Route Handler가 백엔드를 8초까지 기다리므로 그보다 조금 길게 기다린다
+ */
+export async function demoLogin(): Promise<AuthTokens> {
+  const res = await fetch("/api/auth/demo", {
+    method: "POST",
+    signal: AbortSignal.timeout(TIMEOUT_MS + 2000),
+  });
+  if (!res.ok) throw new Error(`Demo login failed: ${res.status}`);
+  return (await res.json()) as AuthTokens;
+}
+
 /** 이 사용자의 refresh token을 모두 폐기한다(Bearer 필요) */
 export function logout() {
   return api<null>("/api/v1/auth/logout", {

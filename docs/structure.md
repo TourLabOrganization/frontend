@@ -329,6 +329,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 입력 검사(`validate.ts`, 가입 규칙은 백엔드 DTO 그대로) · 실패 분류(`auth-error.ts`) · `?next=` 거르기(`next-path.ts`, 앱 안 경로만, 아니면 `/me`)는 테스트가 붙은 순수 함수다.
 폼(`LoginForm` · `SignupForm`, 입력칸 `AuthField`)은 칸을 떠날 때와 제출할 때 검사하고 서버 오류는 제출 버튼 위 한 줄(`AuthAlert`)로 보인다.
 토큰은 `lib/api/client.ts`가 localStorage에 두고, 저장한 플랜 · 장소는 로그인해도 지금처럼 이 브라우저에만 있다(서버 동기화 없음). 흐름과 오류 코드는 `docs/api.md` 「인증」
+로그인 버튼 아래 「테스트 계정으로 로그인」(`useDemoLogin`)은 Route Handler `app/api/auth/demo/route.ts`가 서버 환경변수의 공용 테스트 계정(`demo-account.ts`)으로 대신 로그인한다. 환경변수가 없으면 버튼이 숨는다
 
 ## 서버 컴포넌트와 클라이언트 컴포넌트
 

@@ -335,6 +335,7 @@
       "title": "ログイン",
       "metaTitle": "ログイン · Tour Navigator",
       "submit": "ログイン",
+      "demo": "テストアカウントでログイン",
       "joined": "登録が完了しました。ログインしてください",
       "noAccount": "アカウントをお持ちでないですか？",
       "toSignup": "新規登録"

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { AuthAlert } from "./AuthAlert";
 import { AuthField } from "./AuthField";
 import { authHref } from "./next-path";
-import { useLogin, useMe } from "./use-auth";
+import { useDemoLogin, useLogin, useMe } from "./use-auth";
 import { useAuthForm } from "./use-auth-form";
 import { EMAIL_MAX, PASSWORD_MAX, validateLogin } from "./validate";
 
@@ -24,18 +24,24 @@ type LoginFormProps = {
   email: string;
   /** 가입은 됐는데 자동 로그인이 실패해 왔다(?joined=1) */
   joined: boolean;
+  /** 공용 테스트 계정이 설정돼 있다(서버 환경변수). 있으면 로그인 버튼 아래에 「테스트 계정으로 로그인」 */
+  demo: boolean;
 };
 
 // 이메일 로그인 폼. 검사는 칸을 떠날 때와 제출할 때, 서버 오류는 제출 버튼 위 한 줄(AuthAlert).
 // 이미 로그인한 상태로 오면 next로 보낸다
-export function LoginForm({ next, email, joined }: LoginFormProps) {
+export function LoginForm({ next, email, joined, demo }: LoginFormProps) {
   const t = useTranslations("Auth");
   const router = useRouter();
   const me = useMe();
   const login = useLogin(next);
+  const demoLogin = useDemoLogin(next);
   const form = useAuthForm({ email, password: "" }, validateLogin);
   // 성공한 뒤 화면을 옮기는 동안에도 버튼을 「처리 중」으로 둔다
-  const busy = login.isPending || login.isSuccess;
+  const loginBusy = login.isPending || login.isSuccess;
+  const demoBusy = demoLogin.isPending || demoLogin.isSuccess;
+  const busy = loginBusy || demoBusy;
+  const failed = login.isError ? login.error : demoLogin.error;
 
   // 이미 로그인한 상태. 방금 로그인한 경우는 useLogin이 옮긴다
   useEffect(() => {
@@ -56,6 +62,7 @@ export function LoginForm({ next, email, joined }: LoginFormProps) {
           e.preventDefault();
           if (busy) return;
           const values = form.submit(e.currentTarget);
+          demoLogin.reset();
           if (!values) {
             login.reset();
             return;
@@ -85,16 +92,34 @@ export function LoginForm({ next, email, joined }: LoginFormProps) {
           required
         />
         <div className="mt-8">
-          {login.isError && <AuthAlert error={login.error} />}
+          {failed && <AuthAlert error={failed} />}
           <Button
             type="submit"
             block
-            loading={busy}
+            loading={loginBusy}
+            disabled={demoBusy}
             // 처리 중에는 글자가 도는 표시로 바뀌어 이름을 따로 준다
-            aria-label={busy ? t("login.submit") : undefined}
+            aria-label={loginBusy ? t("login.submit") : undefined}
           >
             {t("login.submit")}
           </Button>
+          {demo && (
+            <Button
+              variant="secondary"
+              block
+              loading={demoBusy}
+              disabled={loginBusy}
+              aria-label={demoBusy ? t("login.demo") : undefined}
+              onClick={() => {
+                if (busy) return;
+                login.reset();
+                demoLogin.mutate();
+              }}
+              className="mt-3"
+            >
+              {t("login.demo")}
+            </Button>
+          )}
         </div>
       </form>
       <p className="mt-6 flex flex-wrap items-center justify-center gap-x-1 text-label text-fg-muted">

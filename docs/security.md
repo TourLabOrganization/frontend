@@ -61,6 +61,10 @@ export async function GET(request: NextRequest) {
 
 - 토큰은 localStorage에 저장된다(`src/lib/api/client.ts`). 페이지에 끼어든 스크립트가 읽을 수 있으므로
   `dangerouslySetInnerHTML`로 외부에서 받은 문자열을 넣지 않는다
+- 공용 테스트 계정(`DEMO_LOGIN_EMAIL` · `DEMO_LOGIN_PASSWORD`, 서버 전용)은 로그인 화면 「테스트 계정으로 로그인」이 쓴다.
+  `app/api/auth/demo`가 서버에서 로그인해 토큰만 돌려주므로 비밀번호는 브라우저 코드 · 리포에 들어가지 않는다.
+  누구나 버튼으로 들어올 수 있는 공용 계정이라 개인 정보를 넣지 않는다. 한 사람이 로그아웃하면 백엔드가 그 계정의 refresh token을
+  모두 지워, 같은 계정으로 들어와 있던 다른 사람도 access token(30분)이 끝나면 로그아웃된다
 
 ## PoC의 키
 

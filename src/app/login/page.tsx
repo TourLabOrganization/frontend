@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Screen } from "@/components/ui/Screen";
 import { TopBar } from "@/components/ui/TopBar";
+import { demoAccount } from "@/features/auth/demo-account";
 import { LoginForm } from "@/features/auth/LoginForm";
 import { safeNext } from "@/features/auth/next-path";
 
@@ -29,6 +30,8 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           next={next}
           email={email}
           joined={joined}
+          // 공용 테스트 계정이 설정돼 있을 때만 버튼을 보인다(값은 서버에만 둔다)
+          demo={demoAccount() !== null}
         />
       </main>
     </Screen>

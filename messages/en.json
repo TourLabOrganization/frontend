@@ -335,6 +335,7 @@
       "title": "Log in",
       "metaTitle": "Log in · Tour Navigator",
       "submit": "Log in",
+      "demo": "Log in with a test account",
       "joined": "You're signed up. Please log in",
       "noAccount": "Don't have an account?",
       "toSignup": "Sign up"
