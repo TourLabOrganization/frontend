@@ -3,6 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +13,7 @@ import { SearchField } from "@/components/ui/SearchField";
 import { formatDuration } from "@/features/course/format-duration";
 import { CategoryIcon } from "@/features/planner/CategoryIcon";
 import type { Place } from "@/features/course/places";
+import { takeSheetReturn } from "@/lib/sheet-return";
 import { matchesQuery } from "@/lib/text-search";
 import {
   cityGroups,
@@ -102,6 +104,7 @@ export function MapTab({
   initialPlace,
   texts,
 }: MapTabProps) {
+  const router = useRouter();
   const t = useTranslations("Theme.map");
   const tc = useTranslations("Course");
   const locale = useLocale();
@@ -423,7 +426,11 @@ export function MapTab({
         text={selected ? texts?.[selected.id] : undefined}
         onOpenPlace={setSelectedId}
         canOpenPlace={(id) => places.some((p) => p.id === id)}
-        onClose={() => setSelectedId(null)}
+        onClose={() => {
+          setSelectedId(null);
+          // ME 저장한 장소에서 눌러 연 장소면 뒤로 가기로 누른 자리에 돌아간다(PlannerMapTab과 같다, lib/sheet-return.ts)
+          if (takeSheetReturn(initialPlace)) router.back();
+        }}
       />
     </>
   );

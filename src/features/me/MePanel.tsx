@@ -32,6 +32,7 @@ import {
   writePlannerPlans,
   writeSavedPlans,
 } from "@/lib/local-store";
+import { markSheetReturn } from "@/lib/sheet-return";
 import { useNameTable } from "@/features/names/NamesProvider";
 
 // ME 화면 본문. 나의 여행자 유형(마지막 추천 결과의 유형 · 설명 · 1위 테마)과 저장된 플랜을 localStorage에서 읽는다.
@@ -291,6 +292,8 @@ export function MePanel() {
                 >
                   <Link
                     href={p.href}
+                    // 장소 시트를 닫으면 ME(누른 자리)로 돌아온다(lib/sheet-return.ts)
+                    onClick={() => markSheetReturn(p.id)}
                     className="flex min-h-16 min-w-0 flex-1 items-center gap-3 rounded-card py-3 pl-4 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright active:bg-fill motion-reduce:transition-none"
                   >
                     <MapPin

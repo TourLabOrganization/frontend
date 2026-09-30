@@ -54,6 +54,12 @@ export type PlannerSavedPlan = {
  */
 export const NOTIFICATIONS_READ_KEY = "tn.notifications.read";
 
+/**
+ * 홈 「지금 인기 관광지」에서 고른 도시(문자열). 장소를 열었다가 돌아와도(뒤로 가기) 같은 도시 목록이 보이게 둔다.
+ * 다음에 다시 와도 마지막으로 고른 도시가 보인다
+ */
+export const POPULAR_CITY_KEY = "tn.popularCity";
+
 // 같은 탭 안의 쓰기를 알리는 이벤트. storage 이벤트는 다른 탭에서 바꿀 때만 온다
 const CHANGE_EVENT = "tn:local-store";
 
