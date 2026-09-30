@@ -312,6 +312,55 @@
     "placesCount": "{count}곳",
     "placesEmpty": "저장한 장소가 없어요. 장소 시트에서 [저장]을 눌러 보세요."
   },
+  "Auth": {
+    "email": "이메일",
+    "password": "비밀번호",
+    "nickname": "닉네임",
+    "showPassword": "비밀번호 보기",
+    "passwordHelp": "{passwordMin}~{passwordMax}자",
+    "errors": {
+      "emailRequired": "이메일을 입력해 주세요",
+      "emailInvalid": "이메일 형식을 확인해 주세요. 예: name@example.com",
+      "emailTooLong": "이메일은 {emailMax}자까지 쓸 수 있어요",
+      "passwordRequired": "비밀번호를 입력해 주세요",
+      "passwordLength": "비밀번호 길이를 확인해 주세요",
+      "nicknameRequired": "닉네임을 입력해 주세요",
+      "nicknameTooLong": "닉네임은 {nicknameMax}자까지 쓸 수 있어요",
+      "loginFailed": "이메일 또는 비밀번호가 맞지 않아요",
+      "emailTaken": "이미 가입한 이메일이에요",
+      "invalidInput": "입력한 내용을 다시 확인해 주세요",
+      "unavailable": "서버에 연결하지 못했어요. 잠시 뒤 다시 시도해 주세요"
+    },
+    "login": {
+      "title": "로그인",
+      "metaTitle": "로그인 · Tour Navigator",
+      "submit": "로그인",
+      "demo": "테스트 계정으로 로그인",
+      "joined": "가입했어요. 로그인해 주세요",
+      "noAccount": "아직 계정이 없나요?",
+      "toSignup": "회원가입"
+    },
+    "signup": {
+      "title": "회원가입",
+      "metaTitle": "회원가입 · Tour Navigator",
+      "submit": "가입하기",
+      "hasAccount": "이미 계정이 있나요?",
+      "toLogin": "로그인",
+      "loginInstead": "이 이메일로 로그인"
+    },
+    "account": {
+      "title": "계정",
+      "guest": "로그인하지 않아도 모든 기능을 쓸 수 있어요. 저장한 플랜과 장소는 이 브라우저에 남아요.",
+      "login": "로그인",
+      "signup": "회원가입",
+      "greeting": "{nickname}님",
+      "logout": "로그아웃",
+      "localOnly": "저장한 플랜과 장소는 아직 이 브라우저에만 남아요.",
+      "loading": "계정 정보를 불러오는 중이에요",
+      "loadError": "계정 정보를 불러오지 못했어요",
+      "retry": "다시 시도"
+    }
+  },
   "Recommend": {
     "progressLabel": "질문 진행",
     "counter": "{current} / {total}",

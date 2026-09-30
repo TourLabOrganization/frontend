@@ -9,7 +9,7 @@ src/
     providers.tsx       클라이언트 Provider (TanStack Query)
     api/**/route.ts     Route Handler. 키가 필요한 외부 API를 대신 부른다
   components/           여러 기능이 함께 쓰는 컴포넌트
-  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/theme, features/planner, features/home, features/me, 외국어 화면 데이터 번역 features/translations — 서버에서만 읽는다, docs/i18n.md)
+  features/<기능>/      한 기능에서만 쓰는 컴포넌트 · 훅 · 타입 · 데이터 (예: features/recommend, features/course, features/theme, features/planner, features/home, features/me, features/auth, 외국어 화면 데이터 번역 features/translations — 서버에서만 읽는다, docs/i18n.md)
   lib/                  화면과 무관한 코드 (api 클라이언트, 데이터랩 조회 api/datalab.ts, 여러 기능이 쓰는 localStorage 값 local-store.ts, 유틸)
   i18n/                 다국어 설정
 messages/               화면 문구 (ko.json · en.json)
@@ -30,7 +30,9 @@ public/                 정적 파일
 | `/recommend/result` | 추천 결과(유형 · 테마 적합도 지수 상위 3개, 네트워크 없이 프론트에서 계산)                                     | `app/recommend/result/page.tsx`, `features/recommend/survey.ts` · `theme-index.ts`                          |
 | `/themes/[themeId]` | 테마 화면. 하단 탭 5개(지도 · 코스 · 영화 · 스탬프 · 여행 정보)                                                | `app/themes/[themeId]/page.tsx`, `features/theme`, `features/course`, `features/planner/regions`(도시 이름) |
 | `/planner`          | 투어 플래너. 지역 탭 + 하단 탭 3개(지도 · 코스 · 여행 정보)                                                    | `app/planner/page.tsx`, `features/planner`                                                                  |
-| `/me`               | ME(나의 여행자 유형 · 저장된 플랜)                                                                             | `app/me/page.tsx`, `features/me`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)                   |
+| `/me`               | ME(계정 카드 · 나의 여행자 유형 · 저장된 플랜)                                                                 | `app/me/page.tsx`, `features/me`, `features/auth`, `features/planner`(저장한 코스 설정 · 도시 이름 · 일수)  |
+| `/login`            | 이메일 로그인(`?next=` 돌아갈 곳 · `?email=` 채울 이메일 · `?joined=1` 가입 직후 안내)                         | `app/login/page.tsx`, `features/auth`                                                                       |
+| `/signup`           | 이메일 회원가입(가입하면 바로 로그인, `?next=`)                                                                | `app/signup/page.tsx`, `features/auth`                                                                      |
 
 ### 테마 화면 주소 (`/themes/[themeId]`)
 
@@ -319,6 +321,15 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - ME 「저장한 장소」는 저장한 순서대로, 누르면 테마는 `/themes/{slug}?tab=map&place={id}`, 플래너는 `/planner?place={id}`(시트가 열린 지도 탭)
 - 테마 스탬프 탭 아래쪽 「저장한 장소」는 그 테마(`source`)에서 저장한 것만. 예전 테마별 북마크 `tn.bookmarks.{slug}`는 읽지 않는다
 - 스탬프(`tn.stamps.{slug}`, `features/theme/storage.ts`)는 시트 · 스탬프 탭이 함께 쓰는 토글이다. PoC 코드(`d_toggleStamp`)에 위치 확인 규칙이 없어 위치를 보지 않는다
+
+### 로그인 · 회원가입 (`features/auth`)
+
+이메일 회원가입 · 로그인 · 로그아웃과 ME 맨 위 계정 카드(`AccountCard`)다. 백엔드 호출과 DTO 타입은 `auth-api.ts`, TanStack Query 훅은 `use-auth.ts`
+(`useMe` — `["users", "me"]`, 토큰이 없으면 부르지 않고 null · 401이면 null, `useLogin` · `useSignup` · `useLogout`)이고,
+입력 검사(`validate.ts`, 가입 규칙은 백엔드 DTO 그대로) · 실패 분류(`auth-error.ts`) · `?next=` 거르기(`next-path.ts`, 앱 안 경로만, 아니면 `/me`)는 테스트가 붙은 순수 함수다.
+폼(`LoginForm` · `SignupForm`, 입력칸 `AuthField`)은 칸을 떠날 때와 제출할 때 검사하고 서버 오류는 제출 버튼 위 한 줄(`AuthAlert`)로 보인다.
+토큰은 `lib/api/client.ts`가 localStorage에 두고, 저장한 플랜 · 장소는 로그인해도 지금처럼 이 브라우저에만 있다(서버 동기화 없음). 흐름과 오류 코드는 `docs/api.md` 「인증」
+로그인 버튼 아래 「테스트 계정으로 로그인」(`useDemoLogin`)은 Route Handler `app/api/auth/demo/route.ts`가 서버 환경변수의 공용 테스트 계정(`demo-account.ts`)으로 대신 로그인한다. 환경변수가 없으면 버튼이 숨는다
 
 ## 서버 컴포넌트와 클라이언트 컴포넌트
 

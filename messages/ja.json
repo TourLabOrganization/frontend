@@ -312,6 +312,55 @@
     "placesCount": "{count}か所",
     "placesEmpty": "保存したスポットはありません。スポット詳細で[保存]を押してください。"
   },
+  "Auth": {
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "nickname": "ニックネーム",
+    "showPassword": "パスワードを表示",
+    "passwordHelp": "{passwordMin}〜{passwordMax}文字",
+    "errors": {
+      "emailRequired": "メールアドレスを入力してください",
+      "emailInvalid": "メールアドレスの形式を確認してください。例：name@example.com",
+      "emailTooLong": "メールアドレスは{emailMax}文字までです",
+      "passwordRequired": "パスワードを入力してください",
+      "passwordLength": "パスワードの長さを確認してください",
+      "nicknameRequired": "ニックネームを入力してください",
+      "nicknameTooLong": "ニックネームは{nicknameMax}文字までです",
+      "loginFailed": "メールアドレスまたはパスワードが正しくありません",
+      "emailTaken": "このメールアドレスはすでに登録されています",
+      "invalidInput": "入力内容をもう一度確認してください",
+      "unavailable": "サーバーに接続できませんでした。しばらくしてからもう一度お試しください"
+    },
+    "login": {
+      "title": "ログイン",
+      "metaTitle": "ログイン · Tour Navigator",
+      "submit": "ログイン",
+      "demo": "テストアカウントでログイン",
+      "joined": "登録が完了しました。ログインしてください",
+      "noAccount": "アカウントをお持ちでないですか？",
+      "toSignup": "新規登録"
+    },
+    "signup": {
+      "title": "新規登録",
+      "metaTitle": "新規登録 · Tour Navigator",
+      "submit": "登録する",
+      "hasAccount": "すでにアカウントをお持ちですか？",
+      "toLogin": "ログイン",
+      "loginInstead": "このメールアドレスでログイン"
+    },
+    "account": {
+      "title": "アカウント",
+      "guest": "ログインしなくてもすべての機能を使えます。保存したプランとスポットはこのブラウザに残ります。",
+      "login": "ログイン",
+      "signup": "新規登録",
+      "greeting": "{nickname}さん",
+      "logout": "ログアウト",
+      "localOnly": "保存したプランとスポットは、まだこのブラウザにだけ残ります。",
+      "loading": "アカウント情報を読み込み中です",
+      "loadError": "アカウント情報を読み込めませんでした",
+      "retry": "再試行"
+    }
+  },
   "Recommend": {
     "progressLabel": "質問の進み具合",
     "counter": "{current} / {total}",

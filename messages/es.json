@@ -312,6 +312,55 @@
     "placesCount": "{count, plural, one {# lugar} other {# lugares}}",
     "placesEmpty": "Aún no hay lugares guardados. Pulsa [Guardar] en un lugar."
   },
+  "Auth": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "nickname": "Apodo",
+    "showPassword": "Mostrar contraseña",
+    "passwordHelp": "{passwordMin}–{passwordMax} caracteres",
+    "errors": {
+      "emailRequired": "Introduce tu correo",
+      "emailInvalid": "Revisa el formato del correo, p. ej. name@example.com",
+      "emailTooLong": "El correo puede tener hasta {emailMax} caracteres",
+      "passwordRequired": "Introduce tu contraseña",
+      "passwordLength": "Revisa la longitud de la contraseña",
+      "nicknameRequired": "Introduce un apodo",
+      "nicknameTooLong": "El apodo puede tener hasta {nicknameMax} caracteres",
+      "loginFailed": "El correo o la contraseña no son correctos",
+      "emailTaken": "Este correo ya está registrado",
+      "invalidInput": "Revisa los datos introducidos",
+      "unavailable": "No se pudo conectar con el servidor. Inténtalo de nuevo en un momento"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "metaTitle": "Iniciar sesión · Tour Navigator",
+      "submit": "Iniciar sesión",
+      "demo": "Iniciar sesión con una cuenta de prueba",
+      "joined": "Cuenta creada. Inicia sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "toSignup": "Crear cuenta"
+    },
+    "signup": {
+      "title": "Crear cuenta",
+      "metaTitle": "Crear cuenta · Tour Navigator",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "toLogin": "Iniciar sesión",
+      "loginInstead": "Iniciar sesión con este correo"
+    },
+    "account": {
+      "title": "Cuenta",
+      "guest": "Puedes usar todas las funciones sin iniciar sesión. Tus planes y lugares guardados se quedan en este navegador.",
+      "login": "Iniciar sesión",
+      "signup": "Crear cuenta",
+      "greeting": "Hola, {nickname}",
+      "logout": "Cerrar sesión",
+      "localOnly": "Tus planes y lugares guardados siguen solo en este navegador.",
+      "loading": "Cargando tu cuenta…",
+      "loadError": "No se pudo cargar tu cuenta",
+      "retry": "Reintentar"
+    }
+  },
   "Recommend": {
     "progressLabel": "Progreso del cuestionario",
     "counter": "{current} / {total}",
