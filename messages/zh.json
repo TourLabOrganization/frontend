@@ -323,7 +323,7 @@
       "emailInvalid": "请检查邮箱格式，例如 name@example.com",
       "emailTooLong": "邮箱最多{emailMax}个字符",
       "passwordRequired": "请输入密码",
-      "passwordLength": "密码须为{passwordMin}–{passwordMax}个字符",
+      "passwordLength": "请检查密码长度",
       "nicknameRequired": "请输入昵称",
       "nicknameTooLong": "昵称最多{nicknameMax}个字符",
       "loginFailed": "邮箱或密码不正确",

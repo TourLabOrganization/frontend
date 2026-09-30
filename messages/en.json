@@ -323,7 +323,7 @@
       "emailInvalid": "Check the email format, e.g. name@example.com",
       "emailTooLong": "Email can be up to {emailMax} characters",
       "passwordRequired": "Enter your password",
-      "passwordLength": "Use {passwordMin}–{passwordMax} characters for your password",
+      "passwordLength": "Check your password length",
       "nicknameRequired": "Enter a nickname",
       "nicknameTooLong": "Nickname can be up to {nicknameMax} characters",
       "loginFailed": "Email or password is incorrect",

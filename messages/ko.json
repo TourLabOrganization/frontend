@@ -323,7 +323,7 @@
       "emailInvalid": "이메일 형식을 확인해 주세요. 예: name@example.com",
       "emailTooLong": "이메일은 {emailMax}자까지 쓸 수 있어요",
       "passwordRequired": "비밀번호를 입력해 주세요",
-      "passwordLength": "비밀번호는 {passwordMin}~{passwordMax}자로 입력해 주세요",
+      "passwordLength": "비밀번호 길이를 확인해 주세요",
       "nicknameRequired": "닉네임을 입력해 주세요",
       "nicknameTooLong": "닉네임은 {nicknameMax}자까지 쓸 수 있어요",
       "loginFailed": "이메일 또는 비밀번호가 맞지 않아요",

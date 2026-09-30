@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { authHref } from "./next-path";
 import { useLogout, useMe } from "./use-auth";
@@ -18,6 +18,12 @@ export function AccountCard() {
   const me = useMe();
   const logout = useLogout();
   const headingId = useId();
+  const guestHeading = useRef<HTMLHeadingElement>(null);
+
+  // 로그아웃하면 누른 버튼이 사라져 키보드 초점이 문서 처음으로 튄다. 로그아웃 상태 카드 제목으로 옮긴다
+  useEffect(() => {
+    if (logout.isSuccess && me.data === null) guestHeading.current?.focus();
+  }, [logout.isSuccess, me.data]);
 
   let body: React.ReactNode;
   // 받아 둔 값이 있으면 다시 받기가 실패해도 그 값을 보인다
@@ -47,7 +53,12 @@ export function AccountCard() {
   } else if (me.data === null) {
     body = (
       <div className={CARD}>
-        <h2 id={headingId} className="text-headline font-bold">
+        <h2
+          ref={guestHeading}
+          id={headingId}
+          tabIndex={-1}
+          className="text-headline font-bold outline-none"
+        >
           {t("title")}
         </h2>
         <p className="mt-1 text-body text-fg-muted">{t("guest")}</p>

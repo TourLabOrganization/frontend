@@ -323,7 +323,7 @@
       "emailInvalid": "Revisa el formato del correo, p. ej. name@example.com",
       "emailTooLong": "El correo puede tener hasta {emailMax} caracteres",
       "passwordRequired": "Introduce tu contraseña",
-      "passwordLength": "La contraseña debe tener entre {passwordMin} y {passwordMax} caracteres",
+      "passwordLength": "Revisa la longitud de la contraseña",
       "nicknameRequired": "Introduce un apodo",
       "nicknameTooLong": "El apodo puede tener hasta {nicknameMax} caracteres",
       "loginFailed": "El correo o la contraseña no son correctos",

@@ -323,7 +323,7 @@
       "emailInvalid": "メールアドレスの形式を確認してください。例：name@example.com",
       "emailTooLong": "メールアドレスは{emailMax}文字までです",
       "passwordRequired": "パスワードを入力してください",
-      "passwordLength": "パスワードは{passwordMin}〜{passwordMax}文字で入力してください",
+      "passwordLength": "パスワードの長さを確認してください",
       "nicknameRequired": "ニックネームを入力してください",
       "nicknameTooLong": "ニックネームは{nicknameMax}文字までです",
       "loginFailed": "メールアドレスまたはパスワードが正しくありません",
