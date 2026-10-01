@@ -20,6 +20,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
+import { isOfficialName } from "./official-name-fixes.mjs";
 
 const [plannerPath, derivedDir] = process.argv.slice(2);
 if (!plannerPath || !derivedDir) {
@@ -139,12 +140,10 @@ for (const lang of LANGS) {
   const places = {};
   const column = { zh: "장소명(중문)", ja: "장소명(일문)" }[lang];
   if (column) {
-    // 한글이 섞인 값(예: 「カン톤市場夜市」)은 원천의 입력 실수라 공식 명칭으로 쓰지 않는다(영어 이름으로 떨어진다)
+    // 한글이 섞인 값(예: 「カン톤市場夜市」)은 원천의 입력 실수, 다른 항목이 붙은 값(명동대성당 → 피부과)은 WRONG_OFFICIAL_NAMES(official-name-fixes.mjs).
+    // 둘 다 공식 명칭으로 쓰지 않는다(앱이 옮긴 이름 → 영어 이름으로 떨어진다)
     for (const row of placeRows)
-      if (
-        present(row[column]) &&
-        !/[\u3131-\u318e\uac00-\ud7a3]/.test(row[column])
-      )
+      if (isOfficialName(lang, row.id, row[column]))
         places[row.id] = row[column].trim();
   }
 

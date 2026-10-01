@@ -58,6 +58,7 @@ import {
   mergeDataServer,
   resolveDataServerDir,
 } from "./data-server.mjs";
+import { isOfficialName } from "./official-name-fixes.mjs";
 import { fillPlaceNames } from "./place-names.mjs";
 
 const [csvPath, plannerPath, derivedDir, dataServerArg] = process.argv.slice(2);
@@ -402,8 +403,11 @@ for (const [key, group] of Object.entries(DATA)) {
     if (present(p.srcEn)) src.en = p.srcEn;
     if (Object.keys(src).length > 0) detail.src = src;
     if (d) {
-      if (present(d["장소명(중문)"])) detail.zh = d["장소명(중문)"];
-      if (present(d["장소명(일문)"])) detail.ja = d["장소명(일문)"];
+      // 공식 명칭 판정은 이름표(build-names.mjs)와 같다: 한글 섞임 · 다른 항목(official-name-fixes.mjs)은 넣지 않는다
+      if (isOfficialName("zh", p.id, d["장소명(중문)"]))
+        detail.zh = d["장소명(중문)"];
+      if (isOfficialName("ja", p.id, d["장소명(일문)"]))
+        detail.ja = d["장소명(일문)"];
       if (present(d["카카오장소URL"])) detail.url = d["카카오장소URL"];
       if (yn(d["시티투어경유"])) detail.ct = true;
       if (yn(d["연관관광지"])) detail.rs = true;
