@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import addedPlaces from "./data/added-places.json";
 import {
   CITY_GROUPS,
   PLACE_COUNT_BY_CITY,
@@ -32,10 +33,26 @@ const REGION_CITY_COUNT = {
   jeju: 2,
 };
 
+// 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 3,109곳 뒤에 붙는다
+const ADDED = addedPlaces.length;
+const TOTAL = 3109 + ADDED;
+
 describe("플래너 데이터", () => {
-  it("장소는 3,109곳이고(원천 3,118곳에서 맥도날드 9곳 제외) id가 겹치지 않는다", () => {
-    expect(PLANNER_PLACES).toHaveLength(3109);
-    expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(3109);
+  it("장소는 3,109곳(원천 3,118곳에서 맥도날드 9곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
+    expect(PLANNER_PLACES).toHaveLength(TOTAL);
+    expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(TOTAL);
+  });
+
+  it("추가 장소는 pop<contentid> id · 도시 고르기 도시 · 시군구 코드가 있고 빌드 장소와 이름 · 위치가 겹치지 않는다", () => {
+    const base = PLANNER_PLACES.slice(0, 3109);
+    for (const p of PLANNER_PLACES.slice(3109)) {
+      expect(p.id, p.id).toMatch(/^pop\d{1,12}$/);
+      expect(p.pickCity).toBe(p.locKo);
+      expect(REGION_KEYS).toContain(p.macro);
+      expect(base.some((q) => q.locKo === p.locKo && q.ko === p.ko)).toBe(
+        false,
+      );
+    }
   });
 
   it("도시 고르기 장소 수: 전용 화면 도시는 전용 화면 장소 + 같은 도시의 전국 목록 장소", () => {
@@ -60,15 +77,15 @@ describe("플래너 데이터", () => {
     const sum = [...PLACE_COUNT_BY_CITY.values()].reduce((a, b) => a + b, 0);
     const nationOnly = PLANNER_PLACES.filter((p) => !p.pickCity).length;
     expect(PLACE_COUNT_BY_CITY.size).toBe(124);
-    expect(sum).toBe(3095);
+    expect(sum).toBe(3095 + ADDED);
     expect(nationOnly).toBe(14);
-    expect(sum + nationOnly).toBe(3109);
+    expect(sum + nationOnly).toBe(TOTAL);
     for (const [city, n] of PLACE_COUNT_BY_CITY) {
       const list = placesInScope({ kind: "city", city });
       expect(list, city).toHaveLength(n);
       expect(list.every((p) => p.locKo === city)).toBe(true);
     }
-    expect(placesInScope({ kind: "nation", region: null })).toHaveLength(3109);
+    expect(placesInScope({ kind: "nation", region: null })).toHaveLength(TOTAL);
   });
 
   it("권역 묶음 이름과 장소 수가 목업 지도와 같다", () => {

@@ -170,6 +170,22 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - 홈 인기 관광지의 글자만인 곳(앱 장소 · 신규 관광지 모두 없음)은 외국어 화면에서 로마자로 적는다
 - **한계**: 자동 코스 후보(`auto`)에는 넣지 않는다
 
+### 인기 관광지 모으기 `GET /api/tour/popular/collect?scope=&regions=&top=` (개발 서버 전용)
+
+인기 관광지에서 앱 장소 목록에 없는 곳을 모아 투어 플래너 장소 데이터에 누적한다(`features/planner/data/added-places.json`, `docs/structure.md` 「추가 장소」).
+코드는 `app/api/tour/popular/collect/route.ts`, 처리는 `lib/tour-collect.ts`, 파일에 합치는 것은 `scripts/add-popular-places.mjs`.
+
+- **범위**: `scope=all`(기본)은 플래너 장소(숙박 제외)가 있는 시군구 전부(`signgu.json`, 211곳). 한 시군구가 두 도시에 걸치면(기장군: 부산 · 양산) 장소가 많은 도시에 붙인다.
+  `scope=home`은 홈 칩 8개 도시를 홈과 같은 시군구 선택으로. `regions=서울,부산`으로 좁힐 수 있다
+- **후보**: 홈 인기 관광지와 같은 집중률 행(`districtItems`)에서 지역마다 기준 날짜의 상위 `top`곳(기본 10, 0이면 전부)
+- **판정**(홈의 세 단계와 같다. 풀은 그 도시 장소 + 그 시군구 코드의 장소): 이름 점수 2 이상이면 `existing-name`, 관광정보 검색 좌표 250m 안(또는 1km 안 이름 절반 겹침)이면 `existing-location`,
+  이미 있는 추가 장소면 `existing-id`, 관광정보에 없으면 `missing`, 나머지가 `new`
+- **추가 장소**: id `pop<contentid>`(브라우저가 기억하는 `kto:`와 다르다 — 데이터 파일에 들어가 모든 사용자에게 보인다). 필드는 신규 관광지(`toKtoPlace`)와 같고
+  도시 · 도시 고르기 도시는 그 지역, 권역은 그 지역 장소의 권역, 외국어 이름은 `withForeignNames`. 설명은 관광정보 개요, 없으면 「○○ 인기 관광지 n위(날짜 집중률 기준)」.
+  좌표 근거에 주소 · 집중률 · contentid를 적는다. Data-Analytics `tools/add_popular_places.py`와 같은 규칙 · 같은 id다
+- **응답**: `{ "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`. 캐시 없음.
+  배포(`NODE_ENV=production`)에서는 404 — 시군구 211곳 × 최대 5쪽을 부르므로 개발 서버에서 스크립트로만 쓴다. 키가 없으면 503, 실패하면 502
+
 ### 대표 사진 `GET /api/tour/photo?id=`
 
 장소 시트 맨 위 사진. 장소 자료(플래너 `place-details.json` · 테마 `extras.json`)에 사진이 없는 장소만 시트가 부른다. 코드는 `app/api/tour/photo/route.ts`,
