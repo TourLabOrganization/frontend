@@ -1,4 +1,5 @@
 import type { Place } from "@/features/course/places";
+import addedPlaces from "./data/added-places.json";
 import placesData from "./data/places.json";
 import { REGION_KEYS, type RegionKey } from "./regions";
 
@@ -9,6 +10,9 @@ import { REGION_KEYS, type RegionKey } from "./regions";
 // 설명 · 사진 · 중일 이름 · 좌표 근거 · 카카오 장소 URL 같은 무거운 필드는 data/place-details.json에 따로 두고,
 // 장소 시트를 열 때 Route Handler(/api/planner/places/[id])로 받는다(use-place-detail.ts). 이 파일은 그 JSON을 import하지 않는다.
 // scripts/build-planner.mjs로 만든다. 손으로 고치지 않는다.
+// data/added-places.json: 인기 관광지(한국관광공사 집중률)에서 모아 누적한 추가 장소(id pop<contentid>, scripts/add-popular-places.mjs ·
+//                   lib/tour-collect.ts). places.json 뒤에 이어 붙어 지도 · 목록 · 코스 · 장소 시트가 앱 장소와 똑같이 쓴다.
+//                   시군구 코드는 signgu.json, 무거운 필드는 place-details.json, 도시별 장소 수는 regions.json에 같이 넣는다
 // 장소 필드는 course/places.ts의 Place와 같아서 일정 모듈(course/schedule.ts)이 그대로 쓴다.
 
 export type PlannerPlace = Place & {
@@ -28,7 +32,10 @@ export type PlannerPlace = Place & {
   popRank?: number;
 };
 
-export const PLANNER_PLACES = placesData as readonly PlannerPlace[];
+export const PLANNER_PLACES: readonly PlannerPlace[] = [
+  ...(placesData as PlannerPlace[]),
+  ...(addedPlaces as PlannerPlace[]),
+];
 // 도시별 장소 수 · 도시 묶음 · 도시 검사는 regions.ts로 옮겼다(regions.json의 placeCounts로 센다).
 // 도시 고르기 · 여행 정보 탭이 이 파일(places.json)을 import하지 않게 하려고서다. 예전 import 경로를 위해 다시 내보낸다
 export {

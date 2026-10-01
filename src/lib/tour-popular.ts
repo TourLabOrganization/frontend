@@ -196,7 +196,7 @@ export const NEAR_SPOT_M = 1000;
 /** NEAR_SPOT_M 안에서 같은 곳으로 볼 이름 겹침 */
 export const NEAR_SPOT_OVERLAP = 0.5;
 
-function meters(lat1: number, lng1: number, lat2: number, lng2: number) {
+export function meters(lat1: number, lng1: number, lat2: number, lng2: number) {
   const r = Math.PI / 180;
   const a =
     Math.sin(((lat2 - lat1) * r) / 2) ** 2 +
