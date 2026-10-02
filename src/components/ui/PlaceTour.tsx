@@ -200,11 +200,73 @@ function AudioGuide({ id }: { id: string }) {
             )}
           </button>
         )}
+        {audio.others && audio.others.length > 0 && (
+          <ul
+            aria-label={t("others", { count: audio.others.length })}
+            className="mt-3 border-t border-line pt-2"
+          >
+            <li className="py-1 text-caption font-semibold text-fg-muted">
+              {t("others", { count: audio.others.length })}
+            </li>
+            {audio.others.map((other, i) => (
+              <li key={`${other.title}-${i}`} className="border-t border-line">
+                <OtherAudio audio={other} />
+              </li>
+            ))}
+          </ul>
+        )}
         <p className="mt-1 text-micro text-fg-subtle">
           {audio.source === "odii" ? t("sourceOdii") : t("sourceStory")}
         </p>
       </div>
     </section>
+  );
+}
+
+/** 같은 관광지의 다른 해설 하나: 제목 · 재생 시간을 누르면 음성(주소가 있을 때)과 대본이 펼쳐진다(접힌 채로는 음성을 받지 않는다) */
+function OtherAudio({ audio }: { audio: TourAudio }) {
+  const t = useTranslations("PlaceSheet.tour.audio");
+  const scriptId = useId();
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={scriptId}
+        onClick={() => setOpen((v) => !v)}
+        className="flex min-h-11 w-full items-center gap-2 py-1 text-left focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+      >
+        <Headphones size={16} className="shrink-0 text-fg-muted" aria-hidden />
+        <span className="flex-1 text-label font-semibold">{audio.title}</span>
+        {audio.playTime !== undefined && (
+          <span className="text-caption text-fg-muted tabular-nums">
+            {formatPlayTime(audio.playTime)}
+          </span>
+        )}
+        {open ? (
+          <ChevronUp size={16} className="shrink-0 text-fg-muted" aria-hidden />
+        ) : (
+          <ChevronDown
+            size={16}
+            className="shrink-0 text-fg-muted"
+            aria-hidden
+          />
+        )}
+      </button>
+      <div id={scriptId} hidden={!open} className="pb-3">
+        {open && audio.audioUrl && (
+          <audio
+            controls
+            preload="none"
+            src={audio.audioUrl}
+            aria-label={t("player", { title: audio.title || t("title") })}
+            className="w-full"
+          />
+        )}
+        <p className="mt-2 text-label whitespace-pre-line">{audio.script}</p>
+      </div>
+    </>
   );
 }
 

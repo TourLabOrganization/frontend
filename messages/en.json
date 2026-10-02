@@ -122,7 +122,8 @@
         "more": "Read more",
         "less": "Show less",
         "sourceOdii": "Korea Tourism Organization audio guide (Odii)",
-        "sourceStory": "Travel stories · Korea Tourism Organization"
+        "sourceStory": "Travel stories · Korea Tourism Organization",
+        "others": "{count} more commentaries at this site"
       },
       "related": {
         "title": "Top places visited together",
