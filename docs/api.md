@@ -170,7 +170,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - 홈 인기 관광지의 글자만인 곳(앱 장소 · 신규 관광지 모두 없음)은 외국어 화면에서 로마자로 적는다
 - **한계**: 자동 코스 후보(`auto`)에는 넣지 않는다
 
-### 인기 관광지 모으기 `GET /api/tour/popular/collect?scope=&regions=&top=` (개발 서버 전용)
+### 인기 관광지 모으기 `GET /api/tour/popular/collect?source=&scope=&regions=&top=` (개발 서버 전용)
 
 인기 관광지에서 앱 장소 목록에 없는 곳을 모아 투어 플래너 장소 데이터에 누적한다(`features/planner/data/added-places.json`, `docs/structure.md` 「추가 장소」).
 코드는 `app/api/tour/popular/collect/route.ts`, 처리는 `lib/tour-collect.ts`, 파일에 합치는 것은 `scripts/add-popular-places.mjs`.
@@ -183,7 +183,13 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **추가 장소**: id `pop<contentid>`(브라우저가 기억하는 `kto:`와 다르다 — 데이터 파일에 들어가 모든 사용자에게 보인다). 필드는 신규 관광지(`toKtoPlace`)와 같고
   도시 · 도시 고르기 도시는 그 지역, 권역은 그 지역 장소의 권역, 외국어 이름은 `withForeignNames`. 설명은 관광정보 개요, 없으면 「○○ 인기 관광지 n위(날짜 집중률 기준)」.
   좌표 근거에 주소 · 집중률 · contentid를 적는다. Data-Analytics `tools/add_popular_places.py`와 같은 규칙 · 같은 id다
-- **응답**: `{ "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`. 캐시 없음.
+- **오디 해설 관광지**(`source=odii`): 인기 관광지 대신 관광지 오디오 가이드(오디) 한국어 관광지 목록(`Odii/themeBasedList`, 쪽당 1,000행 · 최대 5쪽)의 관광지 전부가 후보다(`collectOdii`).
+  지역은 주소(addr1 시도 · addr2 시군구)로 정하고(`odiiRegion`: 광역시 · 특별시 · 세종은 그 이름, 제주 · 서귀포 → 제주, 그 밖은 시군구에서 시 · 군을 뗀 것, 강원 고성 → 고성(강원), 경기 광주 → 경기광주),
+  장소 표에 없는 지역이면 30km 안 가장 가까운 장소의 지역, 그것도 없으면 `no-region`. 같은 지역 장소와 이름 → 위치로 잇고, 남는 곳은 국문 관광정보(같은 이름 · 1km 안)에서 찾으면 `pop<contentid>`와 그 분류,
+  못 찾으면 `odii<tid>`와 이름 낱말 분류(`odiiRuleCategory`: 해변 · 섬 → sea, 시장 → food, 체험 · 파크 → activity, 사 · 궁 · 유적 · 박물관 → herit, 공원 · 숲 · 오름 → heal, 그 밖은 herit).
+  출처에 「오디 tid」를 적는다. Data-Analytics `tools/add_odii_places.py`와 같은 규칙 · 같은 id
+- **응답**: `{ "source", "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`.
+  `source=odii`면 `{ "source", "candidates": [{ "tid", "name", "region", "regionBy", "verdict", "id" }], "places" }`. 캐시 없음.
   배포(`NODE_ENV=production`)에서는 404 — 시군구 211곳 × 최대 5쪽을 부르므로 개발 서버에서 스크립트로만 쓴다. 키가 없으면 503, 실패하면 502
 
 ### 대표 사진 `GET /api/tour/photo?id=`

@@ -1,5 +1,6 @@
 import {
   allTargets,
+  collectOdii,
   collectPopular,
   homeTargets,
   type CollectScope,
@@ -8,7 +9,8 @@ import { tourApiKey, tourNotConfigured, tourUnavailable } from "@/lib/tour-api";
 
 // 인기 관광지에서 앱 장소 목록에 없는 곳을 모은다(lib/tour-collect.ts). scripts/add-popular-places.mjs가 개발 서버에서 부르고
 // 결과를 features/planner/data/added-places.json 등에 합친다. 시군구 211곳 × 최대 5쪽을 부르므로 배포에서는 열지 않는다(404).
-// 쿼리: scope=all(기본, 장소가 있는 시군구 전부) | home(홈 칩 8개 도시) · regions=서울,부산(이 지역만) · top=10(지역마다 볼 상위 수, 0이면 전부)
+// 쿼리: source=popular(기본, 인기 관광지) | odii(관광지 오디오 가이드 해설이 있는 관광지) ·
+//       scope=all(기본, 장소가 있는 시군구 전부) | home(홈 칩 8개 도시) · regions=서울,부산(이 지역만) · top=10(지역마다 볼 상위 수, 0이면 전부)
 export async function GET(request: Request) {
   if (process.env.NODE_ENV === "production")
     return Response.json({ message: "not found" }, { status: 404 });
@@ -25,6 +27,23 @@ export async function GET(request: Request) {
     return Response.json({ message: "invalid top" }, { status: 400 });
   const key = tourApiKey();
   if (!key) return tourNotConfigured();
+  const source = params.get("source") ?? "popular";
+  if (source !== "popular" && source !== "odii")
+    return Response.json({ message: "invalid source" }, { status: 400 });
+  if (source === "odii") {
+    try {
+      const result = await collectOdii(key, {
+        regions: regions.length ? regions : undefined,
+        log: (line) => console.log(`[popular/collect] ${line}`),
+      });
+      return Response.json(
+        { source, ...result },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    } catch {
+      return tourUnavailable();
+    }
+  }
   const targets =
     (scope as CollectScope) === "home"
       ? homeTargets(regions.length ? regions : undefined)
@@ -41,6 +60,7 @@ export async function GET(request: Request) {
     });
     return Response.json(
       {
+        source,
         scope,
         targets: targets.map((t) => ({ region: t.region, codes: t.codes })),
         ...result,

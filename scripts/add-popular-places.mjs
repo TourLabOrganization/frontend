@@ -7,7 +7,8 @@
 //
 // 사용법:
 //   1) dev 서버를 띄운다: npm run dev   (.env.local의 DATA_GO_KR_KEY를 서버가 읽는다. 키는 이 스크립트가 다루지 않는다)
-//   2) node scripts/add-popular-places.mjs [--scope all|home] [--regions 서울,부산] [--top 10] [--base http://localhost:5173] [--dry]
+//   2) node scripts/add-popular-places.mjs [--source popular|odii] [--scope all|home] [--regions 서울,부산] [--top 10] [--base http://localhost:5173] [--dry]
+//      --source odii: 인기 관광지 대신 관광지 오디오 가이드(오디) 해설이 있는 관광지를 모은다(lib/tour-collect.ts collectOdii)
 //   3) npm run format   # JSON을 리포 포맷으로 맞춘다
 //
 // 규칙(lib/tour-collect.ts, Data-Analytics tools/add_popular_places.py와 같다):
@@ -101,11 +102,13 @@ function arg(name, fallback) {
 
 async function main() {
   const base = arg("base", process.env.BASE_URL ?? "http://localhost:5173");
+  const source = arg("source", "popular");
   const scope = arg("scope", "all");
   const regions = arg("regions", "");
   const top = arg("top", "10");
   const dry = process.argv.includes("--dry");
   const url = new URL("/api/tour/popular/collect", base);
+  url.searchParams.set("source", source);
   url.searchParams.set("scope", scope);
   url.searchParams.set("top", top);
   if (regions) url.searchParams.set("regions", regions);

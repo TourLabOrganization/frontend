@@ -2,12 +2,15 @@ import { PLANNER_PLACES, type PlannerPlace } from "../features/planner/data";
 import type { RegionKey } from "../features/planner/regions";
 import {
   fetchTourItems,
+  fetchTourPage,
   KTO_PLACE_SECONDS,
+  ktoCategory,
   toKtoPlace,
   tourApiUrl,
   tourPlaceSigngu,
   withForeignNames,
 } from "./tour-api";
+import { odiiThemeUrl } from "./tour-audio";
 import { POPULAR_CITIES } from "./tour";
 import {
   citySigngu,
@@ -28,6 +31,7 @@ import { seoulDate } from "./weather";
 // 홈 「지금 인기 관광지」(tour-popular.ts)와 같은 규칙으로 집중률 상위 관광지를 앱 장소와 잇고, 못 이은 곳을 새 장소로 만든다.
 // Data-Analytics 저장소 tools/add_popular_places.py와 같은 규칙 · 같은 id(pop<contentid>)라 두 저장소의 장소 표가 같게 늘어난다.
 // 개발 서버의 Route Handler /api/tour/popular/collect가 부르고, scripts/add-popular-places.mjs가 그 결과를 데이터 파일에 합친다.
+// 관광지 오디오 가이드(오디) 해설이 있는 관광지도 같은 모양으로 모은다(collectOdii, Data-Analytics tools/add_odii_places.py와 같은 규칙).
 // 서버 전용(키를 쓴다). 테스트가 "@/" 경로를 풀지 못해 상대 경로로 import한다
 
 /** 추가 장소 id 접두사. kto:<contentid>(브라우저가 기억하는 신규 관광지)와 달리 데이터 파일에 들어가는 앱 장소다 */
@@ -366,5 +370,300 @@ export async function collectPopular(
       `${t.region}: 시군구 ${t.codes.length}곳 · 후보 ${spots.length}곳 / 신규 ${made}곳 (기준 ${ranked.date})`,
     );
   }
+  return { candidates, places: [...added.values()] };
+}
+
+// ---------- 오디(관광지 오디오 가이드) 해설이 있는 관광지 ----------
+
+/** 오디 관광지 목록 한 쪽 수 · 최대 쪽 수(tour-audio.ts themeList와 같다) */
+const ODII_ROWS = 1000;
+const ODII_MAX_PAGES = 5;
+/** 주소로 지역을 못 정할 때 가장 가까운 장소를 찾는 거리(m) */
+const ODII_NEAREST_M = 30_000;
+/** 오디 관광지로 만든 추가 장소 id 접두사(관광정보에서 못 찾은 곳). 찾으면 pop<contentid> */
+export const ODII_PREFIX = "odii";
+
+const METRO: readonly (readonly [string, string])[] = [
+  ["서울", "서울"],
+  ["부산", "부산"],
+  ["대구", "대구"],
+  ["인천", "인천"],
+  ["광주광역시", "광주"],
+  ["대전", "대전"],
+  ["울산", "울산"],
+  ["세종", "세종"],
+];
+
+/**
+ * 오디 주소(addr1 시도 · addr2 시군구) → 앱 지역(locKo). 광역시 · 특별시 · 세종은 그 이름, 제주는 「제주」, 그 밖은 시군구 이름에서 시 · 군을 뗀 것.
+ * 강원 고성 → 고성(강원), 경기 광주 → 경기광주. 못 정하면 ""
+ */
+export function odiiRegion(addr1: string, addr2: string): string {
+  const a1 = addr1.replace(/\s/g, "");
+  for (const [k, v] of METRO) if (a1.startsWith(k)) return v;
+  if (a1.startsWith("제주")) return "제주";
+  const a2 = addr2.trim().split(/\s+/)[0] ?? "";
+  const base = a2.replace(/(시|군)$/, "");
+  if (!base) return "";
+  if (base === "고성" && a1.startsWith("강원")) return "고성(강원)";
+  if (base === "광주" && a1.startsWith("경기")) return "경기광주";
+  return base;
+}
+
+const CAT_RULES: readonly (readonly [string, RegExp])[] = [
+  ["sea", /해수욕장|해변|해안|바다|포구|등대|섬$|도$|항$|갯벌|방파제/],
+  ["food", /시장|먹거리|맛|음식|카페거리|포차/],
+  [
+    "activity",
+    /체험|박람회|월드|파크|테마|놀이|레일|케이블카|짚|스키|수목원|동물원|아쿠아|전망대|스카이/,
+  ],
+  [
+    "herit",
+    /사$|사지|궁|성$|산성|읍성|릉$|릉|묘|고분|서원|향교|유적|박물관|기념관|문학관|미술관|고택|생가|탑|비$|정$|루$|대$|당$|관$|성당|교회|사당|서당|터$/,
+  ],
+  [
+    "heal",
+    /공원|숲|산$|봉$|폭포|호수|저수지|계곡|오름|습지|정원|둘레길|길$|강$|천$|들|평야|농원|목장/,
+  ],
+];
+
+/** 관광정보에서 못 찾은 오디 관광지의 분류: 이름의 낱말로(없으면 herit). Data-Analytics rule_category와 같다 */
+export function odiiRuleCategory(name: string): string {
+  for (const [cat, rx] of CAT_RULES) if (rx.test(name)) return cat;
+  return "herit";
+}
+
+/** 오디 관광지 한 곳(한국어 목록) */
+export type OdiiSpot = {
+  tid: string;
+  name: string;
+  lat: number;
+  lng: number;
+  addr1: string;
+  addr2: string;
+  theme: string;
+};
+
+/** 오디 한국어 관광지 목록 전체(tid마다 하나, 한국 범위 좌표만) */
+export async function odiiSpots(key: string): Promise<OdiiSpot[]> {
+  const items = [];
+  for (let page = 1; page <= ODII_MAX_PAGES; page++) {
+    const { items: got, total } = await fetchTourPage(
+      odiiThemeUrl(key, "ko", page),
+      "no-store",
+    );
+    items.push(...got);
+    if (got.length < ODII_ROWS || items.length >= total) break;
+  }
+  const seen = new Set<string>();
+  const out: OdiiSpot[] = [];
+  for (const x of items) {
+    const tid = String(x.tid ?? "").trim();
+    const name = String(x.title ?? "").trim();
+    const lat = Number(x.mapY);
+    const lng = Number(x.mapX);
+    if (!tid || !name || seen.has(tid)) continue;
+    if (!(lat >= 32 && lat <= 39 && lng >= 124 && lng <= 132)) continue;
+    seen.add(tid);
+    out.push({
+      tid,
+      name,
+      lat,
+      lng,
+      addr1: String(x.addr1 ?? "").trim(),
+      addr2: String(x.addr2 ?? "").trim(),
+      theme: String(x.themeCategory ?? "").trim(),
+    });
+  }
+  return out;
+}
+
+/** 오디 후보 한 곳과 판정 */
+export type OdiiCandidate = {
+  tid: string;
+  name: string;
+  region: string;
+  regionBy: "address" | "nearest" | "none";
+  verdict: CollectVerdict | "no-region";
+  id: string | null;
+};
+
+/** 같은 이름(점수 2 이상) · 1km 안의 국문 관광정보 항목(여행코스 · 숙박 제외, 가까운 것). 없으면 null */
+async function ktoNear(
+  key: string,
+  name: string,
+  lat: number,
+  lng: number,
+): Promise<Record<string, unknown> | null> {
+  const found = await fetchTourItems(
+    tourApiUrl("KorService2/searchKeyword2", key, {
+      numOfRows: "30",
+      pageNo: "1",
+      arrange: "A",
+      keyword: name,
+    }),
+    KTO_PLACE_SECONDS,
+  );
+  let best: Record<string, unknown> | null = null;
+  let bestD = Infinity;
+  for (const it of found) {
+    const type = String(it.contenttypeid ?? "");
+    if (type === "25" || type === "32") continue;
+    const la = Number(it.mapy);
+    const ln = Number(it.mapx);
+    if (!Number.isFinite(la) || !Number.isFinite(ln)) continue;
+    if (nameScore(name, String(it.title ?? ""), "") < 2) continue;
+    const d = meters(lat, lng, la, ln);
+    if (d <= 1000 && d < bestD) {
+      best = it;
+      bestD = d;
+    }
+  }
+  return best;
+}
+
+/**
+ * 오디 해설이 있는 관광지 가운데 앱 장소에 없는 곳을 추가 장소로 만든다.
+ * 지역은 주소로(odiiRegion), 장소 표에 없는 지역이면 30km 안 가장 가까운 장소의 지역. 같은 지역 장소와 이름 → 위치로 잇고,
+ * 남는 곳은 관광정보(이름 · 1km)에서 찾으면 pop<contentid>와 그 분류, 못 찾으면 odii<tid>와 이름 낱말 분류
+ */
+export async function collectOdii(
+  key: string,
+  options: {
+    places?: readonly PlannerPlace[];
+    regions?: readonly string[];
+    signguOf?: (id: string) => string;
+    log?: (line: string) => void;
+  } = {},
+): Promise<{ candidates: OdiiCandidate[]; places: AddedPlace[] }> {
+  const base = options.places ?? PLANNER_PLACES;
+  const log = options.log ?? (() => {});
+  const spots = await odiiSpots(key);
+  log(`오디 관광지 ${spots.length}곳`);
+  const known = new Set(base.map((p) => p.locKo));
+  const pool: PlannerPlace[] = base.filter((p) => p.cat !== "stay");
+  const added = new Map<string, AddedPlace>();
+  const ids = new Set(base.map((p) => p.id));
+  const candidates: OdiiCandidate[] = [];
+  const nearest = (lat: number, lng: number) => {
+    let best = "";
+    let bestD = Infinity;
+    for (const p of pool) {
+      const d = meters(lat, lng, p.lat, p.lng);
+      if (d < bestD) {
+        best = p.locKo;
+        bestD = d;
+      }
+    }
+    return bestD <= ODII_NEAREST_M ? best : "";
+  };
+  for (const s of spots) {
+    let region = odiiRegion(s.addr1, s.addr2);
+    let regionBy: OdiiCandidate["regionBy"] = "address";
+    if (!known.has(region)) {
+      region = nearest(s.lat, s.lng);
+      regionBy = region ? "nearest" : "none";
+    }
+    if (options.regions && !options.regions.includes(region)) continue;
+    const row = { tid: s.tid, name: s.name, region, regionBy };
+    if (!region) {
+      candidates.push({ ...row, verdict: "no-region", id: null });
+      continue;
+    }
+    const regionPool = pool.filter((p) => p.locKo === region);
+    const byName = matchInPool(
+      { name: s.name, signgu: "" },
+      region,
+      regionPool,
+      () => "",
+    );
+    if (byName) {
+      candidates.push({ ...row, verdict: "existing-name", id: byName.id });
+      continue;
+    }
+    const near = nearInPool(
+      { name: s.name, lat: s.lat, lng: s.lng },
+      regionPool,
+    );
+    if (near) {
+      candidates.push({ ...row, verdict: "existing-location", id: near.id });
+      continue;
+    }
+    let item: Record<string, unknown> | null = null;
+    try {
+      item = await ktoNear(key, s.name, s.lat, s.lng);
+    } catch {
+      log(`${s.name}: 관광정보 검색 실패`);
+    }
+    const cid = item ? String(item.contentid ?? "").trim() : "";
+    const kto = item ? toKtoPlace(item, base) : null;
+    const id = cid ? addedId(cid) : null;
+    if (id && ids.has(id)) {
+      candidates.push({ ...row, verdict: "existing-id", id });
+      continue;
+    }
+    const cat = kto ? ktoCategory(item!) : odiiRuleCategory(s.name);
+    const lat = kto ? kto.lat : s.lat;
+    const lng = kto ? kto.lng : s.lng;
+    const pid = id ?? `${ODII_PREFIX}${s.tid}`;
+    const macro = regionMacro(regionPool, region, pool[0]?.macro ?? "capital");
+    let named = kto;
+    if (kto) {
+      try {
+        named = await withForeignNames(
+          kto,
+          String(item!.contenttypeid ?? ""),
+          key,
+        );
+      } catch {
+        // 다국어 이름을 못 찾으면 로마자 영어 이름으로 둔다
+      }
+    }
+    const place: AddedPlace = {
+      id: pid,
+      n: null,
+      ko: s.name,
+      en: named?.en ?? s.name,
+      locKo: region,
+      cat,
+      lat,
+      lng,
+      min: kto?.min ?? (cat === "activity" ? 90 : 60),
+      hrs: "",
+      open: null,
+      close: null,
+      yt: false,
+      off: true,
+      k100: false,
+      un: false,
+      bf: false,
+      auto: cat !== "stay",
+      macro,
+      pickCity: region,
+      signgu: kto?.signgu ?? "",
+      contentid: cid,
+      addr: kto?.addr ?? `${s.addr1} ${s.addr2}`.trim(),
+      photo: kto?.photo ?? "",
+      zh: named?.names?.zh ?? "",
+      ja: named?.names?.ja ?? "",
+      source: [
+        kto?.addr ?? `${s.addr1} ${s.addr2}`.trim(),
+        `한국관광공사 관광지 오디오 가이드(오디 tid ${s.tid})`,
+        cid ? `관광정보 contentid ${cid} 좌표` : "오디 좌표",
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      desc:
+        kto?.overview ??
+        `오디오 가이드(오디) 해설이 있는 관광지${s.theme ? ` · ${s.theme}` : ""}`,
+    };
+    added.set(pid, place);
+    pool.push(place);
+    ids.add(pid);
+    candidates.push({ ...row, verdict: "new", id: pid });
+  }
+  log(
+    `오디: 후보 ${candidates.length}곳 / 신규 ${added.size}곳 / 지역 없음 ${candidates.filter((c) => c.verdict === "no-region").length}곳`,
+  );
   return { candidates, places: [...added.values()] };
 }
