@@ -31,8 +31,8 @@ import {
 // 표시(핀 · 묶음 · 선)는 children으로 받는다. fitKey가 바뀌면 fitPoints에 맞추고, focus가 바뀌면 그 자리로 옮긴다.
 // 공통 조작: 확대 · 축소(오른쪽 위) · 지도/위성 전환(왼쪽 위) · 내 위치(오른쪽 아래). 서로 겹치지 않는 자리다.
 // 확대 · 축소는 카카오 ZoomControl 대신 우리 버튼이다(SDK 버튼의 title 「확대」 「축소」가 화면 언어를 따르지 않아서). 버튼은 한 레벨씩이다.
-// 마우스 휠 · 트랙패드 핀치는 축척 단위로 끊기지 않고 이어진다(useWheelZoom, map-wheel-zoom.ts): 휠 양을 소수 레벨로 모아
-// 커서 자리 기준으로 지도 그림을 늘였다 줄이고, 한 레벨이 차면 카카오 레벨을 바꾼다. 손가락 핀치 · 드래그는 카카오 SDK 그대로(이미 이어서 그린다).
+// 마우스 휠 · 트랙패드 핀치 · 손가락 핀치는 축척 단위로 끊기지 않고 이어진다(useWheelZoom, map-wheel-zoom.ts): 휠 양(손가락 거리 비율)을 소수 레벨로
+// 모아 커서(손가락 가운데) 자리 기준으로 지도 그림을 늘였다 줄이고, 한 레벨이 차면 카카오 레벨을 바꾼다. 한 손가락 드래그는 카카오 SDK 그대로.
 // 카카오 로고는 출처 표기라 지우지 않고, 대체 글(「Kakao 맵으로 이동(새창열림)」)만 화면 언어로 바꾼다(KakaoLogoAlt).
 // 내 위치는 누를 때만 위치 권한을 묻고, 받은 위치는 점 · 정확도 원으로만 그린다(저장하지 않는다).
 
@@ -278,10 +278,12 @@ const MIN_LEVEL = 1;
 const MAX_LEVEL = 14;
 
 /**
- * 마우스 휠 · 트랙패드 핀치로 축척 단위로 끊기지 않게 확대 · 축소한다(규칙은 map-wheel-zoom.ts).
- * 휠 양을 소수 레벨로 모아 커서 자리를 기준으로 지도 틀(box)을 CSS transform으로 늘였다 줄이고, 한 레벨이 차면
- * 커서 자리를 기준점(anchor)으로 카카오 레벨을 바꾸면서 늘임을 되돌린다(그림이 이어진다). 휠이 쉬면 가장 가까운 레벨로 맞춘다.
- * 지도 위에서는 휠이 페이지를 스크롤하지 않는다(preventDefault). 손가락 핀치는 카카오 SDK가 맡는다
+ * 마우스 휠 · 트랙패드 핀치 · 손가락 핀치로 축척 단위로 끊기지 않게 확대 · 축소한다(규칙은 map-wheel-zoom.ts).
+ * 휠 양(또는 두 손가락 사이 거리의 비율)을 소수 레벨로 모아 커서(두 손가락의 가운데) 자리를 기준으로 지도 틀(box)을 CSS transform으로
+ * 늘였다 줄이고, 한 레벨이 차면 그 자리를 기준점(anchor)으로 카카오 레벨을 바꾸면서 늘임을 되돌린다(그림이 이어진다).
+ * 휠이 쉬거나 손가락을 떼면 가장 가까운 레벨로 맞춘다. 지도 위에서는 휠이 페이지를 스크롤하지 않는다(preventDefault).
+ * 기준 자리는 늘어나지 않는 바깥 틀(frame) 기준으로 잰다(늘어난 box 기준으로 재면 휠마다 기준이 밀린다).
+ * 두 손가락 이벤트는 캡처 단계에서 멈춰 카카오 SDK의 핀치(레벨 단위)와 겹치지 않게 하고, 한 손가락 드래그는 그대로 SDK에 준다
  */
 function useWheelZoom(
   frameRef: React.RefObject<HTMLDivElement | null>,
@@ -295,11 +297,17 @@ function useWheelZoom(
     let fraction = 0;
     let origin = { x: 0, y: 0 };
     let timer: ReturnType<typeof setTimeout> | null = null;
+    // 손가락 핀치 상태: 시작 거리와 그때의 소수 레벨
+    let pinch: { dist: number; fraction: number } | null = null;
     const paint = (animate: boolean) => {
       box.style.transition = animate ? "transform 120ms ease-out" : "none";
       box.style.transformOrigin = `${origin.x}px ${origin.y}px`;
       box.style.transform =
         fraction === 0 ? "" : `scale(${zoomScale(fraction)})`;
+    };
+    const pointAt = (clientX: number, clientY: number) => {
+      const rect = frame.getBoundingClientRect();
+      return { x: clientX - rect.left, y: clientY - rect.top };
     };
     const anchorAt = (x: number, y: number) =>
       map.getProjection().coordsFromContainerPoint(new kakao.maps.Point(x, y));
@@ -309,8 +317,20 @@ function useWheelZoom(
         MIN_LEVEL,
         Math.min(MAX_LEVEL, map.getLevel() + levelDelta),
       );
-      // 늘임을 먼저 되돌리고 같은 자리를 기준으로 레벨을 바꾼다(애니메이션 없이: 그림은 이미 그 배율로 보였다)
+      // 같은 자리를 기준으로 레벨을 바꾼다(애니메이션 없이: 그림은 이미 그 배율로 보였다)
       map.setLevel(next, { anchor: anchorAt(origin.x, origin.y) });
+    };
+    const apply = (delta: number) => {
+      const step = accumulateZoom(
+        fraction,
+        delta,
+        map.getLevel(),
+        MIN_LEVEL,
+        MAX_LEVEL,
+      );
+      fraction = step.fraction;
+      changeLevel(step.levelDelta);
+      paint(false);
     };
     const settle = () => {
       timer = null;
@@ -322,25 +342,58 @@ function useWheelZoom(
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const rect = box.getBoundingClientRect();
-      origin = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-      const step = accumulateZoom(
-        fraction,
-        wheelLevelDelta(e),
-        map.getLevel(),
-        MIN_LEVEL,
-        MAX_LEVEL,
-      );
-      fraction = step.fraction;
-      changeLevel(step.levelDelta);
-      paint(false);
+      origin = pointAt(e.clientX, e.clientY);
+      apply(wheelLevelDelta(e));
       if (timer) clearTimeout(timer);
       timer = setTimeout(settle, WHEEL_SETTLE_MS);
     };
-    // 캡처 단계에서 받아 카카오 SDK의 휠 처리(한 레벨씩)보다 먼저 막는다
-    frame.addEventListener("wheel", onWheel, { capture: true, passive: false });
+    const touchDist = (t: TouchList) =>
+      Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    const touchMid = (t: TouchList) =>
+      pointAt(
+        (t[0].clientX + t[1].clientX) / 2,
+        (t[0].clientY + t[1].clientY) / 2,
+      );
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length < 2) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (timer) clearTimeout(timer);
+      timer = null;
+      pinch = { dist: touchDist(e.touches), fraction };
+      origin = touchMid(e.touches);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!pinch || e.touches.length < 2) return;
+      e.preventDefault();
+      e.stopPropagation();
+      origin = touchMid(e.touches);
+      const want =
+        pinch.fraction + Math.log2(touchDist(e.touches) / pinch.dist);
+      apply(want - fraction);
+      // 레벨이 바뀌어 소수가 줄었으면 그만큼 시작점을 옮긴다(손가락을 더 벌려야 다음 레벨)
+      pinch.fraction = fraction - Math.log2(touchDist(e.touches) / pinch.dist);
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!pinch) return;
+      if (e.touches.length >= 2) return;
+      e.stopPropagation();
+      pinch = null;
+      settle();
+    };
+    // 캡처 단계에서 받아 카카오 SDK의 휠 · 핀치 처리(한 레벨씩)보다 먼저 막는다
+    const opts = { capture: true, passive: false } as const;
+    frame.addEventListener("wheel", onWheel, opts);
+    frame.addEventListener("touchstart", onTouchStart, opts);
+    frame.addEventListener("touchmove", onTouchMove, opts);
+    frame.addEventListener("touchend", onTouchEnd, opts);
+    frame.addEventListener("touchcancel", onTouchEnd, opts);
     return () => {
       frame.removeEventListener("wheel", onWheel, { capture: true });
+      frame.removeEventListener("touchstart", onTouchStart, { capture: true });
+      frame.removeEventListener("touchmove", onTouchMove, { capture: true });
+      frame.removeEventListener("touchend", onTouchEnd, { capture: true });
+      frame.removeEventListener("touchcancel", onTouchEnd, { capture: true });
       if (timer) clearTimeout(timer);
       box.style.transform = "";
       box.style.transition = "";
