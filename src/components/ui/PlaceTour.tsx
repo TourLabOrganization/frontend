@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   BedDouble,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   ChevronUp,
   Headphones,
@@ -12,7 +13,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import {
   type CrowdLevel,
   crowdLevel,
@@ -31,6 +32,7 @@ import {
   type TourRelatedStay,
   upcomingCrowdDays,
 } from "@/lib/tour";
+import { cardIndex, stepCard } from "./audio-cards";
 import { useTourApi } from "./tour-api-context";
 
 type PlaceTourProps = {
@@ -138,13 +140,16 @@ function TourHeader({
   );
 }
 
-/** 오디오 가이드: 제목 · 음성(주소가 있을 때) · 대본(240자 접기) · 출처 */
+/**
+ * 오디오 가이드. 해설이 하나면 제목 · 음성(주소가 있을 때) · 대본(240자 접기) · 출처를 그대로 보이고,
+ * 같은 관광지의 해설이 여럿(대표 + others)이면 밑으로 늘리지 않고 좌우로 넘기는 카드로 보인다:
+ * 손가락 · 트랙패드로 밀면 카드 단위로 걸리고(scroll-snap), 이전 · 다음 화살표와 「n / 전체」 표시가 있다.
+ * 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다)
+ */
 function AudioGuide({ id }: { id: string }) {
   const t = useTranslations("PlaceSheet.tour.audio");
   const locale = useLocale();
   const titleId = useId();
-  const scriptId = useId();
-  const [open, setOpen] = useState(false);
   const enabled = useTourApi() || locale === "ko";
   const query = useTour<TourAudio>("audio", id, locale, enabled);
 
@@ -152,8 +157,7 @@ function AudioGuide({ id }: { id: string }) {
   if (query.isPending) return <TourSkeleton lines={3} />;
   const audio = query.data;
   if (!audio || !audio.script) return null;
-  const folded = foldScript(audio.script);
-  const long = folded !== audio.script;
+  const cards = [audio, ...(audio.others ?? [])];
 
   return (
     <section
@@ -162,58 +166,10 @@ function AudioGuide({ id }: { id: string }) {
     >
       <TourHeader icon={Headphones} titleId={titleId} title={t("title")} />
       <div className="border-t border-line px-4 py-3">
-        {audio.title && (
-          <p className="text-body font-semibold">{audio.title}</p>
-        )}
-        {audio.audioUrl && (
-          <div className="mt-2">
-            <audio
-              controls
-              preload="none"
-              src={audio.audioUrl}
-              aria-label={t("player", { title: audio.title || t("title") })}
-              className="w-full"
-            />
-            {audio.playTime !== undefined && (
-              <p className="mt-1 text-caption text-fg-muted tabular-nums">
-                {t("playTime", { time: formatPlayTime(audio.playTime) })}
-              </p>
-            )}
-          </div>
-        )}
-        <p id={scriptId} className="mt-2 text-label whitespace-pre-line">
-          {open || !long ? audio.script : folded}
-        </p>
-        {long && (
-          <button
-            type="button"
-            aria-expanded={open}
-            aria-controls={scriptId}
-            onClick={() => setOpen((v) => !v)}
-            className="-ml-1 inline-flex min-h-11 items-center gap-1 rounded-xl px-1 text-label font-semibold text-primary focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
-          >
-            {open ? t("less") : t("more")}
-            {open ? (
-              <ChevronUp size={16} aria-hidden />
-            ) : (
-              <ChevronDown size={16} aria-hidden />
-            )}
-          </button>
-        )}
-        {audio.others && audio.others.length > 0 && (
-          <ul
-            aria-label={t("others", { count: audio.others.length })}
-            className="mt-3 border-t border-line pt-2"
-          >
-            <li className="py-1 text-caption font-semibold text-fg-muted">
-              {t("others", { count: audio.others.length })}
-            </li>
-            {audio.others.map((other, i) => (
-              <li key={`${other.title}-${i}`} className="border-t border-line">
-                <OtherAudio audio={other} />
-              </li>
-            ))}
-          </ul>
+        {cards.length === 1 ? (
+          <AudioCard audio={audio} active />
+        ) : (
+          <AudioCards cards={cards} />
         )}
         <p className="mt-1 text-micro text-fg-subtle">
           {audio.source === "odii" ? t("sourceOdii") : t("sourceStory")}
@@ -223,49 +179,129 @@ function AudioGuide({ id }: { id: string }) {
   );
 }
 
-/** 같은 관광지의 다른 해설 하나: 제목 · 재생 시간을 누르면 음성(주소가 있을 때)과 대본이 펼쳐진다(접힌 채로는 음성을 받지 않는다) */
-function OtherAudio({ audio }: { audio: TourAudio }) {
+/** 해설 여러 건을 좌우로 넘기는 카드 줄. 보이는 카드 번호는 스크롤 위치로 알고, 화살표는 그 카드로 스크롤한다 */
+function AudioCards({ cards }: { cards: TourAudio[] }) {
+  const t = useTranslations("PlaceSheet.tour.audio");
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const total = cards.length;
+
+  function onScroll() {
+    const row = rowRef.current;
+    if (!row) return;
+    setIndex(cardIndex(row.scrollLeft, row.clientWidth, total));
+  }
+
+  function go(step: -1 | 1) {
+    const row = rowRef.current;
+    if (!row) return;
+    const next = stepCard(index, step, total);
+    row.scrollTo({ left: next * row.clientWidth, behavior: "smooth" });
+    setIndex(next);
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-caption font-semibold text-fg-muted">
+          {t("list", { count: total })}
+        </p>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            aria-label={t("prev")}
+            disabled={index === 0}
+            onClick={() => go(-1)}
+            className="inline-flex size-11 items-center justify-center rounded-xl text-fg-muted focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill disabled:opacity-30"
+          >
+            <ChevronLeft size={20} aria-hidden />
+          </button>
+          <p
+            aria-live="polite"
+            className="min-w-10 text-center text-caption text-fg-muted tabular-nums"
+          >
+            {t("position", { index: index + 1, total })}
+          </p>
+          <button
+            type="button"
+            aria-label={t("next")}
+            disabled={index === total - 1}
+            onClick={() => go(1)}
+            className="inline-flex size-11 items-center justify-center rounded-xl text-fg-muted focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill disabled:opacity-30"
+          >
+            <ChevronRight size={20} aria-hidden />
+          </button>
+        </div>
+      </div>
+      <div
+        ref={rowRef}
+        onScroll={onScroll}
+        role="group"
+        aria-roledescription="carousel"
+        aria-label={t("list", { count: total })}
+        className="-mx-4 mt-1 flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
+      >
+        {cards.map((card, i) => (
+          <div
+            key={`${card.title}-${i}`}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={t("position", { index: i + 1, total })}
+            className="w-full shrink-0 snap-center px-4"
+          >
+            <div className="rounded-card border border-line bg-fill/40 px-3 py-3">
+              <AudioCard audio={card} active={i === index} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** 해설 한 건: 제목 · 음성(active이고 주소가 있을 때) · 재생 시간 · 대본(240자 접기) */
+function AudioCard({ audio, active }: { audio: TourAudio; active: boolean }) {
   const t = useTranslations("PlaceSheet.tour.audio");
   const scriptId = useId();
   const [open, setOpen] = useState(false);
+  const folded = foldScript(audio.script);
+  const long = folded !== audio.script;
   return (
     <>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls={scriptId}
-        onClick={() => setOpen((v) => !v)}
-        className="flex min-h-11 w-full items-center gap-2 py-1 text-left focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
-      >
-        <Headphones size={16} className="shrink-0 text-fg-muted" aria-hidden />
-        <span className="flex-1 text-label font-semibold">{audio.title}</span>
-        {audio.playTime !== undefined && (
-          <span className="text-caption text-fg-muted tabular-nums">
-            {formatPlayTime(audio.playTime)}
-          </span>
-        )}
-        {open ? (
-          <ChevronUp size={16} className="shrink-0 text-fg-muted" aria-hidden />
-        ) : (
-          <ChevronDown
-            size={16}
-            className="shrink-0 text-fg-muted"
-            aria-hidden
-          />
-        )}
-      </button>
-      <div id={scriptId} hidden={!open} className="pb-3">
-        {open && audio.audioUrl && (
-          <audio
-            controls
-            preload="none"
-            src={audio.audioUrl}
-            aria-label={t("player", { title: audio.title || t("title") })}
-            className="w-full"
-          />
-        )}
-        <p className="mt-2 text-label whitespace-pre-line">{audio.script}</p>
-      </div>
+      {audio.title && <p className="text-body font-semibold">{audio.title}</p>}
+      {audio.audioUrl && active && (
+        <audio
+          controls
+          preload="none"
+          src={audio.audioUrl}
+          aria-label={t("player", { title: audio.title || t("title") })}
+          className="mt-2 w-full"
+        />
+      )}
+      {audio.playTime !== undefined && (
+        <p className="mt-1 text-caption text-fg-muted tabular-nums">
+          {t("playTime", { time: formatPlayTime(audio.playTime) })}
+        </p>
+      )}
+      <p id={scriptId} className="mt-2 text-label whitespace-pre-line">
+        {open || !long ? audio.script : folded}
+      </p>
+      {long && (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={scriptId}
+          onClick={() => setOpen((v) => !v)}
+          className="-ml-1 inline-flex min-h-11 items-center gap-1 rounded-xl px-1 text-label font-semibold text-primary focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+        >
+          {open ? t("less") : t("more")}
+          {open ? (
+            <ChevronUp size={16} aria-hidden />
+          ) : (
+            <ChevronDown size={16} aria-hidden />
+          )}
+        </button>
+      )}
     </>
   );
 }
