@@ -89,7 +89,7 @@ type CityTourCardProps = {
   onAdd: () => void;
 };
 
-// 코스 카드: 유형 · 분류 칩 · 노선명 · 경로 · 탑승지 · 운행 시간 · 요금 · 홈페이지(새 창) · 전화 · 「코스빌더에 넣기」.
+// 코스 카드(article, 좌우로 넘기는 카드 줄 CardCarousel의 한 장): 유형 · 분류 칩 · 노선명 · 경로 · 탑승지 · 운행 시간 · 요금 · 홈페이지(새 창) · 전화 · 「코스빌더에 넣기」.
 // 한국어 화면은 원천 그대로. 외국어 화면은 서버가 옮긴 글(text: 노선명 · 경로 · 탑승지 · 요금, features/translations)을 보인다.
 // 경로가 3줄을 넘으면 3줄까지만 보이고 「경로 전체 보기」로 편다
 export function CityTourCard({
@@ -110,11 +110,7 @@ export function CityTourCard({
   const canAdd = tour.placeIds.length > 0;
 
   return (
-    <li
-      data-card
-      tabIndex={-1}
-      className="rounded-card bg-surface p-4 ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-bright"
-    >
+    <article className="rounded-card bg-surface p-4 ring-1 ring-line">
       <p className="text-caption font-semibold text-primary">
         {rank !== undefined &&
           `${t("rank", { rank })} · ${cityName(tour.region, locale, names)} · `}
@@ -201,7 +197,7 @@ export function CityTourCard({
       <p className="mt-1 text-micro text-fg-subtle tabular-nums">
         {t("date", { date: formatDate(tour.date, locale) })}
       </p>
-    </li>
+    </article>
   );
 }
 

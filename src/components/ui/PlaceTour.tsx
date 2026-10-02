@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import {
   BedDouble,
   ChevronDown,
-  ChevronLeft,
   ChevronRight,
   ChevronUp,
   Headphones,
@@ -13,7 +12,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useRef, useState } from "react";
+import { useId, useState } from "react";
 import {
   type CrowdLevel,
   crowdLevel,
@@ -32,7 +31,7 @@ import {
   type TourRelatedStay,
   upcomingCrowdDays,
 } from "@/lib/tour";
-import { cardIndex, stepCard } from "./audio-cards";
+import { CardCarousel } from "./CardCarousel";
 import { useTourApi } from "./tour-api-context";
 
 type PlaceTourProps = {
@@ -143,7 +142,7 @@ function TourHeader({
 /**
  * 오디오 가이드. 해설이 하나면 제목 · 음성(주소가 있을 때) · 대본(240자 접기) · 출처를 그대로 보이고,
  * 같은 관광지의 해설이 여럿(대표 + others)이면 밑으로 늘리지 않고 좌우로 넘기는 카드로 보인다:
- * 손가락 · 트랙패드로 밀면 카드 단위로 걸리고(scroll-snap), 이전 · 다음 화살표와 「n / 전체」 표시가 있다.
+ * 손가락 · 트랙패드로 밀면 한 번에 한 장씩 걸리고(scroll-snap, snap-always), 끝 카드에서 더 밀어도 브라우저 뒤로 가기로 번지지 않는다(overscroll-x-contain), 이전 · 다음 화살표와 「n / 전체」 표시가 있다.
  * 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다)
  */
 function AudioGuide({ id }: { id: string }) {
@@ -179,83 +178,21 @@ function AudioGuide({ id }: { id: string }) {
   );
 }
 
-/** 해설 여러 건을 좌우로 넘기는 카드 줄. 보이는 카드 번호는 스크롤 위치로 알고, 화살표는 그 카드로 스크롤한다 */
+/** 해설 여러 건을 좌우로 넘기는 카드 줄(CardCarousel). 음성 플레이어는 보이는 카드에만 붙인다 */
 function AudioCards({ cards }: { cards: TourAudio[] }) {
   const t = useTranslations("PlaceSheet.tour.audio");
-  const rowRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
-  const total = cards.length;
-
-  function onScroll() {
-    const row = rowRef.current;
-    if (!row) return;
-    setIndex(cardIndex(row.scrollLeft, row.clientWidth, total));
-  }
-
-  function go(step: -1 | 1) {
-    const row = rowRef.current;
-    if (!row) return;
-    const next = stepCard(index, step, total);
-    row.scrollTo({ left: next * row.clientWidth, behavior: "smooth" });
-    setIndex(next);
-  }
-
+  const label = t("list", { count: cards.length });
   return (
-    <div>
-      <div className="flex items-center justify-between gap-2">
-        <p className="text-caption font-semibold text-fg-muted">
-          {t("list", { count: total })}
-        </p>
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
-            aria-label={t("prev")}
-            disabled={index === 0}
-            onClick={() => go(-1)}
-            className="inline-flex size-11 items-center justify-center rounded-xl text-fg-muted focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill disabled:opacity-30"
-          >
-            <ChevronLeft size={20} aria-hidden />
-          </button>
-          <p
-            aria-live="polite"
-            className="min-w-10 text-center text-caption text-fg-muted tabular-nums"
-          >
-            {t("position", { index: index + 1, total })}
-          </p>
-          <button
-            type="button"
-            aria-label={t("next")}
-            disabled={index === total - 1}
-            onClick={() => go(1)}
-            className="inline-flex size-11 items-center justify-center rounded-xl text-fg-muted focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill disabled:opacity-30"
-          >
-            <ChevronRight size={20} aria-hidden />
-          </button>
+    <CardCarousel
+      label={label}
+      heading={label}
+      total={cards.length}
+      card={(i, active) => (
+        <div className="rounded-card border border-line bg-fill/40 px-3 py-3">
+          <AudioCard audio={cards[i]} active={active} />
         </div>
-      </div>
-      <div
-        ref={rowRef}
-        onScroll={onScroll}
-        role="group"
-        aria-roledescription="carousel"
-        aria-label={t("list", { count: total })}
-        className="-mx-4 mt-1 flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
-      >
-        {cards.map((card, i) => (
-          <div
-            key={`${card.title}-${i}`}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={t("position", { index: i + 1, total })}
-            className="w-full shrink-0 snap-center px-4"
-          >
-            <div className="rounded-card border border-line bg-fill/40 px-3 py-3">
-              <AudioCard audio={card} active={i === index} />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+      )}
+    />
   );
 }
 
