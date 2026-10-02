@@ -40,12 +40,18 @@ describe("조회 대상", () => {
     const yangsan = targets.find((t) => t.region === "양산")!;
     expect(busan.codes).toContain("26710");
     expect(yangsan.codes).not.toContain("26710");
-    // 풀은 그 도시 장소 + 그 시군구 코드의 장소(양산에 적힌 기장군 장소도 부산 풀에)
-    expect(
-      busan.pool.some(
-        (p) => p.locKo === "양산" && tourPlaceSigngu(p.id) === "26710",
-      ),
-    ).toBe(true);
+    // 풀은 그 도시 장소 + 그 시군구 코드의 장소(도시가 달라도): 다른 도시에 적힌 장소가 그 시군구 코드면 풀에 들어간다
+    for (const t of targets)
+      for (const p of PLANNER_PLACES)
+        if (
+          p.cat !== "stay" &&
+          p.locKo !== t.region &&
+          t.codes.includes(tourPlaceSigngu(p.id))
+        )
+          expect(
+            t.pool.map((q) => q.id),
+            `${t.region} ${p.id}`,
+          ).toContain(p.id);
     expect(allTargets(undefined, undefined, 1, ["경주"])).toMatchObject([
       { region: "경주", codes: ["47130"] },
     ]);
