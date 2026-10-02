@@ -21,7 +21,6 @@ import {
 } from "@/features/theme/place-meta";
 import { BADGE_KEYS, type BadgeKey, hasBadge, zoneLabel } from "./badges";
 import { CategoryIcon } from "./CategoryIcon";
-import { ConfirmDialog } from "./ConfirmDialog";
 import {
   type PlannerPlace,
   placesInScope,
@@ -609,16 +608,6 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           {course.status}
         </p>
       </PlaceSheet>
-
-      <ConfirmDialog
-        open={course.confirm !== null}
-        title={course.confirm?.title ?? ""}
-        body={course.confirm?.body ?? ""}
-        cancelLabel={course.confirm?.cancelLabel ?? ""}
-        confirmLabel={course.confirm?.confirmLabel ?? ""}
-        onConfirm={course.confirmPending}
-        onCancel={course.cancelPending}
-      />
     </>
   );
 }

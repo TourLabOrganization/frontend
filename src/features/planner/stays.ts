@@ -172,17 +172,18 @@ export function toggleNightStay(
 
 /**
  * 추천 코스를 불러온 뒤의 담은 장소(PoC autoCourse _keepStay). 지정해 둔 숙박 장소는 추천 코스 뒤에 남긴다.
- * 한 코스는 한 도시라 추천 코스와 다른 도시(locKo)의 숙박 장소는 남기지 않는다
+ * 추천 코스의 도시(들)와 다른 도시(locKo)의 숙박 장소는 남기지 않는다(권역 추천 코스는 여러 도시일 수 있다)
  */
 export function keepStays(
   recommended: readonly string[],
   current: readonly string[],
   lookup: (id: string) => { cat: string; locKo: string } | undefined,
-  city: string,
+  city: string | readonly string[],
 ): string[] {
+  const cities = new Set(typeof city === "string" ? [city] : city);
   const kept = current.filter((id) => {
     const p = lookup(id);
-    return p !== undefined && isStay(p) && p.locKo === city;
+    return p !== undefined && isStay(p) && cities.has(p.locKo);
   });
   return recommended.filter((id) => !kept.includes(id)).concat(kept);
 }

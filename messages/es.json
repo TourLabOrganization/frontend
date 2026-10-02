@@ -892,12 +892,6 @@
       "setStay": "Usar como alojamiento",
       "unsetStay": "Quitar alojamiento"
     },
-    "confirm": {
-      "title": "Este lugar está en otra ciudad",
-      "body": "Una ruta solo puede tener lugares de una ciudad. ¿Quitar {count, plural, one {el # lugar} other {los # lugares}} de {from} y empezar de nuevo en {to}?",
-      "cancel": "Cancelar",
-      "confirm": "Quitar y añadir"
-    },
     "course": {
       "kicker": "Creador de rutas",
       "title": "{city} · Ruta de hoy",
@@ -1069,7 +1063,7 @@
         "results": "Resultados",
         "cityPlaces": "Lugares en {city}",
         "none": "Ningún lugar coincide",
-        "hint": "Se añade tras la última parada del día. Si no cabe, pasa al día siguiente",
+        "hint": "Se añade tras la última parada del día. Si no cabe, pasa al día siguiente. También puedes buscar lugares de otras ciudades; el viaje entre ciudades se calcula como transporte interurbano",
         "added": "Añadido al día {day}: {name}"
       },
       "legs": {
@@ -1078,7 +1072,10 @@
           "transit": "Transporte",
           "driving": "Coche de alquiler",
           "own": "Coche propio",
-          "wide": "Interurbano"
+          "wide": "Interurbano",
+          "wide_rail": "Tren (interurbano)",
+          "wide_bus": "Autobús interurbano",
+          "wide_metro": "Metro (interurbano)"
         },
         "out": "Ida",
         "back": "Vuelta",

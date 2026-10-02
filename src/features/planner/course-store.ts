@@ -20,8 +20,9 @@ import { PLANNER_ORIGINS } from "./regions";
 //     routeSkip: { 경주: true },   (경로 선택 창을 닫은 도착 도시. 다시 스스로 열지 않는다. 저장된 플랜에는 넣지 않는다)
 //     stayOv: { gj2: 90, … },   (장소별로 바꾼 체류 분. 추천값과 같으면 두지 않는다. course-edit.ts)
 //     planId }   (지금 불러와 보고 있거나 방금 저장한 플랜 id. 「덮어쓰기」 대상. PoC planId)
-// 한 코스는 한 도시의 장소만 담는다. 다른 도시 장소가 섞이면 일정 계산(course/schedule.ts)이 틀어진다.
-// 그래서 다른 도시 장소를 담으려 하면 쓰는 쪽이 먼저 비울지 묻는다(needsCityChange).
+// 한 코스에 여러 도시의 장소를 담을 수 있다(2026-10-02, 그 전에는 한 도시만). city는 처음 담은 장소의 도시(대표 도시: 추천 코스 후보 · 제목의 기준).
+// 도시가 다른 장소 사이는 일정 계산(course/schedule.ts legInfo)이 광역 구간(기차 · 버스 · 광역전철 계수 + 환승 여유)으로 재고,
+// 가는 광역 체인은 첫 장소 도시, 돌아오는 체인은 마지막 장소 도시로 잡는다(planner/schedule.ts planTrip).
 // 여러 컴포넌트(지도 목록 · 장소 시트 · 코스 탭 · 하단 탭 배지)가 같은 값을 보게
 // local-store의 useSyncExternalStore 구독(useLocalValue)으로 읽는다.
 // 코스 설정(날짜 · 출발지 · 시각 · 이동수단)은 같은 값에 함께 둔다. 코스를 비워도 설정은 남는다.
@@ -336,11 +337,6 @@ function write(course: Pick<PlannerCourse, "city" | "placeIds">): void {
   });
 }
 
-/** 이 도시의 장소를 담으려면 담아 둔 다른 도시 장소를 먼저 비워야 하는지 */
-export function needsCityChange(course: PlannerCourse, city: string): boolean {
-  return course.placeIds.length > 0 && course.city !== city;
-}
-
 const noop = () => () => {};
 
 /** 하이드레이션이 끝났는지. 서버 렌더와 하이드레이션 중에는 false */
@@ -381,16 +377,12 @@ export function usePlannerCourse(isKnown?: (id: string) => boolean) {
   return {
     course,
     has: (id: string) => placeIds.includes(id),
-    /** 담는다. 다른 도시 장소가 담겨 있으면 그것을 비우고 담는다(묻기는 쓰는 쪽에서) */
+    /** 담는다. 비어 있던 코스면 이 장소의 도시가 대표 도시가 되고, 다른 도시 장소도 그대로 뒤에 담긴다 */
     add: (id: string, city: string) =>
-      write(
-        needsCityChange(course, city)
-          ? { city, placeIds: [id] }
-          : {
-              city,
-              placeIds: placeIds.includes(id) ? placeIds : [...placeIds, id],
-            },
-      ),
+      write({
+        city: course.city ?? city,
+        placeIds: placeIds.includes(id) ? placeIds : [...placeIds, id],
+      }),
     remove: (id: string) =>
       write({ ...course, placeIds: placeIds.filter((x) => x !== id) }),
     /** 담은 장소를 통째로 바꾼다(추천 코스 불러오기) */
@@ -402,7 +394,7 @@ export function usePlannerCourse(isKnown?: (id: string) => boolean) {
     setSettings: (fields: Partial<PlannerSettings>) => patch(fields),
     /**
      * 「이 날에 넣기」. 담은 순서의 afterIdx 자리 뒤에 끼워 넣는다(course-edit.ts insertAfter).
-     * 도시는 그대로 둔다(그 날 도시의 장소만 넣는다). 비어 있던 코스면 city가 코스 도시가 된다
+     * 대표 도시는 그대로 둔다(다른 도시 장소도 넣을 수 있다). 비어 있던 코스면 city가 대표 도시가 된다
      */
     insertAt: (id: string, afterIdx: number | null, city: string) =>
       write({
