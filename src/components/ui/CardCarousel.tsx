@@ -20,7 +20,9 @@ type CardCarouselProps = {
  * 좌우로 넘기는 카드 줄(오디오 해설 · 시티투어 코스). 목록을 밑으로 늘리지 않고 카드 한 장이 폭을 다 차지한다.
  * 손가락 · 트랙패드로 밀면 한 번에 한 장씩 걸리고(scroll-snap, snap-always), 끝 카드에서 더 밀어도 바깥(브라우저 뒤로 가기)으로
  * 번지지 않는다(overscroll-x-contain). 이전 · 다음 화살표(44px)와 「n / 전체」(aria-live)가 있고, 끝에서는 화살표가 꺼진다.
- * 보이는 카드 번호는 스크롤 위치로 안다(card-carousel.ts). 카드 간격(gap)은 두 카드의 offsetLeft 차로 잰다
+ * 보이는 카드 번호는 스크롤 위치로 안다(card-carousel.ts). 카드 간격(gap)은 두 카드의 offsetLeft 차로 잰다.
+ * 카드 줄(ul)은 relative: 카드 안의 absolute 요소(sr-only 글자 등)가 줄 바깥(페이지) 기준으로 놓이면 문서 폭이 카드 전체 폭만큼 늘어나
+ * 모바일 브라우저가 하단 탭 같은 fixed 요소를 그 폭 기준으로 놓는다(하단 탭이 밀리던 원인, 2026-10-02). 줄 기준으로 두어 줄 안에서 잘린다
  */
 export function CardCarousel({
   label,
@@ -90,7 +92,7 @@ export function CardCarousel({
         onScroll={onScroll}
         aria-roledescription="carousel"
         aria-label={label}
-        className="mt-1 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto overscroll-x-contain scroll-smooth [&::-webkit-scrollbar]:hidden"
+        className="relative mt-1 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto overscroll-x-contain scroll-smooth [&::-webkit-scrollbar]:hidden"
       >
         {Array.from({ length: total }, (_, i) => (
           <li
