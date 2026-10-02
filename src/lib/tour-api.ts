@@ -401,6 +401,8 @@ export async function withForeignNames(
   place: TourPlace,
   contenttypeid: string,
   key: string,
+  /** 캐시. 장소 시트 · 홈은 관광정보 캐시(하루), 모으기(tour-collect)는 "no-store" */
+  cache: TourCache = KTO_PLACE_SECONDS,
 ): Promise<TourPlace> {
   const langs = Object.keys(KTO_LANG_SERVICES) as KtoLang[];
   const found = await Promise.allSettled(
@@ -414,7 +416,7 @@ export async function withForeignNames(
           mapY: String(place.lat),
           radius: "200",
         }),
-        KTO_PLACE_SECONDS,
+        cache,
       );
       return pickForeignName(items, place, contenttypeid);
     }),

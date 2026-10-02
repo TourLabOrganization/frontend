@@ -38,6 +38,7 @@ import {
   tourUnavailable,
   withForeignNames,
   withoutCity,
+  type TourCache,
 } from "./tour-api";
 import { romanize } from "./romanize";
 import { crowdName, crowdScore } from "./tour-crowd";
@@ -319,6 +320,8 @@ export function matchPlace(
 export async function districtItems(
   code: string,
   key: string,
+  /** 캐시. 홈은 집중률 캐시(6시간), 모으기(tour-collect)는 "no-store"(하루 전 응답이 남아 「기준 날짜 행 없음」이 되지 않게) */
+  cache: TourCache = TOUR_CROWD_SECONDS,
 ): Promise<TourItem[]> {
   for (const query of signguVariants(code)) {
     const all: TourItem[] = [];
@@ -330,7 +333,7 @@ export async function districtItems(
           areaCd: query.slice(0, 2),
           signguCd: query,
         }),
-        TOUR_CROWD_SECONDS,
+        cache,
       );
       all.push(...items);
       if (items.length < ROWS || all.length >= total) break;
