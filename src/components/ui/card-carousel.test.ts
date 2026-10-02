@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardIndex, stepCard } from "./audio-cards";
+import { cardIndex, stepCard } from "./card-carousel";
 
 describe("해설 카드 번호", () => {
   it("스크롤 양을 카드 너비로 나눠 가장 가까운 카드로", () => {
