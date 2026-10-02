@@ -1,16 +1,11 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { CardCarousel } from "@/components/ui/CardCarousel";
 import { formatDate } from "@/lib/format-date";
 import type { CityTour } from "@/features/home/citytour";
 import { CityTourCard, useCityTourAdd } from "@/features/home/CityTourCard";
 import type { CityTourText } from "@/features/translations/text";
-
-/** 처음 보이는 수와 「더 보기」 한 번에 더 보이는 수(PoC ctLimit 3 · +6) */
-const CT_INITIAL = 3;
-const CT_STEP = 6;
 
 type InfoCityToursProps = {
   /** 제목에 쓸 도시 이름(화면 언어) */
@@ -25,7 +20,7 @@ type InfoCityToursProps = {
 
 // 플래너 여행 정보 탭 「{도시} 시티투어」(PoC ctList · ctMore · ctSrc).
 // 카드와 「코스빌더에 넣기」(확인 창 포함)는 홈 지역 시티투어와 같다(features/home/CityTourCard.tsx).
-// 처음 3개, 「더 보기」마다 6개씩. 출처의 기준일은 PoC처럼 첫 노선의 기준일
+// 밑으로 늘리는 「더 보기」 대신 좌우로 넘기는 카드(CardCarousel, 대표 결정 2026-10-02). 출처의 기준일은 PoC처럼 첫 노선의 기준일
 export function InfoCityTours({
   cityLabel,
   isDefault,
@@ -35,18 +30,6 @@ export function InfoCityTours({
   const t = useTranslations("Planner.info");
   const locale = useLocale();
   const { onAdd, dialog } = useCityTourAdd();
-  const [shown, setShown] = useState(CT_INITIAL);
-  const [focusIndex, setFocusIndex] = useState<number | null>(null);
-  const listRef = useRef<HTMLUListElement>(null);
-  const visible = tours.slice(0, shown);
-
-  useEffect(() => {
-    if (focusIndex === null) return;
-    listRef.current
-      ?.querySelectorAll<HTMLElement>("[data-card]")
-      [focusIndex]?.focus();
-  }, [focusIndex]);
-
   return (
     <section aria-labelledby="planner-citytour-heading">
       <div className="flex items-baseline justify-between gap-3 px-1">
@@ -67,32 +50,19 @@ export function InfoCityTours({
         </p>
       ) : (
         <>
-          <ul ref={listRef} className="mt-3 flex flex-col gap-3">
-            {visible.map((tour, i) => (
-              <CityTourCard
-                key={`${tour.name}|${i}`}
-                tour={tour}
-                text={texts?.[i]}
-                onAdd={() => onAdd(tour, texts?.[i]?.name)}
-              />
-            ))}
-          </ul>
-          {tours.length > shown && (
-            <Button
-              variant="secondary"
-              size="md"
-              block
-              className="mt-3"
-              onClick={() => {
-                setFocusIndex(visible.length);
-                setShown((n) => n + CT_STEP);
-              }}
-            >
-              <span className="tabular-nums">
-                {t("more", { shown, total: tours.length })}
-              </span>
-            </Button>
-          )}
+          <div className="mt-3">
+            <CardCarousel
+              label={t("citytour.title", { city: cityLabel })}
+              total={tours.length}
+              card={(i) => (
+                <CityTourCard
+                  tour={tours[i]}
+                  text={texts?.[i]}
+                  onAdd={() => onAdd(tours[i], texts?.[i]?.name)}
+                />
+              )}
+            />
+          </div>
           <p className="mt-3 px-1 text-micro text-fg-subtle">
             {t("citytour.source", {
               date: formatDate(tours[0].date, locale),

@@ -1,4 +1,4 @@
-// 오디오 가이드 해설 카드(좌우로 넘기는 형태)의 순수 계산. 화면(PlaceTour의 AudioGuide)이 DOM에 붙인다
+// 좌우로 넘기는 카드 줄(CardCarousel)의 순수 계산. 화면(CardCarousel.tsx)이 DOM에 붙인다
 
 /** 가로로 스크롤한 양(scrollLeft)과 카드 한 장 너비로 지금 보이는 카드 번호(0부터). 끝을 넘지 않게 자른다 */
 export function cardIndex(
