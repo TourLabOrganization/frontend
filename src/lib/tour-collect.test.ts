@@ -224,3 +224,127 @@ describe("collectPopular", () => {
     expect(log).toEqual(["경주: 모든 시군구 실패", "속초: 기준 날짜 행 없음"]);
   });
 });
+
+describe("오디 해설이 있는 관광지(collectOdii)", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("주소 → 지역, 이름 낱말 → 분류", async () => {
+    const { odiiRegion, odiiRuleCategory } = await import("./tour-collect");
+    expect(odiiRegion("경상북도", "경주시")).toBe("경주");
+    expect(odiiRegion("서울특별시", "종로구")).toBe("서울");
+    expect(odiiRegion("광주광역시", "동구")).toBe("광주");
+    expect(odiiRegion("경기도", "광주시")).toBe("경기광주");
+    expect(odiiRegion("강원특별자치도", "고성군")).toBe("고성(강원)");
+    expect(odiiRegion("제주특별자치도", "서귀포시")).toBe("제주");
+    expect(odiiRegion("", "")).toBe("");
+    expect(odiiRuleCategory("경포해변")).toBe("sea");
+    expect(odiiRuleCategory("불국사")).toBe("herit");
+    expect(odiiRuleCategory("아부오름")).toBe("heal");
+    expect(odiiRuleCategory("경주월드")).toBe("activity");
+    expect(odiiRuleCategory("서문시장")).toBe("food");
+  });
+
+  it("기존(이름 · 위치) → 관광정보 있음(pop) → 없음(odii) → 지역 없음", async () => {
+    const { collectOdii } = await import("./tour-collect");
+    const wol = PLANNER_PLACES.find((p) => p.id === "gjx6")!; // 월정교
+    const body = (item: unknown[]) =>
+      Response.json({
+        response: {
+          header: { resultCode: "0000" },
+          body: { items: item.length ? { item } : "", totalCount: item.length },
+        },
+      });
+    const theme = (
+      tid: string,
+      title: string,
+      lat: number,
+      lng: number,
+      addr1: string,
+      addr2: string,
+    ) => ({
+      tid,
+      title,
+      mapY: String(lat),
+      mapX: String(lng),
+      addr1,
+      addr2,
+      themeCategory: "신라 역사 여행",
+    });
+    const search: Record<string, unknown[]> = {
+      새해설전망대: [
+        {
+          contentid: "9001",
+          title: "새해설전망대",
+          contenttypeid: "14",
+          mapy: "35.8005",
+          mapx: "129.3005",
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+          addr1: "경북 경주시 어딘가 1",
+        },
+      ],
+      새해설오름: [],
+      주소없는곳: [
+        {
+          contentid: "9002",
+          title: "주소없는곳",
+          contenttypeid: "12",
+          mapy: "35.0",
+          mapx: "129.0",
+        },
+      ],
+    };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string | URL) => {
+        const url = new URL(String(input));
+        if (url.pathname.includes("themeBasedList"))
+          return body([
+            theme("2", "경주 불국사", 35.7923, 129.3317, "경상북도", "경주시"),
+            theme(
+              "3",
+              "신라의 밤 다리",
+              wol.lat + 0.001,
+              wol.lng,
+              "경상북도",
+              "경주시",
+            ),
+            theme("4", "새해설전망대", 35.8, 129.3, "경상북도", "경주시"),
+            theme("5", "새해설오름", 33.4, 126.6, "제주특별자치도", "서귀포시"),
+            theme("6", "주소없는곳", 35.8, 129.31, "", ""),
+            theme("7", "바다 한가운데", 34.0, 126.0, "", ""),
+          ]);
+        if (url.pathname.includes("searchKeyword2"))
+          return body(search[url.searchParams.get("keyword") ?? ""] ?? []);
+        return body([]);
+      }),
+    );
+    const { candidates, places } = await collectOdii("k");
+    expect(candidates.map((c) => [c.verdict, c.id, c.regionBy])).toEqual([
+      ["existing-name", "gjx1", "address"],
+      ["existing-location", "gjx6", "address"],
+      ["new", "pop9001", "address"],
+      ["new", "odii5", "address"],
+      ["new", "odii6", "nearest"],
+      ["no-region", null, "none"],
+    ]);
+    expect(
+      places.map((p) => [p.id, p.locKo, p.cat, p.macro, p.signgu]),
+    ).toEqual([
+      ["pop9001", "경주", "herit", "daegyeong", "47130"],
+      ["odii5", "제주", "heal", "jeju", ""],
+      ["odii6", "경주", "herit", "daegyeong", ""],
+    ]);
+    expect(places[0].lat).toBeCloseTo(35.8005, 4);
+    expect(places[1].source).toContain("오디 tid 5");
+    expect(places[1].desc).toContain("신라 역사 여행");
+    // 같은 지역에 다른 이름으로 또 돌려도 두 번 만들지 않는다
+    const again = await collectOdii("k", { regions: ["경주"] });
+    expect(again.candidates.map((c) => c.verdict)).toEqual([
+      "existing-name",
+      "existing-location",
+      "new",
+      "new",
+    ]);
+  });
+});
