@@ -17,13 +17,22 @@ import {
   type LocateFailure,
   locateFailure,
 } from "./geolocation";
+import {
+  accumulateZoom,
+  settleZoom,
+  WHEEL_SETTLE_MS,
+  wheelLevelDelta,
+  zoomScale,
+} from "./map-wheel-zoom";
 
 // 카카오 지도 틀 (react-kakao-maps-sdk). 테마 화면 지도(features/theme/ThemeMap)와 투어 플래너 지도(features/planner/PlannerMap)가 함께 쓴다.
 // 키는 NEXT_PUBLIC_KAKAO_MAP_KEY(카카오 개발자 앱의 JavaScript 키, 브라우저 노출 키, docs/security.md). 키가 없을 때의 안내는 쓰는 쪽이 그린다.
 // 카카오 지도는 영문 지도를 지원하지 않아 바탕 지도 글자는 언제나 한국어다. 핀 · 이름표는 쓰는 쪽이 화면 언어로 그린다.
 // 표시(핀 · 묶음 · 선)는 children으로 받는다. fitKey가 바뀌면 fitPoints에 맞추고, focus가 바뀌면 그 자리로 옮긴다.
 // 공통 조작: 확대 · 축소(오른쪽 위) · 지도/위성 전환(왼쪽 위) · 내 위치(오른쪽 아래). 서로 겹치지 않는 자리다.
-// 확대 · 축소는 카카오 ZoomControl 대신 우리 버튼이다(SDK 버튼의 title 「확대」 「축소」가 화면 언어를 따르지 않아서).
+// 확대 · 축소는 카카오 ZoomControl 대신 우리 버튼이다(SDK 버튼의 title 「확대」 「축소」가 화면 언어를 따르지 않아서). 버튼은 한 레벨씩이다.
+// 마우스 휠 · 트랙패드 핀치는 축척 단위로 끊기지 않고 이어진다(useWheelZoom, map-wheel-zoom.ts): 휠 양을 소수 레벨로 모아
+// 커서 자리 기준으로 지도 그림을 늘였다 줄이고, 한 레벨이 차면 카카오 레벨을 바꾼다. 손가락 핀치 · 드래그는 카카오 SDK 그대로(이미 이어서 그린다).
 // 카카오 로고는 출처 표기라 지우지 않고, 대체 글(「Kakao 맵으로 이동(새창열림)」)만 화면 언어로 바꾼다(KakaoLogoAlt).
 // 내 위치는 누를 때만 위치 권한을 묻고, 받은 위치는 점 · 정확도 원으로만 그린다(저장하지 않는다).
 
@@ -77,15 +86,8 @@ export function MapFrame({
   // SDK는 한 번만 불러온다(같은 키로 여러 곳에서 불러도 스크립트는 하나)
   const [loading, error] = useKakaoLoader({ appkey: apiKey });
   const frameRef = useRef<HTMLDivElement>(null);
-  // 마우스 휠은 지도에 닿기 전에(캡처 단계) 멈춰서 지도가 확대되지 않고 페이지가 스크롤되게 한다.
-  // 카카오 scrollwheel 옵션은 두 손가락 확대까지 함께 꺼서 쓰지 않는다. preventDefault는 하지 않는다(스크롤 유지)
-  useEffect(() => {
-    const el = frameRef.current;
-    if (!el) return;
-    const stop = (e: WheelEvent) => e.stopPropagation();
-    el.addEventListener("wheel", stop, { capture: true, passive: true });
-    return () => el.removeEventListener("wheel", stop, { capture: true });
-  }, []);
+  // 지도 그림을 늘였다 줄이는 틀(휠 확대 · 축소). 조작 버튼은 밖에 있어 함께 늘지 않는다
+  const zoomBoxRef = useRef<HTMLDivElement>(null);
   // 처음 화면. 이후 화면 맞추기는 MapCamera가 하므로 처음 값으로 굳힌다
   const [initial] = useState(() =>
     fitPoints.length > 0
@@ -104,6 +106,7 @@ export function MapFrame({
     if (!map) return;
     map.setLevel(map.getLevel() + delta, { animate: true });
   };
+  useWheelZoom(frameRef, zoomBoxRef, map);
 
   const locate = () => {
     setFailure(null);
@@ -157,26 +160,31 @@ export function MapFrame({
       {/* 불러오는 동안은 빈 자리만 둔다(크기는 쓰는 쪽 틀이 정해 레이아웃이 흔들리지 않는다) */}
       {!loading && (
         <>
-          {/* 핀 · 묶음의 zIndex가 아래 조작 버튼을 덮지 않게 지도 안에 가둔다 */}
-          <div className="isolate h-full w-full">
-            <KakaoMap
-              id={`kakao-map-${id}`}
-              center={initial.center}
-              level={initial.level}
-              mapTypeId={mapType}
-              className="h-full w-full"
-              onCreate={setMap}
+          {/* 핀 · 묶음의 zIndex가 아래 조작 버튼을 덮지 않게 지도 안에 가둔다. 안쪽 틀은 휠 확대 · 축소 때 늘였다 줄인다 */}
+          <div className="isolate h-full w-full overflow-hidden">
+            <div
+              ref={zoomBoxRef}
+              className="h-full w-full will-change-transform"
             >
-              {children}
-              {me && <MyLocation position={me} tick={meTick} />}
-              <MapCamera
-                fitKey={fitKey}
-                fitPoints={fitPoints}
-                fitLevel={fitLevel}
-                focus={focus}
-                singlePointLevel={singlePointLevel}
-              />
-            </KakaoMap>
+              <KakaoMap
+                id={`kakao-map-${id}`}
+                center={initial.center}
+                level={initial.level}
+                mapTypeId={mapType}
+                className="h-full w-full"
+                onCreate={setMap}
+              >
+                {children}
+                {me && <MyLocation position={me} tick={meTick} />}
+                <MapCamera
+                  fitKey={fitKey}
+                  fitPoints={fitPoints}
+                  fitLevel={fitLevel}
+                  focus={focus}
+                  singlePointLevel={singlePointLevel}
+                />
+              </KakaoMap>
+            </div>
           </div>
 
           <div
@@ -263,6 +271,81 @@ export function MapFrame({
       )}
     </div>
   );
+}
+
+/** 카카오 지도 레벨 범위(ROADMAP 1~14. HYBRID의 0은 쓰지 않는다) */
+const MIN_LEVEL = 1;
+const MAX_LEVEL = 14;
+
+/**
+ * 마우스 휠 · 트랙패드 핀치로 축척 단위로 끊기지 않게 확대 · 축소한다(규칙은 map-wheel-zoom.ts).
+ * 휠 양을 소수 레벨로 모아 커서 자리를 기준으로 지도 틀(box)을 CSS transform으로 늘였다 줄이고, 한 레벨이 차면
+ * 커서 자리를 기준점(anchor)으로 카카오 레벨을 바꾸면서 늘임을 되돌린다(그림이 이어진다). 휠이 쉬면 가장 가까운 레벨로 맞춘다.
+ * 지도 위에서는 휠이 페이지를 스크롤하지 않는다(preventDefault). 손가락 핀치는 카카오 SDK가 맡는다
+ */
+function useWheelZoom(
+  frameRef: React.RefObject<HTMLDivElement | null>,
+  boxRef: React.RefObject<HTMLDivElement | null>,
+  map: kakao.maps.Map | null,
+) {
+  useEffect(() => {
+    const frame = frameRef.current;
+    const box = boxRef.current;
+    if (!frame || !box || !map) return;
+    let fraction = 0;
+    let origin = { x: 0, y: 0 };
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const paint = (animate: boolean) => {
+      box.style.transition = animate ? "transform 120ms ease-out" : "none";
+      box.style.transformOrigin = `${origin.x}px ${origin.y}px`;
+      box.style.transform =
+        fraction === 0 ? "" : `scale(${zoomScale(fraction)})`;
+    };
+    const anchorAt = (x: number, y: number) =>
+      map.getProjection().coordsFromContainerPoint(new kakao.maps.Point(x, y));
+    const changeLevel = (levelDelta: number) => {
+      if (levelDelta === 0) return;
+      const next = Math.max(
+        MIN_LEVEL,
+        Math.min(MAX_LEVEL, map.getLevel() + levelDelta),
+      );
+      // 늘임을 먼저 되돌리고 같은 자리를 기준으로 레벨을 바꾼다(애니메이션 없이: 그림은 이미 그 배율로 보였다)
+      map.setLevel(next, { anchor: anchorAt(origin.x, origin.y) });
+    };
+    const settle = () => {
+      timer = null;
+      const { levelDelta } = settleZoom(fraction);
+      fraction = 0;
+      changeLevel(levelDelta);
+      paint(levelDelta === 0);
+    };
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const rect = box.getBoundingClientRect();
+      origin = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      const step = accumulateZoom(
+        fraction,
+        wheelLevelDelta(e),
+        map.getLevel(),
+        MIN_LEVEL,
+        MAX_LEVEL,
+      );
+      fraction = step.fraction;
+      changeLevel(step.levelDelta);
+      paint(false);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(settle, WHEEL_SETTLE_MS);
+    };
+    // 캡처 단계에서 받아 카카오 SDK의 휠 처리(한 레벨씩)보다 먼저 막는다
+    frame.addEventListener("wheel", onWheel, { capture: true, passive: false });
+    return () => {
+      frame.removeEventListener("wheel", onWheel, { capture: true });
+      if (timer) clearTimeout(timer);
+      box.style.transform = "";
+      box.style.transition = "";
+    };
+  }, [frameRef, boxRef, map]);
 }
 
 /**
