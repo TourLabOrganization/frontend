@@ -190,6 +190,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   출처에 「오디 tid」를 적는다. Data-Analytics `tools/add_odii_places.py`와 같은 규칙 · 같은 id
 - **응답**: `{ "source", "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`.
   `source=odii`면 `{ "source", "candidates": [{ "tid", "name", "region", "regionBy", "verdict", "id" }], "places" }`. 캐시 없음.
+  관광공사 호출(집중률 · 관광정보 검색 · 오디 목록)도 모두 캐시 없이(`no-store`) 부른다: 홈 · 장소 시트의 fetch 캐시(집중률 6시간 · 관광정보 하루)를 같이 쓰면 개발 서버에 남은 하루 전 응답이 돌아와
+  「기준 날짜 행 없음」으로 아무것도 모으지 못했다(2026-10-02 고침). `districtItems`는 `cache` 인자를 받는다(홈은 기본 6시간).
   배포(`NODE_ENV=production`)에서는 404 — 시군구 211곳 × 최대 5쪽을 부르므로 개발 서버에서 스크립트로만 쓴다. 키가 없으면 503, 실패하면 502
 
 ### 대표 사진 `GET /api/tour/photo?id=`

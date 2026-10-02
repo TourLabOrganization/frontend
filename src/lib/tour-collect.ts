@@ -1,9 +1,11 @@
+// 관광공사 호출은 모두 캐시 없이("no-store")한다. 홈 · 장소 시트가 쓰는 fetch 캐시(집중률 6시간 · 관광정보 하루)를 같이 쓰면
+// 개발 서버에 남은 하루 전 응답(기준 날짜가 지난 집중률 행 · 옛 검색 결과)이 돌아와 「기준 날짜 행 없음」으로 아무것도 모으지 못한다(2026-10-02).
+// 모으기는 개발 서버에서 스크립트로 가끔 돌리는 일이라 캐시의 이점이 없다
 import { PLANNER_PLACES, type PlannerPlace } from "../features/planner/data";
 import type { RegionKey } from "../features/planner/regions";
 import {
   fetchTourItems,
   fetchTourPage,
-  KTO_PLACE_SECONDS,
   ktoCategory,
   toKtoPlace,
   tourApiUrl,
@@ -241,7 +243,7 @@ export async function collectPopular(
   const candidates: CollectCandidate[] = [];
   for (const t of targets) {
     const results = await Promise.allSettled(
-      t.codes.map((c) => districtItems(c, key)),
+      t.codes.map((c) => districtItems(c, key, "no-store")),
     );
     if (results.every((r) => r.status === "rejected")) {
       log(`${t.region}: 모든 시군구 실패`);
@@ -284,7 +286,7 @@ export async function collectPopular(
             arrange: "A",
             keyword: s.name,
           }),
-          KTO_PLACE_SECONDS,
+          "no-store",
         );
         item = pickSpotItem(found, s);
       } catch {
@@ -318,6 +320,7 @@ export async function collectPopular(
           kto,
           String(item.contenttypeid ?? ""),
           key,
+          "no-store",
         );
       } catch {
         // 다국어 이름을 못 찾으면 로마자 영어 이름으로 둔다
@@ -502,7 +505,7 @@ async function ktoNear(
       arrange: "A",
       keyword: name,
     }),
-    KTO_PLACE_SECONDS,
+    "no-store",
   );
   let best: Record<string, unknown> | null = null;
   let bestD = Infinity;
@@ -614,6 +617,7 @@ export async function collectOdii(
           kto,
           String(item!.contenttypeid ?? ""),
           key,
+          "no-store",
         );
       } catch {
         // 다국어 이름을 못 찾으면 로마자 영어 이름으로 둔다

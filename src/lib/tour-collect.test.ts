@@ -157,6 +157,12 @@ describe("collectPopular", () => {
     const { candidates, places } = await collectPopular("k", targets, {
       now: new Date("2026-10-01T03:00:00Z"),
     });
+    // 집중률 · 관광정보 검색 모두 캐시 없이(개발 서버에 남은 하루 전 응답을 쓰지 않게)
+    const calls = (fetch as unknown as { mock: { calls: unknown[][] } }).mock
+      .calls;
+    expect(calls.length).toBeGreaterThan(0);
+    for (const [, init] of calls)
+      expect((init as RequestInit).cache).toBe("no-store");
     expect(candidates.map((c) => [c.verdict, c.id])).toEqual([
       ["existing-name", "gjx1"],
       ["existing-location", "gjx6"],
@@ -320,6 +326,10 @@ describe("오디 해설이 있는 관광지(collectOdii)", () => {
       }),
     );
     const { candidates, places } = await collectOdii("k");
+    for (const [, init] of (
+      fetch as unknown as { mock: { calls: unknown[][] } }
+    ).mock.calls)
+      expect((init as RequestInit).cache).toBe("no-store");
     expect(candidates.map((c) => [c.verdict, c.id, c.regionBy])).toEqual([
       ["existing-name", "gjx1", "address"],
       ["existing-location", "gjx6", "address"],
