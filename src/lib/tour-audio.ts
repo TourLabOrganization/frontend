@@ -76,7 +76,8 @@ const STORIES = storiesData as Readonly<
 /** 오디 이야기 검색 주소 (PoC와 같은 인자: 10개) */
 export function odiiUrl(key: string, query: OdiiQuery): string {
   return tourApiUrl("Odii/storySearchList", key, {
-    numOfRows: "10",
+    // 관광지 하나의 세부 해설을 다 담게 넉넉히(불국사 ko 해설 10건)
+    numOfRows: "30",
     pageNo: "1",
     langCode: query.langCode,
     keyword: query.keyword,
@@ -204,8 +205,25 @@ function representative(
 }
 
 /**
+ * 같은 관광지 해설 묶음 → 대표 하나에 나머지(others, 오디 순서)를 붙인 응답. 대표가 없으면 null.
+ * 관광지 하나를 열면 세부 해설(천왕문 · 다보탑 · 대웅전 …)을 모두 들을 수 있게 한다(2026-10-02)
+ */
+function withOthers(
+  same: readonly TourItem[],
+  rep: TourItem | null,
+): TourAudio | null {
+  const main = odiiAudio(rep);
+  if (!main) return null;
+  const others = same
+    .filter((x) => x !== rep)
+    .map((x) => odiiAudio(x))
+    .filter((x): x is TourAudio => x !== null);
+  return others.length > 0 ? { ...main, others } : main;
+}
+
+/**
  * 한국어 화면 · 이름 검색의 해설: PoC 고르기(pickOdiiItem)로 관광지(tid)를 정하고,
- * 그 tid의 해설(좌표 ±0.12도 안) 중 대표(음성 먼저, 제목 기준은 장소 이름)
+ * 그 tid의 해설(좌표 ±0.12도 안) 중 대표(음성 먼저, 제목 기준은 장소 이름)에 나머지 해설을 붙인다(others)
  */
 export function pickOdii(
   items: readonly TourItem[],
@@ -217,7 +235,7 @@ export function pickOdii(
   const same = odiiNear(items, place).filter(
     (x) => String(x.tid ?? "") === tid,
   );
-  return odiiAudio(representative(same, place.name) ?? base);
+  return withOthers(same, representative(same, place.name) ?? base);
 }
 
 /** 오디 관광지(tid) 하나의 그 언어 제목과 좌표 (themeBasedList) */
@@ -326,7 +344,7 @@ export function pickOdiiByTid(
       String(x.tid ?? "") === tid &&
       !hasHangul(`${x.title ?? ""}${x.audioTitle ?? ""}${x.script ?? ""}`),
   );
-  return odiiAudio(representative(same, themeTitle));
+  return withOthers(same, representative(same, themeTitle));
 }
 
 /** 한국어 스토리텔링(PoC STORY_DB). 없으면 null */
@@ -342,7 +360,14 @@ export function audioForLocale(
   locale: AppLocale,
 ): TourAudio | null {
   if (!audio || locale === "ko") return audio;
-  return hasHangul(audio.title) || hasHangul(audio.script) ? null : audio;
+  if (hasHangul(audio.title) || hasHangul(audio.script)) return null;
+  if (!audio.others) return audio;
+  const others = audio.others.filter(
+    (x) => !hasHangul(x.title) && !hasHangul(x.script),
+  );
+  const { others: _drop, ...rest } = audio;
+  void _drop;
+  return others.length > 0 ? { ...rest, others } : rest;
 }
 
 /** GET /api/tour/audio 처리. 응답 { title, script, audioUrl?, playTime?, source } · 결과 없음 { empty: true } */

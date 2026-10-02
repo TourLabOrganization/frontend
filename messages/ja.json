@@ -122,7 +122,8 @@
         "more": "続きを読む",
         "less": "閉じる",
         "sourceOdii": "韓国観光公社 音声ガイド（Odii）",
-        "sourceStory": "観光ストーリー · 韓国観光公社"
+        "sourceStory": "観光ストーリー · 韓国観光公社",
+        "others": "この観光地のほかの解説 {count}件"
       },
       "related": {
         "title": "一緒によく訪れるスポット TOP",

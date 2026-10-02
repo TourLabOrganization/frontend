@@ -251,7 +251,9 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 장소마다 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 모두 구함. 지금 3,109곳).
   Route Handler만 읽는다(클라이언트 번들에 넣지 않는다, `lib/tour-api.test.ts`)
 - **응답**
-  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story" }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 보인다.
+  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story", others?: [...] }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 앞에 두고
+    나머지 해설(천왕문 · 다보탑 · 대웅전 같은 세부 해설, 오디 순서, 각 항목은 같은 모양에 `others` 없음)을 `others`에 담는다(2026-10-02). 화면은 대표를 펼쳐 보이고 나머지는 「이 관광지의 다른 해설 n건」 목록에서
+    제목을 누르면 음성 · 대본이 펼쳐진다(접힌 채로는 음성을 받지 않는다). 이야기 검색은 30건까지 받는다(관광지 하나의 세부 해설을 다 담게). 외국어 화면은 한글이 섞인 항목을 `others`에서도 뺀다.
     대표는 음성 파일(`audioUrl`)이 있는 해설 먼저, 그 안에서 제목이 기준 이름(한국어 화면은 장소 이름, 외국어 화면은 그 언어 관광지 제목)과 같은 것 → 품는 것 → 첫째.
     음성 있는 해설이 없으면 대본만 있는 해설에서 같은 기준(2026-09-29 팀 결정 — 이 칸은 「오디오 가이드」다). 음성 주소(https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
     재생 시간(`playTime`, 초)을 보인다(PoC는 대본만 보였다). 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 한국관광공사 관광 스토리텔링 31곳

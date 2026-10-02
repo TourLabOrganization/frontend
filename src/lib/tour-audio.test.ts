@@ -100,14 +100,14 @@ describe("오디 언어 코드 · 검색어 (2026-09-29 실제 호출로 확인)
     ]);
   });
 
-  it("주소: 한국관광공사 오디 이야기 검색, 10건", () => {
+  it("주소: 한국관광공사 오디 이야기 검색, 30건", () => {
     const url = new URL(odiiUrl("KEY", { langCode: "jp", keyword: "昌徳宮" }));
     expect(url.origin + url.pathname).toBe(
       "https://apis.data.go.kr/B551011/Odii/storySearchList",
     );
     expect(url.searchParams.get("langCode")).toBe("jp");
     expect(url.searchParams.get("keyword")).toBe("昌徳宮");
-    expect(url.searchParams.get("numOfRows")).toBe("10");
+    expect(url.searchParams.get("numOfRows")).toBe("30");
     expect(url.searchParams.get("_type")).toBe("json");
   });
 });
@@ -434,11 +434,17 @@ describe("GET /api/tour/audio", () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     const asked = stubOdii(REAL);
     const body = await (await call("id=nax739&locale=ko")).json();
-    expect(body).toEqual({
+    expect(body).toMatchObject({
       title: "파도 소리 들으며 해안 절경을 걷는다",
       script: expect.stringContaining("정동심곡바다부채길"),
       source: "odii",
     });
+    expect(body.audioUrl).toBeUndefined();
+    // 같은 관광지(tid)의 다른 해설이 있으면 others로 붙는다
+    for (const other of body.others ?? []) {
+      expect(other.source).toBe("odii");
+      expect(other.others).toBeUndefined();
+    }
     // 도시 이름(강릉)으로 시작하지 않아 도시 이름을 뗀 이름은 없다
     expect(asked).toEqual([
       "story ko|정동심곡 바다부채길",
@@ -634,5 +640,60 @@ describe("GET /api/tour/audio", () => {
     expect(url.host).toBe("apis.data.go.kr");
     expect(url.searchParams.get("serviceKey")).toBe("SECRET-KEY");
     expect(await res.text()).not.toContain("SECRET-KEY");
+  });
+});
+
+describe("같은 관광지의 다른 해설(others)", () => {
+  it("한국어: 불국사 대표(경주 불국사) 뒤에 나머지 9건이 오디 순서로 붙고, 각 항목에는 others가 없다", () => {
+    const audio = pickOdii(items(odiiKoBulguksa), at("gjx1", "불국사"));
+    expect(audio?.title).toBe("경주 불국사");
+    expect(audio?.others?.map((x) => x.title)).toEqual([
+      "부처님의 나라를 지키는 천왕문",
+      "청운교, 백운교",
+      "자연과 인공의 조화 불국사 석축",
+      "화려한 보석을 걸친 다보탑",
+      "조화로운 비례, 석가탑",
+      "석가모니 부처를 모신 대웅전",
+      "말이 없는 집, 무설전",
+      "관음전을 오르는 낙가교",
+      "관음보살님이 있는 관음전",
+    ]);
+    expect(audio?.others?.every((x) => x.others === undefined)).toBe(true);
+    expect(audio?.others?.[0]).toMatchObject({ playTime: 96, source: "odii" });
+    expect(audio?.others?.[0].audioUrl).toMatch(/^https:\/\//);
+  });
+
+  it("해설이 하나뿐이면 others를 붙이지 않는다", () => {
+    const [first] = items(odiiKoBulguksa);
+    expect(pickOdii([first], at("gjx1", "불국사"))?.others).toBeUndefined();
+  });
+
+  it("외국어 화면: 한글이 섞인 다른 해설은 뺀다, 모두 빠지면 others를 뺀다", () => {
+    const en = pickOdii(items(odiiKoBulguksa), at("gjx1", "불국사"))!;
+    const mixed = {
+      ...en,
+      title: "Bulguksa",
+      script: "ok",
+      others: [
+        { ...en.others![0], title: "Gate", script: "fine" },
+        { ...en.others![1], title: "청운교", script: "fine" },
+      ],
+    };
+    expect(audioForLocale(mixed, "en")?.others?.map((x) => x.title)).toEqual([
+      "Gate",
+    ]);
+    expect(
+      audioForLocale({ ...mixed, others: [mixed.others[1]] }, "en")?.others,
+    ).toBeUndefined();
+    expect(audioForLocale(mixed, "ko")?.others).toHaveLength(2);
+  });
+
+  it("영어 tid 해설도 대표 뒤에 나머지가 붙는다", () => {
+    const en = pickOdiiByTid(items(odiiEnBulguksa), "2", "Bulguksa Temple", {
+      lat: 35.79,
+      lng: 129.332,
+    });
+    expect(en?.others?.length ?? 0).toBeGreaterThan(0);
+    expect(en?.others?.some((x) => x.title === en?.title)).toBe(false);
   });
 });
