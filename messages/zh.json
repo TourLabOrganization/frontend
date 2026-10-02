@@ -123,7 +123,10 @@
         "less": "收起",
         "sourceOdii": "韩国观光公社语音导览（Odii）",
         "sourceStory": "旅游故事 · 韩国观光公社",
-        "others": "此景点的其他解说 {count} 条"
+        "list": "语音解说 {count} 条",
+        "prev": "上一条解说",
+        "next": "下一条解说",
+        "position": "{index} / {total}"
       },
       "related": {
         "title": "常一起去的景点 TOP",
