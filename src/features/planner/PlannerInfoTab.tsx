@@ -6,13 +6,17 @@ import type { CityTour } from "@/features/home/citytour";
 import toursData from "@/features/home/data/citytour.json";
 import { loadNameTable } from "@/features/names/server";
 import { cityTourText, infoCenterText } from "@/features/translations/text";
+import { PLANNER_PLACES } from "./data";
 import { PLANNER_LINKS } from "./data/info";
 import ticData from "./data/tic.json";
 import { InfoCenters } from "./InfoCenters";
 import { InfoCitySelect } from "./InfoCitySelect";
 import { InfoCityTours } from "./InfoCityTours";
-import { CITY_HUBS, cityName } from "./regions";
+import { InfoStays } from "./InfoStays";
+import { cityStays } from "./info-stays";
+import { CITY_HUBS, CITY_INFO, cityName } from "./regions";
 import { RoutingHowTo } from "./RoutingHowTo";
+import { STAY_SAMPLES } from "./stays";
 import type { InfoCenter } from "./tic";
 
 const TOURS = toursData as CityTour[];
@@ -28,7 +32,8 @@ const isModeKey = (m: string): m is ModeKey =>
 // 투어 플래너 여행 정보 탭. 선택한 지역(도시)의 광역 관문 · 시티투어 · 관광안내소 · 이동 요령 · 지역별 관광 안내 링크.
 // 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 이동 요령은 코스 탭과 같은 접이식 6단계(RoutingHowTo), 링크는 data/info.ts.
 // 시티투어(홈과 같은 카드) · 관광안내소(data/tic.json)는 PoC처럼 도시를 고르지 않으면 서울을 「기본 지역」으로 보인다.
-// 두 데이터는 서버에서 그 도시 것만 골라 넘긴다(클라이언트 번들에 전국 데이터를 싣지 않는다).
+// 숙소(「{도시} 숙소」, info-stays.ts)는 코스 빌더의 일자별 숙박과 달리 도시 전체의 숙박 장소 + 예시 표본을 좌우로 넘기는 카드로 보인다(2026-10-02).
+// 세 데이터는 서버에서 그 도시 것만 골라 넘긴다(클라이언트 번들에 전국 데이터를 싣지 않는다. 장소 전체(places.json)는 이 서버 컴포넌트만 읽는다).
 // 외국어 화면은 이름 · 경로 · 주소 · 요금 · 운영 등을 서버에서 번역 표로 옮겨 함께 넘긴다(features/translations)
 export async function PlannerInfoTab({ city }: { city: string | null }) {
   const t = await getTranslations("Planner.info");
@@ -65,6 +70,34 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
     ...c,
     text: infoCenterText(c, locale),
   }));
+  // 숙소: 앱 장소는 카드에 쓰는 칸만 넘긴다(이름 · 좌표 · 체크인 안내)
+  const info = CITY_INFO[infoCity];
+  const cityCenter =
+    info?.lat !== undefined && info.lng !== undefined
+      ? { lat: info.lat, lng: info.lng }
+      : null;
+  const picked = cityStays(
+    infoCity,
+    cityCenter,
+    PLANNER_PLACES,
+    STAY_SAMPLES,
+    info?.en,
+  );
+  const stays = {
+    own: picked.own.map(({ place: p, km }) => ({
+      place: {
+        id: p.id,
+        ko: p.ko,
+        en: p.en,
+        locKo: p.locKo,
+        lat: p.lat,
+        lng: p.lng,
+        hrs: p.hrs,
+      },
+      km,
+    })),
+    samples: picked.samples,
+  };
 
   return (
     <div className="flex flex-col gap-6 px-5 pt-6">
@@ -123,6 +156,14 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
             ? undefined
             : tours.map((tour) => cityTourText(tour, locale))
         }
+      />
+
+      <InfoStays
+        key={`stay|${infoCity}`}
+        city={infoCity}
+        cityLabel={infoCityLabel}
+        isDefault={city === null}
+        stays={stays}
       />
 
       <InfoCenters

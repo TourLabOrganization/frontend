@@ -10,6 +10,7 @@ const ROOTS = [
   "features/planner/CityPicker.tsx",
   "features/planner/InfoCenters.tsx",
   "features/planner/InfoCityTours.tsx",
+  "features/planner/InfoStays.tsx",
   "features/planner/RoutingHowTo.tsx",
   "features/planner/CourseCountBadge.tsx",
 ];

@@ -1321,6 +1321,22 @@
         "closed": "Closed",
         "map": "Map",
         "source": "Source: KTO tourist info centers · Kakao coordinates · Names and addresses translated by the app"
+      },
+      "stay": {
+        "title": "Stays in {city}",
+        "meta": "{count} places",
+        "empty": "No stays to show for this area.",
+        "note": "Unlike the per-day lodging in the Course tab, these are stays across the whole city: in-app stay places nearest the center first, then sample stay areas",
+        "ownLabel": "In-app place",
+        "sampleLabel": "Sample stay area",
+        "sample": "Sample",
+        "sampleNote": "A sample stay area, not real booking information",
+        "checkInOut": "Check-in",
+        "fromCenter": "From center",
+        "distance": "{km} km",
+        "map": "Map",
+        "book": "Book a stay",
+        "source": "Stays: in-app place list · sample stay areas (not real booking information) · distances are straight-line from the city center"
       }
     },
     "howTo": {

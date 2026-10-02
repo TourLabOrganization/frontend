@@ -1321,6 +1321,22 @@
         "closed": "Cierre",
         "map": "Mapa",
         "source": "Fuente: KTO · La app tradujo nombres y direcciones"
+      },
+      "stay": {
+        "title": "Alojamientos en {city}",
+        "meta": "{count} lugares",
+        "empty": "No hay alojamientos que mostrar en esta zona.",
+        "note": "A diferencia del alojamiento por día de la pestaña Ruta, aquí están los alojamientos de toda la ciudad: primero los lugares de la app más cercanos al centro y luego zonas de ejemplo",
+        "ownLabel": "Lugar de la app",
+        "sampleLabel": "Zona de alojamiento de ejemplo",
+        "sample": "Ejemplo",
+        "sampleNote": "Es una zona de ejemplo, no información real de reservas",
+        "checkInOut": "Check-in",
+        "fromCenter": "Desde el centro",
+        "distance": "{km} km",
+        "map": "Mapa",
+        "book": "Reservar alojamiento",
+        "source": "Alojamientos: lista de lugares de la app · zonas de ejemplo (no es información real de reservas) · distancias en línea recta desde el centro"
       }
     },
     "howTo": {
