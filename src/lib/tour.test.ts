@@ -64,7 +64,7 @@ describe("대본 접기 · 재생 시간", () => {
 describe("Route Handler 주소", () => {
   it("입력은 장소 id와 화면 언어뿐이다", () => {
     expect(tourPath("audio", "gjx1", "en")).toBe(
-      "/api/tour/audio?id=gjx1&locale=en",
+      "/api/tour/audio?id=gjx1&locale=en&v=2",
     );
     expect(tourPath("crowd", "gjx1")).toBe("/api/tour/crowd?id=gjx1");
   });

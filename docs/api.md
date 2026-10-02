@@ -235,6 +235,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 
 장소 시트(`components/ui/PlaceTour`)의 날씨 칸 다음 세 칸(2026-09-29 팀 요청). 코드는 `app/api/tour/*/route.ts`,
 처리는 `lib/tour-audio.ts` · `tour-related.ts` · `tour-crowd.ts`(vitest가 `@/` 경로를 풀지 못해 Route Handler는 이 함수를 부르기만 한다),
+브라우저 주소는 `lib/tour.ts` `tourPath`가 만든다. 응답 모양이 바뀐 칸은 `v=<판>`을 붙여(`TOUR_PATH_VERSION`, audio 2) 브라우저 · CDN에 하루 캐시된 옛 응답을 피한다 — 모양을 바꾸면 판을 올린다.
 공통(키 · 주소 · 응답 파싱 · 장소 찾기)은 `lib/tour-api.ts`, 화면과 함께 쓰는 타입 · 순수 함수는 `lib/tour.ts`.
 규칙의 정본은 PoC 코드다: `Tour Planner.dc.html` `loadAudio` · `STORY_DB` · `getCrowd` · `crowdLvl`, `shared.js` `getRelatedSpots`.
 

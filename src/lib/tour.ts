@@ -123,10 +123,20 @@ export function popularPath(city: string, locale: string): string {
 
 export type TourKind = "audio" | "related" | "crowd";
 
-/** 브라우저가 부르는 우리 Route Handler 주소. 입력은 장소 id(와 화면 언어)뿐이다 */
+/**
+ * 응답 모양이 바뀐 칸의 판. 주소에 v로 붙여 브라우저 · CDN에 하루 캐시된 옛 응답(Cache-Control max-age)을 피한다.
+ * 모양을 바꿀 때 올린다. audio 2: 같은 관광지의 다른 해설(others)을 더함(2026-10-02)
+ */
+export const TOUR_PATH_VERSION: Readonly<Partial<Record<TourKind, number>>> = {
+  audio: 2,
+};
+
+/** 브라우저가 부르는 우리 Route Handler 주소. 입력은 장소 id(와 화면 언어)뿐이고, 응답 모양이 바뀐 칸은 판(v)이 붙는다 */
 export function tourPath(kind: TourKind, id: string, locale?: string): string {
   const qs = new URLSearchParams({ id });
   if (locale) qs.set("locale", locale);
+  const v = TOUR_PATH_VERSION[kind];
+  if (v) qs.set("v", String(v));
   return `/api/tour/${kind}?${qs}`;
 }
 
