@@ -34,7 +34,12 @@
       "kakaoLogo": "Open in Kakao Map (new window)"
     },
     "chipsMore": "More",
-    "chipsLess": "Less"
+    "chipsLess": "Less",
+    "carousel": {
+      "prev": "Previous card",
+      "next": "Next card",
+      "position": "{index} / {total}"
+    }
   },
   "PlaceSheet": {
     "close": "Close",
@@ -123,10 +128,7 @@
         "less": "Show less",
         "sourceOdii": "Korea Tourism Organization audio guide (Odii)",
         "sourceStory": "Travel stories · Korea Tourism Organization",
-        "list": "{count} audio commentaries",
-        "prev": "Previous commentary",
-        "next": "Next commentary",
-        "position": "{index} / {total}"
+        "list": "{count} audio commentaries"
       },
       "related": {
         "title": "Top places visited together",
@@ -247,8 +249,6 @@
       "add": "Add to course builder",
       "addHint": "Adds {count, plural, one {# stop} other {# stops}} found in the app to your planner course",
       "addDisabled": "The places on this tour aren't in the app yet, so it can't be added to the course builder",
-      "showMore": "Show {count} more",
-      "showLess": "Show less",
       "date": "As of {date}",
       "dataNote": "Tour names, stops and fares were translated by the app, and each tour has its own reference date. City tours run on bus schedules, so course builder times are only a guide",
       "confirm": {

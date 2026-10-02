@@ -34,7 +34,12 @@
       "kakaoLogo": "在Kakao地图中打开（新窗口）"
     },
     "chipsMore": "更多",
-    "chipsLess": "收起"
+    "chipsLess": "收起",
+    "carousel": {
+      "prev": "上一张",
+      "next": "下一张",
+      "position": "{index} / {total}"
+    }
   },
   "PlaceSheet": {
     "close": "关闭",
@@ -123,10 +128,7 @@
         "less": "收起",
         "sourceOdii": "韩国观光公社语音导览（Odii）",
         "sourceStory": "旅游故事 · 韩国观光公社",
-        "list": "语音解说 {count} 条",
-        "prev": "上一条解说",
-        "next": "下一条解说",
-        "position": "{index} / {total}"
+        "list": "语音解说 {count} 条"
       },
       "related": {
         "title": "常一起去的景点 TOP",
@@ -247,8 +249,6 @@
       "add": "加入行程编排",
       "addHint": "将途经点中应用内已有的{count}处地点加入行程规划",
       "addDisabled": "这条路线途经的地点尚未收录在应用中，无法加入行程编排",
-      "showMore": "再看 {count} 条路线",
-      "showLess": "收起",
       "date": "基准日 {date}",
       "dataNote": "路线名称、途经点和票价由本应用翻译，各路线的基准日也不同。城市观光巴士按班车时刻运行，行程编排中的时间仅供参考",
       "confirm": {

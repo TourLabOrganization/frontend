@@ -34,7 +34,12 @@
       "kakaoLogo": "Abrir en Kakao Map (nueva ventana)"
     },
     "chipsMore": "Más",
-    "chipsLess": "Menos"
+    "chipsLess": "Menos",
+    "carousel": {
+      "prev": "Tarjeta anterior",
+      "next": "Tarjeta siguiente",
+      "position": "{index} / {total}"
+    }
   },
   "PlaceSheet": {
     "close": "Cerrar",
@@ -123,10 +128,7 @@
         "less": "Ver menos",
         "sourceOdii": "Audioguía de la Organización de Turismo de Corea (Odii)",
         "sourceStory": "Historias de viaje · Organización de Turismo de Corea",
-        "list": "{count} comentarios de audio",
-        "prev": "Comentario anterior",
-        "next": "Comentario siguiente",
-        "position": "{index} / {total}"
+        "list": "{count} comentarios de audio"
       },
       "related": {
         "title": "Top de lugares visitados juntos",
@@ -247,8 +249,6 @@
       "add": "Añadir a la ruta",
       "addHint": "Añade a tu ruta del planificador {count, plural, one {# parada} other {# paradas}} que están en la app",
       "addDisabled": "Los lugares de este tour aún no están en la app, así que no se puede añadir al planificador",
-      "showMore": "Ver {count} rutas más",
-      "showLess": "Ver menos",
       "date": "Datos al {date}",
       "dataNote": "La app tradujo los nombres de los tours, las paradas y las tarifas, y cada tour tiene su propia fecha de referencia. Los city tours siguen horarios de autobús, así que las horas de la ruta son solo orientativas",
       "confirm": {
