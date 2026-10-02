@@ -17,16 +17,16 @@ const HIT_LIMIT = 6;
 
 type DayAddPlaceProps = {
   day: number;
-  /** 그 날 여행 도시(한국어 이름). 이 도시 장소만 찾는다 */
+  /** 그 날 여행 도시(한국어 이름). 검색어가 없을 때는 이 도시 장소를 보인다 */
   city: string;
-  /** 그 도시 장소 중 아직 코스에 없는 것 */
+  /** 아직 코스에 없는 장소. 그 날 도시 장소가 앞, 다른 도시 장소가 뒤(검색은 전체에서, 보기만 할 때는 앞 12곳 = 그 날 도시) */
   pool: readonly PlannerPlace[];
   onAdd: (place: PlannerPlace) => void;
 };
 
 // 일자별 일정 카드의 「장소 추가」(PoC dayAdd). 누르면 검색 칸이 열리고, 고른 장소를 그 날 마지막 장소 뒤에 넣는다.
-// 검색은 그 날 도시(PoC _dayReg)의 장소만. PoC는 그 도시에 맞는 장소가 없으면 전국에서 찾지만,
-// 우리 코스는 한 도시의 장소만 담는 규칙이라 도시 밖으로 넓히지 않는다
+// 검색어가 없으면 그 날 도시(PoC _dayReg)의 장소를 보이고, 검색어가 있으면 다른 도시 장소까지 찾는다(여러 도시 코스, 2026-10-02).
+// 행마다 도시 이름이 붙어 어느 도시인지 보인다. 다른 도시 장소를 넣으면 그 사이는 광역 구간으로 계산된다
 export function DayAddPlace({ day, city, pool, onAdd }: DayAddPlaceProps) {
   const t = useTranslations("Planner.course.dayAdd");
   const tc = useTranslations("Course");

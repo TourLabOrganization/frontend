@@ -9,7 +9,12 @@ import {
 import { placesInScope } from "./data";
 import { addDays, dateError, tripDays } from "./dates";
 import { PLANNER_ORIGINS } from "./regions";
-import { buildPlannerSchedule, recommendCourse } from "./schedule";
+import {
+  buildPlannerSchedule,
+  courseCities,
+  recommendCourse,
+  wideLegMode,
+} from "./schedule";
 import { isStay } from "./stays";
 
 const START = "2026-09-27";
@@ -79,6 +84,33 @@ describe("투어 플래너 일정 (buildPlannerSchedule)", () => {
           if (stops.length > 1) expect(plan.km).toBeGreaterThan(0);
         });
       }
+
+  it("여러 도시 코스: 가는 체인은 첫 장소 도시, 돌아오는 체인은 마지막 장소 도시, 사이는 광역 구간", () => {
+    const seoul = placesInScope({ kind: "city", city: "서울" }).filter(
+      (p) => !isStay(p),
+    );
+    const gj = placesInScope({ kind: "city", city: "경주" }).filter(
+      (p) => !isStay(p),
+    );
+    const course = [seoul[0], seoul[1], gj[0], gj[1]];
+    const settings = settingsFor(3, "transit");
+    const plan = buildPlannerSchedule(course, settings, "서울");
+    expect(courseCities(course)).toEqual(["서울", "경주"]);
+    expect(plan.inbound?.city).toBe("서울");
+    expect(plan.outbound?.city).toBe("경주");
+    expect(wideLegMode(seoul[1], gj[0])).toBe("rail");
+    expect(wideLegMode(seoul[0], seoul[1])).toBeNull();
+    // 서울 → 경주 구간이 같은 도시 구간보다 훨씬 길다
+    const stops = plan.days.flatMap((d) => d.stops);
+    const hop = stops.find((x) => x.id === gj[0].id);
+    const local = stops.find((x) => x.id === seoul[1].id);
+    expect(hop && local && hop.move > local.move * 3).toBe(true);
+  });
+
+  it("도시 간 수단: 전철권끼리는 광역전철, 버스 관문뿐이면 버스", () => {
+    expect(wideLegMode({ locKo: "서울" }, { locKo: "인천" })).toBe("metro");
+    expect(wideLegMode({ locKo: "경주" }, { locKo: "경주" })).toBeNull();
+  });
 
   it("현지 이동을 바꾸면 구간 시간이 바뀐다", () => {
     const pool = placesInScope({ kind: "city", city: "경주" });

@@ -134,6 +134,30 @@ function plannerLegFn(mode: TravelMode): LegFn {
   return (p, q) => legInfo(p, q, mode, CITY_HUBS, METRO_CITY);
 }
 
+/** 코스의 도시들: 장소 순서대로 처음 나온 순, 같은 도시는 한 번(여러 도시 코스의 제목 · 숙소 유지에 쓴다) */
+export function courseCities(places: readonly { locKo: string }[]): string[] {
+  const out: string[] = [];
+  for (const p of places) if (!out.includes(p.locKo)) out.push(p.locKo);
+  return out;
+}
+
+/**
+ * 도시가 다른 두 장소 사이의 광역 구간 수단(course/schedule.ts legInfo와 같은 규칙):
+ * 둘 다 전철권이면 광역전철, 둘 다 KTX · SRT 관문이면 기차, 아니면 버스. 같은 도시면 null
+ */
+export function wideLegMode(
+  p: { locKo: string },
+  q: { locKo: string },
+): "metro" | "rail" | "bus" | null {
+  if (p.locKo === q.locKo) return null;
+  if (METRO_CITY[p.locKo] && METRO_CITY[q.locKo]) return "metro";
+  const modes = (c: string) => CITY_HUBS[c]?.modes ?? ["bus"];
+  const rail = ["ktx", "srt"].some(
+    (x) => modes(p.locKo).includes(x) && modes(q.locKo).includes(x),
+  );
+  return rail ? "rail" : "bus";
+}
+
 /** 광역 교통이 닿는 도시: 코스 첫 장소의 도시, 없으면 고른 도시 */
 function destinationCity(
   places: readonly PlannerPlace[],

@@ -94,10 +94,13 @@ import { RoutingHowTo } from "./RoutingHowTo";
 import {
   buildPlannerSchedule,
   type ChainSide,
+  courseCities,
+  railMode,
   recommendCourse,
   type RouteAskTarget,
   routeAsk,
   wideChoiceOf,
+  wideLegMode,
   wideModeOf,
 } from "./schedule";
 import {
@@ -304,7 +307,14 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const loadPlan = loadOpen ? pendingPlan : target;
 
   const heading = course.city ?? (scope.kind === "city" ? scope.city : null);
-  const headingName = heading ? cityName(heading, locale, names) : tp("nation");
+  // 여러 도시 코스는 제목에 도시를 순서대로 「서울 → 경주」로
+  const cities = courseCities(places);
+  const headingName =
+    cities.length > 1
+      ? cities.map((c) => cityName(c, locale, names)).join(" → ")
+      : heading
+        ? cityName(heading, locale, names)
+        : tp("nation");
   const duration = (min: number) => formatDuration(tc, min);
   const originName = (key: string) => {
     const o = PLANNER_ORIGINS[key];
@@ -473,7 +483,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     };
   })();
 
-  // 구간 정보: 같은 날 앞 장소 → 이 장소. 수단 · 시간 · 거리(요약 총 거리와 같은 legInfo km)
+  // 구간 정보: 같은 날 앞 장소 → 이 장소. 수단 · 시간 · 거리(요약 총 거리와 같은 legInfo km).
+  // 도시가 다른 광역 구간은 수단(기차 · 버스 · 광역전철)을 이름에 붙이고 그 수단의 예매 링크를 둔다(자가용은 링크 없음)
   const legLabels = (stops: (typeof plan.days)[number]["stops"]) =>
     stops.map((s, k) => {
       if (k === 0) return undefined;
@@ -484,14 +495,35 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         CITY_HUBS,
         METRO_CITY,
       );
+      const wideMode = L.wide ? wideLegMode(stops[k - 1].place, s.place) : null;
       return t("legs.leg", {
-        mode: L.wide ? t("legs.modes.wide") : t(`legs.modes.${plan.local}`),
+        mode:
+          wideMode && !L.own
+            ? t(`legs.modes.wide_${wideMode}`)
+            : L.wide
+              ? t("legs.modes.wide")
+              : t(`legs.modes.${plan.local}`),
         duration: duration(s.move),
         km: L.km.toFixed(1),
       });
     });
+  const legLinks = (stops: (typeof plan.days)[number]["stops"]) =>
+    stops.map((s, k) => {
+      if (k === 0 || own) return undefined;
+      const mode = wideLegMode(stops[k - 1].place, s.place);
+      if (!mode) return undefined;
+      const link = wideBookingLink(
+        mode === "rail"
+          ? railMode(CITY_HUBS[s.place.locKo]?.modes ?? [])
+          : mode,
+      );
+      return link
+        ? { href: link.href, label: t(`booking.${link.label}`) }
+        : undefined;
+    });
 
-  // 「이 날에 장소 추가」의 도시(PoC _dayReg): 그 날 첫 장소, 없으면 다음 날 첫 장소 · 이전 날 마지막 장소의 도시
+  // 「이 날에 장소 추가」의 도시(PoC _dayReg): 그 날 첫 장소, 없으면 다음 날 첫 장소 · 이전 날 마지막 장소의 도시.
+  // 후보는 그 날 도시 장소를 앞에, 다른 도시 장소를 뒤에 둔 전체(여러 도시 코스)
   const dayCity = (i: number): string | null => {
     const first = plan.days[i].stops[0];
     if (first) return first.place.locKo;
@@ -510,8 +542,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const addPool = (city: string) => {
     let pool = poolByCity.get(city);
     if (!pool) {
-      pool = PLANNER_PLACES.filter(
-        (p) => p.locKo === city && !inCourse.has(p.id),
+      pool = PLANNER_PLACES.filter((p) => !inCourse.has(p.id)).sort(
+        (a, b) => Number(b.locKo === city) - Number(a.locKo === city),
       );
       poolByCity.set(city, pool);
     }
@@ -599,7 +631,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         list.map((p) => p.id),
         course.placeIds,
         findAnyPlace,
-        list[0].locKo,
+        courseCities(list),
       ),
     );
     setStatus(t("actions.recommended", { count: list.length }));
@@ -1237,6 +1269,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               transport={plan.local === "transit" ? "public-transit" : "car"}
               date={dayDate(i)}
               legLabels={legLabels(day.stops)}
+              legLinks={legLinks(day.stops)}
               before={
                 i === 0 ? (
                   <>

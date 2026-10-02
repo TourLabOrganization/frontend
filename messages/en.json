@@ -892,12 +892,6 @@
       "setStay": "Set as course stay",
       "unsetStay": "Remove as stay"
     },
-    "confirm": {
-      "title": "This place is in another city",
-      "body": "A course can only hold places from one city. Clear the {count, plural, one {# place} other {# places}} from {from} and start again in {to}?",
-      "cancel": "Cancel",
-      "confirm": "Clear and add"
-    },
     "course": {
       "kicker": "Course builder",
       "title": "{city} · Today's route",
@@ -1069,7 +1063,7 @@
         "results": "Results",
         "cityPlaces": "Places in {city}",
         "none": "No matching place",
-        "hint": "It goes after the day's last stop. If the day is full, it moves to the next day",
+        "hint": "It goes after the day's last stop. If the day is full, it moves to the next day. You can also search places in other cities; travel between cities is counted as intercity transport",
         "added": "Added to day {day}: {name}"
       },
       "legs": {
@@ -1078,7 +1072,10 @@
           "transit": "Transit",
           "driving": "Rental car",
           "own": "Own car",
-          "wide": "Intercity"
+          "wide": "Intercity",
+          "wide_rail": "Train (intercity)",
+          "wide_bus": "Intercity bus",
+          "wide_metro": "Metro (intercity)"
         },
         "out": "Getting there",
         "back": "Getting home",

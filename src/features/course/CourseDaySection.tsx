@@ -1,4 +1,4 @@
-import { Bus, Car, Hourglass, TramFront } from "lucide-react";
+import { Bus, Car, ExternalLink, Hourglass, TramFront } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Chip } from "@/components/ui/Chip";
 import type { NameTable } from "@/features/names/names";
@@ -42,6 +42,8 @@ type CourseDaySectionProps = {
    * 없으면 「이동 {시간}」만 보인다(테마 코스)
    */
   legLabels?: readonly (string | undefined)[];
+  /** 구간 링크(투어 플래너: 도시가 다른 광역 구간의 예매, 새 창). k번째 값은 legLabels와 같은 자리 */
+  legLinks?: readonly ({ href: string; label: string } | undefined)[];
   /** 날짜 제목 아래, 첫 장소 위(투어 플래너: 첫날 가는 길) */
   before?: React.ReactNode;
   /** 마지막 장소 아래(투어 플래너: 마지막 날 돌아오는 길 · 이 날에 장소 추가) */
@@ -57,6 +59,7 @@ export function CourseDaySection({
   headingLevel = 2,
   names,
   legLabels,
+  legLinks,
   before,
   after,
 }: CourseDaySectionProps) {
@@ -96,10 +99,21 @@ export function CourseDaySection({
                 {(k > 0 || stop.wait > 0) && (
                   <div className="ml-8 flex flex-col gap-1 border-l-2 border-line py-3 pl-[calc(2.5rem-2px)] text-label text-fg-subtle">
                     {k > 0 && (
-                      <span className="flex items-center gap-2">
+                      <span className="flex flex-wrap items-center gap-2">
                         <MoveIcon size={20} aria-hidden />
                         {legLabels?.[k] ??
                           t("move", { duration: duration(stop.move) })}
+                        {legLinks?.[k] && (
+                          <a
+                            href={legLinks[k].href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex min-h-11 items-center gap-1 rounded-xl px-2 text-label font-semibold text-primary focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+                          >
+                            {legLinks[k].label}
+                            <ExternalLink size={14} aria-hidden />
+                          </a>
+                        )}
                       </span>
                     )}
                     {stop.wait > 0 && (

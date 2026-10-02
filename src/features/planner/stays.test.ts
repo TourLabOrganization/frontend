@@ -187,6 +187,12 @@ describe("자동 추천 뒤 숙소 유지 (keepStays)", () => {
   it("다른 도시의 숙박 장소는 남기지 않는다", () => {
     expect(keepStays(["gj2"], ["gj1"], lookup, "서울")).toEqual(["gj2"]);
   });
+  it("여러 도시 추천 코스는 그 도시들의 숙박 장소를 남긴다", () => {
+    expect(keepStays(["gj2"], ["gj1"], lookup, ["서울", "경주"])).toEqual([
+      "gj2",
+      "gj1",
+    ]);
+  });
 });
 
 describe("예약 링크 (날짜 · 검색어 · 언어)", () => {
