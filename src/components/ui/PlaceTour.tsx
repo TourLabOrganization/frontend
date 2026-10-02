@@ -143,7 +143,7 @@ function TourHeader({
 /**
  * 오디오 가이드. 해설이 하나면 제목 · 음성(주소가 있을 때) · 대본(240자 접기) · 출처를 그대로 보이고,
  * 같은 관광지의 해설이 여럿(대표 + others)이면 밑으로 늘리지 않고 좌우로 넘기는 카드로 보인다:
- * 손가락 · 트랙패드로 밀면 카드 단위로 걸리고(scroll-snap), 이전 · 다음 화살표와 「n / 전체」 표시가 있다.
+ * 손가락 · 트랙패드로 밀면 한 번에 한 장씩 걸리고(scroll-snap, snap-always), 끝 카드에서 더 밀어도 브라우저 뒤로 가기로 번지지 않는다(overscroll-x-contain), 이전 · 다음 화살표와 「n / 전체」 표시가 있다.
  * 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다)
  */
 function AudioGuide({ id }: { id: string }) {
@@ -239,7 +239,7 @@ function AudioCards({ cards }: { cards: TourAudio[] }) {
         role="group"
         aria-roledescription="carousel"
         aria-label={t("list", { count: total })}
-        className="-mx-4 mt-1 flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
+        className="-mx-4 mt-1 flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain scroll-smooth [&::-webkit-scrollbar]:hidden"
       >
         {cards.map((card, i) => (
           <div
@@ -247,7 +247,7 @@ function AudioCards({ cards }: { cards: TourAudio[] }) {
             role="group"
             aria-roledescription="slide"
             aria-label={t("position", { index: i + 1, total })}
-            className="w-full shrink-0 snap-center px-4"
+            className="w-full shrink-0 snap-center snap-always px-4"
           >
             <div className="rounded-card border border-line bg-fill/40 px-3 py-3">
               <AudioCard audio={card} active={i === index} />
