@@ -82,3 +82,62 @@ export function dayInsertIndex(
   const i = ids.indexOf(last);
   return i < 0 ? null : i;
 }
+
+/**
+ * 「동선 정리」(2026-10-03): 담은 장소를 도시별로 묶고 도시 안은 가까운 순으로 다시 늘어놓는다.
+ *  - 도시 순서는 처음 담긴 순서(서울 → 경주 → 서울이면 서울 · 경주 두 묶음, 서울 장소는 한 묶음으로 모은다)
+ *  - 도시 안은 이전 묶음의 마지막 장소(첫 묶음은 그 도시의 첫 장소)에서 가장 가까운 곳부터 차례로(직선거리, 가까운 이웃)
+ *  - 숙박 장소는 일정에 들어가지 않으므로 순서를 바꾸지 않고 담긴 순서 그대로 맨 뒤에 둔다
+ * 돌려주는 것은 id 순서. 이미 같은 순서면 그대로(쓰는 쪽이 「이미 정리돼 있어요」로 안내)
+ */
+export function tidyCourse<
+  T extends {
+    id: string;
+    locKo: string;
+    cat: string;
+    lat: number;
+    lng: number;
+  },
+>(places: readonly T[]): string[] {
+  const sights = places.filter((p) => p.cat !== "stay");
+  const stays = places.filter((p) => p.cat === "stay");
+  const cities: string[] = [];
+  for (const p of sights) if (!cities.includes(p.locKo)) cities.push(p.locKo);
+  const km2 = (a: T, b: T) => {
+    const dy = a.lat - b.lat;
+    const dx =
+      (a.lng - b.lng) * Math.cos(((a.lat + b.lat) / 2) * (Math.PI / 180));
+    return dx * dx + dy * dy;
+  };
+  const out: T[] = [];
+  let prev: T | null = null;
+  for (const city of cities) {
+    const pool = sights.filter((p) => p.locKo === city);
+    let cur = prev ? nearestOf(pool, prev, km2) : pool[0];
+    while (pool.length > 0) {
+      out.push(cur);
+      pool.splice(pool.indexOf(cur), 1);
+      if (pool.length === 0) break;
+      cur = nearestOf(pool, cur, km2);
+    }
+    prev = out[out.length - 1] ?? prev;
+  }
+  return [...out, ...stays].map((p) => p.id);
+}
+
+function nearestOf<T>(
+  pool: readonly T[],
+  from: T,
+  d: (a: T, b: T) => number,
+): T {
+  let best = pool[0];
+  let bestD = Infinity;
+  for (const p of pool) {
+    const v = d(from, p);
+    if (v < bestD) {
+      best = p;
+      bestD = v;
+    }
+  }
+  return best;
+}

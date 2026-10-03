@@ -1004,7 +1004,11 @@
         "recommendEmpty": "按当前设置没有可添加的地点。请尝试更改日期或时间",
         "recommended": "已载入含{count}处地点的推荐行程",
         "clear": "清空行程",
-        "cleared": "已清空行程"
+        "cleared": "已清空行程",
+        "tidy": "整理路线",
+        "tidyHint": "按城市分组，城市内按距离远近重新排序。住宿保持不变",
+        "tidied": "已整理路线：{count}处",
+        "tidyAlready": "路线已是整理好的顺序"
       },
       "confirmRecommend": {
         "title": "要换成推荐行程吗？",

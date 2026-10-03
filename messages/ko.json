@@ -1004,7 +1004,11 @@
         "recommendEmpty": "지금 설정으로는 넣을 수 있는 장소가 없어요. 날짜나 시각을 바꿔 보세요",
         "recommended": "추천 코스 {count}곳을 불러왔어요",
         "clear": "코스 비우기",
-        "cleared": "코스를 비웠어요"
+        "cleared": "코스를 비웠어요",
+        "tidy": "동선 정리",
+        "tidyHint": "도시별로 묶고 도시 안은 가까운 순으로 다시 늘어놓아요. 숙소는 그대로예요",
+        "tidied": "동선을 정리했어요: {count}곳",
+        "tidyAlready": "이미 정리된 순서예요"
       },
       "confirmRecommend": {
         "title": "추천 코스로 바꿀까요?",

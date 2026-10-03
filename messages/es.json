@@ -1004,7 +1004,11 @@
         "recommendEmpty": "Ningún lugar encaja con estos ajustes. Prueba otras fechas u horas",
         "recommended": "Ruta sugerida cargada con {count, plural, one {# lugar} other {# lugares}}",
         "clear": "Vaciar ruta",
-        "cleared": "Ruta vaciada"
+        "cleared": "Ruta vaciada",
+        "tidy": "Ordenar la ruta",
+        "tidyHint": "Agrupa por ciudad y ordena cada ciudad por cercanía. Los alojamientos no cambian",
+        "tidied": "Ruta ordenada: {count} lugares",
+        "tidyAlready": "La ruta ya está en orden"
       },
       "confirmRecommend": {
         "title": "¿Reemplazar por la ruta sugerida?",
