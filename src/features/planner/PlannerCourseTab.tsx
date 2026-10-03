@@ -594,15 +594,17 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     const d = dayWeather[i];
     if (!d || !d.weather) return null;
     const w = d.weather;
+    // 장소가 없는 날은 예보 줄만(경고 · 「실내 장소뿐」 문구는 담은 장소가 있을 때만)
+    const alert = plan.days[i].stops.length > 0 ? d.alert : null;
     const kind = tkinds(weatherKind(w.code));
-    const Icon = d.alert === "heat" ? ThermometerSun : CloudRain;
+    const Icon = alert === "heat" ? ThermometerSun : CloudRain;
     const insertIdx = dayInsertIndex(
       course.placeIds,
       plan.days[i].stops.map((s) => s.id),
     );
     return (
       <div
-        className={`mt-3 rounded-card px-4 py-3 ${d.alert ? "bg-warning/10" : "bg-fill"}`}
+        className={`mt-3 rounded-card px-4 py-3 ${alert ? "bg-warning/10" : "bg-fill"}`}
       >
         <p className="flex items-center gap-2 text-caption text-fg-muted">
           <span className="font-semibold text-fg">{tw("label")}</span>
@@ -614,14 +616,14 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
             })}
           </span>
         </p>
-        {d.alert && (
+        {alert && (
           <p
             role="note"
             className="mt-1 flex items-start gap-2 text-label font-semibold text-warning"
           >
             <Icon size={18} aria-hidden className="mt-0.5 shrink-0" />
             <span>
-              {d.alert === "rain"
+              {alert === "rain"
                 ? d.flagged.length > 0
                   ? tw("rain", { count: d.flagged.length })
                   : tw("rainNone")
@@ -636,7 +638,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
             </span>
           </p>
         )}
-        {d.alert && d.flagged.length > 0 && (
+        {alert && d.flagged.length > 0 && (
           <ul className="mt-2 flex flex-col gap-2">
             {d.flagged.map((f) => (
               <li key={f.place.id} className="text-caption">
