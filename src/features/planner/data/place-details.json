@@ -34012,5 +34012,68 @@
     "src": {
       "ko": "시티투어 경유지(1개 노선, 노선 표기 「애기봉평화생태공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
+  },
+  "ctm05623dd5": {
+    "desc": {
+      "ko": "여수 밤바다 노래의 바닷가 공원. 낭만포차 거리 옆.",
+      "en": "Seaside park from the song about Yeosu's night sea, beside the pocha street."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「종포해양공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc8c2a620": {
+    "desc": {
+      "ko": "1920년대 근대 건축 전시관. 충남역사박물관 옆.",
+      "en": "1920s modern building used as an exhibition hall, next to the history museum."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「옛공주읍사무소」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm37fcbff9": {
+    "desc": {
+      "ko": "산천어축제장 옆 산타 테마 우체국.",
+      "en": "Santa-themed post office beside the ice festival grounds."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「산타우체국」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5b499227": {
+    "desc": {
+      "ko": "동백정 언덕의 500년 동백숲. 성경전래지기념관 옆.",
+      "en": "500-year-old camellia grove on the Dongbaekjeong hill, next to the Bible memorial."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「마량진 동백나무숲」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmfa7ef1e6": {
+    "desc": {
+      "ko": "송도 국제도시를 내려다보는 33층 전망대.",
+      "en": "33rd-floor observatory overlooking Songdo International City."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「G타워」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5fecb24e": {
+    "desc": {
+      "ko": "낙동강변 야간 음악분수.",
+      "en": "Night-time musical fountain on the Nakdong riverside."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「낙동강음악분수」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf81bd2bb": {
+    "desc": {
+      "ko": "모악산 자락 구이저수지 옆의 도립미술관.",
+      "en": "Provincial art museum beside Gui Reservoir at the foot of Moaksan."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「전북도립미술관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }

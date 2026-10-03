@@ -218,6 +218,22 @@ describe("matchStops", () => {
     ];
     expect(matchStops("정림사지", buyeo, "부여").ids).toEqual(["t"]);
   });
+
+  it("대조 표의 장소는 fixedPool(전체 장소)에서 찾는다: 가평 노선의 남이섬은 춘천 장소", () => {
+    const nami = place("n1", "남이섬", "춘천");
+    const gapyeong = [place("g1", "가평레일파크", "가평")];
+    expect(
+      matchStops("가평역 → 남이섬 → 레일바이크", gapyeong, "가평", [
+        ...gapyeong,
+        nami,
+      ]).ids,
+    ).toEqual(["n1", "g1"]);
+    // fixedPool을 주지 않으면 pool에서만 찾아 남이섬은 못 잇는다
+    expect(matchStops("남이섬", gapyeong, "가평")).toEqual({
+      ids: [],
+      missed: ["남이섬"],
+    });
+  });
 });
 
 describe("tourVisits (실제 여행지)", () => {

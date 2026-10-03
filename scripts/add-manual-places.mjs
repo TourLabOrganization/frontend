@@ -2,6 +2,7 @@
 // 수기로 정리한 장소 목록(CSV)을 투어 플래너 추가 장소에 누적한다(관광공사 키 없이).
 //   scripts/data/citytour-manual-places.csv  시티투어 경유지 중 앱에 없는 관광지(lib/tour-collect.ts cityTourStops)를 사람이 골라 좌표를 적은 표
 //   열: region(앱 도시) · stopName(노선 표기) · tours(노선 수) · ko · en · cat · lat · lng · signgu(법정동 시군구 코드) · muni(시군구 이름) · desc · descEn(영어 설명)
+//       · nearOk(1이면 기존 장소 250m 안이어도 다른 곳으로 보고 넣는다. 사람이 확인한 이웃 장소: 벽화골목 옆 해양공원, 박물관 옆 옛 읍사무소 …)
 //
 // 사용법:
 //   node scripts/add-manual-places.mjs [scripts/data/citytour-manual-places.csv] [--dry]
@@ -189,7 +190,8 @@ export function manualPlaces(rows, pool, date = DATE, regions = []) {
       skipped.push({ row, reason: "표 안 중복", id });
       continue;
     }
-    const near = nearExisting({ ko, lat, lng }, live);
+    const near =
+      row.nearOk?.trim() === "1" ? null : nearExisting({ ko, lat, lng }, live);
     if (near) {
       skipped.push({ row, reason: `기존 장소 ${near.ko}`, id: near.id });
       continue;

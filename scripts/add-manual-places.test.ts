@@ -117,6 +117,19 @@ describe("mergeAdded(수기 장소)", () => {
   });
 });
 
+describe("manualPlaces(nearOk)", () => {
+  it("nearOk=1이면 기존 장소 250m 안이어도 넣는다", () => {
+    const rowNear = row({ ko: "첨성대 옆", lat: "35.8348", lng: "129.2195" });
+    expect(manualPlaces([rowNear], pool).places).toEqual([]);
+    const { places, skipped } = manualPlaces(
+      [{ ...rowNear, nearOk: "1" }],
+      pool,
+    );
+    expect(skipped).toEqual([]);
+    expect(places.map((p) => p.ko)).toEqual(["첨성대 옆"]);
+  });
+});
+
 describe("manualPlaces(장소 없는 도시)", () => {
   it("그 도시 장소가 없으면 regions.json 권역 도시 목록에서 권역을 찾는다", () => {
     const regions = [{ key: "capital", cities: ["서울", "김포"] }];

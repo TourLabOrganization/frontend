@@ -712,7 +712,12 @@ export function cityTourStops(
   for (const t of tours) {
     const region = t.visits[0] ?? t.region;
     // 실제 여행지 도시의 장소가 풀이다(scripts/build-citytour.mjs와 같다. 서울 출발 EG투어버스는 파주 · 시흥 장소와 맞춘다)
-    const { missed } = matchStops(t.route, visitPool(t.visits, pool), t.region);
+    const { missed } = matchStops(
+      t.route,
+      visitPool(t.visits, pool),
+      t.region,
+      pool,
+    );
     for (const raw of missed) {
       const stop = raw.trim();
       const key = normalizeName(stop);
