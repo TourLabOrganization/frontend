@@ -216,6 +216,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 | `scripts/official-name-fixes.mjs` | (원천 없음) 그 장소가 아닌 중 · 일 공식 명칭 id 목록 `WRONG_OFFICIAL_NAMES`와 판정 `isOfficialName`                                                                        | `build-names.mjs` · `build-planner.mjs`가 공식 명칭을 거를 때 쓴다(`docs/i18n.md`)                                                                                             |
 | `scripts/build-tic.mjs`           | `data/tic.json`(관광안내소 725곳, 칼럼은 `파생 데이터/관광안내소.csv`)                                                                                                     | `features/planner/data/tic.json`(칸 이름만 붙이고 값은 원천 그대로)                                                                                                            |
 | `scripts/add-popular-places.mjs`  | 개발 서버 `GET /api/tour/popular/collect`(한국관광공사 집중률 · 관광정보, `lib/tour-collect.ts`)                                                                           | `features/planner/data/added-places.json`(인기 관광지에서 누적한 추가 장소 `pop<contentid>`) · `signgu.json` · `regions.json`(`placeCounts`) · `place-details.json`에 덧붙인다 |
+| `scripts/add-manual-places.mjs`   | `scripts/data/citytour-manual-places.csv`(사람이 좌표를 적은 시티투어 경유지 표)                                                                                           | 같은 네 파일에 `ctm<해시>` 추가 장소를 덧붙인다(관광공사 키 없이. 기존 장소 250m 안 · 1km 안 이름 겹침은 건너뜀)                                                               |
 
 data-server 합치기 (`scripts/data-server.mjs`)
 
@@ -235,10 +236,11 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - 무거운 필드(`place-details.json`, id → 값): `desc`(설명 한 · 영) · `img` · `imgCredit` · `zh` · `ja`(중 · 일 장소명) · `src`(좌표 근거) · `url`(카카오 장소 URL) · `ct`(시티투어 경유) · `rs`(연관관광지).
   클라이언트는 이 JSON을 import하지 않는다. 장소 시트를 열 때 Route Handler `app/api/planner/places/[id]/route.ts`가 한 곳(1KB 안팎)만 돌려주고
   `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,109곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
-- 추가 장소(`pop<contentid>` · `odii<tid>`, `features/planner/data/added-places.json`): 인기 관광지(한국관광공사 집중률)와 관광지 오디오 가이드(오디) 해설이 있는 관광지에서 모아 누적한 앱 장소. `data.ts`가 `places.json` 뒤에 이어 붙여
+- 추가 장소(`pop<contentid>` · `odii<tid>` · `ctm<해시>`, `features/planner/data/added-places.json`): 인기 관광지(한국관광공사 집중률)와 관광지 오디오 가이드(오디) 해설이 있는 관광지에서 모아 누적한 앱 장소. `data.ts`가 `places.json` 뒤에 이어 붙여
   지도 · 목록 · 코스 · 장소 시트가 빌드 장소와 똑같이 쓴다(가벼운 필드만. 시군구 코드는 `signgu.json`, 설명 · 사진 · 중 · 일 이름 · 좌표 근거는 `place-details.json`, 도시별 장소 수는 `regions.json`).
   모으는 규칙은 `lib/tour-collect.ts`(`docs/api.md` 「인기 관광지 모으기」), 파일에 합치는 것은 `scripts/add-popular-places.mjs`. Data-Analytics 저장소 `tools/add_popular_places.py`와 같은 규칙 · 같은 id라 두 저장소의 장소 표가 같게 늘어난다.
   갱신은 dev 서버를 띄우고 `node scripts/add-popular-places.mjs`(인기 관광지) · `--source odii`(오디 해설 관광지) · `--source citytour`(시티투어 경유지 중 앱에 없는 관광지, 2026-10-03) → `npm run format` → `node scripts/build-citytour.mjs <원천>`(노선 `placeIds`가 새 장소까지 잇게). 이미 있는 id는 다시 넣지 않는다
+  관광공사 키 없이 사람이 좌표를 적은 표(`scripts/data/citytour-manual-places.csv`)로도 넣는다: `node scripts/add-manual-places.mjs` → id `ctm<sha1(도시|이름) 8자리>`, 기존 장소와 250m 안(또는 1km 안 이름 절반 겹침)이면 넣지 않고, 출처에 「좌표 수기 입력(지도 검증 필요)」을 적는다(2026-10-03, 시티투어 경유지 85곳). `docs/api.md` 「시티투어 경유지 관광지」
 - 신규 관광지(`kto:<contentid>`): `places.json`에 없는 한국관광공사 관광지. 홈 인기 관광지가 이름 · 위치로도 앱 장소를 못 찾을 때 만들고,
   브라우저가 localStorage `tn.extraPlaces`(`features/planner/extra-places.ts`)에 같은 필드로 기억해 지도 · 장소 시트 · 코스가 앱 장소처럼 쓴다.
   무거운 필드 · 장소 시트 칸은 서버가 한국관광공사 공통정보로 만든다(`lib/tour-spot.ts`, `docs/api.md` 「신규 관광지」)

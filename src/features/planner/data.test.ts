@@ -36,6 +36,11 @@ const REGION_CITY_COUNT = {
 // 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 3,109곳 뒤에 붙는다
 const ADDED = addedPlaces.length;
 const TOTAL = 3109 + ADDED;
+/** 추가 장소 수(도시 · 권역별). 아래 기대값은 빌드 장소 수 + 이 값 */
+const addedIn = (city: string) =>
+  addedPlaces.filter((p) => p.pickCity === city).length;
+const addedMacro = (key: string) =>
+  addedPlaces.filter((p) => p.macro === key).length;
 
 describe("플래너 데이터", () => {
   it("장소는 3,109곳(원천 3,118곳에서 맥도날드 9곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
@@ -43,10 +48,10 @@ describe("플래너 데이터", () => {
     expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(TOTAL);
   });
 
-  it("추가 장소는 pop<contentid> id · 도시 고르기 도시 · 시군구 코드가 있고 빌드 장소와 이름 · 위치가 겹치지 않는다", () => {
+  it("추가 장소는 pop<contentid> · odii<tid> · ctm<해시> id · 도시 고르기 도시 · 시군구 코드가 있고 빌드 장소와 이름 · 위치가 겹치지 않는다", () => {
     const base = PLANNER_PLACES.slice(0, 3109);
     for (const p of PLANNER_PLACES.slice(3109)) {
-      expect(p.id, p.id).toMatch(/^pop\d{1,12}$/);
+      expect(p.id, p.id).toMatch(/^(pop\d{1,12}|odii\d+|ctm[0-9a-f]{8})$/);
       expect(p.pickCity).toBe(p.locKo);
       expect(REGION_KEYS).toContain(p.macro);
       expect(base.some((q) => q.locKo === p.locKo && q.ko === p.ko)).toBe(
@@ -64,12 +69,12 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      서울: 256,
-      부산: 182,
-      제주: 171,
-      영월: 28,
-      경주: 70,
-      거제: 45,
+      서울: 256 + addedIn("서울"),
+      부산: 182 + addedIn("부산"),
+      제주: 171 + addedIn("제주"),
+      영월: 28 + addedIn("영월"),
+      경주: 70 + addedIn("경주"),
+      거제: 45 + addedIn("거제"),
     });
   });
 
@@ -105,13 +110,13 @@ describe("플래너 데이터", () => {
       ]),
     );
     expect(byRegion).toEqual({
-      capital: 683,
-      gangwon: 372,
-      chungcheong: 440,
-      daegyeong: 369,
-      dongnam: 640,
-      honam: 432,
-      jeju: 173,
+      capital: 683 + addedMacro("capital"),
+      gangwon: 372 + addedMacro("gangwon"),
+      chungcheong: 440 + addedMacro("chungcheong"),
+      daegyeong: 369 + addedMacro("daegyeong"),
+      dongnam: 640 + addedMacro("dongnam"),
+      honam: 432 + addedMacro("honam"),
+      jeju: 173 + addedMacro("jeju"),
     });
   });
 
@@ -127,13 +132,13 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      capital: [21, 681],
-      gangwon: [18, 369],
-      chungcheong: [19, 440],
-      daegyeong: [16, 366],
-      dongnam: [19, 636],
-      honam: [30, 432],
-      jeju: [1, 171],
+      capital: [21, 681 + addedMacro("capital")],
+      gangwon: [18, 369 + addedMacro("gangwon")],
+      chungcheong: [19, 440 + addedMacro("chungcheong")],
+      daegyeong: [16, 366 + addedMacro("daegyeong")],
+      dongnam: [19, 636 + addedMacro("dongnam")],
+      honam: [30, 432 + addedMacro("honam")],
+      jeju: [1, 171 + addedMacro("jeju")],
     });
   });
 

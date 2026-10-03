@@ -78,6 +78,7 @@ export function mergeAdded(collected, { added, signgu, regions, details }) {
       outRegions.placeCounts[p.pickCity] =
         (outRegions.placeCounts[p.pickCity] ?? 0) + 1;
     const detail = { desc: { ko: p.desc ?? "" }, src: { ko: p.source ?? "" } };
+    if (p.descEn) detail.desc.en = p.descEn;
     if (p.photo) {
       detail.img = p.photo;
       detail.imgCredit = "한국관광공사";
