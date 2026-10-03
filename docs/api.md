@@ -124,6 +124,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 
 홈 「지금 인기 관광지」(`features/home/PopularAttractions`). 코드는 `app/api/tour/popular/route.ts`, 처리는 `lib/tour-popular.ts`(서버 전용), 공통 타입은 `lib/tour.ts`.
 
+서버에 키가 없거나 호출이 실패 · 비면 수기 목록을 보인다(2026-10-03): `features/home/popular-fallback.ts` · `data/popular-fallback.json`(`scripts/build-popular-fallback.mjs`가 `scripts/data/popular-manual.csv`로 만든다. 홈 칩 도시 8곳 × 10곳, 모두 플래너 장소 id라 장소 시트가 열린다. 근거는 한국관광 데이터랩 인기 관광지 2025-09~2026-08 순위(Data-Analytics `age_upgrade/data/raw`)와 집중률 상위 상례). 집중률 값이 없어 순위만 보이고, 머리에 「{날짜} 수기 조사 기준」 · 출처 줄에 「한국관광 데이터랩 … 수기 정리」를 적는다. 키가 있고 호출이 성공하면 실시간 목록이 우선이다.
+
 - **원천**: 장소 시트 방문 집중률과 같은 한국관광공사 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`.
   관광지 이름(`tAtsNm`) 없이 `areaCd` · `signguCd`만 넣어 그 시군구 관광지 전체의 날짜별 집중률을 받는다(쪽당 1,000행, 시군구당 최대 5쪽).
   받은 행은 그 시군구 것(`signguCd`가 그 코드 또는 옛 · 새 코드: 강원 42 ↔ 51 · 전북 45 ↔ 52)만 남긴다 — 서비스가 시군구 조건을 무시하고 전국 결과를 주면

@@ -1,0 +1,501 @@
+{
+  "date": "2026-10-03",
+  "cities": {
+    "서울": [
+      {
+        "id": "ro17",
+        "ko": "코엑스",
+        "en": "Convention and Exhibition Center (COEX)",
+        "evidence": "데이터랩 전체 2위"
+      },
+      {
+        "id": "kdx11",
+        "ko": "잠실 롯데월드 어드벤처",
+        "en": "Lotte World Adventure",
+        "evidence": "데이터랩 전체 4위(롯데월드잠실점)"
+      },
+      {
+        "id": "kdx6",
+        "ko": "국립중앙박물관",
+        "en": "National Museum of Korea",
+        "evidence": "데이터랩 전체 5위"
+      },
+      {
+        "id": "kdx24",
+        "ko": "여의도 한강공원",
+        "en": "Yeouido Hangang Park",
+        "evidence": "데이터랩 전체 6위"
+      },
+      {
+        "id": "kdx43",
+        "ko": "예술의전당",
+        "en": "Seoul Arts Center",
+        "evidence": "데이터랩 전체 10위"
+      },
+      {
+        "id": "nax704",
+        "ko": "서울대공원",
+        "en": "Seoul Grand Park",
+        "evidence": "데이터랩 전체 11위"
+      },
+      {
+        "id": "kdx28",
+        "ko": "서울어린이대공원",
+        "en": "Seoul Children's Grand Park",
+        "evidence": "데이터랩 전체 19위(어린이대공원)"
+      },
+      {
+        "id": "kdx30",
+        "ko": "올림픽공원",
+        "en": "Olympic Park",
+        "evidence": "데이터랩 전체 21위"
+      },
+      {
+        "id": "kd10",
+        "ko": "경복궁",
+        "en": "Gyeongbokgung Palace",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "kd4",
+        "ko": "남산서울타워",
+        "en": "N Seoul Tower",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ],
+    "부산": [
+      {
+        "id": "bc3",
+        "ko": "해운대해수욕장",
+        "en": "Haeundae Beach",
+        "evidence": "데이터랩 상위(해운대해수욕장)"
+      },
+      {
+        "id": "ro4",
+        "ko": "광안리해수욕장",
+        "en": "Gwangalli Beach",
+        "evidence": "데이터랩 전체 27위"
+      },
+      {
+        "id": "bcx22",
+        "ko": "해동용궁사",
+        "en": "Haedong Yonggungsa",
+        "evidence": "데이터랩 전체 28위"
+      },
+      {
+        "id": "bcx41",
+        "ko": "벡스코",
+        "en": "BEXCO",
+        "evidence": "데이터랩 전체 25위(벡스코제1전시장)"
+      },
+      {
+        "id": "bc1",
+        "ko": "감천문화마을",
+        "en": "Gamcheon Culture Village",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "bc12",
+        "ko": "태종대",
+        "en": "Taejongdae",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "bcx1",
+        "ko": "송도해수욕장 · 케이블카",
+        "en": "Songdo Beach & Cable Car",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "bcx46",
+        "ko": "부산 롯데월드 어드벤처",
+        "en": "Lotte World Adventure Busan",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "bc6",
+        "ko": "흰여울문화마을",
+        "en": "Huinnyeoul Culture Village",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax763",
+        "ko": "다대포해수욕장",
+        "en": "Dadaepo Beach",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ],
+    "제주": [
+      {
+        "id": "jd1",
+        "ko": "성산일출봉",
+        "en": "Seongsan Ilchulbong",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jd5",
+        "ko": "협재해수욕장",
+        "en": "Hyeopjae Beach",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jd11",
+        "ko": "함덕해수욕장",
+        "en": "Hamdeok Beach",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jdx8",
+        "ko": "천지연폭포",
+        "en": "Cheonjiyeon Falls",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jdx1",
+        "ko": "섭지코지",
+        "en": "Seopjikoji",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jd10",
+        "ko": "우도",
+        "en": "Udo Island",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jdx13",
+        "ko": "용두암",
+        "en": "Yongduam Rock",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jdx2",
+        "ko": "만장굴",
+        "en": "Manjanggul Cave",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jdx12",
+        "ko": "오설록 티뮤지엄",
+        "en": "O’sulloc Tea Museum",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "jdx10",
+        "ko": "중문색달해변",
+        "en": "Jungmun Saekdal Beach",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ],
+    "경주": [
+      {
+        "id": "gjx1",
+        "ko": "불국사",
+        "en": "Bulguksa",
+        "evidence": "데이터랩 전체 7위"
+      },
+      {
+        "id": "gjx4",
+        "ko": "국립경주박물관",
+        "en": "Gyeongju National Museum",
+        "evidence": "데이터랩 전체 24위"
+      },
+      {
+        "id": "gj5",
+        "ko": "경주월드",
+        "en": "Gyeongju World",
+        "evidence": "데이터랩 상위(경주월드)"
+      },
+      {
+        "id": "gj3",
+        "ko": "동궁과 월지",
+        "en": "Donggung & Wolji",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "gjx3",
+        "ko": "첨성대",
+        "en": "Cheomseongdae",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "gjx2",
+        "ko": "대릉원",
+        "en": "Daereungwon",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "gjx5",
+        "ko": "석굴암",
+        "en": "Seokguram Grotto",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "gjx6",
+        "ko": "월정교",
+        "en": "Woljeonggyo Bridge",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "gjx18",
+        "ko": "보문관광단지",
+        "en": "Bomun Resort Complex",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "gjx11",
+        "ko": "경주 엑스포대공원",
+        "en": "Gyeongju Expo Park",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ],
+    "강릉": [
+      {
+        "id": "nax117",
+        "ko": "경포해변",
+        "en": "Gyeongpo Beach",
+        "evidence": "데이터랩 상위(경포해변)"
+      },
+      {
+        "id": "ro5",
+        "ko": "안목해변",
+        "en": "Anmokhaebyeon Beach",
+        "evidence": "데이터랩 상위(안목해변)"
+      },
+      {
+        "id": "nax123",
+        "ko": "주문진항",
+        "en": "Jumunjin Port",
+        "evidence": "데이터랩 상위(주문진항)"
+      },
+      {
+        "id": "nax121",
+        "ko": "정동진",
+        "en": "Jeongdongjin",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax120",
+        "ko": "오죽헌",
+        "en": "Ojukheon",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ro47",
+        "ko": "강문해변",
+        "en": "Gangmun Beach",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ro33",
+        "ko": "주문진해변",
+        "en": "Jumunjin Beach",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax124",
+        "ko": "경포호",
+        "en": "Gyeongpo Lake",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax740",
+        "ko": "안반데기",
+        "en": "Anbandegi",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax739",
+        "ko": "정동심곡 바다부채길",
+        "en": "Badabuchae-gil Trail",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ],
+    "전주": [
+      {
+        "id": "nax109",
+        "ko": "전주한옥마을",
+        "en": "Jeonju Hanok Village",
+        "evidence": "데이터랩 전체 15위"
+      },
+      {
+        "id": "nax110",
+        "ko": "경기전",
+        "en": "Gyeonggijeon Shrine",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax111",
+        "ko": "전동성당",
+        "en": "Jeondong Catholic Church",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax116",
+        "ko": "덕진공원",
+        "en": "Deokjin Park",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ro273",
+        "ko": "국립전주박물관",
+        "en": "Jeonju National Museum",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax1319",
+        "ko": "전주동물원",
+        "en": "Jeonju Zoo",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax114",
+        "ko": "오목대",
+        "en": "Omokdae",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax112",
+        "ko": "자만벽화마을",
+        "en": "Jaman Mural Village",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ro551",
+        "ko": "한국도로공사 전주수목원",
+        "en": "Korea Expressway Corporation Arboretum",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax115",
+        "ko": "전주향교",
+        "en": "Jeonju Hyanggyo",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ],
+    "인천": [
+      {
+        "id": "nax172",
+        "ko": "을왕리해수욕장",
+        "en": "Eurwangni Beach",
+        "evidence": "데이터랩 전체 9위"
+      },
+      {
+        "id": "nax167",
+        "ko": "월미도",
+        "en": "Wolmido",
+        "evidence": "데이터랩 전체 14위"
+      },
+      {
+        "id": "ro553",
+        "ko": "송도컨벤시아",
+        "en": "Songdo ConvensiA",
+        "evidence": "데이터랩 전체 26위"
+      },
+      {
+        "id": "nax181",
+        "ko": "인천대공원",
+        "en": "Incheon Grand Park",
+        "evidence": "데이터랩 전체 29위"
+      },
+      {
+        "id": "nax169",
+        "ko": "소래포구",
+        "en": "Sorae Port",
+        "evidence": "데이터랩 상위(소래포구)"
+      },
+      {
+        "id": "nax170",
+        "ko": "송도 센트럴파크",
+        "en": "Songdo Central Park",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax168",
+        "ko": "인천 개항장 거리",
+        "en": "Open Port Street",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax184",
+        "ko": "강화 전등사",
+        "en": "Jeondeungsa Temple",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ctmbb332f93",
+        "ko": "파라다이스시티",
+        "en": "Paradise City",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax1410",
+        "ko": "연안부두 해양광장",
+        "en": "Yeonan Wharf Marine Plaza",
+        "evidence": "데이터랩 상위(연안부두)"
+      }
+    ],
+    "속초": [
+      {
+        "id": "nax144",
+        "ko": "속초해수욕장",
+        "en": "Sokcho Beach",
+        "evidence": "데이터랩 전체 16위(속초해변)"
+      },
+      {
+        "id": "nax145",
+        "ko": "설악산 소공원",
+        "en": "Seoraksan Sogongwon",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax143",
+        "ko": "아바이마을",
+        "en": "Abai Village",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax142",
+        "ko": "영금정",
+        "en": "Yeonggeumjeong",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax147",
+        "ko": "대포항",
+        "en": "Daepo Port",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax148",
+        "ko": "외옹치 바다향기로",
+        "en": "Oeongchi Seaside Trail",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax146",
+        "ko": "청초호수공원",
+        "en": "Cheongchoho Park",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ro9",
+        "ko": "동명항",
+        "en": "Dongmyeong Port",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax743",
+        "ko": "흔들바위·울산바위",
+        "en": "Heundeulbawi & Ulsanbawi",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax744",
+        "ko": "영랑호 범바위",
+        "en": "Yeongnangho Beombawi",
+        "evidence": "수기(집중률 상위 상례)"
+      }
+    ]
+  }
+}
