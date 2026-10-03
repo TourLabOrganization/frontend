@@ -194,6 +194,17 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   「기준 날짜 행 없음」으로 아무것도 모으지 못했다(2026-10-02 고침). `districtItems`는 `cache` 인자를 받는다(홈은 기본 6시간).
   배포(`NODE_ENV=production`)에서는 404 — 시군구 211곳 × 최대 5쪽을 부르므로 개발 서버에서 스크립트로만 쓴다. 키가 없으면 503, 실패하면 502
 
+### 축제 · 행사 `GET /api/tour/festival?city=&locale=`
+
+플래너 여행 정보 탭 「{도시} 축제 · 행사」 칸(`features/planner/InfoFestivals`, 2026-10-03). 코드는 `app/api/tour/festival/route.ts`, 처리는 `lib/tour-festival.ts`.
+
+- **입력**: `city`(플래너 도시 한국어 이름, 아니면 400) · `locale`(5개 언어, 기본 ko). 브라우저 주소는 `lib/tour.ts` `festivalPath`
+- **호출**: 그 도시의 시군구(앱 장소 `signgu.json`, 장소 1곳 이상 전부)마다 법정동 코드(`lDongRegnCd` · `lDongSignguCd`)로 `searchFestival2`를 한 쪽(100행) 부른다.
+  새 코드로 결과가 없으면 옛 코드(`signguVariants`)로 한 번 더. `eventStartDate`는 이달 1일(진행 중인 것까지 받으려고)
+- **응답**: `{ "city", "items": [{ "id"(contentid), "title", "start", "end"(YYYY-MM-DD), "ongoing", "addr", "lat"?, "lng"?, "image"?(https), "tel"? }] }` 또는 `{ "empty": true }`.
+  끝난 것(종료일 < 오늘, 서울 날짜)은 빼고 진행 중(시작일 ≤ 오늘)이 종료일 순으로 먼저, 예정은 시작일 순. 같은 contentid는 한 번, 최대 20건. 외국어 화면은 그 언어 서비스 결과만(한국어로 대신하지 않는다)
+- **캐시** 6시간(`TOUR_FESTIVAL_SECONDS`). 키 없음 503 · 실패 502(화면은 빈 상태 문구). 서버에 키가 없으면 화면이 부르지 않는다(`TourApiProvider`)
+
 ### 대표 사진 `GET /api/tour/photo?id=`
 
 장소 시트 맨 위 사진. 장소 자료(플래너 `place-details.json` · 테마 `extras.json`)에 사진이 없는 장소만 시트가 부른다. 코드는 `app/api/tour/photo/route.ts`,
@@ -241,11 +252,12 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 공통(키 · 주소 · 응답 파싱 · 장소 찾기)은 `lib/tour-api.ts`, 화면과 함께 쓰는 타입 · 순수 함수는 `lib/tour.ts`.
 규칙의 정본은 PoC 코드다: `Tour Planner.dc.html` `loadAudio` · `STORY_DB` · `getCrowd` · `crowdLvl`, `shared.js` `getRelatedSpots`.
 
-| Route Handler                       | 칸                        | 부르는 공공 API (공공데이터포털, 한국관광공사 B551011)                                          | 키               | 캐시                                |
-| ----------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------- |
-| `GET /api/tour/audio?id=&locale=`   | 오디오 가이드             | 관광지 오디오 가이드(오디) `Odii/storySearchList` · `themeBasedList` · `storyLocationBasedList` | `DATA_GO_KR_KEY` | 1일(관광지 목록은 서버 메모리)      |
-| `GET /api/tour/related?id=&locale=` | 함께 많이 가는 관광지 Top | 관광지별 연관 관광지 `TarRlteTarService1/searchKeyword1` · `areaBasedList1`                     | `DATA_GO_KR_KEY` | 1일(`areaBasedList1`은 서버 메모리) |
-| `GET /api/tour/crowd?id=`           | 방문 집중률 예측          | 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`                        | `DATA_GO_KR_KEY` | 6시간                               |
+| Route Handler                          | 칸                        | 부르는 공공 API (공공데이터포털, 한국관광공사 B551011)                                                                           | 키               | 캐시                                |
+| -------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------- |
+| `GET /api/tour/audio?id=&locale=`      | 오디오 가이드             | 관광지 오디오 가이드(오디) `Odii/storySearchList` · `themeBasedList` · `storyLocationBasedList`                                  | `DATA_GO_KR_KEY` | 1일(관광지 목록은 서버 메모리)      |
+| `GET /api/tour/related?id=&locale=`    | 함께 많이 가는 관광지 Top | 관광지별 연관 관광지 `TarRlteTarService1/searchKeyword1` · `areaBasedList1`                                                      | `DATA_GO_KR_KEY` | 1일(`areaBasedList1`은 서버 메모리) |
+| `GET /api/tour/crowd?id=`              | 방문 집중률 예측          | 관광지 집중률 방문자 추이 예측 `TatsCnctrRateService/tatsCnctrRatedList`                                                         | `DATA_GO_KR_KEY` | 6시간                               |
+| `GET /api/tour/festival?city=&locale=` | 축제 · 행사(여행 정보 탭) | 관광정보 축제공연행사 조회 `KorService2/searchFestival2`(외국어는 `EngService2` · `ChsService2` · `JpnService2` · `SpnService2`) | `DATA_GO_KR_KEY` | 6시간                               |
 
 - **키**: 서버 환경변수 `DATA_GO_KR_KEY`(공공데이터포털 디코딩 키, 세 API 모두 활용신청 필요, `docs/security.md`). 주소 · 응답 · 오류 문구 · 로그에 넣지 않는다
 - **입력**: 장소 id(플래너 장소 id. 테마 장소도 같은 id)와 화면 언어뿐이다. 한국어 이름 · 좌표 · 시군구 코드는 서버가 장소 데이터에서 찾는다

@@ -121,6 +121,33 @@ export function popularPath(city: string, locale: string): string {
   return `/api/tour/popular?city=${encodeURIComponent(city)}&locale=${encodeURIComponent(locale)}`;
 }
 
+/** 여행 정보 탭 축제 · 행사 칸의 Route Handler 캐시(6시간) */
+export const TOUR_FESTIVAL_SECONDS = 21600;
+
+/** 축제 · 행사 한 건(한국관광공사 축제공연행사 조회). 날짜는 YYYY-MM-DD */
+export type TourFestivalItem = {
+  /** 관광정보 contentid */
+  id: string;
+  title: string;
+  start: string;
+  end: string;
+  /** 오늘 기준 진행 중(시작일 ≤ 오늘). 아니면 예정 */
+  ongoing: boolean;
+  addr: string;
+  lat?: number;
+  lng?: number;
+  /** 대표 사진(https) */
+  image?: string;
+  tel?: string;
+};
+
+export type TourFestival = { city: string; items: TourFestivalItem[] };
+
+/** 브라우저가 부르는 축제 · 행사 주소. 입력은 도시 이름과 화면 언어뿐 */
+export function festivalPath(city: string, locale: string): string {
+  return `/api/tour/festival?city=${encodeURIComponent(city)}&locale=${encodeURIComponent(locale)}`;
+}
+
 export type TourKind = "audio" | "related" | "crowd";
 
 /**

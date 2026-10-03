@@ -1335,6 +1335,16 @@
         "map": "Map",
         "book": "Book a stay",
         "source": "Stays: in-app place list · sample stay areas (not real booking information) · distances are straight-line from the city center"
+      },
+      "festival": {
+        "title": "Festivals & events in {city}",
+        "meta": "{count}",
+        "empty": "No festivals or events are on or coming up right now",
+        "ongoing": "On now",
+        "upcoming": "Upcoming",
+        "period": "{start} – {end}",
+        "map": "Map",
+        "source": "Source: Korea Tourism Organization tour information (festivals & events) · on now and upcoming as of today, up to {limit}"
       }
     },
     "howTo": {

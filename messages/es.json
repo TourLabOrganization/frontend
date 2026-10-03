@@ -1335,6 +1335,16 @@
         "map": "Mapa",
         "book": "Reservar alojamiento",
         "source": "Alojamientos: lista de lugares de la app · zonas de ejemplo (no es información real de reservas) · distancias en línea recta desde el centro"
+      },
+      "festival": {
+        "title": "Festivales y eventos en {city}",
+        "meta": "{count}",
+        "empty": "No hay festivales ni eventos en curso o próximos ahora mismo",
+        "ongoing": "En curso",
+        "upcoming": "Próximo",
+        "period": "{start} – {end}",
+        "map": "Mapa",
+        "source": "Fuente: información turística de la Organización de Turismo de Corea (festivales y eventos) · en curso y próximos a día de hoy, hasta {limit}"
       }
     },
     "howTo": {
