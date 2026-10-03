@@ -14,6 +14,12 @@ import {
   withForeignNames,
 } from "./tour-api";
 import { odiiThemeUrl } from "./tour-audio";
+import {
+  hiddenRelatedName,
+  isStayRow,
+  relatedMonths,
+  relatedName,
+} from "./tour-related";
 import toursData from "../features/home/data/citytour.json";
 import type { CityTour } from "../features/home/citytour";
 import {
@@ -903,4 +909,302 @@ export async function collectCityTour(
   for (const [region, stat] of perRegion)
     log(`${region}: 후보 ${stat.n}곳 / 신규 ${stat.made}곳`);
   return { candidates, places: [...added.values()] };
+}
+
+// ---------- 연관 관광지 전수 재조사 ----------
+// 한국관광공사 관광지별 연관 관광지(TarRlteTarService1/areaBasedList1)를 장소가 있는 시군구마다 기준월(2개월 전, 비면 3 · 4개월 전) 한 번씩 받아
+// 「함께 많이 가는 관광지」로 나오는 모든 관광지(rlteTatsNm)를 모으고, 앱 장소와 맞지 않는 곳을 인기 관광지와 같은 판정으로 추가 장소에 넣는다.
+// 지역은 연관 관광지의 시군구 코드(rlteSignguCd)가 든 조회 대상 지역(없으면 관광정보 좌표에서 30km 안 가장 가까운 장소의 지역).
+// 좌표 · 분류 · 주소 · 설명은 국문 관광정보(searchKeyword2, 그 시군구 코드와 맞는 결과만)에서. 관광정보에 없으면 좌표를 몰라 「missing」이다.
+// 주차장 · 화장실 · 전국 체인 브랜드(lib/franchise-brands.ts)는 장소 시트와 같이 뺀다. 숙소(대분류 숙박)는 stay 분류로 넣는다(장소 표의 rs* 행과 같다)
+
+/** 연관 관광지 후보 한 곳: 같은 시군구 · 같은 이름(정규화)은 한 번, 연계 수(이 이름이 연관 관광지로 나온 행 수)와 기준 관광지 몇 곳 */
+export type RelatedStop = {
+  region: string;
+  name: string;
+  /** 연관 관광지의 시군구 코드(rlteSignguCd). 없으면 "" */
+  signgu: string;
+  /** 한국관광공사 분류(소 → 중 → 대분류 중 있는 것) */
+  category: string;
+  stay: boolean;
+  /** 연관 관광지로 나온 행 수 */
+  links: number;
+  /** 가장 좋은 순위(rlteRank) */
+  bestRank: number;
+  /** 이 관광지를 연관으로 둔 기준 관광지(tAtsNm) 최대 3곳 */
+  bases: string[];
+};
+
+export type RelatedCandidate = RelatedStop & {
+  verdict: CollectVerdict;
+  id: string | null;
+};
+
+/** 시군구 전체 목록 한 달치(최대 5쪽 × 2,000행). 기준월 2 · 3 · 4개월 전 중 처음 비지 않는 달 */
+async function relatedBulk(
+  key: string,
+  signgu: string,
+  now: Date,
+): Promise<{ month: string; rows: TourItem[] }> {
+  for (const ym of relatedMonths(now)) {
+    const rows: TourItem[] = [];
+    for (let page = 1; page <= 5; page++) {
+      const { items, total } = await fetchTourPage(
+        tourApiUrl("TarRlteTarService1/areaBasedList1", key, {
+          numOfRows: "2000",
+          pageNo: String(page),
+          baseYm: ym,
+          areaCd: signgu.slice(0, 2),
+          signguCd: signgu,
+        }),
+        "no-store",
+      );
+      rows.push(...items);
+      if (items.length < 2000 || rows.length >= total) break;
+    }
+    if (rows.length > 0) return { month: ym, rows };
+  }
+  return { month: "", rows: [] };
+}
+
+/**
+ * 연관 관광지 행 → 후보 목록(순수 함수). 같은 시군구 · 같은 이름(relatedName)은 한 번으로 모으고 연계 수를 센다.
+ * 이름이 없거나 주차장 · 화장실 · 체인 브랜드는 뺀다. 지역은 regionOf(rlteSignguCd)로, 모르면 ""(뒤에 좌표로 정한다)
+ */
+export function relatedStops(
+  rows: readonly TourItem[],
+  regionOf: (signgu: string) => string,
+): RelatedStop[] {
+  const map = new Map<string, RelatedStop>();
+  for (const x of rows) {
+    const name = String(x.rlteTatsNm ?? "").trim();
+    if (!name || hiddenRelatedName(name)) continue;
+    const signgu = String(x.rlteSignguCd ?? "").trim();
+    const key = `${/^\d{5}$/.test(signgu) ? signgu : ""}|${relatedName(name)}`;
+    const rank = Number(x.rlteRank || 99);
+    const base = String(x.tAtsNm ?? "").trim();
+    const cur = map.get(key);
+    if (cur) {
+      cur.links++;
+      cur.bestRank = Math.min(cur.bestRank, Number.isFinite(rank) ? rank : 99);
+      if (base && cur.bases.length < 3 && !cur.bases.includes(base))
+        cur.bases.push(base);
+      continue;
+    }
+    map.set(key, {
+      region: /^\d{5}$/.test(signgu) ? regionOf(signgu) : "",
+      name,
+      signgu: /^\d{5}$/.test(signgu) ? signgu : "",
+      category: String(
+        x.rlteCtgrySclsNm || x.rlteCtgryMclsNm || x.rlteCtgryLclsNm || "",
+      ),
+      stay: isStayRow(x),
+      links: 1,
+      bestRank: Number.isFinite(rank) ? rank : 99,
+      bases: base ? [base] : [],
+    });
+  }
+  return [...map.values()].sort(
+    (a, b) =>
+      b.links - a.links ||
+      a.bestRank - b.bestRank ||
+      a.name.localeCompare(b.name, "ko"),
+  );
+}
+
+/**
+ * 연관 관광지 전수 재조사. 조회 대상(allTargets: 장소가 있는 시군구 전부, regions로 좁힐 수 있다)마다 시군구 전체 목록을 받아
+ * 후보를 모으고, 지역 장소 풀에서 이름 → 관광정보 검색(그 시군구 코드와 맞는 결과만) → 위치 → 추가 장소(pop<contentid>).
+ * 관광정보에 없는 곳은 좌표가 없어 missing(후보 표에만 남는다)
+ */
+export async function collectRelated(
+  key: string,
+  options: {
+    places?: readonly PlannerPlace[];
+    regions?: readonly string[];
+    signguOf?: (id: string) => string;
+    log?: (line: string) => void;
+    now?: Date;
+  } = {},
+): Promise<{
+  months: Record<string, string>;
+  candidates: RelatedCandidate[];
+  places: AddedPlace[];
+}> {
+  const base = options.places ?? PLANNER_PLACES;
+  const signguOf = options.signguOf ?? tourPlaceSigngu;
+  const log = options.log ?? (() => {});
+  const now = options.now ?? new Date();
+  const targets = allTargets(base, signguOf, 1, options.regions);
+  const regionOfCode = new Map<string, string>();
+  for (const t of targets)
+    for (const c of t.codes) regionOfCode.set(c, t.region);
+  // 조회 대상 밖 시군구 코드(regions로 좁혔을 때 이웃 도시)는 전체 조회 대상에서 찾는다
+  for (const t of allTargets(base, signguOf, 1))
+    for (const c of t.codes)
+      if (!regionOfCode.has(c)) regionOfCode.set(c, t.region);
+  const regionOf = (code: string) => regionOfCode.get(code) ?? "";
+  const rows: TourItem[] = [];
+  const months: Record<string, string> = {};
+  for (const t of targets) {
+    for (const code of t.codes) {
+      try {
+        const got = await relatedBulk(key, code, now);
+        months[code] = got.month;
+        rows.push(...got.rows);
+        log(
+          `${t.region} ${code}: ${got.month || "자료 없음"} ${got.rows.length}행`,
+        );
+      } catch {
+        log(`${t.region} ${code}: 연관 관광지 호출 실패`);
+      }
+    }
+  }
+  let stops = relatedStops(rows, regionOf);
+  if (options.regions?.length)
+    stops = stops.filter(
+      (s) => !s.region || options.regions!.includes(s.region),
+    );
+  log(`연관 관광지 ${stops.length}곳(행 ${rows.length})`);
+  const pool: PlannerPlace[] = base.filter((p) => p.cat !== "stay");
+  const nearest = (lat: number, lng: number) => {
+    let best = "";
+    let bestD = Infinity;
+    for (const p of pool) {
+      const d = meters(lat, lng, p.lat, p.lng);
+      if (d < bestD) {
+        best = p.locKo;
+        bestD = d;
+      }
+    }
+    return bestD <= ODII_NEAREST_M ? best : "";
+  };
+  const added = new Map<string, AddedPlace>();
+  const ids = new Set(base.map((p) => p.id));
+  const candidates: RelatedCandidate[] = [];
+  for (const s of stops) {
+    const regionPool = (region: string): PlannerPlace[] => [
+      ...base.filter((p) => (p.pickCity ?? p.locKo) === region),
+      ...[...added.values()].filter((p) => p.locKo === region),
+    ];
+    if (s.region) {
+      const byName = matchInPool(
+        { name: s.name, signgu: s.signgu },
+        s.region,
+        regionPool(s.region),
+        signguOf,
+      );
+      if (byName) {
+        candidates.push({ ...s, verdict: "existing-name", id: byName.id });
+        continue;
+      }
+    }
+    let item: TourItem | null = null;
+    try {
+      const found = await fetchTourItems(
+        tourApiUrl("KorService2/searchKeyword2", key, {
+          numOfRows: "30",
+          pageNo: "1",
+          arrange: "A",
+          keyword: s.name.split("/")[0].trim(),
+        }),
+        "no-store",
+      );
+      // 연관 관광지의 시군구 코드와 맞는 결과만(코드가 없는 행은 둔다)
+      const inCode = found.filter((x) => {
+        const code = `${String(x.lDongRegnCd ?? "")}${String(x.lDongSignguCd ?? "")}`;
+        return !/^\d{5}$/.test(code) || !s.signgu || code === s.signgu;
+      });
+      const keyword = s.name.split("/")[0].trim();
+      // 숙소는 pickSpotItem이 숙박 타입(32)을 빼므로 이름 점수로 직접 고른다(여행코스 25만 뺀다)
+      item = s.stay
+        ? (inCode
+            .filter((x) => String(x.contenttypeid ?? "") !== "25")
+            .map((x) => ({
+              x,
+              score: nameScore(keyword, String(x.title ?? ""), ""),
+            }))
+            .filter((v) => v.score >= 2)
+            .sort((a, b) => b.score - a.score)[0]?.x ?? null)
+        : pickSpotItem(inCode, { name: keyword, signgu: "" });
+    } catch {
+      log(`${s.region} ${s.name}: 관광정보 검색 실패`);
+    }
+    const cid = item ? String(item.contentid ?? "").trim() : "";
+    const id = cid ? addedId(cid) : null;
+    const kto = item ? toKtoPlace(item, base) : null;
+    if (!item || !kto || !id) {
+      candidates.push({ ...s, verdict: "missing", id: null });
+      continue;
+    }
+    const region = s.region || nearest(kto.lat, kto.lng);
+    if (!region) {
+      candidates.push({ ...s, verdict: "missing", id: null });
+      continue;
+    }
+    const rp = regionPool(region);
+    if (ids.has(id) || added.has(id)) {
+      candidates.push({ ...s, region, verdict: "existing-id", id });
+      continue;
+    }
+    const near = nearInPool({ name: s.name, lat: kto.lat, lng: kto.lng }, rp);
+    if (near) {
+      candidates.push({
+        ...s,
+        region,
+        verdict: "existing-location",
+        id: near.id,
+      });
+      continue;
+    }
+    let named = kto;
+    try {
+      named = await withForeignNames(
+        kto,
+        String(item.contenttypeid ?? ""),
+        key,
+        "no-store",
+      );
+    } catch {
+      // 다국어 이름을 못 찾으면 로마자 영어 이름으로 둔다
+    }
+    const cat = s.stay ? "stay" : ktoCategory(item);
+    const macro = regionMacro(rp, region, kto.macro);
+    const place: AddedPlace = {
+      ...named,
+      id,
+      locKo: region,
+      pickCity: region,
+      macro,
+      cat,
+      min: cat === "stay" ? 30 : kto.min,
+      auto: cat !== "stay",
+      signgu: kto.signgu || s.signgu,
+      contentid: cid,
+      addr: kto.addr ?? "",
+      photo: kto.photo ?? "",
+      zh: named.names?.zh ?? "",
+      ja: named.names?.ja ?? "",
+      source: [
+        kto.addr ?? "",
+        `한국관광공사 연관 관광지(연계 ${s.links}회${s.bases.length ? ` · ${s.bases.join(", ")}` : ""})`,
+        `관광정보 contentid ${cid} 좌표`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      desc:
+        kto.overview ??
+        `${s.category || "관광지"} · ${s.bases.slice(0, 2).join(", ") || region} 등과 함께 많이 찾는 곳 (연관 ${s.links}회)`,
+    };
+    delete (place as { names?: unknown }).names;
+    delete (place as { overview?: unknown }).overview;
+    delete (place as { enByApp?: unknown }).enByApp;
+    added.set(id, place);
+    ids.add(id);
+    candidates.push({ ...s, region, verdict: "new", id });
+  }
+  log(
+    `연관 관광지: 후보 ${candidates.length}곳 / 신규 ${added.size}곳 / 관광정보 없음 ${candidates.filter((c) => c.verdict === "missing").length}곳`,
+  );
+  return { months, candidates, places: [...added.values()] };
 }
