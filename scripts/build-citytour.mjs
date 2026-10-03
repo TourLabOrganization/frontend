@@ -20,12 +20,18 @@
 //     노선 지역 이름과 같은 경유지(출발 · 도착 도시)는 대조하지 않는다. 부분 이름 대조는 관광지 먼저 · 먹거리는 좁게 ·
 //     이름이 가장 가까운 곳 · 애매하면 대조하지 않음으로 조였다(목업과 다른 점, citytour-match.ts 주석)
 //     코스 도시(city)는 첫 장소의 도시(locKo). 담을 장소가 없으면 placeIds는 빈 배열, city는 null
+//   - 실제 여행지(visits)는 citytour-match.ts의 TOUR_VISITS(운영 도시와 다른 노선만 적은 표), 없으면 운영 도시 하나.
+//     지역별 검색 · 여행 정보 탭 · 지역 집계는 visits로 센다(원천의 도시는 운영 지자체라 서울 출발 EG투어버스가 서울로 집계되던 것을 고쳤다, 2026-10-02)
 //   - 값은 원천 그대로 두고 지어내지 않는다
 
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { matchStops, stopPool } from "../src/features/home/citytour-match.ts";
+import {
+  matchStops,
+  stopPool,
+  tourVisits,
+} from "../src/features/home/citytour-match.ts";
 
 const [sourcePath] = process.argv.slice(2);
 if (!sourcePath) {
@@ -71,6 +77,7 @@ const tours = rows.map((x) => {
   if (ids.length === 0) noMatch++;
   return {
     region,
+    visits: tourVisits(region, name),
     name,
     kind: KIND[kind] ?? "fixed",
     board,
@@ -89,7 +96,7 @@ const tours = rows.map((x) => {
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(tours, null, 2) + "\n", "utf8");
 
-const regions = new Set(tours.map((t) => t.region)).size;
+const regions = new Set(tours.flatMap((t) => t.visits)).size;
 console.log(
   `시티투어 ${tours.length}개 노선 · ${regions}개 지역 → ${OUT}`,
   `\n  담을 장소가 없는 노선 ${noMatch}개`,

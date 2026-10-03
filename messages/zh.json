@@ -258,7 +258,8 @@
         "confirm": "替换"
       },
       "routeExpand": "查看完整路线",
-      "routeCollapse": "收起路线"
+      "routeCollapse": "收起路线",
+      "departs": "{from}出发 · 游览{to}"
     },
     "addTheme": "添加主题",
     "popularHeading": "当前热门路线",

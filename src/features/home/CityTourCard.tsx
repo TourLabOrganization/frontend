@@ -19,6 +19,7 @@ import {
   tourFare,
   tourHours,
   tourProfile,
+  tourRegion,
   type TourTag,
   tourTags,
 } from "./citytour";
@@ -113,10 +114,19 @@ export function CityTourCard({
     <article className="rounded-card bg-surface p-4 ring-1 ring-line">
       <p className="text-caption font-semibold text-primary">
         {rank !== undefined &&
-          `${t("rank", { rank })} · ${cityName(tour.region, locale, names)} · `}
+          `${t("rank", { rank })} · ${cityName(tourRegion(tour), locale, names)} · `}
         {t(`kind.${tour.kind}`)}
       </p>
       <h4 className="mt-1 text-body-lg font-bold">{text?.name ?? tour.name}</h4>
+      {/* 운영 도시가 여행지와 다르면(서울 출발 EG투어버스) 「서울 출발 · 여행지 파주」 */}
+      {!tour.visits.includes(tour.region) && (
+        <p className="mt-1 text-caption text-fg-muted">
+          {t("departs", {
+            from: cityName(tour.region, locale, names),
+            to: tour.visits.map((c) => cityName(c, locale, names)).join(" · "),
+          })}
+        </p>
+      )}
       {(tags.length > 0 || reservedFor) && (
         <ul className="mt-2 flex flex-wrap gap-1.5">
           {reservedFor && (

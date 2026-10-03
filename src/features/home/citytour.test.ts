@@ -232,9 +232,14 @@ describe("regionCounts · 표시 문구", () => {
   it("데이터의 지역 · 노선 수를 센다", () => {
     const counts = regionCounts(TOURS);
     expect(TOURS).toHaveLength(280);
-    expect(counts.size).toBe(72);
-    expect(counts.get("서울")).toBe(12);
+    // 여행지(visits) 기준: 서울 출발 EG투어버스 12노선은 경기 각지로, 대전 광역투어는 대전 + 이웃 도시로 센다
+    expect(counts.size).toBe(82);
+    expect(counts.get("서울")).toBeUndefined();
+    expect(counts.get("파주")).toBe(8);
+    expect(counts.get("안산")).toBe(11);
     expect(counts.get("가평")).toBe(2);
+    expect(TOURS.filter((t) => t.region === "서울")).toHaveLength(12);
+    expect(TOURS.every((t) => t.visits.length > 0)).toBe(true);
   });
 
   it("운행 시간은 앞자리 0을 뗀다", () => {

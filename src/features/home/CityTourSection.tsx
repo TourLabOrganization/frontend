@@ -14,6 +14,8 @@ import {
   type CourseScoreProfile,
   recommendTourPicks,
   regionCounts,
+  tourRegion,
+  visitsCity,
   typeProfile,
 } from "./citytour";
 import { CityTourCard, useCityTourAdd } from "./CityTourCard";
@@ -30,12 +32,13 @@ const PROFILES = scoresData as (CourseScoreProfile | null)[];
 const TOUR_INDEX = new Map(TOURS.map((tour, i) => [tour, i]));
 const COUNTS = regionCounts(TOURS);
 /** 처음 고른 지역(목업과 같다) */
-const DEFAULT_REGION = "서울";
 
 type Mode = "rec" | "region";
 
 /** 지역별 검색 칩 묶음: 투어 플래너 도시 고르기와 같은 권역(수도권 · 강원권 …), 권역 안은 대표 도시 → 노선 많은 순 */
 const GROUPS = groupCities(COUNTS.keys(), (c) => COUNTS.get(c) ?? 0);
+/** 처음 고른 지역: 첫 권역(수도권)의 첫 도시(노선이 있는 도시만 칩이 된다. 서울은 여행지 기준으로 0개라 칩이 없다, 2026-10-02) */
+const DEFAULT_REGION = GROUPS[0]?.cities[0] ?? "서울";
 
 // 홈 「지역 시티투어」(목업: 배너 다음). 탭 두 칸 「내 유형 추천」 · 「지역별 검색」.
 // 내 유형 추천은 마지막 테마 추천(tn.lastRecommendation)의 설문 6.4 결과(최종 유형 · 간접 선호 u · S3 · S4 두 관심사 · S6)로 citytour.ts recommendTourPicks를 돌린다(관심사별 1자리 보장).
@@ -76,7 +79,7 @@ export function CityTourSection({
   const groupBase = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const recRegions = new Set(rec.map((r) => r.region));
+  const recRegions = new Set(rec.map((r) => tourRegion(r)));
   // 검색어로 권역 묶음 안의 도시를 거른다(도시가 없는 권역은 빠진다)
   const groups = useMemo(
     () =>
@@ -93,7 +96,7 @@ export function CityTourSection({
   );
   const regionTotal = groups.reduce((n, g) => n + g.cities.length, 0);
   const list =
-    mode === "rec" ? rec : TOURS.filter((tour) => tour.region === region);
+    mode === "rec" ? rec : TOURS.filter((tour) => visitsCity(tour, region));
 
   const searching = query.trim().length > 0;
   const shownGroup =
