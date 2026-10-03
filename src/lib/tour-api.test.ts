@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import addedPlaces from "../features/planner/data/added-places.json";
 import plannerPlaces from "../features/planner/data/places.json";
 import signgu from "../features/planner/data/signgu.json";
 import emptyRes from "./fixtures/tour/empty.json";
@@ -100,9 +101,9 @@ describe("공백을 뺀 검색어 (withoutSpaces)", () => {
 describe("시군구 코드 데이터 (scripts/build-signgu.mjs)", () => {
   const codes = signgu as Record<string, string>;
 
-  it("플래너 장소마다 값이 있고, 값은 5자리 숫자 또는 빈 값", () => {
+  it("플래너 장소(빌드 + 추가 장소)마다 값이 있고, 값은 5자리 숫자 또는 빈 값", () => {
     expect(Object.keys(codes).sort()).toEqual(
-      plannerPlaces.map((p) => p.id).sort(),
+      [...plannerPlaces, ...addedPlaces].map((p) => p.id).sort(),
     );
     for (const code of Object.values(codes))
       expect(code === "" || /^\d{5}$/.test(code)).toBe(true);

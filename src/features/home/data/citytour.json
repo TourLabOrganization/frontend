@@ -89,7 +89,7 @@
     "url": "https://www.citytourbusan.com/",
     "date": "2026-07-01",
     "city": "부산",
-    "placeIds": ["bc7", "bc6", "ctt5", "bc12", "bcx4", "ctt6", "ctt2"]
+    "placeIds": ["bc7", "bc6", "ctt5", "bc12", "bcx37", "bcx4", "ctt6", "ctt2"]
   },
   {
     "region": "부산",
@@ -132,7 +132,7 @@
     "url": "http://www.jejucitybus.com/",
     "date": "2026-07-31",
     "city": "제주",
-    "placeIds": ["jdx40", "ctu3", "ctu4", "jdx36"]
+    "placeIds": ["jdx14", "jdx40", "ctu3", "jd7", "ctu4", "jdx36"]
   },
   {
     "region": "제주",
@@ -148,7 +148,19 @@
     "url": "http://www.jejucitybus.com/",
     "date": "2026-07-31",
     "city": "제주",
-    "placeIds": ["jdx36", "nax887", "jdx40", "jdx38", "jdx37", "jdx39"]
+    "placeIds": [
+      "ctme3353a22",
+      "jd7",
+      "jdx36",
+      "nax887",
+      "ctmc04ebcc9",
+      "jdx40",
+      "jdx14",
+      "ctm71504241",
+      "jdx38",
+      "jdx37",
+      "jdx39"
+    ]
   },
   {
     "region": "대구",
@@ -180,7 +192,7 @@
     "url": "",
     "date": "2026-07-30",
     "city": "대구",
-    "placeIds": ["ctt9", "ctt10", "ctt11"]
+    "placeIds": ["ctm6ac41f30", "ctt10", "ctt11"]
   },
   {
     "region": "대구",
@@ -196,7 +208,7 @@
     "url": "",
     "date": "2026-07-30",
     "city": "대구",
-    "placeIds": ["ctt13", "ro401", "ctt14", "ctt15"]
+    "placeIds": ["ctm0723cc57", "ctt13", "ro401", "ctt14", "ctt15"]
   },
   {
     "region": "대구",
@@ -228,7 +240,7 @@
     "url": "",
     "date": "2026-07-30",
     "city": "대구",
-    "placeIds": ["nax1520", "ctt21", "ctt22"]
+    "placeIds": ["ctm4fba628f", "nax1520", "ctt21", "ctt22"]
   },
   {
     "region": "대구",
@@ -244,7 +256,7 @@
     "url": "",
     "date": "2026-07-30",
     "city": "대구",
-    "placeIds": ["ctu5", "ctt24", "ctt25"]
+    "placeIds": ["ctu5", "ctm4c079667", "ctt24", "ctt25"]
   },
   {
     "region": "대구",
@@ -339,7 +351,7 @@
     "url": "https://gwangyang.go.kr/tour/menu.es?mid=a31004030000",
     "date": "2026-07-29",
     "city": "광양",
-    "placeIds": ["ctu7", "ctt36", "ctt37", "ctu8", "ctt38"]
+    "placeIds": ["ctu7", "ctt36", "ctt37", "ctu8", "ctm5079c8c8", "ctt38"]
   },
   {
     "region": "광양",
@@ -371,7 +383,7 @@
     "url": "https://gwangyang.go.kr/tour/menu.es?mid=a31004040000",
     "date": "2026-07-29",
     "city": "광양",
-    "placeIds": ["ctt43", "ctu8", "ctu11"]
+    "placeIds": ["ctt43", "ctu8", "ctm5079c8c8", "ctu11"]
   },
   {
     "region": "여수",
@@ -387,7 +399,15 @@
     "url": "http://ok.yeosu.go.kr",
     "date": "2026-08-06",
     "city": "여수",
-    "placeIds": ["nax128", "ctu12", "ctt44", "ctt45", "ctu13", "ctu14"]
+    "placeIds": [
+      "nax128",
+      "ctu12",
+      "ctt44",
+      "ctt45",
+      "ctu13",
+      "ctu14",
+      "ctm05623dd5"
+    ]
   },
   {
     "region": "여수",
@@ -403,7 +423,7 @@
     "url": "http://ok.yeosu.go.kr",
     "date": "2026-08-06",
     "city": "여수",
-    "placeIds": ["nax130", "ctt44", "nax128"]
+    "placeIds": ["nax130", "ctt44", "nax128", "ctm05623dd5"]
   },
   {
     "region": "여수",
@@ -543,9 +563,11 @@
       "ro171",
       "ctt58",
       "nax214",
+      "nax213",
       "nax216",
       "ctt60",
       "ctt61",
+      "ctmeaf6dde4",
       "nax215"
     ]
   },
@@ -610,8 +632,8 @@
     "tel": "031-366-8921",
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
-    "city": null,
-    "placeIds": []
+    "city": "화성",
+    "placeIds": ["ctm1615b8f3"]
   },
   {
     "region": "화성",
@@ -626,8 +648,8 @@
     "tel": "031-366-8921",
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
-    "city": null,
-    "placeIds": []
+    "city": "화성",
+    "placeIds": ["ctm1615b8f3"]
   },
   {
     "region": "화성",
@@ -707,7 +729,7 @@
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
     "city": "화성",
-    "placeIds": ["ctt77", "ctu21"]
+    "placeIds": ["ctt76", "ctt77", "ctu21"]
   },
   {
     "region": "화성",
@@ -723,7 +745,7 @@
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
     "city": "화성",
-    "placeIds": ["ctt79"]
+    "placeIds": ["ctma5fdd348", "ctmd6432e0c", "ctt79"]
   },
   {
     "region": "화성",
@@ -739,7 +761,7 @@
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
     "city": "화성",
-    "placeIds": ["ctt80"]
+    "placeIds": ["ctt80", "ctme94cdb0e"]
   },
   {
     "region": "화성",
@@ -770,8 +792,8 @@
     "tel": "031-366-8921",
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
-    "city": null,
-    "placeIds": []
+    "city": "화성",
+    "placeIds": ["ctm9c002374"]
   },
   {
     "region": "화성",
@@ -803,7 +825,7 @@
     "url": "https://www.123tour.co.kr/",
     "date": "2026-07-20",
     "city": "합천",
-    "placeIds": ["nax256", "ctt83"]
+    "placeIds": ["nax256", "ctt83", "nax258"]
   },
   {
     "region": "밀양",
@@ -899,7 +921,7 @@
     "url": "http://www.toursacheon.net/citytour/",
     "date": "2026-08-11",
     "city": "사천",
-    "placeIds": ["ctt92", "ctt90", "ctu27", "ctt93"]
+    "placeIds": ["ctm0eccc448", "ctt92", "ctt90", "ctu27", "ctt93"]
   },
   {
     "region": "사천",
@@ -1004,7 +1026,7 @@
     "url": "http://www.iksan.go.kr/tour",
     "date": "2026-08-04",
     "city": "익산",
-    "placeIds": ["nax1412", "nax847", "nax425", "nax426", "nax427"]
+    "placeIds": ["ctu30", "nax1412", "nax847", "nax425", "nax426", "nax427"]
   },
   {
     "region": "익산",
@@ -1020,7 +1042,7 @@
     "url": "http://www.iksan.go.kr/tour",
     "date": "2026-08-04",
     "city": "익산",
-    "placeIds": ["nax1412", "nax847", "nax425", "nax426", "nax427"]
+    "placeIds": ["ctu30", "nax1412", "nax847", "nax425", "nax426", "nax427"]
   },
   {
     "region": "익산",
@@ -1052,7 +1074,7 @@
     "url": "http://www.iksan.go.kr/tour",
     "date": "2026-08-04",
     "city": "익산",
-    "placeIds": ["nax426", "nax425"]
+    "placeIds": ["ctm12021bac", "nax426", "nax425"]
   },
   {
     "region": "익산",
@@ -1148,7 +1170,7 @@
     "url": "https://hongju.or.kr/home/content.do?menu_cd=000161",
     "date": "2026-06-30",
     "city": "홍성",
-    "placeIds": ["nax909"]
+    "placeIds": ["nax909", "ctm7127f2a8"]
   },
   {
     "region": "서산",
@@ -1164,7 +1186,7 @@
     "url": "https://www.seosan.go.kr/tour/index.do",
     "date": "2026-08-05",
     "city": "서산",
-    "placeIds": ["ctt108", "ctu31", "ctt110", "nax905"]
+    "placeIds": ["ctt108", "ctu31", "ctt110", "nax905", "ctt111"]
   },
   {
     "region": "서산",
@@ -1180,7 +1202,7 @@
     "url": "https://www.seosan.go.kr/tour/index.do",
     "date": "2026-08-05",
     "city": "서산",
-    "placeIds": ["ctt112", "ctu32", "ctt113", "ctt110"]
+    "placeIds": ["ctt112", "ctu32", "ctt113", "ctt110", "ctt111"]
   },
   {
     "region": "서산",
@@ -1244,7 +1266,7 @@
     "url": "",
     "date": "2026-07-28",
     "city": "천안",
-    "placeIds": ["ctt117", "nax267"]
+    "placeIds": ["ctm34f000fb", "ctt117", "nax267"]
   },
   {
     "region": "천안",
@@ -1292,7 +1314,7 @@
     "url": "",
     "date": "2026-07-29",
     "city": "태백",
-    "placeIds": ["ro190", "nax635", "ro397"]
+    "placeIds": ["ro190", "ctt120", "nax635", "ro397"]
   },
   {
     "region": "태백",
@@ -1308,7 +1330,7 @@
     "url": "",
     "date": "2026-07-29",
     "city": "태백",
-    "placeIds": ["ro190", "ro191", "nax635", "ro397"]
+    "placeIds": ["ro190", "ctmffa52a19", "ro191", "ctt120", "nax635", "ro397"]
   },
   {
     "region": "원주",
@@ -1551,7 +1573,7 @@
     "url": "https://www.cheongju.go.kr/ktour/contents.do?key=20339",
     "date": "2026-05-26",
     "city": "청주",
-    "placeIds": ["ctt153", "ro930", "ro869", "ctt155"]
+    "placeIds": ["ctt153", "ro930", "ctmed1598d6", "ro869", "ctt155"]
   },
   {
     "region": "청주",
@@ -1615,7 +1637,7 @@
     "url": "",
     "date": "2026-05-14",
     "city": "양산",
-    "placeIds": ["nax403", "ro615"]
+    "placeIds": ["ctme9a5bb32", "nax403", "ro615"]
   },
   {
     "region": "양산",
@@ -1631,7 +1653,7 @@
     "url": "",
     "date": "2026-05-14",
     "city": "양산",
-    "placeIds": ["nax976", "nax401", "nax403"]
+    "placeIds": ["nax976", "ctme9a5bb32", "nax401", "nax403"]
   },
   {
     "region": "양산",
@@ -1663,7 +1685,7 @@
     "url": "",
     "date": "2026-05-14",
     "city": "양산",
-    "placeIds": ["nax403"]
+    "placeIds": ["ctme9a5bb32", "nax403"]
   },
   {
     "region": "봉화",
@@ -1727,7 +1749,7 @@
     "url": "http://www.gbtour.kr/",
     "date": "2026-06-30",
     "city": "안동",
-    "placeIds": ["nax822", "nax159", "nax821"]
+    "placeIds": ["nax822", "nax159", "nax163", "ctmce950040", "nax821"]
   },
   {
     "region": "안동",
@@ -1775,7 +1797,7 @@
     "url": "http://www.gbtour.kr/",
     "date": "2026-06-30",
     "city": "안동",
-    "placeIds": ["ctt173", "nax159", "ctt174"]
+    "placeIds": ["ctt173", "ctm5fecb24e", "nax159", "ctt174"]
   },
   {
     "region": "안동",
@@ -1791,7 +1813,7 @@
     "url": "http://www.gbtour.kr/",
     "date": "2026-06-30",
     "city": "안동",
-    "placeIds": ["nax159", "ctt174", "nax164", "nax161"]
+    "placeIds": ["nax159", "nax163", "ctt174", "nax164", "nax161"]
   },
   {
     "region": "예산",
@@ -1937,7 +1959,15 @@
     "url": "https://www.gptour.go.kr/tour/citytour_A.jsp?menu=guide&submenu=theme",
     "date": "2026-05-20",
     "city": "가평",
-    "placeIds": ["nax330", "nax329", "ctu44", "ro429", "ctt186"]
+    "placeIds": [
+      "ctt184",
+      "nax330",
+      "nax230",
+      "nax329",
+      "ctu44",
+      "ro429",
+      "ctt186"
+    ]
   },
   {
     "region": "파주",
@@ -1969,7 +1999,7 @@
     "url": "https://www.pjcitytour.kr",
     "date": "2026-05-18",
     "city": "파주",
-    "placeIds": ["ro204", "ctt188"]
+    "placeIds": ["ctm1bedc9f8", "ro204", "ctt188"]
   },
   {
     "region": "파주",
@@ -2033,7 +2063,7 @@
     "url": "https://www.pjcitytour.kr",
     "date": "2026-05-18",
     "city": "파주",
-    "placeIds": ["ro204", "nax728"]
+    "placeIds": ["ctm1bedc9f8", "ro204", "nax728"]
   },
   {
     "region": "파주",
@@ -2065,7 +2095,15 @@
     "url": "https://www.siheung.go.kr/citytour",
     "date": "2026-04-07",
     "city": "시흥",
-    "placeIds": ["ro939", "ctt196", "ctt197", "ctt202", "ctt198", "ctu46"]
+    "placeIds": [
+      "ro939",
+      "ctt196",
+      "ctt197",
+      "ctt202",
+      "ctt198",
+      "ctu46",
+      "nax1310"
+    ]
   },
   {
     "region": "시흥",
@@ -2081,7 +2119,15 @@
     "url": "https://www.siheung.go.kr/citytour",
     "date": "2026-04-07",
     "city": "시흥",
-    "placeIds": ["ro939", "ctt196", "ctt197", "ctt202", "ctt198", "ctu46"]
+    "placeIds": [
+      "ro939",
+      "ctt196",
+      "ctt197",
+      "ctt202",
+      "ctt198",
+      "ctu46",
+      "nax1310"
+    ]
   },
   {
     "region": "시흥",
@@ -2129,7 +2175,7 @@
     "url": "https://www.chamflowertour.com/",
     "date": "2026-06-24",
     "city": "대구",
-    "placeIds": ["ctt13", "ctt203", "nax1331"]
+    "placeIds": ["ctt13", "ctm0723cc57", "ctt203", "nax1331"]
   },
   {
     "region": "대구",
@@ -2161,7 +2207,7 @@
     "url": "https://www.chamflowertour.com/",
     "date": "2026-06-24",
     "city": "대구",
-    "placeIds": ["ctt205", "ctt206", "ctt13"]
+    "placeIds": ["ctt205", "ctt206", "ctm0723cc57", "ctt13"]
   },
   {
     "region": "인천",
@@ -2176,8 +2222,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["nax172"]
   },
   {
     "region": "인천",
@@ -2193,7 +2239,7 @@
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
     "city": "인천",
-    "placeIds": ["ctu48"]
+    "placeIds": ["ctmfec8498b", "ctu48", "ctmaa091c68"]
   },
   {
     "region": "인천",
@@ -2209,7 +2255,7 @@
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
     "city": "인천",
-    "placeIds": ["ro22"]
+    "placeIds": ["ctm49424e71", "ro22", "ctm55dd9900", "ctmc944883e"]
   },
   {
     "region": "인천",
@@ -2224,8 +2270,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["ctm19e62f78", "ctm38305e6d"]
   },
   {
     "region": "인천",
@@ -2257,7 +2303,7 @@
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
     "city": "인천",
-    "placeIds": ["ro121"]
+    "placeIds": ["ro121", "ctm6571ce7c"]
   },
   {
     "region": "인천",
@@ -2273,7 +2319,7 @@
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
     "city": "인천",
-    "placeIds": ["ro553", "nax172", "nax193"]
+    "placeIds": ["ro553", "nax172", "ctm6571ce7c", "ctmbb332f93", "ctmfa7ef1e6"]
   },
   {
     "region": "인천",
@@ -2289,7 +2335,7 @@
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
     "city": "인천",
-    "placeIds": ["nax189", "ro317", "nax190", "ro553"]
+    "placeIds": ["nax189", "ctmf00abf6b", "ro317", "nax190", "ro553"]
   },
   {
     "region": "임실",
@@ -2465,7 +2511,7 @@
     "url": "https://www.ansan.go.kr/tourinfo/main/main.do",
     "date": "2026-04-07",
     "city": "안산",
-    "placeIds": ["ctt217", "ctt218"]
+    "placeIds": ["ctm58db8f6b", "ctt217", "ctt218"]
   },
   {
     "region": "안산",
@@ -2529,7 +2575,7 @@
     "url": "https://www.ansan.go.kr/tourinfo/main/main.do",
     "date": "2026-04-07",
     "city": "안산",
-    "placeIds": ["ctt210", "ctt220", "ctt219", "ctu49", "ctt214"]
+    "placeIds": ["ctt210", "ctt220", "ctt219", "ctu49", "ctm6d5a84ac", "ctt214"]
   },
   {
     "region": "안산",
@@ -2561,7 +2607,7 @@
     "url": "http://sejongct.com",
     "date": "2026-03-27",
     "city": "세종",
-    "placeIds": ["nax690", "nax1218"]
+    "placeIds": ["ctm5b9a3a5f", "nax690", "nax1218"]
   },
   {
     "region": "세종",
@@ -2657,7 +2703,7 @@
     "url": "http://sejongct.com",
     "date": "2026-03-27",
     "city": "세종",
-    "placeIds": ["nax692", "ro948"]
+    "placeIds": ["nax692", "ro948", "ctt229"]
   },
   {
     "region": "세종",
@@ -2673,7 +2719,7 @@
     "url": "http://sejongct.com",
     "date": "2026-03-27",
     "city": "세종",
-    "placeIds": ["nax692", "ro948"]
+    "placeIds": ["nax692", "ro948", "ctt229"]
   },
   {
     "region": "세종",
@@ -2689,7 +2735,7 @@
     "url": "http://sejongct.com",
     "date": "2026-03-27",
     "city": "세종",
-    "placeIds": ["nax689"]
+    "placeIds": ["nax689", "ctm5b9a3a5f", "nax267"]
   },
   {
     "region": "세종",
@@ -2721,7 +2767,7 @@
     "url": "http://sejongct.com",
     "date": "2026-03-27",
     "city": "세종",
-    "placeIds": ["nax690", "nax689", "ctt221", "nax1218"]
+    "placeIds": ["nax690", "ctm5b9a3a5f", "nax689", "ctt221", "nax1218"]
   },
   {
     "region": "화순",
@@ -2801,7 +2847,7 @@
     "url": "",
     "date": "2025-12-29",
     "city": "태안",
-    "placeIds": ["ctt234", "nax315", "nax314"]
+    "placeIds": ["ctt234", "nax316", "nax315", "nax314"]
   },
   {
     "region": "춘천",
@@ -2867,7 +2913,7 @@
     "url": "https://citytour.ticketplay.zone/",
     "date": "2026-03-09",
     "city": "춘천",
-    "placeIds": ["ctt235", "ctu54", "ctt236", "nax230", "nax233"]
+    "placeIds": ["ctt235", "ctu54", "ctm7a93888a", "ctt236", "nax230", "nax233"]
   },
   {
     "region": "춘천",
@@ -2883,7 +2929,7 @@
     "url": "https://citytour.ticketplay.zone/",
     "date": "2026-03-09",
     "city": "춘천",
-    "placeIds": ["ctt238", "nax232"]
+    "placeIds": ["ctt238", "nax232", "ctm1a44365c"]
   },
   {
     "region": "춘천",
@@ -2931,7 +2977,7 @@
     "url": "https://citytour.ticketplay.zone/",
     "date": "2026-03-09",
     "city": "춘천",
-    "placeIds": ["ctt236", "ctu53", "nax231"]
+    "placeIds": ["ctt236", "ctm50ae6d50", "ctu53", "nax231"]
   },
   {
     "region": "창원",
@@ -3093,7 +3139,7 @@
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
     "city": "포항",
-    "placeIds": ["nax227", "nax229", "nax827"]
+    "placeIds": ["nax227", "nax229", "nax827", "ctm879b63b6"]
   },
   {
     "region": "포항",
@@ -3109,7 +3155,7 @@
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
     "city": "포항",
-    "placeIds": ["nax1111", "nax226", "nax227"]
+    "placeIds": ["nax1111", "nax224", "nax226", "nax227"]
   },
   {
     "region": "포항",
@@ -3125,7 +3171,7 @@
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
     "city": "포항",
-    "placeIds": ["nax1111", "nax226", "nax225"]
+    "placeIds": ["nax1111", "ctmdafed4a9", "nax224", "nax226", "nax225"]
   },
   {
     "region": "서천",
@@ -3157,7 +3203,7 @@
     "url": "http://www.seocheon.go.kr/tour/sub03_02_01.do",
     "date": "2025-12-22",
     "city": "서천",
-    "placeIds": ["ctt261", "ctt262", "ctt264", "ctt265"]
+    "placeIds": ["ctt261", "ctt262", "nax1215", "ctt264", "ctt265"]
   },
   {
     "region": "서천",
@@ -3173,7 +3219,7 @@
     "url": "http://www.seocheon.go.kr/tour/sub03_02_01.do",
     "date": "2025-12-22",
     "city": "서천",
-    "placeIds": ["ctt266", "ctt267", "ro100"]
+    "placeIds": ["ctm8166a643", "ctt266", "ctm5b499227", "ctt267", "ro100"]
   },
   {
     "region": "서천",
@@ -3256,9 +3302,10 @@
     "placeIds": [
       "nax1317",
       "ctt277",
-      "ctt278",
-      "ctu58",
       "nax1521",
+      "ctt278",
+      "ctmc7a951da",
+      "ctu58",
       "ctt279",
       "ctt280"
     ]
@@ -3280,16 +3327,17 @@
     "placeIds": [
       "nax1317",
       "ctt277",
-      "ctt278",
-      "ctu58",
       "nax1521",
+      "ctt278",
+      "ctmc7a951da",
+      "ctu58",
       "ctt279",
       "ctt280"
     ]
   },
   {
     "region": "완주",
-    "visits": ["완주"],
+    "visits": ["완주", "전주"],
     "name": "완주힐링로드시티투어 2코스",
     "kind": "fixed",
     "board": "전주종합경기장",
@@ -3300,12 +3348,12 @@
     "tel": "063-290-3991",
     "url": "https://www.nbtour.co.kr/",
     "date": "2024-01-29",
-    "city": "완주",
-    "placeIds": ["ctt282"]
+    "city": "전주",
+    "placeIds": ["nax109", "ctm468a27c7", "ctmf81bd2bb", "ctt282"]
   },
   {
     "region": "완주",
-    "visits": ["완주"],
+    "visits": ["완주", "전주"],
     "name": "완주힐링로드시티투어 1코스",
     "kind": "fixed",
     "board": "전주종합경기장",
@@ -3316,8 +3364,16 @@
     "tel": "063-290-3991",
     "url": "https://www.nbtour.co.kr/",
     "date": "2024-01-29",
-    "city": "완주",
-    "placeIds": ["nax1317", "ctt277", "ctt278", "ctu58", "nax1521"]
+    "city": "전주",
+    "placeIds": [
+      "nax109",
+      "nax1317",
+      "ctt277",
+      "nax1521",
+      "ctt278",
+      "ctmc7a951da",
+      "ctu58"
+    ]
   },
   {
     "region": "평창",
@@ -3333,7 +3389,7 @@
     "url": "",
     "date": "2025-06-20",
     "city": "평창",
-    "placeIds": ["ro31", "nax524"]
+    "placeIds": ["ro31", "nax524", "ctme5d08768"]
   },
   {
     "region": "공주",
@@ -3381,7 +3437,14 @@
     "url": "https://www.jindo.go.kr/tour/sub.cs?m=150",
     "date": "2025-06-25",
     "city": "진도",
-    "placeIds": ["ctt285", "ctt286", "ctt287", "ctt288", "ctt289"]
+    "placeIds": [
+      "ctt285",
+      "ctt286",
+      "ctt287",
+      "ctme3f3817c",
+      "ctt288",
+      "ctt289"
+    ]
   },
   {
     "region": "양주",
@@ -3413,7 +3476,7 @@
     "url": "https://www.k-railtour.com/main",
     "date": "2025-09-11",
     "city": "양주",
-    "placeIds": ["nax1160", "ctt291"]
+    "placeIds": ["nax1160", "ctt291", "nax1167"]
   },
   {
     "region": "양주",
@@ -3445,7 +3508,7 @@
     "url": "https://www.k-railtour.com/main",
     "date": "2025-09-11",
     "city": "양주",
-    "placeIds": ["nax1160", "ctt291", "ctt292"]
+    "placeIds": ["nax1160", "ctt291", "nax1167", "ctt292"]
   },
   {
     "region": "양주",
@@ -3461,7 +3524,7 @@
     "url": "https://www.k-railtour.com/main",
     "date": "2025-09-11",
     "city": "양주",
-    "placeIds": ["nax1160", "ctt291", "ctt292"]
+    "placeIds": ["nax1160", "ctt291", "ctt292", "nax1162"]
   },
   {
     "region": "양구",
@@ -3477,7 +3540,7 @@
     "url": "",
     "date": "2025-07-08",
     "city": "양구",
-    "placeIds": ["ctt293", "ctt294"]
+    "placeIds": ["ctt293", "ctmd998da9c", "ctt294"]
   },
   {
     "region": "양구",
@@ -3493,7 +3556,7 @@
     "url": "",
     "date": "2025-07-08",
     "city": "양구",
-    "placeIds": ["ctt295", "ctt296"]
+    "placeIds": ["ctt295", "ctt296", "ctm05823383"]
   },
   {
     "region": "양구",
@@ -3573,7 +3636,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt305", "ctu60"]
+    "placeIds": ["ctt305", "ctu60", "ctmc9abb537"]
   },
   {
     "region": "대전",
@@ -3637,7 +3700,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["nax22", "ctt308", "ro697"]
+    "placeIds": ["ctmc9abb537", "nax22", "ctt308", "ro697"]
   },
   {
     "region": "대전",
@@ -3701,7 +3764,7 @@
     "url": "",
     "date": "2025-04-30",
     "city": "아산",
-    "placeIds": ["nax900", "ctt315", "ctt316"]
+    "placeIds": ["nax900", "ctt315", "ctt316", "ctm2daed0c7"]
   },
   {
     "region": "아산",
@@ -3717,7 +3780,7 @@
     "url": "",
     "date": "2025-04-30",
     "city": "아산",
-    "placeIds": ["nax653", "ctt318"]
+    "placeIds": ["ctmc1225c3e", "nax653", "ctt318"]
   },
   {
     "region": "아산",
@@ -3733,7 +3796,7 @@
     "url": "",
     "date": "2025-04-30",
     "city": "아산",
-    "placeIds": ["ctt319", "nax654"]
+    "placeIds": ["ctt319", "ctm80acc61b", "nax654", "ctmc1225c3e"]
   },
   {
     "region": "대전",
@@ -3749,7 +3812,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ro697"]
+    "placeIds": ["ro697", "nax272", "ro198", "nax274", "ctt320"]
   },
   {
     "region": "대전",
@@ -3765,7 +3828,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt306"]
+    "placeIds": ["ctt306", "ctmd3f5c3d0", "ctm53e8ca41"]
   },
   {
     "region": "대전",
@@ -3781,7 +3844,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt321"]
+    "placeIds": ["ctt321", "nax689", "nax691", "ctm5ac4f1c5"]
   },
   {
     "region": "대전",
@@ -3797,7 +3860,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["nax20"]
+    "placeIds": ["nax20", "nax638", "nax640"]
   },
   {
     "region": "대전",
@@ -3813,7 +3876,14 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt307"]
+    "placeIds": [
+      "ctt307",
+      "nax420",
+      "ctm8b9b0df3",
+      "nax421",
+      "ctmad45a04a",
+      "nax419"
+    ]
   },
   {
     "region": "대전",
@@ -3829,7 +3899,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt307"]
+    "placeIds": ["ctt307", "ctm12e9fdbb", "ctma9910ee7"]
   },
   {
     "region": "대전",
@@ -3845,7 +3915,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt311"]
+    "placeIds": ["ctt311", "ctmde0a88d5"]
   },
   {
     "region": "대전",
@@ -3861,7 +3931,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt323", "ctt324", "nax5", "nax830", "ctt325"]
+    "placeIds": ["ctt323", "ctt324", "nax5", "ctmc9abb537", "nax830", "ctt325"]
   },
   {
     "region": "태안",
@@ -3909,7 +3979,15 @@
     "url": "",
     "date": "2022-06-28",
     "city": "서천",
-    "placeIds": ["nax450", "ctt257", "ctt327", "ro173", "ctt268", "ro100"]
+    "placeIds": [
+      "nax450",
+      "ctt257",
+      "ctt327",
+      "ro173",
+      "ctt268",
+      "nax282",
+      "ro100"
+    ]
   },
   {
     "region": "서천",
@@ -3957,7 +4035,7 @@
     "url": "https://www.romancetour.co.kr/niabbs5/inc.php?inc=sub1&c1=0000000010&c2=0000000063",
     "date": "2025-05-13",
     "city": "화천",
-    "placeIds": ["ctt333", "ctt334"]
+    "placeIds": ["ctm37fcbff9", "ctt333", "ctt334"]
   },
   {
     "region": "화천",
@@ -3973,7 +4051,7 @@
     "url": "https://www.romancetour.co.kr/niabbs5/inc.php?inc=sub1&c1=0000000010&c2=0000000063",
     "date": "2025-05-13",
     "city": "화천",
-    "placeIds": ["ctt335", "ctt333", "ctt334"]
+    "placeIds": ["ctt335", "ctt333", "ctm37fcbff9", "ctt334"]
   },
   {
     "region": "순천",
@@ -4053,7 +4131,7 @@
     "url": "https://www.suncheon.go.kr/yeyak/0001/0015/list/",
     "date": "2025-05-19",
     "city": "순천",
-    "placeIds": ["nax208", "ctt339"]
+    "placeIds": ["ctm9dacf1d3", "nax208", "ctt339"]
   },
   {
     "region": "나주",
@@ -4101,7 +4179,7 @@
     "url": "",
     "date": "2025-04-30",
     "city": "아산",
-    "placeIds": ["ctt319", "nax654"]
+    "placeIds": ["ctt319", "ctmc1225c3e", "nax654"]
   },
   {
     "region": "대전",
@@ -4117,7 +4195,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ro864", "nax19"]
+    "placeIds": ["ro864", "nax19", "ctt320"]
   },
   {
     "region": "대전",
@@ -4148,8 +4226,8 @@
     "tel": "042-252-7725",
     "url": "",
     "date": "2020-12-17",
-    "city": "대전",
-    "placeIds": ["ctt346"]
+    "city": "공주",
+    "placeIds": ["ctm8356121a", "ctt346", "ctt320"]
   },
   {
     "region": "대전",
@@ -4165,7 +4243,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt311"]
+    "placeIds": ["ctt311", "ctm68c8432c", "ctt6", "ctt170", "ctm1ddc83b8"]
   },
   {
     "region": "대전",
@@ -4181,7 +4259,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ro864"]
+    "placeIds": ["ro864", "ctm8f032d0a", "ctm42be76e3", "ctm625fc2fb"]
   },
   {
     "region": "대전",
@@ -4196,8 +4274,8 @@
     "tel": "042-252-7725",
     "url": "",
     "date": "2020-12-17",
-    "city": "대전",
-    "placeIds": ["ro864"]
+    "city": "부여",
+    "placeIds": ["nax1073", "ro316", "nax281", "ro864"]
   },
   {
     "region": "안성",
@@ -4285,7 +4363,7 @@
     "url": "http://go-tago.whataulsan.com",
     "date": "2025-03-27",
     "city": "울산",
-    "placeIds": ["ctt358", "nax308", "nax999", "ctt359"]
+    "placeIds": ["ctt358", "ctma5d46093", "nax308", "nax999", "ctt359"]
   },
   {
     "region": "양주",
@@ -4357,6 +4435,7 @@
       "ctt268",
       "ctt264",
       "nax1215",
+      "ro100",
       "nax450"
     ]
   },
@@ -4406,7 +4485,7 @@
     "url": "http://www.gongju.go.kr/tour/",
     "date": "2022-11-21",
     "city": "공주",
-    "placeIds": ["nax275", "ro360", "nax272"]
+    "placeIds": ["nax275", "ro360", "nax272", "ctmcc963b42"]
   },
   {
     "region": "공주",
@@ -4454,7 +4533,17 @@
     "url": "http://www.gongju.go.kr/tour/",
     "date": "2022-11-21",
     "city": "공주",
-    "placeIds": ["ctt364", "ro282", "nax276", "nax272", "ro360", "ctt361"]
+    "placeIds": [
+      "ctt363",
+      "ctt364",
+      "ctm85c829b2",
+      "ro282",
+      "ctmc8c2a620",
+      "nax276",
+      "nax272",
+      "ro360",
+      "ctt361"
+    ]
   },
   {
     "region": "공주",
@@ -4474,7 +4563,7 @@
   },
   {
     "region": "서울",
-    "visits": ["안산"],
+    "visits": ["안산", "화성"],
     "name": "EG투어버스 B코스",
     "kind": "fixed",
     "board": "회현역",
@@ -4485,8 +4574,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "안산",
+    "placeIds": ["ctmb12d44f4", "ctt76"]
   },
   {
     "region": "서울",
@@ -4501,8 +4590,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "파주",
+    "placeIds": ["nax727"]
   },
   {
     "region": "서울",
@@ -4517,8 +4606,8 @@
     "tel": "02-2238-2895",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "김포",
+    "placeIds": ["ctm72025b8d", "ctm6b4cc9fe", "ctmeb4d9e1f"]
   },
   {
     "region": "서울",
@@ -4533,8 +4622,8 @@
     "tel": "02-2238-2895",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "시흥",
+    "placeIds": ["ctm3de96d9a", "ctt76"]
   },
   {
     "region": "서울",
@@ -4549,8 +4638,8 @@
     "tel": "02-2238-2895",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "부천",
+    "placeIds": ["ctmf58ad40f", "ctmf4531b1e", "ctm56cd64a8"]
   },
   {
     "region": "서울",
@@ -4565,8 +4654,8 @@
     "tel": "031-403-7963",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "시흥",
+    "placeIds": ["ctm3de96d9a", "ctmced9f170"]
   },
   {
     "region": "서울",
@@ -4581,8 +4670,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": "서울",
-    "placeIds": ["ctu67"]
+    "city": "광명",
+    "placeIds": ["ctmc7fa40d9", "ctm0793df25", "ctm30264e7b"]
   },
   {
     "region": "서울",
@@ -4597,8 +4686,8 @@
     "tel": "02-2038-0840",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "양평",
+    "placeIds": ["nax318"]
   },
   {
     "region": "서울",
@@ -4613,8 +4702,8 @@
     "tel": "02-2038-0840",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "포천",
+    "placeIds": ["nax610", "nax612"]
   },
   {
     "region": "서울",
@@ -4629,8 +4718,8 @@
     "tel": "02-2038-0840",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "용인",
+    "placeIds": ["nax287", "na1", "nax719"]
   },
   {
     "region": "서울",
@@ -4645,8 +4734,8 @@
     "tel": "070-4818-1914",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "광명",
+    "placeIds": ["ctmc7fa40d9"]
   },
   {
     "region": "서울",
@@ -4661,7 +4750,7 @@
     "tel": "070-4818-1914",
     "url": "",
     "date": "2024-02-01",
-    "city": "서울",
-    "placeIds": ["ctu69"]
+    "city": "수원",
+    "placeIds": ["ctm6828caf2", "nax719", "nax23"]
   }
 ]

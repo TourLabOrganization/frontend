@@ -6,6 +6,7 @@ import {
   normalizeName,
   splitStops,
   stopPool,
+  visitPool,
 } from "./citytour-match";
 
 const place = (
@@ -113,6 +114,22 @@ describe("stopPool", () => {
   });
 });
 
+describe("visitPool (여러 도시 노선의 풀)", () => {
+  const places = [
+    place("s1", "남산서울타워", "서울", { pickCity: "서울" }),
+    place("p1", "임진각", "파주"),
+    place("h1", "전곡항", "화성"),
+    place("x1", "어딘가", "진주"),
+  ];
+
+  it("여행지 도시마다 stopPool을 모아 한 번씩. 운영 도시(서울)는 visits에 없으면 들어가지 않는다", () => {
+    expect(
+      visitPool(["파주", "화성", "파주"], places).map((p) => p.id),
+    ).toEqual(["p1", "h1"]);
+    expect(visitPool(["서울"], places).map((p) => p.id)).toEqual(["s1"]);
+  });
+});
+
 describe("matchStops", () => {
   const pool = [
     place("a", "불국사", "경주"),
@@ -201,11 +218,28 @@ describe("matchStops", () => {
     ];
     expect(matchStops("정림사지", buyeo, "부여").ids).toEqual(["t"]);
   });
+
+  it("대조 표의 장소는 fixedPool(전체 장소)에서 찾는다: 가평 노선의 남이섬은 춘천 장소", () => {
+    const nami = place("n1", "남이섬", "춘천");
+    const gapyeong = [place("g1", "가평레일파크", "가평")];
+    expect(
+      matchStops("가평역 → 남이섬 → 레일바이크", gapyeong, "가평", [
+        ...gapyeong,
+        nami,
+      ]).ids,
+    ).toEqual(["n1", "g1"]);
+    // fixedPool을 주지 않으면 pool에서만 찾아 남이섬은 못 잇는다
+    expect(matchStops("남이섬", gapyeong, "가평")).toEqual({
+      ids: [],
+      missed: ["남이섬"],
+    });
+  });
 });
 
 describe("tourVisits (실제 여행지)", () => {
   it("서울 출발 EG투어버스는 경기 여행지 도시, 대전 광역투어는 대전 + 이웃 도시, 표에 없으면 운영 도시 하나", () => {
     expect(tourVisits("서울", "EG투어버스 A코스")).toEqual(["파주"]);
+    expect(tourVisits("서울", "EG투어버스 B코스")).toEqual(["안산", "화성"]);
     expect(tourVisits("서울", "EG투어버스 F코스")).toEqual([
       "시흥",
       "안산",

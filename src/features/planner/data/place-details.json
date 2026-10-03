@@ -33202,5 +33202,878 @@
       "ko": "해운대구 센텀남대로 35 구글 지오코딩",
       "en": "Google geocoding: 35 Centumnam-daero, Haeundae-gu"
     }
+  },
+  "ctmc9abb537": {
+    "desc": {
+      "ko": "효를 주제로 한 뿌리공원과 효문화진흥원 일대.",
+      "en": "Ppuri Park and the Hyo Culture Center, a park themed on filial piety."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「효월드」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmde0a88d5": {
+    "desc": {
+      "ko": "대청댐 전망과 물 전시가 있는 홍보관.",
+      "en": "Exhibition hall overlooking Daecheong Dam with displays on water."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「대청댐물문화관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm53e8ca41": {
+    "desc": {
+      "ko": "임진왜란 금산 전투 700 의병을 모신 사적.",
+      "en": "Shrine to the 700 militia who fell in the Geumsan battle of the Imjin War."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「칠백의총」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd3f5c3d0": {
+    "desc": {
+      "ko": "전국 인삼 거래의 중심 시장.",
+      "en": "Korea's central ginseng trading market."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「금산인삼시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1ddc83b8": {
+    "desc": {
+      "ko": "영동 난계 박연을 기리는 국악 전문 박물관.",
+      "en": "Museum of traditional Korean music honoring Yeongdong's master Park Yeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「난계국악박물관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm68c8432c": {
+    "desc": {
+      "ko": "영동 읍내 전통시장.",
+      "en": "Traditional market in downtown Yeongdong."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「영동전통시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma9910ee7": {
+    "desc": {
+      "ko": "옥천 교동의 전통 한옥 생가.",
+      "en": "Traditional hanok birthplace in Okcheon's Gyo-dong."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「육영수 생가」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm12e9fdbb": {
+    "desc": {
+      "ko": "시인 정지용의 생가와 문학관.",
+      "en": "Birthplace and literary museum of the poet Jeong Ji-yong."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「정지용문학관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmad45a04a": {
+    "desc": {
+      "ko": "황산벌 전투 계백 장군 묘역과 백제군사박물관.",
+      "en": "Tomb of General Gyebaek of the Hwangsanbeol battle and the Baekje Military Museum."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「계백장군유적지」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm8b9b0df3": {
+    "desc": {
+      "ko": "금강 포구 강경의 젓갈 거리.",
+      "en": "Salted-seafood street in the old river port of Ganggyeong."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「강경 젓갈시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm8356121a": {
+    "desc": {
+      "ko": "철화분청사기를 재현하는 도예 마을.",
+      "en": "Pottery village reviving iron-painted buncheong ware."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「계룡산 도예촌」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm42be76e3": {
+    "desc": {
+      "ko": "법주사 들머리 세조길과 문장대 산행.",
+      "en": "Sejo Trail at the Beopjusa entrance and the hike to Munjangdae."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「속리산국립공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm8f032d0a": {
+    "desc": {
+      "ko": "벼슬을 받은 600년 소나무 천연기념물.",
+      "en": "600-year-old pine tree granted a court rank, a natural monument."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「정이품송」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm625fc2fb": {
+    "desc": {
+      "ko": "개화기 대규모 한옥 저택.",
+      "en": "Large hanok mansion from the enlightenment era."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「보은 선병국가옥」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5b9a3a5f": {
+    "desc": {
+      "ko": "역대 대통령 기록을 전시하는 기록관.",
+      "en": "Archive exhibiting the records of Korea's presidents."
+    },
+    "src": {
+      "ko": "시티투어 경유지(3개 노선, 노선 표기 「대통령기록관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5ac4f1c5": {
+    "desc": {
+      "ko": "금남면 금강 변 산림박물관과 수목원.",
+      "en": "Forest museum and arboretum by the Geum River in Geumnam."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「금강수목원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc1225c3e": {
+    "desc": {
+      "ko": "신정호 둘레 수변 산책길과 정원.",
+      "en": "Lakeside walking paths and gardens around Sinjeongho Lake."
+    },
+    "src": {
+      "ko": "시티투어 경유지(3개 노선, 노선 표기 「신정호정원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm2daed0c7": {
+    "desc": {
+      "ko": "음봉면 온천 단지.",
+      "en": "Hot-spring complex in Eumbong-myeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「아산온천」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm80acc61b": {
+    "desc": {
+      "ko": "현충사 앞 곡교천 은행나무 가로수길.",
+      "en": "Ginkgo-lined avenue along Gokgyocheon in front of Hyeonchungsa."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「은행나무길」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd998da9c": {
+    "desc": {
+      "ko": "펀치볼 해안면의 자생식물원.",
+      "en": "Native plant garden in the Punchbowl basin of Haean-myeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「DMZ자생식물권」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm05823383": {
+    "desc": {
+      "ko": "화가 박수근의 고향 미술관.",
+      "en": "Art museum in the hometown of the painter Park Soo Keun."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「양구군립박수근미술관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme9a5bb32": {
+    "desc": {
+      "ko": "양산 원도심 전통시장.",
+      "en": "Traditional market in old downtown Yangsan."
+    },
+    "src": {
+      "ko": "시티투어 경유지(3개 노선, 노선 표기 「남부시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm79d8d2f1": {
+    "desc": {
+      "ko": "천일홍 축제가 열리는 꽃밭 정원.",
+      "en": "Flower farm where the globe amaranth festival is held."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「천일홍 축제장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc7a951da": {
+    "desc": {
+      "ko": "오성마을의 고택 복합문화공간.",
+      "en": "Old hanok turned cultural complex in Oseong village."
+    },
+    "src": {
+      "ko": "시티투어 경유지(3개 노선, 노선 표기 「소양고택」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm468a27c7": {
+    "desc": {
+      "ko": "상관면 편백나무 숲길.",
+      "en": "Cypress forest trail in Sanggwan-myeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「공기마을 편백숲」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5079c8c8": {
+    "desc": {
+      "ko": "윤동주 시집 원고를 지킨 망덕포구의 가옥.",
+      "en": "House at Mangdeok port where Yun Dong-ju's manuscripts were kept safe."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「윤동주유고보존 정병욱가옥」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0723cc57": {
+    "desc": {
+      "ko": "달성 현풍의 백년 전통시장.",
+      "en": "Century-old traditional market in Hyeonpung, Dalseong."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「현풍도깨비시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4fba628f": {
+    "desc": {
+      "ko": "제2석굴암으로 불리는 통일신라 석굴.",
+      "en": "Unified Silla grotto known as the second Seokguram."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「군위삼존석굴」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4c079667": {
+    "desc": {
+      "ko": "피아노가 처음 들어온 낙동강 나루터 공원.",
+      "en": "Riverside park at the Nakdong ferry where Korea's first piano arrived."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「사문진나루」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm622fcf76": {
+    "desc": {
+      "ko": "인흥마을의 고택과 능소화 돌담길.",
+      "en": "Old houses and trumpet-vine stone walls of Inheung village."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「인흥마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6ac41f30": {
+    "desc": {
+      "ko": "돌담길로 유명한 부계면 전통 마을.",
+      "en": "Traditional village in Bugye-myeon famed for its stone-wall lanes."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「한밤마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0eccc448": {
+    "desc": {
+      "ko": "이순신 사천해전 격전지의 성과 공원.",
+      "en": "Fortress and park at the site of Admiral Yi's Sacheon sea battle."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「선진거북선공원 선진리성」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm3de96d9a": {
+    "desc": {
+      "ko": "배곧 신도시의 대형 아울렛.",
+      "en": "Large outlet mall in the Baegot new town."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「시흥 프리미엄아울렛」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmced9f170": {
+    "desc": {
+      "ko": "거북섬의 인공 서핑 파크.",
+      "en": "Artificial surfing park on Geobukseom island."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「웨이브파크」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmce950040": {
+    "desc": {
+      "ko": "제비원 미륵으로 불리는 고려 석불.",
+      "en": "Goryeo stone Buddha known as the Jebiwon Maitreya."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「이천동석불상 또는 까치와 호랑이」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6d5a84ac": {
+    "desc": {
+      "ko": "대부도 구봉도의 해안 솔숲 길.",
+      "en": "Coastal pine trail on Gubongdo, Daebudo."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「구봉도카페거리해솔길」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb12d44f4": {
+    "desc": {
+      "ko": "대부도 상설 서커스 공연장.",
+      "en": "Permanent circus venue on Daebudo."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「대부도 동춘서커스」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm58db8f6b": {
+    "desc": {
+      "ko": "물이 빠지면 걸어가는 등대섬.",
+      "en": "Lighthouse island reachable on foot at low tide."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「탄도누에섬」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm8802db47": {
+    "desc": {
+      "ko": "애양원의 순교 기념관.",
+      "en": "Martyrdom memorial at the Aeyangwon compound."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「손양원목사순교지」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma5d46093": {
+    "desc": {
+      "ko": "철새가 깃드는 태화강 대숲.",
+      "en": "Bamboo grove on the Taehwa River where migratory birds roost."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「삼호대숲」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm12021bac": {
+    "desc": {
+      "ko": "무왕 부부 능으로 전하는 백제 고분.",
+      "en": "Baekje tombs said to belong to King Mu and his queen."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「익산쌍릉」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc944883e": {
+    "desc": {
+      "ko": "북녘 땅을 마주하는 전망대.",
+      "en": "Observatory facing the land to the north."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「강화평화전망대」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm55dd9900": {
+    "desc": {
+      "ko": "교동도 대룡시장 옆 관광안내 복합공간.",
+      "en": "Visitor complex beside Daeryong Market on Gyodong island."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「교동제비집」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmfec8498b": {
+    "desc": {
+      "ko": "낙가산 눈썹바위 마애불이 있는 사찰.",
+      "en": "Temple with the eyebrow-rock relief Buddha on Nakgasan."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「보문사」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm19e62f78": {
+    "desc": {
+      "ko": "바닷길이 열리는 작은 섬.",
+      "en": "Tiny island reached by a path that opens at low tide."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「선재도 목섬」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6571ce7c": {
+    "desc": {
+      "ko": "무의도에서 다리로 건너는 섬 둘레길.",
+      "en": "Island loop trail reached by footbridge from Muuido."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「소무의도」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm38305e6d": {
+    "desc": {
+      "ko": "영흥도 소사나무 군락의 해변.",
+      "en": "Beach on Yeongheungdo backed by a hornbeam grove."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「십리포해수욕장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmaa091c68": {
+    "desc": {
+      "ko": "석모도 가는 길목의 젓갈 시장.",
+      "en": "Salted-seafood market on the way to Seokmodo."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「외포항 젓갈수산시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmbb332f93": {
+    "desc": {
+      "ko": "영종도 복합 리조트와 아트 공간.",
+      "en": "Integrated resort and art space on Yeongjongdo."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「파라다이스시티」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm49424e71": {
+    "desc": {
+      "ko": "교동도 화개산 자락 정원과 전망대.",
+      "en": "Garden and observatory on Hwagaesan, Gyodong island."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「화개정원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf00abf6b": {
+    "desc": {
+      "ko": "대야 냉면으로 유명한 골목.",
+      "en": "Alley famous for washbasin-sized bowls of cold noodles."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「화평동 냉면거리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme3353a22": {
+    "desc": {
+      "ko": "거상 김만덕을 기리는 기념관.",
+      "en": "Memorial to the merchant philanthropist Kim Man-deok."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「김만덕기념관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc04ebcc9": {
+    "desc": {
+      "ko": "용두암 서쪽 해안 산책 공원.",
+      "en": "Coastal walking park west of Yongduam."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「어영공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm71504241": {
+    "desc": {
+      "ko": "2·7일에 열리는 제주 최대 오일장.",
+      "en": "Jeju's largest five-day market, open on dates ending in 2 and 7."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「제주시민속오일시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm34f000fb": {
+    "desc": {
+      "ko": "풍세면 산림욕 치유의 숲.",
+      "en": "Healing forest for forest bathing in Pungse-myeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「태학산 치유의 숲」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7a93888a": {
+    "desc": {
+      "ko": "의암호변 옛 어린이회관 문화공간.",
+      "en": "Cultural venue in the former children's hall on Uiam Lake."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「G상상마당」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm50ae6d50": {
+    "desc": {
+      "ko": "춘천 시내가 보이는 언덕 카페 거리.",
+      "en": "Hilltop cafe street with views over Chuncheon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「구봉산 카페거리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1a44365c": {
+    "desc": {
+      "ko": "의암호 물레길 카누 체험.",
+      "en": "Canoe experience on the Mullegil of Uiam Lake."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「중도물레길카누」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmffa52a19": {
+    "desc": {
+      "ko": "태백 읍내 전통시장.",
+      "en": "Traditional market in downtown Taebaek."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「황지자유시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1bedc9f8": {
+    "desc": {
+      "ko": "호수 위를 걷는 220m 흔들다리.",
+      "en": "220 m suspension bridge across a lake."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「마장호수 출렁다리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6cfa0900": {
+    "desc": {
+      "ko": "율곡 이이와 신사임당 묘역이 있는 서원.",
+      "en": "Confucian academy with the tombs of Yi I and Shin Saimdang."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「이이유적지」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmdafed4a9": {
+    "desc": {
+      "ko": "구룡포 과메기와 어촌 문화 전시관.",
+      "en": "Exhibition on Guryongpo's half-dried herring and fishing culture."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「과메기문화관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm879b63b6": {
+    "desc": {
+      "ko": "흥해 바닷가 사방사업 기념 공원.",
+      "en": "Seaside park commemorating erosion-control works in Heunghae."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「사방기념공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1615b8f3": {
+    "desc": {
+      "ko": "갯벌 체험으로 알려진 어촌.",
+      "en": "Fishing village known for mudflat experiences."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「백미리어촌체험마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9c002374": {
+    "desc": {
+      "ko": "궁평항에서 배로 가는 작은 섬.",
+      "en": "Small island reached by boat from Gungpyeong port."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「국화도입파도」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma5fdd348": {
+    "desc": {
+      "ko": "옛 미군 사격장 터의 평화공원.",
+      "en": "Peace park on the site of a former US bombing range."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「매향리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd6432e0c": {
+    "desc": {
+      "ko": "3·1운동 유적이 있는 발안 전통시장.",
+      "en": "Traditional market with March 1st Movement sites."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「발안만세시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme94cdb0e": {
+    "desc": {
+      "ko": "사도세자와 정조의 능.",
+      "en": "Royal tombs of Crown Prince Sado and King Jeongjo."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「융건릉」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmcc963b42": {
+    "desc": {
+      "ko": "금강 변 숲 속 설치미술 공원.",
+      "en": "Installation art park in the forest by the Geum River."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「연미산자연미술공원 10」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm85c829b2": {
+    "desc": {
+      "ko": "제민천변 옛 하숙집 거리 문화공간.",
+      "en": "Cultural space in old boarding houses along Jemincheon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「하숙마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmeaf6dde4": {
+    "desc": {
+      "ko": "홍어와 활어를 파는 항구 시장.",
+      "en": "Harbor market selling skate and live fish."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「목포종합수산시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4697f7f6": {
+    "desc": {
+      "ko": "해녀가 바로 잡은 해산물을 내는 바닷가.",
+      "en": "Seaside spot where haenyeo divers serve freshly caught seafood."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「영도해녀촌」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm8166a643": {
+    "desc": {
+      "ko": "옛 판교역 주변 근대 거리.",
+      "en": "Modern-era streets around the old Pangyo station."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「판교근대역사문화공간」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6828caf2": {
+    "desc": {
+      "ko": "광교산 자락 비구니 사찰.",
+      "en": "Bhikkhuni temple at the foot of Gwanggyosan."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「봉녕사 템플스테이」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9dacf1d3": {
+    "desc": {
+      "ko": "일제 때 철도 관사가 남은 마을.",
+      "en": "Village of railway staff houses from the colonial period."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「철도관사마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm71ca2f54": {
+    "desc": {
+      "ko": "장보고 청해진 본영 장도.",
+      "en": "Jangdo island, headquarters of Jang Bogo's Cheonghaejin."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「장보고유적지」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmed1598d6": {
+    "desc": {
+      "ko": "세종대왕이 머문 탄산 약수.",
+      "en": "Carbonated mineral spring where King Sejong once stayed."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「초정리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme5d08768": {
+    "desc": {
+      "ko": "올림픽 개폐회식장 터의 기념관.",
+      "en": "Memorial hall on the site of the Olympic ceremonies stadium."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「2018평창동계올림픽기념관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7127f2a8": {
+    "desc": {
+      "ko": "청산리 전투 김좌진 장군의 생가.",
+      "en": "Birthplace of General Kim Jwa-jin of the Cheongsanri battle."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「김좌진·한용운 생가」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme3f3817c": {
+    "desc": {
+      "ko": "명량해전의 급류 울돌목과 스카이워크.",
+      "en": "Rapids of the Myeongnyang battle and a skywalk beside Jindo Bridge."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「울돌목 물살체험장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc7fa40d9": {
+    "desc": {
+      "ko": "폐광을 테마파크로 만든 동굴 관광지.",
+      "en": "Abandoned mine turned into a cave theme park."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「광명동굴」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0793df25": {
+    "desc": {
+      "ko": "한국 1호 이케아 매장과 롯데아울렛.",
+      "en": "Korea's first IKEA store, next to Lotte Outlets."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「IKEA」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma817cbb5": {
+    "desc": {
+      "ko": "광명사거리역 옆 큰 전통시장.",
+      "en": "Large traditional market beside Gwangmyeongsageori station."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「광명 전통시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm30264e7b": {
+    "desc": {
+      "ko": "도덕산 공원의 흔들다리와 산책길.",
+      "en": "Suspension bridge and walking trails in Dodeoksan Park."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「도덕산 출렁다리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf4531b1e": {
+    "desc": {
+      "ko": "한국 만화의 역사를 보여주는 박물관.",
+      "en": "Museum of the history of Korean comics."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「한국만화박물관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm56cd64a8": {
+    "desc": {
+      "ko": "옛 쓰레기 소각장을 바꾼 복합문화공간.",
+      "en": "Former waste incinerator turned cultural complex."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「부천아트벙커B39」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf58ad40f": {
+    "desc": {
+      "ko": "영상문화단지 옆 한옥 체험 마을.",
+      "en": "Hanok experience village beside the film culture complex."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「부천한옥마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm72025b8d": {
+    "desc": {
+      "ko": "김포한강신도시의 수변 상가 거리.",
+      "en": "Waterside shopping street in Gimpo Hangang New Town."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「김포라베니체」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6b4cc9fe": {
+    "desc": {
+      "ko": "월곶면 숲속의 야외 조각공원.",
+      "en": "Open-air sculpture park in the woods of Wolgot-myeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「김포국제조각공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmeb4d9e1f": {
+    "desc": {
+      "ko": "북녘 땅이 보이는 한강 하구의 전망 공원.",
+      "en": "Observation park at the Han estuary facing the north."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「애기봉평화생태공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm05623dd5": {
+    "desc": {
+      "ko": "여수 밤바다 노래의 바닷가 공원. 낭만포차 거리 옆.",
+      "en": "Seaside park from the song about Yeosu's night sea, beside the pocha street."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「종포해양공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc8c2a620": {
+    "desc": {
+      "ko": "1920년대 근대 건축 전시관. 충남역사박물관 옆.",
+      "en": "1920s modern building used as an exhibition hall, next to the history museum."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「옛공주읍사무소」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm37fcbff9": {
+    "desc": {
+      "ko": "산천어축제장 옆 산타 테마 우체국.",
+      "en": "Santa-themed post office beside the ice festival grounds."
+    },
+    "src": {
+      "ko": "시티투어 경유지(2개 노선, 노선 표기 「산타우체국」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5b499227": {
+    "desc": {
+      "ko": "동백정 언덕의 500년 동백숲. 성경전래지기념관 옆.",
+      "en": "500-year-old camellia grove on the Dongbaekjeong hill, next to the Bible memorial."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「마량진 동백나무숲」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmfa7ef1e6": {
+    "desc": {
+      "ko": "송도 국제도시를 내려다보는 33층 전망대.",
+      "en": "33rd-floor observatory overlooking Songdo International City."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「G타워」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5fecb24e": {
+    "desc": {
+      "ko": "낙동강변 야간 음악분수.",
+      "en": "Night-time musical fountain on the Nakdong riverside."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「낙동강음악분수」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf81bd2bb": {
+    "desc": {
+      "ko": "모악산 자락 구이저수지 옆의 도립미술관.",
+      "en": "Provincial art museum beside Gui Reservoir at the foot of Moaksan."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「전북도립미술관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }

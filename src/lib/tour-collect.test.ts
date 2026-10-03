@@ -7,6 +7,8 @@ import {
   allTargets,
   collectPopular,
   homeTargets,
+  cityTourStops,
+  collectCityTour,
 } from "./tour-collect";
 
 describe("조회 대상", () => {
@@ -356,5 +358,122 @@ describe("오디 해설이 있는 관광지(collectOdii)", () => {
       "new",
       "new",
     ]);
+  });
+});
+
+describe("시티투어 경유지 중 앱에 없는 관광지(cityTourStops · collectCityTour)", () => {
+  afterEach(() => vi.unstubAllGlobals());
+  const tour = (
+    region: string,
+    name: string,
+    route: string,
+    visits = [region],
+  ) => ({
+    region,
+    visits,
+    name,
+    kind: "fixed" as const,
+    board: "",
+    route,
+    first: "",
+    last: "",
+    fare: "",
+    tel: "",
+    url: "",
+    date: "",
+    city: null,
+    placeIds: [],
+  });
+  const tours = [
+    tour(
+      "서울",
+      "EG투어버스 A코스",
+      "서울 → DMZ투어(곤돌라) → 새경유지 → 오두산 통일전망대 → 중식 → 서울",
+      ["파주"],
+    ),
+    tour("서울", "EG투어버스 Z코스", "서울 → 새경유지 → 박물관 → 2곳 → 서울", [
+      "파주",
+    ]),
+    tour("경주", "시티투어", "경주역 → 불국사 → 새전망대 → 경주역"),
+  ];
+
+  it("식사 · 역 · 일반 명사는 빼고, 지역은 첫 여행지, 같은 이름은 노선 수로 모은다(노선 많은 순)", () => {
+    expect(cityTourStops(tours)).toEqual([
+      // 오두산 통일전망대는 파주 장소(nax727)와 맞아 후보가 아니다(여행지 도시 풀)
+      { region: "파주", name: "새경유지", tours: 2 },
+      { region: "경주", name: "새전망대", tours: 1 },
+      { region: "파주", name: "DMZ투어", tours: 1 },
+    ]);
+  });
+
+  it("이름 → 관광정보(그 도시 시군구만) → 위치 → 추가 장소. 다른 도시 결과는 쓰지 않는다", async () => {
+    const wol = PLANNER_PLACES.find((p) => p.id === "gjx6")!; // 월정교
+    const search: Record<string, unknown[]> = {
+      새경유지: [
+        {
+          contentid: "3003",
+          title: "새경유지",
+          contenttypeid: "12",
+          mapy: "37.76",
+          mapx: "126.68",
+          lDongRegnCd: "41",
+          lDongSignguCd: "480",
+          addr1: "경기도 파주시 탄현면",
+        },
+      ],
+      새전망대: [
+        // 다른 도시(서울 종로)의 같은 이름은 거른다
+        {
+          contentid: "9",
+          title: "새전망대",
+          contenttypeid: "12",
+          mapy: "37.58",
+          mapx: "126.98",
+          lDongRegnCd: "11",
+          lDongSignguCd: "110",
+        },
+        {
+          contentid: "2002",
+          title: "새전망대",
+          contenttypeid: "14",
+          mapy: String(wol.lat + 0.001),
+          mapx: String(wol.lng),
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+        },
+      ],
+    };
+    const body = (item: unknown[]) => ({
+      response: {
+        header: { resultCode: "0000" },
+        body: { items: item.length ? { item } : "", totalCount: item.length },
+      },
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string | URL) => {
+        const url = new URL(String(input));
+        if (url.pathname.includes("searchKeyword2"))
+          return Response.json(
+            body(search[url.searchParams.get("keyword") ?? ""] ?? []),
+          );
+        return Response.json(body([]));
+      }),
+    );
+    const { candidates, places } = await collectCityTour("k", { tours });
+    expect(candidates.map((c) => [c.region, c.name, c.verdict, c.id])).toEqual([
+      ["파주", "새경유지", "new", "pop3003"],
+      ["경주", "새전망대", "existing-location", "gjx6"],
+      ["파주", "DMZ투어", "missing", null],
+    ]);
+    expect(places).toHaveLength(1);
+    expect(places[0]).toMatchObject({
+      id: "pop3003",
+      ko: "새경유지",
+      locKo: "파주",
+      pickCity: "파주",
+      signgu: "41480",
+    });
+    expect(places[0].source).toContain("시티투어 경유지(2개 노선)");
   });
 });

@@ -277,7 +277,10 @@
       "empty": "Aún no hay previsión de concentración para {city}",
       "error": "No se pudieron cargar los lugares populares",
       "retry": "Reintentar",
-      "source": "Fuente: previsión de concentración de visitantes de la Organización de Turismo de Corea"
+      "source": "Fuente: previsión de concentración de visitantes de la Organización de Turismo de Corea",
+      "fallbackDate": "lista manual a {date}",
+      "fallbackNote": "La previsión en tiempo real no está disponible, así que esta es una lista elaborada a mano. El orden sigue los lugares populares del Korea Tourism Data Lab y los habituales de mayor concentración.",
+      "fallbackSource": "Fuente: lugares populares del Korea Tourism Data Lab (2025-09 a 2026-08), lista manual"
     },
     "access": {
       "ktx": "KTX",
@@ -1290,6 +1293,17 @@
           },
           "note": "Cuenta {all} min de trámites + {buffer} min antes del cierre de embarque{floor, select, yes { (mínimo {min} min)} other {}} = {lead} min desde que llegas al aeropuerto · Korea Airports Corporation, actualizado cada 5 min"
         }
+      },
+      "weather": {
+        "label": "Tiempo",
+        "forecast": "{kind} · máx. {max}° · lluvia {rain} mm",
+        "rain": "Se prevé lluvia. Para {count} lugares al aire libre, lleva paraguas o cambia a un lugar cubierto",
+        "heat": "Alerta de calor (máx. {max}°). Para {count} lugares al aire libre, evita el mediodía o cambia a un lugar cubierto",
+        "outdoor": "al aire libre",
+        "alternatives": "Alternativas cubiertas",
+        "add": "Añadir {name}",
+        "rainNone": "Se prevé lluvia. Las paradas de este día son cubiertas, así que no hace falta cambiar nada",
+        "heatNone": "Alerta de calor (máx. {max}°). Las paradas de este día son cubiertas, así que no hace falta cambiar nada"
       }
     },
     "info": {

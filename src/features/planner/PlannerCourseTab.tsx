@@ -1,15 +1,18 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowDown,
   ArrowUp,
   BedDouble,
   BookmarkCheck,
   CircleAlert,
+  CloudRain,
   Info,
   Minus,
   Plus,
   RotateCcw,
+  ThermometerSun,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -35,6 +38,14 @@ import {
   writePlannerPlans,
 } from "@/lib/local-store";
 import { markSheetReturn } from "@/lib/sheet-return";
+import {
+  WEATHER_REVALIDATE_SECONDS,
+  WEATHER_TIMEOUT_MS,
+  type WeatherResponse,
+  weatherKind,
+  weatherPath,
+} from "@/lib/weather";
+import { courseWeather, forecastRange } from "./course-weather";
 import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { CourseBookingLinks } from "./CourseBookingLinks";
@@ -165,6 +176,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const tc = useTranslations("Course");
   const tm = useTranslations("Me");
   const tplans = useTranslations("Plans");
+  const tw = useTranslations("Planner.course.weather");
+  const tkinds = useTranslations("PlaceSheet.weather.kinds");
+  const tsheet = useTranslations("PlaceSheet.weather");
   const locale = useLocale();
   const names = useNameTable();
   const router = useRouter();
@@ -221,6 +235,34 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
 
   // 날짜: 없으면 오늘 · 당일
   const startDate = course.startDate ?? today;
+  // 일자별 날씨 경고(course-weather.ts): 여행 날짜 중 예보가 닿는 범위를 코스 첫 장소 좌표로 한 번 받는다.
+  // 날짜를 고르지 않았으면(당일) 오늘 하루만. 여러 도시 코스도 첫 장소 좌표 하나로 본다(일별 예보는 광역 단위라 충분하다)
+  const weatherRange = forecastRange(
+    startDate,
+    tripDays(course.startDate, course.endDate),
+    today,
+  );
+  const weatherAt = places.find((p) => !isStay(p)) ?? null;
+  const weatherQuery = useQuery({
+    queryKey: [
+      "course-weather",
+      weatherAt?.lat ?? null,
+      weatherAt?.lng ?? null,
+      weatherRange?.from ?? null,
+      weatherRange?.to ?? null,
+    ],
+    queryFn: async (): Promise<WeatherResponse> => {
+      const res = await fetch(
+        weatherPath(weatherAt!.lat, weatherAt!.lng, weatherRange!),
+        { signal: AbortSignal.timeout(WEATHER_TIMEOUT_MS) },
+      );
+      if (!res.ok) throw new Error(`weather ${res.status}`);
+      return (await res.json()) as WeatherResponse;
+    },
+    enabled: hydrated && weatherAt !== null && weatherRange !== null,
+    staleTime: WEATHER_REVALIDATE_SECONDS * 1000,
+    retry: 1,
+  });
   const endDate = course.endDate ?? startDate;
   const dError = startDate && endDate ? dateError(startDate, endDate) : null;
   const settings: PlannerSettings = { ...course, startDate, endDate };
@@ -539,6 +581,106 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     return course.city;
   };
   const inCourse = new Set(course.placeIds);
+  const dayWeather = courseWeather(
+    plan.days,
+    plan.days.map((_, i) => addDays(startDate, i)),
+    weatherQuery.data?.days ?? [],
+    PLANNER_PLACES,
+    inCourse,
+  );
+  const firstWeatherDay = dayWeather.findIndex((d) => d.weather !== null);
+  /** 그날 날씨 줄(예보가 있을 때만). 경고일이면 야외 장소와 실내 대안을 함께 */
+  const weatherStrip = (i: number) => {
+    const d = dayWeather[i];
+    if (!d || !d.weather) return null;
+    const w = d.weather;
+    const kind = tkinds(weatherKind(w.code));
+    const Icon = d.alert === "heat" ? ThermometerSun : CloudRain;
+    const insertIdx = dayInsertIndex(
+      course.placeIds,
+      plan.days[i].stops.map((s) => s.id),
+    );
+    return (
+      <div
+        className={`mt-3 rounded-card px-4 py-3 ${d.alert ? "bg-warning/10" : "bg-fill"}`}
+      >
+        <p className="flex items-center gap-2 text-caption text-fg-muted">
+          <span className="font-semibold text-fg">{tw("label")}</span>
+          <span className="tabular-nums">
+            {tw("forecast", {
+              kind,
+              max: w.max === null ? "–" : Math.round(w.max),
+              rain: Math.round(w.rain),
+            })}
+          </span>
+        </p>
+        {d.alert && (
+          <p
+            role="note"
+            className="mt-1 flex items-start gap-2 text-label font-semibold text-warning"
+          >
+            <Icon size={18} aria-hidden className="mt-0.5 shrink-0" />
+            <span>
+              {d.alert === "rain"
+                ? d.flagged.length > 0
+                  ? tw("rain", { count: d.flagged.length })
+                  : tw("rainNone")
+                : d.flagged.length > 0
+                  ? tw("heat", {
+                      count: d.flagged.length,
+                      max: w.max === null ? "–" : Math.round(w.max),
+                    })
+                  : tw("heatNone", {
+                      max: w.max === null ? "–" : Math.round(w.max),
+                    })}
+            </span>
+          </p>
+        )}
+        {d.alert && d.flagged.length > 0 && (
+          <ul className="mt-2 flex flex-col gap-2">
+            {d.flagged.map((f) => (
+              <li key={f.place.id} className="text-caption">
+                <span className="font-semibold text-fg">
+                  {placeName(f.place, locale, names)}
+                </span>
+                <span className="ml-1 text-fg-muted">{tw("outdoor")}</span>
+                {f.alternatives.length > 0 && (
+                  <span className="mt-1 flex flex-wrap items-center gap-1.5">
+                    <span className="text-fg-muted">{tw("alternatives")}</span>
+                    {f.alternatives.map((alt) => (
+                      <button
+                        key={alt.id}
+                        type="button"
+                        onClick={() => {
+                          store.insertAt(alt.id, insertIdx, alt.locKo);
+                          setStatus(
+                            t("dayAdd.added", {
+                              day: plan.days[i].day,
+                              name: placeName(alt, locale, names),
+                            }),
+                          );
+                        }}
+                        aria-label={tw("add", {
+                          name: placeName(alt, locale, names),
+                        })}
+                        className="inline-flex min-h-9 items-center gap-1 rounded-full bg-surface px-3 text-label font-medium text-primary ring-1 ring-line focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+                      >
+                        <Plus size={14} aria-hidden />
+                        {placeName(alt, locale, names)}
+                      </button>
+                    ))}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {i === firstWeatherDay && (
+          <p className="mt-2 text-micro text-fg-subtle">{tsheet("credit")}</p>
+        )}
+      </div>
+    );
+  };
   const poolByCity = new Map<string, PlannerPlace[]>();
   const addPool = (city: string) => {
     let pool = poolByCity.get(city);
@@ -1294,12 +1436,11 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               legLabels={legLabels(day.stops)}
               legLinks={legLinks(day.stops)}
               before={
-                i === 0 ? (
-                  <>
-                    {chainCard(plan.inbound, "out")}
-                    {arrivalCard()}
-                  </>
-                ) : null
+                <>
+                  {i === 0 && chainCard(plan.inbound, "out")}
+                  {i === 0 && arrivalCard()}
+                  {weatherStrip(i)}
+                </>
               }
               after={
                 <>
