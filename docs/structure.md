@@ -238,7 +238,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - 추가 장소(`pop<contentid>` · `odii<tid>`, `features/planner/data/added-places.json`): 인기 관광지(한국관광공사 집중률)와 관광지 오디오 가이드(오디) 해설이 있는 관광지에서 모아 누적한 앱 장소. `data.ts`가 `places.json` 뒤에 이어 붙여
   지도 · 목록 · 코스 · 장소 시트가 빌드 장소와 똑같이 쓴다(가벼운 필드만. 시군구 코드는 `signgu.json`, 설명 · 사진 · 중 · 일 이름 · 좌표 근거는 `place-details.json`, 도시별 장소 수는 `regions.json`).
   모으는 규칙은 `lib/tour-collect.ts`(`docs/api.md` 「인기 관광지 모으기」), 파일에 합치는 것은 `scripts/add-popular-places.mjs`. Data-Analytics 저장소 `tools/add_popular_places.py`와 같은 규칙 · 같은 id라 두 저장소의 장소 표가 같게 늘어난다.
-  갱신은 dev 서버를 띄우고 `node scripts/add-popular-places.mjs`(인기 관광지) · `node scripts/add-popular-places.mjs --source odii`(오디 해설 관광지) → `npm run format`. 이미 있는 id는 다시 넣지 않는다
+  갱신은 dev 서버를 띄우고 `node scripts/add-popular-places.mjs`(인기 관광지) · `--source odii`(오디 해설 관광지) · `--source citytour`(시티투어 경유지 중 앱에 없는 관광지, 2026-10-03) → `npm run format` → `node scripts/build-citytour.mjs <원천>`(노선 `placeIds`가 새 장소까지 잇게). 이미 있는 id는 다시 넣지 않는다
 - 신규 관광지(`kto:<contentid>`): `places.json`에 없는 한국관광공사 관광지. 홈 인기 관광지가 이름 · 위치로도 앱 장소를 못 찾을 때 만들고,
   브라우저가 localStorage `tn.extraPlaces`(`features/planner/extra-places.ts`)에 같은 필드로 기억해 지도 · 장소 시트 · 코스가 앱 장소처럼 쓴다.
   무거운 필드 · 장소 시트 칸은 서버가 한국관광공사 공통정보로 만든다(`lib/tour-spot.ts`, `docs/api.md` 「신규 관광지」)
@@ -282,7 +282,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
   대전 광역투어 → 대전 + 이웃 도시, 세종 천안연계 · 서천 광역코스)로 노선마다 `visits`를 적고, 없으면 운영 도시 하나. 자동 대조는 동명 장소 오탐(홍성 죽도 → 울릉 죽도, 화성행궁 → 화성시)이 많아 쓰지 않는다.
   지역별 검색 · 도시 칩 수 · 「n개 지역」 · 여행 정보 탭 시티투어 · 추천 카드의 지역 이름은 `visits`로 센다(`regionCounts` · `visitsCity` · `tourRegion` = 첫 여행지).
   내 유형 추천의 「한 지역 한 노선」만은 명세서 §16 · 참조 계산과 같게 운영 도시(`region`) 그대로다(참조 계산 테스트가 그 결과를 고정한다).
-  카드는 운영 도시가 여행지와 다르면 「서울 출발 · 여행지 파주」 한 줄을 보인다. 그 결과 서울은 0개 코스라 칩이 없고(원천에 서울 시내 노선이 없다) 지역별 검색의 처음 지역은 첫 권역의 첫 도시다. 지역 수는 72 → 82
+  카드는 운영 도시가 여행지와 다르면 「서울 출발 · 여행지 파주」 한 줄을 보인다. 그 결과 서울은 0개 코스라 칩이 없고(원천에 서울 시내 노선이 없다) 지역별 검색의 처음 지역은 첫 권역의 첫 도시다. 지역 수는 72 → 83(완주 힐링로드 1 · 2코스에 전주를 더해 2026-10-03)
 - 부분 이름 대조도 목업보다 조였다(대표 결정 2026-09-28, 「해운대(미포)」가 해운대가야밀면 식당에 대조되던 오류): 이름이 같은 장소 → 이름이 서로를 품는 장소 중
   관광지(먹거리 밖)를 먼저, 먹거리는 시티투어 경유(`ct`) 장소 · 장소 이름이 경유지 이름으로 끝나는 곳(「광복로」 → 부산 광복로) · 시장 · 골목 · 거리 경유지일 때만.
   후보가 여럿이면 `ct` → 이름 길이 차이가 가장 작은 곳, 같은 순위면 대조하지 않는다. 경유지는 `+`로도 나눈다

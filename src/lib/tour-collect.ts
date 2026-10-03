@@ -6,6 +6,7 @@ import type { RegionKey } from "../features/planner/regions";
 import {
   fetchTourItems,
   fetchTourPage,
+  type TourItem,
   ktoCategory,
   toKtoPlace,
   tourApiUrl,
@@ -13,6 +14,14 @@ import {
   withForeignNames,
 } from "./tour-api";
 import { odiiThemeUrl } from "./tour-audio";
+import toursData from "../features/home/data/citytour.json";
+import type { CityTour } from "../features/home/citytour";
+import {
+  matchStops,
+  NOT_SIGHT,
+  normalizeName,
+  stopPool,
+} from "../features/home/citytour-match";
 import { POPULAR_CITIES } from "./tour";
 import {
   citySigngu,
@@ -669,5 +678,230 @@ export async function collectOdii(
   log(
     `오디: 후보 ${candidates.length}곳 / 신규 ${added.size}곳 / 지역 없음 ${candidates.filter((c) => c.verdict === "no-region").length}곳`,
   );
+  return { candidates, places: [...added.values()] };
+}
+
+// ---------- 시티투어 경유지 중 앱에 없는 관광지 ----------
+// 시티투어 280노선의 경유지 1,999곳 중 앱 장소와 맞는 곳은 약 950곳이다(2026-10-03). 나머지 가운데 관광지로 보이는 곳(식사 · 역 · 터미널 · 안내소 등을 뺀
+// 360곳 안팎)을 후보로 삼아 국문 관광정보(searchKeyword2)에서 찾고(그 도시의 시군구 코드와 맞는 결과만), 인기 관광지와 같은 판정으로 추가 장소를 만든다.
+// 지역은 노선의 첫 여행지(visits[0], 운영 도시가 아닌 실제 여행지). 좌표 · 분류 · 주소 · 설명은 관광정보 값이다(웹 검색 좌표는 믿기 어려워 쓰지 않는다)
+
+const CITY_TOURS = toursData as readonly CityTour[];
+
+/** 관광지 이름으로 쓸 수 없는 일반 명사뿐인 경유지(「박물관」 · 「2곳」 · 「총1」 같은 것) */
+export const CITYTOUR_GENERIC =
+  /^(박물관|미술관|시장|전통시장|재래시장|공원|해수욕장|체험|농장체험|농촌체험|체험장|자유선택|관광지|일원|축제장|카페|식당|맛집|쇼핑|아울렛|온천|사찰|해변|항|포구|둘레길|산책로|원도심|시내|도심)$|^\d+곳$|총\s*\d|택\d|^\d+$|안내소|경기장|운동장|시청|군청|구청|주차장|휴게소|터미널|정류장|역\s*경유|경유$|집결|해산|탑승|하차|\S역$/;
+
+/** 앱 장소와 맞지 않는 시티투어 경유지 하나. 같은 지역 · 같은 정규화 이름은 한 번(노선 수를 센다) */
+export type CityTourStop = { region: string; name: string; tours: number };
+
+/** 앱 장소와 맞지 않고 관광지로 보이는 경유지(지역 = 노선의 첫 여행지). 노선 많은 순 → 지역 → 이름 */
+export function cityTourStops(
+  tours: readonly CityTour[] = CITY_TOURS,
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+): CityTourStop[] {
+  const pool = places.map((p) => ({
+    id: p.id,
+    ko: p.ko,
+    cat: p.cat,
+    locKo: p.locKo,
+    pickCity: p.pickCity,
+    ct: false,
+  }));
+  const map = new Map<string, CityTourStop>();
+  for (const t of tours) {
+    const region = t.visits[0] ?? t.region;
+    // 운영 도시와 실제 여행지 도시의 장소를 모두 풀에 넣는다(서울 출발 EG투어버스의 파주 경유지가 파주 장소와 맞게)
+    const cities = [...new Set([t.region, ...t.visits])];
+    const tourPool = [
+      ...new Map(
+        cities.flatMap((c) => stopPool(c, pool)).map((p) => [p.id, p]),
+      ).values(),
+    ];
+    const { missed } = matchStops(t.route, tourPool, t.region);
+    for (const raw of missed) {
+      const stop = raw.trim();
+      const key = normalizeName(stop);
+      if (
+        key.length < 2 ||
+        NOT_SIGHT.test(stop) ||
+        CITYTOUR_GENERIC.test(key) ||
+        key === normalizeName(region)
+      )
+        continue;
+      const k = `${region}|${key}`;
+      const cur = map.get(k);
+      if (cur) cur.tours++;
+      else map.set(k, { region, name: stop, tours: 1 });
+    }
+  }
+  return [...map.values()].sort(
+    (a, b) =>
+      b.tours - a.tours ||
+      a.region.localeCompare(b.region) ||
+      a.name.localeCompare(b.name),
+  );
+}
+
+/** 시티투어 경유지 후보 한 곳과 판정 */
+export type CityTourCandidate = CityTourStop & {
+  verdict: CollectVerdict;
+  id: string | null;
+};
+
+/** 도시의 시군구 코드 전부(장소 1곳 이상) */
+function cityCodes(
+  city: string,
+  places: readonly PlannerPlace[],
+  signguOf: (id: string) => string,
+): Set<string> {
+  const out = new Set<string>();
+  for (const p of places) {
+    if ((p.pickCity ?? p.locKo) !== city) continue;
+    const code = signguOf(p.id);
+    if (/^\d{5}$/.test(code)) out.add(code);
+  }
+  return out;
+}
+
+/**
+ * 시티투어 경유지 중 앱에 없는 관광지를 모은다. 후보마다 그 지역 장소 풀에서 이름 → 관광정보 검색(그 도시 시군구 코드와 맞는 결과만) →
+ * 위치 → 추가 장소(pop<contentid>). 인기 관광지(collectPopular)와 같은 판정 · 같은 id라 같은 곳을 두 번 만들지 않는다
+ */
+export async function collectCityTour(
+  key: string,
+  options: {
+    places?: readonly PlannerPlace[];
+    tours?: readonly CityTour[];
+    regions?: readonly string[];
+    signguOf?: (id: string) => string;
+    log?: (line: string) => void;
+  } = {},
+): Promise<{ candidates: CityTourCandidate[]; places: AddedPlace[] }> {
+  const base = options.places ?? PLANNER_PLACES;
+  const signguOf = options.signguOf ?? tourPlaceSigngu;
+  const log = options.log ?? (() => {});
+  let stops = cityTourStops(options.tours ?? CITY_TOURS, base);
+  if (options.regions?.length)
+    stops = stops.filter((s) => options.regions!.includes(s.region));
+  log(`시티투어 미매칭 경유지 ${stops.length}곳`);
+  const added = new Map<string, AddedPlace>();
+  const ids = new Set(base.map((p) => p.id));
+  const candidates: CityTourCandidate[] = [];
+  const perRegion = new Map<string, { n: number; made: number }>();
+  for (const s of stops) {
+    const stat = perRegion.get(s.region) ?? { n: 0, made: 0 };
+    stat.n++;
+    perRegion.set(s.region, stat);
+    const regionPool: PlannerPlace[] = [
+      ...base.filter((p) => (p.pickCity ?? p.locKo) === s.region),
+      ...[...added.values()].filter((p) => p.locKo === s.region),
+    ];
+    const byName = matchInPool(
+      { name: s.name, signgu: "" },
+      s.region,
+      regionPool,
+      signguOf,
+    );
+    if (byName) {
+      candidates.push({ ...s, verdict: "existing-name", id: byName.id });
+      continue;
+    }
+    const codes = cityCodes(s.region, base, signguOf);
+    let item: TourItem | null = null;
+    try {
+      const found = await fetchTourItems(
+        tourApiUrl("KorService2/searchKeyword2", key, {
+          numOfRows: "30",
+          pageNo: "1",
+          arrange: "A",
+          keyword: s.name,
+        }),
+        "no-store",
+      );
+      // 그 도시 시군구 코드와 맞는 결과만(코드가 없는 행은 둔다)
+      const inCity = found.filter((x) => {
+        const code = `${String(x.lDongRegnCd ?? "")}${String(x.lDongSignguCd ?? "")}`;
+        return !/^\d{5}$/.test(code) || codes.size === 0 || codes.has(code);
+      });
+      item = pickSpotItem(inCity, { name: s.name, signgu: "" });
+    } catch {
+      log(`${s.region} ${s.name}: 관광정보 검색 실패`);
+    }
+    const cid = item ? String(item.contentid ?? "").trim() : "";
+    const id = cid ? addedId(cid) : null;
+    const kto = item ? toKtoPlace(item, base) : null;
+    if (!item || !kto || !id) {
+      candidates.push({ ...s, verdict: "missing", id: null });
+      continue;
+    }
+    if (ids.has(id) || added.has(id)) {
+      candidates.push({ ...s, verdict: "existing-id", id });
+      continue;
+    }
+    const near = nearInPool(
+      { name: s.name, lat: kto.lat, lng: kto.lng },
+      regionPool,
+    );
+    if (near) {
+      candidates.push({ ...s, verdict: "existing-location", id: near.id });
+      continue;
+    }
+    let named = kto;
+    try {
+      named = await withForeignNames(
+        kto,
+        String(item.contenttypeid ?? ""),
+        key,
+        "no-store",
+      );
+    } catch {
+      // 다국어 이름을 못 찾으면 로마자 영어 이름으로 둔다
+    }
+    const macro = regionMacro(regionPool, s.region, kto.macro);
+    const place: AddedPlace = {
+      id,
+      n: null,
+      ko: named.ko,
+      en: named.en,
+      locKo: s.region,
+      cat: named.cat,
+      lat: named.lat,
+      lng: named.lng,
+      min: named.min,
+      hrs: "",
+      open: null,
+      close: null,
+      yt: false,
+      off: true,
+      k100: false,
+      un: false,
+      bf: false,
+      auto: named.cat !== "stay",
+      macro,
+      pickCity: s.region,
+      signgu: named.signgu,
+      contentid: cid,
+      addr: named.addr ?? "",
+      photo: named.photo ?? "",
+      zh: named.names?.zh ?? "",
+      ja: named.names?.ja ?? "",
+      source: [
+        named.addr ?? "",
+        `시티투어 경유지(${s.tours}개 노선)`,
+        `관광정보 contentid ${cid} 좌표`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      desc: named.overview
+        ? named.overview
+        : `${s.region} 시티투어 경유지(${s.tours}개 노선)`,
+    };
+    added.set(id, place);
+    stat.made++;
+    candidates.push({ ...s, verdict: "new", id });
+  }
+  for (const [region, stat] of perRegion)
+    log(`${region}: 후보 ${stat.n}곳 / 신규 ${stat.made}곳`);
   return { candidates, places: [...added.values()] };
 }
