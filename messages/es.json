@@ -882,7 +882,14 @@
       "add": "Añadir {name} a la ruta",
       "addedStatus": "Añadido a la ruta: {name}",
       "removedStatus": "Quitado de la ruta: {name}",
-      "popRank": "Popular en Data Lab n.º {rank}"
+      "popRank": "Popular en Data Lab n.º {rank}",
+      "courseLegendLabel": "Ruta en el mapa",
+      "courseLayer": "Mostrar ruta ({count})",
+      "courseDay": "Día {day}",
+      "courseFit": "Ajustar a la ruta",
+      "coursePin": "Día {day}, parada {order}: {name}",
+      "courseStay": "Noche {day}, alojamiento: {name}",
+      "courseStaySample": "Noche {day}, alojamiento (ejemplo): {name}"
     },
     "sheet": {
       "add": "Añadir a la ruta",

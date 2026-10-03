@@ -1,12 +1,19 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { CustomOverlayMap, Polygon, useMap } from "react-kakao-maps-sdk";
+import { BedDouble } from "lucide-react";
+import {
+  CustomOverlayMap,
+  Polygon,
+  Polyline,
+  useMap,
+} from "react-kakao-maps-sdk";
 import { type LatLng, MapFrame } from "@/components/ui/MapFrame";
 import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
 import { bubbleText } from "./bubble-text";
 import { categoryDot } from "./category";
 import { CategoryIcon } from "./CategoryIcon";
+import type { CourseOverlay } from "./course-map";
 
 // 투어 플래너 지도(카카오). 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
 // 전국 보기는 권역 면(행정구역 경계를 권역으로 합친 도형, region-shapes.ts), 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
@@ -48,6 +55,18 @@ export type MapPin = LatLng & {
   title: string;
 };
 
+/** 담은 코스 표시(course-map.ts). 이름은 쓰는 쪽이 화면 언어로 만든다 */
+export type CourseLayerProps = {
+  overlay: CourseOverlay<LatLng & { id: string }>;
+  /** 핀 · 숙소 핀의 이름(aria-label · 툴팁) */
+  pinTitle: (
+    pin: CourseOverlay<LatLng & { id: string }>["pins"][number],
+  ) => string;
+  stayTitle: (
+    stay: CourseOverlay<LatLng & { id: string }>["stays"][number],
+  ) => string;
+};
+
 type PlannerMapProps = {
   apiKey: string;
   /** 지도 영역의 이름 */
@@ -66,6 +85,8 @@ type PlannerMapProps = {
   selectedId?: string | null;
   onBubble?: (id: string) => void;
   onPin?: (id: string) => void;
+  /** 담은 코스(날짜 색 선 · 번호 핀 · 숙소 핀). 없으면 그리지 않는다 */
+  course?: CourseLayerProps | null;
 };
 
 export function PlannerMap({
@@ -81,6 +102,7 @@ export function PlannerMap({
   selectedId,
   onBubble,
   onPin,
+  course = null,
 }: PlannerMapProps) {
   const selected = pins.find((p) => p.id === selectedId) ?? null;
 
@@ -129,7 +151,79 @@ export function PlannerMap({
         hideOverlapping={hideOverlapping}
         onBubble={onBubble}
       />
+      {course && <CourseLayer {...course} onPin={onPin} />}
     </MapFrame>
+  );
+}
+
+/**
+ * 담은 코스(2026-10-03): 날짜마다 색 하나로 경유지 순서 선(Polyline)과 번호 핀(그날 몇 번째), 마지막 날을 뺀 날마다 그날 밤 숙소 핀(침대 아이콘).
+ * 번호 핀은 분류 핀 위에 그려지고 누르면 장소 시트가 열린다(onPin). 숙소 핀은 누르는 동작이 없다(표본은 지도 검색만 있어서)
+ */
+function CourseLayer({
+  overlay,
+  pinTitle,
+  stayTitle,
+  onPin,
+}: CourseLayerProps & { onPin?: (id: string) => void }) {
+  return (
+    <>
+      {overlay.paths.map((path) => (
+        <Polyline
+          key={path.day}
+          path={path.points.map(({ lat, lng }) => ({ lat, lng }))}
+          strokeColor={path.color}
+          strokeOpacity={0.85}
+          strokeWeight={4}
+        />
+      ))}
+      {overlay.pins.map((pin) => {
+        const title = pinTitle(pin);
+        return (
+          <CustomOverlayMap
+            key={`${pin.day}-${pin.order}-${pin.id}`}
+            position={{ lat: pin.lat, lng: pin.lng }}
+            clickable
+            zIndex={3000 - pin.day * 100 - pin.order}
+          >
+            <button
+              type="button"
+              aria-label={title}
+              title={title}
+              onClick={onPin ? () => onPin(pin.id) : undefined}
+              className="flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary-bright"
+            >
+              <span
+                className="flex size-7 items-center justify-center rounded-full text-caption font-bold text-white tabular-nums ring-2 ring-surface"
+                style={{ backgroundColor: pin.color }}
+              >
+                {pin.order}
+              </span>
+            </button>
+          </CustomOverlayMap>
+        );
+      })}
+      {overlay.stays.map((stay) => {
+        const title = stayTitle(stay);
+        return (
+          <CustomOverlayMap
+            key={`stay-${stay.day}`}
+            position={{ lat: stay.lat, lng: stay.lng }}
+            zIndex={2000 - stay.day}
+          >
+            <span
+              role="img"
+              aria-label={title}
+              title={title}
+              className="flex size-7 items-center justify-center rounded-lg bg-fg text-white ring-2"
+              style={{ boxShadow: `0 0 0 2px ${stay.color}` }}
+            >
+              <BedDouble size={16} aria-hidden />
+            </span>
+          </CustomOverlayMap>
+        );
+      })}
+    </>
   );
 }
 

@@ -882,7 +882,14 @@
       "add": "{name} 코스에 담기",
       "addedStatus": "코스에 담았어요: {name}",
       "removedStatus": "코스에서 뺐어요: {name}",
-      "popRank": "데이터랩 인기 {rank}위"
+      "popRank": "데이터랩 인기 {rank}위",
+      "courseLegendLabel": "담은 코스 표시",
+      "courseLayer": "코스 {count}곳 표시",
+      "courseDay": "{day}일차",
+      "courseFit": "코스에 맞춰 보기",
+      "coursePin": "{day}일차 {order}번째: {name}",
+      "courseStay": "{day}일차 밤 숙소: {name}",
+      "courseStaySample": "{day}일차 밤 숙소(예시): {name}"
     },
     "sheet": {
       "add": "코스에 담기",

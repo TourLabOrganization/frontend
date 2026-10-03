@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Plus } from "lucide-react";
+import { Check, Plus, Route } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -54,6 +54,12 @@ import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
 import { hasHangul } from "@/lib/hangul";
 import { useNameTable } from "@/features/names/NamesProvider";
+import { courseOverlay, dayColor } from "./course-map";
+import { withStayOverrides } from "./course-edit";
+import { usePlannerCourse, useToday } from "./course-store";
+import { findAnyPlace, isKnownPlace } from "./place-lookup";
+import { buildPlannerSchedule } from "./schedule";
+import { splitStays, STAY_SAMPLES } from "./stays";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
 const INITIAL_ROWS = 10;
@@ -109,6 +115,50 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   // 「더 보기」 뒤 초점을 옮길 첫 새 행
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
+
+  // ── 담은 코스 표시(course-map.ts): 코스 탭과 같은 입력으로 일정을 계산해 날짜 색 선 · 번호 핀 · 숙소 핀을 그린다 ──
+  const store = usePlannerCourse(isKnownPlace);
+  const today = useToday();
+  const [showCourse, setShowCourse] = useState(true);
+  // 「코스에 맞춰 보기」를 누른 횟수. 바뀌면 코스 점들에 화면을 맞춘다
+  const [courseFit, setCourseFit] = useState(0);
+  const coursePlaces = useMemo(
+    () =>
+      withStayOverrides(
+        // 신규 관광지(kto:)는 브라우저가 기억해 둔 장소(extras)에서 먼저 찾는다(바뀌면 다시 계산)
+        store.course.placeIds
+          .map(
+            (pid) =>
+              (extras.find((e) => e.id === pid) as PlannerPlace | undefined) ??
+              findAnyPlace(pid),
+          )
+          .filter((p): p is PlannerPlace => p !== undefined),
+        store.course.stayOv,
+      ),
+    [store.course.placeIds, store.course.stayOv, extras],
+  );
+  const overlay = useMemo(() => {
+    if (coursePlaces.length === 0 || !today) return null;
+    const startDate = store.course.startDate ?? today;
+    const plan = buildPlannerSchedule(
+      coursePlaces,
+      {
+        ...store.course,
+        startDate,
+        endDate: store.course.endDate ?? startDate,
+      },
+      scope.kind === "city" ? scope.city : null,
+    );
+    return courseOverlay(
+      plan.days,
+      splitStays(coursePlaces).stays,
+      STAY_SAMPLES,
+    );
+    // store.course 전체가 바뀔 때마다(설정 포함) 다시 계산한다
+  }, [coursePlaces, store.course, today, scope]);
+  const courseDays = overlay
+    ? [...new Set(overlay.pins.map((x) => x.day))].sort((a, b) => a - b)
+    : [];
 
   const nation = scope.kind === "nation";
   const categories = CATEGORY_KEYS.filter((c) =>
@@ -298,6 +348,9 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           });
   const fitLevel =
     scope.kind === "nation" && scope.region !== null ? REGION_LEVEL : undefined;
+  // 「코스에 맞춰 보기」를 눌렀으면 코스 점들에 맞춘다(범위가 바뀌면 다시 범위에 맞춘다)
+  const fitCourse =
+    courseFit > 0 && overlay !== null && overlay.points.length > 0;
   const fitKey = nation
     ? `nation:${scope.region ?? ""}`
     : `city:${scope.city}:${filter}:${badge ?? ""}`;
@@ -373,12 +426,48 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             areas={areas}
             hideOverlapping={scope.kind === "nation" && scope.region !== null}
             pins={pins}
-            fitPoints={fitPoints}
-            fitKey={fitKey}
-            fitLevel={fitLevel}
+            fitPoints={fitCourse ? overlay.points : fitPoints}
+            fitKey={fitCourse ? `course-${courseFit}` : fitKey}
+            fitLevel={fitCourse ? undefined : fitLevel}
             selectedId={selectedId}
             onBubble={onBubble}
             onPin={openPlace}
+            course={
+              showCourse && overlay
+                ? {
+                    overlay,
+                    pinTitle: (pin) =>
+                      t("coursePin", {
+                        day: pin.day,
+                        order: pin.order,
+                        name: placeName(
+                          pin.place as PlannerPlace,
+                          locale,
+                          names,
+                        ),
+                      }),
+                    stayTitle: (s) =>
+                      t(
+                        s.stay.kind === "picked"
+                          ? "courseStay"
+                          : "courseStaySample",
+                        {
+                          day: s.day,
+                          name:
+                            s.stay.kind === "picked"
+                              ? placeName(
+                                  s.stay.place as PlannerPlace,
+                                  locale,
+                                  names,
+                                )
+                              : locale === "ko"
+                                ? s.stay.sample.ko
+                                : s.stay.sample.en || s.stay.sample.ko,
+                        },
+                      ),
+                  }
+                : null
+            }
           />
         ) : (
           <p
@@ -389,6 +478,51 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
           </p>
         )}
       </div>
+
+      {overlay && apiKey && (
+        <div
+          role="group"
+          aria-label={t("courseLegendLabel")}
+          className="flex flex-wrap items-center gap-2 border-b border-line px-5 py-2"
+        >
+          <button
+            type="button"
+            aria-pressed={showCourse}
+            onClick={() => setShowCourse((v) => !v)}
+            className={`flex min-h-9 items-center gap-1.5 rounded-xl px-3 text-caption font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+              showCourse
+                ? "bg-primary-weak text-primary-strong"
+                : "bg-fill text-fg-muted active:bg-line"
+            }`}
+          >
+            <Route size={14} aria-hidden />
+            {t("courseLayer", { count: overlay.pins.length })}
+          </button>
+          {showCourse &&
+            courseDays.map((day) => (
+              <span
+                key={day}
+                className="inline-flex items-center gap-1 text-caption text-fg-muted tabular-nums"
+              >
+                <span
+                  aria-hidden
+                  className="inline-block size-2.5 rounded-full"
+                  style={{ backgroundColor: dayColor(day) }}
+                />
+                {t("courseDay", { day })}
+              </span>
+            ))}
+          {showCourse && (
+            <button
+              type="button"
+              onClick={() => setCourseFit((n) => n + 1)}
+              className="ml-auto inline-flex min-h-9 items-center rounded-xl px-2 text-caption font-semibold text-primary focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+            >
+              {t("courseFit")}
+            </button>
+          )}
+        </div>
+      )}
 
       <section aria-labelledby="planner-list-heading" className="pt-5">
         <h2

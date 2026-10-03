@@ -882,7 +882,14 @@
       "add": "Add {name} to course",
       "addedStatus": "Added to course: {name}",
       "removedStatus": "Removed from course: {name}",
-      "popRank": "Data Lab popular #{rank}"
+      "popRank": "Data Lab popular #{rank}",
+      "courseLegendLabel": "Course on the map",
+      "courseLayer": "Show course ({count})",
+      "courseDay": "Day {day}",
+      "courseFit": "Fit to course",
+      "coursePin": "Day {day}, stop {order}: {name}",
+      "courseStay": "Night {day} stay: {name}",
+      "courseStaySample": "Night {day} stay (sample): {name}"
     },
     "sheet": {
       "add": "Add to course",
