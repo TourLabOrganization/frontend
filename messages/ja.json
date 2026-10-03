@@ -883,7 +883,14 @@
       "add": "{name}をコースに追加",
       "addedStatus": "コースに追加しました：{name}",
       "removedStatus": "コースから外しました：{name}",
-      "popRank": "データラボ人気{rank}位"
+      "popRank": "データラボ人気{rank}位",
+      "courseLegendLabel": "地図のコース表示",
+      "courseLayer": "コースを表示（{count}か所）",
+      "courseDay": "{day}日目",
+      "courseFit": "コースに合わせる",
+      "coursePin": "{day}日目 {order}番目: {name}",
+      "courseStay": "{day}日目の宿: {name}",
+      "courseStaySample": "{day}日目の宿（例）: {name}"
     },
     "sheet": {
       "add": "コースに追加",

@@ -883,7 +883,14 @@
       "add": "将{name}加入行程",
       "addedStatus": "已加入行程：{name}",
       "removedStatus": "已从行程移除：{name}",
-      "popRank": "数据实验室人气第{rank}名"
+      "popRank": "数据实验室人气第{rank}名",
+      "courseLegendLabel": "地图上的行程",
+      "courseLayer": "显示行程（{count}处）",
+      "courseDay": "第{day}天",
+      "courseFit": "按行程缩放",
+      "coursePin": "第{day}天第{order}站：{name}",
+      "courseStay": "第{day}晚住宿：{name}",
+      "courseStaySample": "第{day}晚住宿（示例）：{name}"
     },
     "sheet": {
       "add": "加入行程",

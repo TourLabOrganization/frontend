@@ -88,6 +88,9 @@ public/                 정적 파일
   | 해양 · 자연경관 `sea`          | `Waves`       | `cat-sea`      |
   | 힐링 · 생태 · 체험 `heal`      | `Leaf`        | `cat-heal`     |
 
+- **담은 코스 표시**(`course-map.ts` · `PlannerMap` `CourseLayer`, 2026-10-03): 코스에 담은 장소가 있으면 코스 탭과 같은 입력으로 일정을 계산해(`buildPlannerSchedule`) 날짜마다 색 하나(7가지 hex, `DAY_COLORS`)로
+  경유지 순서 선(Polyline)과 번호 핀(그날 몇 번째, 누르면 장소 시트), 마지막 날을 뺀 날마다 그날 밤 숙소 핀(침대 아이콘, 코스 탭 「숙박」과 같은 `pickNightStay`: 담은 숙박 장소 → 표본, 25km 밖이면 없음).
+  지도 아래 범례 줄: 「코스 n곳 표시」 토글(aria-pressed) · 날짜 색 점 · 「코스에 맞춰 보기」(코스 점들에 화면을 맞춤, 범위가 바뀌면 다시 범위에 맞춘다). 문구 `Planner.map.course*`
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. **도시를 고르면 그 도시(`locKo`)의 장소가 전부 나온다**:
   `pickCity`는 전용 화면 장소면 그 화면 도시, 전국 목록 장소면 `locKo`다(`scripts/build-planner.mjs`)
   - 결정 이유: PoC `cityRows`는 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 전국 목록 장소 447곳을 버려서
