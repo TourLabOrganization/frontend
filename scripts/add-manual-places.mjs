@@ -2,6 +2,7 @@
 // 수기로 정리한 장소 목록(CSV)을 투어 플래너 추가 장소에 누적한다(관광공사 키 없이).
 //   scripts/data/citytour-manual-places.csv  시티투어 경유지 중 앱에 없는 관광지(lib/tour-collect.ts cityTourStops)를 사람이 골라 좌표를 적은 표
 //   scripts/data/related-manual-places.csv   기존 연관 관광지 행의 설명에 이름이 나오지만 앱에 없는 관광지(Data-Analytics related_mentioned_missing)를 사람이 골라 적은 표
+//   scripts/data/crowd-manual-places.csv     혼잡도(집중률) 관광지와 같은 명단인 데이터랩 인기 관광지(연령대별 순위, Data-Analytics age_upgrade/data/raw) 중 앱에 없는 곳을 사람이 적은 표
 //   열: region(앱 도시) · stopName(노선 표기) · tours(노선 수) · ko · en · cat · lat · lng · signgu(법정동 시군구 코드) · muni(시군구 이름) · desc · descEn(영어 설명)
 //       · nearOk(1이면 기존 장소 250m 안이어도 다른 곳으로 보고 넣는다. 사람이 확인한 이웃 장소: 벽화골목 옆 해양공원, 박물관 옆 옛 읍사무소 …)
 //       · source(출처 앞 문구. 비면 「시티투어 경유지(n개 노선, 노선 표기 「…」)」. 연관 관광지 표(scripts/data/related-manual-places.csv)는 「한국관광공사 연관 관광지(… 언급)」)
