@@ -79,7 +79,7 @@ import {
   type Scope,
 } from "./data";
 import { useExtraPlaces } from "./extra-places";
-import { findAnyPlace, isKnownPlace } from "./place-lookup";
+import { canonicalKnownId, findAnyPlace, isKnownPlace } from "./place-lookup";
 import {
   addLocalDays,
   stayBookingLinks,
@@ -184,7 +184,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const router = useRouter();
   const hydrated = useHydrated();
   const today = useToday();
-  const store = usePlannerCourse(isKnownPlace);
+  const store = usePlannerCourse(isKnownPlace, canonicalKnownId);
   // 코스에 담은 신규 관광지(kto:)는 브라우저가 기억해 둔 장소에서 찾는다. 바뀌면 다시 그린다
   useExtraPlaces();
   const course = store.course;

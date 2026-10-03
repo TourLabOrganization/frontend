@@ -214,7 +214,7 @@ describe("matchStops", () => {
     expect(matchStops("으능정이", daejeon, "대전").ids).toEqual(["r"]);
     const buyeo = [
       place("m", "정림사지박물관", "부여"),
-      place("t", "정림사지5층석탑", "부여"),
+      place("t", "정림사지 오층석탑", "부여"),
     ];
     expect(matchStops("정림사지", buyeo, "부여").ids).toEqual(["t"]);
   });
