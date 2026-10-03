@@ -11,6 +11,11 @@ import { useNameTable } from "@/features/names/NamesProvider";
 import { rememberPlace } from "@/features/planner/extra-places";
 import { plannerHref } from "@/features/planner/query";
 import { cityName } from "@/features/planner/regions";
+import { placeName } from "@/features/theme/place-meta";
+import {
+  POPULAR_FALLBACK,
+  popularFallback,
+} from "@/features/home/popular-fallback";
 import { POPULAR_CITY_KEY, useLocalValue, writeLocal } from "@/lib/local-store";
 import { markSheetReturn } from "@/lib/sheet-return";
 import {
@@ -44,7 +49,8 @@ async function fetchPopular(
 }
 
 // 홈 「지금 인기 관광지」. 도시 칩을 고르면 그 도시의 관광지를 오늘 방문 집중률(한국관광공사 예측)이 높은 순으로 10곳 보인다.
-// 앱 장소와 이름이 맞는 곳은 투어 플래너 지도에서 그 장소 시트를 연다. 서버에 공공데이터포털 키가 없으면 섹션째 숨는다
+// 앱 장소와 이름이 맞는 곳은 투어 플래너 지도에서 그 장소 시트를 연다.
+// 서버에 공공데이터포털 키가 없거나 호출이 실패 · 비면 수기 목록(features/home/popular-fallback.ts, 순위만 · 집중률 없음)을 보인다(2026-10-03)
 export function PopularAttractions() {
   const t = useTranslations("Home.attractions");
   const tl = useTranslations("PlaceSheet.tour.crowd.levels");
@@ -64,16 +70,22 @@ export function PopularAttractions() {
     retry: false,
     enabled,
   });
-  if (!enabled) return null;
   const data = query.data && "items" in query.data ? query.data : null;
-  const dateLabel = data
-    ? new Intl.DateTimeFormat(locale, {
-        month: "long",
-        day: "numeric",
-        weekday: "short",
-        timeZone: "UTC",
-      }).format(new Date(`${data.date}T00:00:00Z`))
-    : "";
+  // 수기 목록을 보일 때: 키가 없거나, 호출이 실패했거나, 결과가 비었을 때
+  const fallback =
+    !enabled || query.isError || (query.isSuccess && !data)
+      ? popularFallback(city)
+      : [];
+  const formatDate = (iso: string) =>
+    new Intl.DateTimeFormat(locale, {
+      month: "long",
+      day: "numeric",
+      weekday: "short",
+      timeZone: "UTC",
+    }).format(new Date(`${iso}T00:00:00Z`));
+  const dateLabel = data ? formatDate(data.date) : "";
+  const fallbackDate = formatDate(POPULAR_FALLBACK.date);
+  const rowClass = "flex min-h-14 items-center gap-3 px-3 py-2 text-left";
 
   return (
     <section className="mt-10 px-5" aria-labelledby={`${id}-title`}>
@@ -86,8 +98,15 @@ export function PopularAttractions() {
             {t("date", { date: dateLabel })}
           </span>
         )}
+        {!data && fallback.length > 0 && (
+          <span className="text-caption text-fg-subtle tabular-nums">
+            {t("fallbackDate", { date: fallbackDate })}
+          </span>
+        )}
       </div>
-      <p className="mt-1 text-caption text-fg-muted">{t("note")}</p>
+      <p className="mt-1 text-caption text-fg-muted">
+        {fallback.length > 0 ? t("fallbackNote") : t("note")}
+      </p>
 
       <div
         role="group"
@@ -115,8 +134,46 @@ export function PopularAttractions() {
         })}
       </div>
 
-      <div aria-live="polite" aria-busy={query.isFetching}>
-        {query.isPending ? (
+      <div aria-live="polite" aria-busy={enabled && query.isFetching}>
+        {fallback.length > 0 ? (
+          <>
+            {enabled && query.isError && (
+              <div className="mt-3 flex items-center gap-3 rounded-card bg-fill p-4">
+                <p className="flex-1 text-label text-fg-muted">{t("error")}</p>
+                <Button
+                  variant="secondary"
+                  size="md"
+                  onClick={() => void query.refetch()}
+                >
+                  {t("retry")}
+                </Button>
+              </div>
+            )}
+            <ol className="mt-3 flex flex-col divide-y divide-line rounded-card ring-1 ring-line">
+              {fallback.map((item, i) => (
+                <li key={item.id}>
+                  <Link
+                    href={plannerHref({ city, place: item.id })}
+                    onClick={() => markSheetReturn(item.id)}
+                    className={`${rowClass} rounded-card focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright active:bg-fill`}
+                  >
+                    <span className="w-6 shrink-0 text-center text-label font-bold text-primary tabular-nums">
+                      {i + 1}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-body font-semibold">
+                      {placeName(item, locale, names)}
+                    </span>
+                    <ChevronRight
+                      size={20}
+                      aria-hidden
+                      className="shrink-0 text-fg-subtle"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </>
+        ) : query.isPending ? (
           <ul aria-hidden className="mt-3 flex flex-col gap-2">
             {Array.from({ length: 5 }, (_, i) => (
               <li
@@ -191,8 +248,7 @@ export function PopularAttractions() {
                   )}
                 </>
               );
-              const row =
-                "flex min-h-14 items-center gap-3 px-3 py-2 text-left";
+              const row = rowClass;
               return (
                 <li key={`${item.district}|${item.name}`}>
                   {item.id ? (
@@ -219,7 +275,7 @@ export function PopularAttractions() {
       </div>
       <p className="mt-2 flex items-center gap-1.5 text-micro text-fg-subtle">
         <UsersRound size={14} aria-hidden className="shrink-0" />
-        {t("source")}
+        {fallback.length > 0 ? t("fallbackSource") : t("source")}
       </p>
     </section>
   );

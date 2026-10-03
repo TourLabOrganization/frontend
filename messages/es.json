@@ -277,7 +277,10 @@
       "empty": "Aún no hay previsión de concentración para {city}",
       "error": "No se pudieron cargar los lugares populares",
       "retry": "Reintentar",
-      "source": "Fuente: previsión de concentración de visitantes de la Organización de Turismo de Corea"
+      "source": "Fuente: previsión de concentración de visitantes de la Organización de Turismo de Corea",
+      "fallbackDate": "lista manual a {date}",
+      "fallbackNote": "La previsión en tiempo real no está disponible, así que esta es una lista elaborada a mano. El orden sigue los lugares populares del Korea Tourism Data Lab y los habituales de mayor concentración.",
+      "fallbackSource": "Fuente: lugares populares del Korea Tourism Data Lab (2025-09 a 2026-08), lista manual"
     },
     "access": {
       "ktx": "KTX",

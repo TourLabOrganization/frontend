@@ -277,7 +277,10 @@
       "empty": "No visitor concentration forecast for {city} yet",
       "error": "Couldn't load popular spots",
       "retry": "Try again",
-      "source": "Source: Korea Tourism Organization visitor concentration forecast"
+      "source": "Source: Korea Tourism Organization visitor concentration forecast",
+      "fallbackDate": "hand-curated as of {date}",
+      "fallbackNote": "The live visitor forecast isn't available, so this is a hand-curated list. Ranking follows Korea Tourism Data Lab popular spots and typical concentration leaders.",
+      "fallbackSource": "Source: Korea Tourism Data Lab popular spots (2025-09 to 2026-08), hand-curated"
     },
     "access": {
       "ktx": "KTX",
