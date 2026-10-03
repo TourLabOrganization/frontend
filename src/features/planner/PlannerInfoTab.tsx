@@ -12,6 +12,7 @@ import ticData from "./data/tic.json";
 import { InfoCenters } from "./InfoCenters";
 import { InfoCitySelect } from "./InfoCitySelect";
 import { InfoCityTours } from "./InfoCityTours";
+import { InfoFestivals } from "./InfoFestivals";
 import { InfoStays } from "./InfoStays";
 import { cityStays } from "./info-stays";
 import { CITY_HUBS, CITY_INFO, cityName } from "./regions";
@@ -33,6 +34,7 @@ const isModeKey = (m: string): m is ModeKey =>
 // 관문은 Tour Planner.dc.html REGION_HUB(data/regions.json hubs), 이동 요령은 코스 탭과 같은 접이식 6단계(RoutingHowTo), 링크는 data/info.ts.
 // 시티투어(홈과 같은 카드) · 관광안내소(data/tic.json)는 PoC처럼 도시를 고르지 않으면 서울을 「기본 지역」으로 보인다.
 // 숙소(「{도시} 숙소」, info-stays.ts)는 코스 빌더의 일자별 숙박과 달리 도시 전체의 숙박 장소 + 예시 표본을 좌우로 넘기는 카드로 보인다(2026-10-02).
+// 축제 · 행사(「{도시} 축제 · 행사」, InfoFestivals)는 브라우저가 /api/tour/festival을 도시 이름으로 부른다(한국관광공사 축제공연행사, 2026-10-03).
 // 세 데이터는 서버에서 그 도시 것만 골라 넘긴다(클라이언트 번들에 전국 데이터를 싣지 않는다. 장소 전체(places.json)는 이 서버 컴포넌트만 읽는다).
 // 외국어 화면은 이름 · 경로 · 주소 · 요금 · 운영 등을 서버에서 번역 표로 옮겨 함께 넘긴다(features/translations)
 export async function PlannerInfoTab({ city }: { city: string | null }) {
@@ -165,6 +167,13 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
         cityLabel={infoCityLabel}
         isDefault={city === null}
         stays={stays}
+      />
+
+      <InfoFestivals
+        key={`fest|${infoCity}`}
+        city={infoCity}
+        cityLabel={infoCityLabel}
+        isDefault={city === null}
       />
 
       <InfoCenters
