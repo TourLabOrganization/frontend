@@ -13,8 +13,10 @@ import { indirectPreference } from "../recommend/theme-index";
 // data/citytour-scores.json(scripts/build-citytour-scores.mjs가 Data-Analytics eligible_courses.csv로 만든다). 둘 다 손으로 고치지 않는다
 
 export type CityTour = {
-  /** 도시(시군) 한국어 이름 */
+  /** 운영 도시(시군) 한국어 이름(원천의 도시 = 운영 지자체 · 출발지) */
   region: string;
+  /** 실제 여행지 도시들(경유지 순, 비지 않는다). 대개 운영 도시 하나. 서울 출발 EG투어버스는 경기 각지(citytour-match.ts TOUR_VISITS). 지역별 검색 · 집계 · 여행 정보 탭은 이것으로 */
+  visits: string[];
   /** 노선명(원천 한국어) */
   name: string;
   /** loop 순환형 · fixed 코스형 */
@@ -233,7 +235,9 @@ function serves(profile: CourseScoreProfile, tag: TourTag): boolean {
  * 한 자리를 먼저 채우고(아직 뽑지 않은 지역만), 남은 자리를 순위대로 채운 뒤 순위 순서로 돌려준다.
  * profiles는 tours와 같은 순서(data/citytour-scores.json)
  */
-export function recommendTourPicks<T extends Pick<CityTour, "region">>(
+export function recommendTourPicks<
+  T extends Pick<CityTour, "region" | "visits">,
+>(
   tours: readonly T[],
   type: TypeProfile,
   profiles: readonly (CourseScoreProfile | null)[],
@@ -255,6 +259,8 @@ export function recommendTourPicks<T extends Pick<CityTour, "region">>(
             : 0),
     );
 
+  // 한 지역에서 한 노선. 지역은 명세서 §16 · Data-Analytics 참조 계산과 같이 운영 도시(region)다(실제 여행지 visits가 아니다:
+  // 참조 계산과 같은 결과를 지키려고. 서울 출발 EG투어버스 12노선은 여기서 「서울」 한 지역이다)
   const seen = new Set<string>();
   const picked = new Map<number, TourTag | null>();
   for (const tag of type.tags) {
@@ -276,7 +282,7 @@ export function recommendTourPicks<T extends Pick<CityTour, "region">>(
 }
 
 /** 내 유형 추천의 노선만(recommendTourPicks 순서) */
-export function recommendTours<T extends Pick<CityTour, "region">>(
+export function recommendTours<T extends Pick<CityTour, "region" | "visits">>(
   tours: readonly T[],
   type: TypeProfile,
   profiles: readonly (CourseScoreProfile | null)[],
@@ -284,12 +290,29 @@ export function recommendTours<T extends Pick<CityTour, "region">>(
   return recommendTourPicks(tours, type, profiles).map((x) => x.tour);
 }
 
-/** 지역별 노선 수. 처음 나온 순서 */
+/** 노선의 대표 지역 = 첫 여행지(visits[0]), 없으면 운영 도시 */
+export function tourRegion(tour: Pick<CityTour, "region" | "visits">): string {
+  return tour.visits[0] ?? tour.region;
+}
+
+/** 노선이 이 도시를 여행하는지(지역별 검색 · 여행 정보 탭) */
+export function visitsCity(
+  tour: Pick<CityTour, "region" | "visits">,
+  city: string,
+): boolean {
+  return tour.visits.length > 0
+    ? tour.visits.includes(city)
+    : tour.region === city;
+}
+
+/** 지역별 노선 수(여행지 기준: 여러 도시를 도는 노선은 도시마다 센다). 처음 나온 순서 */
 export function regionCounts(
-  tours: readonly Pick<CityTour, "region">[],
+  tours: readonly Pick<CityTour, "region" | "visits">[],
 ): Map<string, number> {
   const m = new Map<string, number>();
-  for (const t of tours) m.set(t.region, (m.get(t.region) ?? 0) + 1);
+  for (const t of tours)
+    for (const c of t.visits.length > 0 ? t.visits : [t.region])
+      m.set(c, (m.get(c) ?? 0) + 1);
   return m;
 }
 

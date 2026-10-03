@@ -258,7 +258,8 @@
         "confirm": "Replace"
       },
       "routeExpand": "Show full route",
-      "routeCollapse": "Show less"
+      "routeCollapse": "Show less",
+      "departs": "Departs {from} · visits {to}"
     },
     "addTheme": "Add theme",
     "popularHeading": "Popular routes now",

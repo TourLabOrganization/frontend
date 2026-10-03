@@ -203,7 +203,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 | `scripts/build-planner.mjs`       | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) · data-server `places.json`                                    | `features/planner/data/places.json`(3,109곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                                                 |
 | `scripts/build-wide.mjs`          | `Tour Planner.dc.html`(`METRO_STATIONS` · `BUSAN_STATIONS` · 호선 순서 · 색 · 이름 · `ORIGIN_ALT`)                                                                         | `features/planner/data/wide.json`(지하철 출발 · 귀가역, 수단별 대체 관문)                                                                                                      |
 | `scripts/build-places.mjs`        | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html` · data-server `places.json`                                                                       | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                                                              |
-| `scripts/build-citytour.mjs`      | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다                                                                      | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id)                                                                                                             |
+| `scripts/build-citytour.mjs`      | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다                                                                      | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id + 실제 여행지 `visits`)                                                                                      |
 | `scripts/build-theme-extras.mjs`  | 테마 화면 5개 `*.dc.html`                                                                                                                                                  | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center)                                  |
 | `scripts/build-stays.mjs`         | `Tour Planner.dc.html`(`STAYS`)                                                                                                                                            | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                                                        |
 | `scripts/build-region-shapes.mjs` | 통계청(KOSTAT) 센서스용 행정구역경계 2018 시도 경계(southkorea/southkorea-maps `kostat/2018/json/skorea-provinces-2018-geo.json`). Turf.js는 `npm i --no-save`로 받아 쓴다 | `features/planner/data/region-shapes.json`(시도 17곳을 권역 7곳으로 합쳐 단순화한 바깥 경계, 20㎢ 미만 섬 제외)                                                                |
@@ -274,6 +274,12 @@ data-server 합치기 (`scripts/data-server.mjs`)
 
 - 데이터 가공(분류 칩 · 내 유형 추천 · 지역 집계)은 `features/home/citytour.ts`, 경유지 → 플래너 장소 대조는 `citytour-match.ts`. 둘 다 목업(9/27 standalone) 규칙을 옮긴 순수 함수다
 - 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,109곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
+- **실제 여행지**(`visits`, 2026-10-02): 원천의 도시(`region`)는 운영 지자체(출발지)라, 서울에서 출발해 경기 각지를 도는 EG투어버스 12노선이 「서울 12개 코스」로 집계됐다.
+  빌드 때 `citytour-match.ts` `TOUR_VISITS`(운영 도시와 다른 노선만 노선별로 읽고 적은 표: EG투어버스 → 파주 · 안산 · 광명 · 시흥 · 화성 · 부천 · 김포 · 수원 · 평택 · 용인 · 포천 · 양평,
+  대전 광역투어 → 대전 + 이웃 도시, 세종 천안연계 · 서천 광역코스)로 노선마다 `visits`를 적고, 없으면 운영 도시 하나. 자동 대조는 동명 장소 오탐(홍성 죽도 → 울릉 죽도, 화성행궁 → 화성시)이 많아 쓰지 않는다.
+  지역별 검색 · 도시 칩 수 · 「n개 지역」 · 여행 정보 탭 시티투어 · 추천 카드의 지역 이름은 `visits`로 센다(`regionCounts` · `visitsCity` · `tourRegion` = 첫 여행지).
+  내 유형 추천의 「한 지역 한 노선」만은 명세서 §16 · 참조 계산과 같게 운영 도시(`region`) 그대로다(참조 계산 테스트가 그 결과를 고정한다).
+  카드는 운영 도시가 여행지와 다르면 「서울 출발 · 여행지 파주」 한 줄을 보인다. 그 결과 서울은 0개 코스라 칩이 없고(원천에 서울 시내 노선이 없다) 지역별 검색의 처음 지역은 첫 권역의 첫 도시다. 지역 수는 72 → 82
 - 부분 이름 대조도 목업보다 조였다(대표 결정 2026-09-28, 「해운대(미포)」가 해운대가야밀면 식당에 대조되던 오류): 이름이 같은 장소 → 이름이 서로를 품는 장소 중
   관광지(먹거리 밖)를 먼저, 먹거리는 시티투어 경유(`ct`) 장소 · 장소 이름이 경유지 이름으로 끝나는 곳(「광복로」 → 부산 광복로) · 시장 · 골목 · 거리 경유지일 때만.
   후보가 여럿이면 `ct` → 이름 길이 차이가 가장 작은 곳, 같은 순위면 대조하지 않는다. 경유지는 `+`로도 나눈다
@@ -298,7 +304,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 
 - 순서: 선택한 지역(도시 고르기 · 광역 관문) → 시티투어 → 숙소 → 관광안내소 → 이동 요령(`RoutingHowTo`) → 지역별 관광 안내 링크
 - 도시를 고르지 않으면 시티투어 · 숙소 · 관광안내소는 서울을 보이고 개수 앞에 「기본 지역」을 붙인다(PoC `_dflt`)
-- 시티투어(`InfoCityTours`, PoC `ctList`): 홈과 같은 카드를 좌우로 넘기는 카드 줄(`CardCarousel`)로(2026-10-02, 그 전의 처음 3개 + 「더 보기」 6개씩을 바꿨다). 출처의 기준일은 첫 노선의 기준일. 코스가 없으면 빈 상태 문구
+- 시티투어(`InfoCityTours`, PoC `ctList`): 그 도시를 실제로 여행하는 노선(`visits`, 서울 출발 EG투어버스는 파주 · 안산 등에 보인다). 홈과 같은 카드를 좌우로 넘기는 카드 줄(`CardCarousel`)로(2026-10-02, 그 전의 처음 3개 + 「더 보기」 6개씩을 바꿨다). 출처의 기준일은 첫 노선의 기준일. 코스가 없으면 빈 상태 문구
 - 숙소(`InfoStays`, 2026-10-02): 코스 빌더의 일자별 「숙박」(`CourseNightStay`: 그날 기준점 25km · 지정 · 해제)과 달리 고른 도시 전체의 숙소를 좌우로 넘기는 카드(`CardCarousel`)로. 앱 장소 목록의 숙박 장소(`cat === "stay"`, `pickCity` 없으면 `locKo`가 그 도시) 전부를 도심(`regions.json` 도시 좌표)에서 가까운 순으로, 그 뒤에 예시 숙소 표본(`data/stays.json`): 그 도시 region key(영어 이름 소문자)의 표본, 없으면 도심 25km 안, 가까운 순 최대 4곳(`info-stays.ts` `cityStays`, 서버 컴포넌트가 골라 카드에 쓰는 칸만 넘긴다). 카드: 이름 · 도시 · 분류(앱 장소는 체크인 안내 `hrs`, 표본은 동네 · 유형 + 「예시」 칩) · 도심 거리 · 「지도」(앱 장소 카카오맵, 표본 네이버 · Google 검색, 새 창) · 「숙박 예약 ▾」(오늘 → 내일, `stayBookingLinks`). 숙소가 없으면 빈 상태 문구
 - 관광안내소(`InfoCenters`, PoC `tic*`): 제목 · 개수 → 1330 관광통역안내(`tel:1330`) → 외국어 화면에서 「내 언어 안내 가능한 곳만」 토글(`aria-pressed`, 개수) →
   목록(이름 · 안내 언어 칩 · 주소 · 운영 · 휴무 · 전화 `tel:` · 「지도」 카카오맵 새 창) → 처음 6곳 · 「더 보기」마다 10곳 → 출처.

@@ -2,7 +2,7 @@ import { ExternalLink } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { buttonClassName } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
-import type { CityTour } from "@/features/home/citytour";
+import { type CityTour, visitsCity } from "@/features/home/citytour";
 import toursData from "@/features/home/data/citytour.json";
 import { loadNameTable } from "@/features/names/server";
 import { cityTourText, infoCenterText } from "@/features/translations/text";
@@ -64,7 +64,8 @@ export async function PlannerInfoTab({ city }: { city: string | null }) {
       ].filter((name, i, all) => name && all.indexOf(name) === i)
     : [];
   const modes = hub ? hub.modes.filter(isModeKey) : [];
-  const tours = TOURS.filter((tour) => tour.region === infoCity);
+  // 실제 여행지(visits) 기준: 서울 출발 EG투어버스는 파주 · 안산 같은 여행지 도시에 보인다
+  const tours = TOURS.filter((tour) => visitsCity(tour, infoCity));
   // 관광안내소는 외국어 화면에서 옮긴 글(이름 · 주소 · 운영 · 휴무)을 붙여 넘긴다(번역 표는 서버에서만 읽는다)
   const centers = CENTERS.filter((c) => c.city === infoCity).map((c) => ({
     ...c,

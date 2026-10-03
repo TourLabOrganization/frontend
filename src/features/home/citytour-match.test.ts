@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  tourVisits,
   type MatchPlace,
   matchStops,
   normalizeName,
@@ -199,5 +200,21 @@ describe("matchStops", () => {
       place("t", "정림사지5층석탑", "부여"),
     ];
     expect(matchStops("정림사지", buyeo, "부여").ids).toEqual(["t"]);
+  });
+});
+
+describe("tourVisits (실제 여행지)", () => {
+  it("서울 출발 EG투어버스는 경기 여행지 도시, 대전 광역투어는 대전 + 이웃 도시, 표에 없으면 운영 도시 하나", () => {
+    expect(tourVisits("서울", "EG투어버스 A코스")).toEqual(["파주"]);
+    expect(tourVisits("서울", "EG투어버스 F코스")).toEqual([
+      "시흥",
+      "안산",
+      "화성",
+    ]);
+    expect(tourVisits("대전", "광역투어(셋째주, 토)")).toEqual([
+      "대전",
+      "금산",
+    ]);
+    expect(tourVisits("경주", "시티투어")).toEqual(["경주"]);
   });
 });

@@ -258,7 +258,8 @@
         "confirm": "入れ替える"
       },
       "routeExpand": "経路をすべて表示",
-      "routeCollapse": "経路を閉じる"
+      "routeCollapse": "経路を閉じる",
+      "departs": "{from}発 · 旅先 {to}"
     },
     "addTheme": "テーマ追加",
     "popularHeading": "いま人気のコース",
