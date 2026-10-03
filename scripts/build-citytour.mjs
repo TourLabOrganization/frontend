@@ -29,8 +29,8 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   matchStops,
-  stopPool,
   tourVisits,
+  visitPool,
 } from "../src/features/home/citytour-match.ts";
 
 const [sourcePath] = process.argv.slice(2);
@@ -77,11 +77,15 @@ let noMatch = 0;
 const tours = rows.map((x) => {
   const [region, name, kind, board, route, first, last] = x;
   if (!KIND[kind]) unknownKind++;
-  const { ids } = matchStops(route, stopPool(region, matchPlaces), region);
+  // 대조 풀은 실제 여행지 도시(visits)의 장소. 서울 출발 EG투어버스는 서울 장소가 아니라 파주 · 시흥 · 화성 장소와 맞춘다(2026-10-03).
+  // 운영 도시 안을 도는 노선은 visits가 운영 도시라 전과 같다
+  const visits = tourVisits(region, name);
+  const pool = visitPool(visits, matchPlaces);
+  const { ids } = matchStops(route, pool, region);
   if (ids.length === 0) noMatch++;
   return {
     region,
-    visits: tourVisits(region, name),
+    visits,
     name,
     kind: KIND[kind] ?? "fixed",
     board,

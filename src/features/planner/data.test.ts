@@ -41,6 +41,20 @@ const addedIn = (city: string) =>
   addedPlaces.filter((p) => p.pickCity === city).length;
 const addedMacro = (key: string) =>
   addedPlaces.filter((p) => p.macro === key).length;
+/** 추가 장소로만 생긴 도시(빌드 장소가 없던 김포 · 부천 · 광명) */
+const BASE_CITIES = new Set(
+  PLANNER_PLACES.slice(0, 3109).map((p) => p.pickCity),
+);
+const addedCityList = [
+  ...new Set(
+    addedPlaces.map((p) => p.pickCity).filter((c) => !BASE_CITIES.has(c)),
+  ),
+];
+const addedCities = addedCityList.length;
+const addedCitiesIn = (key: string) =>
+  addedCityList.filter(
+    (c) => addedPlaces.find((p) => p.pickCity === c)?.macro === key,
+  ).length;
 
 describe("플래너 데이터", () => {
   it("장소는 3,109곳(원천 3,118곳에서 맥도날드 9곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
@@ -81,7 +95,7 @@ describe("플래너 데이터", () => {
   it("도시 고르기 장소 수 + 전국에만 속한 장소 = 전체, 도시 보기는 그 도시 장소만", () => {
     const sum = [...PLACE_COUNT_BY_CITY.values()].reduce((a, b) => a + b, 0);
     const nationOnly = PLANNER_PLACES.filter((p) => !p.pickCity).length;
-    expect(PLACE_COUNT_BY_CITY.size).toBe(124);
+    expect(PLACE_COUNT_BY_CITY.size).toBe(124 + addedCities);
     expect(sum).toBe(3095 + ADDED);
     expect(nationOnly).toBe(14);
     expect(sum + nationOnly).toBe(TOTAL);
@@ -132,13 +146,19 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      capital: [21, 681 + addedMacro("capital")],
-      gangwon: [18, 369 + addedMacro("gangwon")],
-      chungcheong: [19, 440 + addedMacro("chungcheong")],
-      daegyeong: [16, 366 + addedMacro("daegyeong")],
-      dongnam: [19, 636 + addedMacro("dongnam")],
-      honam: [30, 432 + addedMacro("honam")],
-      jeju: [1, 171 + addedMacro("jeju")],
+      capital: [21 + addedCitiesIn("capital"), 681 + addedMacro("capital")],
+      gangwon: [18 + addedCitiesIn("gangwon"), 369 + addedMacro("gangwon")],
+      chungcheong: [
+        19 + addedCitiesIn("chungcheong"),
+        440 + addedMacro("chungcheong"),
+      ],
+      daegyeong: [
+        16 + addedCitiesIn("daegyeong"),
+        366 + addedMacro("daegyeong"),
+      ],
+      dongnam: [19 + addedCitiesIn("dongnam"), 636 + addedMacro("dongnam")],
+      honam: [30 + addedCitiesIn("honam"), 432 + addedMacro("honam")],
+      jeju: [1 + addedCitiesIn("jeju"), 171 + addedMacro("jeju")],
     });
   });
 
@@ -198,7 +218,7 @@ describe("플래너 데이터", () => {
     ).toEqual(REGION_CITY_COUNT);
   });
 
-  it("장소가 있는 도시는 가운데 좌표가 있고, 관문은 PoC REGION_HUB에 없는 14곳 말고 모두 있다", () => {
+  it("장소가 있는 도시는 가운데 좌표가 있고, 관문은 PoC REGION_HUB에 없는 14곳과 김포 말고 모두 있다", () => {
     const cities = new Set(PLANNER_PLACES.map((p) => p.locKo));
     for (const city of cities) {
       expect(CITY_INFO[city]?.lat, city).toBeTypeOf("number");
@@ -220,9 +240,10 @@ describe("플래너 데이터", () => {
         "화천",
         "나주",
         "안성",
+        "김포", // 수기 장소로 생긴 도시(2026-10-03). 부천 · 광명은 부천역 · 광명역을 관문으로 적었다
       ].sort(),
     );
-    expect(Object.keys(CITY_HUBS)).toHaveLength(cities.size - 14);
+    expect(Object.keys(CITY_HUBS)).toHaveLength(cities.size - 15);
   });
 
   it("체류 · 운영시간 필드가 일정 모듈이 읽는 꼴이다", () => {

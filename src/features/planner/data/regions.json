@@ -289,7 +289,9 @@
       "en": "Seongnam"
     },
     "부천": {
-      "en": "Bucheon"
+      "en": "Bucheon",
+      "lat": 37.5034,
+      "lng": 126.766
     },
     "안산": {
       "en": "Ansan",
@@ -315,10 +317,14 @@
       "lng": 127.0769
     },
     "김포": {
-      "en": "Gimpo"
+      "en": "Gimpo",
+      "lat": 37.6153,
+      "lng": 126.7156
     },
     "광명": {
-      "en": ""
+      "en": "Gwangmyeong",
+      "lat": 37.4786,
+      "lng": 126.8644
     },
     "군포": {
       "en": ""
@@ -2199,6 +2205,20 @@
       "shipKo": "제주항 여객터미널",
       "shipEn": "Jeju Port Ferry Terminal",
       "modes": ["air", "ship"]
+    },
+    "부천": {
+      "lat": 37.4842,
+      "lng": 126.7827,
+      "ko": "부천역 (1호선)",
+      "en": "Bucheon Stn",
+      "modes": ["metro"]
+    },
+    "광명": {
+      "lat": 37.4163,
+      "lng": 126.8847,
+      "ko": "광명역 (KTX)",
+      "en": "Gwangmyeong Stn (KTX)",
+      "modes": ["ktx", "metro"]
     }
   },
   "origins": {
@@ -2775,6 +2795,9 @@
     "광주": 9,
     "신안": 4,
     "장수": 4,
-    "순창": 2
+    "순창": 2,
+    "광명": 4,
+    "부천": 3,
+    "김포": 3
   }
 }

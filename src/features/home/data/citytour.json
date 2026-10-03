@@ -2187,8 +2187,8 @@
     "tel": "1899-0960",
     "url": "https://mirihae.com/itoct",
     "date": "2026-03-13",
-    "city": null,
-    "placeIds": []
+    "city": "인천",
+    "placeIds": ["nax172"]
   },
   {
     "region": "인천",
@@ -2700,7 +2700,7 @@
     "url": "http://sejongct.com",
     "date": "2026-03-27",
     "city": "세종",
-    "placeIds": ["nax689", "ctm5b9a3a5f"]
+    "placeIds": ["nax689", "ctm5b9a3a5f", "nax267"]
   },
   {
     "region": "세종",
@@ -3313,8 +3313,8 @@
     "tel": "063-290-3991",
     "url": "https://www.nbtour.co.kr/",
     "date": "2024-01-29",
-    "city": "완주",
-    "placeIds": ["ctm468a27c7", "ctt282"]
+    "city": "전주",
+    "placeIds": ["nax109", "ctm468a27c7", "ctt282"]
   },
   {
     "region": "완주",
@@ -3329,8 +3329,9 @@
     "tel": "063-290-3991",
     "url": "https://www.nbtour.co.kr/",
     "date": "2024-01-29",
-    "city": "완주",
+    "city": "전주",
     "placeIds": [
+      "nax109",
       "nax1317",
       "ctt277",
       "ctt278",
@@ -3776,7 +3777,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ro697"]
+    "placeIds": ["ro697", "nax272", "ro198", "nax274"]
   },
   {
     "region": "대전",
@@ -3808,7 +3809,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt321"]
+    "placeIds": ["ctt321", "nax689", "nax691"]
   },
   {
     "region": "대전",
@@ -3824,7 +3825,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["nax20"]
+    "placeIds": ["nax20", "nax638", "nax640"]
   },
   {
     "region": "대전",
@@ -3840,7 +3841,14 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt307"]
+    "placeIds": [
+      "ctt307",
+      "nax420",
+      "ctm8b9b0df3",
+      "nax421",
+      "ctmad45a04a",
+      "nax419"
+    ]
   },
   {
     "region": "대전",
@@ -3936,7 +3944,15 @@
     "url": "",
     "date": "2022-06-28",
     "city": "서천",
-    "placeIds": ["nax450", "ctt257", "ctt327", "ro173", "ctt268", "ro100"]
+    "placeIds": [
+      "nax450",
+      "ctt257",
+      "ctt327",
+      "ro173",
+      "ctt268",
+      "nax282",
+      "ro100"
+    ]
   },
   {
     "region": "서천",
@@ -4175,8 +4191,8 @@
     "tel": "042-252-7725",
     "url": "",
     "date": "2020-12-17",
-    "city": "대전",
-    "placeIds": ["ctt346"]
+    "city": "공주",
+    "placeIds": ["ctm8356121a", "ctt346"]
   },
   {
     "region": "대전",
@@ -4192,7 +4208,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt311", "ctm68c8432c", "ctm1ddc83b8"]
+    "placeIds": ["ctt311", "ctm68c8432c", "ctt6", "ctt170", "ctm1ddc83b8"]
   },
   {
     "region": "대전",
@@ -4208,7 +4224,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ro864"]
+    "placeIds": ["ro864", "ctm8f032d0a", "ctm42be76e3", "ctm625fc2fb"]
   },
   {
     "region": "대전",
@@ -4223,8 +4239,8 @@
     "tel": "042-252-7725",
     "url": "",
     "date": "2020-12-17",
-    "city": "대전",
-    "placeIds": ["ro864"]
+    "city": "부여",
+    "placeIds": ["nax1073", "ro316", "nax281", "ro864"]
   },
   {
     "region": "안성",
@@ -4509,7 +4525,7 @@
   },
   {
     "region": "서울",
-    "visits": ["안산"],
+    "visits": ["안산", "화성"],
     "name": "EG투어버스 B코스",
     "kind": "fixed",
     "board": "회현역",
@@ -4520,8 +4536,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "안산",
+    "placeIds": ["ctmb12d44f4", "ctt76"]
   },
   {
     "region": "서울",
@@ -4536,8 +4552,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "파주",
+    "placeIds": ["nax727"]
   },
   {
     "region": "서울",
@@ -4552,8 +4568,8 @@
     "tel": "02-2238-2895",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "김포",
+    "placeIds": ["ctm72025b8d", "ctm6b4cc9fe", "ctmeb4d9e1f"]
   },
   {
     "region": "서울",
@@ -4568,8 +4584,8 @@
     "tel": "02-2238-2895",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "시흥",
+    "placeIds": ["ctm3de96d9a", "ctt76"]
   },
   {
     "region": "서울",
@@ -4584,8 +4600,8 @@
     "tel": "02-2238-2895",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "부천",
+    "placeIds": ["ctmf58ad40f", "ctmf4531b1e", "ctm56cd64a8"]
   },
   {
     "region": "서울",
@@ -4600,8 +4616,8 @@
     "tel": "031-403-7963",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "시흥",
+    "placeIds": ["ctm3de96d9a", "ctmced9f170"]
   },
   {
     "region": "서울",
@@ -4616,8 +4632,8 @@
     "tel": "02-398-6614",
     "url": "",
     "date": "2024-02-01",
-    "city": "서울",
-    "placeIds": ["ctu67"]
+    "city": "광명",
+    "placeIds": ["ctmc7fa40d9", "ctm0793df25", "ctm30264e7b"]
   },
   {
     "region": "서울",
@@ -4632,8 +4648,8 @@
     "tel": "02-2038-0840",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "양평",
+    "placeIds": ["nax318"]
   },
   {
     "region": "서울",
@@ -4648,8 +4664,8 @@
     "tel": "02-2038-0840",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "포천",
+    "placeIds": ["nax610", "nax612"]
   },
   {
     "region": "서울",
@@ -4664,8 +4680,8 @@
     "tel": "02-2038-0840",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "용인",
+    "placeIds": ["nax287", "na1", "nax719"]
   },
   {
     "region": "서울",
@@ -4680,8 +4696,8 @@
     "tel": "070-4818-1914",
     "url": "",
     "date": "2024-02-01",
-    "city": null,
-    "placeIds": []
+    "city": "광명",
+    "placeIds": ["ctmc7fa40d9"]
   },
   {
     "region": "서울",
@@ -4696,7 +4712,7 @@
     "tel": "070-4818-1914",
     "url": "",
     "date": "2024-02-01",
-    "city": "서울",
-    "placeIds": ["ctu69"]
+    "city": "수원",
+    "placeIds": ["ctm6828caf2", "nax719", "nax23"]
   }
 ]
