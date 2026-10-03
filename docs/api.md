@@ -96,6 +96,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 
 장소 시트(`components/ui/PlaceWeather`)의 날씨 칸(어제 · 오늘 · 내일). 코드는 `app/api/weather/route.ts`, 순수 함수는 `lib/weather.ts`.
 
+`from` · `to`(YYYY-MM-DD, 어제 ~ 오늘 + 15일 안, from ≤ to)를 함께 주면 그 범위의 일별 예보를 돌려준다(2026-10-03, 코스 탭 일자별 날씨 경고 `features/planner/course-weather.ts`). 하나만 있거나 범위를 벗어나면 400. 캐시 규칙은 같다(주소에 날짜가 들어 범위마다 따로).
+
 - **원천**: Open-Meteo `https://api.open-meteo.com/v1/forecast` (키 없음). PoC `shared.js` `_openMeteo`와 같은 값:
   `daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code`, `timezone=Asia/Seoul`.
   기간은 PoC의 `past_days=1` · `forecast_days=3` 대신 한국 날짜(`Intl.DateTimeFormat` `timeZone: "Asia/Seoul"`) 어제 ~ 내일을 `start_date` · `end_date`로 적는다.

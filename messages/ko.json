@@ -1289,6 +1289,17 @@
           },
           "note": "공항 도착 후 탑승까지 수속 {all}분 + 탑승 마감 여유 {buffer}분{floor, select, yes { (최소 {min}분)} other {}} = {lead}분을 잡으세요 · 한국공항공사, 5분마다 갱신"
         }
+      },
+      "weather": {
+        "label": "날씨",
+        "forecast": "{kind} · 최고 {max}° · 비 {rain}mm",
+        "rain": "비 예보예요. 야외 장소 {count}곳은 우산을 챙기거나 실내 장소로 바꿔 보세요",
+        "heat": "폭염 예보(최고 {max}°)예요. 야외 장소 {count}곳은 한낮을 피하거나 실내 장소로 바꿔 보세요",
+        "outdoor": "야외",
+        "alternatives": "실내 대안",
+        "add": "{name} 담기",
+        "rainNone": "비 예보예요. 이날 일정은 실내 장소뿐이라 그대로 두어도 돼요",
+        "heatNone": "폭염 예보(최고 {max}°)예요. 이날 일정은 실내 장소뿐이라 그대로 두어도 돼요"
       }
     },
     "info": {
