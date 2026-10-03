@@ -128,7 +128,8 @@
         "less": "접기",
         "sourceOdii": "한국관광공사 오디오 가이드(오디)",
         "sourceStory": "관광 스토리텔링 · 한국관광공사",
-        "list": "오디오 해설 {count}건"
+        "list": "오디오 해설 {count}건",
+        "autoNext": "끝나면 다음 해설이 이어서 재생돼요. 잠금 화면에서도 넘길 수 있어요"
       },
       "related": {
         "title": "함께 많이 가는 관광지 Top",

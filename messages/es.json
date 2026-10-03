@@ -128,7 +128,8 @@
         "less": "Ver menos",
         "sourceOdii": "Audioguía de la Organización de Turismo de Corea (Odii)",
         "sourceStory": "Historias de viaje · Organización de Turismo de Corea",
-        "list": "{count} comentarios de audio"
+        "list": "{count} comentarios de audio",
+        "autoNext": "Al terminar, el siguiente comentario se reproduce solo. También puedes pasar desde la pantalla de bloqueo"
       },
       "related": {
         "title": "Top de lugares visitados juntos",
