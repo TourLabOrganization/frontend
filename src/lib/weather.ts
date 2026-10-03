@@ -92,7 +92,12 @@ export function addDays(ymd: string, n: number): string {
  * PoC의 past_days=1 · forecast_days=3 대신 한국 날짜 어제 ~ 내일을 start_date · end_date로 적는다.
  * 주소가 날마다 달라져 서버 fetch 캐시(revalidate)가 전날 응답을 돌려주지 않는다
  */
-export function openMeteoUrl(lat: number, lng: number, now: Date): string {
+export function openMeteoUrl(
+  lat: number,
+  lng: number,
+  now: Date,
+  range?: WeatherRange,
+): string {
   const today = seoulDate(now);
   const params = new URLSearchParams({
     latitude: String(lat),
@@ -100,10 +105,40 @@ export function openMeteoUrl(lat: number, lng: number, now: Date): string {
     daily:
       "temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code",
     timezone: "Asia/Seoul",
-    start_date: addDays(today, -1),
-    end_date: addDays(today, 1),
+    start_date: range?.from ?? addDays(today, -1),
+    end_date: range?.to ?? addDays(today, 1),
   });
   return `${OPEN_METEO_URL}?${params}`;
+}
+
+/** 날짜 범위(YYYY-MM-DD, 둘 다 포함). 코스 탭이 여행 날짜의 예보를 받을 때 쓴다 */
+export type WeatherRange = { from: string; to: string };
+/** Open-Meteo 일별 예보가 닿는 마지막 날(오늘 + 15일, 16일 예보) */
+export const WEATHER_FORECAST_DAYS = 15;
+/** 한 번에 받는 날 수 상한(어제 ~ 오늘 + 15일) */
+export const WEATHER_RANGE_MAX_DAYS = WEATHER_FORECAST_DAYS + 2;
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * 쿼리의 from · to(코스 탭)를 검사한다. 둘 다 없으면 null(기본 어제 ~ 내일). 하나만 있거나 모양이 틀리거나,
+ * from이 어제보다 앞이거나 to가 오늘 + 15일보다 뒤거나, from > to면 undefined(잘못된 요청)
+ */
+export function parseWeatherRange(
+  from: string | null,
+  to: string | null,
+  now: Date,
+): WeatherRange | null | undefined {
+  if (from === null && to === null) return null;
+  if (from === null || to === null) return undefined;
+  if (!ISO_DATE.test(from) || !ISO_DATE.test(to)) return undefined;
+  if (Number.isNaN(Date.parse(from)) || Number.isNaN(Date.parse(to)))
+    return undefined;
+  const today = seoulDate(now);
+  if (from < addDays(today, -1) || to > addDays(today, WEATHER_FORECAST_DAYS))
+    return undefined;
+  if (from > to) return undefined;
+  return { from, to };
 }
 
 type OpenMeteoDaily = {
@@ -122,17 +157,20 @@ function numAt(list: unknown, i: number): number | null {
 
 /**
  * Open-Meteo 응답을 우리 모양으로 줄인다. 어제 ~ 내일로 부르므로 daily 첫 3칸이 어제 · 오늘 · 내일이다
- * (더 오면 넷째 칸부터 버린다). 날짜(date)는 응답 그대로 두고, 화면은 순번이 아니라 날짜로 칸을 고른다(pickWeatherDays).
+ * (더 오면 넷째 칸부터 버린다). 범위를 받았으면(count) 그 날 수만큼 읽는다. 날짜(date)는 응답 그대로 두고, 화면은 순번이 아니라 날짜로 칸을 고른다(pickWeatherDays).
  * 모양이 틀리면 null
  */
-export function toWeatherResponse(body: unknown): WeatherResponse | null {
+export function toWeatherResponse(
+  body: unknown,
+  count = 3,
+): WeatherResponse | null {
   if (typeof body !== "object" || body === null) return null;
   const daily = (body as { daily?: OpenMeteoDaily }).daily;
   if (typeof daily !== "object" || daily === null) return null;
   const time = daily.time;
-  if (!Array.isArray(time) || time.length < 3) return null;
+  if (!Array.isArray(time) || time.length < count) return null;
   const days: WeatherDay[] = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < count; i++) {
     const date: unknown = time[i];
     if (typeof date !== "string") return null;
     days.push({
@@ -179,8 +217,24 @@ export function weatherKind(code: number | null): WeatherKind {
 }
 
 /** 브라우저가 부르는 우리 Route Handler 주소 (좌표는 서버와 같게 반올림해 같은 캐시를 쓴다) */
-export function weatherPath(lat: number, lng: number): string {
-  return `/api/weather?lat=${roundCoord(lat)}&lng=${roundCoord(lng)}`;
+export function weatherPath(
+  lat: number,
+  lng: number,
+  range?: WeatherRange,
+): string {
+  const base = `/api/weather?lat=${roundCoord(lat)}&lng=${roundCoord(lng)}`;
+  return range ? `${base}&from=${range.from}&to=${range.to}` : base;
+}
+
+/** 두 날짜(YYYY-MM-DD) 사이의 날 수(둘 다 포함) */
+export function rangeDays(range: WeatherRange): number {
+  return (
+    Math.round(
+      (Date.parse(range.to + "T00:00:00Z") -
+        Date.parse(range.from + "T00:00:00Z")) /
+        86400000,
+    ) + 1
+  );
 }
 
 /** 장소 시트 날씨 칸의 세 칸. 응답에 그 날짜가 없으면 null(화면은 「–」) */

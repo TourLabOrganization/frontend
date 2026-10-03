@@ -1289,6 +1289,17 @@
           },
           "note": "Allow {all} min of processing + {buffer} min before boarding closes{floor, select, yes { (at least {min} min)} other {}} = {lead} min from arrival at the airport · Korea Airports Corporation, updated every 5 min"
         }
+      },
+      "weather": {
+        "label": "Weather",
+        "forecast": "{kind} · high {max}° · rain {rain} mm",
+        "rain": "Rain is forecast. For {count} outdoor spots, bring an umbrella or switch to an indoor place",
+        "heat": "Heat alert (high {max}°). For {count} outdoor spots, avoid midday or switch to an indoor place",
+        "outdoor": "outdoor",
+        "alternatives": "Indoor alternatives",
+        "add": "Add {name}",
+        "rainNone": "Rain is forecast. This day's stops are all indoors, so no change is needed",
+        "heatNone": "Heat alert (high {max}°). This day's stops are all indoors, so no change is needed"
       }
     },
     "info": {

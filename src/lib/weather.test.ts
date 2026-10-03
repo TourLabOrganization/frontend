@@ -5,6 +5,8 @@ import {
   addDays,
   openMeteoUrl,
   parseWeatherQuery,
+  parseWeatherRange,
+  rangeDays,
   pickWeatherDays,
   roundCoord,
   seoulDate,
@@ -251,5 +253,43 @@ describe("weatherKind", () => {
     expect(weatherKind(4)).toBe("unknown");
     expect(weatherKind(50)).toBe("unknown");
     expect(weatherKind(100)).toBe("unknown");
+  });
+});
+
+describe("parseWeatherRange · 범위 호출(코스 탭)", () => {
+  const now = new Date("2026-10-03T03:00:00Z"); // 한국 10-03 12:00
+  it("둘 다 없으면 null(기본 어제 ~ 내일), 어제 ~ 오늘 + 15일 안이면 그대로", () => {
+    expect(parseWeatherRange(null, null, now)).toBeNull();
+    expect(parseWeatherRange("2026-10-02", "2026-10-18", now)).toEqual({
+      from: "2026-10-02",
+      to: "2026-10-18",
+    });
+    expect(parseWeatherRange("2026-10-05", "2026-10-05", now)).toEqual({
+      from: "2026-10-05",
+      to: "2026-10-05",
+    });
+  });
+  it("하나만 있거나 모양 · 순서 · 범위가 틀리면 undefined(잘못된 요청)", () => {
+    expect(parseWeatherRange("2026-10-05", null, now)).toBeUndefined();
+    expect(parseWeatherRange("10-05", "2026-10-06", now)).toBeUndefined();
+    expect(parseWeatherRange("2026-10-06", "2026-10-05", now)).toBeUndefined();
+    expect(parseWeatherRange("2026-10-01", "2026-10-05", now)).toBeUndefined();
+    expect(parseWeatherRange("2026-10-05", "2026-10-19", now)).toBeUndefined();
+    expect(parseWeatherRange("2026-13-40", "2026-13-41", now)).toBeUndefined();
+  });
+  it("범위를 주면 주소 · 응답 · 경로가 그 날들로 간다", () => {
+    const range = { from: "2026-10-05", to: "2026-10-07" };
+    const url = new URL(openMeteoUrl(35.83, 129.22, now, range));
+    expect(url.searchParams.get("start_date")).toBe("2026-10-05");
+    expect(url.searchParams.get("end_date")).toBe("2026-10-07");
+    expect(rangeDays(range)).toBe(3);
+    expect(weatherPath(35.831, 129.219, range)).toBe(
+      "/api/weather?lat=35.83&lng=129.22&from=2026-10-05&to=2026-10-07",
+    );
+    expect(toWeatherResponse(SAMPLE, 2)?.days.map((d) => d.date)).toEqual([
+      "2026-09-26",
+      "2026-09-27",
+    ]);
+    expect(toWeatherResponse(SAMPLE, 5)).toBeNull();
   });
 });

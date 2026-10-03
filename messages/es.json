@@ -1289,6 +1289,17 @@
           },
           "note": "Cuenta {all} min de trámites + {buffer} min antes del cierre de embarque{floor, select, yes { (mínimo {min} min)} other {}} = {lead} min desde que llegas al aeropuerto · Korea Airports Corporation, actualizado cada 5 min"
         }
+      },
+      "weather": {
+        "label": "Tiempo",
+        "forecast": "{kind} · máx. {max}° · lluvia {rain} mm",
+        "rain": "Se prevé lluvia. Para {count} lugares al aire libre, lleva paraguas o cambia a un lugar cubierto",
+        "heat": "Alerta de calor (máx. {max}°). Para {count} lugares al aire libre, evita el mediodía o cambia a un lugar cubierto",
+        "outdoor": "al aire libre",
+        "alternatives": "Alternativas cubiertas",
+        "add": "Añadir {name}",
+        "rainNone": "Se prevé lluvia. Las paradas de este día son cubiertas, así que no hace falta cambiar nada",
+        "heatNone": "Alerta de calor (máx. {max}°). Las paradas de este día son cubiertas, así que no hace falta cambiar nada"
       }
     },
     "info": {

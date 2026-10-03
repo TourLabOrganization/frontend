@@ -1289,6 +1289,17 @@
           },
           "note": "到达机场后请预留手续 {all} 分钟 + 登机截止余量 {buffer} 分钟{floor, select, yes {（至少 {min} 分钟）} other {}} = {lead} 分钟 · 韩国机场公社，每5分钟更新"
         }
+      },
+      "weather": {
+        "label": "天气",
+        "forecast": "{kind} · 最高 {max}° · 降雨 {rain} mm",
+        "rain": "预报有雨。{count} 个户外景点请带伞，或换成室内景点",
+        "heat": "高温预报（最高 {max}°）。{count} 个户外景点请避开正午，或换成室内景点",
+        "outdoor": "户外",
+        "alternatives": "室内替代",
+        "add": "添加 {name}",
+        "rainNone": "预报有雨。这天的行程都是室内景点，可以保持不变",
+        "heatNone": "高温预报（最高 {max}°）。这天的行程都是室内景点，可以保持不变"
       }
     },
     "info": {
