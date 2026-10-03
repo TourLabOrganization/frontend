@@ -81,7 +81,7 @@ const tours = rows.map((x) => {
   // 운영 도시 안을 도는 노선은 visits가 운영 도시라 전과 같다
   const visits = tourVisits(region, name);
   const pool = visitPool(visits, matchPlaces);
-  const { ids } = matchStops(route, pool, region);
+  const { ids } = matchStops(route, pool, region, matchPlaces);
   if (ids.length === 0) noMatch++;
   return {
     region,
