@@ -5,6 +5,7 @@ import {
   parseStayOverrides,
   setStayOverride,
   withStayOverrides,
+  tidyCourse,
 } from "./course-edit";
 
 describe("setStayOverride (PoC setStay)", () => {
@@ -68,5 +69,51 @@ describe("dayInsertIndex", () => {
   });
   it("빈 날은 null(맨 뒤)", () => {
     expect(dayInsertIndex(["a", "b", "c"], [])).toBe(null);
+  });
+});
+
+describe("동선 정리 (tidyCourse)", () => {
+  const p = (
+    id: string,
+    locKo: string,
+    lat: number,
+    lng: number,
+    cat = "herit",
+  ) => ({
+    id,
+    locKo,
+    cat,
+    lat,
+    lng,
+  });
+  it("도시별로 묶고(처음 담긴 순서) 도시 안은 가까운 순, 숙박은 담긴 순서로 맨 뒤", () => {
+    const course = [
+      p("s1", "서울", 37.58, 126.98), // 경복궁 근처
+      p("g1", "경주", 35.79, 129.33), // 불국사
+      p("stayA", "경주", 35.84, 129.21, "stay"),
+      p("s2", "서울", 37.55, 126.99), // 남산(남쪽)
+      p("s3", "서울", 37.579, 126.977), // 경복궁 바로 옆
+      p("g2", "경주", 35.835, 129.22), // 동궁과 월지(경주 도심)
+      p("g3", "경주", 35.8, 129.34), // 불국사 근처
+    ];
+    expect(tidyCourse(course)).toEqual([
+      "s1",
+      "s3",
+      "s2",
+      "g2",
+      "g1", // 동궁과 월지에서 불국사(g1)가 g3보다 조금 가깝다
+      "g3",
+      "stayA",
+    ]);
+  });
+  it("한 도시는 첫 장소에서 가까운 이웃 순, 비어 있으면 빈 배열", () => {
+    expect(
+      tidyCourse([
+        p("a", "경주", 35.84, 129.21),
+        p("c", "경주", 35.86, 129.23),
+        p("b", "경주", 35.845, 129.215),
+      ]),
+    ).toEqual(["a", "b", "c"]);
+    expect(tidyCourse([])).toEqual([]);
   });
 });

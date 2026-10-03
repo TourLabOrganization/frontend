@@ -58,6 +58,7 @@ import {
   parseStayOverrides,
   STAY_STEP,
   withStayOverrides,
+  tidyCourse,
 } from "./course-edit";
 import {
   DEP_TIMES,
@@ -874,6 +875,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
 
   const nameErrorId = `${id}-name-error`;
   const recommendHintId = `${id}-recommend-hint`;
+  const tidyHintId = `${id}-tidy-hint`;
 
   return (
     <div className="flex flex-col pt-6">
@@ -1359,6 +1361,27 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
           {canRecommend && sourceName
             ? t("actions.recommendHint", { source: sourceName })
             : t("actions.recommendNoScope")}
+        </p>
+        <Button
+          variant="secondary"
+          block
+          disabled={places.length < 2}
+          aria-describedby={tidyHintId}
+          onClick={() => {
+            const ids = tidyCourse(places);
+            if (ids.every((pid, k) => pid === course.placeIds[k])) {
+              setStatus(t("actions.tidyAlready"));
+              return;
+            }
+            store.replace(course.city, ids);
+            setStatus(t("actions.tidied", { count: ids.length }));
+          }}
+          className="mt-1"
+        >
+          {t("actions.tidy")}
+        </Button>
+        <p id={tidyHintId} className="px-1 text-caption text-fg-muted">
+          {t("actions.tidyHint")}
         </p>
         <Button
           variant="secondary"

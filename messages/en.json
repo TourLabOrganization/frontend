@@ -1007,7 +1007,11 @@
         "recommendEmpty": "No places fit these settings. Try other dates or times",
         "recommended": "Loaded a suggested course with {count, plural, one {# place} other {# places}}",
         "clear": "Clear course",
-        "cleared": "Course cleared"
+        "cleared": "Course cleared",
+        "tidy": "Tidy the route",
+        "tidyHint": "Groups places by city and orders each city by distance. Stays are left as they are",
+        "tidied": "Route tidied: {count} places",
+        "tidyAlready": "The route is already in order"
       },
       "confirmRecommend": {
         "title": "Replace with the suggested course?",
