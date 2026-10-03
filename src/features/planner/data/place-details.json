@@ -34075,5 +34075,572 @@
     "src": {
       "ko": "시티투어 경유지(1개 노선, 노선 표기 「전북도립미술관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
+  },
+  "ctm7c8c30bb": {
+    "desc": {
+      "ko": "백마강 황포돛배가 뜨는 구드래 나루.",
+      "en": "Pier on the Baengma River where the yellow-sail boats depart."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 7회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm62b622bb": {
+    "desc": {
+      "ko": "통구미 마을 앞 거북 모양 바위와 향나무 자생지.",
+      "en": "Turtle-shaped rock and juniper habitat off Tonggumi village."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 7회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmec570aab": {
+    "desc": {
+      "ko": "두륜산 서쪽 골짜기의 수국 호수 수목원.",
+      "en": "Hydrangea-lake arboretum in a valley west of Duryunsan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 7회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd3d2cb51": {
+    "desc": {
+      "ko": "고군산군도 신시도의 바다가 보이는 휴양림.",
+      "en": "Seaside recreation forest on Sinsido in the Gogunsan islands."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 6회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm315977e8": {
+    "desc": {
+      "ko": "북한산 우이동 계곡의 천년 사찰.",
+      "en": "Thousand-year-old temple in the Ui-dong valley of Bukhansan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 6회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7cedca1d": {
+    "desc": {
+      "ko": "고려 강화 천도 때의 궁궐 터와 외규장각.",
+      "en": "Site of the Goryeo palace during the Ganghwa capital years."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 6회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf687948a": {
+    "desc": {
+      "ko": "앨범 재킷을 찍은 주문진 향호해변의 버스정류장.",
+      "en": "Bus stop at Hyangho beach famous from the album cover."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm26c86dd9": {
+    "desc": {
+      "ko": "포로수용소 유적공원에서 계룡산 전망대로 오르는 모노레일.",
+      "en": "Monorail from the POW camp park up to the Gyeryongsan lookout."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma2115a3a": {
+    "desc": {
+      "ko": "신세계 동대구 안의 도심 수족관.",
+      "en": "City aquarium inside Shinsegae Dongdaegu."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm434f9f58": {
+    "desc": {
+      "ko": "둔산대공원의 시립미술관. 한밭수목원 옆.",
+      "en": "Municipal art museum in Dunsan Grand Park, next to Hanbat Arboretum."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6a603fd3": {
+    "desc": {
+      "ko": "남한강변 모래밭 캠핑 · 산책 공원.",
+      "en": "Riverside sand park on the Namhan River for camping and walks."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm2fee0f9d": {
+    "desc": {
+      "ko": "동해안 솔숲을 낀 긴 백사장.",
+      "en": "Long sandy beach lined with pines on the east coast."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme584372a": {
+    "desc": {
+      "ko": "점봉산 자락 야생화 능선. 예약 탐방.",
+      "en": "Wildflower ridge on Jeombongsan visited by reservation."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb6f1b581": {
+    "desc": {
+      "ko": "정선읍 회동리 가리왕산 자락의 휴양림.",
+      "en": "Recreation forest at the foot of Gariwangsan in Jeongseon."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm24ee448d": {
+    "desc": {
+      "ko": "구공탄 구이로 이름난 고한읍 전통시장.",
+      "en": "Gohan traditional market known for briquette-grilled pork."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5ad2781b": {
+    "desc": {
+      "ko": "내장산 집단시설지구에서 전망대로 오르는 케이블카.",
+      "en": "Cable car from the Naejangsan base up to the lookout."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm660b1e04": {
+    "desc": {
+      "ko": "금봉산 자락의 정갈한 선원 사찰.",
+      "en": "Quiet Zen temple at the foot of Geumbongsan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 4회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd2a2662e": {
+    "desc": {
+      "ko": "연륙교로 이어진 섬. 옥녀봉 전망.",
+      "en": "Island reached by bridge with views from Ongnyeobong."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb4fba7a6": {
+    "desc": {
+      "ko": "계룡산 자락의 숲 체험 공원.",
+      "en": "Forest experience park at the foot of Gyeryongsan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmbaf12ea5": {
+    "desc": {
+      "ko": "십이지신상 둘레돌의 신라 명장 무덤.",
+      "en": "Tomb of the Silla general with zodiac relief stones."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0930aa75": {
+    "desc": {
+      "ko": "계룡산 서쪽 자락의 고찰. 오리숲길.",
+      "en": "Old temple on the west side of Gyeryongsan with its forest approach."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme8d0383c": {
+    "desc": {
+      "ko": "다산길 자전거길의 옛 중앙선 간이역.",
+      "en": "Former Jungang Line station on the Dasan bike path."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5a1f438c": {
+    "desc": {
+      "ko": "계룡산 남쪽의 백제 사찰과 중악단.",
+      "en": "Baekje-era temple on the south side of Gyeryongsan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm99fde9cc": {
+    "desc": {
+      "ko": "적상산 터널을 바꾼 머루 와인 저장 · 시음 동굴.",
+      "en": "Wine cellar and tasting cave in a former Jeoksangsan tunnel."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9a1fa7ea": {
+    "desc": {
+      "ko": "만수산 자락 극락전으로 이름난 고찰.",
+      "en": "Old temple on Mansusan known for its two-story main hall."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb293b5b2": {
+    "desc": {
+      "ko": "해녀가 바로 잡은 해산물을 내는 연화리 포구.",
+      "en": "Yeonhwa-ri harbor where haenyeo serve fresh seafood."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7742741a": {
+    "desc": {
+      "ko": "일광면 달음산 자락의 휴양림.",
+      "en": "Recreation forest at the foot of Dareumsan in Ilgwang."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm880a7824": {
+    "desc": {
+      "ko": "울금바위 아래 백제 고찰.",
+      "en": "Baekje-era temple below the Ulgeum rock."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm25814566": {
+    "desc": {
+      "ko": "강화대교 옆 조선 포대와 강화전쟁박물관.",
+      "en": "Joseon battery beside Ganghwa Bridge with the war museum."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb8883af5": {
+    "desc": {
+      "ko": "옛 염전과 풍차가 있는 갯벌 습지 공원.",
+      "en": "Tidal marsh park with old salt pans and windmills."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4150247d": {
+    "desc": {
+      "ko": "전주의 역사와 생활을 보여 주는 박물관.",
+      "en": "Museum of Jeonju's history and everyday life."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm74ec7b18": {
+    "desc": {
+      "ko": "중력 가속 레이싱 테마파크.",
+      "en": "Gravity racing theme park."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmce06961f": {
+    "desc": {
+      "ko": "구담봉 · 옥순봉을 보는 충주호 유람선 선착장.",
+      "en": "Chungju Lake cruise pier facing Gudambong and Oksunbong."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm471ecca2": {
+    "desc": {
+      "ko": "여름 연꽃으로 이름난 정촌면의 옛 연못.",
+      "en": "Old lotus pond in Jeongchon-myeon famed for summer blooms."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7c177739": {
+    "desc": {
+      "ko": "이반성면의 도립 수목원과 산림박물관.",
+      "en": "Provincial arboretum and forest museum in Ibanseong-myeon."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm796982ba": {
+    "desc": {
+      "ko": "저수지 둘레 벚꽃 · 단풍 산책 공원.",
+      "en": "Reservoir-side park known for cherry blossoms and autumn colors."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0556e4c3": {
+    "desc": {
+      "ko": "해남 윤씨 종가 녹우당과 유물전시관.",
+      "en": "Nokudang head house of the Haenam Yun clan and its museum."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4fa17728": {
+    "desc": {
+      "ko": "천수만 노을이 고운 작은 항구.",
+      "en": "Small harbor on Cheonsu Bay known for sunsets."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm27404a15": {
+    "desc": {
+      "ko": "용추계곡 폭포 위의 사찰.",
+      "en": "Temple above the waterfall of Yongchu valley."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd66fde44": {
+    "desc": {
+      "ko": "지리산 칠선계곡 들머리의 선원 사찰.",
+      "en": "Zen temple at the mouth of the Chilseon valley of Jirisan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6bbc2654": {
+    "desc": {
+      "ko": "대가야 시대 생활을 재현한 체험 마을.",
+      "en": "Experience village recreating Daegaya-era life."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma9291249": {
+    "desc": {
+      "ko": "자전거 도시 상주의 자전거 전문 박물관.",
+      "en": "Bicycle museum in the cycling city of Sangju."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm07fa3e78": {
+    "desc": {
+      "ko": "진경산수 화가 정선을 기리는 미술관.",
+      "en": "Museum honoring the landscape painter Jeong Seon."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm301fa748": {
+    "desc": {
+      "ko": "항동 저수지를 낀 서울 첫 시립 수목원.",
+      "en": "Seoul's first municipal arboretum by the Hangdong reservoir."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5ec84e28": {
+    "desc": {
+      "ko": "국토지리정보원의 지도 전문 박물관.",
+      "en": "Map museum of the National Geographic Information Institute."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm23e23e4e": {
+    "desc": {
+      "ko": "장도 앞 바닷가 공연 · 전시 문화예술공원.",
+      "en": "Seaside arts complex facing Jangdo island."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5a7aaf92": {
+    "desc": {
+      "ko": "불교 목조각 전문 사립 박물관.",
+      "en": "Private museum of Buddhist wood carving."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm396d139f": {
+    "desc": {
+      "ko": "내연산 12폭포 들머리의 고찰.",
+      "en": "Old temple at the entrance to the twelve waterfalls of Naeyeonsan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0f3dbb84": {
+    "desc": {
+      "ko": "도고면의 국내 최대 실내 온실 식물원.",
+      "en": "Korea's largest indoor greenhouse garden in Dogo-myeon."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm197f9989": {
+    "desc": {
+      "ko": "동백지구의 호수 산책 공원.",
+      "en": "Lakeside walking park in the Dongbaek district."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm64578381": {
+    "desc": {
+      "ko": "선상 파시로 이름난 작은 포구.",
+      "en": "Small harbor known for its fish market on the boats."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5b27ace9": {
+    "desc": {
+      "ko": "봉개동 명림로의 노루 관찰 공원.",
+      "en": "Roe deer observation park on Myeongnim-ro in Bonggae-dong."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb7e5a03c": {
+    "desc": {
+      "ko": "화왕산 자락 용선대 석불의 고찰.",
+      "en": "Old temple on Hwawangsan with the Yongseondae Buddha."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmaf74f21b": {
+    "desc": {
+      "ko": "로봇 테마파크와 전시관.",
+      "en": "Robot theme park and exhibition halls."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf52d1536": {
+    "desc": {
+      "ko": "태안 앞바다 고려 선박 유물 전시관.",
+      "en": "Museum of Goryeo shipwreck finds from the Taean coast."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4cc4dc9b": {
+    "desc": {
+      "ko": "안면도 해안 사구가 있는 해변.",
+      "en": "Beach on Anmyeondo with coastal dunes."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm322170f0": {
+    "desc": {
+      "ko": "출판도시의 알바루 시자 설계 미술관.",
+      "en": "Álvaro Siza-designed museum in Paju Book City."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9f861ff6": {
+    "desc": {
+      "ko": "운악산 자락의 고찰.",
+      "en": "Old temple at the foot of Unaksan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm3623af08": {
+    "desc": {
+      "ko": "남해대교 아래 이순신 최후의 바다를 보는 포구.",
+      "en": "Harbor below Namhae Bridge on the waters of Yi Sun-sin's last battle."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm800c7000": {
+    "desc": {
+      "ko": "억새 능선으로 이름난 오서산 자락의 휴양림.",
+      "en": "Recreation forest below the silvergrass ridge of Oseosan."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm38da131c": {
+    "desc": {
+      "ko": "수원천변의 전통시장.",
+      "en": "Traditional market beside Suwoncheon stream."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm72354141": {
+    "desc": {
+      "ko": "판부면 백운산 자락의 휴양림.",
+      "en": "Recreation forest at the foot of Baegunsan in Panbu-myeon."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm09ca51b6": {
+    "desc": {
+      "ko": "유구읍 창말길의 수국 정원. 6월 꽃축제.",
+      "en": "Hydrangea garden in Yugu-eup with a June flower festival."
+    },
+    "src": {
+      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }

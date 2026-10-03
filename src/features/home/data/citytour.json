@@ -1854,7 +1854,7 @@
       "ro222",
       "ctt180",
       "ro318",
-      "nax1074"
+      "ctm9a1fa7ea"
     ]
   },
   {
@@ -2847,7 +2847,7 @@
     "url": "",
     "date": "2025-12-29",
     "city": "태안",
-    "placeIds": ["ctt234", "nax316", "nax315", "nax314"]
+    "placeIds": ["ctmf52d1536", "nax316", "nax315", "nax314"]
   },
   {
     "region": "춘천",
@@ -3139,7 +3139,7 @@
     "url": "https://www.garamtour.kr/",
     "date": "2026-02-19",
     "city": "포항",
-    "placeIds": ["nax227", "nax229", "nax827", "ctm879b63b6"]
+    "placeIds": ["nax227", "ctm396d139f", "nax827", "ctm879b63b6"]
   },
   {
     "region": "포항",

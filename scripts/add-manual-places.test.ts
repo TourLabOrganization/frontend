@@ -117,6 +117,19 @@ describe("mergeAdded(수기 장소)", () => {
   });
 });
 
+describe("manualPlaces(source)", () => {
+  it("source 열이 있으면 출처 앞 문구로 쓴다", () => {
+    const { places } = manualPlaces(
+      [row({ source: "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급)" })],
+      pool,
+      "2026-10-03",
+    );
+    expect(places[0].source).toBe(
+      "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)",
+    );
+  });
+});
+
 describe("manualPlaces(nearOk)", () => {
   it("nearOk=1이면 기존 장소 250m 안이어도 넣는다", () => {
     const rowNear = row({ ko: "첨성대 옆", lat: "35.8348", lng: "129.2195" });
