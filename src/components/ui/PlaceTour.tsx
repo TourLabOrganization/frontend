@@ -12,7 +12,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   type CrowdLevel,
   crowdLevel,
@@ -31,7 +31,15 @@ import {
   type TourRelatedStay,
   upcomingCrowdDays,
 } from "@/lib/tour";
-import { CardCarousel } from "./CardCarousel";
+import {
+  applyMediaSession,
+  audioMetadata,
+  clearMediaSession,
+  mediaSessionOf,
+  nextAudioIndex,
+  setPlaybackState,
+} from "./audio-session";
+import { CardCarousel, type CardCarouselHandle } from "./CardCarousel";
 import { useTourApi } from "./tour-api-context";
 
 type PlaceTourProps = {
@@ -143,7 +151,8 @@ function TourHeader({
  * 오디오 가이드. 해설이 하나면 제목 · 음성(주소가 있을 때) · 대본(240자 접기) · 출처를 그대로 보이고,
  * 같은 관광지의 해설이 여럿(대표 + others)이면 밑으로 늘리지 않고 좌우로 넘기는 카드로 보인다:
  * 손가락 · 트랙패드로 밀면 한 번에 한 장씩 걸리고(scroll-snap, snap-always), 끝 카드에서 더 밀어도 브라우저 뒤로 가기로 번지지 않는다(overscroll-x-contain), 이전 · 다음 화살표와 「n / 전체」 표시가 있다.
- * 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다)
+ * 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다). 한 건이 끝나면 다음 카드로 이어서 재생하고(AudioCards),
+ * 잠금 화면 · 이어폰 버튼으로 재생 · 일시정지 · 다음 · 이전을 할 수 있다(Media Session, audio-session.ts)
  */
 function AudioGuide({ id }: { id: string }) {
   const t = useTranslations("PlaceSheet.tour.audio");
@@ -178,40 +187,129 @@ function AudioGuide({ id }: { id: string }) {
   );
 }
 
-/** 해설 여러 건을 좌우로 넘기는 카드 줄(CardCarousel). 음성 플레이어는 보이는 카드에만 붙인다 */
+/**
+ * 해설 여러 건을 좌우로 넘기는 카드 줄(CardCarousel). 음성 플레이어는 보이는 카드에만 붙인다.
+ * 이어듣기: 한 건이 끝나면 다음 카드로 넘기고 그 음성을 바로 재생한다(마지막이면 멈춘다). 잠금 화면의 다음 · 이전도 같은 길
+ */
 function AudioCards({ cards }: { cards: TourAudio[] }) {
   const t = useTranslations("PlaceSheet.tour.audio");
   const label = t("list", { count: cards.length });
+  const carousel = useRef<CardCarouselHandle>(null);
+  /** 카드가 바뀐 뒤 바로 재생할 카드 번호(이어듣기 · 잠금 화면 다음 · 이전) */
+  const [autoPlay, setAutoPlay] = useState<number | null>(null);
+  const jump = (i: number | null) => {
+    if (i === null) return;
+    setAutoPlay(i);
+    carousel.current?.goTo(i);
+  };
   return (
     <CardCarousel
+      ref={carousel}
       label={label}
       heading={label}
       total={cards.length}
       card={(i, active) => (
         <div className="rounded-card border border-line bg-fill/40 px-3 py-3">
-          <AudioCard audio={cards[i]} active={active} />
+          <AudioCard
+            audio={cards[i]}
+            active={active}
+            autoPlay={active && autoPlay === i}
+            onPlayed={() => setAutoPlay(null)}
+            onEnded={() => jump(nextAudioIndex(i, cards.length))}
+            onNext={
+              nextAudioIndex(i, cards.length) !== null
+                ? () => jump(nextAudioIndex(i, cards.length))
+                : undefined
+            }
+            onPrev={i > 0 ? () => jump(i - 1) : undefined}
+            note={t("autoNext")}
+          />
         </div>
       )}
     />
   );
 }
 
-/** 해설 한 건: 제목 · 음성(active이고 주소가 있을 때) · 재생 시간 · 대본(240자 접기) */
-function AudioCard({ audio, active }: { audio: TourAudio; active: boolean }) {
+/**
+ * 해설 한 건: 제목 · 음성(active이고 주소가 있을 때) · 재생 시간 · 대본(240자 접기).
+ * 음성이 재생되면 잠금 화면 · 이어폰 버튼에 제목 · 출처를 올리고 재생 · 일시정지 · 다음 · 이전(있을 때)을 잇는다(audio-session.ts).
+ * autoPlay면 붙자마자 재생한다(이어듣기 — 앞 해설을 사용자가 재생한 뒤라 브라우저가 허용한다)
+ */
+function AudioCard({
+  audio,
+  active,
+  autoPlay = false,
+  onPlayed,
+  onEnded,
+  onNext,
+  onPrev,
+  note,
+}: {
+  audio: TourAudio;
+  active: boolean;
+  autoPlay?: boolean;
+  onPlayed?: () => void;
+  onEnded?: () => void;
+  onNext?: () => void;
+  onPrev?: () => void;
+  /** 플레이어 아래 안내 한 줄(이어듣기) */
+  note?: string;
+}) {
   const t = useTranslations("PlaceSheet.tour.audio");
   const scriptId = useId();
   const [open, setOpen] = useState(false);
+  const player = useRef<HTMLAudioElement>(null);
   const folded = foldScript(audio.script);
   const long = folded !== audio.script;
+  const album = t("title");
+  const odii = t("sourceOdii");
+  const story = t("sourceStory");
+
+  useEffect(() => {
+    const el = player.current;
+    if (!el || !autoPlay) return;
+    el.play().catch(() => {});
+    onPlayed?.();
+  }, [autoPlay, onPlayed]);
+
+  useEffect(() => {
+    const el = player.current;
+    const session = mediaSessionOf();
+    if (!el || !session) return;
+    const onPlay = () => {
+      applyMediaSession(session, audioMetadata(audio, { album, odii, story }), {
+        play: () => {
+          el.play().catch(() => {});
+        },
+        pause: () => el.pause(),
+        next: onNext,
+        prev: onPrev,
+      });
+      setPlaybackState(session, "playing");
+    };
+    const onPause = () => setPlaybackState(session, "paused");
+    el.addEventListener("play", onPlay);
+    el.addEventListener("pause", onPause);
+    // 재생 중에 다시 붙으면(다음 · 이전 손잡이가 바뀌어 effect가 다시 돌 때) 잠금 화면을 바로 이어 둔다
+    if (!el.paused) onPlay();
+    return () => {
+      el.removeEventListener("play", onPlay);
+      el.removeEventListener("pause", onPause);
+      clearMediaSession(session);
+    };
+  }, [audio, onNext, onPrev, album, odii, story]);
+
   return (
     <>
       {audio.title && <p className="text-body font-semibold">{audio.title}</p>}
       {audio.audioUrl && active && (
         <audio
+          ref={player}
           controls
           preload="none"
           src={audio.audioUrl}
           aria-label={t("player", { title: audio.title || t("title") })}
+          onEnded={onEnded}
           className="mt-2 w-full"
         />
       )}
@@ -219,6 +317,9 @@ function AudioCard({ audio, active }: { audio: TourAudio; active: boolean }) {
         <p className="mt-1 text-caption text-fg-muted tabular-nums">
           {t("playTime", { time: formatPlayTime(audio.playTime) })}
         </p>
+      )}
+      {note && audio.audioUrl && active && (
+        <p className="mt-0.5 text-micro text-fg-subtle">{note}</p>
       )}
       <p id={scriptId} className="mt-2 text-label whitespace-pre-line">
         {open || !long ? audio.script : folded}

@@ -2,10 +2,21 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { type ReactNode, useRef, useState } from "react";
+import {
+  type ReactNode,
+  type Ref,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { cardIndex, stepCard } from "./card-carousel";
 
+/** 바깥에서 카드를 넘길 때(오디오 이어듣기: 해설이 끝나면 다음 카드로) */
+export type CardCarouselHandle = { goTo: (index: number) => void };
+
 type CardCarouselProps = {
+  /** 바깥에서 넘기는 손잡이(goTo) */
+  ref?: Ref<CardCarouselHandle>;
   /** 목록 이름(aria-label) */
   label: string;
   /** 화살표 왼쪽에 보일 글(없으면 화살표 · 「n / 전체」만 오른쪽에) */
@@ -25,6 +36,7 @@ type CardCarouselProps = {
  * 모바일 브라우저가 하단 탭 같은 fixed 요소를 그 폭 기준으로 놓는다(하단 탭이 밀리던 원인, 2026-10-02). 줄 기준으로 두어 줄 안에서 잘린다
  */
 export function CardCarousel({
+  ref,
   label,
   heading,
   total,
@@ -40,19 +52,38 @@ export function CardCarousel({
     return a && b ? b.offsetLeft - a.offsetLeft : row.clientWidth;
   }
 
+  /** 화살표 · goTo로 넘기는 중인 목표 위치(px). 부드러운 스크롤이 지나가는 동안 스크롤 위치로 번호를 되돌리지 않게(오디오 이어듣기 때 다음 카드의 플레이어가 떼였다 붙어 재생이 끊기던 원인) */
+  const target = useRef<number | null>(null);
+
   function onScroll() {
     const row = rowRef.current;
     if (!row) return;
+    if (target.current !== null) {
+      if (Math.abs(row.scrollLeft - target.current) > 2) return;
+      target.current = null;
+    }
     setIndex(cardIndex(row.scrollLeft, stride(row), total));
   }
 
-  function go(step: -1 | 1) {
+  /** 손가락 · 휠로 직접 밀기 시작하면 넘기는 중인 목표를 버린다 */
+  function cancelTarget() {
+    target.current = null;
+  }
+
+  function goTo(next: number) {
     const row = rowRef.current;
     if (!row) return;
-    const next = stepCard(index, step, total);
-    row.scrollTo({ left: next * stride(row), behavior: "smooth" });
+    const left = next * stride(row);
+    target.current = left;
+    row.scrollTo({ left, behavior: "smooth" });
     setIndex(next);
   }
+  function go(step: -1 | 1) {
+    goTo(stepCard(index, step, total));
+  }
+  useImperativeHandle(ref, () => ({
+    goTo: (i: number) => goTo(Math.max(0, Math.min(total - 1, i))),
+  }));
 
   return (
     <div>
@@ -90,6 +121,9 @@ export function CardCarousel({
       <ul
         ref={rowRef}
         onScroll={onScroll}
+        onTouchStart={cancelTarget}
+        onWheel={cancelTarget}
+        onPointerDown={cancelTarget}
         aria-roledescription="carousel"
         aria-label={label}
         className="relative mt-1 flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto overscroll-x-contain scroll-smooth [&::-webkit-scrollbar]:hidden"

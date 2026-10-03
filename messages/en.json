@@ -128,7 +128,8 @@
         "less": "Show less",
         "sourceOdii": "Korea Tourism Organization audio guide (Odii)",
         "sourceStory": "Travel stories · Korea Tourism Organization",
-        "list": "{count} audio commentaries"
+        "list": "{count} audio commentaries",
+        "autoNext": "The next commentary plays automatically when this one ends. You can skip from the lock screen too"
       },
       "related": {
         "title": "Top places visited together",
