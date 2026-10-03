@@ -10,6 +10,7 @@
 //   2) node scripts/add-popular-places.mjs [--source popular|odii] [--scope all|home] [--regions 서울,부산] [--top 10] [--base http://localhost:5173] [--dry]
 //      --source odii: 인기 관광지 대신 관광지 오디오 가이드(오디) 해설이 있는 관광지를 모은다(lib/tour-collect.ts collectOdii)
 //      --source citytour: 시티투어 경유지 중 앱에 없는 관광지를 모은다(collectCityTour). 뒤에 node scripts/build-citytour.mjs 를 다시 돌리면 노선의 placeIds가 새 장소까지 잇는다
+//      --source related: 연관 관광지 전수 재조사(collectRelated). 장소가 있는 시군구마다 「함께 많이 가는 관광지」 전체 목록을 받아 앱에 없는 곳을 모은다(시군구 211곳, 오래 걸린다. --regions 로 좁힐 수 있다)
 //   3) npm run format   # JSON을 리포 포맷으로 맞춘다
 //
 // 규칙(lib/tour-collect.ts, Data-Analytics tools/add_popular_places.py와 같다):

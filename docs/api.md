@@ -202,6 +202,11 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   관광공사 호출(집중률 · 관광정보 검색 · 오디 목록)도 모두 캐시 없이(`no-store`) 부른다: 홈 · 장소 시트의 fetch 캐시(집중률 6시간 · 관광정보 하루)를 같이 쓰면 개발 서버에 남은 하루 전 응답이 돌아와
   「기준 날짜 행 없음」으로 아무것도 모으지 못했다(2026-10-02 고침). `districtItems`는 `cache` 인자를 받는다(홈은 기본 6시간).
   배포(`NODE_ENV=production`)에서는 404 — 시군구 211곳 × 최대 5쪽을 부르므로 개발 서버에서 스크립트로만 쓴다. 키가 없으면 503, 실패하면 502
+- **연관 관광지 전수 재조사**(`source=related`, 2026-10-03): 장소가 있는 시군구 전부(`allTargets`, `regions`로 좁힐 수 있다)마다 관광지별 연관 관광지 시군구 전체 목록(`TarRlteTarService1/areaBasedList1`, 기준월 2개월 전 → 비면 3 · 4개월 전, 쪽당 2,000행 · 최대 5쪽)을 받아
+  「함께 많이 가는 관광지」로 나오는 모든 관광지(`rlteTatsNm`)를 시군구 코드 · 정규화 이름으로 모은다(`relatedStops`: 연계 수 · 최고 순위 · 기준 관광지 최대 3곳. 주차장 · 화장실 · 체인 브랜드는 장소 시트와 같이 뺀다).
+  지역은 그 코드가 든 조회 대상 지역(없으면 관광정보 좌표에서 30km 안 가장 가까운 장소의 지역). 그 지역 장소 풀에서 이름 → 국문 관광정보 검색(같은 시군구 코드 결과만, 숙소는 숙박 타입도 받는다) → 위치 → `pop<contentid>` 추가 장소(숙박은 `stay`).
+  관광정보에 없으면 좌표를 몰라 `missing`(후보 표에만). 출처에 「연관 관광지(연계 n회 · 기준 관광지)」, 설명은 관광정보 개요(없으면 「○○ 등과 함께 많이 찾는 곳 (연관 n회)」, 장소 표의 기존 연관 관광지 행과 같은 꼴). Data-Analytics `tools/add_related_places.py`와 같은 규칙 · 같은 id.
+  시군구 211곳 × 최대 5쪽을 부르므로 오래 걸린다(`--regions`로 나눠 돌릴 수 있다). 응답 `{ "source", "months": { 시군구: 기준월 }, "candidates": [{ "region", "name", "signgu", "category", "stay", "links", "bestRank", "bases", "verdict", "id" }], "places" }`
 
 ### 축제 · 행사 `GET /api/tour/festival?city=&locale=`
 

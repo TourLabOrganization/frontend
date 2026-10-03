@@ -477,3 +477,157 @@ describe("시티투어 경유지 중 앱에 없는 관광지(cityTourStops · co
     expect(places[0].source).toContain("시티투어 경유지(2개 노선)");
   });
 });
+
+describe("연관 관광지 전수 재조사(relatedStops · collectRelated)", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  const row = (
+    tAtsNm: string,
+    rlteTatsNm: string,
+    rank: number,
+    signgu = "47130",
+    lcls = "관광지",
+  ) => ({
+    baseYm: "202608",
+    tAtsNm,
+    rlteTatsNm,
+    rlteRank: String(rank),
+    rlteSignguCd: signgu,
+    rlteRegnNm: "경상북도",
+    rlteSignguNm: "경주시",
+    rlteCtgryLclsNm: lcls,
+    rlteCtgryMclsNm: "",
+    rlteCtgrySclsNm: lcls === "숙박" ? "호텔" : "역사관광지",
+  });
+
+  it("relatedStops: 같은 시군구 · 같은 이름은 한 번(연계 수 · 최고 순위 · 기준 관광지), 주차장 · 체인은 뺀다, 연계 많은 순", async () => {
+    const { relatedStops } = await import("./tour-collect");
+    const stops = relatedStops(
+      [
+        row("불국사", "석굴암", 1),
+        row("첨성대", "석굴암 ", 3),
+        row("대릉원", "석굴암", 2),
+        row("불국사", "새전망대", 2),
+        row("불국사", "불국사주차장", 4),
+        row("불국사", "스타벅스/경주보문점", 5),
+        row("불국사", "힐튼 경주", 6, "47130", "숙박"),
+        row("불국사", "", 7),
+        row("불국사", "코드없는곳", 8, ""),
+      ],
+      (code) => (code === "47130" ? "경주" : ""),
+    );
+    expect(stops.map((s) => [s.name, s.links, s.bestRank, s.region])).toEqual([
+      ["석굴암", 3, 1, "경주"],
+      ["새전망대", 1, 2, "경주"],
+      ["힐튼 경주", 1, 6, "경주"],
+      ["코드없는곳", 1, 8, ""],
+    ]);
+    expect(stops[0].bases).toEqual(["불국사", "첨성대", "대릉원"]);
+    expect(stops[2].stay).toBe(true);
+    expect(stops[3].signgu).toBe("");
+  });
+
+  it("collectRelated: 시군구마다 전체 목록을 받아 이름 → 관광정보(같은 시군구) → 위치 → 추가 장소. 관광정보에 없으면 missing", async () => {
+    const { collectRelated } = await import("./tour-collect");
+    const body = (item: unknown[]) =>
+      Response.json({
+        response: {
+          header: { resultCode: "0000" },
+          body: { items: item.length ? { item } : "", totalCount: item.length },
+        },
+      });
+    const wol = PLANNER_PLACES.find((p) => p.id === "gjx6")!; // 월정교
+    const search: Record<string, unknown[]> = {
+      새전망대: [
+        {
+          contentid: "9101",
+          title: "새전망대",
+          contenttypeid: "14",
+          mapy: "35.80",
+          mapx: "129.30",
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+          addr1: "경북 경주시 어딘가 1",
+        },
+        {
+          contentid: "9102",
+          title: "새전망대",
+          contenttypeid: "14",
+          mapy: "35.80",
+          mapx: "129.30",
+          lDongRegnCd: "26",
+          lDongSignguCd: "350",
+        },
+      ],
+      신라의밤다리: [
+        {
+          contentid: "9103",
+          title: "신라의밤다리",
+          contenttypeid: "12",
+          mapy: String(wol.lat + 0.001),
+          mapx: String(wol.lng),
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+        },
+      ],
+      없는곳: [],
+      새호텔: [
+        {
+          contentid: "9104",
+          title: "새호텔",
+          contenttypeid: "32",
+          mapy: "35.81",
+          mapx: "129.31",
+          lDongRegnCd: "47",
+          lDongSignguCd: "130",
+          addr1: "경북 경주시 호텔길 1",
+        },
+      ],
+    };
+    const calls: string[] = [];
+    vi.stubGlobal("fetch", async (input: string | URL) => {
+      const url = new URL(String(input));
+      calls.push(url.pathname);
+      if (url.pathname.includes("areaBasedList1")) {
+        if (url.searchParams.get("signguCd") !== "47130") return body([]);
+        return body(
+          url.searchParams.get("baseYm") === "202608"
+            ? [
+                row("불국사", "석굴암", 1),
+                row("불국사", "새전망대", 2),
+                row("첨성대", "새전망대", 1),
+                row("대릉원", "신라의밤다리", 2),
+                row("대릉원", "없는곳", 3),
+                row("불국사", "새호텔", 4, "47130", "숙박"),
+              ]
+            : [],
+        );
+      }
+      if (url.pathname.includes("searchKeyword2"))
+        return body(search[url.searchParams.get("keyword") ?? ""] ?? []);
+      return body([]);
+    });
+    const { months, candidates, places } = await collectRelated("k", {
+      regions: ["경주"],
+      now: new Date("2026-10-03T03:00:00Z"),
+    });
+    expect(months["47130"]).toBe("202608");
+    expect(candidates.map((c) => [c.name, c.verdict, c.id])).toEqual([
+      ["새전망대", "new", "pop9101"],
+      ["석굴암", "existing-name", "gjx5"],
+      ["신라의밤다리", "existing-location", "gjx6"],
+      ["없는곳", "missing", null],
+      ["새호텔", "new", "pop9104"],
+    ]);
+    expect(places.map((p) => [p.id, p.cat, p.locKo, p.auto])).toEqual([
+      ["pop9101", "herit", "경주", true],
+      ["pop9104", "stay", "경주", false],
+    ]);
+    expect(places[0].source).toContain(
+      "연관 관광지(연계 2회 · 불국사, 첨성대)",
+    );
+    expect(places[0].desc).toContain("함께 많이 찾는 곳 (연관 2회)");
+    // 다른 시군구(부산) 결과는 쓰지 않았다: 9102가 아니라 9101
+    expect(places[0].signgu).toBe("47130");
+  });
+});

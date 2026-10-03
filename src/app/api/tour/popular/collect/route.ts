@@ -3,6 +3,7 @@ import {
   collectCityTour,
   collectOdii,
   collectPopular,
+  collectRelated,
   homeTargets,
   type CollectScope,
 } from "@/lib/tour-collect";
@@ -12,6 +13,7 @@ import { tourApiKey, tourNotConfigured, tourUnavailable } from "@/lib/tour-api";
 // 결과를 features/planner/data/added-places.json 등에 합친다. 시군구 211곳 × 최대 5쪽을 부르므로 배포에서는 열지 않는다(404).
 // 쿼리: source=popular(기본, 인기 관광지) | odii(관광지 오디오 가이드 해설이 있는 관광지) ·
 //       source=citytour(시티투어 경유지 중 앱에 없는 관광지, lib/tour-collect.ts collectCityTour) ·
+//       source=related(연관 관광지 전수 재조사: 시군구마다 함께 많이 가는 관광지 전체 목록, collectRelated) ·
 //       scope=all(기본, 장소가 있는 시군구 전부) | home(홈 칩 8개 도시) · regions=서울,부산(이 지역만) · top=10(지역마다 볼 상위 수, 0이면 전부)
 export async function GET(request: Request) {
   if (process.env.NODE_ENV === "production")
@@ -30,8 +32,22 @@ export async function GET(request: Request) {
   const key = tourApiKey();
   if (!key) return tourNotConfigured();
   const source = params.get("source") ?? "popular";
-  if (source !== "popular" && source !== "odii" && source !== "citytour")
+  if (!["popular", "odii", "citytour", "related"].includes(source))
     return Response.json({ message: "invalid source" }, { status: 400 });
+  if (source === "related") {
+    try {
+      const result = await collectRelated(key, {
+        regions: regions.length ? regions : undefined,
+        log: (line) => console.log(`[popular/collect] ${line}`),
+      });
+      return Response.json(
+        { source, ...result },
+        { headers: { "Cache-Control": "no-store" } },
+      );
+    } catch {
+      return tourUnavailable();
+    }
+  }
   if (source === "citytour") {
     try {
       const result = await collectCityTour(key, {
