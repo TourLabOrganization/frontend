@@ -34642,5 +34642,68 @@
     "src": {
       "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
+  },
+  "ctm041152d9": {
+    "desc": {
+      "ko": "삽교호 함상공원과 놀이시설이 있는 호수 관광지.",
+      "en": "Lakeside tourist area with the Sapgyoho warship park and rides."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(20대 24위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5bb582f7": {
+    "desc": {
+      "ko": "동탄2신도시의 호수 둘레 산책 공원과 루나분수.",
+      "en": "Lake park with promenades and the Luna fountain in Dongtan 2."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(20대 26위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm3debe815": {
+    "desc": {
+      "ko": "태종과 순조의 능이 있는 조선 왕릉.",
+      "en": "Joseon royal tombs of King Taejong and King Sunjo."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(30대 16위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmcf709ca2": {
+    "desc": {
+      "ko": "서울대공원 옆의 국립 과학관과 천체투영관.",
+      "en": "National science museum with a planetarium next to Seoul Grand Park."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(40대 18위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm617194e2": {
+    "desc": {
+      "ko": "비발디파크의 워터파크. 겨울엔 스키장.",
+      "en": "Water park at Vivaldi Park, a ski resort in winter."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(40대 20위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm83f7afe5": {
+    "desc": {
+      "ko": "낙조와 수산물로 이름난 서해 어항.",
+      "en": "West-coast fishing port known for sunsets and seafood."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(60대 이상 4위 · 50대 20위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma3913652": {
+    "desc": {
+      "ko": "강화 초지대교 앞 횟집 거리의 작은 포구.",
+      "en": "Small harbor with a seafood street facing Ganghwa's Choji Bridge."
+    },
+    "src": {
+      "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(60대 이상 5위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }
