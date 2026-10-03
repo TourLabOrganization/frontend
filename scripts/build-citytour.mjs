@@ -10,7 +10,7 @@
 //   - data/citytour.json   한 노선이 헤더 없는 배열 13칸
 //                          도시 · 노선명 · 유형(순환형 · 고정형) · 탑승지 · 경유지 · 첫차 · 막차 · 배차간격 · 요금 · 전화 · 홈페이지 · 비고 · 기준일
 //                          (칼럼 이름은 파생 데이터/시티투어.csv · 파생 데이터/README.md)
-//   - 이 리포의 src/features/planner/data/places.json · place-details.json(ct = 장소.csv 시티투어경유)
+//   - 이 리포의 src/features/planner/data/places.json + added-places.json(추가 장소) · place-details.json(ct = 장소.csv 시티투어경유)
 //
 // 규칙:
 //   - 유형은 순환형 → loop, 고정형 → fixed(화면 표기 「코스형」, 시티투어.csv와 같다)
@@ -47,7 +47,11 @@ const OUT = resolve(ROOT, "src/features/home/data/citytour.json");
 
 const readJson = (file) => JSON.parse(readFileSync(file, "utf8"));
 const rows = readJson(sourcePath);
-const places = readJson(resolve(PLANNER_DIR, "places.json"));
+// 추가 장소(added-places.json, 인기 관광지 · 오디 · 시티투어 경유지 수집)도 경유지 대조 풀에 넣는다(2026-10-03)
+const places = [
+  ...readJson(resolve(PLANNER_DIR, "places.json")),
+  ...readJson(resolve(PLANNER_DIR, "added-places.json")),
+];
 const details = readJson(resolve(PLANNER_DIR, "place-details.json"));
 
 const matchPlaces = places.map((p) => ({

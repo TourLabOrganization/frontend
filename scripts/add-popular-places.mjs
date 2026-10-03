@@ -9,6 +9,7 @@
 //   1) dev 서버를 띄운다: npm run dev   (.env.local의 DATA_GO_KR_KEY를 서버가 읽는다. 키는 이 스크립트가 다루지 않는다)
 //   2) node scripts/add-popular-places.mjs [--source popular|odii] [--scope all|home] [--regions 서울,부산] [--top 10] [--base http://localhost:5173] [--dry]
 //      --source odii: 인기 관광지 대신 관광지 오디오 가이드(오디) 해설이 있는 관광지를 모은다(lib/tour-collect.ts collectOdii)
+//      --source citytour: 시티투어 경유지 중 앱에 없는 관광지를 모은다(collectCityTour). 뒤에 node scripts/build-citytour.mjs 를 다시 돌리면 노선의 placeIds가 새 장소까지 잇는다
 //   3) npm run format   # JSON을 리포 포맷으로 맞춘다
 //
 // 규칙(lib/tour-collect.ts, Data-Analytics tools/add_popular_places.py와 같다):

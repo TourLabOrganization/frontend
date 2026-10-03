@@ -188,8 +188,12 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   장소 표에 없는 지역이면 30km 안 가장 가까운 장소의 지역, 그것도 없으면 `no-region`. 같은 지역 장소와 이름 → 위치로 잇고, 남는 곳은 국문 관광정보(같은 이름 · 1km 안)에서 찾으면 `pop<contentid>`와 그 분류,
   못 찾으면 `odii<tid>`와 이름 낱말 분류(`odiiRuleCategory`: 해변 · 섬 → sea, 시장 → food, 체험 · 파크 → activity, 사 · 궁 · 유적 · 박물관 → herit, 공원 · 숲 · 오름 → heal, 그 밖은 herit).
   출처에 「오디 tid」를 적는다. Data-Analytics `tools/add_odii_places.py`와 같은 규칙 · 같은 id
+- **시티투어 경유지 관광지**(`source=citytour`, 2026-10-03): 시티투어 280노선의 경유지 중 앱 장소와 맞지 않는 곳(`cityTourStops`: 식사 · 역 · 터미널 · 안내소 등 `NOT_SIGHT`와 「박물관」 · 「2곳」 같은 일반 명사 `CITYTOUR_GENERIC`을 뺀 360곳 안팎,
+  지역은 노선의 첫 여행지 `visits[0]`, 같은 지역 · 같은 이름은 노선 수로 모은다)이 후보다(`collectCityTour`). 그 지역 장소 풀에서 이름 → 국문 관광정보 검색(그 도시 시군구 코드와 맞는 결과만, 코드 없는 행은 둔다) → 위치 → `pop<contentid>` 추가 장소.
+  출처에 「시티투어 경유지(n개 노선)」을 적고 설명은 관광정보 개요(없으면 「○○ 시티투어 경유지(n개 노선)」). 모은 뒤 `node scripts/build-citytour.mjs`를 다시 돌리면 노선의 `placeIds`가 새 장소까지 잇는다(대조 풀에 `added-places.json`을 넣는다).
+  웹 검색 좌표는 믿기 어려워(동명 장소 · 요약 오류) 쓰지 않는다
 - **응답**: `{ "source", "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`.
-  `source=odii`면 `{ "source", "candidates": [{ "tid", "name", "region", "regionBy", "verdict", "id" }], "places" }`. 캐시 없음.
+  `source=odii`면 `{ "source", "candidates": [{ "tid", "name", "region", "regionBy", "verdict", "id" }], "places" }`, `source=citytour`면 `{ "source", "candidates": [{ "region", "name", "tours", "verdict", "id" }], "places" }`. 캐시 없음.
   관광공사 호출(집중률 · 관광정보 검색 · 오디 목록)도 모두 캐시 없이(`no-store`) 부른다: 홈 · 장소 시트의 fetch 캐시(집중률 6시간 · 관광정보 하루)를 같이 쓰면 개발 서버에 남은 하루 전 응답이 돌아와
   「기준 날짜 행 없음」으로 아무것도 모으지 못했다(2026-10-02 고침). `districtItems`는 `cache` 인자를 받는다(홈은 기본 6시간).
   배포(`NODE_ENV=production`)에서는 404 — 시군구 211곳 × 최대 5쪽을 부르므로 개발 서버에서 스크립트로만 쓴다. 키가 없으면 503, 실패하면 502
