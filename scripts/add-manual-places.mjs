@@ -12,6 +12,7 @@
 //   - id는 ctm<sha1(region|ko) 앞 8자리>: 같은 도시 · 같은 이름이면 다시 돌려도 같은 id라 두 번 들어가지 않는다(mergeAdded가 기존 id는 건너뛴다)
 //   - 기존 장소(places.json + added-places.json)와 250m 안이거나, 1km 안에서 이름 글자쌍이 절반 넘게 겹치면 이미 있는 장소로 보고 넣지 않는다
 //   - 추천 체류는 범주의 기존 중앙값, 출처에 「좌표 수기 입력(지도 검증 필요)」을 적는다. 좌표는 관광정보가 아니라 사람이 적은 값이다
+//   - 권역은 그 도시 장소의 권역, 장소가 아직 없는 도시(김포 · 부천 · 광명)는 regions.json 권역 도시 목록에서. 그 도시는 regions.json cities에 en · lat · lng가 있어야 한다
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -131,13 +132,17 @@ export function stayMedians(places) {
   return out;
 }
 
-/** 도시의 권역(그 도시 장소에 가장 많은 값) */
-function regionMacro(places, region) {
+/** 도시의 권역(그 도시 장소에 가장 많은 값. 장소가 없는 도시는 regions.json 권역 도시 목록에서) */
+export function regionMacro(places, region, regions = []) {
   const counts = new Map();
   for (const p of places)
     if ((p.pickCity ?? p.locKo) === region)
       counts.set(p.macro, (counts.get(p.macro) ?? 0) + 1);
-  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+  return (
+    [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ??
+    regions.find((r) => r.cities?.includes(region))?.key ??
+    null
+  );
 }
 
 /** 기존 장소와 같은 곳인지(250m 안, 또는 1km 안에서 이름 절반 겹침) */
@@ -159,7 +164,7 @@ export function nearExisting(spot, pool) {
  * CSV 행을 추가 장소(mergeAdded 입력)로 바꾼다. 기존 장소와 겹치는 행은 skipped에 적는다(순수 함수, 테스트용)
  * @returns {{ places: Record<string, unknown>[], skipped: { row: Record<string,string>, reason: string, id?: string }[] }}
  */
-export function manualPlaces(rows, pool, date = DATE) {
+export function manualPlaces(rows, pool, date = DATE, regions = []) {
   const stays = stayMedians(pool);
   const places = [];
   const skipped = [];
@@ -174,7 +179,7 @@ export function manualPlaces(rows, pool, date = DATE) {
       skipped.push({ row, reason: "빈 이름 · 도시 · 좌표" });
       continue;
     }
-    const macro = regionMacro(pool, region);
+    const macro = regionMacro(pool, region, regions);
     if (!macro) {
       skipped.push({ row, reason: `앱에 없는 도시 ${region}` });
       continue;
@@ -243,7 +248,12 @@ function main() {
   const base = read("places.json");
   const pool = [...base, ...files.added];
   const rows = parseCsv(readFileSync(csvPath, "utf8"));
-  const { places, skipped } = manualPlaces(rows, pool);
+  const { places, skipped } = manualPlaces(
+    rows,
+    pool,
+    DATE,
+    files.regions.regions ?? [],
+  );
   for (const s of skipped)
     console.log(
       `  - ${s.row.region} ${s.row.ko}: ${s.reason}${s.id ? ` (${s.id})` : ""}`,

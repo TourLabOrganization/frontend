@@ -33922,5 +33922,95 @@
     "src": {
       "ko": "시티투어 경유지(2개 노선, 노선 표기 「울돌목 물살체험장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
+  },
+  "ctmc7fa40d9": {
+    "desc": {
+      "ko": "폐광을 테마파크로 만든 동굴 관광지.",
+      "en": "Abandoned mine turned into a cave theme park."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「광명동굴」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0793df25": {
+    "desc": {
+      "ko": "한국 1호 이케아 매장과 롯데아울렛.",
+      "en": "Korea's first IKEA store, next to Lotte Outlets."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「IKEA」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma817cbb5": {
+    "desc": {
+      "ko": "광명사거리역 옆 큰 전통시장.",
+      "en": "Large traditional market beside Gwangmyeongsageori station."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「광명 전통시장」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm30264e7b": {
+    "desc": {
+      "ko": "도덕산 공원의 흔들다리와 산책길.",
+      "en": "Suspension bridge and walking trails in Dodeoksan Park."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「도덕산 출렁다리」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf4531b1e": {
+    "desc": {
+      "ko": "한국 만화의 역사를 보여주는 박물관.",
+      "en": "Museum of the history of Korean comics."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「한국만화박물관」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm56cd64a8": {
+    "desc": {
+      "ko": "옛 쓰레기 소각장을 바꾼 복합문화공간.",
+      "en": "Former waste incinerator turned cultural complex."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「부천아트벙커B39」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf58ad40f": {
+    "desc": {
+      "ko": "영상문화단지 옆 한옥 체험 마을.",
+      "en": "Hanok experience village beside the film culture complex."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「부천한옥마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm72025b8d": {
+    "desc": {
+      "ko": "김포한강신도시의 수변 상가 거리.",
+      "en": "Waterside shopping street in Gimpo Hangang New Town."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「김포라베니체」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6b4cc9fe": {
+    "desc": {
+      "ko": "월곶면 숲속의 야외 조각공원.",
+      "en": "Open-air sculpture park in the woods of Wolgot-myeon."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「김포국제조각공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmeb4d9e1f": {
+    "desc": {
+      "ko": "북녘 땅이 보이는 한강 하구의 전망 공원.",
+      "en": "Observation park at the Han estuary facing the north."
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「애기봉평화생태공원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }

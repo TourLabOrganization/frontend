@@ -117,6 +117,25 @@ describe("mergeAdded(수기 장소)", () => {
   });
 });
 
+describe("manualPlaces(장소 없는 도시)", () => {
+  it("그 도시 장소가 없으면 regions.json 권역 도시 목록에서 권역을 찾는다", () => {
+    const regions = [{ key: "capital", cities: ["서울", "김포"] }];
+    const { places, skipped } = manualPlaces(
+      [
+        row({ region: "김포", ko: "애기봉" }),
+        row({ region: "없는도시", ko: "어딘가" }),
+      ],
+      pool,
+      "2026-10-03",
+      regions,
+    );
+    expect(places.map((p) => [p.locKo, p.macro])).toEqual([
+      ["김포", "capital"],
+    ]);
+    expect(skipped.map((s) => s.reason)).toEqual(["앱에 없는 도시 없는도시"]);
+  });
+});
+
 describe("manualPlaces", () => {
   it("행을 추가 장소로 만들고 체류 · 권역 · 출처를 채운다", () => {
     const { places, skipped } = manualPlaces([row()], pool, "2026-10-03");

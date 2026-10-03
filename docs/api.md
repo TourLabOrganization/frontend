@@ -189,10 +189,10 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   못 찾으면 `odii<tid>`와 이름 낱말 분류(`odiiRuleCategory`: 해변 · 섬 → sea, 시장 → food, 체험 · 파크 → activity, 사 · 궁 · 유적 · 박물관 → herit, 공원 · 숲 · 오름 → heal, 그 밖은 herit).
   출처에 「오디 tid」를 적는다. Data-Analytics `tools/add_odii_places.py`와 같은 규칙 · 같은 id
 - **시티투어 경유지 관광지**(`source=citytour`, 2026-10-03): 시티투어 280노선의 경유지 중 앱 장소와 맞지 않는 곳(`cityTourStops`: 식사 · 역 · 터미널 · 안내소 등 `NOT_SIGHT`와 「박물관」 · 「2곳」 같은 일반 명사 `CITYTOUR_GENERIC`을 뺀 360곳 안팎,
-  지역은 노선의 첫 여행지 `visits[0]`, 같은 지역 · 같은 이름은 노선 수로 모은다)이 후보다(`collectCityTour`). 그 지역 장소 풀에서 이름 → 국문 관광정보 검색(그 도시 시군구 코드와 맞는 결과만, 코드 없는 행은 둔다) → 위치 → `pop<contentid>` 추가 장소.
+  지역은 노선의 첫 여행지 `visits[0]`, 같은 지역 · 같은 이름은 노선 수로 모은다)이 후보다(`collectCityTour`). 여행지 도시들의 장소 풀(`visitPool`)에서 이름 → 국문 관광정보 검색(그 도시 시군구 코드와 맞는 결과만, 코드 없는 행은 둔다) → 위치 → `pop<contentid>` 추가 장소.
   출처에 「시티투어 경유지(n개 노선)」을 적고 설명은 관광정보 개요(없으면 「○○ 시티투어 경유지(n개 노선)」). 모은 뒤 `node scripts/build-citytour.mjs`를 다시 돌리면 노선의 `placeIds`가 새 장소까지 잇는다(대조 풀에 `added-places.json`을 넣는다).
   웹 검색 좌표는 믿기 어려워(동명 장소 · 요약 오류) 쓰지 않는다
-  키가 없는 환경에서는 사람이 후보 표(`cityTourStops` 결과)를 보고 좌표 · 분류 · 설명을 적은 `scripts/data/citytour-manual-places.csv`를 `node scripts/add-manual-places.mjs`로 넣는다(2026-10-03, 112행 중 기존 장소와 겹치는 27곳을 빼고 85곳 `ctm<해시>`). 좌표는 관광정보 값이 아니라 수기라 출처에 「좌표 수기 입력(지도 검증 필요)」을 적고, 시군구 경계 폴리곤 안에 드는지 확인한 뒤 넣었다. 뒤에 키 있는 수집기가 같은 곳을 만나면 이름 · 위치로 기존 장소로 본다
+  키가 없는 환경에서는 사람이 후보 표(`cityTourStops` 결과)를 보고 좌표 · 분류 · 설명을 적은 `scripts/data/citytour-manual-places.csv`를 `node scripts/add-manual-places.mjs`로 넣는다(2026-10-03, 117행 중 기존 장소와 겹치는 27곳을 빼고 90곳 `ctm<해시>`. 김포 · 부천 · 광명은 장소가 없던 도시라 `regions.json` 권역 목록으로 권역을 정한다). 좌표는 관광정보 값이 아니라 수기라 출처에 「좌표 수기 입력(지도 검증 필요)」을 적고, 시군구 경계 폴리곤 안에 드는지 확인한 뒤 넣었다. 뒤에 키 있는 수집기가 같은 곳을 만나면 이름 · 위치로 기존 장소로 본다
 - **응답**: `{ "source", "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`.
   `source=odii`면 `{ "source", "candidates": [{ "tid", "name", "region", "regionBy", "verdict", "id" }], "places" }`, `source=citytour`면 `{ "source", "candidates": [{ "region", "name", "tours", "verdict", "id" }], "places" }`. 캐시 없음.
   관광공사 호출(집중률 · 관광정보 검색 · 오디 목록)도 모두 캐시 없이(`no-store`) 부른다: 홈 · 장소 시트의 fetch 캐시(집중률 6시간 · 관광정보 하루)를 같이 쓰면 개발 서버에 남은 하루 전 응답이 돌아와

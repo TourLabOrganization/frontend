@@ -240,7 +240,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
   지도 · 목록 · 코스 · 장소 시트가 빌드 장소와 똑같이 쓴다(가벼운 필드만. 시군구 코드는 `signgu.json`, 설명 · 사진 · 중 · 일 이름 · 좌표 근거는 `place-details.json`, 도시별 장소 수는 `regions.json`).
   모으는 규칙은 `lib/tour-collect.ts`(`docs/api.md` 「인기 관광지 모으기」), 파일에 합치는 것은 `scripts/add-popular-places.mjs`. Data-Analytics 저장소 `tools/add_popular_places.py`와 같은 규칙 · 같은 id라 두 저장소의 장소 표가 같게 늘어난다.
   갱신은 dev 서버를 띄우고 `node scripts/add-popular-places.mjs`(인기 관광지) · `--source odii`(오디 해설 관광지) · `--source citytour`(시티투어 경유지 중 앱에 없는 관광지, 2026-10-03) → `npm run format` → `node scripts/build-citytour.mjs <원천>`(노선 `placeIds`가 새 장소까지 잇게). 이미 있는 id는 다시 넣지 않는다
-  관광공사 키 없이 사람이 좌표를 적은 표(`scripts/data/citytour-manual-places.csv`)로도 넣는다: `node scripts/add-manual-places.mjs` → id `ctm<sha1(도시|이름) 8자리>`, 기존 장소와 250m 안(또는 1km 안 이름 절반 겹침)이면 넣지 않고, 출처에 「좌표 수기 입력(지도 검증 필요)」을 적는다(2026-10-03, 시티투어 경유지 85곳). `docs/api.md` 「시티투어 경유지 관광지」
+  관광공사 키 없이 사람이 좌표를 적은 표(`scripts/data/citytour-manual-places.csv`)로도 넣는다(장소가 없던 도시 김포 · 부천 · 광명은 `regions.json` 권역 도시 목록에서 권역을 찾고, `cities`에 en · 중심 좌표를 적어 두었다. 2026-10-03 EG투어버스 경유지 10곳): `node scripts/add-manual-places.mjs` → id `ctm<sha1(도시|이름) 8자리>`, 기존 장소와 250m 안(또는 1km 안 이름 절반 겹침)이면 넣지 않고, 출처에 「좌표 수기 입력(지도 검증 필요)」을 적는다(2026-10-03, 시티투어 경유지 85곳). `docs/api.md` 「시티투어 경유지 관광지」
 - 신규 관광지(`kto:<contentid>`): `places.json`에 없는 한국관광공사 관광지. 홈 인기 관광지가 이름 · 위치로도 앱 장소를 못 찾을 때 만들고,
   브라우저가 localStorage `tn.extraPlaces`(`features/planner/extra-places.ts`)에 같은 필드로 기억해 지도 · 장소 시트 · 코스가 앱 장소처럼 쓴다.
   무거운 필드 · 장소 시트 칸은 서버가 한국관광공사 공통정보로 만든다(`lib/tour-spot.ts`, `docs/api.md` 「신규 관광지」)
@@ -281,7 +281,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,109곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
 - **실제 여행지**(`visits`, 2026-10-02): 원천의 도시(`region`)는 운영 지자체(출발지)라, 서울에서 출발해 경기 각지를 도는 EG투어버스 12노선이 「서울 12개 코스」로 집계됐다.
   빌드 때 `citytour-match.ts` `TOUR_VISITS`(운영 도시와 다른 노선만 노선별로 읽고 적은 표: EG투어버스 → 파주 · 안산 · 광명 · 시흥 · 화성 · 부천 · 김포 · 수원 · 평택 · 용인 · 포천 · 양평,
-  대전 광역투어 → 대전 + 이웃 도시, 세종 천안연계 · 서천 광역코스)로 노선마다 `visits`를 적고, 없으면 운영 도시 하나. 자동 대조는 동명 장소 오탐(홍성 죽도 → 울릉 죽도, 화성행궁 → 화성시)이 많아 쓰지 않는다.
+  대전 광역투어 → 대전 + 이웃 도시, 세종 천안연계 · 서천 광역코스)로 노선마다 `visits`를 적고, 없으면 운영 도시 하나. 경유지 대조 풀도 `visits` 도시의 장소다(`visitPool`, 2026-10-03: 전에는 운영 도시 풀이라 EG투어버스 12노선이 서울 장소와만 대조돼 거의 빈 노선이었다. 낱말 순서가 다른 경유지는 `CITYTOUR_MATCH`로 잇는다: 시흥프리미엄아울렛 · 서해랑케이블카 · IKEA · 을왕리해변). 자동 대조는 동명 장소 오탐(홍성 죽도 → 울릉 죽도, 화성행궁 → 화성시)이 많아 쓰지 않는다.
   지역별 검색 · 도시 칩 수 · 「n개 지역」 · 여행 정보 탭 시티투어 · 추천 카드의 지역 이름은 `visits`로 센다(`regionCounts` · `visitsCity` · `tourRegion` = 첫 여행지).
   내 유형 추천의 「한 지역 한 노선」만은 명세서 §16 · 참조 계산과 같게 운영 도시(`region`) 그대로다(참조 계산 테스트가 그 결과를 고정한다).
   카드는 운영 도시가 여행지와 다르면 「서울 출발 · 여행지 파주」 한 줄을 보인다. 그 결과 서울은 0개 코스라 칩이 없고(원천에 서울 시내 노선이 없다) 지역별 검색의 처음 지역은 첫 권역의 첫 도시다. 지역 수는 72 → 83(완주 힐링로드 1 · 2코스에 전주를 더해 2026-10-03)

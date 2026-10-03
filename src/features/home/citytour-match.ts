@@ -86,6 +86,21 @@ export function stopPool<T extends MatchPlace>(
   return inRegion.length > 0 ? inRegion : base;
 }
 
+/**
+ * 여러 도시를 도는 노선의 대조 풀: 도시마다 stopPool을 모아 한 번씩. 실제 여행지(visits)로 부른다.
+ * 서울 출발 EG투어버스는 서울 장소가 아니라 파주 · 시흥 · 화성 장소와 맞춰야 해서(2026-10-03) 운영 도시는 visits에 든 때만 들어간다
+ */
+export function visitPool<T extends MatchPlace>(
+  cities: readonly string[],
+  places: readonly T[],
+): readonly T[] {
+  const seen = new Map<string, T>();
+  for (const city of new Set(cities))
+    for (const p of stopPool(city, places))
+      if (!seen.has(p.id)) seen.set(p.id, p);
+  return [...seen.values()];
+}
+
 /** 식당 · 먹거리 분류. 경유지 이름이 이 장소 이름의 앞부분일 뿐이면(「해운대」 → 해운대가야밀면) 대조하지 않는다 */
 const FOOD = "food";
 /** 먹거리 장소를 부분 이름으로 대조해도 되는 경유지(시장 · 먹자골목 · 음식 거리) */
@@ -100,6 +115,11 @@ export const CITYTOUR_MATCH: Readonly<Record<string, string>> = {
   "대전|으능정이": "으능정이 스카이로드",
   // 정림사지박물관과 정림사지5층석탑이 둘 다 후보인데, 이름 길이로는 박물관이 골라진다. 정림사지를 대표하는 것은 석탑이다
   "부여|정림사지": "정림사지5층석탑",
+  // 경유지 표기와 공식 이름의 낱말 순서가 달라 서로를 품지 않는 곳(2026-10-03)
+  "서울|시흥프리미엄아울렛": "신세계 프리미엄아울렛 시흥",
+  "서울|서해랑케이블카": "제부도해상케이블카 서해랑 전곡정류장",
+  "서울|IKEA": "이케아 광명점",
+  "인천|을왕리해변": "을왕리해수욕장",
 };
 
 /**
@@ -187,7 +207,7 @@ export function matchStops<T extends MatchPlace>(
 export const TOUR_VISITS: Readonly<Record<string, readonly string[]>> = {
   // EG투어버스(서울 출발 · 경기 각지)
   "서울|EG투어버스 A코스": ["파주"], // DMZ · 오두산 통일전망대 · JSA
-  "서울|EG투어버스 B코스": ["안산"], // 대부도 · 서해랑케이블카
+  "서울|EG투어버스 B코스": ["안산", "화성"], // 대부도 동춘서커스(안산) · 서해랑케이블카(화성 전곡항 정류장)
   "서울|EG투어버스 C코스": ["광명"], // 광명동굴 · 도덕산
   "서울|EG투어버스 D코스": ["시흥", "화성"], // 시흥 아울렛 · 웨이브파크 · 전곡항(화성)
   "서울|EG투어버스 E코스": ["부천"],
