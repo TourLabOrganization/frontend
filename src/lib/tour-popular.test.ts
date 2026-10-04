@@ -180,6 +180,38 @@ describe("matchPlace", () => {
   });
 });
 
+describe("matchPlace: 회사 표기 · 숙박 장소", () => {
+  const places = [
+    { id: "rs9", ko: "금호리조트 설악", locKo: "속초", cat: "stay" },
+    { id: "h", ko: "설악 호텔 정원", locKo: "속초", cat: "stay" },
+    { id: "t", ko: "속초 등대", locKo: "속초", cat: "sea" },
+    { id: "t2", ko: "속초 등대", locKo: "속초", cat: "stay" },
+  ] as never[];
+  const sg = () => "51210";
+  it("「(주)」 · 「㈜」 · 「주식회사」를 빼고 비교해 이름이 같은 숙박 장소에 잇는다(금호리조트 설악)", () => {
+    expect(spotName("㈜금호리조트 설악")).toBe("금호리조트설악");
+    expect(spotName("금호리조트(주) 설악")).toBe("금호리조트설악");
+    expect(spotName("주식회사 금호리조트 설악")).toBe("금호리조트설악");
+    for (const name of [
+      "(주)금호리조트 설악",
+      "㈜금호리조트 설악",
+      "금호리조트설악",
+    ])
+      expect(
+        matchPlace({ name, signgu: "51210" }, "속초", places, sg)?.id,
+        name,
+      ).toBe("rs9");
+  });
+  it("숙박 장소는 품는 이름(2점)으로는 잇지 않고, 같은 이름이면 숙박이 아닌 장소가 먼저(시군구 경계 대조는 숙박을 보지 않는다)", () => {
+    expect(
+      matchPlace({ name: "설악 호텔", signgu: "51210" }, "속초", places, sg),
+    ).toBeNull();
+    expect(
+      matchPlace({ name: "속초등대", signgu: "51210" }, "속초", places, sg)?.id,
+    ).toBe("t");
+  });
+});
+
 describe("시군구 경계 장소(matchPlaceElsewhere · matchByLocationNamed · boundaryMatch)", () => {
   const places = [
     {
