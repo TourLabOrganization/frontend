@@ -58,7 +58,7 @@ describe("도시 · 시군구", () => {
     ]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("인천")).toHaveLength(4);
-    // 대구 · 춘천(2026-10-04 추가): 달성 · 군위 · 수성 · 달서(보물 소재지로 군위 절 · 석탑이 늘었다), 춘천은 시 하나
+    // 대구 · 춘천(2026-10-04 추가): 대구는 달성 · 군위 · 수성 · 달서를 못 박았다(POPULAR_DISTRICTS), 춘천은 시 하나
     expect(citySigngu("대구")).toEqual(["27710", "27720", "27260", "27290"]);
     expect(citySigngu("춘천")).toEqual(["51110"]);
     expect(POPULAR_CITIES).not.toContain("여수");

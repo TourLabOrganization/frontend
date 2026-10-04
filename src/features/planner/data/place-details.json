@@ -43903,5 +43903,743 @@
     "src": {
       "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
     }
+  },
+  "ctm6289f452": {
+    "desc": {
+      "ko": "1957년 개장한 건어물 전문 전통시장으로 멸치·김·오징어·노가리 등 건어물과 젓갈을 판매한다.",
+      "en": "Dried-seafood market opened in 1957, selling anchovies, laver, squid, pollack and salted seafood."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0f3cbf62": {
+    "desc": {
+      "ko": "1946년 개설된 신당동 전통시장으로 곱창골목·보리밥골목·칼국수골목이 유명하다.",
+      "en": "Sindang-dong market founded in 1946, known for its gopchang, barley-rice and kalguksu alleys."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmda4a6279": {
+    "desc": {
+      "ko": "공덕역 인근 전통시장으로 족발골목과 전골목이 유명하다.",
+      "en": "Market near Gongdeok Station famous for its jokbal (pig's trotters) alley and jeon (pancake) alley."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4a5648c5": {
+    "desc": {
+      "ko": "해방촌에 있는 50년 된 시장으로 도시재생을 거쳐 아케이드 지붕을 새로 얹고 공방·식당이 모인 아트마켓으로 바뀌었다.",
+      "en": "Fifty-year-old Haebangchon market reborn through urban regeneration as an arcade-roofed art market of workshops and eateries."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm259a2566": {
+    "desc": {
+      "ko": "1948년 조성된 부평시장 일대의 중심 시장으로 부평깡시장·진흥자유시장·부평문화의거리와 함께 인천지역유산으로 선정됐다.",
+      "en": "Core of the Bupyeong market district founded in 1948, designated an Incheon local heritage together with Kkang Market and the culture street."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd958d55": {
+    "desc": {
+      "ko": "매월 끝자리 4·9일에 열리는 전국 최대 규모의 민속 5일장이다.",
+      "en": "Korea's largest traditional five-day market, held on dates ending in 4 and 9."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm701a3663": {
+    "desc": {
+      "ko": "일산역 앞에서 매월 3·8일에 열리는 100년 전통의 일산5일장이다.",
+      "en": "Century-old five-day market by Ilsan Station, held on dates ending in 3 and 8."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmef964e0c": {
+    "desc": {
+      "ko": "점포 600여 개의 경기북부 대표 전통시장으로 주변에 의정부 부대찌개거리가 형성되어 있다.",
+      "en": "Major northern Gyeonggi market of 600+ shops, next to Uijeongbu's budae-jjigae street."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmeea7a45e": {
+    "desc": {
+      "ko": "매월 끝자리 5·10일에 장이 서는 60년 전통시장으로 20여 개 식당이 모인 순대골목이 유명하다.",
+      "en": "Sixty-year-old market with a five-day fair on dates ending in 5 and 0, famous for its sundae alley of about 20 restaurants."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm10226e16": {
+    "desc": {
+      "ko": "세종대왕릉이 있는 여주의 문화관광형시장으로 한글 간판과 조형물로 꾸며졌고 끝자리 5·10일에 5일장이 선다.",
+      "en": "Culture-and-tourism market themed on Hangeul (King Sejong's tomb is in Yeoju), with a five-day fair on dates ending in 5 and 0."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm07486060": {
+    "desc": {
+      "ko": "조선시대 대표 장이던 안성장을 잇는 시장으로 끝자리 2·7일에 5일장이 서며 먹거리가 많다.",
+      "en": "Heir to the Joseon-era Anseong market, with a five-day fair on dates ending in 2 and 7 and many food stalls."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc2a0487b": {
+    "desc": {
+      "ko": "오산역 인근 전통시장으로 4~11월 금·토요일 저녁에 글로벌 먹거리와 수제맥주를 즐기는 야시장이 열린다.",
+      "en": "Market near Osan Station whose Friday-Saturday night market (April-November) offers global street food and its own craft beer."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9f4f23b7": {
+    "desc": {
+      "ko": "송탄 공군기지와 함께 형성된 시장으로 영어 간판이 많아 이국적이며 부대찌개거리가 있다.",
+      "en": "Market that grew up beside the Songtan air base, with English signage and a budae-jjigae street."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmece39bce": {
+    "desc": {
+      "ko": "1961년 문을 연 점포 1,150여 개의 안양 최대 전통시장으로 곱창·김밥·떡볶이 골목이 있다.",
+      "en": "Anyang's largest market (opened 1961, about 1,150 shops) with gopchang, gimbap and tteokbokki alleys."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2e817226": {
+    "desc": {
+      "ko": "끝자리 5·10일에 5일장이 서는 가평 전통시장으로 잣·산채·버섯 등 특산물을 판다.",
+      "en": "Gapyeong market with a five-day fair on dates ending in 5 and 0, selling pine nuts, wild greens and mushrooms."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmec2fe45c": {
+    "desc": {
+      "ko": "1999년 문을 연 오이도 수산물 시장으로 활어·조개·젓갈 등을 판매한다.",
+      "en": "Oido seafood market open since 1999, selling live fish, clams and salted seafood."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd6e4ba04": {
+    "desc": {
+      "ko": "춘천의 대표 상설시장인 춘천중앙시장이 2010년 이름을 바꾼 시장으로 먹거리와 한복·잡화 점포가 모여 있다.",
+      "en": "Chuncheon's main permanent market (formerly Jungang Market, renamed 2010) with food stalls and shops."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm29452862": {
+    "desc": {
+      "ko": "온의동에서 끝자리 2·7일에 열리는 5일장으로 주말 밤 야시장 '춘풍야장'을 운영한다.",
+      "en": "Five-day market in Onui-dong held on dates ending in 2 and 7, also running the weekend 'Chunpung' night market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme34a0605": {
+    "desc": {
+      "ko": "1796년 시작된 동해시의 5일장으로 끝자리 3·8일에 800여 개 점포가 들어서는 전국 3대 전통시장 중 하나다.",
+      "en": "Donghae five-day market dating from 1796, with some 800 stalls on dates ending in 3 and 8."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6fce5b44": {
+    "desc": {
+      "ko": "소설 「메밀꽃 필 무렵」의 배경인 봉평장이 끝자리 2·7일에 서며 메밀국수·메밀전 등 메밀 먹거리가 많다.",
+      "en": "Five-day market (dates ending 2 and 7) from the story 'When Buckwheat Flowers Blossom', full of buckwheat noodles and pancakes."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7c8df68a": {
+    "desc": {
+      "ko": "평창읍의 60년 전통시장으로 1970년대부터 이어온 메밀전병·메밀부침이 명물이며 끝자리 5·10일에 장이 선다.",
+      "en": "Sixty-year-old Pyeongchang-eup market famed since the 1970s for buckwheat crepes and pancakes; five-day fair on dates ending 5 and 0."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf767009c": {
+    "desc": {
+      "ko": "평원동에서 끝자리 2·7일에 열리는 강원도 최대급 5일장이다.",
+      "en": "One of Gangwon's largest five-day markets, in Pyeongwon-dong on dates ending in 2 and 7."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmccbc0570": {
+    "desc": {
+      "ko": "홍천 최대 재래시장으로 끝자리 1·6일 5일장에 올챙이국수와 메밀전병 등 향토 먹거리를 판다.",
+      "en": "Hongcheon's largest market; on its five-day fair (dates ending 1 and 6) it sells local dishes like olchaengi noodles and buckwheat crepes."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0749d481": {
+    "desc": {
+      "ko": "끝자리 1·6일에 5일장이 서는 횡성 상설시장으로 횡성한우와 더덕·찐빵 등을 판다.",
+      "en": "Permanent market with a five-day fair on dates ending in 1 and 6, selling Hoengseong hanwoo beef, deodeok and steamed buns."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf400e52a": {
+    "desc": {
+      "ko": "대전역 인근의 중부권 최대 규모 전통시장으로 먹자골목과 한복거리로 알려져 있다.",
+      "en": "Near Daejeon Station, the largest traditional market in central Korea, known for its food alley and hanbok street."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm09532c67": {
+    "desc": {
+      "ko": "1916년 개장한 시장으로 매달 4·9일에 대전에 몇 남지 않은 전통 5일장이 열린다.",
+      "en": "Opened in 1916, it hosts one of Daejeon's few remaining traditional 5-day markets on days ending in 4 and 9."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm579f2f93": {
+    "desc": {
+      "ko": "서구 괴정동에 있는 우수시장 인증 전통시장으로 채소·수산물·반찬 등을 판다.",
+      "en": "A certified excellent traditional market in Goejeong-dong, Seo-gu, selling vegetables, seafood and side dishes."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd4f92c6c": {
+    "desc": {
+      "ko": "1964년 개장한 시장으로 삼겹살 식당이 모인 340m 길이의 삼겹살거리가 있다.",
+      "en": "Opened in 1964, home to a 340 m samgyeopsal (pork belly) street lined with grill restaurants."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8b4b9e91": {
+    "desc": {
+      "ko": "제천역 바로 앞에 있는 시장으로 제천 약초와 특산물을 활용한 먹거리로 알려져 있다.",
+      "en": "Right in front of Jecheon Station, known for foods made with Jecheon's medicinal herbs and local produce."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc42db4d5": {
+    "desc": {
+      "ko": "매월 3·8일 5일장이 서는 상설시장으로 고추 등 농특산물과 올갱이 해장국이 유명하다.",
+      "en": "A daily market with a 5-day fair on 3s and 8s, known for local chili peppers and olgaengi (river snail) soup."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme68c9e2f": {
+    "desc": {
+      "ko": "대천항 입구의 상설 수산시장으로 1층에서 활어·조개를, 2층 식당에서 회를 맛볼 수 있다.",
+      "en": "A permanent seafood market at the entrance of Daecheon Port, with live fish and shellfish stalls below and restaurants upstairs."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme26e0cbe": {
+    "desc": {
+      "ko": "1956년 동부시장으로 문을 연 충남 서북부 최대 규모의 전통시장이다.",
+      "en": "Opened in 1956 as Dongbu Market, the largest traditional market in northwestern Chungnam."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbc5ebf59": {
+    "desc": {
+      "ko": "1918년 개설된 시장으로 직접 산 수산물을 구워 먹는 구이장터와 말린 우럭·감태로 알려져 있다.",
+      "en": "Opened in 1918, known for its grill court where you cook seafood bought in the market, and for dried rockfish and gamtae seaweed."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd250b739": {
+    "desc": {
+      "ko": "호남 최대 규모의 전통시장으로 닭전·수산·건어물·공산품 시장이 모여 있다.",
+      "en": "The largest traditional market in Honam, with poultry, seafood, dried-goods and household sections."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma383b5ae": {
+    "desc": {
+      "ko": "1913년부터 광주송정역 맞은편에서 이어져 온 시장으로 다양한 길거리 먹거리로 알려져 있다.",
+      "en": "A market opposite Gwangju Songjeong Station since 1913, known for its street-food stalls."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6ec8ecf1": {
+    "desc": {
+      "ko": "옛 남광주역 주변에 형성된 수산물 특화 시장이다.",
+      "en": "A seafood-focused market that grew up around the former Namgwangju Station."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmba5273a0": {
+    "desc": {
+      "ko": "끝자리 2·4·7·9일에 장이 서는 광주의 대표 장터형 전통시장이다.",
+      "en": "A lively Gwangju market whose market days fall on dates ending in 2, 4, 7 and 9."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7e1b8d9c": {
+    "desc": {
+      "ko": "100년 역사의 시장으로 2012년 현대식으로 새로 지어졌으며 매운 떡볶이로 알려져 있다.",
+      "en": "A century-old market rebuilt in modern form in 2012, known for its spicy tteokbokki."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9c010e43": {
+    "desc": {
+      "ko": "2023년 전국 우수시장에 선정된 수산물 중심 시장으로 생선 건조시설을 갖추고 있다.",
+      "en": "A seafood market named a national best traditional market in 2023, with fish-drying facilities."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5e0209c0": {
+    "desc": {
+      "ko": "정읍 시내의 대표 전통시장이다.",
+      "en": "Jeongeup's main traditional market in the city centre."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm13a27d0c": {
+    "desc": {
+      "ko": "1965년 개설된 부안읍의 종합 전통시장으로 수산물이 특히 많다.",
+      "en": "A general market in Buan-eup established in 1965, strong in seafood."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdadb84c0": {
+    "desc": {
+      "ko": "국내 3대 젓갈 시장 중 하나로 곰소 젓갈과 회 등을 판다.",
+      "en": "One of Korea's three major fermented-seafood (jeotgal) markets, also selling raw fish."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcbdd638f": {
+    "desc": {
+      "ko": "이순신광장 인근 수산물 전통시장으로 주변 포장마차 거리와 함께 알려져 있다.",
+      "en": "A seafood market near Yi Sun-sin Square, known together with the nearby pojangmacha (street tent bar) strip."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3be1d69b": {
+    "desc": {
+      "ko": "0·5일 5일장이 서는 상설시장으로 20여 곳이 모인 웃장 국밥골목이 유명하다.",
+      "en": "A daily market with a 5-day fair on 5s and 10s, famous for its gukbap alley of about 20 restaurants."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5d2790bc": {
+    "desc": {
+      "ko": "2013년 문화관광형시장으로 선정된 나주 대표 시장으로 주변에 나주곰탕집이 모여 있다.",
+      "en": "Naju's main market, selected as a culture-and-tourism market in 2013, surrounded by Naju gomtang restaurants."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0251bc9a": {
+    "desc": {
+      "ko": "죽물시장으로도 불리는 담양장으로 매월 2·7일에 5일장이 열린다.",
+      "en": "Also called the bamboo-goods market, Damyang's 5-day market opens on days ending in 2 and 7."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb50c3c56": {
+    "desc": {
+      "ko": "한옥 지붕 건물이 성벽처럼 둘러싼 오일장으로 매월 3·8일에 장이 선다.",
+      "en": "A 5-day market enclosed by hanok-roofed buildings like a fortress wall, held on days ending in 3 and 8."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbc1272c0": {
+    "desc": {
+      "ko": "매월 3·8일에 열리는 시골장으로 산수유 등 한약재와 지리산 산나물이 거래된다.",
+      "en": "A country market on days ending in 3 and 8, trading herbal medicines like sansuyu and Jirisan wild greens."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1eb5842b": {
+    "desc": {
+      "ko": "광양읍에서 매월 1·6일에 서는 5일장으로 토요장터도 열린다.",
+      "en": "A 5-day market in Gwangyang-eup on days ending in 1 and 6, with a Saturday market as well."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm789e16df": {
+    "desc": {
+      "ko": "강진읍 시장에 음악창작소·먹거리 골목·체험관을 더한 복합문화형 전통시장이다.",
+      "en": "Gangjin-eup's market combined with a music creation centre, food alley and experience hall."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2a060316": {
+    "desc": {
+      "ko": "1995년 개설되어 매월 4·9일에 장이 서는 서귀포의 대형 오일장이다.",
+      "en": "A large 5-day market in Seogwipo opened in 1995, held on days ending in 4 and 9."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme902f821": {
+    "desc": {
+      "ko": "매월 4·9일에 열리는 한림읍의 오일장으로 '한림조끄뜨레시장'이라고도 불린다.",
+      "en": "Hallim-eup's 5-day market on days ending in 4 and 9, also nicknamed Hallim Jokkeuteure Market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf0af3a5f": {
+    "desc": {
+      "ko": "1983년 대정읍 하모리에 자리 잡은 민속 오일시장이다.",
+      "en": "A folk 5-day market settled at Hamo-ri, Daejeong-eup, in 1983."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm121519bc": {
+    "desc": {
+      "ko": "육류 특화시장으로 지정된 제주시 원도심의 시장이다.",
+      "en": "A market in old downtown Jeju City designated as a meat-specialty market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm190cc5bb": {
+    "desc": {
+      "ko": "부산진시장은 100년 이상의 전통을 가진 부산의 대표 재래시장으로 혼수·원단 특화 전문시장이다.",
+      "en": "Busanjin Market is one of Busan's largest traditional markets with over 100 years of history, specializing in wedding goods and fabrics."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8a7ac12c": {
+    "desc": {
+      "ko": "동래시장은 조선시대 동래읍장의 전통을 잇는 부산에서 가장 오래된 전통시장이다.",
+      "en": "Dongnae Market is Busan's oldest traditional market, continuing the Joseon-era Dongnae town market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm763799f3": {
+    "desc": {
+      "ko": "부산공동어시장은 1963년 개장한 국내 최대 규모의 수산물 위판장으로 매일 새벽 경매를 볼 수 있다.",
+      "en": "Opened in 1963, Busan Cooperative Fish Market is Korea's largest seafood auction house, with auctions every dawn."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd68eeba8": {
+    "desc": {
+      "ko": "봉래시장은 일제강점기에 형성된 영도의 전통시장으로 삼진어묵 본점이 있어 어묵의 본고장으로 알려져 있다.",
+      "en": "Bongnae Market in Yeongdo dates from the colonial era and is home to the original Samjin Eomuk fish-cake shop."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc2265250": {
+    "desc": {
+      "ko": "초량전통시장은 1910년대 형성된 부산 동구의 종합시장으로 전통 어묵과 청과 등을 판매한다.",
+      "en": "Choryang Market in Dong-gu, Busan, formed in the 1910s, sells traditional fish cakes, produce and groceries."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf1472207": {
+    "desc": {
+      "ko": "칠성시장은 서문시장 다음으로 큰 대구의 전통시장으로 3~11월 신천둔치에서 칠성야시장이 열린다.",
+      "en": "Chilseong Market is Daegu's second-largest traditional market, with the Chilseong Night Market held on the Sincheon riverside from March to November."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3dc2079e": {
+    "desc": {
+      "ko": "교동시장은 대구 도심 중구에 있는 전통시장으로 도시철도 1호선과 가까워 접근성이 좋다.",
+      "en": "Gyodong Market is a traditional market in central Jung-gu, Daegu, close to Metro Line 1."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm875c19a3": {
+    "desc": {
+      "ko": "관문시장은 대구 3대 재래시장의 하나로 남구 대명동에 있으며 구제옷이 주요 품목이다.",
+      "en": "Gwanmun Market in Daemyeong-dong, Nam-gu, is one of Daegu's three major traditional markets and is known for second-hand clothing."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm212d637f": {
+    "desc": {
+      "ko": "평화시장은 동대구역 부근의 전통시장으로 1970년대부터 이어진 닭똥집 골목으로 유명하다.",
+      "en": "Pyeonghwa Market near Dongdaegu Station is famous for its chicken-gizzard alley dating back to the 1970s."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm434d456d": {
+    "desc": {
+      "ko": "울산중앙전통시장은 중구 성남동의 전통시장으로 시장 안에서 큰애기야시장이 열린다.",
+      "en": "Ulsan Jungang Market in Seongnam-dong, Jung-gu, hosts the Keunaegi Night Market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmed4c0631": {
+    "desc": {
+      "ko": "수암시장은 울산 남구의 전통시장으로 숯불 한우구이가 대표 메뉴인 수암한우야시장이 열린다.",
+      "en": "Suam Market in Nam-gu, Ulsan, hosts the Suam Hanwoo Night Market known for charcoal-grilled Korean beef."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9e3696d6": {
+    "desc": {
+      "ko": "태화종합시장은 울산 중구 태화동에 있는 거리형 전통시장이다.",
+      "en": "Taehwa Market is a street-style traditional market in Taehwa-dong, Jung-gu, Ulsan."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma1810cf8": {
+    "desc": {
+      "ko": "안동중앙신시장은 1946년 상설시장으로 허가된 안동의 전통시장으로 안동간고등어와 안동한우 등을 판매한다.",
+      "en": "Andong Jungang Sin Market, licensed in 1946, sells Andong salted mackerel, octopus and Andong hanwoo beef."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm800b3f22": {
+    "desc": {
+      "ko": "풍기인삼시장은 영주시 풍기읍에 있는 상설시장으로 풍기인삼 관련 제품을 주로 판매한다.",
+      "en": "Punggi Ginseng Market in Punggi-eup, Yeongju, is a permanent market specializing in Punggi ginseng products."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5a183e36": {
+    "desc": {
+      "ko": "영주365시장은 선비골전통시장과 골목시장, 문화시장이 연합한 시장으로 문화관광형시장 육성사업에 선정되었다.",
+      "en": "Yeongju 365 Market unites Seonbigol, Golmok and Munhwa markets and was selected for the culture-and-tourism market program."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm35baa2f3": {
+    "desc": {
+      "ko": "용궁시장은 4·9일에 장이 서는 예천군 용궁면의 5일장으로 용궁순대로 유명하다.",
+      "en": "Yonggung Market is a five-day market in Yonggung-myeon, Yecheon (4th and 9th), famous for Yonggung sundae."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb14eef68": {
+    "desc": {
+      "ko": "영천공설시장은 1955년 시작된 상설시장으로 매월 2·7일에 5일장이 함께 열린다.",
+      "en": "Yeongcheon Public Market, started in 1955, is a permanent market that also hosts a five-day market on days ending in 2 and 7."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm55951e57": {
+    "desc": {
+      "ko": "김천황금시장은 조선시대 5대 시장으로 꼽히던 김천장의 전통을 잇는 문화관광형시장이다.",
+      "en": "Gimcheon Hwanggeum Market carries on the tradition of Gimcheon-jang, one of the five great markets of the Joseon era."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0c2171a6": {
+    "desc": {
+      "ko": "구미새마을중앙시장은 구미 원평동에 있는 문화관광형시장이다.",
+      "en": "Gumi Saemaeul Jungang Market in Wonpyeong-dong is a designated culture-and-tourism market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme0d4fda6": {
+    "desc": {
+      "ko": "의성전통시장은 2·7일에 장이 서는 시장으로 의성마늘과 고추로 유명하다.",
+      "en": "Uiseong Traditional Market holds market days on the 2nd and 7th and is known for Uiseong garlic and red pepper."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0f1c01db": {
+    "desc": {
+      "ko": "고령대가야시장은 지역 농특산물과 먹거리를 판매하는 고령군 대표 전통시장이다.",
+      "en": "Goryeong Daegaya Market is Goryeong County's main traditional market for local produce and food."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3595a44a": {
+    "desc": {
+      "ko": "죽변시장은 죽변항의 수산물 시장으로 울진대게와 울진참문어로 유명하다.",
+      "en": "Jukbyeon Market at Jukbyeon Port is a seafood market known for Uljin snow crab and octopus."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2ef2dd12": {
+    "desc": {
+      "ko": "마산부림시장은 한복집과 먹거리 점포 등 200여 개 점포와 창작공예촌이 있는 전통시장이다.",
+      "en": "Masan Burim Market has some 200 shops including hanbok tailors and eateries, plus a crafts village."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm83a7466b": {
+    "desc": {
+      "ko": "진해중앙시장은 한국전쟁 피란민의 어시장에서 시작된 진해 최대 규모의 전통시장이다.",
+      "en": "Jinhae Jungang Market grew from a refugee fish market after the Korean War into Jinhae's largest traditional market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm44b0db37": {
+    "desc": {
+      "ko": "논개시장은 진주의 전통시장으로 면 요리 특화 누들로드와 토요일 야시장이 열린다.",
+      "en": "Nongae Market in Jinju features a noodle-themed food street and a Saturday night market."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm34244f8b": {
+    "desc": {
+      "ko": "김해동상시장은 1945년부터 이어온 김해 대표 전통시장으로 인근 다문화거리에 글로벌 푸드타운이 있다.",
+      "en": "Gimhae Dongsang Market, dating from 1945, is Gimhae's main traditional market next to a multicultural global food town."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcf7d0832": {
+    "desc": {
+      "ko": "밀양아리랑시장은 주말마다 지역 예술단체의 문화공연이 열리는 밀양의 전통시장이다.",
+      "en": "Miryang Arirang Market is a traditional market that hosts weekend performances by local arts groups."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcba737d9": {
+    "desc": {
+      "ko": "창녕전통시장은 1926년 개설된 시장으로 3·8일 장이 서며 수구레국밥으로 유명하다.",
+      "en": "Changnyeong Traditional Market, opened in 1926, holds market days on the 3rd and 8th and is famous for sugure gukbap."
+    },
+    "src": {
+      "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
   }
 }
