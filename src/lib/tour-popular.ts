@@ -157,9 +157,12 @@ export function rankSpots(
   return { date, spots };
 }
 
-/** 표기 차이를 맞춘 이름: 괄호 · 공백 · 가운뎃점을 빼고(crowdName) 같은 뜻의 끝말을 하나로(해수욕장 · 해안 → 해변, 전통시장 · 재래시장 → 시장) */
+/** 회사 · 법인 표기(㈜ · 주식회사 · 재단법인 …). 괄호 표기 「(주)」는 crowdName이 괄호째 뺀다 */
+const COMPANY_MARK = /[㈜㈔㈐㈕]|주식회사|유한회사|재단법인|사단법인/g;
+
+/** 표기 차이를 맞춘 이름: 괄호 · 공백 · 가운뎃점(crowdName)과 회사 표기를 빼고 같은 뜻의 끝말을 하나로(해수욕장 · 해안 → 해변, 전통시장 · 재래시장 → 시장) */
 export function spotName(value: unknown): string {
-  return crowdName(value)
+  return crowdName(String(value ?? "").replace(COMPANY_MARK, ""))
     .replace(/(해수욕장|해안)$/, "해변")
     .replace(/(전통시장|재래시장)$/, "시장");
 }
@@ -338,7 +341,7 @@ export async function resolveSpot(
 
 /**
  * 이름이 맞는 플래너 장소. 수기 대조표(popular-match.ts)에 있으면 그 장소, 아니면
- * 같은 도시 · 같은 시군구에서 이름 점수 2 이상 중 가장 높은 곳(같으면 먼저 나온 곳)
+ * 같은 도시 · 같은 시군구에서 이름 점수 2 이상 중 가장 높은 곳(같으면 먼저 나온 곳). 숙박 장소는 이름이 같을(3점) 때만
  */
 export function matchPlace(
   spot: Pick<RankedSpot, "name" | "signgu">,
@@ -354,10 +357,16 @@ export function matchPlace(
   let best: PlannerPlace | null = null;
   let bestScore = 1;
   for (const p of places) {
-    if (p.locKo !== city || p.cat === "stay") continue;
+    if (p.locKo !== city) continue;
     if (spot.signgu && signguOf(p.id) !== spot.signgu) continue;
     const score = nameScore(spot.name, p.ko, city);
-    if (score > bestScore) {
+    // 숙박은 이름이 같을 때만(금호리조트 설악처럼 리조트가 인기 관광지로 나온다). 품는 이름(2점)으로는 잇지 않는다
+    if (p.cat === "stay" && score < 3) continue;
+    // 같은 점수면 숙박이 아닌 장소를 앞에(같은 이름의 관광지와 숙소가 함께 있을 때)
+    const better =
+      score > bestScore ||
+      (score === bestScore && best?.cat === "stay" && p.cat !== "stay");
+    if (better) {
       best = p;
       bestScore = score;
     }
