@@ -74,8 +74,8 @@ export function CityTourSection({
   const mode: Mode = chosenMode ?? (rec.length > 0 ? "rec" : "region");
   const [region, setRegion] = useState(DEFAULT_REGION);
   const [query, setQuery] = useState("");
-  // 펼친 권역. null이면 고른 지역이 든 권역(처음엔 서울 → 수도권), ""이면 모두 접힘. 검색 중에는 맞는 권역을 모두 펼친다
-  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  // 펼친 권역. ""이면 모두 접힘(처음 화면, 대표 결정 2026-10-04: 수도권을 펼쳐 두지 않는다). 검색 중에는 맞는 권역을 모두 펼친다
+  const [openGroup, setOpenGroup] = useState<string>("");
   const groupBase = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -99,8 +99,7 @@ export function CityTourSection({
     mode === "rec" ? rec : TOURS.filter((tour) => visitsCity(tour, region));
 
   const searching = query.trim().length > 0;
-  const shownGroup =
-    openGroup ?? GROUPS.find((g) => g.cities.includes(region))?.key ?? "";
+  const shownGroup = openGroup;
 
   const changeMode = (next: Mode) => {
     setChosenMode(next);
