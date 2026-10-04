@@ -44759,5 +44759,86 @@
     "src": {
       "ko": "쇼핑 · 주소 기준 좌표"
     }
+  },
+  "ctm043c9520": {
+    "desc": {
+      "ko": "충주 탄금공원 능암늪지생태공원에 2025년 10월 문을 연 민물고기 중심 아쿠아리움으로 터널형 수조에 73종 2천여 마리를 전시한다.",
+      "en": "A freshwater-themed aquarium opened in October 2025 in Tangeum Park's Neungam wetland area, showing about 2,400 fish of 73 species including a tunnel tank."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표"
+    }
+  },
+  "ctm7652518c": {
+    "desc": {
+      "ko": "충청북도가 괴산 충북수산파크에 운영하는 민물고기 아쿠아리움으로 270도 수중터널과 106종 4천6백여 마리를 갖췄다.",
+      "en": "A provincial freshwater aquarium at the Chungbuk Fisheries Park in Goesan with a 270-degree underwater tunnel and about 4,600 fish of 106 species."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm13d78327": {
+    "desc": {
+      "ko": "섬진강에 사는 토종 민물고기 약 60종과 수달을 수조와 생태하천에서 전시하는 전라남도 운영 어류생태관이다.",
+      "en": "A provincially run freshwater fish center displaying about 60 native Seomjingang River species and otters in aquariums and an ecological stream."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc7cb5da1": {
+    "desc": {
+      "ko": "기장 해안의 국립 해양수산 전문 과학관으로 해양생물 아쿠아리움과 야외체험수족관을 무료로 운영한다.",
+      "en": "A free national marine and fisheries science museum on the Gijang coast with a live-animal aquarium and outdoor touch tanks."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm03c21019": {
+    "desc": {
+      "ko": "북한강과 파로호에 사는 산천어·철갑상어 등 화천 토속어류를 살아있는 수조로 보여주는 무료 체험관이다.",
+      "en": "A free center showing live native fish of the Bukhangang River and Paroho Lake, such as cherry salmon and sturgeon."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm996a509d": {
+    "desc": {
+      "ko": "경기도해양수산자원연구소가 운영하는 무료 전시관으로 수족관 60조에 토종 민물고기 60여 종을 전시한다.",
+      "en": "A free exhibition hall run by the Gyeonggi Maritime and Fisheries Research Institute with 60 tanks of about 60 native freshwater fish species."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0cadd3db": {
+    "desc": {
+      "ko": "대명항에 있는 소규모 실내 동물원 겸 아쿠아리움으로 아마존 대형어와 파충류·희귀동물을 전시한다.",
+      "en": "A small indoor zoo-aquarium at Daemyeong Port showing large Amazonian fish, reptiles and exotic animals."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd572a46a": {
+    "desc": {
+      "ko": "부천 웅진플레이도시 3층에 있는 실내 아쿠아리움.",
+      "en": "An indoor aquarium on the third floor of Woongjin Playdoci, Bucheon."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표"
+    }
+  },
+  "ctm96e701dd": {
+    "desc": {
+      "ko": "장생포 고래문화특구에 있는 돌고래 수족관 겸 고래 생태 전시관으로, 장생포고래박물관 옆에 있다.",
+      "en": "A dolphin aquarium and whale ecology hall in the Jangsaengpo Whale Culture Zone, next to the Jangsaengpo Whale Museum."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
   }
 }
