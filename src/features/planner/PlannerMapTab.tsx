@@ -57,7 +57,7 @@ import { useNameTable } from "@/features/names/NamesProvider";
 import { courseOverlay, dayColor } from "./course-map";
 import { withStayOverrides } from "./course-edit";
 import { usePlannerCourse, useToday } from "./course-store";
-import { findAnyPlace, isKnownPlace } from "./place-lookup";
+import { canonicalKnownId, findAnyPlace, isKnownPlace } from "./place-lookup";
 import { buildPlannerSchedule } from "./schedule";
 import { splitStays, STAY_SAMPLES } from "./stays";
 
@@ -117,7 +117,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
   const listRef = useRef<HTMLUListElement>(null);
 
   // ── 담은 코스 표시(course-map.ts): 코스 탭과 같은 입력으로 일정을 계산해 날짜 색 선 · 번호 핀 · 숙소 핀을 그린다 ──
-  const store = usePlannerCourse(isKnownPlace);
+  const store = usePlannerCourse(isKnownPlace, canonicalKnownId);
   const today = useToday();
   const [showCourse, setShowCourse] = useState(true);
   // 「코스에 맞춰 보기」를 누른 횟수. 바뀌면 코스 점들에 화면을 맞춘다

@@ -287,15 +287,20 @@ export function parseCourse(raw: string | null): PlannerCourse {
 }
 
 /**
- * 데이터에 없는 id(데이터에서 빠진 장소)를 거른 코스. 화면 목록(담은 장소)과 순번 · 개수를 맞춘다.
- * 다 없어졌으면 도시도 비운다
+ * 데이터에 없는 id(데이터에서 빠진 장소)를 거르고, 합쳐서 뺀 옛 id는 남긴 장소 id로 바꾼(canonical, 같은 장소가 두 번이면 하나) 코스.
+ * 화면 목록(담은 장소)과 순번 · 개수를 맞춘다. 다 없어졌으면 도시도 비운다
  */
 export function withKnownPlaces(
   course: PlannerCourse,
   isKnown: (id: string) => boolean,
+  canonical: (id: string) => string = (id) => id,
 ): PlannerCourse {
-  const placeIds = course.placeIds.filter(isKnown);
-  if (placeIds.length === course.placeIds.length) return course;
+  const placeIds = [...new Set(course.placeIds.filter(isKnown).map(canonical))];
+  if (
+    placeIds.length === course.placeIds.length &&
+    placeIds.every((id, i) => id === course.placeIds[i])
+  )
+    return course;
   return {
     ...course,
     placeIds,
@@ -365,9 +370,12 @@ export function useToday(): string {
  * isKnown(장소 데이터에 있는 id인지)을 주면 데이터에 없는 id를 걸러 화면 목록과 같은 순번 · 개수로 쓰고,
  * 저장값에서도 지운다(배지 · 알림 개수가 화면 목록과 같아진다). 장소 데이터(places.json)를 싣는 화면(플래너 지도 · 코스 탭)만 준다
  */
-export function usePlannerCourse(isKnown?: (id: string) => boolean) {
+export function usePlannerCourse(
+  isKnown?: (id: string) => boolean,
+  canonical?: (id: string) => string,
+) {
   const stored = parseCourse(useLocalValue(PLANNER_COURSE_KEY));
-  const course = isKnown ? withKnownPlaces(stored, isKnown) : stored;
+  const course = isKnown ? withKnownPlaces(stored, isKnown, canonical) : stored;
   const { placeIds } = course;
   const stale = course !== stored;
   useEffect(() => {

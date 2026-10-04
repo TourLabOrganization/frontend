@@ -43,6 +43,8 @@
 //     nation 장소에만 있으면 순위가 목록에서 사라지지 않게 nation 장소를 남기고 전용 화면 장소의 pickCity를 뺀다(서울스카이 · 서귀포매일올레시장 · 한라산둘레길 사려니숲길).
 //     뺀 쌍을 모두 출력한다(눈으로 오탐 확인).
 //     nation 장소에 locKo가 없으면 pickCity가 없다(PoC byLoc이 locKo만 본다)
+//     이 스크립트 뒤에 scripts/merge-same-places.mjs를 돌리면 같은 장소 쌍(scripts/data/same-places.csv, 위 쌍 포함)의 drop 쪽을 데이터에서 아예 빼고
+//     place-aliases.json에 옛 id → 남긴 id를 적는다(2026-10-03 전수 점검). 그 뒤로는 모든 장소에 pickCity가 있다
 //   - 값이 없으면 비운다(지어내지 않는다). 원천끼리 다르면 개수를 출력한다
 //   - 영어 이름이 없는 장소(en = ko)는 앱이 만든 영어 이름 표(src/features/translations/data/place-names.en.json)로 채운다(scripts/place-names.mjs)
 //   - 관문(hubs) · 출발지(origins)의 모양은 REGION_HUB · ORIGINS 그대로(항공 · 배 좌표, 울릉 항로 등). 지역거점.csv · 출발지.csv에
