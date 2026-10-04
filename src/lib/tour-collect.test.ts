@@ -207,6 +207,105 @@ describe("collectPopular", () => {
     ).toEqual(["new", "existing-name"]);
   });
 
+  it("시군구 경계 장소: 같은 시군구 관광정보가 없으면 그 지역의 같은 이름 장소 · 시도 안 같은 이름 관광정보 근처의 이름 맞는 장소(신규로 만들지 않는다)", async () => {
+    // 불국사 · 월정교를 다른 시군구(47111)로 두어 집중률(47130)과 어긋나게 한다
+    const sg = (id: string) =>
+      id === "gjx1" || id === "gjx6" ? "47111" : tourPlaceSigngu(id);
+    const wol = PLANNER_PLACES.find((p) => p.id === "gjx6")!; // 월정교
+    const other = (title: string, id: string, lat: number, lng: number) => ({
+      contentid: id,
+      title,
+      contenttypeid: "12",
+      mapy: String(lat),
+      mapx: String(lng),
+      lDongRegnCd: "47",
+      lDongSignguCd: "111",
+    });
+    const search: Record<string, unknown[]> = {
+      "월정교 야경": [other("월정교 야경", "1001", wol.lat + 0.001, wol.lng)],
+      "다른구 전망대": [other("다른구 전망대", "2002", 36.03, 129.36)],
+    };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string | URL) => {
+        const url = new URL(String(input));
+        if (url.pathname.includes("tatsCnctrRatedList"))
+          return body(
+            url.searchParams.get("signguCd") === "47130"
+              ? [
+                  crowd("불국사", 50),
+                  crowd("월정교 야경", 40),
+                  crowd("다른구 전망대", 30),
+                ]
+              : [],
+          );
+        if (url.pathname.includes("searchKeyword2"))
+          return body(search[url.searchParams.get("keyword") ?? ""] ?? []);
+        return body([]);
+      }),
+    );
+    const { candidates, places } = await collectPopular(
+      "k",
+      homeTargets(["경주"], PLANNER_PLACES, sg),
+      { now: new Date("2026-10-01T03:00:00Z"), signguOf: sg },
+    );
+    expect(candidates.map((c) => [c.verdict, c.id])).toEqual([
+      ["existing-name", "gjx1"],
+      ["existing-location", "gjx6"],
+      ["missing", null],
+    ]);
+    expect(places).toEqual([]);
+  });
+
+  it("다른 지역이 같은 실행에서 만든 같은 이름 장소에 잇지 않는다(부산 송정해수욕장 → 강릉 송정해변은 따로)", async () => {
+    const kto = (id: string, title: string, regn: string, sgg: string) => ({
+      contentid: id,
+      title,
+      contenttypeid: "12",
+      mapy: regn === "26" ? "35.18" : "37.77",
+      mapx: regn === "26" ? "129.20" : "128.95",
+      lDongRegnCd: regn,
+      lDongSignguCd: sgg,
+      addr1: regn === "26" ? "부산광역시 해운대구" : "강원특별자치도 강릉시",
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string | URL) => {
+        const url = new URL(String(input));
+        if (url.pathname.includes("tatsCnctrRatedList")) {
+          const code = url.searchParams.get("signguCd");
+          if (code === "26350")
+            return body([crowd("가상송정해수욕장", 50, "26350")]);
+          if (code === "51150")
+            return body([crowd("가상송정해변", 50, "51150")]);
+          return body([]);
+        }
+        if (url.pathname.includes("searchKeyword2")) {
+          const kw = url.searchParams.get("keyword");
+          if (kw === "가상송정해수욕장")
+            return body([kto("111", "가상송정해수욕장", "26", "350")]);
+          if (kw === "가상송정해변")
+            return body([kto("222", "가상송정해변", "51", "150")]);
+          return body([]);
+        }
+        return body([]);
+      }),
+    );
+    const { candidates, places } = await collectPopular(
+      "k",
+      [
+        { region: "부산", codes: ["26350"], pool: [] },
+        { region: "강릉", codes: ["51150"], pool: [] },
+      ],
+      { now: new Date("2026-10-01T03:00:00Z") },
+    );
+    expect(candidates.map((c) => [c.region, c.verdict, c.id])).toEqual([
+      ["부산", "new", "pop111"],
+      ["강릉", "new", "pop222"],
+    ]);
+    expect(places.map((p) => p.id)).toEqual(["pop111", "pop222"]);
+  });
+
   it("시군구가 모두 실패한 지역은 건너뛰고, 기준 날짜 행이 없어도 건너뛴다", async () => {
     vi.stubGlobal(
       "fetch",

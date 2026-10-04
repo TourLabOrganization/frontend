@@ -1,4 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { PLANNER_PLACES } from "../features/planner/data";
+import { tourPlaceSigngu } from "./tour-api";
 import { isPlannerCity } from "../features/planner/regions";
 import { POPULAR_CITIES } from "./tour";
 import {
@@ -6,11 +8,15 @@ import {
   districtItems,
   findPopular,
   isPopularCity,
+  boundaryMatch,
   matchByLocation,
+  matchByLocationNamed,
   matchPlace,
+  matchPlaceElsewhere,
   nameOverlap,
   nameScore,
   pickSpotItem,
+  pickSpotItemLoose,
   POPULAR_MAX_DISTRICTS,
   rankSpots,
   spotName,
@@ -151,8 +157,180 @@ describe("matchPlace", () => {
     expect(
       matchPlace({ name: "석굴암", signgu: "47130" }, "경주", places, sg),
     ).toBeNull();
+    // 같은 시군구만 본다(시군구 경계 장소는 관광정보 검색 뒤 boundaryMatch)
     expect(
       matchPlace({ name: "불국사", signgu: "11110" }, "경주", places, sg),
+    ).toBeNull();
+  });
+
+  it("같은 시군구의 품는 이름(2점)이 다른 시군구의 같은 이름(3점)보다 먼저다", () => {
+    const places = [
+      { id: "a", ko: "대릉원 후문", locKo: "경주", cat: "herit" },
+      { id: "b", ko: "대릉원", locKo: "경주", cat: "herit" },
+    ] as never[];
+    const sg = (id: string) => (id === "a" ? "47130" : "47111");
+    expect(
+      matchPlace({ name: "대릉원", signgu: "47130" }, "경주", places, sg)?.id,
+    ).toBe("a");
+  });
+});
+
+describe("시군구 경계 장소(matchPlaceElsewhere · matchByLocationNamed · boundaryMatch)", () => {
+  const places = [
+    {
+      id: "w",
+      ko: "1100고지 습지",
+      locKo: "제주",
+      cat: "heal",
+      lat: 33.358,
+      lng: 126.465,
+    },
+    {
+      id: "s",
+      ko: "1100고지 습지",
+      locKo: "제주",
+      cat: "stay",
+      lat: 33.358,
+      lng: 126.465,
+    },
+    {
+      id: "x",
+      ko: "1100고지 습지",
+      locKo: "서귀포",
+      cat: "heal",
+      lat: 33.358,
+      lng: 126.465,
+    },
+    {
+      id: "m",
+      ko: "대림시장",
+      locKo: "제주",
+      cat: "food",
+      lat: 33.5,
+      lng: 126.5,
+    },
+  ] as never[];
+
+  it("matchPlaceElsewhere: 같은 도시 · 숙박 아님 · 이름이 같은(3점) 곳만. 품는 이름은 안 된다", () => {
+    expect(
+      matchPlaceElsewhere({ name: "1100고지습지" }, "제주", places)?.id,
+    ).toBe("w");
+    expect(
+      matchPlaceElsewhere({ name: "1100고지" }, "제주", places),
+    ).toBeNull();
+    expect(
+      matchPlaceElsewhere({ name: "1100고지습지" }, "부산", places),
+    ).toBeNull();
+    expect(
+      matchPlaceElsewhere({ name: "1100고지습지" }, "제주", places.slice(1)),
+    ).toBeNull(); // 숙박 · 다른 도시만 남으면 없음
+  });
+
+  it("matchByLocationNamed: 1km 안이라도 이름이 맞아야 한다(이름 없는 250m 규칙을 쓰지 않는다)", () => {
+    // 대림시장 바로 옆(약 10m)의 「새마을시장」 관광정보 → 이름이 안 맞아 없음
+    expect(
+      matchByLocationNamed(
+        { name: "새마을시장", lat: 33.5001, lng: 126.5 },
+        "제주",
+        places,
+      ),
+    ).toBeNull();
+    // 품는 이름(2점) · 1km 안
+    expect(
+      matchByLocationNamed(
+        { name: "1100고지", lat: 33.36, lng: 126.465 },
+        "제주",
+        places,
+      )?.id,
+    ).toBe("w");
+    // 1km 밖
+    expect(
+      matchByLocationNamed(
+        { name: "1100고지", lat: 33.38, lng: 126.465 },
+        "제주",
+        places,
+      ),
+    ).toBeNull();
+  });
+
+  it("boundaryMatch: 이름(같은 도시) → 시도 안 이름 같은 관광정보 좌표의 이름 맞는 장소. 관광정보가 없어도 이름은 본다", () => {
+    const loose = (title: string, lat: number, regn = "50") => ({
+      contentid: "9",
+      title,
+      contenttypeid: "12",
+      mapy: String(lat),
+      mapx: "126.465",
+      lDongRegnCd: regn,
+      lDongSignguCd: "130",
+    });
+    expect(
+      boundaryMatch(
+        { name: "1100고지습지", signgu: "50110" },
+        "제주",
+        [],
+        places,
+      ),
+    ).toEqual({ place: places[0], how: "name" });
+    expect(
+      boundaryMatch(
+        { name: "1100고지", signgu: "50110" },
+        "제주",
+        [loose("1100고지", 33.359)] as never[],
+        places,
+      ),
+    ).toEqual({ place: places[0], how: "location" });
+    // 다른 시도의 관광정보는 쓰지 않는다
+    expect(
+      boundaryMatch(
+        { name: "1100고지", signgu: "50110" },
+        "제주",
+        [loose("1100고지", 33.359, "47")] as never[],
+        places,
+      ),
+    ).toBeNull();
+  });
+});
+
+describe("pickSpotItemLoose: 같은 시도 · 이름 같은 관광정보(경계 장소 예비 후보)", () => {
+  it("시군구가 달라도 같은 시도에서 이름이 같은 것만, 품는 이름은 안 된다", () => {
+    const items = [
+      {
+        contentid: "1",
+        title: "1100고지 습지",
+        contenttypeid: "12",
+        lDongRegnCd: "50",
+        lDongSignguCd: "130",
+      },
+      {
+        contentid: "2",
+        title: "1100고지 휴게소",
+        contenttypeid: "39",
+        lDongRegnCd: "50",
+        lDongSignguCd: "130",
+      },
+      {
+        contentid: "3",
+        title: "1100고지 습지",
+        contenttypeid: "12",
+        lDongRegnCd: "47",
+        lDongSignguCd: "130",
+      },
+    ] as never[];
+    expect(
+      pickSpotItemLoose(items, { name: "1100고지습지", signgu: "50110" })
+        ?.contentid,
+    ).toBe("1");
+    expect(
+      pickSpotItemLoose(items, { name: "1100고지", signgu: "50110" }),
+    ).toBeNull();
+    expect(
+      pickSpotItemLoose(items, { name: "1100고지습지", signgu: "" }),
+    ).toBeNull();
+    expect(
+      pickSpotItemLoose(items.slice(2), {
+        name: "1100고지습지",
+        signgu: "50110",
+      }),
     ).toBeNull();
   });
 });
@@ -373,6 +551,174 @@ describe("findPopular: 이름 · 위치 · 신규 관광지", () => {
     // 서버 전용 필드는 보내지 않는다
     expect(fresh?.place).not.toHaveProperty("signgu");
     expect(byName.get("없는곳")?.id).toBeNull();
+  });
+
+  it("시군구 경계 장소(1100고지 습지): 같은 시군구 관광정보가 없으면 같은 도시의 같은 이름 · 시도 안 같은 이름 관광정보 근처의 이름 맞는 앱 장소로 잇는다", async () => {
+    const day = "20260929";
+    const wet = PLANNER_PLACES.find((p) => p.id === "jdx74")!;
+    expect(tourPlaceSigngu(wet.id)).toBe("50130");
+    const crowd = ["1100고지습지", "1100고지", "다른구시장"].map((name, i) => ({
+      tAtsNm: name,
+      baseYmd: day,
+      cnctrRate: String(90 - i),
+      signguCd: "50110",
+      signguNm: "제주시",
+    }));
+    const sgp = (title: string, id: string, lat: number, lng: number) => ({
+      contentid: id,
+      title,
+      contenttypeid: "12",
+      mapy: String(lat),
+      mapx: String(lng),
+      lDongRegnCd: "50",
+      lDongSignguCd: "130", // 관광정보도 서귀포시
+    });
+    const search: Record<string, unknown[]> = {
+      "1100고지습지": [sgp("1100고지 습지", "500", wet.lat, wet.lng)],
+      // 품는 이름(2점): 같은 도시 이름 대조는 안 되고, 시도 안 이름 같은 관광정보 좌표 근처의 이름 맞는 앱 장소로
+      "1100고지": [sgp("1100고지", "501", wet.lat + 0.002, wet.lng)],
+      // 다른 구의 같은 이름 · 근처에 앱 장소 없음: 신규 관광지로 만들지 않는다
+      다른구시장: [sgp("다른구시장", "502", 33.0, 126.0)],
+    };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        if (url.pathname.endsWith("tatsCnctrRatedList")) return tourBody(crowd);
+        if (url.pathname.endsWith("searchKeyword2"))
+          return tourBody(search[url.searchParams.get("keyword") ?? ""] ?? []);
+        return new Response("no", { status: 500 });
+      }),
+    );
+    const popular = await findPopular(
+      "제주",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-09-29T03:00:00Z"),
+    );
+    const ids = popular!.items.map((x) => [x.name, x.id, x.district]);
+    expect(ids).toEqual([
+      ["1100고지 습지", "jdx74", "제주시"],
+      ["1100고지 습지", "jdx74", "제주시"],
+      ["다른구시장", null, "제주시"],
+    ]);
+    expect(popular!.items[2].place).toBeUndefined();
+  });
+
+  it("같은 시군구 관광정보가 있으면 그것이 먼저다(다른 구의 같은 이름 앱 장소에 잇지 않고 신규 관광지로)", async () => {
+    const crowd = [
+      {
+        tAtsNm: "1100고지습지",
+        baseYmd: "20260929",
+        cnctrRate: "90",
+        signguCd: "50110",
+        signguNm: "제주시",
+      },
+    ];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        if (url.pathname.endsWith("tatsCnctrRatedList")) return tourBody(crowd);
+        if (url.pathname.endsWith("searchKeyword2"))
+          return tourBody([
+            {
+              contentid: "777",
+              title: "1100고지 습지",
+              contenttypeid: "12",
+              mapy: "33.50",
+              mapx: "126.53",
+              lDongRegnCd: "50",
+              lDongSignguCd: "110",
+            },
+          ]);
+        return tourBody([]);
+      }),
+    );
+    const popular = await findPopular(
+      "제주",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-09-29T03:00:00Z"),
+    );
+    expect(popular!.items[0].id).toBe("kto:777");
+  });
+
+  it("다른 구 동명 관광정보 옆의 다른 앱 장소에는 잇지 않는다(영등포 새마을시장 ≠ 은평 대림시장)", async () => {
+    const market = PLANNER_PLACES.find((p) => p.id === "ro743")!; // 대림시장(은평구)
+    expect(tourPlaceSigngu(market.id)).toBe("11380");
+    const crowd = [
+      {
+        tAtsNm: "새마을시장",
+        baseYmd: "20260929",
+        cnctrRate: "90",
+        signguCd: "11560",
+        signguNm: "영등포구",
+      },
+    ];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        if (url.pathname.endsWith("tatsCnctrRatedList"))
+          return tourBody(
+            url.searchParams.get("signguCd") === "11560" ? crowd : [],
+          );
+        if (url.pathname.endsWith("searchKeyword2"))
+          return tourBody([
+            {
+              contentid: "888",
+              title: "새마을시장",
+              contenttypeid: "38",
+              mapy: String(market.lat + 0.001),
+              mapx: String(market.lng),
+              lDongRegnCd: "11",
+              lDongSignguCd: "380",
+            },
+          ]);
+        return tourBody([]);
+      }),
+    );
+    const popular = await findPopular(
+      "서울",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-09-29T03:00:00Z"),
+    );
+    const item = popular!.items.find((x) => x.district === "영등포구")!;
+    expect(item.name).toBe("새마을시장");
+    expect(item.id).toBeNull();
+  });
+
+  it("관광정보 검색이 실패해도 같은 도시의 같은 이름 앱 장소로는 잇는다", async () => {
+    const crowd = [
+      {
+        tAtsNm: "1100고지습지",
+        baseYmd: "20260929",
+        cnctrRate: "90",
+        signguCd: "50110",
+        signguNm: "제주시",
+      },
+    ];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        if (url.pathname.endsWith("tatsCnctrRatedList")) return tourBody(crowd);
+        return new Response("down", { status: 500 });
+      }),
+    );
+    const popular = await findPopular(
+      "제주",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-09-29T03:00:00Z"),
+    );
+    expect(popular!.items[0].id).toBe("jdx74");
   });
 });
 

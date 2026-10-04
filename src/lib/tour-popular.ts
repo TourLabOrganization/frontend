@@ -4,9 +4,12 @@
 //   - 시군구: 도시의 플래너 장소(숙박 제외)가 많은 시군구 코드 순으로, 장소 5곳 이상인 곳만 최대 4곳(호출 수를 묶는다)
 //   - 각 관광지를 앱 장소와 잇는다(장소 id와 화면 언어 이름을 붙인다). 세 단계:
 //     ⓞ 수기 대조표(lib/popular-match.ts): 규칙으로 못 잇는 이름(팔각정북악스카이 → 북악스카이웨이 팔각정 …)은 사람이 적은 장소로
-//     ① 이름: 장소 시트 방문 집중률과 같은 이름 점수에 표기 차이(앞의 도시 이름 · 해수욕장/해변 · 전통시장/시장)를 맞춘 이름도 본다. 같은 시군구 · 2점 이상
+//     ① 이름: 장소 시트 방문 집중률과 같은 이름 점수에 표기 차이(앞의 도시 이름 · 해수욕장/해변 · 전통시장/시장)를 맞춘 이름도 본다. 같은 시군구 · 2점 이상.
+//        (같은 시군구만. 시군구 경계 장소는 ②에서 같은 시군구 관광정보가 없을 때 본다)
 //     ② 위치: 이름으로 못 찾으면 한국관광공사 국문 관광정보(searchKeyword2)에서 같은 관광지를 찾아, 그 좌표 250m 안의 앱 장소
-//        (1km 안이면 이름 글자가 절반 이상 겹칠 때) — 이름이 아주 다르게 적힌 같은 곳
+//        (1km 안이면 이름 글자가 절반 이상 겹칠 때) — 이름이 아주 다르게 적힌 같은 곳.
+//        같은 시군구 관광정보가 없으면(검색 실패 포함) 시군구 경계 장소로 보고 앱 장소만 찾는다(boundaryMatch): 같은 도시의 이름 같은 장소 →
+//        같은 시도의 이름 같은 관광정보 좌표 1km 안에서 이름도 맞는 장소. 1100고지 습지는 집중률이 제주시, 앱 장소 · 관광정보가 서귀포시
 //     ③ 신규 관광지: 그래도 없으면 한국관광공사 콘텐츠 id로 신규 관광지(kto:<contentid>)를 만든다. 장소 시트 칸 · 지도 · 코스가 앱 장소처럼 된다
 //        (features/planner/kto-place.ts). 한국관광공사에서도 못 찾으면 id 없이 글자만 둔다
 //   - 집중률은 방문 예측 지표이고 순위는 「그날 붐빌 것으로 예측된 순서」다(인기 = 방문 집중)
@@ -263,7 +266,31 @@ export function pickSpotItem(
   return scored[0]?.x ?? null;
 }
 
-/** 이름으로 못 찾은 관광지: 한국관광공사에서 찾아 위치로 앱 장소를, 없으면 신규 관광지를 돌려준다. 못 찾으면 null */
+/**
+ * 같은 시군구에 없을 때의 예비 후보: 같은 시도(코드 앞 두 자리) · 이름이 같은(3점) 관광정보. 시군구 경계에 걸친 장소가 집중률과 관광정보에서
+ * 다른 시군구로 적힌 경우다. 이 후보는 앱 장소를 위치로 찾는 데만 쓰고 신규 관광지로 만들지 않는다(다른 구의 같은 이름일 수 있다)
+ */
+export function pickSpotItemLoose(
+  items: readonly TourItem[],
+  spot: Pick<RankedSpot, "name" | "signgu">,
+): TourItem | null {
+  if (!/^\d{5}$/.test(spot.signgu)) return null;
+  const sido = spot.signgu.slice(0, 2);
+  const inSido = items.filter((x) => {
+    const regn = String(x.lDongRegnCd ?? "");
+    return (
+      (!regn || regn === sido) &&
+      nameScore(spot.name, String(x.title ?? ""), "") === 3
+    );
+  });
+  return pickSpotItem(inSido, { name: spot.name, signgu: "" });
+}
+
+/**
+ * 이름으로 못 찾은 관광지: 한국관광공사에서 찾아 위치로 앱 장소를, 없으면 신규 관광지를 돌려준다. 못 찾으면 null.
+ * 같은 시군구 관광정보가 없으면 경계 장소 대조(boundaryMatch)로 앱 장소만 찾는다. 같은 시군구 관광정보가 있으면 그것이 먼저다
+ * (다른 구에 같은 이름 앱 장소가 있어도, 그 구의 관광지는 신규 관광지로)
+ */
 export async function resolveSpot(
   spot: Pick<RankedSpot, "name" | "signgu">,
   city: string,
@@ -279,7 +306,8 @@ export async function resolveSpot(
     KTO_PLACE_SECONDS,
   );
   const item = pickSpotItem(items, spot);
-  const kto = item ? toKtoPlace(item) : null;
+  if (!item) return boundaryMatch(spot, city, items)?.place ?? null;
+  const kto = toKtoPlace(item);
   if (!kto) return null;
   const near = matchByLocation(
     { name: spot.name, lat: kto.lat, lng: kto.lng },
@@ -321,6 +349,76 @@ export function matchPlace(
     }
   }
   return best;
+}
+
+/**
+ * 시군구 경계 장소의 이름 대조: 같은 도시(숙박 제외)에서 이름이 같은(3점) 첫 장소. 시군구는 보지 않는다.
+ * 같은 시군구 이름(matchPlace)과 같은 시군구 관광정보(pickSpotItem)로 못 찾았을 때만 쓴다(boundaryMatch).
+ * 1100고지 습지: 집중률은 제주시(50110), 앱 장소 · 관광정보는 서귀포시(50130)
+ */
+export function matchPlaceElsewhere(
+  spot: Pick<RankedSpot, "name">,
+  city: string,
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+): PlannerPlace | null {
+  for (const p of places) {
+    if (p.locKo !== city || p.cat === "stay") continue;
+    if (nameScore(spot.name, p.ko, city) === 3) return p;
+  }
+  return null;
+}
+
+/**
+ * 경계 장소의 위치 대조(같은 시도의 이름 같은 관광정보 좌표): 1km 안 · 같은 도시(숙박 제외)에서 이름도 맞는
+ * (이름 점수 2 이상 또는 글자쌍 절반 이상 겹침) 가장 가까운 앱 장소. 이름 없는 250m 규칙(matchByLocation)은 쓰지 않는다 —
+ * 그 관광정보가 다른 구의 같은 이름일 수 있어, 근처의 다른 장소(영등포 새마을시장 → 은평 대림시장)에 잇지 않게
+ */
+export function matchByLocationNamed(
+  spot: { name: string; lat: number; lng: number },
+  city: string,
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+): PlannerPlace | null {
+  let best: PlannerPlace | null = null;
+  let bestD = Infinity;
+  for (const p of places) {
+    if (p.locKo !== city || p.cat === "stay") continue;
+    const d = meters(spot.lat, spot.lng, p.lat, p.lng);
+    if (d > NEAR_SPOT_M || d >= bestD) continue;
+    if (
+      nameScore(spot.name, p.ko, city) < 2 &&
+      nameOverlap(spot.name, p.ko) < NEAR_SPOT_OVERLAP
+    )
+      continue;
+    best = p;
+    bestD = d;
+  }
+  return best;
+}
+
+/**
+ * 같은 시군구 관광정보가 없을 때(검색 실패 포함, items = [])의 경계 장소 대조. 앱 장소만 돌려주고 신규 관광지는 만들지 않는다.
+ *  ① 같은 도시 · 다른 시군구의 이름 같은 앱 장소(matchPlaceElsewhere)
+ *  ② 같은 시도의 이름 같은 관광정보(pickSpotItemLoose) 좌표 근처에서 이름도 맞는 앱 장소(matchByLocationNamed)
+ * 모으기(tour-collect.ts)는 풀(그 도시 장소 + 이번 실행에서 만든 장소)을 넘긴다. 다른 도시 장소는 보지 않는다
+ */
+export function boundaryMatch(
+  spot: Pick<RankedSpot, "name" | "signgu">,
+  city: string,
+  items: readonly TourItem[],
+  places: readonly PlannerPlace[] = PLANNER_PLACES,
+): { place: PlannerPlace; how: "name" | "location" } | null {
+  const byName = matchPlaceElsewhere(spot, city, places);
+  if (byName) return { place: byName, how: "name" };
+  const loose = pickSpotItemLoose(items, spot);
+  const kto = loose ? toKtoPlace(loose) : null;
+  const near = kto
+    ? matchByLocationNamed(
+        { name: spot.name, lat: kto.lat, lng: kto.lng },
+        city,
+        places,
+      )
+    : null;
+  return near ? { place: near, how: "location" } : null;
 }
 
 /**
@@ -381,7 +479,8 @@ export async function findPopular(
         try {
           place = await resolveSpot(s, city, key);
         } catch {
-          // 한국관광공사 검색이 막히면 글자만 둔다
+          // 한국관광공사 검색이 막히면 경계 장소 이름 대조만(없으면 글자만 둔다)
+          place = boundaryMatch(s, city, [])?.place ?? null;
         }
       }
       const base = { district: s.district, rate: s.rate };
