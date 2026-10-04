@@ -1,8 +1,10 @@
 import { findPlace } from "@/features/planner/data";
 import details from "@/features/planner/data/place-details.json";
-import type {
-  PlannerPlaceDetail,
-  PlannerPlaceView,
+import {
+  k100Sentence,
+  withSentence,
+  type PlannerPlaceDetail,
+  type PlannerPlaceView,
 } from "@/features/planner/place-detail";
 import placeNamesEn from "@/features/translations/data/place-names.en.json";
 import {
@@ -31,9 +33,11 @@ function viewOf(
   appNames: Readonly<Record<string, string>>,
 ): PlannerPlaceView {
   const place = findPlace(id);
+  const k100 = (desc: string | undefined) =>
+    detail.k100 ? withSentence(desc, k100Sentence(detail.k100, locale)) : desc;
   if (locale === "ko")
     return {
-      desc: detail.desc?.ko ?? detail.desc?.en,
+      desc: k100(detail.desc?.ko ?? detail.desc?.en),
       hours: place?.hrs,
       source: sourceText(detail.src, locale),
       appTranslated: false,
@@ -49,7 +53,7 @@ function viewOf(
     (Object.hasOwn(appNames, id) || Object.hasOwn(APP_NAMES, id));
   const descByApp = !detail.desc?.en && !!descEn;
   return {
-    desc: descEn ?? undefined,
+    desc: k100(descEn ?? undefined),
     hours: place && phraseText(place.hrs, locale),
     source: sourceText(detail.src, locale),
     appTranslated: nameByApp || descByApp,
