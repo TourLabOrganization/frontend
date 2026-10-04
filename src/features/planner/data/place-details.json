@@ -44840,5 +44840,635 @@
     "src": {
       "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
     }
+  },
+  "ctm153dd56d": {
+    "desc": {
+      "ko": "속초해수욕장 입구에 있는 최고 높이 65m의 대관람차로, 바다와 설악산을 조망할 수 있다.",
+      "en": "A 65 m Ferris wheel at the entrance of Sokcho Beach with views of the sea and Seoraksan."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbfa74a4e": {
+    "desc": {
+      "ko": "1999 강원국제관광엑스포 때 청초호변에 세워진 높이 74m의 전망타워로, 동해와 설악산, 속초 시내를 조망할 수 있다.",
+      "en": "A 74 m observation tower on Cheongchoho Lake built for the 1999 Gangwon International Tourism Expo, overlooking the sea, Seoraksan and the city."
+    },
+    "src": {
+      "ko": "속초 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctm10422405": {
+    "desc": {
+      "ko": "산림청이 2014년 설악산 자락에 개관한 박물관으로, 한국 등반 역사 전시와 암벽·고산 체험실을 갖추고 있다.",
+      "en": "A museum opened by the Korea Forest Service in 2014 at the foot of Seoraksan, with exhibits on Korean climbing history and rock-climbing and high-altitude experience rooms."
+    },
+    "src": {
+      "ko": "속초 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctm11aa08e3": {
+    "desc": {
+      "ko": "속초의 역사와 어촌·실향민 문화를 전시하는 박물관으로, 야외에 개성집·평양집 등 이북 가옥을 재현한 실향민문화촌이 있다.",
+      "en": "A museum on Sokcho's history and its fishing-village and displaced-persons culture, with an outdoor village recreating North Korean-style houses."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd12ba5c4": {
+    "desc": {
+      "ko": "3대째 목선을 만들던 청초호변 조선소를 2018년 카페·전시 문화공간으로 바꾼 곳이다.",
+      "en": "A three-generation wooden-boat yard on Cheongchoho Lake converted in 2018 into a café and exhibition space."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm01ed1cd4": {
+    "desc": {
+      "ko": "2021년 개통한 길이 약 400m의 부교형 데크길로, 둘레 7.8km 영랑호 둘레길과 이어져 설악산과 호수를 조망할 수 있다.",
+      "en": "A 400 m floating deck walkway opened in 2021 across Yeongnangho Lake, linked to the 7.8 km lakeside loop with Seoraksan views."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm457ace08": {
+    "desc": {
+      "ko": "조양동에 있는 해발 230m의 낮은 산으로, 정상 전망대에서 속초 시내와 동해, 설악산을 조망할 수 있다.",
+      "en": "A 230 m hill in Joyang-dong whose summit observatory views the city, East Sea and Seoraksan."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm81852673": {
+    "desc": {
+      "ko": "설악산 소공원에서 권금성까지 약 10분 만에 오르는 1971년 개통 케이블카이다.",
+      "en": "A cable car opened in 1971 that climbs from Seoraksan's Sogongwon area to Gwongeumseong in about 10 minutes."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm54a79461": {
+    "desc": {
+      "ko": "케이블카 상부 정류장 위 암봉에 있는 고려시대 산성 터로, 설악산 봉우리와 동해를 조망할 수 있다.",
+      "en": "Remains of a Goryeo-era mountain fortress on a rocky peak above the cable-car summit station, overlooking Seoraksan and the sea."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm418e1178": {
+    "desc": {
+      "ko": "설악동 소공원에서 육담폭포와 출렁다리를 지나 오르는 설악산의 대표 폭포 탐방 코스이다.",
+      "en": "A popular Seoraksan waterfall reached from Sogongwon via Yukdam Falls and a suspension bridge."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf61a7cfa": {
+    "desc": {
+      "ko": "비룡폭포에서 900여 계단을 올라 높이 320m의 토왕성폭포를 바라보는 전망대로, 2015년 개방되었다.",
+      "en": "An observatory reached by about 900 steps above Biryong Falls, opened in 2015, facing the 320 m Towangseong Falls."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm57ab7dd3": {
+    "desc": {
+      "ko": "소공원에서 약 3km 거리의 천불동계곡 입구에 있는 너른 바위 소로, 설악산 대표 탐방 지점이다.",
+      "en": "A broad rock pool at the mouth of Cheonbuldong Valley about 3 km from Sogongwon, a classic Seoraksan hiking stop."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd7d199d5": {
+    "desc": {
+      "ko": "비선대에서 약 0.6km 가파른 길을 올라 닿는 암벽 중턱의 자연 석굴이다.",
+      "en": "A natural cave halfway up a cliff, reached by a steep 0.6 km climb from Biseondae."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2703813b": {
+    "desc": {
+      "ko": "중앙동과 아바이마을 사이 수로를 줄을 당겨 건너는 무동력 줄배로, 편도 요금은 500원이다.",
+      "en": "A rope-pulled unpowered ferry crossing the channel between Jungang-dong and Abai Village; one way costs 500 won."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5a741543": {
+    "desc": {
+      "ko": "영금정 옆 언덕의 속초등대에 있는 무료 전망대로, 동해와 설악산, 조도를 조망할 수 있다.",
+      "en": "A free observatory at Sokcho Lighthouse on the hill beside Yeonggeumjeong, viewing the sea, Seoraksan and Jodo island."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0b0fb3ae": {
+    "desc": {
+      "ko": "외옹치 바다향기로 남쪽 끝의 작은 항구로, 횟집과 해돋이·집어등 야경으로 알려져 있다.",
+      "en": "A small port at the south end of the Oeongchi seaside trail known for raw-fish restaurants, sunrises and night fishing lights."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdc30046b": {
+    "desc": {
+      "ko": "아바이마을에 인접한 청호동 해변으로, 2026년 처음 정식 해수욕장으로 개장했다.",
+      "en": "A beach in Cheongho-dong next to Abai Village that opened as an official swimming beach for the first time in 2026."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm775328ce": {
+    "desc": {
+      "ko": "설악산 자락의 약 500년 된 마을로, 돌담길과 1934년 지은 정자 학무정이 있다.",
+      "en": "A roughly 500-year-old village at the foot of Seoraksan with stone-wall lanes and the 1934 Hakmujeong pavilion."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm645ef9ee": {
+    "desc": {
+      "ko": "1937년 영랑호변에 세운 사찰로, 1654년 조성발원문이 나온 지장보살상을 모시고 있다.",
+      "en": "A temple founded in 1937 on Yeongnangho Lake, enshrining a Ksitigarbha statue whose 1654 dedication text was found inside."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1684beac": {
+    "desc": {
+      "ko": "1954년 속초 수복과 실향민의 통일 염원을 담아 세운 탑으로, 북쪽을 가리키는 모자상이 특징이다.",
+      "en": "A 1954 monument to Sokcho's recovery and displaced people's hopes for reunification, featuring a mother and child pointing north."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm18b1fb31": {
+    "desc": {
+      "ko": "청초호 인근의 청동기시대 집터와 고인돌 유적으로, 1992년 사적으로 지정되었다.",
+      "en": "A Bronze Age settlement and dolmen site near Cheongchoho Lake, designated a Historic Site in 1992."
+    },
+    "src": {
+      "ko": "속초 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctm5d00e217": {
+    "desc": {
+      "ko": "신라 화랑의 수련지였던 영랑호변에서 승마·국궁·격구 등을 체험할 수 있는 시설이다.",
+      "en": "A lakeside site where visitors try horseback riding, archery and gyeokgu inspired by Silla's Hwarang warriors."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmde15c0ed": {
+    "desc": {
+      "ko": "설악동에 조성된 2.7km 무장애 산책로로, 765m 스카이워크와 98m 출렁다리가 있다.",
+      "en": "A 2.7 km barrier-free trail in Seorak-dong with a 765 m skywalk and a 98 m suspension bridge."
+    },
+    "src": {
+      "ko": "속초 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm410136b5": {
+    "desc": {
+      "ko": "설악산국립공원 소공원 입구 설악동에 있는 108실 규모의 4성급 호텔이다.",
+      "en": "A 108-room 4-star hotel in Seorak-dong at the entrance to Seoraksan National Park."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm5c1602dd": {
+    "desc": {
+      "ko": "반얀그룹이 운영하는 717실 규모의 오션뷰 리조트로 2024년 6월 대포항 인근에 개관했다.",
+      "en": "A 717-room ocean-view resort operated by Banyan Group, opened in June 2024 near Daepo Port."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm5d925810": {
+    "desc": {
+      "ko": "2024년 문을 연 335실 규모의 4성급 호텔로 베스트웨스턴 BW 시그니처 컬렉션 소속이다.",
+      "en": "A 335-room 4-star hotel opened in 2024, part of Best Western's BW Signature Collection."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctme1497fdb": {
+    "desc": {
+      "ko": "반얀그룹의 라이프스타일 브랜드 HOMM이 2024년 6월 국내 처음 문을 연 150실 호텔로 사계절 온수 인피니티풀을 갖췄다.",
+      "en": "Banyan Group's first HOMM lifestyle hotel in Korea (150 rooms, opened June 2024) with a year-round heated infinity pool."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm4e5d0766": {
+    "desc": {
+      "ko": "조양동 동해대로변에 있는 고층 4성급 호텔이다.",
+      "en": "A high-rise 4-star hotel on Donghae-daero in Joyang-dong."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm979e15b7": {
+    "desc": {
+      "ko": "속초해수욕장 앞 조양동에 2025년 문을 연 지상 20층 오션뷰 레지던스형 호텔로 루프탑 인피니티풀이 있다.",
+      "en": "A 20-storey ocean-view residence hotel by Sokcho Beach, opened 2025, with a rooftop infinity pool."
+    },
+    "src": {
+      "ko": "속초 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb6a24cb6": {
+    "desc": {
+      "ko": "속초해수욕장에서 도보 4분 거리 해오름로에 있는 가족형 호텔·콘도다.",
+      "en": "A family hotel-condo on Haeoreum-ro, a 4-minute walk from Sokcho Beach."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm3552a13c": {
+    "desc": {
+      "ko": "속초중앙시장에서 도보 5분 거리에 있는 전 객실 취사 가능한 레지던스형 호텔이다.",
+      "en": "A residence-style hotel with kitchens in every room, a 5-minute walk from Sokcho Jungang Market."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm95607306": {
+    "desc": {
+      "ko": "1996년 개장해 신세계그룹이 운영하는 영랑호변 리조트로 호수 산책로와 골프장을 끼고 있다.",
+      "en": "A lakeside resort on Yeongnangho opened in 1996 and run by Shinsegae, beside the lake walking trail and golf course."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm6fe8b64f": {
+    "desc": {
+      "ko": "척산온천지구에 있는 콘도형 리조트로 객실에 온천수가 공급되고 야외 온천 가든스파를 운영한다.",
+      "en": "A condo resort in the Cheoksan hot-spring district with hot-spring water piped to rooms and an outdoor garden spa."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm53541d9c": {
+    "desc": {
+      "ko": "척산온천지구 아래 설악산 자락에 있는 119실 규모의 콘도형 리조트다.",
+      "en": "A 119-room condo resort at the foot of Seoraksan below the Cheoksan hot-spring district."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm7afbad26": {
+    "desc": {
+      "ko": "도문동 설악산로변에 있는 가족형 호텔로 최대 4인 스튜디오부터 방 2개 객실까지 갖췄다.",
+      "en": "A family hotel on Seoraksan-ro in Domun-dong with rooms from 4-person studios to two-bedroom suites."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm5aa136b9": {
+    "desc": {
+      "ko": "노학동에 있는 45실 규모의 한국관광 품질인증 호텔로 객실 테라스에서 울산바위가 보인다.",
+      "en": "A 45-room Korea Quality-certified hotel in Nohak-dong with terrace views of Ulsanbawi."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm6e742645": {
+    "desc": {
+      "ko": "상도문 돌담마을에 있는 한옥 숙소로 온돌방과 개별 바비큐 시설을 갖췄다.",
+      "en": "A hanok guesthouse in Sangdomun stone-wall village with ondol rooms and private barbecue areas."
+    },
+    "src": {
+      "ko": "속초 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6a22fe1b": {
+    "desc": {
+      "ko": "설악산국립공원 설악동에 있는 국립공원공단 자동차야영장으로 일반 야영지와 카라반 사이트를 운영한다.",
+      "en": "A Korea National Park Service auto campground in Seorak-dong with tent pitches and caravan sites."
+    },
+    "src": {
+      "ko": "속초 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm19d9b9a3": {
+    "desc": {
+      "ko": "속초관광수산시장과 시외버스터미널 가까이에 있는 게스트하우스로 조식과 친절한 응대로 평이 좋다.",
+      "en": "A guesthouse near Sokcho Tourist & Fishery Market and the intercity bus terminal, well reviewed for breakfast and hosts."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm2807e957": {
+    "desc": {
+      "ko": "동명동 중앙로에 있는 호스텔로 중앙시장·동명항·시외버스터미널이 도보 5~10분 거리다.",
+      "en": "A hostel on Jungang-ro in Dongmyeong-dong within a 5–10 minute walk of the central market, Dongmyeong Port and bus terminal."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm0c08f3ac": {
+    "desc": {
+      "ko": "2015년 문을 연 게스트하우스로 도미토리와 개인실, 카페·책방·갤러리 공간을 갖췄다.",
+      "en": "A guesthouse opened in 2015 with dorms and private rooms plus a café, bookshop and gallery space."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm90a5bd1b": {
+    "desc": {
+      "ko": "속초시외버스터미널 바로 앞에 있는 게스트하우스 겸 소형 호텔이다.",
+      "en": "A guesthouse and small hotel directly opposite Sokcho Intercity Bus Terminal."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm6f85a83d": {
+    "desc": {
+      "ko": "속초고속버스터미널 맞은편에 있는 29실 규모의 한국관광 품질인증 게스트하우스로 무료 조식을 제공한다.",
+      "en": "A 29-room Korea Quality-certified guesthouse opposite the Sokcho Express Bus Terminal, with free breakfast."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm597ecda4": {
+    "desc": {
+      "ko": "등대해수욕장에서 도보 30초 거리 영랑해안길에 있는 소형 바다 전망 호텔이다.",
+      "en": "A small sea-view hotel on Yeongnanghaean-gil, 30 seconds' walk from Deungdae Beach."
+    },
+    "src": {
+      "ko": "속초 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctmd6db5331": {
+    "desc": {
+      "ko": "아바이마을길 17에 있는 3대째 운영 노포로 아바이순대·오징어순대와 순대국밥, 명태회냉면으로 알려진 식당이다.",
+      "en": "Third-generation restaurant at 17 Abaimaeul-gil known for Abai-style sundae, squid sundae, sundae soup and pollack-sashimi naengmyeon."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd1d62c9": {
+    "desc": {
+      "ko": "아바이마을길 22에 있는 50년 이상 된 이북음식 전문점으로 아바이순대와 오징어순대, 가리국밥으로 알려져 있다.",
+      "en": "North Korean-style restaurant over 50 years old at 22 Abaimaeul-gil, known for Abai sundae, squid sundae and gari-gukbap."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3ef7e9f0": {
+    "desc": {
+      "ko": "청초호반로 299에 있는 함흥냉면 전문점으로 명태회를 올린 회냉면과 비빔냉면으로 알려져 있다.",
+      "en": "Hamheung-style cold noodle restaurant at 299 Cheongchohoban-ro, known for pollack-sashimi and spicy naengmyeon."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm06c94d0d": {
+    "desc": {
+      "ko": "중앙부두길 71, 중앙시장 맞은편 갯배 선착장 근처에 있는 생선구이 전문점이다.",
+      "en": "Grilled-fish restaurant at 71 Jungangbudu-gil, opposite Jungang Market near the Gaetbae ferry landing."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd092f041": {
+    "desc": {
+      "ko": "청초호반로 318 갯배 선착장 인근에 있는 횟집으로 오징어순대와 물회로 알려져 있다.",
+      "en": "Seafood restaurant at 318 Cheongchohoban-ro near the Gaetbae landing, known for squid sundae and mulhoe."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd76b777": {
+    "desc": {
+      "ko": "영랑해안길 223 영랑해변 앞에 있는 물회 전문점으로 바다를 보며 식사할 수 있다.",
+      "en": "Mulhoe (cold raw-fish soup) restaurant at 223 Yeongnanghaean-gil facing the sea at Yeongnang beach."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma9c35e7b": {
+    "desc": {
+      "ko": "영랑해안6길 16에 있는 생선구이 전문점이다.",
+      "en": "Grilled-fish restaurant at 16 Yeongnanghaean 6-gil in Yeongnang-dong."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm418d5132": {
+    "desc": {
+      "ko": "영금정로2길 11, 영금정 근처에 있는 물회 전문점이다.",
+      "en": "Mulhoe restaurant at 11 Yeonggeumjeong-ro 2-gil near Yeonggeumjeong pavilion."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5c406e97": {
+    "desc": {
+      "ko": "설악금강대교로 103 아바이마을 인근에 있는 홍게·대게 전문 식당이다.",
+      "en": "Red snow crab and snow crab restaurant at 103 Seorakgeumgangdaegyo-ro near Abai Village."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3d242015": {
+    "desc": {
+      "ko": "영금정로 50 동명항에 있는 활어회센터로 회를 사서 먹을 수 있다.",
+      "en": "Live-fish market at 50 Yeonggeumjeong-ro on Dongmyeong Port where visitors buy fresh raw fish."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7790cb6c": {
+    "desc": {
+      "ko": "설악금강대교로 228 동명항 입구의 오징어회 포장마차 거리로 매년 5~12월 운영하며 2026년 5월 22일 개장했다.",
+      "en": "Squid-sashimi stall street at 228 Seorakgeumgangdaegyo-ro by Dongmyeong Port, open May-December; the 2026 season opened on 22 May."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm78a1c6eb": {
+    "desc": {
+      "ko": "대포항희망길 59에 있는 수산시장으로 회센터와 새우튀김 등을 파는 튀김골목이 함께 있다.",
+      "en": "Seafood market at 59 Daepohanghuimang-gil with raw-fish shops and the port's fried-shrimp alley."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6ef46624": {
+    "desc": {
+      "ko": "장사항해안길 일대의 활어회센터로 장사항 오징어 맨손잡기 축제가 열리는 항구에 있다.",
+      "en": "Raw-fish center at Jangsa Port, the harbour that hosts the Jangsa squid hand-catching festival."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbe667a99": {
+    "desc": {
+      "ko": "장사항해안길 61에 있는 바다 전망 카페이다.",
+      "en": "Ocean-view cafe at 61 Jangsahanghaean-gil near Jangsa Port."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0671d8c4": {
+    "desc": {
+      "ko": "중앙시장로 110-8에 있는 30년 전통의 감자옹심이 전문점이다.",
+      "en": "Potato-dumpling soup (ongsimi) restaurant with about 30 years of history at 110-8 Jungangsijang-ro."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2b127bd4": {
+    "desc": {
+      "ko": "교동로 75-1에 있는 샌드위치 가게로 국내산 홍게살을 넣은 홍게샌드위치로 알려져 있다.",
+      "en": "Sandwich shop at 75-1 Gyodong-ro known for its red snow crab sandwich made with domestic crab."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmda2ea78c": {
+    "desc": {
+      "ko": "교동에 있는 빵집으로 마늘바게트와 '연인의 빵'으로 알려져 있다.",
+      "en": "Bakery in Gyo-dong known for its garlic baguette and 'lovers' bread'."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc2675444": {
+    "desc": {
+      "ko": "청초호반로 208에 있는 베이커리로 속초 빵지순례 장소로 소개된다.",
+      "en": "Bakery at 208 Cheongchohoban-ro featured on Sokcho bakery-tour lists."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm14398716": {
+    "desc": {
+      "ko": "노학동 한옥마을 신흥2길 38에 있는 정원이 있는 한옥 카페이다.",
+      "en": "Hanok cafe with a garden at 38 Sinheung 2-gil in Nohak-dong's hanok village."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcd3d41c6": {
+    "desc": {
+      "ko": "1965년 문을 연 학사평 콩꽃마을 순두부촌의 순두부 전문점으로 국산콩 순두부를 낸다.",
+      "en": "Soft-tofu restaurant opened in 1965 in the Haksapyeong tofu village, serving domestic-soybean sundubu."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1db860c2": {
+    "desc": {
+      "ko": "학사평길 7-1에 있는 수제맥주 브루어리이다.",
+      "en": "Craft-beer brewery and taproom at 7-1 Haksapyeong-gil."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm667230f7": {
+    "desc": {
+      "ko": "교동 먹거리길 일대에 식당이 모여 있는 먹자골목이다.",
+      "en": "Restaurant cluster along the Meokgeori-gil streets in Gyo-dong."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb957ece7": {
+    "desc": {
+      "ko": "청학동·금호동·중앙동 일대 원도심 상점가로 2026년 글로컬 상권 사업이 진행 중이며 플리마켓이 열린다.",
+      "en": "Old-downtown shopping street in Cheonghak/Geumho/Jungang-dong, under a 2026 'glocal' commercial-district project with regular flea markets."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm616579cc": {
+    "desc": {
+      "ko": "1984년 시작한 속초 최대 규모의 종합서점으로 직원의 책 리뷰와 큐레이션으로 알려져 있다.",
+      "en": "Sokcho's largest general bookstore, founded in 1984 and known for staff book reviews and curation."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7d355e94": {
+    "desc": {
+      "ko": "1956년 동아문구사로 시작해 3대째 운영하는 수복로 108의 동네서점이다.",
+      "en": "Third-generation neighbourhood bookstore at 108 Subok-ro, founded in 1956 as Donga Stationery."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma4a95c8f": {
+    "desc": {
+      "ko": "설악문화재단이 2012년 조성한 관광로 439의 북카페·복합문화공간으로 설악산 전망 정원이 있다.",
+      "en": "Book cafe and cultural center at 439 Gwangwang-ro opened in 2012 by the Seorak Culture Foundation, with a garden facing Seoraksan."
+    },
+    "src": {
+      "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
   }
 }
