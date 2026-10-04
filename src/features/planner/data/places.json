@@ -61118,7 +61118,7 @@
     "off": true,
     "k100": false,
     "un": false,
-    "bf": false,
+    "bf": true,
     "auto": true,
     "macro": "honam",
     "pickCity": "임실"
