@@ -33374,28 +33374,6 @@
     "pickCity": "평창"
   },
   {
-    "id": "ctme6c9701c",
-    "n": null,
-    "ko": "하이캐슬리조트",
-    "en": "High Castle Resort",
-    "locKo": "정선",
-    "cat": "stay",
-    "lat": 37.20621,
-    "lng": 128.81451,
-    "min": 30,
-    "hrs": "",
-    "open": null,
-    "close": null,
-    "yt": false,
-    "off": true,
-    "k100": false,
-    "un": false,
-    "bf": false,
-    "auto": false,
-    "macro": "gangwon",
-    "pickCity": "정선"
-  },
-  {
     "id": "ctmf2f05f0b",
     "n": null,
     "ko": "ORA춘천베어스호텔",
