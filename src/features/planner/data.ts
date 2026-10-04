@@ -1,5 +1,6 @@
 import type { Place } from "@/features/course/places";
 import addedPlaces from "./data/added-places.json";
+import placeAliases from "./data/place-aliases.json";
 import placesData from "./data/places.json";
 import { REGION_KEYS, type RegionKey } from "./regions";
 
@@ -74,13 +75,25 @@ export function placesInScope(scope: Scope): readonly PlannerPlace[] {
     : PLANNER_PLACES;
 }
 
+/**
+ * 같은 장소로 합쳐 데이터에서 뺀 옛 id → 남긴 장소 id(data/place-aliases.json, scripts/merge-same-places.mjs).
+ * 저장된 코스 · 북마크 · 공유 주소의 옛 id가 남긴 장소로 이어진다
+ */
+export const PLACE_ALIASES: Readonly<Record<string, string>> = placeAliases;
+
+/** 옛 id(합쳐서 뺀 장소)면 남긴 장소 id, 아니면 그대로 */
+export function canonicalPlaceId(id: string): string {
+  return PLACE_ALIASES[id] ?? id;
+}
+
 export function findPlace(id: string): PlannerPlace | undefined {
-  return PLANNER_PLACES.find((p) => p.id === id);
+  const key = canonicalPlaceId(id);
+  return PLANNER_PLACES.find((p) => p.id === key);
 }
 
 const PLACE_IDS: ReadonlySet<string> = new Set(PLANNER_PLACES.map((p) => p.id));
 
-/** 장소 데이터에 있는 id인지. 담은 코스에서 데이터에서 빠진 장소를 거를 때 쓴다(course-store usePlannerCourse) */
+/** 장소 데이터에 있는 id인지(합쳐서 뺀 옛 id도 있는 것으로 본다). 담은 코스에서 데이터에서 빠진 장소를 거를 때 쓴다(course-store usePlannerCourse) */
 export function isPlannerPlace(id: string): boolean {
-  return PLACE_IDS.has(id);
+  return PLACE_IDS.has(canonicalPlaceId(id));
 }

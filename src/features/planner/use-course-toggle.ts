@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { usePlannerCourse } from "./course-store";
 import type { PlannerPlace } from "./data";
-import { isKnownPlace } from "./place-lookup";
+import { canonicalKnownId, isKnownPlace } from "./place-lookup";
 import { placeName } from "@/features/theme/place-meta";
 import { useNameTable } from "@/features/names/NamesProvider";
 
@@ -17,7 +17,7 @@ export function useCourseToggle() {
   const t = useTranslations("Planner");
   const locale = useLocale();
   const names = useNameTable();
-  const store = usePlannerCourse(isKnownPlace);
+  const store = usePlannerCourse(isKnownPlace, canonicalKnownId);
   const [status, setStatus] = useState("");
 
   const toggle = (p: PlannerPlace) => {

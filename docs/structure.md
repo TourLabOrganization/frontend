@@ -96,13 +96,18 @@ public/                 정적 파일
   - 결정 이유: PoC `cityRows`는 전용 화면이 있는 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 전국 목록 장소 447곳을 버려서
     그 장소(예: 경주 분황사 · 경주중앙시장 · 황남빵 · 경주 호텔)가 전국 · 권역 보기에만 나왔다. 대표가 「다 고쳐야지 당연히」로 정했다(2026-09-28,
     팀장 요청 「장소 3,000여 곳이 앱에 다 구현돼야 함」과 같은 뜻). 그래서 도시별 장소 수가 목업 화면 숫자와 다르다(경주 40 → 70, 서울 87 → 262 …)
-  - 중복 제외: 같은 장소가 전용 화면 묶음과 전국 목록에 함께 있으면 한쪽만 도시에 넣는다(대표 결정 2026-09-28 「이름이 조금 다른 같은 장소도 중복」).
-    같은 장소 = 같은 도시 · 숙박 여부가 같고 · 좌표 200m 이내이고, 이름을 정규화(괄호와 그 안 · 공백 · 문장부호 제거, 앞뒤의 도시 이름과 「호텔」 제거)했을 때
-    한쪽이 다른 쪽을 품는 것. 눈으로 가른 예외를 더한다: `SAME_PLACES`(좌표가 1~2km 벌어졌거나 이름이 서로를 품지 않는 같은 장소: 영월 고씨굴 · 해운대달맞이길 · 제주 올레시장 · 사려니숲길)와
-    `DIFFERENT_PLACES`(규칙에 걸리지만 다른 장소: 코엑스 · 별마당도서관, 반포한강공원 · 달빛무지개분수, 경주중앙시장 · 중앙시장 야시장)
-  - 남기는 쪽은 전용 화면 장소다. 단 데이터랩 인기 순위가 전국 목록 쪽에만 있으면 순위가 도시 목록에서 사라지지 않게 전국 목록 쪽을 남긴다(서울스카이 78위 · 서귀포매일올레시장 3위 · 한라산둘레길 사려니숲길 15위)
-  - 지금 도시에서 뺀 장소는 14곳이다(BIFF광장 · 제주 올레시장 · 사려니숲길 · 영월 고씨굴 · 경주 감은사지동서삼층석탑 · 동백섬 · 장릉 · 해운대달맞이길 · 롯데월드타워 서울스카이 · F1963 ·
-    힐튼호텔 경주 · 서울숲 · 양남 주상절리 파도소리길 · 청령포 관음송). 전국 · 권역 보기에는 둘 다 남는다. `pickCity`가 없는 장소는 이 14곳뿐이다
+  - 중복 제외: 같은 장소가 두 번 들어간 쌍은 하나로 합친다(대표 결정 2026-09-28 「이름이 조금 다른 같은 장소도 중복」, 전수 점검 2026-10-03).
+    `scripts/build-planner.mjs`는 전용 화면 묶음 ↔ 전국 목록의 같은 장소(같은 도시 · 숙박 여부가 같고 · 좌표 200m 이내이고, 이름을 정규화(괄호와 그 안 · 공백 · 문장부호 제거,
+    앞뒤의 도시 이름과 「호텔」 제거)했을 때 한쪽이 다른 쪽을 품는 것 + 눈으로 가른 `SAME_PLACES` · `DIFFERENT_PLACES`)에서 전국 목록 쪽 `pickCity`만 뺐는데,
+    그 뒤 `scripts/merge-same-places.mjs`가 `scripts/data/same-places.csv`(keep · drop · reason, 65쌍)대로 drop 장소를 데이터에서 아예 뺀다:
+    전용 화면 ↔ 전국 목록 14쌍(BIFF광장 · 제주 올레시장 · 사려니숲길 · 영월 고씨굴 · 감은사지동서삼층석탑 · 동백섬 · 장릉 · 해운대달맞이길 · 서울스카이 · F1963 · 힐튼호텔 경주 · 서울숲 · 양남 주상절리 파도소리길 · 청령포 관음송)
+    - 전국 목록 안의 같은 장소 46쌍(전등사 · 강화 전등사, 노동당사 · 철원 노동당사, 황남빵 · 황남빵 본점, 무령왕릉 · 무령왕릉과 왕릉원 … 이름이 서로를 품고 좌표 700m 안, 눈으로 확인)
+    - 수기 장소가 기존 장소와 같은 이름이던 5쌍(구봉산전망대카페거리 · 마량리동백나무숲 · 유구색동수국정원 · 상주 자전거박물관 · 여수해양공원 = 종포해양공원).
+      남기는 쪽은 전용 화면 장소, 다음은 인기 순위 · 체류 순번 · 운영시간이 있는 쪽이고, drop에만 있던 값(인기 순위 · 운영시간 · 표식 · 설명 · 사진 · 중 · 일 이름 · 시티투어 경유 표식)은 keep으로 옮긴다.
+      `DIFFERENT_PLACES`(규칙에 걸리지만 다른 장소: 코엑스 · 별마당도서관, 반포한강공원 · 달빛무지개분수, 경주중앙시장 · 중앙시장 야시장)와 안에 든 시설(이월드 · 83타워, 태화강국가정원 · 십리대숲 …)은 둘 다 둔다
+  - 뺀 id → 남긴 id 표가 `features/planner/data/place-aliases.json`이다(`data.ts` `PLACE_ALIASES` · `canonicalPlaceId`). `findPlace` · `isPlannerPlace`가 옛 id를 남긴 장소로 보고,
+    담은 코스(`course-store.ts` `withKnownPlaces`의 `canonical`)는 읽을 때 옛 id를 바꾸고 같은 장소가 둘이면 하나로 줄인다. 시티투어 `placeIds`는 다시 만들어 남긴 id만 적는다
+    (경유지 이름과 남긴 장소 이름이 다른 곳은 `CITYTOUR_MATCH`에 더했다: 광안리해수욕장 → 광안리해변 · 광안대교, UN기념공원 → 유엔기념공원 …). 뒤로 모든 장소에 `pickCity`가 있다(= `locKo`)
   - 도시가 바뀌어 전용 화면 도시의 추천 코스 후보(`auto`)가 늘었다(추천 코스가 달라질 수 있다). 시티투어 「코스빌더에 넣기」 장소(`citytour.json`)도 같은 후보로 다시 만들었다
 - 코스에 담은 장소와 코스 설정(플랜 이름 · 출발일 · 귀가일 · 출발지 · 귀가지 · 출발 시각 · 여행지 출발 시각 · 광역 교통 · 현지 이동 ·
   고른 광역 경로 · 환승 관문 · 지하철 호선과 역 · 제주도민 여부 `jejuResident`)은 주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`).
@@ -205,10 +210,11 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 
 | 스크립트                             | 입력(PoC)                                                                                                                                                                  | 출력                                                                                                                                                                           |
 | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `scripts/build-planner.mjs`          | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) · data-server `places.json`                                    | `features/planner/data/places.json`(3,109곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                                                 |
+| `scripts/build-planner.mjs`          | `체류시간 산정/체류시간_장소별.csv` · `Tour Planner.dc.html` · `파생 데이터/`(장소 · 지역거점 · 출발지 CSV) · data-server `places.json`                                    | `features/planner/data/places.json`(3,109곳 → 같은 장소 통합 뒤 3,049곳, 가벼운 필드) · `place-details.json`(무거운 필드) · `regions.json`                                     |
 | `scripts/build-wide.mjs`             | `Tour Planner.dc.html`(`METRO_STATIONS` · `BUSAN_STATIONS` · 호선 순서 · 색 · 이름 · `ORIGIN_ALT`)                                                                         | `features/planner/data/wide.json`(지하철 출발 · 귀가역, 수단별 대체 관문)                                                                                                      |
 | `scripts/build-places.mjs`           | `체류시간_장소별.csv` · `Tour Planner.dc.html` · `RESCENE Route.dc.html` · data-server `places.json`                                                                       | `features/course/data/places.json`(테마 5개 장소) · `hubs.json` · `fixtures/gyeongju-nation.json`                                                                              |
-| `scripts/build-citytour.mjs`         | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct)을 먼저 만든다                                                                      | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id + 실제 여행지 `visits`)                                                                                      |
+| `scripts/merge-same-places.mjs`      | `scripts/data/same-places.csv`(같은 장소 쌍 keep · drop · reason). `build-planner.mjs` · 추가 장소 스크립트 뒤에 돌린다                                                    | `places.json` · `added-places.json` · `place-details.json` · `signgu.json` · `regions.json`(placeCounts) · 이름 표에서 drop을 빼고 `place-aliases.json`을 쓴다                 |
+| `scripts/build-citytour.mjs`         | `data/citytour.json`(시티투어 280노선). 플래너 `places.json` · `place-details.json`(ct) · `merge-same-places.mjs`를 먼저 돌린다                                            | `features/home/data/citytour.json`(노선 + 코스빌더에 넣을 장소 id + 실제 여행지 `visits`)                                                                                      |
 | `scripts/build-popular-fallback.mjs` | `scripts/data/popular-manual.csv`(홈 칩 도시 8곳 × 인기 관광지 10곳, 사람이 고른 플래너 장소 id와 근거)                                                                    | `features/home/data/popular-fallback.json`(「지금 인기 관광지」 수기 목록. 키가 없거나 집중률 호출이 실패 · 비면 보인다, 2026-10-03)                                           |
 | `scripts/build-theme-extras.mjs`     | 테마 화면 5개 `*.dc.html`                                                                                                                                                  | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center)                                  |
 | `scripts/build-stays.mjs`            | `Tour Planner.dc.html`(`STAYS`)                                                                                                                                            | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                                                        |
@@ -223,7 +229,7 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 
 data-server 합치기 (`scripts/data-server.mjs`)
 
-- data-server(팀 데이터 정본, 읽기만)의 `data/derived/places.json`(3,118곳)을 id로 합친다. 맥도날드 드라이브스루 9곳은 빌드에서 뺀다(`build-planner.mjs` `EXCLUDED`, 대표 결정 2026-09-29) — 앱 장소는 3,109곳. 필드 뜻은 data-server `docs/contract.md`
+- data-server(팀 데이터 정본, 읽기만)의 `data/derived/places.json`(3,118곳)을 id로 합친다. 맥도날드 드라이브스루 9곳은 빌드에서 뺀다(`build-planner.mjs` `EXCLUDED`, 대표 결정 2026-09-29) — 앱 장소는 3,109곳, 같은 장소 통합(`merge-same-places.mjs`) 뒤 3,049곳 + 추가 장소 162곳. 필드 뜻은 data-server `docs/contract.md`
 - 경로: 두 스크립트의 마지막 인자 → 환경변수 `DATA_SERVER_DIR` → 기본값 `../data-server`(이 리포 옆 클론). 파일이 없으면 멈춘다.
   스크립트가 끝에 data-server 커밋과 바뀐 값 수를 출력한다. 다시 만들면 위 「마지막 동기화」 줄의 커밋을 고친다
 - 합치는 필드(나머지 필드와 순서는 PoC 원천 그대로):
@@ -238,7 +244,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 - 가벼운 필드(`places.json`, 클라이언트 번들에 들어간다): `course/places.ts` `Place` 필드(`id` · `n` · `ko` · `en` · `locKo` · `cat` · `lat` · `lng` · `min` · `hrs` · `open` · `close` · `yt` · `off` · `k100` · `un` · `bf` · `auto`) + `macro`(권역) · `pickCity`(도시 고르기 도시) · `vz`(지정구역 문구) · `popRank`(데이터랩 인기 순위). `cat` · `en` · `vz` · `popRank`는 data-server 값
 - 무거운 필드(`place-details.json`, id → 값): `desc`(설명 한 · 영) · `img` · `imgCredit` · `zh` · `ja`(중 · 일 장소명) · `src`(좌표 근거) · `url`(카카오 장소 URL) · `ct`(시티투어 경유) · `rs`(연관관광지).
   클라이언트는 이 JSON을 import하지 않는다. 장소 시트를 열 때 Route Handler `app/api/planner/places/[id]/route.ts`가 한 곳(1KB 안팎)만 돌려주고
-  `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,109곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
+  `features/planner/use-place-detail.ts`(TanStack Query)가 받는다. 동적 import로 나누면 시트 하나를 열 때 3,000여 곳 전체(약 650KB)나 큰 조각을 받아야 해서 Route Handler를 골랐다
 - 추가 장소(`pop<contentid>` · `odii<tid>` · `ctm<해시>`, `features/planner/data/added-places.json`): 인기 관광지(한국관광공사 집중률)와 관광지 오디오 가이드(오디) 해설이 있는 관광지에서 모아 누적한 앱 장소. `data.ts`가 `places.json` 뒤에 이어 붙여
   지도 · 목록 · 코스 · 장소 시트가 빌드 장소와 똑같이 쓴다(가벼운 필드만. 시군구 코드는 `signgu.json`, 설명 · 사진 · 중 · 일 이름 · 좌표 근거는 `place-details.json`, 도시별 장소 수는 `regions.json`).
   모으는 규칙은 `lib/tour-collect.ts`(`docs/api.md` 「인기 관광지 모으기」), 파일에 합치는 것은 `scripts/add-popular-places.mjs`. Data-Analytics 저장소 `tools/add_popular_places.py`와 같은 규칙 · 같은 id라 두 저장소의 장소 표가 같게 늘어난다.
@@ -281,7 +287,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 ### 홈 지역 시티투어
 
 - 데이터 가공(분류 칩 · 내 유형 추천 · 지역 집계)은 `features/home/citytour.ts`, 경유지 → 플래너 장소 대조는 `citytour-match.ts`. 둘 다 목업(9/27 standalone) 규칙을 옮긴 순수 함수다
-- 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,109곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
+- 경유지 대조는 빌드 때 `scripts/build-citytour.mjs`가 미리 해서 노선마다 `placeIds`를 적는다(클라이언트가 3,000여 곳 · ct를 받지 않게). 노선 지역 이름과 같은 경유지(「서울 → … → 서울」)는 대조하지 않는다(목업과 다른 점)
 - **실제 여행지**(`visits`, 2026-10-02): 원천의 도시(`region`)는 운영 지자체(출발지)라, 서울에서 출발해 경기 각지를 도는 EG투어버스 12노선이 「서울 12개 코스」로 집계됐다.
   빌드 때 `citytour-match.ts` `TOUR_VISITS`(운영 도시와 다른 노선만 노선별로 읽고 적은 표: EG투어버스 → 파주 · 안산 · 광명 · 시흥 · 화성 · 부천 · 김포 · 수원 · 평택 · 용인 · 포천 · 양평,
   대전 광역투어 → 대전 + 이웃 도시, 세종 천안연계 · 서천 광역코스)로 노선마다 `visits`를 적고, 없으면 운영 도시 하나. 경유지 대조 풀도 `visits` 도시의 장소다(`visitPool`, 2026-10-03: 전에는 운영 도시 풀이라 EG투어버스 12노선이 서울 장소와만 대조돼 거의 빈 노선이었다. 낱말 순서가 다른 경유지는 `CITYTOUR_MATCH`로 잇는다: 시흥프리미엄아울렛 · 서해랑케이블카 · IKEA · 을왕리해변. 2026-10-03 표기가 달라 규칙으로 못 잇던 경유지 40곳을 더 적었다(묵호시장 → 동쪽바다중앙시장, 철암역사촌 → 철암탄광역사촌 …). 표의 장소는 `fixedPool`(전체 장소)에서 찾아 가평 노선의 남이섬(춘천 장소)도 잇는다). 자동 대조는 동명 장소 오탐(홍성 죽도 → 울릉 죽도, 화성행궁 → 화성시)이 많아 쓰지 않는다.
@@ -344,7 +350,7 @@ data-server 합치기 (`scripts/data-server.mjs`)
 ### 저장한 장소 (`tn.savedPlaces`)
 
 - 장소 시트의 「저장」(북마크). `{ id, source, savedAt, name: { ko, en } }[]`. `source`는 테마 slug 또는 `planner`이고, 같은 장소도 출처가 다르면 따로 저장한다.
-  `name`은 ME가 장소 데이터(플래너 3,109곳)를 불러오지 않고 이름을 보이려고 저장할 때 적어 둔다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlaces` · `toggleSavedPlace` · `useSavedPlaces`)
+  `name`은 ME가 장소 데이터(플래너 3,000여 곳)를 불러오지 않고 이름을 보이려고 저장할 때 적어 둔다. 읽기 · 쓰기는 `lib/local-store.ts`(`parseSavedPlaces` · `toggleSavedPlace` · `useSavedPlaces`)
 - ME 「저장한 장소」는 저장한 순서대로, 누르면 테마는 `/themes/{slug}?tab=map&place={id}`, 플래너는 `/planner?place={id}`(시트가 열린 지도 탭)
 - 다른 화면 · 다른 탭에서 장소 시트를 여는 링크(ME 저장한 장소, 홈 「지금 인기 관광지」, 테마 스탬프 · 영화 탭, 플래너 코스 탭)는 누를 때 그 탭의 sessionStorage에 장소 id를 남긴다(`lib/sheet-return.ts`).
   지도 탭은 처음 연 장소(`?place=`)와 표시가 같으면 시트를 닫을 때(X · Esc · 바깥) 뒤로 가기로 누른 자리에 돌아간다(스크롤 그대로).

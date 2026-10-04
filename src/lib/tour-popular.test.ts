@@ -41,9 +41,10 @@ describe("도시 · 시군구", () => {
       for (const code of codes) expect(code).toMatch(/^\d{5}$/);
     }
     expect(citySigngu("경주")).toEqual(["47130"]);
-    // 서울: 종로 · 송파 · 용산 · 마포(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
-    // 맥도날드 9곳을 뺀 뒤 영등포(11560)가 13곳으로 줄어 같은 13곳 중 코드 순으로 마포(11440)가 들어간다
-    expect(citySigngu("서울")).toEqual(["11110", "11710", "11170", "11440"]);
+    // 서울: 종로 · 마포 · 영등포 · 용산(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
+    // 같은 장소 통합(2026-10-03)으로 송파(11710)가 서울스카이 · 가락시장 중복을 잃어 12곳, 용산(11170)도 YTN서울타워 중복을 잃어 12곳이 되어
+    // 마포 · 영등포(13곳)가 앞서고, 같은 12곳 중 코드 순으로 용산이 들어간다
+    expect(citySigngu("서울")).toEqual(["11110", "11440", "11560", "11170"]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("인천")).toHaveLength(4);
     expect(POPULAR_CITIES).not.toContain("여수");

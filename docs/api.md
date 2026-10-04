@@ -196,7 +196,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   지역은 노선의 첫 여행지 `visits[0]`, 같은 지역 · 같은 이름은 노선 수로 모은다)이 후보다(`collectCityTour`). 여행지 도시들의 장소 풀(`visitPool`)에서 이름 → 국문 관광정보 검색(그 도시 시군구 코드와 맞는 결과만, 코드 없는 행은 둔다) → 위치 → `pop<contentid>` 추가 장소.
   출처에 「시티투어 경유지(n개 노선)」을 적고 설명은 관광정보 개요(없으면 「○○ 시티투어 경유지(n개 노선)」). 모은 뒤 `node scripts/build-citytour.mjs`를 다시 돌리면 노선의 `placeIds`가 새 장소까지 잇는다(대조 풀에 `added-places.json`을 넣는다).
   웹 검색 좌표는 믿기 어려워(동명 장소 · 요약 오류) 쓰지 않는다
-  키가 없는 환경에서는 사람이 후보 표(`cityTourStops` 결과)를 보고 좌표 · 분류 · 설명을 적은 `scripts/data/citytour-manual-places.csv`를 `node scripts/add-manual-places.mjs`로 넣는다(2026-10-03, 시티투어 표 124행 중 기존 장소와 겹치는 27곳을 빼고 97곳 + 연관 관광지 표 67행 중 63곳 + 혼잡도 관광지 표 7곳 + 사용자 요청 표 `scripts/data/user-manual-places.csv` 2곳(속초 설악해맞이공원 · 쇠머리오름(우도봉), 2026-10-04. 이중섭 문화거리 · 1100고지습지는 이미 있었다) = 169곳 `ctm<해시>`(`nearOk=1`은 이웃 장소라 250m 규칙을 넘긴다). 김포 · 부천 · 광명은 장소가 없던 도시라 `regions.json` 권역 목록으로 권역을 정한다). 좌표는 관광정보 값이 아니라 수기라 출처에 「좌표 수기 입력(지도 검증 필요)」을 적고, 시군구 경계 폴리곤 안에 드는지 확인한 뒤 넣었다. 뒤에 키 있는 수집기가 같은 곳을 만나면 이름 · 위치로 기존 장소로 본다
+  키가 없는 환경에서는 사람이 후보 표(`cityTourStops` 결과)를 보고 좌표 · 분류 · 설명을 적은 `scripts/data/citytour-manual-places.csv`를 `node scripts/add-manual-places.mjs`로 넣는다(2026-10-03, 시티투어 표 124행 중 기존 장소와 겹치는 27곳을 빼고 97곳 + 연관 관광지 표 67행 중 63곳 + 혼잡도 관광지 표 7곳 = 167곳, 그중 기존 장소와 같은 이름이던 5곳을 같은 장소 통합(`scripts/merge-same-places.mjs`)으로 빼서 162곳, + 사용자 요청 표 `scripts/data/user-manual-places.csv` 2곳(속초 설악해맞이공원 · 쇠머리오름(우도봉), 2026-10-04. 이중섭 문화거리 · 1100고지습지는 이미 있었다) = 164곳 `ctm<해시>`(`nearOk=1`은 이웃 장소라 250m 규칙을 넘긴다). 김포 · 부천 · 광명은 장소가 없던 도시라 `regions.json` 권역 목록으로 권역을 정한다). 좌표는 관광정보 값이 아니라 수기라 출처에 「좌표 수기 입력(지도 검증 필요)」을 적고, 시군구 경계 폴리곤 안에 드는지 확인한 뒤 넣었다. 뒤에 키 있는 수집기가 같은 곳을 만나면 이름 · 위치로 기존 장소로 본다
 - **응답**: `{ "source", "scope", "targets": [{ "region", "codes" }], "candidates": [{ "region", "rank", "name", "district", "signgu", "rate", "date", "verdict", "id" }], "places": [추가 장소] }`.
   `source=odii`면 `{ "source", "candidates": [{ "tid", "name", "region", "regionBy", "verdict", "id" }], "places" }`, `source=citytour`면 `{ "source", "candidates": [{ "region", "name", "tours", "verdict", "id" }], "places" }`. 캐시 없음.
   관광공사 호출(집중률 · 관광정보 검색 · 오디 목록)도 모두 캐시 없이(`no-store`) 부른다: 홈 · 장소 시트의 fetch 캐시(집중률 6시간 · 관광정보 하루)를 같이 쓰면 개발 서버에 남은 하루 전 응답이 돌아와
@@ -277,7 +277,7 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **입력**: 장소 id(플래너 장소 id. 테마 장소도 같은 id)와 화면 언어뿐이다. 한국어 이름 · 좌표 · 시군구 코드는 서버가 장소 데이터에서 찾는다
   (아무 검색어나 대신 불러 주는 중계가 되지 않게). id가 없거나 언어가 5개 언어가 아니면 400, 모르는 id는 404
 - **시군구 코드**: 연관 관광지 · 집중률은 `areaCd`(앞 2자리) · `signguCd`(법정동 5자리)를 받는다. PoC는 카카오 REST 좌표 → 행정구역으로 구하지만 우리에게는 REST 키가 없어,
-  카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 장소마다 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 모두 구함. 지금 3,109곳).
+  카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 장소마다 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 모두 구함. 지금 3,211곳 = 빌드 3,049 + 추가 162).
   Route Handler만 읽는다(클라이언트 번들에 넣지 않는다, `lib/tour-api.test.ts`)
 - **응답**
   - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story", others?: [...] }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 앞에 두고
