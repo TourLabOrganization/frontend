@@ -81,17 +81,28 @@ export function placesInScope(scope: Scope): readonly PlannerPlace[] {
  */
 export const PLACE_ALIASES: Readonly<Record<string, string>> = placeAliases;
 
-/** 옛 id(합쳐서 뺀 장소)면 남긴 장소 id, 아니면 그대로 */
+const PLACE_IDS: ReadonlySet<string> = new Set(PLANNER_PLACES.map((p) => p.id));
+
+/**
+ * 옛 id면 지금 장소 id, 아니면 그대로.
+ *  - 합쳐서 뺀 장소(place-aliases.json) → 남긴 장소
+ *  - 신규 관광지 kto:<contentid>(홈 인기 관광지가 만든 id, kto-place.ts) → 뒤에 모아 넣은 추가 장소 pop<contentid>(scripts/add-popular-places.mjs)가 있으면 그 장소.
+ *    기억해 둔 신규 관광지와 담은 코스가 장소 데이터에 들어온 뒤에도 같은 곳으로 이어진다
+ */
 export function canonicalPlaceId(id: string): string {
-  return PLACE_ALIASES[id] ?? id;
+  const alias = PLACE_ALIASES[id];
+  if (alias) return alias;
+  if (id.startsWith("kto:")) {
+    const pop = `pop${id.slice(4)}`;
+    if (PLACE_IDS.has(pop)) return pop;
+  }
+  return id;
 }
 
 export function findPlace(id: string): PlannerPlace | undefined {
   const key = canonicalPlaceId(id);
   return PLANNER_PLACES.find((p) => p.id === key);
 }
-
-const PLACE_IDS: ReadonlySet<string> = new Set(PLANNER_PLACES.map((p) => p.id));
 
 /** 장소 데이터에 있는 id인지(합쳐서 뺀 옛 id도 있는 것으로 본다). 담은 코스에서 데이터에서 빠진 장소를 거를 때 쓴다(course-store usePlannerCourse) */
 export function isPlannerPlace(id: string): boolean {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import addedPlaces from "./data/added-places.json";
 import {
+  canonicalPlaceId,
   CITY_GROUPS,
   findPlace,
   isPlannerPlace,
@@ -327,6 +328,18 @@ describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목�
     expect(byId.get("kd5")?.popRank).toBe(78);
     expect(byId.get("jdx29")?.popRank).toBe(3);
     expect(byId.get("jdx5")?.popRank).toBe(15);
+  });
+
+  it("신규 관광지 id(kto:<contentid>)는 같은 contentid의 추가 장소(pop<contentid>)가 있으면 그 장소로 이어진다", () => {
+    const pop = PLANNER_PLACES.find((p) => /^pop\d+$/.test(p.id));
+    if (pop) {
+      const kto = `kto:${pop.id.slice(3)}`;
+      expect(canonicalPlaceId(kto)).toBe(pop.id);
+      expect(findPlace(kto)?.id).toBe(pop.id);
+      expect(isPlannerPlace(kto)).toBe(true);
+    }
+    expect(canonicalPlaceId("kto:999999999999")).toBe("kto:999999999999");
+    expect(isPlannerPlace("kto:999999999999")).toBe(false);
   });
 
   it("다른 장소 쌍은 둘 다 도시 목록에 있다", () => {
