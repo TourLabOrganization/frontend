@@ -176,7 +176,12 @@ describe("3안 후보 규칙", () => {
   });
 
   it("무장애 장소가 없는 테마는 빈 코스가 된다", () => {
-    const s = buildScenario("kings-warden", "classic", trip(1, "car", true));
+    // 영월(kings-warden)은 청령포 · 장릉이 2023년 열린관광지로 뽑혀 무장애 장소가 생겼다(2026-10-04 명단 재점검)
+    const s = buildScenario(
+      "kpop-demon-hunters",
+      "classic",
+      trip(1, "car", true),
+    );
     expect(s.placeCount).toBe(0);
     expect(s.days).toHaveLength(1);
   });
