@@ -2169,7 +2169,8 @@
   },
   "ctt73": {
     "desc": {
-      "ko": "릉,묘,총 · 열차와 하루, 모두와 하루(무장애 여행) 시티투어 경유지"
+      "ko": "릉,묘,총 · 열차와 하루, 모두와 하루(무장애 여행) 시티투어 경유지",
+      "en": "Royal tombs of Crown Prince Sado and King Jeongjo."
     },
     "src": {
       "ko": "경기 화성시 병점구 효행로481번길 21 · 전국시티투어 경유지 · 카카오 좌표"
@@ -33985,15 +33986,6 @@
       "ko": "시티투어 경유지(1개 노선) · 주소 기준 좌표"
     }
   },
-  "ctme94cdb0e": {
-    "desc": {
-      "ko": "사도세자와 정조의 능.",
-      "en": "Royal tombs of Crown Prince Sado and King Jeongjo."
-    },
-    "src": {
-      "ko": "시티투어 경유지(1개 노선) · 주소 기준 좌표"
-    }
-  },
   "ctmcc963b42": {
     "desc": {
       "ko": "금강 변 숲 속 설치미술 공원.",
@@ -44640,6 +44632,213 @@
     },
     "src": {
       "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbbd693d5": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 중종 계비 문정왕후의 태릉과 명종·인순왕후의 강릉이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tombs of Queen Munjeong (Taereung) and King Myeongjong with Queen Insun (Gangneung)."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표 · 대략 위치"
+    }
+  },
+  "ctme2b93483": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 조선 20대 경종과 선의왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Gyeongjong and Queen Seonui."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm27a72e44": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 태조의 계비 신덕왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of Queen Sindeok, second consort of King Taejo."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctmc63a1cdd": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 희릉·효릉·예릉 세 능이 모인 왕릉군이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, a cluster of three royal tombs (Huireung, Hyoreung, Yereung)."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm94baf12a": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 조선 16대 인조와 인열왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Injo and Queen Inyeol."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctma7847a78": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 인조의 부모인 원종과 인헌왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Wonjong and Queen Inheon, parents of King Injo."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm0b12ab86": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 단종의 왕비 정순왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of Queen Jeongsun, consort of King Danjong."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm97c61549": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 조선 7대 세조와 정희왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Sejo and Queen Jeonghui."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표 · 대략 위치"
+    }
+  },
+  "ctmceca2f69": {
+    "desc": {
+      "ko": "유네스코 세계자연유산 '한국의 갯벌'의 하나로 곰소만 일대에 넓게 펼쳐진 개방형 갯벌이다.",
+      "en": "Part of the UNESCO World Natural Heritage Getbol, Korean Tidal Flats, an open-embayment mudflat on Gomso Bay."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm2c59e441": {
+    "desc": {
+      "ko": "유네스코 세계유산 '가야고분군'의 하나로 운봉고원에 자리한 가야 시대 고분군이다.",
+      "en": "Part of the UNESCO World Heritage Gaya Tumuli, a group of Gaya-period burial mounds on the Unbong Plateau."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm2fd620b6": {
+    "desc": {
+      "ko": "유네스코 세계유산 '가야고분군'의 하나로 황강변 구릉에 조성된 다라국 지배층의 고분군이다.",
+      "en": "Part of the UNESCO World Heritage Gaya Tumuli, burial mounds of the Dara polity's elite on a hill by the Hwanggang River."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm3a1ba3e5": {
+    "desc": {
+      "ko": "유네스코 세계유산 '경주역사유적지구'의 하나로 신라 왕경을 지키던 산성이다.",
+      "en": "Part of the UNESCO World Heritage Gyeongju Historic Areas, a Silla mountain fortress that guarded the capital."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm707be467": {
+    "desc": {
+      "ko": "유네스코 세계유산 '백제역사유적지구'의 하나로 사비 시기 백제 왕궁터로 추정되는 유적이다.",
+      "en": "Part of the UNESCO World Heritage Baekje Historic Areas, the presumed royal palace site of Sabi-period Baekje."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctmab43ede6": {
+    "desc": {
+      "ko": "김해 장유 신문동의 대형 아웃렛 쇼핑몰로, 롯데워터파크 · 롯데호텔앤리조트 김해와 이웃한다.",
+      "en": "A large outlet mall in Sinmun-dong, Jangyu, Gimhae, next to Lotte Water Park and Lotte Hotel & Resort Gimhae."
+    },
+    "src": {
+      "ko": "쇼핑 · 주소 기준 좌표"
+    }
+  },
+  "ctm043c9520": {
+    "desc": {
+      "ko": "충주 탄금공원 능암늪지생태공원에 2025년 10월 문을 연 민물고기 중심 아쿠아리움으로 터널형 수조에 73종 2천여 마리를 전시한다.",
+      "en": "A freshwater-themed aquarium opened in October 2025 in Tangeum Park's Neungam wetland area, showing about 2,400 fish of 73 species including a tunnel tank."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표"
+    }
+  },
+  "ctm7652518c": {
+    "desc": {
+      "ko": "충청북도가 괴산 충북수산파크에 운영하는 민물고기 아쿠아리움으로 270도 수중터널과 106종 4천6백여 마리를 갖췄다.",
+      "en": "A provincial freshwater aquarium at the Chungbuk Fisheries Park in Goesan with a 270-degree underwater tunnel and about 4,600 fish of 106 species."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm13d78327": {
+    "desc": {
+      "ko": "섬진강에 사는 토종 민물고기 약 60종과 수달을 수조와 생태하천에서 전시하는 전라남도 운영 어류생태관이다.",
+      "en": "A provincially run freshwater fish center displaying about 60 native Seomjingang River species and otters in aquariums and an ecological stream."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc7cb5da1": {
+    "desc": {
+      "ko": "기장 해안의 국립 해양수산 전문 과학관으로 해양생물 아쿠아리움과 야외체험수족관을 무료로 운영한다.",
+      "en": "A free national marine and fisheries science museum on the Gijang coast with a live-animal aquarium and outdoor touch tanks."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm03c21019": {
+    "desc": {
+      "ko": "북한강과 파로호에 사는 산천어·철갑상어 등 화천 토속어류를 살아있는 수조로 보여주는 무료 체험관이다.",
+      "en": "A free center showing live native fish of the Bukhangang River and Paroho Lake, such as cherry salmon and sturgeon."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm996a509d": {
+    "desc": {
+      "ko": "경기도해양수산자원연구소가 운영하는 무료 전시관으로 수족관 60조에 토종 민물고기 60여 종을 전시한다.",
+      "en": "A free exhibition hall run by the Gyeonggi Maritime and Fisheries Research Institute with 60 tanks of about 60 native freshwater fish species."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0cadd3db": {
+    "desc": {
+      "ko": "대명항에 있는 소규모 실내 동물원 겸 아쿠아리움으로 아마존 대형어와 파충류·희귀동물을 전시한다.",
+      "en": "A small indoor zoo-aquarium at Daemyeong Port showing large Amazonian fish, reptiles and exotic animals."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd572a46a": {
+    "desc": {
+      "ko": "부천 웅진플레이도시 3층에 있는 실내 아쿠아리움.",
+      "en": "An indoor aquarium on the third floor of Woongjin Playdoci, Bucheon."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표"
+    }
+  },
+  "ctm96e701dd": {
+    "desc": {
+      "ko": "장생포 고래문화특구에 있는 돌고래 수족관 겸 고래 생태 전시관으로, 장생포고래박물관 옆에 있다.",
+      "en": "A dolphin aquarium and whale ecology hall in the Jangsaengpo Whale Culture Zone, next to the Jangsaengpo Whale Museum."
+    },
+    "src": {
+      "ko": "아쿠아리움 · 주소 기준 좌표 · 대략 위치"
     }
   }
 }
