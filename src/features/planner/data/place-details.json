@@ -3369,21 +3369,6 @@
     "url": "http://place.map.kakao.com/2089642444",
     "ct": true
   },
-  "ctt192": {
-    "desc": {
-      "ko": "전망대 · 2026 파주시티투어 당일코스(금요일) 시티투어 경유지"
-    },
-    "src": {
-      "ko": "경기 파주시 문산읍 마정리 1325-2 · 전국시티투어 경유지 · 카카오 좌표"
-    },
-    "url": "http://place.map.kakao.com/8055098",
-    "ct": true,
-    "k100": {
-      "edition": "2025~2026",
-      "entry": "임진각&파주 DMZ",
-      "places": 2
-    }
-  },
   "ctt193": {
     "desc": {
       "ko": "문화유적 · 2026 파주시티투어 당일코스(목요일) 시티투어 경유지"
@@ -4064,7 +4049,8 @@
   },
   "ctt258": {
     "desc": {
-      "ko": "자연휴양림 · 동백코스(익산-군산 광역), 보랏빛코스 시티투어 경유지"
+      "ko": "자연휴양림 · 동백코스(익산-군산 광역), 보랏빛코스 시티투어 경유지",
+      "en": "A seaside pine wood with a skywalk."
     },
     "src": {
       "ko": "충남 서천군 장항읍 장항산단로34번길 122-16 · 전국시티투어 경유지 · 카카오 좌표"
@@ -5418,7 +5404,8 @@
   },
   "ro10": {
     "desc": {
-      "ko": "자연경관(하천·해양) · 노봉해변, 논골담길 등과 함께 많이 찾는 곳 (연관 42회)"
+      "ko": "자연경관(하천·해양) · 노봉해변, 논골담길 등과 함께 많이 찾는 곳 (연관 42회)",
+      "en": "A designated East Sea beach in Hamaengbang-ri, Geundeok-myeon, Samcheok."
     },
     "src": {
       "ko": "강원특별자치도 삼척시 근덕면 하맹방리 12-1 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -8340,16 +8327,6 @@
     "url": "http://place.map.kakao.com/1452322091",
     "rs": true
   },
-  "ro326": {
-    "desc": {
-      "ko": "역사유적지 · 광릉, 남양주시립박물관 등과 함께 많이 찾는 곳 (연관 12회)"
-    },
-    "src": {
-      "ko": "경기 남양주시 조안면 다산로747번길 11 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "url": "http://place.map.kakao.com/8222130",
-    "rs": true
-  },
   "ro327": {
     "desc": {
       "ko": "시장 · 속천항, 마산어시장 등과 함께 많이 찾는 곳 (연관 12회)"
@@ -10287,7 +10264,8 @@
   },
   "ro520": {
     "desc": {
-      "ko": "역사유적지 · 허브나라농원, 영월동강오토캠핑장 등과 함께 많이 찾는 곳 (연관 9회)"
+      "ko": "역사유적지 · 허브나라농원, 영월동강오토캠핑장 등과 함께 많이 찾는 곳 (연관 9회)",
+      "en": "Seonhwadang of Gangwon Provincial Office, a Treasure-designated heritage site in Wonju."
     },
     "src": {
       "ko": "강원특별자치도 원주시 원일로 77 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -11242,16 +11220,6 @@
     "zh": "访花随柳亭(东北角楼)",
     "ja": "訪花随柳亭（東北角楼）",
     "url": "http://place.map.kakao.com/25049860",
-    "rs": true
-  },
-  "ro620": {
-    "desc": {
-      "ko": "복합관광시설 · 평화시장, 동성로 등과 함께 많이 찾는 곳 (연관 7회)"
-    },
-    "src": {
-      "ko": "대구 수성구 무학로 78 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "url": "http://place.map.kakao.com/10546019",
     "rs": true
   },
   "ro622": {
@@ -12220,7 +12188,8 @@
   },
   "ro722": {
     "desc": {
-      "ko": "도시공원 · 제황산공원, 진해내수면환경생태공원 등과 함께 많이 찾는 곳 (연관 6회)"
+      "ko": "도시공원 · 제황산공원, 진해내수면환경생태공원 등과 함께 많이 찾는 곳 (연관 6회)",
+      "en": "A two-storey pavilion over the water at Sokcheon."
     },
     "src": {
       "ko": "경남 창원시 진해구 경화동 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -12514,17 +12483,6 @@
       "ko": "서울 강서구 마곡동 1142 · 한국관광공사 연관 관광지 · 카카오 좌표"
     },
     "url": "http://place.map.kakao.com/1655707944",
-    "rs": true
-  },
-  "ro754": {
-    "desc": {
-      "ko": "자연경관(하천·해양) · 한국신발관, 낙동강하구에코센터 등과 함께 많이 찾는 곳 (연관 6회)"
-    },
-    "src": {
-      "ko": "부산 사하구 장림로93번길 72 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "ja": "長林浦",
-    "url": "http://place.map.kakao.com/1728865012",
     "rs": true
   },
   "ro755": {
@@ -12923,16 +12881,6 @@
       "ko": "전북특별자치도 전주시 완산구 완산5길 70 · 한국관광공사 연관 관광지 · 카카오 좌표"
     },
     "url": "http://place.map.kakao.com/633061685",
-    "rs": true
-  },
-  "ro797": {
-    "desc": {
-      "ko": "역사유적지 · 상당산성, 육거리종합시장 등과 함께 많이 찾는 곳 (연관 5회)"
-    },
-    "src": {
-      "ko": "충북 청주시 청원구 수동로 32 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "url": "http://place.map.kakao.com/1651078347",
     "rs": true
   },
   "ro798": {
@@ -14247,16 +14195,6 @@
       "ko": "경북 구미시 지산동 847-72 · 한국관광공사 연관 관광지 · 카카오 좌표"
     },
     "url": "http://place.map.kakao.com/1478181938",
-    "rs": true
-  },
-  "ro945": {
-    "desc": {
-      "ko": "웰니스관광 · 백암온천, 주산지 등과 함께 많이 찾는 곳 (연관 3회)"
-    },
-    "src": {
-      "ko": "경북 청송군 청송읍 중앙로 315 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "url": "http://place.map.kakao.com/8540329",
     "rs": true
   },
   "ro946": {
@@ -18705,16 +18643,6 @@
     "url": "http://place.map.kakao.com/1688492272",
     "rs": true
   },
-  "rs414": {
-    "desc": {
-      "ko": "리조트·콘도 · 강동워터파크, 경주동궁원 등을 찾은 여행자들이 함께 많이 머문 곳 (연관 3회)"
-    },
-    "src": {
-      "ko": "경북 경주시 천군로 95-32 · 한국관광공사 연관 관광지(숙박) · 카카오 좌표"
-    },
-    "url": "http://place.map.kakao.com/1168371026",
-    "rs": true
-  },
   "rs415": {
     "desc": {
       "ko": "리조트·콘도 · 강동워터파크, 경주월드 등을 찾은 여행자들이 함께 많이 머문 곳 (연관 3회)"
@@ -20958,7 +20886,9 @@
     "src": {
       "ko": "수성구 두산동 구글 지오코딩",
       "en": "Google geocoding: 수성구 두산동"
-    }
+    },
+    "url": "http://place.map.kakao.com/10546019",
+    "rs": true
   },
   "nax109": {
     "desc": {
@@ -23894,16 +23824,6 @@
     },
     "zh": "国立生态园(舒川)"
   },
-  "nax451": {
-    "desc": {
-      "ko": "바다를 낀 솔숲과 스카이워크.",
-      "en": "A seaside pine wood with a skywalk."
-    },
-    "src": {
-      "ko": "서천군 장항읍 송림리 구글 지오코딩",
-      "en": "Google geocoding: 서천군 장항읍 송림리"
-    }
-  },
   "nax452": {
     "desc": {
       "ko": "유네스코 한국의 갯벌 가운데 가장 넓다.",
@@ -24297,8 +24217,9 @@
     "k100": {
       "edition": "2025~2026",
       "entry": "임진각&파주 DMZ",
-      "places": 2
-    }
+      "places": 1
+    },
+    "ct": true
   },
   "nax602": {
     "desc": {
@@ -24494,7 +24415,9 @@
     "src": {
       "ko": "남양주시 조안면 다산로747번길 11 구글 지오코딩",
       "en": "Google geocoding: 남양주시 조안면 다산로747번길 11"
-    }
+    },
+    "url": "http://place.map.kakao.com/8222130",
+    "rs": true
   },
   "nax619": {
     "desc": {
@@ -24740,7 +24663,9 @@
       "en": "Google geocoding: 청주시 상당구 수동로 15"
     },
     "zh": "寿岩谷壁画村",
-    "ja": "スアムゴル壁画村"
+    "ja": "スアムゴル壁画村",
+    "url": "http://place.map.kakao.com/1651078347",
+    "rs": true
   },
   "nax640": {
     "desc": {
@@ -25986,7 +25911,9 @@
     "src": {
       "ko": "기장군 기장읍 기장해안로 268-32 구글 지오코딩",
       "en": "Google geocoding: 기장군 기장읍 기장해안로 268-32"
-    }
+    },
+    "zh": "Ananti海岸",
+    "ja": "アナンティ海岸"
   },
   "nax766": {
     "desc": {
@@ -26612,16 +26539,6 @@
     "src": {
       "ko": "공주시 웅진동 구글 지오코딩",
       "en": "Google geocoding: 공주시 웅진동"
-    }
-  },
-  "nax838": {
-    "desc": {
-      "ko": "덕진공원 연지. 여름 연꽃으로 알려져 있다.",
-      "en": "The lotus pond of Deokjin Park, known for summer blooms."
-    },
-    "src": {
-      "ko": "덕진구 권삼득로 390 구글 지오코딩",
-      "en": "Google geocoding: 덕진구 권삼득로 390"
     }
   },
   "nax839": {
@@ -27471,16 +27388,6 @@
     "src": {
       "ko": "진해구 진해대로 611 구글 지오코딩",
       "en": "Google geocoding: 진해구 진해대로 611"
-    }
-  },
-  "nax952": {
-    "desc": {
-      "ko": "속천항 바다 위로 선 2층 누각.",
-      "en": "A two-storey pavilion over the water at Sokcheon."
-    },
-    "src": {
-      "ko": "진해구 웅천동로 21 구글 지오코딩",
-      "en": "Google geocoding: 진해구 웅천동로 21"
     }
   },
   "nax953": {
@@ -30429,18 +30336,6 @@
     "zh": "COEX 星空图书馆",
     "ja": "COEX 星空図書館"
   },
-  "kdx10": {
-    "desc": {
-      "ko": "한방진흥센터와 같은 단지. 약재 감별과 한방차 체험을 함께 운영한다.",
-      "en": "In the same complex as the medicine centre, with herb-identification and tea sessions."
-    },
-    "src": {
-      "ko": "동대문구 약령중앙로 26 주소 기반 좌표",
-      "en": "Address-based: Yangnyeongjungang-ro 26"
-    },
-    "zh": "首尔药令市韩医药博物馆",
-    "ja": "ソウル薬令市韓医薬博物館"
-  },
   "kdx11": {
     "desc": {
       "ko": "서울스카이와 같은 단지의 실내외 테마파크. 비 오는 날 대안이 된다.",
@@ -30963,16 +30858,6 @@
       "edition": "2025~2026",
       "entry": "5대 고궁(경복궁·창덕궁·창경궁·덕수궁·종묘)",
       "places": 5
-    }
-  },
-  "kdx47": {
-    "desc": {
-      "ko": "화랑과 필방, 전통 찻집이 늘어선 거리. 주말에는 차량을 막는다.",
-      "en": "A street of galleries, brush shops and tea houses, closed to cars on weekends."
-    },
-    "src": {
-      "ko": "종로구 인사동길 주소 기반 좌표",
-      "en": "Address-based: Insadong-gil, Jongno-gu"
     }
   },
   "kdx48": {
@@ -32107,18 +31992,6 @@
     "zh": "坪岱海边",
     "ja": "坪岱海岸"
   },
-  "jdx50": {
-    "desc": {
-      "ko": "김녕 본 해변 옆의 작은 만. 물빛이 더 짙다.",
-      "en": "A small bay next to the main Gimnyeong strand, its water deeper in colour."
-    },
-    "src": {
-      "ko": "제주시 구좌읍 김녕리 주소 기반 좌표",
-      "en": "Address-based: 제주시 구좌읍 김녕리"
-    },
-    "zh": "金宁城世基海边",
-    "ja": "金寧ソンセギ海岸"
-  },
   "jdx51": {
     "desc": {
       "ko": "오일장이 서는 마을 앞 해변.",
@@ -33036,18 +32909,6 @@
     },
     "ja": "センタムシティ"
   },
-  "bcx30": {
-    "desc": {
-      "ko": "절벽 위 리조트 단지의 공개 산책로와 서점.",
-      "en": "The public walk and bookshop of a clifftop resort complex."
-    },
-    "src": {
-      "ko": "기장군 기장해안로 268-32 구글 지오코딩",
-      "en": "Address-based: 기장군 기장읍 기장해안로 268-31"
-    },
-    "zh": "Ananti海岸",
-    "ja": "アナンティ海岸"
-  },
   "bcx31": {
     "desc": {
       "ko": "와이어 공장을 고친 복합 문화 공간. 서점과 전시장이 있다.",
@@ -33237,7 +33098,10 @@
     "src": {
       "ko": "사하구 장림로93번길 72 구글 지오코딩",
       "en": "Address-based: Jangnim Port, Jangnim-dong, Saha-gu"
-    }
+    },
+    "ja": "長林浦",
+    "url": "http://place.map.kakao.com/1728865012",
+    "rs": true
   },
   "bcx48": {
     "desc": {
@@ -38973,15 +38837,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
-  "ctmf71a4f00": {
-    "desc": {
-      "ko": "원주에 자리한 보물 강원감영 선화당.",
-      "en": "Seonhwadang of Gangwon Provincial Office, a Treasure-designated heritage site in Wonju."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
   "ctm226d80b2": {
     "desc": {
       "ko": "보물 곽재우 유물 일괄을 소장한 박물관.",
@@ -41236,15 +41091,6 @@
     "desc": {
       "ko": "삼척시 삼척해수욕장 남쪽 해안에 있는 지정 해수욕장이다.",
       "en": "A designated East Sea beach in the coast just south of Samcheok Beach, Samcheok."
-    },
-    "src": {
-      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
-    }
-  },
-  "ctme3e7cad6": {
-    "desc": {
-      "ko": "삼척시 근덕면 하맹방리에 있는 동해안의 지정 해수욕장이다.",
-      "en": "A designated East Sea beach in Hamaengbang-ri, Geundeok-myeon, Samcheok."
     },
     "src": {
       "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"

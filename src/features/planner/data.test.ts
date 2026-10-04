@@ -38,9 +38,10 @@ const REGION_CITY_COUNT = {
 };
 
 // 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 뒤에 붙는다.
-// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 63곳을 뺀 3,046곳,
-// 문을 닫은 충주 라이트월드(nax40, build-planner.mjs CLOSED_IDS, 2026-10-04)를 뺀 3,045곳
-const BASE = 3045;
+// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 77곳을 뺀 3,032곳,
+// 문을 닫은 충주 라이트월드(nax40, build-planner.mjs CLOSED_IDS, 2026-10-04)를 뺀 3,031곳
+// (이름 혼용 전수 점검으로 14곳을 더 합쳤다: 김녕성세기해변 → 김녕해수욕장, 인사동 문화의거리 → 인사동 …)
+const BASE = 3031;
 const ADDED = addedPlaces.length;
 const TOTAL = BASE + ADDED;
 /** 추가 장소 수(도시 · 권역별). 아래 기대값은 빌드 장소 수 + 이 값 */
@@ -64,7 +65,7 @@ const addedCitiesIn = (key: string) =>
   ).length;
 
 describe("플래너 데이터", () => {
-  it("장소는 3,045곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 63곳 · 폐장 1곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
+  it("장소는 3,031곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 77곳 · 폐장 1곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
     expect(PLANNER_PLACES).toHaveLength(TOTAL);
     expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(TOTAL);
   });
@@ -90,11 +91,11 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      서울: 254 + addedIn("서울"),
-      부산: 177 + addedIn("부산"),
-      제주: 171 + addedIn("제주"),
+      서울: 252 + addedIn("서울"),
+      부산: 175 + addedIn("부산"),
+      제주: 170 + addedIn("제주"),
       영월: 28 + addedIn("영월"),
-      경주: 69 + addedIn("경주"),
+      경주: 68 + addedIn("경주"),
       거제: 45 + addedIn("거제"),
     });
   });
@@ -131,13 +132,13 @@ describe("플래너 데이터", () => {
       ]),
     );
     expect(byRegion).toEqual({
-      capital: 673 + addedMacro("capital"),
+      capital: 669 + addedMacro("capital"),
       gangwon: 360 + addedMacro("gangwon"),
-      chungcheong: 432 + addedMacro("chungcheong"),
-      daegyeong: 361 + addedMacro("daegyeong"),
-      dongnam: 624 + addedMacro("dongnam"),
-      honam: 424 + addedMacro("honam"),
-      jeju: 171 + addedMacro("jeju"),
+      chungcheong: 430 + addedMacro("chungcheong"),
+      daegyeong: 358 + addedMacro("daegyeong"),
+      dongnam: 621 + addedMacro("dongnam"),
+      honam: 423 + addedMacro("honam"),
+      jeju: 170 + addedMacro("jeju"),
     });
   });
 
@@ -153,19 +154,19 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      capital: [21 + addedCitiesIn("capital"), 673 + addedMacro("capital")],
+      capital: [21 + addedCitiesIn("capital"), 669 + addedMacro("capital")],
       gangwon: [18 + addedCitiesIn("gangwon"), 360 + addedMacro("gangwon")],
       chungcheong: [
         19 + addedCitiesIn("chungcheong"),
-        432 + addedMacro("chungcheong"),
+        430 + addedMacro("chungcheong"),
       ],
       daegyeong: [
         16 + addedCitiesIn("daegyeong"),
-        361 + addedMacro("daegyeong"),
+        358 + addedMacro("daegyeong"),
       ],
-      dongnam: [19 + addedCitiesIn("dongnam"), 624 + addedMacro("dongnam")],
-      honam: [30 + addedCitiesIn("honam"), 424 + addedMacro("honam")],
-      jeju: [1 + addedCitiesIn("jeju"), 171 + addedMacro("jeju")],
+      dongnam: [19 + addedCitiesIn("dongnam"), 621 + addedMacro("dongnam")],
+      honam: [30 + addedCitiesIn("honam"), 423 + addedMacro("honam")],
+      jeju: [1 + addedCitiesIn("jeju"), 170 + addedMacro("jeju")],
     });
   });
 
@@ -201,9 +202,9 @@ describe("플래너 데이터", () => {
 
   // 데이터랩 인기 · 관광특구 · 관광단지는 data-server(develop ac9eb34) popRank · zone 기준
   // 100선 · 열린관광지는 공식 명단 표(scripts/data/k100-list.csv · open-tourism-list.csv, scripts/apply-badge-lists.mjs) 기준:
-  // 100선 100건이 묶은 장소 154곳(5대 고궁 5곳 · 한강공원 10곳 …), 열린관광지 2015~2026 211건이 가리키는 장소 203곳
+  // 100선 100건이 묶은 장소 153곳(5대 고궁 5곳 · 한강공원 10곳 …), 열린관광지 2015~2026 211건이 가리키는 장소 203곳
   // 유네스코는 세계유산 17건 구성요소 표(scripts/data/unesco-list.csv) 기준 95곳(2025 반구천의 암각화 포함, 2026-10-04)
-  it("배지 필터 장소 수: 데이터랩 인기 173 · 유네스코 95 · 100선 154 · 열린관광지 203 · 관광특구 · 관광단지 204", () => {
+  it("배지 필터 장소 수: 데이터랩 인기 173 · 유네스코 95 · 100선 153 · 열린관광지 203 · 관광특구 · 관광단지 203", () => {
     expect(
       Object.fromEntries(
         BADGE_KEYS.map((b) => [
@@ -211,7 +212,7 @@ describe("플래너 데이터", () => {
           PLANNER_PLACES.filter((p) => hasBadge(p, b)).length,
         ]),
       ),
-    ).toEqual({ pop: 173, un: 95, k100: 154, bf: 203, zone: 204 });
+    ).toEqual({ pop: 173, un: 95, k100: 153, bf: 203, zone: 203 });
   });
 
   it("좌표는 한국 안(위도 33~39 · 경도 124~132)이다", () => {

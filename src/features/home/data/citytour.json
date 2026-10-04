@@ -2047,7 +2047,7 @@
     "url": "https://www.pjcitytour.kr",
     "date": "2026-05-18",
     "city": "파주",
-    "placeIds": ["ctt191", "ctt192"]
+    "placeIds": ["ctt191"]
   },
   {
     "region": "파주",
@@ -3020,7 +3020,7 @@
       "ro570",
       "ctt246",
       "nax950",
-      "nax952",
+      "ro722",
       "nax951"
     ]
   },
