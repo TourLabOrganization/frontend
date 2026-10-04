@@ -1517,7 +1517,7 @@
     "url": "https://www.arumtr.co.kr/",
     "date": "2026-07-15",
     "city": "의정부",
-    "placeIds": ["ctu37", "ctu38"]
+    "placeIds": ["ctu37", "ctmef964e0c", "ctu38"]
   },
   {
     "region": "청주",
@@ -1629,7 +1629,15 @@
     "url": "https://www.yeoju.go.kr/tour/contents.do?key=2624",
     "date": "2026-06-08",
     "city": "여주",
-    "placeIds": ["nax323", "nax324", "ctt159", "ctt160", "nax1197", "nax325"]
+    "placeIds": [
+      "nax323",
+      "nax324",
+      "ctt159",
+      "ctm10226e16",
+      "ctt160",
+      "nax1197",
+      "nax325"
+    ]
   },
   {
     "region": "양산",
@@ -4371,7 +4379,14 @@
     "url": "http://go-tago.whataulsan.com",
     "date": "2025-03-27",
     "city": "울산",
-    "placeIds": ["ctt358", "ctma5d46093", "nax308", "nax999", "ctt359"]
+    "placeIds": [
+      "ctt358",
+      "ctma5d46093",
+      "nax308",
+      "nax999",
+      "ctm434d456d",
+      "ctt359"
+    ]
   },
   {
     "region": "양주",
