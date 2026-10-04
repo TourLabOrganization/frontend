@@ -28,7 +28,7 @@ describe("한국관광 100선 선정 문장", () => {
 
   it("100선 배지 장소마다 선정 정보가 있다", () => {
     const withInfo = Object.entries(DETAILS).filter(([, d]) => d.k100);
-    expect(withInfo).toHaveLength(154);
+    expect(withInfo).toHaveLength(153);
     for (const [, d] of withInfo) expect(d.k100!.edition).toBe("2025~2026");
   });
 });

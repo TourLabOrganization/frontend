@@ -2,6 +2,8 @@
 // 같은 장소가 두 번 들어간 쌍(scripts/data/same-places.csv: keep · drop · reason)을 하나로 합친다.
 // 전수 점검 2026-10-03: 같은 도시 · 같은 이름(정규화) 5쌍, 전용 화면 묶음 ↔ 전국 목록 14쌍(build-planner.mjs가 pickCity만 뺐던 것),
 // 전국 목록 안의 같은 장소(이름이 서로를 품고 좌표 700m 안, 눈으로 확인) 47쌍.
+// 이름 혼용 전수 점검 2026-10-04: 이름이 비슷한 쌍(서로 품음 · 글자 겹침 · 핵심어 같음)과 150m 안 근접 쌍을 모두 훑어 같은 주소 · 같은 시설로 확인한 16쌍
+// (김녕성세기해변 = 김녕해수욕장, 장항송림산림욕장 → 장항송림자연휴양림 개칭 …). 큰 시설 안의 다른 볼거리(수원화성 장안문, 이월드 83타워 …)는 합치지 않는다.
 //
 // 사용법 (build-planner.mjs · add-popular-places.mjs · add-manual-places.mjs 뒤에 돌린다. 여러 번 돌려도 같다):
 //   node scripts/merge-same-places.mjs [--dry]
