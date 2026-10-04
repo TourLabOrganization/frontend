@@ -229,7 +229,8 @@ export function manualPlaces(rows, pool, date = DATE, regions = []) {
       photo: "",
       zh: "",
       ja: "",
-      source: `${row.source?.trim() || `시티투어 경유지(${tours}개 노선, 노선 표기 「${row.stopName.trim() || ko}」)`} · 좌표 수기 입력(지도 검증 필요, ${date})`,
+      // coord 열: 좌표 근거(비면 「좌표 수기 입력(지도 검증 필요, 날짜)」). 지오코딩한 표(scripts/geocode-heritage-places.mjs)는 「카카오 로컬 좌표(주소 · 장소 검색)」
+      source: `${row.source?.trim() || `시티투어 경유지(${tours}개 노선, 노선 표기 「${row.stopName.trim() || ko}」)`} · ${row.coord?.trim() || `좌표 수기 입력(지도 검증 필요, ${date})`}`,
       desc: row.desc.trim() || `${region} 시티투어 경유지(${tours}개 노선)`,
       descEn: row.descEn?.trim() ?? "",
     };
