@@ -3,6 +3,7 @@
 // 그 시군구 관광지 전체의 날짜별 집중률을 받고, 기준 날짜(오늘, 없으면 오늘 이후 가장 이른 날)의 집중률이 높은 순으로 10곳을 고른다.
 //   - 시군구: 도시의 플래너 장소(숙박 제외)가 많은 시군구 코드 순으로, 장소 5곳 이상인 곳만 최대 4곳(호출 수를 묶는다)
 //   - 각 관광지를 앱 장소와 잇는다(장소 id와 화면 언어 이름을 붙인다). 세 단계:
+//     ⓞ 수기 대조표(lib/popular-match.ts): 규칙으로 못 잇는 이름(팔각정북악스카이 → 북악스카이웨이 팔각정 …)은 사람이 적은 장소로
 //     ① 이름: 장소 시트 방문 집중률과 같은 이름 점수에 표기 차이(앞의 도시 이름 · 해수욕장/해변 · 전통시장/시장)를 맞춘 이름도 본다. 같은 시군구 · 2점 이상
 //     ② 위치: 이름으로 못 찾으면 한국관광공사 국문 관광정보(searchKeyword2)에서 같은 관광지를 찾아, 그 좌표 250m 안의 앱 장소
 //        (1km 안이면 이름 글자가 절반 이상 겹칠 때) — 이름이 아주 다르게 적힌 같은 곳
@@ -40,6 +41,7 @@ import {
   withoutCity,
   type TourCache,
 } from "./tour-api";
+import { pinnedPlaceId } from "./popular-match";
 import { romanize } from "./romanize";
 import { crowdName, crowdScore } from "./tour-crowd";
 import { seoulDate } from "./weather";
@@ -292,13 +294,21 @@ export async function resolveSpot(
   );
 }
 
-/** 이름이 맞는 플래너 장소(같은 도시 · 같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳) */
+/**
+ * 이름이 맞는 플래너 장소. 수기 대조표(popular-match.ts)에 있으면 그 장소, 아니면
+ * 같은 도시 · 같은 시군구에서 이름 점수 2 이상 중 가장 높은 곳(같으면 먼저 나온 곳)
+ */
 export function matchPlace(
   spot: Pick<RankedSpot, "name" | "signgu">,
   city: string,
   places: readonly PlannerPlace[] = PLANNER_PLACES,
   signguOf: (id: string) => string = tourPlaceSigngu,
 ): PlannerPlace | null {
+  const pinned = pinnedPlaceId(city, spot.name);
+  if (pinned) {
+    const p = places.find((x) => x.id === pinned);
+    if (p) return p;
+  }
   let best: PlannerPlace | null = null;
   let bestScore = 1;
   for (const p of places) {

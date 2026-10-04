@@ -42,6 +42,7 @@ import {
   rankSpots,
   SAME_SPOT_M,
 } from "./tour-popular";
+import { pinnedPlaceId } from "./popular-match";
 import { seoulDate } from "./weather";
 
 // 인기 관광지(한국관광공사 집중률)에서 앱 장소 목록에 없는 곳을 모아 「추가 장소」(features/planner/data/added-places.json)로 누적한다.
@@ -182,13 +183,18 @@ export type CollectResult = {
   places: AddedPlace[];
 };
 
-/** 풀에서 이름이 맞는 장소(같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳). matchPlace와 같은 규칙을 풀에 적용한다 */
+/** 풀에서 이름이 맞는 장소(수기 대조표 → 같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳). matchPlace와 같은 규칙을 풀에 적용한다 */
 function matchInPool(
   spot: { name: string; signgu: string },
   region: string,
   pool: readonly PlannerPlace[],
   signguOf: (id: string) => string,
 ): PlannerPlace | null {
+  const pinned = pinnedPlaceId(region, spot.name);
+  if (pinned) {
+    const p = pool.find((x) => x.id === pinned);
+    if (p) return p;
+  }
   let best: PlannerPlace | null = null;
   let bestScore = 1;
   for (const p of pool) {
