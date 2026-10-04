@@ -411,7 +411,9 @@ describe("GET /api/tour/audio", () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     const asked = stubOdii(REAL);
     const res = await call("id=gjx1&locale=ko");
-    expect(res.headers.get("Cache-Control")).toBe("public, max-age=86400");
+    expect(res.headers.get("Cache-Control")).toBe(
+      "public, max-age=600, s-maxage=86400",
+    );
     expect(await res.json()).toMatchObject({
       title: "경주 불국사",
       playTime: 121,

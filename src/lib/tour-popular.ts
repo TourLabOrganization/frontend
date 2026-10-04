@@ -56,6 +56,8 @@ export const POPULAR_MAX_DISTRICTS = 4;
 export const POPULAR_MIN_PLACES = 5;
 /** 보여 줄 관광지 수 */
 export const POPULAR_COUNT = 10;
+/** 같은 장소로 이어진 줄을 합친 뒤에도 POPULAR_COUNT를 채우려고 더 보는 순위 수(이중섭 문화거리 · 서귀포 이중섭거리처럼 한 장소가 두 이름으로 나온다) */
+export const POPULAR_SCAN_EXTRA = 5;
 /** 한 시군구에서 받는 쪽 수 상한(쪽당 1,000행: 관광지 수 × 약 30일) */
 const MAX_PAGES = 5;
 const ROWS = 1000;
@@ -472,8 +474,8 @@ export async function findPopular(
     throw new Error("popular: all districts failed");
   const ranked = rankSpots(ok, seoulDate(now));
   if (!ranked) return null;
-  const items: TourPopularItem[] = await Promise.all(
-    ranked.spots.slice(0, POPULAR_COUNT).map(async (s) => {
+  const scanned: TourPopularItem[] = await Promise.all(
+    ranked.spots.slice(0, POPULAR_COUNT + POPULAR_SCAN_EXTRA).map(async (s) => {
       let place: PlannerPlace | TourPlace | null = matchPlace(s, city);
       if (!place) {
         try {
@@ -501,6 +503,16 @@ export async function findPopular(
       return { ...base, name: placeName(place, locale, names), id: place.id };
     }),
   );
+  // 같은 장소로 이어진 줄은 순위가 높은(먼저 나온) 한 줄만 남기고 다음 순위로 채운다. 이어지지 않은 줄(id 없음)은 그대로
+  const seen = new Set<string>();
+  const items = scanned
+    .filter((x) => {
+      if (!x.id) return true;
+      if (seen.has(x.id)) return false;
+      seen.add(x.id);
+      return true;
+    })
+    .slice(0, POPULAR_COUNT);
   return { date: ranked.date, items };
 }
 

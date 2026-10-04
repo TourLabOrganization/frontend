@@ -130,7 +130,9 @@ describe("GET /api/tour/festival", () => {
     const now = new Date("2026-10-03T03:00:00Z");
     const res = await tourFestivalResponse(req("city=경주&locale=en"), now);
     expect(res.status).toBe(200);
-    expect(res.headers.get("Cache-Control")).toBe("public, max-age=21600");
+    expect(res.headers.get("Cache-Control")).toBe(
+      "public, max-age=600, s-maxage=21600",
+    );
     const got = (await res.json()) as { city: string; items: unknown[] };
     expect(got.city).toBe("경주");
     expect(got.items).toHaveLength(1);
