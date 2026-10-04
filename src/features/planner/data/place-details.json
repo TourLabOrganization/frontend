@@ -34138,5 +34138,266 @@
     "src": {
       "ko": "사용자 요청(2026-10-04) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
+  },
+  "ctmf836cea7": {
+    "desc": {
+      "ko": "국보 여러 점을 소장한 사립 박물관(신림 본관).",
+      "en": "Private museum holding several National Treasures (Sillim main hall)."
+    },
+    "src": {
+      "ko": "국보 소장처(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6db78d46": {
+    "desc": {
+      "ko": "국보 고달사지 승탑이 있는 고려 절터.",
+      "en": "Goryeo temple site with the Godalsa stupa (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmaeb06ec1": {
+    "desc": {
+      "ko": "국보 지광국사탑 · 탑비가 있는 절터 유적 전시관.",
+      "en": "Temple site and exhibition hall with the National Preceptor Jigwang stupa and stele (National Treasures)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmbf57cce0": {
+    "desc": {
+      "ko": "국보 임영관 삼문이 있는 고려 · 조선 관아 터.",
+      "en": "Old government office site with the Imyeonggwan three-door gate (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9d17a9c6": {
+    "desc": {
+      "ko": "국보 상원사 동종 · 목조문수동자좌상이 있는 오대산 절.",
+      "en": "Odaesan temple holding the Sangwonsa bronze bell and wooden Child Manjusri (National Treasures)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmcf40b33e": {
+    "desc": {
+      "ko": "국보 진전사지 삼층석탑이 있는 통일신라 절터.",
+      "en": "Unified Silla temple site with a three-story stone pagoda (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm306bffa7": {
+    "desc": {
+      "ko": "국보 단양 신라 적성비. 성재산 적성 안의 신라 비석.",
+      "en": "Silla stele inside Jeokseong fortress on Seongjaesan (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmbb69bbb9": {
+    "desc": {
+      "ko": "국보 봉선홍경사 갈기비. 고려 절터에 남은 비석.",
+      "en": "Goryeo stele left at the Honggyeongsa temple site (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctma5131ad4": {
+    "desc": {
+      "ko": "국보 낭혜화상탑비가 있는 통일신라 절터.",
+      "en": "Unified Silla temple site with the stele of Master Nanghye (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme9168bf0": {
+    "desc": {
+      "ko": "국보 금산사 미륵전이 있는 모악산 절.",
+      "en": "Moaksan temple with the three-story Maitreya Hall (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm692679c4": {
+    "desc": {
+      "ko": "국보 각황전 · 석등 · 사사자 삼층석탑이 있는 지리산 절.",
+      "en": "Jirisan temple with Gakhwangjeon hall · stone lantern · four-lion pagoda (National Treasures)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm5e9b478c": {
+    "desc": {
+      "ko": "국보 동승탑 · 북승탑이 있는 피아골 절.",
+      "en": "Piagol temple with the east and north stupas (National Treasures)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9bfd799a": {
+    "desc": {
+      "ko": "국보 무위사 극락보전이 있는 월출산 남쪽 절.",
+      "en": "Temple south of Wolchulsan with the Geungnakbojeon hall (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1c971047": {
+    "desc": {
+      "ko": "국보 철감선사탑이 있는 절.",
+      "en": "Temple with the stupa of Master Cheolgam (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm6529c41e": {
+    "desc": {
+      "ko": "국보 거조사 영산전(오백나한)이 있는 은해사 암자.",
+      "en": "Eunhaesa hermitage with the Yeongsanjeon hall of 500 arhats (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm37336b0e": {
+    "desc": {
+      "ko": "국보 태종무열왕릉비(귀부 · 이수)가 있는 신라 왕릉.",
+      "en": "Silla royal tomb with King Muyeol's stele base and capstone (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm231e9c01": {
+    "desc": {
+      "ko": "국보 나원리 오층석탑. 흰 화강암이라 나원 백탑으로 불린다.",
+      "en": "National Treasure five-story pagoda of white granite."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm051cca6c": {
+    "desc": {
+      "ko": "국보 정혜사지 십삼층석탑. 옥산서원 근처 절터.",
+      "en": "National Treasure thirteen-story pagoda near Oksan Seowon."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm94f3eeaf": {
+    "desc": {
+      "ko": "국보 탑리리 오층석탑. 전탑을 닮은 통일신라 석탑.",
+      "en": "National Treasure Unified Silla pagoda in brick-pagoda style."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm31c28f62": {
+    "desc": {
+      "ko": "국보 산해리 오층모전석탑. 반변천 옆 들판의 탑.",
+      "en": "National Treasure brick-style stone pagoda by the Banbyeoncheon."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmbca08b08": {
+    "desc": {
+      "ko": "국보 죽장리 오층석탑. 선산 죽장사의 큰 석탑.",
+      "en": "National Treasure pagoda at Jukjangsa in Seonsan."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm8507d134": {
+    "desc": {
+      "ko": "국보 냉수리 신라비가 있는 신광면 비각.",
+      "en": "Pavilion in Singwang-myeon holding the Naengsu-ri Silla stele (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm34505c20": {
+    "desc": {
+      "ko": "국보 봉평리 신라비를 전시하는 곳.",
+      "en": "Exhibition hall for the Bongpyeong-ri Silla stele (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1f6ce703": {
+    "desc": {
+      "ko": "국보 진흥왕 척경비. 만옥정 공원 안 비석.",
+      "en": "National Treasure stele of King Jinheung in Manokjeong Park."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm687f3d43": {
+    "desc": {
+      "ko": "국보 술정리 동 삼층석탑. 창녕읍 안의 통일신라 석탑.",
+      "en": "National Treasure Unified Silla pagoda in Changnyeong town."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm2aa08a6a": {
+    "desc": {
+      "ko": "국보 법흥사지 칠층전탑. 임청각 바로 옆 우리나라에서 가장 큰 전탑.",
+      "en": "National Treasure: Korea's largest brick pagoda right beside Imcheonggak."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm57564da7": {
+    "desc": {
+      "ko": "국보를 소장한 국립 박물관.",
+      "en": "National museum holding National Treasures."
+    },
+    "src": {
+      "ko": "국보 소장처(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme8fa637a": {
+    "desc": {
+      "ko": "국보 숭례문. 한양도성의 남쪽 정문.",
+      "en": "National Treasure: Sungnyemun"
+    },
+    "src": {
+      "ko": "시티투어 경유지(1개 노선, 노선 표기 「숭례문」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm78f5d272": {
+    "desc": {
+      "ko": "국보 원각사지 십층석탑이 있는 공원. 3·1운동이 시작된 곳.",
+      "en": "Park holding the Wongaksa ten-story pagoda (National Treasure); where the 1919 March 1st Movement began."
+    },
+    "src": {
+      "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }
