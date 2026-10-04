@@ -1,4 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { PLANNER_PLACES } from "../features/planner/data";
+import { tourPlaceSigngu } from "./tour-api";
 import { isPlannerCity } from "../features/planner/regions";
 import { POPULAR_CITIES } from "./tour";
 import {
@@ -11,6 +13,7 @@ import {
   nameOverlap,
   nameScore,
   pickSpotItem,
+  pickSpotItemLoose,
   POPULAR_MAX_DISTRICTS,
   rankSpots,
   spotName,
@@ -151,8 +154,80 @@ describe("matchPlace", () => {
     expect(
       matchPlace({ name: "석굴암", signgu: "47130" }, "경주", places, sg),
     ).toBeNull();
+    // 시군구가 달라도 이름이 같으면(3점) 잇는다(경계 장소 규칙). 품는 이름(2점)은 같은 시군구일 때만
     expect(
-      matchPlace({ name: "불국사", signgu: "11110" }, "경주", places, sg),
+      matchPlace({ name: "불국사", signgu: "11110" }, "경주", places, sg)?.id,
+    ).toBe("p1");
+    expect(
+      matchPlace({ name: "대릉원 후문", signgu: "11110" }, "경주", places, sg),
+    ).toBeNull();
+    expect(
+      matchPlace({ name: "대릉원 후문", signgu: "47130" }, "경주", places, sg)
+        ?.id,
+    ).toBe("p2");
+  });
+
+  it("시군구 경계 장소: 같은 시군구에 없으면 같은 도시에서 이름이 같은(3점) 장소. 품는 이름(2점)은 시군구가 달라도 잇지 않는다", () => {
+    const places = [
+      { id: "w", ko: "1100고지 습지", locKo: "제주", cat: "heal" },
+      { id: "r", ko: "1100고지 휴게소 전망", locKo: "제주", cat: "food" },
+    ] as never[];
+    const sg = () => "50130"; // 앱 장소는 서귀포시
+    // 집중률은 제주시(50110)로 적어도 이름이 같으면 잇는다
+    expect(
+      matchPlace({ name: "1100고지습지", signgu: "50110" }, "제주", places, sg)
+        ?.id,
+    ).toBe("w");
+    // 품는 이름은 같은 시군구일 때만
+    expect(
+      matchPlace({ name: "1100고지", signgu: "50110" }, "제주", places, sg),
+    ).toBeNull();
+    expect(
+      matchPlace({ name: "1100고지", signgu: "50130" }, "제주", places, sg)?.id,
+    ).toBe("w");
+  });
+});
+
+describe("pickSpotItemLoose: 같은 시도 · 이름 같은 관광정보(경계 장소 예비 후보)", () => {
+  it("시군구가 달라도 같은 시도에서 이름이 같은 것만, 품는 이름은 안 된다", () => {
+    const items = [
+      {
+        contentid: "1",
+        title: "1100고지 습지",
+        contenttypeid: "12",
+        lDongRegnCd: "50",
+        lDongSignguCd: "130",
+      },
+      {
+        contentid: "2",
+        title: "1100고지 휴게소",
+        contenttypeid: "39",
+        lDongRegnCd: "50",
+        lDongSignguCd: "130",
+      },
+      {
+        contentid: "3",
+        title: "1100고지 습지",
+        contenttypeid: "12",
+        lDongRegnCd: "47",
+        lDongSignguCd: "130",
+      },
+    ] as never[];
+    expect(
+      pickSpotItemLoose(items, { name: "1100고지습지", signgu: "50110" })
+        ?.contentid,
+    ).toBe("1");
+    expect(
+      pickSpotItemLoose(items, { name: "1100고지", signgu: "50110" }),
+    ).toBeNull();
+    expect(
+      pickSpotItemLoose(items, { name: "1100고지습지", signgu: "" }),
+    ).toBeNull();
+    expect(
+      pickSpotItemLoose(items.slice(2), {
+        name: "1100고지습지",
+        signgu: "50110",
+      }),
     ).toBeNull();
   });
 });
@@ -373,6 +448,78 @@ describe("findPopular: 이름 · 위치 · 신규 관광지", () => {
     // 서버 전용 필드는 보내지 않는다
     expect(fresh?.place).not.toHaveProperty("signgu");
     expect(byName.get("없는곳")?.id).toBeNull();
+  });
+
+  it("시군구 경계 장소(1100고지 습지): 집중률이 제주시로 적어도 앱 장소(서귀포시)로 잇고, 관광정보도 시도 안 이름 같은 것으로 위치만 본다", async () => {
+    const day = "20260929";
+    const wet = PLANNER_PLACES.find((p) => p.id === "jdx74")!;
+    expect(tourPlaceSigngu(wet.id)).toBe("50130");
+    const crowd = ["1100고지습지", "1100고지", "다른구시장"].map((name, i) => ({
+      tAtsNm: name,
+      baseYmd: day,
+      cnctrRate: String(90 - i),
+      signguCd: "50110",
+      signguNm: "제주시",
+    }));
+    const search: Record<string, unknown[]> = {
+      // 품는 이름(2점)이라 이름으로는 못 잇고, 관광정보는 서귀포시(130)로 적혀 같은 시군구 후보가 없다 → 시도 안 이름 같은 관광정보의 좌표로 앱 장소
+      "1100고지": [
+        {
+          contentid: "501",
+          title: "1100고지",
+          contenttypeid: "12",
+          mapy: String(wet.lat),
+          mapx: String(wet.lng),
+          lDongRegnCd: "50",
+          lDongSignguCd: "130",
+        },
+      ],
+      // 다른 구의 같은 이름: 앱 장소가 근처에 없으면 신규 관광지로 만들지 않는다(id 없음)
+      다른구시장: [
+        {
+          contentid: "502",
+          title: "다른구시장",
+          contenttypeid: "38",
+          mapy: "33.0",
+          mapx: "126.0",
+          lDongRegnCd: "50",
+          lDongSignguCd: "130",
+        },
+      ],
+    };
+    const calls: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        calls.push(url.searchParams.get("keyword") ?? url.pathname);
+        if (url.pathname.endsWith("tatsCnctrRatedList")) return tourBody(crowd);
+        if (url.pathname.endsWith("searchKeyword2"))
+          return tourBody(search[url.searchParams.get("keyword") ?? ""] ?? []);
+        return new Response("no", { status: 500 });
+      }),
+    );
+    const popular = await findPopular(
+      "제주",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-09-29T03:00:00Z"),
+    );
+    const byName = new Map(popular!.items.map((x) => [x.name, x]));
+    expect(byName.get("1100고지 습지")?.id).toBe("jdx74"); // 이름으로(관광공사 호출 없이)
+    expect(calls).not.toContain("1100고지습지");
+    expect(
+      popular!.items.find(
+        (x) =>
+          x.district === "제주시" &&
+          x.id === "jdx74" &&
+          x.name === "1100고지 습지",
+      ),
+    ).toBeDefined();
+    expect(popular!.items.filter((x) => x.id === "jdx74")).toHaveLength(2); // 「1100고지」도 위치로 같은 장소
+    expect(byName.get("다른구시장")?.id).toBeNull();
+    expect(byName.get("다른구시장")?.place).toBeUndefined();
   });
 });
 

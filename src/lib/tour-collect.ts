@@ -38,6 +38,7 @@ import {
   NEAR_SPOT_M,
   NEAR_SPOT_OVERLAP,
   pickSpotItem,
+  pickSpotItemLoose,
   POPULAR_COUNT,
   rankSpots,
   SAME_SPOT_M,
@@ -197,15 +198,20 @@ function matchInPool(
   }
   let best: PlannerPlace | null = null;
   let bestScore = 1;
+  // 시군구 경계 장소: 같은 시군구에 없으면 이름이 같은(3점) 장소(matchPlace와 같다)
+  let exactElsewhere: PlannerPlace | null = null;
   for (const p of pool) {
-    if (spot.signgu && signguOf(p.id) !== spot.signgu) continue;
     const score = nameScore(spot.name, p.ko, region);
+    if (spot.signgu && signguOf(p.id) !== spot.signgu) {
+      if (score === 3 && !exactElsewhere) exactElsewhere = p;
+      continue;
+    }
     if (score > bestScore) {
       best = p;
       bestScore = score;
     }
   }
-  return best;
+  return best ?? exactElsewhere;
 }
 
 /** 풀에서 좌표 근처 장소(matchByLocation과 같은 규칙: 250m 안, 또는 1km 안에서 이름 절반 겹침) */
@@ -310,6 +316,25 @@ export async function collectPopular(
           "no-store",
         );
         item = pickSpotItem(found, s);
+        if (!item) {
+          // 경계 장소: 같은 시도의 이름 같은 관광정보로 풀의 장소만 찾는다(신규로 만들지 않는다)
+          const loose = pickSpotItemLoose(found, s);
+          const looseKto = loose ? toKtoPlace(loose) : null;
+          const near = looseKto
+            ? nearInPool(
+                { name: s.name, lat: looseKto.lat, lng: looseKto.lng },
+                pool,
+              )
+            : null;
+          if (near) {
+            candidates.push({
+              ...base,
+              verdict: "existing-location",
+              id: near.id,
+            });
+            continue;
+          }
+        }
       } catch {
         log(`${t.region} ${s.name}: 관광정보 검색 실패`);
       }
