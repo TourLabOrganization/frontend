@@ -46855,5 +46855,248 @@
     "src": {
       "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
     }
+  },
+  "ctmc7c4120b": {
+    "desc": {
+      "ko": "수원 인계동 권광로에 있는 앰배서더 그룹의 아코르 계열 비즈니스 호텔이다.",
+      "en": "Accor-branded Ambassador Group hotel on Gwongwang-ro in Ingye-dong, central Suwon."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm2b5b7595": {
+    "desc": {
+      "ko": "송도국제도시 센트럴파크 앞, 인천1호선 센트럴파크역과 연결된 IHG 계열 4성급 호텔이다.",
+      "en": "IHG 4-star hotel facing Songdo Central Park, linked to Central Park station on Incheon Line 1."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm207110fb": {
+    "desc": {
+      "ko": "김포공항 롯데몰 안에 있는 롯데 계열 비즈니스 호텔로 김포공항역 3번 출구에서 도보 1분 거리다.",
+      "en": "Lotte business hotel inside Lotte Mall Gimpo Airport, a minute's walk from Gimpo Int'l Airport station exit 3."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm018be425": {
+    "desc": {
+      "ko": "용인 양지읍의 콘도 302실 규모 리조트로, 스키장은 2022년 영업을 중단했고 콘도와 양지파인CC, 눈썰매장을 운영한다.",
+      "en": "Yangji resort in Yongin with 302 condo rooms; its ski slopes closed in 2022 but the condo, Yangji Pine golf club and sledding hill still operate."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmed09745e": {
+    "desc": {
+      "ko": "포천 신북면 아도니스 컨트리클럽이 운영하는 2005년 개관 아트 호텔로 실내수영장과 연회장을 갖췄다.",
+      "en": "Art-themed hotel opened in 2005 in Sinbuk-myeon, Pocheon, run by Adonis Country Club, with an indoor pool and banquet hall."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm23c2f850": {
+    "desc": {
+      "ko": "홍천 비발디파크 단지 안의 소노 계열 최상급 콘도 동으로, 소노벨·소노캄과 별도 건물이다.",
+      "en": "Sono's top-tier condo building within the Vivaldi Park complex in Hongcheon, separate from the Sono Belle and Sono Calm buildings."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm45419e85": {
+    "desc": {
+      "ko": "모나용평 리조트 안의 9층 182실 규모 콘도로 수영장·볼링장 등을 갖추고 스키장·골프장과 가깝다.",
+      "en": "Nine-storey, 182-room condo inside Mona Yongpyong resort with pool and bowling, close to the ski slopes and golf course."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctme6c9701c": {
+    "desc": {
+      "ko": "하이원리조트·강원랜드 인근 해발 820m에 2010년 문을 연 지상 12층, 339실 규모의 호텔식 콘도다.",
+      "en": "Hotel-style condo opened in 2010 at 820 m altitude near High1 Resort and Kangwon Land, with 12 floors and 339 rooms."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmf2f05f0b": {
+    "desc": {
+      "ko": "춘천 삼천동 의암호 바로 앞에 2019년 문을 연 78실 규모 호텔로 현재 ORA 브랜드로 운영된다.",
+      "en": "78-room hotel opened in 2019 right on Uiamho Lake in Samcheon-dong, Chuncheon, now operating under the ORA brand."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm90a7b6b8": {
+    "desc": {
+      "ko": "제주시 탑동 해안에 있는 5성급 호텔로 제주공항에서 차로 약 10분 거리다.",
+      "en": "Five-star seafront hotel in Tapdong, Jeju City, about 10 minutes by car from Jeju airport."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm75971420": {
+    "desc": {
+      "ko": "함덕해수욕장에서 걸어서 3분 거리에 있는 오션뷰 호텔이다.",
+      "en": "Ocean-view hotel a three-minute walk from Hamdeok Beach."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm46e400aa": {
+    "desc": {
+      "ko": "서귀포 예래동 바다를 내려다보는 객실별 개인 풀을 갖춘 풀빌라 리조트다.",
+      "en": "Pool-villa resort in Yerae-dong, Seogwipo, with private pools and sea views."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm92003fc8": {
+    "desc": {
+      "ko": "국내 대표 명문 골프장 클럽 나인브릿지 안의 72실 별장형 콘도다.",
+      "en": "72-room villa-style condominium inside The Club at Nine Bridges, one of Korea's top-ranked golf clubs."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm96bf1b7a": {
+    "desc": {
+      "ko": "제주시 한림읍 중산간에 있는 골프장 겸 리조트다.",
+      "en": "Golf course and resort in the mid-mountain area of Hallim-eup, Jeju."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1c1af338": {
+    "desc": {
+      "ko": "표선면 해발 250~300m 삼나무 숲 속 36홀 골프장과 골프텔을 갖춘 리조트다.",
+      "en": "Resort with a 36-hole golf course and golftel set among cedar forest at 250-300 m altitude in Pyoseon-myeon."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmb65013ad": {
+    "desc": {
+      "ko": "애월읍 평화로변 27홀 퍼블릭 골프장과 54평형 골프텔을 갖춘 리조트다.",
+      "en": "Resort on Pyeonghwa-ro in Aewol with a 27-hole public golf course and 54-pyeong golftel suites."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm1a697086": {
+    "desc": {
+      "ko": "울진 백암온천 지구에 있는 한화리조트 콘도로, 53℃ 안팎의 알칼리성 유황온천 대온천장을 갖추고 있다.",
+      "en": "A Hanwha Resort condominium in the Baegam Hot Spring area of Uljin, with a large public bath fed by alkaline sulfur hot-spring water of about 53°C."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmb75bacfc": {
+    "desc": {
+      "ko": "거제 장목면 북쪽 해안에 있는 한화리조트의 해양 리조트로, 470실 규모에 인피니티풀과 웰니스 시설을 갖췄다.",
+      "en": "Hanwha Resort's seaside resort on the northern coast of Geoje (Jangmok-myeon), with 470 rooms, an infinity pool and wellness facilities."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm22c9d0b9": {
+    "desc": {
+      "ko": "창녕 부곡온천 관광특구에 있는 일성 계열 온천 콘도로, 최고 78℃의 유황온천수를 이용한다.",
+      "en": "An Ilsung-brand hot-spring condominium in the Bugok Hot Spring Special Tourist Zone of Changnyeong, using sulfur spring water up to 78°C."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5c00af67": {
+    "desc": {
+      "ko": "창녕 부곡온천 관광특구에서 가장 큰 규모의 관광호텔로, 153실 전 객실에 78℃ 유황온천수가 공급된다.",
+      "en": "The largest tourist hotel in the Bugok Hot Spring zone of Changnyeong, with 153 rooms all supplied with 78°C sulfur spring water."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme3916e4b": {
+    "desc": {
+      "ko": "2023년 9월 송도해수욕장 인근 암남동에 개관한 지상 26층, 271실 규모의 호텔이다.",
+      "en": "A 26-storey, 271-room hotel that opened in September 2023 in Amnam-dong near Songdo Beach."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm77dab68f": {
+    "desc": {
+      "ko": "송도해수욕장 앞에 있는 메리어트 계열 호텔로, 179실 대부분이 바다를 조망한다.",
+      "en": "A Marriott-brand hotel facing Songdo Beach, with most of its 179 rooms looking out to sea."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmc4fe4e29": {
+    "desc": {
+      "ko": "영도대교 옆 봉래나루로에 있는 호텔로, 부산항과 남포동을 내려다보는 스카이 카페&바가 있다.",
+      "en": "A hotel beside Yeongdodaegyo Bridge in Yeongdo, with a sky café & bar overlooking Busan Port and Nampo-dong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm462caaca": {
+    "desc": {
+      "ko": "광안리해수욕장 바로 앞 광안해변로에 있는 이랜드 켄싱턴 계열 호텔이다.",
+      "en": "An E-Land Kensington-group hotel on Gwanganhaebyeon-ro, directly facing Gwangalli Beach."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmbf673da9": {
+    "desc": {
+      "ko": "문경 농암면 쌍용계곡 인근에 있는 약 200실 규모의 온천 리조트이다.",
+      "en": "A hot-spring resort of about 200 rooms in Nongam-myeon, Mungyeong, near Ssangyong Valley."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmf4a8a1d7": {
+    "desc": {
+      "ko": "무등산 관문인 지산유원지 일대에 2004년 새로 문을 연 108실 규모의 호텔로, 전망대와 리프트 등을 갖췄다.",
+      "en": "A 108-room hotel reopened in 2004 at the Jisan resort area at the gateway to Mudeungsan, with an observatory and a lift."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd710eaf2": {
+    "desc": {
+      "ko": "나주호 변 다도면에 있는 199실 규모의 콘도형 리조트로, 온천 워터파크 워터락과 골프장을 갖췄다.",
+      "en": "A 199-room condominium resort on Naju Lake in Dado-myeon, with the Water Rock spa water park and a golf course."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
   }
 }
