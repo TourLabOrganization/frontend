@@ -45955,5 +45955,905 @@
     "src": {
       "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
     }
+  },
+  "ctma3cfa228": {
+    "desc": {
+      "ko": "서울 중구 남산 자락 장충동에 1979년 개관한 호텔신라의 대표 5성급 호텔이다.",
+      "en": "The Shilla Seoul is Hotel Shilla's flagship 5-star hotel, opened in 1979 on the slopes of Namsan in Jangchung-dong, Jung-gu."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm83535edf": {
+    "desc": {
+      "ko": "1979년 롯데호텔 서울로 개관한 소공동 대형 호텔로, 객실 재단장을 거쳐 2026년 8월 더그랜드롯데 서울로 새 출발했다.",
+      "en": "Opened in 1979 as Lotte Hotel Seoul in Sogong-dong, this large hotel reopened in August 2026 as The Grand LOTTE Seoul after a room renovation."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm6a67524c": {
+    "desc": {
+      "ko": "2021년 5월 강남 테헤란로 센터필드 웨스트타워 29~36층에 문을 연 254실 규모의 조선호텔앤리조트 최상위 브랜드 호텔이다.",
+      "en": "Josun Hotels & Resorts' top-tier 254-room hotel, opened in May 2021 on floors 29-36 of Centerfield West Tower on Teheran-ro, Gangnam."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmb02e84b6": {
+    "desc": {
+      "ko": "1914년 문을 연 국내에서 가장 오래된 현존 호텔로, 서울 중구 소공로 환구단 옆에 있는 5성급 호텔이다.",
+      "en": "Opened in 1914, the Westin Josun Seoul is Korea's oldest operating hotel, a 5-star property beside Hwangudan on Sogong-ro, Jung-gu."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm40d77d8b": {
+    "desc": {
+      "ko": "1976년 개관한 서울광장 앞 5성급 호텔로 한화호텔앤드리조트가 운영하며 2018년부터 메리어트 오토그래프 컬렉션에 속해 있다.",
+      "en": "A 5-star hotel facing Seoul Plaza, opened in 1976, run by Hanwha Hotels & Resorts and part of Marriott's Autograph Collection since 2018."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcf84b819": {
+    "desc": {
+      "ko": "2005년 4월 강남구 대치동 테헤란로 삼성역 사거리에 개관한 185실 규모의 하얏트 최고급 부티크 호텔이다.",
+      "en": "A 185-room luxury boutique hotel by Hyatt, opened in April 2005 at the Samseong Station crossroads on Teheran-ro in Daechi-dong, Gangnam."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmdae0723d": {
+    "desc": {
+      "ko": "남산 동쪽 자락 장충단로에 있는 50실 규모의 도심형 리조트 호텔로, 객실마다 릴렉세이션 풀이 있고 야외 수영장 오아시스를 갖췄다.",
+      "en": "An urban resort of 50 rooms on the eastern slope of Namsan, with a relaxation pool in most rooms and the outdoor pool The Oasis."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm867ca242": {
+    "desc": {
+      "ko": "광진구 아차산 자락 한강변 워커힐 단지에 있는 대형 리조트형 호텔로 카지노와 실내외 수영장을 갖췄으며 같은 단지에 비스타 워커힐 서울이 있다.",
+      "en": "A large resort-style hotel in the Walkerhill complex on the Han River below Achasan, with a casino and indoor/outdoor pools; Vista Walkerhill Seoul shares the site."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb186f29c": {
+    "desc": {
+      "ko": "압구정역과 바로 연결된 하얏트의 라이프스타일 호텔로, 조각보에서 영감을 얻은 241개 객실을 갖췄다.",
+      "en": "Hyatt's lifestyle hotel directly linked to Apgujeong Station, with 241 rooms whose design draws on Korean bojagi patchwork."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm06a66c4f": {
+    "desc": {
+      "ko": "여의도 파크원 단지에 있는 308실 규모의 5성급 호텔로 한강과 도심 전망을 갖췄다.",
+      "en": "A 308-room 5-star hotel in the Parc.1 complex in Yeouido, with views over the Han River and the city."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme6c64706": {
+    "desc": {
+      "ko": "신세계 조선호텔앤리조트의 프렌치 부티크 호텔로, 2025년 12월 메리어트 럭셔리 컬렉션에 합류해 이름을 바꿨다.",
+      "en": "Shinsegae Josun's French-style boutique hotel near Myeongdong, which joined Marriott's Luxury Collection and was renamed in December 2025."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7e3f7127": {
+    "desc": {
+      "ko": "아코르의 500번째 노보텔로, 호텔 331실과 레지던스 192실을 갖추고 동대문권 유일의 루프톱 야외 수영장을 운영한다.",
+      "en": "Accor's 500th Novotel, combining 331 hotel rooms and 192 residences, with the only rooftop outdoor pool in the Dongdaemun area."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd6664d4": {
+    "desc": {
+      "ko": "석촌호수 바로 앞에 있는 호텔 403실과 서비스드 레지던스 160실 규모의 5성급 호텔이다.",
+      "en": "A 5-star hotel right on Seokchon Lake in Jamsil, with 403 hotel rooms and 160 serviced residences."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf33164bc": {
+    "desc": {
+      "ko": "2022년 10월 마포대교 북단 마포대로에 개관한 196실 규모의 5성급 호텔로 한강을 바라보는 인피니티 풀이 있다.",
+      "en": "A 196-room 5-star hotel opened in October 2022 at the north end of Mapo Bridge, with an infinity pool overlooking the Han River."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf9b3a9e4": {
+    "desc": {
+      "ko": "강남구 논현동 학동역 인근의 대형 호텔로, 2024년 3월 아코르 그랜드 머큐어 브랜드로 재개관했다.",
+      "en": "A large hotel near Hakdong Station in Nonhyeon-dong, Gangnam, reopened under Accor's Grand Mercure brand in March 2024."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9ad85af4": {
+    "desc": {
+      "ko": "인천국제공항 제1여객터미널 인근 영종도의 대형 호텔로, 2026년 3월부터 이스트 타워는 그랜드 하얏트 인천, 웨스트 타워는 하얏트 리젠시 인천 파라다이스시티로 나뉘어 운영된다.",
+      "en": "A large hotel on Yeongjong Island near Incheon Airport Terminal 1; since March 2026 the East Tower runs as Grand Hyatt Incheon and the West Tower as Hyatt Regency Incheon Paradise City."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3e677400": {
+    "desc": {
+      "ko": "2014년 영종도 남쪽 해안에 개관한 370실 규모의 디자인 호텔로 사계절 인피니티 스파 풀을 운영한다.",
+      "en": "A 370-room design hotel opened in 2014 on the south shore of Yeongjong Island, with a year-round infinity spa pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme067a85f": {
+    "desc": {
+      "ko": "송도 센트럴파크 안에 있는 한옥 호텔로 30여 개의 객실과 스위트를 갖췄으며 드라마 촬영지로 알려져 있다.",
+      "en": "A hanok hotel inside Songdo Central Park with about 30 rooms and suites, known as a K-drama filming location."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3e606815": {
+    "desc": {
+      "ko": "광교호수공원 옆 수원컨벤션센터·갤러리아백화점과 연결된 288실 규모의 메리어트 계열 호텔이다.",
+      "en": "A 288-room Marriott hotel beside Gwanggyo Lake Park, connected to Suwon Convention Center and Galleria department store."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm5daa7379": {
+    "desc": {
+      "ko": "2009년 수원 인계동 일대에 문을 연 287실 규모의 호텔이다.",
+      "en": "A 287-room hotel opened in 2009 in the Ingye-dong area of central Suwon."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf2d7f8f2": {
+    "desc": {
+      "ko": "2020년 12월 판교역 인근에 개관한 306실 규모의 조선호텔앤리조트 라이프스타일 호텔이다.",
+      "en": "A 306-room lifestyle hotel by Josun Hotels & Resorts, opened in December 2020 near Pangyo Station."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme7b02297": {
+    "desc": {
+      "ko": "킨텍스 인근 일산동구에 있는 826실 규모의 5성급 호텔로 야외 수영장과 컨벤션 시설을 갖췄다.",
+      "en": "An 826-room 5-star hotel near KINTEX in Ilsandong-gu, with an outdoor pool and convention facilities."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm76fa3746": {
+    "desc": {
+      "ko": "용인 남사읍에 있는 약 260실 규모의 콘도형 리조트로 36홀 골프장 플라자CC 용인과 함께 운영된다.",
+      "en": "A condo resort of about 260 rooms in Namsa-eup, Yongin, operated alongside the 36-hole Plaza CC Yongin golf course."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm4a17ac3d": {
+    "desc": {
+      "ko": "에버랜드 단지 안에 있는 공식 숙소로 목조 캐빈 본관과 가족형 신관 등 68실을 운영한다.",
+      "en": "Everland's on-site lodge with 68 rooms in a timber cabin main building and a family-oriented new wing."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm5ce3c252": {
+    "desc": {
+      "ko": "청평 북한강변에 있는 대교그룹의 72실 규모 호텔 리조트이다.",
+      "en": "Daekyo Group's 72-room hotel resort on the North Han River at Cheongpyeong, Gapyeong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm83fc1d1f": {
+    "desc": {
+      "ko": "이천 온천지구에 있는 호텔로 천연 온천수를 쓰는 워터파크형 스파플러스를 함께 운영한다.",
+      "en": "A hotel in Icheon's hot-spring district, running the Spa Plus water park fed by natural hot-spring water."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmef74c00b": {
+    "desc": {
+      "ko": "화성시 남양읍에 있는 약 228실 규모의 리조트형 호텔로 해비치 호텔앤드리조트가 운영하며 실내 수영장을 갖췄다.",
+      "en": "A resort-style hotel of about 228 rooms in Namyang-eup, Hwaseong, run by Haevichi Hotels & Resorts, with an indoor pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctme4a00ad6": {
+    "desc": {
+      "ko": "평창군 대관령면 알펜시아 리조트 안에 있는 5성급 호텔로, 2018 평창 동계올림픽 개최지 리조트의 대표 숙소다.",
+      "en": "A five-star hotel inside Alpensia Resort in Daegwallyeong-myeon, Pyeongchang, the flagship lodging of the 2018 Winter Olympics host resort."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm5ece7c5c": {
+    "desc": {
+      "ko": "1975년 개장한 국내 최초 현대식 스키장 모나용평(옛 용평리조트) 슬로프 바로 앞에 있는 리조트 대표 호텔이다.",
+      "en": "The signature hotel of Mona Yongpyong (formerly Yongpyong Resort), Korea's first modern ski resort opened in 1975, sitting at the foot of the slopes."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm12d0f7ca": {
+    "desc": {
+      "ko": "평창군 봉평면 휘닉스파크 인근 태기산 자락에 있는 한화리조트 계열 콘도미니엄이다.",
+      "en": "A Hanwha Resorts condominium on the slopes of Taegisan in Bongpyeong-myeon, Pyeongchang, near Phoenix Park."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmb55d41f0": {
+    "desc": {
+      "ko": "평창군 대관령면 횡계리에 있는 윈덤 계열 라마다 브랜드 호텔로, 용평·알펜시아 리조트와 가깝다.",
+      "en": "A Wyndham-branded Ramada hotel in Hoenggye-ri, Daegwallyeong-myeon, Pyeongchang, close to Yongpyong and Alpensia resorts."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctme1fb9bb4": {
+    "desc": {
+      "ko": "홍천군 서면 비발디파크 단지의 대규모 콘도미니엄으로, 스키월드·오션월드·골프장을 갖춘 사계절 복합리조트의 중심 숙소다.",
+      "en": "The large condominium of the Vivaldi Park complex in Seo-myeon, Hongcheon, the main lodging of an all-season resort with Ski World, Ocean World and golf."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmf38a438f": {
+    "desc": {
+      "ko": "홍천 비발디파크 단지 안의 소노호텔앤리조트 상급 브랜드 호텔(옛 대명 비발디파크 호텔)이다.",
+      "en": "The upscale Sono Calm hotel (former Daemyung Vivaldi Park hotel) inside the Vivaldi Park complex in Hongcheon."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctme2603e5b": {
+    "desc": {
+      "ko": "정신과 의사 이시형 박사가 함께 만든 홍천군 종자산 자락의 웰에이징 힐링 리조트다.",
+      "en": "A wellness-and-healthy-aging retreat on Jongjasan in Hongcheon, co-founded by psychiatrist Dr. Lee Si-hyeong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctma0857262": {
+    "desc": {
+      "ko": "횡성군 둔내면 술이봉 일대 486만㎡ 부지에 스키장·골프장·콘도를 갖춘 사계절 종합 휴양지(옛 성우리조트)다.",
+      "en": "An all-season resort (formerly Sungwoo Resort) on 4.86 km² around Suribong in Dunnae-myeon, Hoengseong, with ski slopes, golf and condominiums."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm33bd7f24": {
+    "desc": {
+      "ko": "2009년 개관한 원주 유일의 4성급 호텔로, 2022년 전 객실을 리모델링했으며 실내 수영장과 골프클럽을 갖췄다.",
+      "en": "Opened in 2009, Wonju's only four-star hotel, fully renovated in 2022, with an indoor pool and its own golf club."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm93f4ad43": {
+    "desc": {
+      "ko": "2022년 7월 춘천 중도 레고랜드 코리아 리조트 안에 문을 연 154실 규모의 테마 호텔이다.",
+      "en": "A 154-room themed hotel that opened in July 2022 inside LEGOLAND Korea Resort on Jungdo island, Chuncheon."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9e9eea37": {
+    "desc": {
+      "ko": "1997년 문을 연 춘천 의암호변 125실 규모 콘도로, 18홀 라데나골프클럽과 함께 운영된다.",
+      "en": "A 125-room condominium on Uiamho Lake in Chuncheon, opened in 1997 and run together with the Ladena golf club."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmff35091e": {
+    "desc": {
+      "ko": "춘천 봉의산 자락에 있는 63실 규모의 관광호텔로, 춘천역과 차로 5분 거리다.",
+      "en": "A 63-room tourist hotel on the slope of Bonguisan in central Chuncheon, about five minutes by car from Chuncheon Station."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmc5eba4f8": {
+    "desc": {
+      "ko": "고성군 죽왕면 송지호 해변의 87실 오션뷰 호텔로, 2025년 8월 소노인터내셔널이 르네블루 바이 워커힐을 인수해 리브랜딩했다.",
+      "en": "An 87-room ocean-view hotel on Songjiho Beach, Goseong, rebranded in August 2025 by Sono International from Renebleu by Walkerhill."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm32f6e263": {
+    "desc": {
+      "ko": "고성군 토성면 골프코스 안에 있는 168실 규모의 골프빌리지형 리조트다.",
+      "en": "A 168-room golf-village resort set within a golf course in Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm6191acab": {
+    "desc": {
+      "ko": "고성군 토성면 설악산 자락에 있는 HDC 계열 339실 규모 콘도미니엄으로 야외 수영장을 갖췄다.",
+      "en": "A 339-room HDC condominium in Toseong-myeon, Goseong, at the foot of Seoraksan, with a seasonal outdoor pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctma35552bd": {
+    "desc": {
+      "ko": "낙산사가 옛 낙산비치호텔을 인수해 리브랜딩한 4성급 웰니스 호텔로, 낙산해변과 낙산사 사이에 있다.",
+      "en": "A four-star wellness hotel between Naksan Beach and Naksansa Temple, the former Naksan Beach Hotel acquired and rebranded by the temple."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm3398ce09": {
+    "desc": {
+      "ko": "광주 서구 상무지구 김대중컨벤션센터 옆에 있는 IHG 계열 4성급 호텔이다.",
+      "en": "IHG-branded 4-star hotel beside the Kim Daejung Convention Center in Sangmu district, Seo-gu, Gwangju."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm74458aae": {
+    "desc": {
+      "ko": "2008년 라마다플라자 광주로 개관해 2026년 롯데호텔의 브리브 브랜드로 재개장한 상무지구의 4성급 호텔이다.",
+      "en": "4-star hotel in Sangmu district that opened in 2008 as Ramada Plaza Gwangju and reopened in 2026 as Lotte Hotels' first BREEV."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf359e6e8": {
+    "desc": {
+      "ko": "광주천변 충장로 상권에 있는 롯데호텔의 라이프스타일 호텔로, 2026년 2월 옛 라마다플라자 충장을 리브랜딩해 95실로 문을 열었다.",
+      "en": "Lotte's lifestyle hotel by the Gwangjucheon stream near Chungjang-ro, rebranded from Ramada Plaza Chungjang in Feb 2026 with 95 rooms."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb79c2f24": {
+    "desc": {
+      "ko": "진도 의신면 바닷가에 2019년 7월 문을 연 소노인터내셔널의 576실 규모 호텔·리조트다.",
+      "en": "Sono International's 576-room seaside hotel and resort in Uisin-myeon, Jindo, opened in July 2019."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7dc967a3": {
+    "desc": {
+      "ko": "목포 평화광장 해변 앞에 있는 관광호텔로 바다 전망 객실을 갖췄다.",
+      "en": "Tourist hotel facing the waterfront at Pyeonghwa Plaza in Mokpo, with sea-view rooms."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1a846359": {
+    "desc": {
+      "ko": "목포 건너편 영암 삼호읍 대불산단 인근에 2006년 개관한 라한호텔 계열 호텔이다.",
+      "en": "Lahan Hotels property opened in 2006 in Samho-eup, Yeongam, across the water from Mokpo near the Daebul industrial complex."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3247032d": {
+    "desc": {
+      "ko": "전주 한옥마을에서 도보 2분 거리에 있는 195실 규모의 호텔로 한옥마을 전망 객실이 특징이다.",
+      "en": "195-room hotel two minutes' walk from Jeonju Hanok Village, known for rooms overlooking the hanok rooftops."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd896d9ae": {
+    "desc": {
+      "ko": "대천해수욕장 바로 앞에 있어 걸어서 해변으로 갈 수 있는 한화리조트다.",
+      "en": "Hanwha Resort right in front of Daecheon Beach, within walking distance of the sand."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb47de6a2": {
+    "desc": {
+      "ko": "용평리조트가 운영하는 무창포해수욕장 안의 리조트형 숙박시설이다.",
+      "en": "Yongpyong Resort-operated beach lodging inside Muchangpo Beach, Boryeong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm80f0e731": {
+    "desc": {
+      "ko": "안면도 꽃지해변 인근의 리솜 리조트로 타워·빌라형 객실과 인피니티풀 스파를 갖췄다.",
+      "en": "Resom resort near Kkotji Beach on Anmyeondo with tower and villa rooms and an infinity-pool spa."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6f6a0070": {
+    "desc": {
+      "ko": "신안 자은도 백길해수욕장 앞에 2022년 6월 문을 연 415실 규모 호텔·리조트로 실내 워터파크를 갖췄다.",
+      "en": "415-room hotel and resort opened in June 2022 by Baekgil Beach on Jaeundo, Sinan, with an indoor water park."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1ccf3145": {
+    "desc": {
+      "ko": "신안 증도 우전해변 인근의 145실 가족형 휴양 리조트다.",
+      "en": "145-room family resort near Ujeon Beach on Jeungdo island, Sinan."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma0c35675": {
+    "desc": {
+      "ko": "충주 앙성면 온천지대에 있는 이랜드 켄싱턴 계열 리조트다.",
+      "en": "E-Land Kensington resort in the hot-spring area of Angseong-myeon, Chungju."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm84fdb81a": {
+    "desc": {
+      "ko": "수안보 온천지구에 있는 한화리조트로 온천 사우나를 갖췄다.",
+      "en": "Hanwha Resort in the Suanbo hot-spring district with an onsen sauna."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8819ee7d": {
+    "desc": {
+      "ko": "청풍호반에 2000년 국민연금공단이 세운 180실 호텔로 힐하우스와 함께 청풍리조트를 이룬다.",
+      "en": "180-room lakeside hotel built in 2000 by the National Pension Service on Cheongpung Lake, part of Cheongpung Resort with Hill House."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5e76a782": {
+    "desc": {
+      "ko": "증평 에듀팜 특구에 있는 리조트로 18홀 골프장과 루지, 마리나 클럽 등을 갖췄다.",
+      "en": "Resort in Jeungpyeong's Edu-Farm zone with an 18-hole golf course, a four-season luge and a marina club."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm13154757": {
+    "desc": {
+      "ko": "속리산 법주사 입구 숙박단지에 있는 레이크힐스 계열 호텔이다.",
+      "en": "Lake Hills hotel in the lodging area at the entrance to Beopjusa, Songnisan."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2d080897": {
+    "desc": {
+      "ko": "KTX 오송역 인근에 있는 지상 15층, 300실 규모의 청주권 최대 호텔이다.",
+      "en": "15-storey, 300-room hotel near KTX Osong Station, the largest in the Cheongju area."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf1376a07": {
+    "desc": {
+      "ko": "유성온천 관광특구에 있는 지상 11층 호텔로 유성온천역에서 걸어서 7분 거리다.",
+      "en": "11-storey hotel in the Yuseong Hot Springs tourist zone, a 7-minute walk from Yuseong Spa Station."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm76a02a86": {
+    "desc": {
+      "ko": "남원 관광단지에 있는 이랜드 켄싱턴 계열 리조트로 광한루원과 가깝다.",
+      "en": "E-Land Kensington resort in Namwon's tourist complex, close to Gwanghallu Garden."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm01935d7c": {
+    "desc": {
+      "ko": "지리산 자락 남원 주천면에 있는 4성급 호텔로 사계절 가든풀과 사우나를 갖췄다.",
+      "en": "4-star hotel in Jucheon-myeon at the foot of Jirisan, Namwon, with a year-round garden pool and sauna."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7457cd7f": {
+    "desc": {
+      "ko": "한국교직원공제회가 2003년 지리산온천지구에 연 134실 콘도형 호텔로 온천 사우나를 갖췄다.",
+      "en": "134-room condo-style hotel opened in 2003 by the Korean Teachers' Credit Union in the Jirisan hot-spring area, with an onsen sauna."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm87afa94a": {
+    "desc": {
+      "ko": "광양 중마동에 있는 225실 규모 호텔로 이순신대교 전망과 야경으로 알려져 있다.",
+      "en": "225-room hotel in Jungma-dong, Gwangyang, known for its views of Yi Sun-sin Bridge at night."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmca0f564c": {
+    "desc": {
+      "ko": "보성 율포솔밭해변 앞에 있는 콘도형 리조트로 해수녹차탕 인근에 있다.",
+      "en": "Condo resort facing Yulpo pine-grove beach in Boseong, near the seawater green-tea baths."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb86d2577": {
+    "desc": {
+      "ko": "해남 화원반도 바닷가 링크스 골프장 파인비치골프링크스에 딸린 골프호텔이다.",
+      "en": "Golf hotel at Pine Beach Golf Links, a seaside links course on the Hwawon peninsula, Haenam."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd6cd0226": {
+    "desc": {
+      "ko": "해운대해수욕장 바로 앞에 있는 532실 규모의 5성급 호텔이다.",
+      "en": "A 532-room five-star hotel right on Haeundae Beach."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm3505c641": {
+    "desc": {
+      "ko": "해운대 마린시티에 2013년 문을 연 34층·269실 규모의 5성급 호텔이다.",
+      "en": "A 34-storey, 269-room five-star hotel opened in 2013 in Haeundae's Marine City."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm896ada1d": {
+    "desc": {
+      "ko": "1979년 개관한 조선 궁궐 양식 외관의 호텔로 남포동·중앙동과 가깝다.",
+      "en": "Opened in 1979 with a Joseon-palace-style facade, close to Nampo-dong and Jungang-dong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb9faece9": {
+    "desc": {
+      "ko": "2019년 문을 연 289실 규모의 4성급 호텔로 부산국제금융센터 인근에 있다.",
+      "en": "A 289-room four-star hotel opened in 2019 near the Busan International Finance Center."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd32bc851": {
+    "desc": {
+      "ko": "2023년 7월 기장 해안에 문을 연 392실 규모의 5성급 복합 휴양 단지이다.",
+      "en": "A 392-room five-star resort complex on the Gijang coast, opened in July 2023."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma56bba8c": {
+    "desc": {
+      "ko": "울산 삼산동 롯데백화점과 이어진 200실 규모의 5성급 호텔이다.",
+      "en": "A 200-room five-star hotel in Samsan-dong, next to Lotte Department Store."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmb7520c56": {
+    "desc": {
+      "ko": "2015년 6월 울산 삼산동 도심에 문을 연 약 350실 규모의 비즈니스 호텔이다.",
+      "en": "A business hotel of about 350 rooms opened in June 2015 in downtown Samsan-dong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm58afcb77": {
+    "desc": {
+      "ko": "2015년 7월 울산 삼산동에 문을 연 335실 규모의 비즈니스 호텔이다.",
+      "en": "A 335-room business hotel opened in July 2015 in Samsan-dong."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmde491c19": {
+    "desc": {
+      "ko": "울산 동구 HD현대중공업 앞에 있는 272실 규모의 4성급 호텔로 실내 수영장을 갖췄다.",
+      "en": "A 272-room four-star hotel with an indoor pool, in front of the Hyundai Heavy Industries yard in Dong-gu."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm851dbdcc": {
+    "desc": {
+      "ko": "금호강변 만촌동에 있는 5성급 호텔로 실내수영장과 골프연습장을 갖췄다.",
+      "en": "A five-star hotel by the Geumho River in Manchon-dong with an indoor pool and golf range."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme7f92bbb": {
+    "desc": {
+      "ko": "2008년 엑스코 맞은편에 문을 연 지상 17층·325실 규모의 호텔이다.",
+      "en": "A 17-storey, 325-room hotel opened in 2008 opposite the EXCO convention center."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4f02e540": {
+    "desc": {
+      "ko": "2021년 1월 동대구역 인근에 문을 연 대구 첫 메리어트 브랜드 5성급 호텔이다.",
+      "en": "Daegu's first Marriott-brand five-star hotel, opened in January 2021 near Dongdaegu Station."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmca0686ae": {
+    "desc": {
+      "ko": "동성로 도심에 있는 23층·204실 규모의 4성급 호텔로 야외 수영장을 갖췄다.",
+      "en": "A 23-storey, 204-room four-star hotel in downtown Dongseong-ro with an outdoor pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm22ac7d4b": {
+    "desc": {
+      "ko": "수성구 범어동 범어역 인근에 있는 150실 규모의 호텔이다.",
+      "en": "A 150-room hotel near Beomeo Station in Suseong-gu."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm64385873": {
+    "desc": {
+      "ko": "수성못 바로 앞 181실 규모의 호텔로 온천수 루프탑 인피니티 풀이 있다.",
+      "en": "A 181-room hotel facing Suseongmot Lake with a hot-spring rooftop infinity pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm85cfc3ff": {
+    "desc": {
+      "ko": "영일대해수욕장이 내려다보이는 160실 규모의 호텔로 2015년 베스트웨스턴 포항으로 개관했다.",
+      "en": "A 160-room hotel overlooking Yeongildae Beach, opened in 2015 as Best Western Pohang."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm511b691f": {
+    "desc": {
+      "ko": "주왕산국립공원 인근 청송주왕산관광지 안에 있는 온천 리조트이다.",
+      "en": "A hot-spring resort in the Juwangsan tourist area next to Juwangsan National Park."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmea51a111": {
+    "desc": {
+      "ko": "거제 일운면 바닷가에 있는 516실 규모의 마리나 리조트로 옛 대명리조트 거제마리나이다.",
+      "en": "A 516-room seaside marina resort in Irun-myeon, formerly Daemyung Resort Geoje Marina."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf9d27d06": {
+    "desc": {
+      "ko": "남해 남면 바닷가에 18홀 씨사이드 골프장과 야외 수영장을 갖춘 리조트로 옛 힐튼 남해이다.",
+      "en": "A seaside resort in Nam-myeon with an 18-hole links-style golf course and outdoor pool, formerly Hilton Namhae."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm91c5bc92": {
+    "desc": {
+      "ko": "창선도 남쪽 사우스케이프 골프장 단지 안에 있는 스위트 호텔이다.",
+      "en": "A suite hotel within the South Cape golf complex on the south of Changseon Island."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmee3418a0": {
+    "desc": {
+      "ko": "서귀포시 중문관광단지에 1990년 개관한 5성급 리조트 호텔로 아열대 정원과 해안 산책로를 갖추고 있다.",
+      "en": "Five-star resort hotel opened in 1990 in Seogwipo's Jungmun Resort complex, with subtropical gardens and a seaside promenade."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctma77f90c6": {
+    "desc": {
+      "ko": "서귀포시 중문관광단지에 2000년 개관한 500실 규모의 5성급 호텔로 화산 분수쇼와 풍차로 알려져 있다.",
+      "en": "Five-star, 500-room hotel opened in 2000 in Jungmun Resort complex, Seogwipo, known for its volcano fountain show and windmill."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm97fedbf1": {
+    "desc": {
+      "ko": "제주시 탑동의 옛 라마다프라자 제주호텔을 리모델링해 2026년 9월 14일 개관한 402실 호텔로 100m 오션뷰 인피니티 풀을 갖추고 있다.",
+      "en": "402-room hotel in Tapdong, Jeju City, reopened on 14 Sep 2026 after renovating the former Ramada Plaza Jeju, with a 100 m ocean-view infinity pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm483c585e": {
+    "desc": {
+      "ko": "서귀포시 예래 생태보전지역에 2016년 개관한 250실 호텔로 길이 47m의 인피니티 풀로 유명하다.",
+      "en": "250-room hotel opened in 2016 in the Yerae ecological area of Seogwipo, famous for its 47 m infinity pool."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm825430f6": {
+    "desc": {
+      "ko": "서귀포시 안덕면 제주신화월드 복합리조트 안에 있는 메리어트 브랜드 리조트 호텔이다.",
+      "en": "Marriott-branded resort hotel inside the Jeju Shinhwa World integrated resort in Andeok-myeon, Seogwipo."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm63739d23": {
+    "desc": {
+      "ko": "서귀포시 중문관광단지에 있는 호텔 262실과 리조트 187실 규모의 복합 리조트 호텔이다.",
+      "en": "Hotel-and-resort complex in Jungmun Resort complex, Seogwipo, with 262 hotel rooms and 187 resort units."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmc93baf5b": {
+    "desc": {
+      "ko": "서귀포시 중문 해안에 단독 초가 빌라형 객실 28실을 갖춘 리조트 호텔이다.",
+      "en": "Resort hotel on the Jungmun coast in Seogwipo with 28 detached thatched-roof villa rooms."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctma6f9ffed": {
+    "desc": {
+      "ko": "서귀포시 남원읍 큰엉 해안경승지 절벽 위에 2002년 문을 연 금호리조트 계열 콘도 리조트이다.",
+      "en": "Kumho condominium resort opened in 2002 on the cliffs of the Keuneong coast in Namwon-eup, Seogwipo."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmed519846": {
+    "desc": {
+      "ko": "제주시 애월읍 엘리시안 제주 컨트리클럽 안에 있는 별장형 콘도 리조트로 수영장과 온천을 갖추고 있다.",
+      "en": "Villa-style condo resort inside Elysian Jeju Country Club in Aewol-eup, Jeju City, with a pool and hot spring."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm7dc14117": {
+    "desc": {
+      "ko": "제주시 조천읍 곶자왈 숲속에 2022년 개관한 200실 규모의 호텔이다.",
+      "en": "200-room hotel opened in 2022 in the Gotjawal forest of Jocheon-eup, Jeju City."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctm446c3cec": {
+    "desc": {
+      "ko": "제주시 탑동 해안에 있는 350실 규모의 호텔이다.",
+      "en": "350-room hotel on the Tapdong waterfront in Jeju City."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme56c5063": {
+    "desc": {
+      "ko": "제주시 한림읍 금악리 원시림 속 27홀 골프장에 힐하우스 호텔과 빌라를 갖춘 골프 리조트이다.",
+      "en": "Golf resort with a 27-hole course, Hill House hotel and villas in the forest of Geumak-ri, Hallim-eup, Jeju City."
+    },
+    "src": {
+      "ko": "주요 리조트 · 호텔 · 주소 기준 좌표 · 대략 위치"
+    }
   }
 }
