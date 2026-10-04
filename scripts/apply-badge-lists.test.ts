@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { applyBadges, listIds, parseCsv } from "./apply-badge-lists.mjs";
+import {
+  applyBadges,
+  applyK100Details,
+  k100Info,
+  listIds,
+  parseCsv,
+} from "./apply-badge-lists.mjs";
 import addedPlaces from "../src/features/planner/data/added-places.json";
 import places from "../src/features/planner/data/places.json";
 import course from "../src/features/course/data/places.json";
@@ -62,5 +68,21 @@ describe("한국관광 100선 · 열린관광지 명단 → 배지", () => {
       { id: "a", k100: false, bf: false },
       { id: "b", k100: true, bf: false },
     ]);
+  });
+
+  it("100선 선정 정보: 판 · 명단 이름 · 그 건의 장소 수, 명단 밖 장소는 지운다", () => {
+    const info = k100Info(k100Rows);
+    expect(info.get("kd10")).toEqual({
+      edition: "2025~2026",
+      entry: "5대 고궁(경복궁·창덕궁·창경궁·덕수궁·종묘)",
+      places: 5,
+    });
+    const d: Record<string, { k100?: unknown }> = {
+      kd10: {},
+      zz: { k100: { edition: "2023~2024", entry: "옛", places: 1 } },
+    };
+    expect(applyK100Details(d, info)).toBe(2);
+    expect(d.zz.k100).toBeUndefined();
+    expect(d.kd10.k100).toEqual(info.get("kd10"));
   });
 });

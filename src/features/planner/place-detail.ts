@@ -18,6 +18,11 @@ export type PlannerPlaceDetail = {
   ct?: true;
   /** 한국관광공사 연관 관광지에서 추가된 장소 */
   rs?: true;
+  /**
+   * 한국관광 100선 선정 정보(scripts/apply-badge-lists.mjs, 명단 scripts/data/k100-list.csv).
+   * edition = 선정 판(2025~2026), entry = 명단 이름, places = 그 건이 묶은 장소 수(5대 고궁이면 5)
+   */
+  k100?: { edition: string; entry: string; places: number };
   /** ?locale=로 부르면 그 언어의 표시 값 */
   view?: PlannerPlaceView;
 };
@@ -36,6 +41,29 @@ export type PlannerPlaceView = {
   /** 앱이 옮긴 이름 · 설명이 보이는지(장소 시트 안내 한 줄) */
   appTranslated: boolean;
 };
+
+/**
+ * 한국관광 100선 선정 문장(설명 끝에 붙인다). 한 건이 여러 장소를 묶으면(5대 고궁 …) 한국어는 명단 이름을 함께 적는다.
+ * 외국어 설명은 영어라(placeDescEn) 영어 문장을 붙인다
+ */
+export function k100Sentence(
+  k100: NonNullable<PlannerPlaceDetail["k100"]>,
+  locale: string,
+): string {
+  if (locale === "ko")
+    return k100.places > 1
+      ? `${k100.edition} 한국관광 100선 「${k100.entry}」 선정지.`
+      : `${k100.edition} 한국관광 100선 선정지.`;
+  return `Selected for the ${k100.edition.replace("~", "–")} Korea Tourism 100.`;
+}
+
+/** 설명 뒤에 문장을 붙인다(설명이 없으면 문장만) */
+export function withSentence(
+  desc: string | undefined,
+  sentence: string,
+): string {
+  return desc ? `${desc.trimEnd()} ${sentence}` : sentence;
+}
 
 /** 장소 한 곳의 무거운 필드 주소. locale을 주면 그 언어의 표시 값(view)도 받는다 */
 export function placeDetailPath(id: string, locale?: string): string {
