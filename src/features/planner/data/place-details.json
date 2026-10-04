@@ -34120,5 +34120,23 @@
     "src": {
       "ko": "한국관광공사 집중률 · 데이터랩 인기 관광지(60대 이상 5위) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
+  },
+  "ctmdbe116ec": {
+    "desc": {
+      "ko": "대포항 남쪽 해안의 조각공원. 설악산과 동해 일출을 함께 본다.",
+      "en": "Sculpture park on the shore south of Daepo Port with views of Seoraksan and the East Sea sunrise."
+    },
+    "src": {
+      "ko": "사용자 요청(2026-10-04) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm4e0e447b": {
+    "desc": {
+      "ko": "우도 남동쪽 끝 봉우리. 우도등대와 성산일출봉이 보인다.",
+      "en": "Peak at Udo's south-eastern tip with the Udo lighthouse and views of Seongsan Ilchulbong."
+    },
+    "src": {
+      "ko": "사용자 요청(2026-10-04) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
   }
 }
