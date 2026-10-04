@@ -6400,7 +6400,8 @@
   },
   "ro115": {
     "desc": {
-      "ko": "한식 · 어비계곡, 유명산자연휴양림 등과 함께 많이 찾는 곳 (연관 21회)"
+      "ko": "한식 · 어비계곡, 유명산자연휴양림 등과 함께 많이 찾는 곳 (연관 21회) 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
     },
     "src": {
       "ko": "경기 양평군 옥천면 고읍로 140 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -7467,7 +7468,8 @@
   },
   "ro233": {
     "desc": {
-      "ko": "한식 · 마곡사, 유구색동수국정원 등과 함께 많이 찾는 곳 (연관 15회)"
+      "ko": "한식 · 마곡사, 유구색동수국정원 등과 함께 많이 찾는 곳 (연관 15회) 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
     },
     "src": {
       "ko": "충남 예산군 예산읍 천변로195번길 9 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -7695,7 +7697,8 @@
   },
   "ro262": {
     "desc": {
-      "ko": "한식 · 구름에, 낙강물길공원/공사중(2028년12월31일개장예정) 등과 함께 많이 찾는 곳 (연관 14회)"
+      "ko": "한식 · 구름에, 낙강물길공원/공사중(2028년12월31일개장예정) 등과 함께 많이 찾는 곳 (연관 14회) 허영만 만화 『식객』 제10권 「자반고등어 만들기」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 10 \"Making Salted Mackerel\"."
     },
     "src": {
       "ko": "경북 안동시 경동로 676 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -45095,8 +45098,8 @@
   },
   "ctmfd1d62c9": {
     "desc": {
-      "ko": "아바이마을길 22에 있는 50년 이상 된 이북음식 전문점으로 아바이순대와 오징어순대, 가리국밥으로 알려져 있다.",
-      "en": "North Korean-style restaurant over 50 years old at 22 Abaimaeul-gil, known for Abai sundae, squid sundae and gari-gukbap."
+      "ko": "아바이마을길 22에 있는 50년 이상 된 이북음식 전문점으로 아바이순대와 오징어순대, 가리국밥으로 알려져 있다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "North Korean-style restaurant over 50 years old at 22 Abaimaeul-gil, known for Abai sundae, squid sundae and gari-gukbap. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
     },
     "src": {
       "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
@@ -47089,6 +47092,744 @@
     },
     "src": {
       "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
+    }
+  },
+  "ctmb9b4ddd5": {
+    "desc": {
+      "ko": "1939년 창업한 곰탕 전문 노포로 놋그릇에 담아내는 맑은 곰탕이 대표 메뉴다. 허영만 만화 『식객』 제1권 제4화 「36.2.0.60」에 나온 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 1 ep. 4 \"36.2.0.60\". Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm39f91159": {
+    "desc": {
+      "ko": "1960년 허기숙 할머니가 시작해 부대찌개를 처음 상품화한 의정부 부대찌개 원조집이다. 허영만 만화 『식객』 제2권 제6화 「부대찌개」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 2 ep. 6 \"Budae-jjigae\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm84e8a1b8": {
+    "desc": {
+      "ko": "1997년 문을 연 한우 구이 전문점으로 한우 숙성·정형 노하우로 알려졌다. 허영만 만화 『식객』 제3권 「소고기 전쟁」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 3 \"The Beef War\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbf2bd1c9": {
+    "desc": {
+      "ko": "임진강 황복회와 참게매운탕, 장어구이를 내는 임진나루의 민물요리 식당이다. 허영만 만화 『식객』 제8권 제36화 「죽음과 맞바꾸는 맛」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 8 ep. 36 \"A Taste Worth Dying For\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma0c2e377": {
+    "desc": {
+      "ko": "여수 돌산 죽포리에서 돌산 갓김치를 담가 파는 식당으로 식객갓김치 브랜드로도 판매한다. 허영만 만화 『식객』 제9권 제41화 「갓김치」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 9 ep. 41 \"Mustard-Leaf Kimchi\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcfaf9167": {
+    "desc": {
+      "ko": "1966년부터 2대째 이어온 종묘 서순라길의 홍어 전문점으로 홍어삼합과 홍어애탕이 대표 메뉴다. 허영만 만화 『식객』 제9권 제42화 「홍어를 찾아서」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 9 ep. 42 \"In Search of Hongeo\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm442bd7a3": {
+    "desc": {
+      "ko": "하루 300그릇만 팔았다는 데서 이름이 붙은 70여 년 전통의 전주 콩나물국밥집이다. 허영만 만화 『식객』 제10권 제49화 「콩나물국밥」에 나온 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 10 ep. 49 \"Bean-Sprout Rice Soup\". Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5c3e9166": {
+    "desc": {
+      "ko": "김치말이 메밀국수와 녹두빈대떡이 대표 메뉴인 파주의 막국수집이다. 허영만 만화 『식객』 제12권 제56화 「빈대떡」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 12 ep. 56 \"Bindaetteok (Mung-Bean Pancake)\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8322f35a": {
+    "desc": {
+      "ko": "1960년대부터 장충동 족발골목을 지켜 온 족발집으로, 한약재를 넣은 장국에 삶은 족발이 대표 메뉴다. 허영만 만화 『식객』 제15권 제72화 「족발」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 15 ep. 72 \"Jokbal (Pigs' Feet)\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf2f51ce0": {
+    "desc": {
+      "ko": "제주시 보성시장 입구의 순대 전문 식당으로, 제주식 찹쌀순대와 순대국밥이 대표 메뉴다. 허영만 만화 『식객』 제15권 제73화 「순대일기」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 15 ep. 73 \"Sundae Diary\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm695af40d": {
+    "desc": {
+      "ko": "범일동 조방앞 돼지국밥 골목의 노포로, 무릎사골을 하루 두 번 바꿔 끓인 국물의 돼지국밥이 대표 메뉴다. 허영만 만화 『식객』 제15권 제75화 「돼지국밥」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 15 ep. 75 \"Pork Gukbap\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5f06e08e": {
+    "desc": {
+      "ko": "마산 오동동 아구찜 거리에서 가장 오래된 아구찜집으로, 마른 아귀로 만든 마산식 아구찜이 대표 메뉴다. 허영만 만화 『식객』 제17권 제84화 「마산 아귀찜」에 나온 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 17 ep. 84 \"Masan Monkfish Stew\". Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm24b06af4": {
+    "desc": {
+      "ko": "1945년 무렵 시작된 진주냉면 가계의 냉면집으로, 해물 육수 진주냉면과 소고기 육전이 대표 메뉴다. 허영만 만화 『식객』 제27권 제131화 「진주냉면」에 나온 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 131 \"Jinju Naengmyeon\". Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0f2da73a": {
+    "desc": {
+      "ko": "1946년 문을 연 평양냉면 노포로, 진한 육향의 평양냉면과 불고기가 대표 메뉴다. 허영만 만화 『식객』 제27권 제133화 「평양냉면」에 나온 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 133 \"Pyongyang Naengmyeon\". Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm17a2b9fc": {
+    "desc": {
+      "ko": "마포구 염리동의 평양냉면집으로, 살얼음 띄운 육수와 굵은 면발의 물냉면이 대표 메뉴다. 허영만 만화 『식객』 제27권 제133화 「평양냉면」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 133 \"Pyongyang Naengmyeon\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2083894a": {
+    "desc": {
+      "ko": "장충동의 평양냉면 노포로, 맑은 육수의 평양냉면과 만두가 대표 메뉴다. 허영만 만화 『식객』 제27권 제133화 「평양냉면」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 133 \"Pyongyang Naengmyeon\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcae1136d": {
+    "desc": {
+      "ko": "1953년 오장동에서 문을 연 함흥냉면 전문점으로, 감자전분 면의 회냉면이 대표 메뉴다. 허영만 만화 『식객』 제27권 제134화 「함흥냉면」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 134 \"Hamhung Naengmyeon\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm19fadf88": {
+    "desc": {
+      "ko": "오장동 냉면골목의 함흥냉면 노포로, 쫄깃한 전분 면의 비빔냉면과 회냉면이 대표 메뉴다. 허영만 만화 『식객』 제27권 제134화 「함흥냉면」에 나온 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 134 \"Hamhung Naengmyeon\". Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm649f83b7": {
+    "desc": {
+      "ko": "1904년 문을 연 설렁탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1904, it is known for seolleongtang. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7592d5ec": {
+    "desc": {
+      "ko": "1926년 문을 연 서울식 추어탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1926, it is known for Seoul-style loach soup. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd56b35f9": {
+    "desc": {
+      "ko": "1932년 문을 연 서울식 추탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1932, it is known for Seoul-style chutang (loach soup). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd59fecd6": {
+    "desc": {
+      "ko": "1932년 문을 연 꼬리곰탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1932, it is known for oxtail soup. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7601e167": {
+    "desc": {
+      "ko": "1933년 문을 연 설렁탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1933, it is known for seolleongtang. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm61fe34db": {
+    "desc": {
+      "ko": "1937년 문을 연 해장국 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1937, it is known for haejangguk (hangover soup). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma898d92e": {
+    "desc": {
+      "ko": "1937년 문을 연 연탄불 소갈비와 육개장 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1937, it is known for charcoal-grilled beef ribs and yukgaejang. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5d9c5dfd": {
+    "desc": {
+      "ko": "1939년 문을 연 서울식 불고기 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1939, it is known for Seoul-style bulgogi. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm89722d98": {
+    "desc": {
+      "ko": "1941년 문을 연 설렁탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1941, it is known for seolleongtang. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma020bd3e": {
+    "desc": {
+      "ko": "1947년 문을 연 곰탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1947, it is known for gomtang (beef bone soup). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8366fe10": {
+    "desc": {
+      "ko": "대표 메뉴가 평양냉면인 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "A long-running restaurant known for Pyongyang naengmyeon. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme3a3c77a": {
+    "desc": {
+      "ko": "1952년 문을 연 설렁탕과 곰탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1952, it is known for seolleongtang and gomtang. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8038f92e": {
+    "desc": {
+      "ko": "1953년 문을 연 서서 먹는 소갈비 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1953, it is known for beef ribs eaten standing. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm82358199": {
+    "desc": {
+      "ko": "대표 메뉴가 녹두빈대떡과 막걸리인 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "A long-running restaurant known for mung-bean pancakes with makgeolli. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm14fa1bc2": {
+    "desc": {
+      "ko": "대표 메뉴가 돼지갈비인 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "A long-running restaurant known for pork galbi. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb794b41b": {
+    "desc": {
+      "ko": "1956년 문을 연 함흥식 회냉면 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1956, it is known for Hamheung-style raw-fish naengmyeon. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm24993cac": {
+    "desc": {
+      "ko": "1957년 문을 연 순댓국 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1957, it is known for sundae-guk (blood sausage soup). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5ff7b8b5": {
+    "desc": {
+      "ko": "1958년 문을 연 감자국(감자탕) 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1958, it is known for gamjaguk (pork-bone potato stew). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd87c72f9": {
+    "desc": {
+      "ko": "1960년 문을 연 삼계탕 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1960, it is known for samgyetang (ginseng chicken soup). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0ab73de3": {
+    "desc": {
+      "ko": "1962년 문을 연 콩국수 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1962, it is known for kongguksu (cold soy-milk noodles). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbc2de977": {
+    "desc": {
+      "ko": "1962년 문을 연 바싹불고기 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1962, it is known for crispy-grilled bulgogi. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4fc21346": {
+    "desc": {
+      "ko": "1920년 문을 연 설렁탕 등 소고기 국밥 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1920, it is known for seolleongtang and beef-soup dishes. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma418dd79": {
+    "desc": {
+      "ko": "대표 메뉴가 떡갈비인 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "A long-running restaurant known for tteokgalbi (grilled short-rib patties). Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4925cc27": {
+    "desc": {
+      "ko": "1955년 문을 연 오징어순대 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1955, it is known for squid sundae. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm46e7b123": {
+    "desc": {
+      "ko": "1945년 문을 연 해장국 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Founded in 1945, it is known for haejangguk. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2e6aa93f": {
+    "desc": {
+      "ko": "대표 메뉴가 백반인 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "A long-running restaurant known for home-style baekban set meal. Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8ae05855": {
+    "desc": {
+      "ko": "1919년 함경도 흥남 내호리에서 시작해 1952년 부산 우암동에 다시 문을 연 밀면 · 냉면집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7eb400d6": {
+    "desc": {
+      "ko": "1953년 문을 연 부산의 함흥냉면 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc654bb37": {
+    "desc": {
+      "ko": "동래파전의 맥을 잇는 파전 전문 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm36bc6fce": {
+    "desc": {
+      "ko": "1946년 문을 연 서면의 돼지국밥 노포로 3대째 이어 오고 있다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7e52234b": {
+    "desc": {
+      "ko": "1952년 서면 지금 자리에 문을 연 한우 암소 고기 전문 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1c8ad9b0": {
+    "desc": {
+      "ko": "1955년 보수동에 문을 연 육회비빔밥 · 석쇠불고기 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1d8bce67": {
+    "desc": {
+      "ko": "1956년 사상구 감전동에서 문을 연 민물장어구이 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2e36aaf2": {
+    "desc": {
+      "ko": "1959년 부평동에 문을 연 부산의 노포 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm62a59c66": {
+    "desc": {
+      "ko": "기장에서 곰장어구이를 내 온 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8c84a42a": {
+    "desc": {
+      "ko": "1924년 개업해 4대째 이어 온 육회비빔밥 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmba4647a4": {
+    "desc": {
+      "ko": "진주중앙시장 옛 한옥에서 4대째 진주비빔밥과 석쇠불고기를 내는 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmacf0b2f1": {
+    "desc": {
+      "ko": "진주 강남동에서 진주 곰탕을 이어 온 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm832078ec": {
+    "desc": {
+      "ko": "1955년 진주중앙시장에서 문을 연 진주에서 가장 오래된 복국집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 공개 자료 좌표"
+    }
+  },
+  "ctm65004824": {
+    "desc": {
+      "ko": "1945년 문을 연 마산 오동동의 복국 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm28458393": {
+    "desc": {
+      "ko": "1951년 문을 연 마산 동성동의 해산물 한정식집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf8688d6d": {
+    "desc": {
+      "ko": "1951년 문을 연 통영 서호시장 앞의 복국집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9ee1ddba": {
+    "desc": {
+      "ko": "통영 충무김밥을 3대째 내는 김밥집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7d7124ff": {
+    "desc": {
+      "ko": "1946년 서동술 · 김이순 부부가 문을 열어 3대째 이어 오는 대구 따로국밥집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdc6713ea": {
+    "desc": {
+      "ko": "1957년 문을 연 대구백화점 북문 골목의 추어탕 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc08d58ef": {
+    "desc": {
+      "ko": "6·25 전쟁 뒤 칼국수와 육개장으로 시작해 60년 넘게 한자리를 지킨 대구 토박이 식당이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0400e805": {
+    "desc": {
+      "ko": "쇠고기 사골 육수와 메밀 · 고구마 전분 면발의 냉면집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm86a4331a": {
+    "desc": {
+      "ko": "1950년 문을 열어 3대째 이어 오는 영천 공설시장 곰탕골목의 소머리곰탕 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm24667977": {
+    "desc": {
+      "ko": "1956년 두부공장을 하던 창업주가 시작한 따뜻한 콩국 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm310ef89a": {
+    "desc": {
+      "ko": "1956년 문을 연 대전의 함흥냉면집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9c6ab861": {
+    "desc": {
+      "ko": "1931년 강경 금강변에서 문을 연 복어 · 우어 요리 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfcfd3cf4": {
+    "desc": {
+      "ko": "1936년 문을 연 아산의 장어구이 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb733cf39": {
+    "desc": {
+      "ko": "1939년 문을 연 성환의 불고기 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd28a245": {
+    "desc": {
+      "ko": "1952년 문을 연 천안 사직동의 냉면집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7ca9cb6d": {
+    "desc": {
+      "ko": "1950년 대전에서 시작해 1974년 속리산으로 옮긴 산채 한정식집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8ef2d058": {
+    "desc": {
+      "ko": "1955년 문을 연 청주 모충동의 돼지갈비 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmaa0f9d67": {
+    "desc": {
+      "ko": "1955년 문을 연 옥산 장터의 순대국밥 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm39194355": {
+    "desc": {
+      "ko": "1958년 문을 연 금강변 영동 양산면의 어죽 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm88dcae61": {
+    "desc": {
+      "ko": "1958년 문을 연 청주 내덕동의 육개장 노포로 충북 대물림전통음식계승업소다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm65da9d5c": {
+    "desc": {
+      "ko": "1952년 고 이분례 씨가 문을 연 전주에서 가장 오래된 전주비빔밥 전문점이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfacb0562": {
+    "desc": {
+      "ko": "1910년 개업해 나주곰탕의 명성을 이어 온 곰탕집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm66aa2d46": {
+    "desc": {
+      "ko": "1924년 문을 연 해남의 떡갈비 · 남도 한정식 노포다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7c99c3c6": {
+    "desc": {
+      "ko": "4대째 이어 온 담양 떡갈비의 원형으로 꼽히는 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7f14fcab": {
+    "desc": {
+      "ko": "1952년 고 조정자 씨가 문을 연 벌교 꼬막 정식 집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+    },
+    "src": {
+      "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
     }
   }
 }
