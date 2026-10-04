@@ -5,6 +5,7 @@ import { isPlannerCity } from "../features/planner/regions";
 import { POPULAR_CITIES } from "./tour";
 import {
   citySigngu,
+  POPULAR_DISTRICTS,
   districtItems,
   findPopular,
   isPopularCity,
@@ -47,13 +48,18 @@ describe("도시 · 시군구", () => {
       for (const code of codes) expect(code).toMatch(/^\d{5}$/);
     }
     expect(citySigngu("경주")).toEqual(["47130"]);
-    // 서울: 종로 · 마포 · 영등포 · 중구(장소가 여러 구에 퍼져 있어도 4곳을 부른다)
-    // 국보 소재지 추가(2026-10-04: 숭례문 · 동국대학교박물관)로 중구(11140)가 용산(11170)과 같은 12곳이 되어 코드 순으로 중구가 들어간다
+    // 서울: 종로 · 마포 · 영등포 · 중구를 못 박았다(POPULAR_DISTRICTS). 보물 소재지 추가(2026-10-04)로 장소 수는 용산 · 성북이 앞선다
     expect(citySigngu("서울")).toEqual(["11110", "11440", "11560", "11140"]);
+    expect(POPULAR_DISTRICTS.서울).toEqual([
+      "11110",
+      "11440",
+      "11560",
+      "11140",
+    ]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("인천")).toHaveLength(4);
-    // 대구 · 춘천(2026-10-04 추가): 달성 22 · 수성 10 · 군위 10 · 달서 9(같은 10곳은 코드 순), 춘천은 시 하나
-    expect(citySigngu("대구")).toEqual(["27710", "27260", "27720", "27290"]);
+    // 대구 · 춘천(2026-10-04 추가): 달성 · 군위 · 수성 · 달서(보물 소재지로 군위 절 · 석탑이 늘었다), 춘천은 시 하나
+    expect(citySigngu("대구")).toEqual(["27710", "27720", "27260", "27290"]);
     expect(citySigngu("춘천")).toEqual(["51110"]);
     expect(POPULAR_CITIES).not.toContain("여수");
     expect(citySigngu("없는도시")).toEqual([]);

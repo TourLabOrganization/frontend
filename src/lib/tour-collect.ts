@@ -91,7 +91,7 @@ export function homeTargets(
 }
 
 /**
- * 전국: 장소(숙박 제외)가 있는 시군구 전부. 한 시군구가 두 도시에 걸치면(기장군: 부산 · 양산) 장소가 많은 도시(같으면 이름 순)에 붙인다.
+ * 전국: 장소(숙박 제외)가 있는 시군구 전부. 한 시군구가 두 도시에 걸치면(기장군: 부산 · 양산) 장소가 많은 도시(같으면 시군구가 적은 도시, 그다음 이름 순)에 붙인다.
  * 풀은 그 도시 장소 + 그 시군구 코드의 장소(도시가 달라도)
  */
 export function allTargets(
@@ -115,9 +115,20 @@ export function allTargets(
     list.push({ n, region });
     claims.set(code, list);
   }
+  // 장소 수가 같으면 시군구가 적은 도시에(옥천 2곳 = 대전 시티투어 경유지 2곳이면 옥천에: 대전은 제 구가 따로 있다)
+  const spread = new Map<string, number>();
+  for (const k of count.keys()) {
+    const region = k.split("|")[0];
+    spread.set(region, (spread.get(region) ?? 0) + 1);
+  }
   const byRegion = new Map<string, string[]>();
   for (const [code, who] of claims) {
-    who.sort((a, b) => b.n - a.n || a.region.localeCompare(b.region, "ko"));
+    who.sort(
+      (a, b) =>
+        b.n - a.n ||
+        spread.get(a.region)! - spread.get(b.region)! ||
+        a.region.localeCompare(b.region, "ko"),
+    );
     const region = who[0].region;
     byRegion.set(region, [...(byRegion.get(region) ?? []), code]);
   }
