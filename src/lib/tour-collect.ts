@@ -69,7 +69,7 @@ export type CollectTarget = {
   pool: PlannerPlace[];
 };
 
-/** 홈 칩 8개 도시(앱 홈과 같은 시군구 선택). 풀은 그 도시 장소 */
+/** 홈 칩 10개 도시(앱 홈과 같은 시군구 선택). 풀은 그 도시 장소 */
 export function homeTargets(
   regions: readonly string[] = POPULAR_CITIES,
   places: readonly PlannerPlace[] = PLANNER_PLACES,

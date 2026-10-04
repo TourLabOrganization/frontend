@@ -14,7 +14,7 @@ import { tourApiKey, tourNotConfigured, tourUnavailable } from "@/lib/tour-api";
 // 쿼리: source=popular(기본, 인기 관광지) | odii(관광지 오디오 가이드 해설이 있는 관광지) ·
 //       source=citytour(시티투어 경유지 중 앱에 없는 관광지, lib/tour-collect.ts collectCityTour) ·
 //       source=related(연관 관광지 전수 재조사: 시군구마다 함께 많이 가는 관광지 전체 목록, collectRelated) ·
-//       scope=all(기본, 장소가 있는 시군구 전부) | home(홈 칩 8개 도시) · regions=서울,부산(이 지역만) · top=10(지역마다 볼 상위 수, 0이면 전부)
+//       scope=all(기본, 장소가 있는 시군구 전부) | home(홈 칩 10개 도시) · regions=서울,부산(이 지역만) · top=10(지역마다 볼 상위 수, 0이면 전부)
 export async function GET(request: Request) {
   if (process.env.NODE_ENV === "production")
     return Response.json({ message: "not found" }, { status: 404 });

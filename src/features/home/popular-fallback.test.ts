@@ -4,7 +4,7 @@ import { POPULAR_CITIES } from "../../lib/tour";
 import { POPULAR_FALLBACK, popularFallback } from "./popular-fallback";
 
 describe("인기 관광지 수기 목록 (scripts/build-popular-fallback.mjs)", () => {
-  it("홈 칩 도시 8곳마다 10곳, 모두 그 도시의 플래너 장소(숙박 제외)이고 겹치지 않는다", () => {
+  it("홈 칩 도시 10곳마다 10곳, 모두 그 도시의 플래너 장소(숙박 제외)이고 겹치지 않는다", () => {
     const byId = new Map(PLANNER_PLACES.map((p) => [p.id, p]));
     expect(Object.keys(POPULAR_FALLBACK.cities).sort()).toEqual(
       [...POPULAR_CITIES].sort(),

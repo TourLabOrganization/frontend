@@ -14,7 +14,7 @@
 //   3) npm run format   # JSON을 리포 포맷으로 맞춘다
 //
 // 규칙(lib/tour-collect.ts, Data-Analytics tools/add_popular_places.py와 같다):
-//   - scope all(기본): 장소가 있는 시군구 전부 · home: 홈 칩 8개 도시. 지역마다 집중률 상위 top곳이 후보
+//   - scope all(기본): 장소가 있는 시군구 전부 · home: 홈 칩 10개 도시. 지역마다 집중률 상위 top곳이 후보
 //   - 같은 지역 장소와 이름(점수 2 이상) · 위치(관광정보 좌표 250m 안)로 맞춰 보고 남는 곳만 추가 장소 pop<contentid>로 만든다
 //   - 이미 있는 id는 다시 넣지 않는다(값도 바꾸지 않는다). --dry 는 파일을 바꾸지 않고 요약만 찍는다
 // 브라우저가 기억하는 신규 관광지(kto:, extra-places.ts)와 달리 여기 들어간 곳은 앱 장소라 모든 사용자에게 같이 보인다
