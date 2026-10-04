@@ -125,7 +125,8 @@ describe("manualPlaces(source)", () => {
       "2026-10-03",
     );
     expect(places[0].source).toBe(
-      "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)",
+      // 화면 문구에는 언급 횟수 · 날짜 · 검증 메모를 남기지 않는다(clean-place-sources.mjs)
+      "한국관광공사 연관 관광지 · 주소 기준 좌표",
     );
   });
 });
@@ -185,9 +186,7 @@ describe("manualPlaces", () => {
       desc: "새로 적은 정원",
       descEn: "A newly listed garden",
     });
-    expect(p.source).toBe(
-      "시티투어 경유지(2개 노선, 노선 표기 「새정원」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)",
-    );
+    expect(p.source).toBe("시티투어 경유지(2개 노선) · 주소 기준 좌표");
   });
   it("범주 중앙값을 쓰고 설명이 없으면 기본 설명", () => {
     const { places } = manualPlaces([row({ cat: "herit", desc: "" })], pool);
