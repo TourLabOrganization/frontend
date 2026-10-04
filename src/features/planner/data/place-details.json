@@ -45470,5 +45470,644 @@
     "src": {
       "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
     }
+  },
+  "ctm0648ca44": {
+    "desc": {
+      "ko": "경포호와 경포대 사이에 있는 박물관으로, 60여 개국에서 수집한 축음기·라디오·에디슨 발명품 등 약 5천 점을 전시한다.",
+      "en": "Museum between Gyeongpo Lake and Gyeongpodae displaying about 5,000 items such as gramophones, radios and Edison's inventions collected from over 60 countries."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdc3b15ec": {
+    "desc": {
+      "ko": "2012년 경포 습지 복원으로 50여 년 만에 가시연이 되살아난 생태 습지공원으로, 연꽃과 가시연을 볼 수 있다.",
+      "en": "Ecological wetland park where the prickly water lily (gasiyeon) revived in 2012 after half a century, alongside lotus blooms."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm16a6a446": {
+    "desc": {
+      "ko": "정동진역에서 출발해 동해 바다를 보며 달리는 전동식 레일바이크다.",
+      "en": "Electric-assisted rail bike departing Jeongdongjin Station along the East Sea coast."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctm91bfbfda": {
+    "desc": {
+      "ko": "1999년 새천년을 기념해 조성된 공원으로, 모래가 모두 떨어지는 데 1년이 걸리는 세계 최대 규모의 모래시계가 있다.",
+      "en": "Park created in 1999 for the new millennium, home to the world's largest hourglass, which takes one year to empty."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctm0ea0237e": {
+    "desc": {
+      "ko": "모래시계공원 안의 증기기관차와 객차를 개조한 박물관으로, 타이타닉 회중시계 등 시간과 시계에 관한 전시품을 볼 수 있다.",
+      "en": "Museum built from a steam locomotive and train cars in Hourglass Park, showing timepieces such as a Titanic pocket watch."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm81345978": {
+    "desc": {
+      "ko": "강릉아레나 1층에 있는 무료 박물관으로, 2018 평창동계올림픽 관련 자료 전시와 동계종목 체험을 제공한다.",
+      "en": "Free museum on the ground floor of Gangneung Arena (Olympic Park) with 2018 PyeongChang Winter Olympics exhibits and winter-sport experiences."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctmdada5c75": {
+    "desc": {
+      "ko": "드라마 '도깨비'에서 주인공들이 처음 만나는 장면을 촬영한 영진해변의 방사제다.",
+      "en": "Sand-barrier jetty at Yeongjin Beach where the first meeting scene of the drama 'Goblin' was filmed."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1b1e668e": {
+    "desc": {
+      "ko": "강릉역에서 시내를 가로지르는 폐철도 부지에 조성된 2.6km 산책로형 거리공원이다.",
+      "en": "2.6 km linear park built on a disused railway through downtown Gangneung from Gangneung Station."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm251685c2": {
+    "desc": {
+      "ko": "옛 강릉 원도심인 명주동의 골목과, 옛 명주초등학교를 공연·전시 공간으로 바꾼 명주예술마당이 있는 곳이다.",
+      "en": "Old-town alleys of Myeongju-dong with Myeongju Art Madang, a former elementary school turned performance and exhibition space."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4ab02a47": {
+    "desc": {
+      "ko": "유네스코 인류무형문화유산 강릉단오제의 전승·교육 시설로, 단오장 인근 노암동에 있다.",
+      "en": "Training and exhibition center for the UNESCO-listed Gangneung Danoje Festival, beside the Dano festival grounds in Noam-dong."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7d7f483f": {
+    "desc": {
+      "ko": "대관령옛길 입구에 있는 강릉시립 박물관으로, 선사시대부터 근대까지의 토기·민화 등 약 2천 점을 소장하고 있다.",
+      "en": "City museum at the start of the Daegwallyeong Old Road holding about 2,000 artifacts from prehistory to the modern era."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmeb503f47": {
+    "desc": {
+      "ko": "한 어머니가 26년간 쌓은 약 3천 개의 돌탑이 골짜기를 따라 늘어선 약 1.2km의 산책길이다.",
+      "en": "About 1.2 km valley trail lined with some 3,000 stone towers stacked by one mother over 26 years."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4d2275ee": {
+    "desc": {
+      "ko": "파도와 바람이 만든 기암괴석과 아들 바위 전설로 알려진 주문진 소돌항 옆 해안 공원이다.",
+      "en": "Seaside park by Sodol Port in Jumunjin known for wave-sculpted rocks and the 'son rock' legend."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd21b84f0": {
+    "desc": {
+      "ko": "1918년 세워진 강원도 최초의 등대로, 초기 벽돌식 구조가 보존되어 있다.",
+      "en": "Gangwon's first lighthouse, built in 1918, preserving its early brick structure."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme214f6b1": {
+    "desc": {
+      "ko": "경포호와 함께 강릉의 대표 석호인 순포호를 복원한 습지공원으로, 겨울철 고니 등 철새를 관찰할 수 있다.",
+      "en": "Restored lagoon wetland park, one of Gangneung's representative lagoons, with bird-watching for winter migrants such as whooper swans."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm58679a9b": {
+    "desc": {
+      "ko": "신재생에너지로 운영되는 친환경 체험·교육 시설로, 입장과 주차가 무료이다.",
+      "en": "Eco-friendly education and experience center powered by renewable energy, with free entry and parking."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5a825b68": {
+    "desc": {
+      "ko": "신라 자장율사가 창건했다고 전하는 정동진 인근 괘방산 기슭의 사찰이다.",
+      "en": "Temple on Gwaebangsan near Jeongdongjin, said to have been founded by the Silla monk Jajang."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmef287c44": {
+    "desc": {
+      "ko": "1988년 국내 최초로 조성된 자연휴양림으로, 금강소나무 숲으로 유명하다.",
+      "en": "Korea's first natural recreational forest (1988), famous for its Geumgang pine forest."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 공개 자료 좌표"
+    }
+  },
+  "ctm651602c0": {
+    "desc": {
+      "ko": "남항진과 안목해변을 잇는 길이 197m의 보행자·자전거 전용 다리로, 남대천과 동해가 만나는 지점을 볼 수 있다.",
+      "en": "197 m pedestrian and bicycle bridge linking Namhangjin and Anmok Beach over the Namdaecheon river mouth."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmeeafe2c4": {
+    "desc": {
+      "ko": "금진항에서 정동진항까지 약 6km 이어지는 해안도로로, 바다와 가장 가까운 도로로 알려져 있다.",
+      "en": "About 6 km coastal road from Geumjin Port to Jeongdongjin, known as the road closest to the sea in Korea."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm45c62d9f": {
+    "desc": {
+      "ko": "사근진해변의 파스텔색 테트라포드와 바다를 내려다볼 수 있는 전망대이다.",
+      "en": "Observation deck at Sageunjin Beach overlooking pastel-painted tetrapods and the sea."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3681708b": {
+    "desc": {
+      "ko": "경포호 서쪽에 있는 조선 후기 정자로, 강원도 유형문화유산으로 지정되어 있다.",
+      "en": "Late-Joseon pavilion on the western shore of Gyeongpo Lake, a Gangwon tangible cultural heritage."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm58251cb7": {
+    "desc": {
+      "ko": "『금오신화』의 작가 매월당 김시습을 기리는 유물·자료 전시관이다.",
+      "en": "Memorial hall exhibiting materials on Kim Si-seup, author of Geumo Sinhwa."
+    },
+    "src": {
+      "ko": "강릉 관광지 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm38b74046": {
+    "desc": {
+      "ko": "강문해변 앞 창해로에 있는 1,091실 규모의 대형 오션뷰 호텔로 인피니티풀 두 곳과 반려견 동반 객실을 갖췄다.",
+      "en": "A 1,091-room oceanfront hotel facing Gangmun Beach, with two infinity pools and pet-friendly rooms."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 공개 자료 좌표"
+    }
+  },
+  "ctm1230f17d": {
+    "desc": {
+      "ko": "송정·안목해변 사이 솔숲 해변에 2025년 7월 문을 연 호텔·레지던스로 수영장과 스파를 갖췄다.",
+      "en": "Hotel and residence that opened in July 2025 on the pine-lined coast between Songjeong and Anmok beaches, with pools and a spa."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm380a351f": {
+    "desc": {
+      "ko": "경포호와 경포해변 사이 강문동에 있는 관광호텔이다.",
+      "en": "A tourist hotel in Gangmun-dong set between Gyeongpo Lake and Gyeongpo Beach."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2b097356": {
+    "desc": {
+      "ko": "경포해변 중앙 모래사장에서 10m 거리에 있는 중급 호텔로 바다 쪽은 일출, 호수 쪽은 일몰 전망을 갖췄다.",
+      "en": "A mid-range hotel 10 m from the sand at central Gyeongpo Beach, with sunrise sea views and sunset lake views."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmad54342a": {
+    "desc": {
+      "ko": "경포해변에서 걸어서 3분 거리 안현동에 있는 호텔이다.",
+      "en": "A hotel in Anhyeon-dong about a three-minute walk from Gyeongpo Beach."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9553b335": {
+    "desc": {
+      "ko": "강문해변까지 걸어서 1분 거리인 창해로의 바다 전망 호텔이다.",
+      "en": "An ocean-view hotel on Changhae-ro, a one-minute walk from Gangmun Beach."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm872b7974": {
+    "desc": {
+      "ko": "오죽헌 옆에 2016년 문을 연 한옥 숙박단지로 독채·별채·복층형 등 약 50실과 전통놀이 체험마당을 운영한다.",
+      "en": "A hanok lodging village opened in 2016 next to Ojukheon, with about 50 rooms in detached and loft-style houses plus a traditional games yard."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm18970fbc": {
+    "desc": {
+      "ko": "교동택지에 있는 한국관광 품질인증 호텔로 디저트카페·비어펍·루프탑바를 갖췄다.",
+      "en": "A Korea Quality-certified hotel in the Gyo-dong district with a dessert cafe, beer pub and rooftop bar."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1cf9d1f0": {
+    "desc": {
+      "ko": "2018년 1월 교동택지에 문을 연 30실 규모의 비즈니스호텔이다.",
+      "en": "A 30-room business hotel that opened in January 2018 in the Gyo-dong district."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6bd02e6f": {
+    "desc": {
+      "ko": "교동광장로에 있는 관광호텔이다.",
+      "en": "A tourist hotel on Gyodonggwangjang-ro in the Gyo-dong district."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmef65936c": {
+    "desc": {
+      "ko": "교동택지 교동광장로에 있는 관광호텔이다.",
+      "en": "A tourist hotel on Gyodonggwangjang-ro in the Gyo-dong district."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm24544dc0": {
+    "desc": {
+      "ko": "강릉역 인근 옥천동에 있는 관광호텔이다.",
+      "en": "A tourist hotel in Okcheon-dong near Gangneung Station."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm02b5165f": {
+    "desc": {
+      "ko": "중앙시장과 월화거리에서 걸어서 5분 거리 성내동에 있는 관광호텔로 스카이라운지에서 조식을 제공한다.",
+      "en": "A tourist hotel in Seongnae-dong, five minutes' walk from Jungang Market and Wolhwa Street, serving breakfast in its sky lounge."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm61ff109b": {
+    "desc": {
+      "ko": "강릉역 근처 옥천동에 있는 11층 규모의 호텔이다.",
+      "en": "An 11-storey hotel in Okcheon-dong near Gangneung Station."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm312914d3": {
+    "desc": {
+      "ko": "KTX 강릉역에서 걸어서 3분 거리에 있는 실속형 호텔이다.",
+      "en": "A budget hotel three minutes' walk from Gangneung KTX Station."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbe2e6fe8": {
+    "desc": {
+      "ko": "강릉역 인근 동부시장길에 있는 체인 호텔이다.",
+      "en": "A chain hotel on Dongbusijang-gil near Gangneung Station."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm28b99028": {
+    "desc": {
+      "ko": "중앙시장·월화거리와 가까운 금학동의 게스트하우스다.",
+      "en": "A guesthouse in Geumhak-dong close to Jungang Market and Wolhwa Street."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme822f688": {
+    "desc": {
+      "ko": "KTX 강릉역에서 걸어서 10분 거리 포남동의 한국관광 품질인증 게스트하우스로 도미토리와 더블룸, 조식을 제공한다.",
+      "en": "A Korea Quality-certified guesthouse in Ponam-dong, ten minutes' walk from Gangneung Station, with dorms, double rooms and breakfast."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd560b879": {
+    "desc": {
+      "ko": "남대천 인근으로 강릉역과 중앙시장에 가까운 게스트하우스다.",
+      "en": "A guesthouse by the Namdaecheon stream, close to Gangneung Station and Jungang Market."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm75f69699": {
+    "desc": {
+      "ko": "주문진 시내에 있는 한국관광 품질인증 호텔이다.",
+      "en": "A Korea Quality-certified hotel in central Jumunjin."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme9d24062": {
+    "desc": {
+      "ko": "주문진항과 수산시장에서 걸어서 1분 거리에 있는 오션뷰 호텔이다.",
+      "en": "An ocean-view hotel a minute's walk from Jumunjin Port and fish market."
+    },
+    "src": {
+      "ko": "강릉 숙소 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmefc043fd": {
+    "desc": {
+      "ko": "강릉시 초당동 일대에 초당순두부 식당들이 모여 있는 음식 거리로, 바닷물 간수로 만든 초당두부로 알려져 있다.",
+      "en": "A food district in Chodang-dong, Gangneung, where many restaurants serve Chodang soft tofu made with seawater as coagulant."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm936be2a6": {
+    "desc": {
+      "ko": "초당순두부길77번길 9에 있는 순두부 전문 식당으로, 초당순두부마을에 자리하고 있다.",
+      "en": "A soft-tofu restaurant at 9 Chodangsundubu-gil 77beon-gil in the Chodang Sundubu Village."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3bb2aed6": {
+    "desc": {
+      "ko": "초당순두부길 77에 있는 순두부 식당으로, 초당순두부마을에서 2대째 이어 오는 노포다.",
+      "en": "A second-generation soft-tofu restaurant at 77 Chodangsundubu-gil, one of the long-running places in Chodang Sundubu Village."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm889547df": {
+    "desc": {
+      "ko": "난설헌로193번길에 있는 순두부 요리 전문점으로, 순두부찌개와 순두부백반 등을 낸다.",
+      "en": "A soft-tofu restaurant on Nanseolheon-ro 193beon-gil serving sundubu jjigae and sundubu baekban."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8d7a3151": {
+    "desc": {
+      "ko": "초당순두부길 96에 있는 순두부 전골과 청국장으로 알려진 식당이다.",
+      "en": "A restaurant at 96 Chodangsundubu-gil known for soft-tofu hot pot and cheonggukjang."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6fc1f7a9": {
+    "desc": {
+      "ko": "초당순두부길 95-5에 있는 젤라또 가게로, 순두부를 넣은 젤라또로 알려져 있다.",
+      "en": "A gelato shop at 95-5 Chodangsundubu-gil known for gelato made with soft tofu."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmeeb442b6": {
+    "desc": {
+      "ko": "구정면 현천길 7에 있는 대형 로스터리 카페로, 2002년 창고를 개조해 시작한 테라로사의 본점이다.",
+      "en": "Large roastery cafe at 7 Hyeoncheon-gil, Gujeong-myeon; the flagship of Terarosa, started in 2002 in a converted warehouse."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcbe3e4cc": {
+    "desc": {
+      "ko": "난설헌로 145 경포호수 앞에 있는 테라로사 매장으로, 2층에 서점 한길서가가 있다.",
+      "en": "A Terarosa cafe at 145 Nanseolheon-ro facing Gyeongpo Lake, with the Hangil bookstore on the second floor."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm173ebaf6": {
+    "desc": {
+      "ko": "사천면 해안로 1107에 있는 1세대 바리스타 박이추의 로스터리 카페로, 3층 건물에 카페와 로스팅 공장이 있다.",
+      "en": "Roastery cafe of first-generation barista Park I-choo at 1107 Haean-ro, Sacheon-myeon, with a cafe and roasting plant in a three-storey building."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2bd21436": {
+    "desc": {
+      "ko": "명주동의 옛 방앗간 건물을 고쳐 만든 카페로, 핸드드립 커피로 알려져 있다.",
+      "en": "A cafe in a converted old rice mill in Myeongju-dong, known for hand-drip coffee."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm92fbd938": {
+    "desc": {
+      "ko": "난설헌로 232에 있는 카페로, 흑임자 커피(흑임자라떼)로 알려져 있다.",
+      "en": "A cafe at 232 Nanseolheon-ro known for its black-sesame coffee latte."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1a4c823a": {
+    "desc": {
+      "ko": "강릉대로204번길 2에 있는 장칼국수 전문점으로, 고속버스터미널 인근에 있다.",
+      "en": "A jang-kalguksu (spicy soybean-paste noodle) restaurant at 2 Gangneung-daero 204beon-gil near the express bus terminal."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm73573020": {
+    "desc": {
+      "ko": "임당동 경강로2069번길 15에 있는 장칼국수 식당이다.",
+      "en": "A jang-kalguksu restaurant at 15 Gyeonggang-ro 2069beon-gil, Imdang-dong."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0d7d38ec": {
+    "desc": {
+      "ko": "대학길 12-6에 있는 60년 전통의 장칼국수 식당으로, 중앙시장에서 걸어서 5분 거리에 있다.",
+      "en": "A jang-kalguksu restaurant with some 60 years of history at 12-6 Daehak-gil, about five minutes on foot from Jungang Market."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmeaa40aaa": {
+    "desc": {
+      "ko": "강릉대로 205에 있는 짬뽕 전문 중식당으로, 짬뽕면·짬뽕밥으로 알려져 있다.",
+      "en": "A Chinese-Korean restaurant at 205 Gangneung-daero specialising in jjamppong noodles and jjamppong rice."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm64db2da0": {
+    "desc": {
+      "ko": "경강로2255번길 21에 있는 식당으로, 꼬막무침비빔밥으로 알려져 있다.",
+      "en": "A restaurant at 21 Gyeonggang-ro 2255beon-gil known for its cockle bibimbap."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmab292756": {
+    "desc": {
+      "ko": "토성로 171에 있는 감자옹심이 전문점이다.",
+      "en": "A restaurant at 171 Toseong-ro specialising in gamja ongsimi (potato dumpling soup)."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmad54981d": {
+    "desc": {
+      "ko": "공항길30번길 16에 있는 감자옹심이와 감자전 식당이다.",
+      "en": "A restaurant at 16 Gonghang-gil 30beon-gil serving potato dumpling soup and potato pancakes."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcebffc50": {
+    "desc": {
+      "ko": "사천면 사천진리 항구 주변에 물회 식당 20여 곳이 모여 있는 음식 거리다.",
+      "en": "A food street around Sacheonjin harbour, Sacheon-myeon, with about 20 mulhoe (cold raw-fish soup) restaurants."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8481cd28": {
+    "desc": {
+      "ko": "사천진해변 진리해변길 8에 있는 커피콩 모양 빵 가게의 본점이다.",
+      "en": "Main shop of the coffee-bean-shaped bread bakery at 8 Jinrihaebyeon-gil by Sacheonjin Beach."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7f02551d": {
+    "desc": {
+      "ko": "중앙·성남시장 옆 월화거리에서 2026년 5월 1일~10월 31일 금·토 저녁에 열리는 야시장이다.",
+      "en": "Night market on Wolhwa Street beside Jungang and Seongnam markets, held Fri–Sat evenings from 1 May to 31 Oct 2026."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1ca9b1cb": {
+    "desc": {
+      "ko": "1977년 문을 연 전통시장으로, 지하 1층·지상 2층에 150여 점포가 있다.",
+      "en": "A traditional market opened in 1977 with about 150 shops on one basement and two above-ground floors."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4c1dd853": {
+    "desc": {
+      "ko": "주문진읍 해안로 1740에 있는 시장으로, 오징어·황태채·다시마 등 건어물을 파는 점포 90여 곳이 있다.",
+      "en": "A market at 1740 Haean-ro, Jumunjin-eup, with about 96 shops selling dried squid, pollack, kelp and other dried seafood."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6dec48e0": {
+    "desc": {
+      "ko": "율곡로 2848에 있는 대형 독립 서점으로, 베이커리 카페와 강릉 관련 책 코너를 함께 운영한다.",
+      "en": "A large independent bookstore at 2848 Yulgok-ro with a bakery cafe and a floor of books about Gangneung."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm329f2069": {
+    "desc": {
+      "ko": "경강로 1961에 있는 수제 맥주 양조장 겸 펍으로, 쌀 등 한국 재료를 쓴 맥주로 알려져 있다.",
+      "en": "A brewpub at 1961 Gyeonggang-ro known for craft beers with Korean ingredients such as rice."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmae6b4c58": {
+    "desc": {
+      "ko": "난곡동 초가집에 있는 강릉시 지정 전통한식 1호점으로, 현재는 떡과 수제차를 내는 한옥 카페로 운영된다.",
+      "en": "Gangneung's designated traditional Korean restaurant No.1 in a thatched house in Nangok-dong, now run as a hanok cafe serving rice cakes and teas."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmda006d42": {
+    "desc": {
+      "ko": "구정면 범일로 364에 있는 동치미 막국수 식당이다.",
+      "en": "A restaurant at 364 Beomil-ro, Gujeong-myeon, serving makguksu in dongchimi (radish water kimchi) broth."
+    },
+    "src": {
+      "ko": "강릉 로컬 상권 · 주소 기준 좌표 · 대략 위치"
+    }
   }
 }
