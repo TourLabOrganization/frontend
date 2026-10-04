@@ -11255,7 +11255,8 @@
   },
   "ro622": {
     "desc": {
-      "ko": "전시시설 · 국립전주박물관, 청연루 등과 함께 많이 찾는 곳 (연관 7회)"
+      "ko": "전시시설 · 국립전주박물관, 청연루 등과 함께 많이 찾는 곳 (연관 7회)",
+      "en": "Provincial art museum beside Gui Reservoir at the foot of Moaksan."
     },
     "src": {
       "ko": "전북특별자치도 완주군 구이면 모악산길 111-6 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -34223,15 +34224,6 @@
       "ko": "시티투어 경유지(1개 노선) · 주소 기준 좌표"
     }
   },
-  "ctmf81bd2bb": {
-    "desc": {
-      "ko": "모악산 자락 구이저수지 옆의 도립미술관.",
-      "en": "Provincial art museum beside Gui Reservoir at the foot of Moaksan."
-    },
-    "src": {
-      "ko": "시티투어 경유지(1개 노선) · 주소 기준 좌표"
-    }
-  },
   "ctm7c8c30bb": {
     "desc": {
       "ko": "백마강 황포돛배가 뜨는 구드래 나루.",
@@ -42596,6 +42588,1320 @@
     },
     "src": {
       "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdeefdf21": {
+    "desc": {
+      "ko": "서울대공원 옆에 있는 국립현대미술관의 첫 본관으로 야외 조각공원과 백남준의 '다다익선'이 있는 미술관이다.",
+      "en": "The original main branch of the National Museum of Modern and Contemporary Art beside Seoul Grand Park, home to Nam June Paik's 'The More, The Better'."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbb736ef0": {
+    "desc": {
+      "ko": "덕수궁 석조전 서관에 있는 국립현대미술관 분관으로 근대미술 전시를 주로 연다.",
+      "en": "Branch of the National Museum of Modern and Contemporary Art in the west wing of Seokjojeon in Deoksugung Palace, focused on modern art."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm56d4bcdb": {
+    "desc": {
+      "ko": "노원구 중계동 등나무근린공원 안에 있는 서울시립미술관 분관이다.",
+      "en": "A branch of the Seoul Museum of Art in Junggye-dong, Nowon-gu."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8c038646": {
+    "desc": {
+      "ko": "2025년 5월 창동에 개관한 국내 첫 공립 사진 전문 미술관이다.",
+      "en": "Korea's first public museum dedicated to photography, opened in Chang-dong in May 2025."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme791e3aa": {
+    "desc": {
+      "ko": "평창동에 있는 서울시립미술관의 미술 아카이브 전문 분관으로 전시와 자료 열람 공간을 운영한다.",
+      "en": "Seoul Museum of Art's archive branch in Pyeongchang-dong with exhibitions and a reading room."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm76b1088d": {
+    "desc": {
+      "ko": "백남준이 유년기를 보낸 창신동 집터의 한옥을 고쳐 2017년 문을 연 서울시립미술관 기념관이다.",
+      "en": "Seoul Museum of Art memorial house opened in 2017 in a hanok on the Changsin-dong site where Nam June Paik grew up."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm67316974": {
+    "desc": {
+      "ko": "안산 화랑유원지에 있는 경기도 공립 현대미술관이다.",
+      "en": "Gyeonggi Province's public museum of contemporary art in Hwarang Park, Ansan."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm718e72f2": {
+    "desc": {
+      "ko": "인천광역시립박물관 분관으로 미추홀구 학익동에 있는 인천의 공립 미술관이다.",
+      "en": "An Incheon public art museum in Hagik-dong, Michuhol-gu, run as a branch of Incheon Metropolitan City Museum."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0b6a7650": {
+    "desc": {
+      "ko": "종로구 소격동에 있는 사립 현대미술관이다.",
+      "en": "A private contemporary art center in Sogyeok-dong, Jongno-gu."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm678888e4": {
+    "desc": {
+      "ko": "금호아시아나문화재단이 운영하는 삼청로의 사립 미술관이다.",
+      "en": "A private art museum on Samcheong-ro run by the Kumho Asiana Cultural Foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm511f0460": {
+    "desc": {
+      "ko": "쌍용그룹 창업주 김성곤을 기려 1995년 문을 연 신문로의 사립 미술관이다.",
+      "en": "A private museum in Sinmunno opened in 1995 in memory of Ssangyong founder Kim Sung-kon."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm01279793": {
+    "desc": {
+      "ko": "은평구 진관동에 있는 사립 현대미술관이다.",
+      "en": "A private contemporary art museum in Jingwan-dong, Eunpyeong-gu."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme7cccd5d": {
+    "desc": {
+      "ko": "화가 김환기의 작품을 소장·전시하는 부암동의 작가 미술관이다.",
+      "en": "An artist museum in Buam-dong devoted to painter Kim Whanki."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdba9267d": {
+    "desc": {
+      "ko": "대림문화재단이 운영하는 통의동의 사립 미술관이다.",
+      "en": "A private museum in Tongui-dong run by the Daelim Cultural Foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme1287956": {
+    "desc": {
+      "ko": "대림문화재단이 운영하는 성수동 서울숲 인근의 사립 미술관이다.",
+      "en": "A private museum near Seoul Forest in Seongsu-dong run by the Daelim Cultural Foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2aa647d5": {
+    "desc": {
+      "ko": "국민체육진흥공단이 올림픽공원 안에서 운영하는 미술관이다.",
+      "en": "An art museum inside Olympic Park run by the Korea Sports Promotion Foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4889a29a": {
+    "desc": {
+      "ko": "광화문 옛 동아일보 사옥에 있는 사립 미술관이다.",
+      "en": "A private art museum in the former Dong-A Ilbo building at Gwanghwamun."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfa683532": {
+    "desc": {
+      "ko": "건축가 김수근의 옛 공간사옥에 김창일 컬렉션을 전시하는 사립 미술관이다.",
+      "en": "A private museum showing the Arario (Kim Chang-il) collection in Kim Swoo-geun's former SPACE building."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc55c800e": {
+    "desc": {
+      "ko": "서울대학교 관악캠퍼스 정문 근처에 있는 대학 미술관(MoA)이다.",
+      "en": "Seoul National University's art museum (MoA) near the main gate of the Gwanak campus."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf4d7a128": {
+    "desc": {
+      "ko": "송은문화재단이 운영하는 청담동의 현대미술 전시 공간이다.",
+      "en": "A contemporary art space in Cheongdam-dong run by the SongEun Art and Cultural Foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm15a94f9b": {
+    "desc": {
+      "ko": "태광그룹 세화예술문화재단이 흥국생명빌딩에서 운영하는 미술관이다.",
+      "en": "An art museum in the Heungkuk Life building run by Taekwang Group's Sehwa foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm680704c4": {
+    "desc": {
+      "ko": "부암동 석파정과 함께 운영되는 사립 미술관이다.",
+      "en": "A private art museum in Buam-dong operated together with the Seokpajeong villa."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme998a1ac": {
+    "desc": {
+      "ko": "조각가 김종영의 작품을 전시하는 평창동의 작가 미술관이다.",
+      "en": "An artist museum in Pyeongchang-dong devoted to sculptor Kim Chong Yung."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm48a30bb5": {
+    "desc": {
+      "ko": "루이까또즈 태진인터내셔날이 논현동에 세운 현대미술 아트센터이다.",
+      "en": "A contemporary art center in Nonhyeon-dong founded by Taejin International (Louis Quatorze)."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm114742ac": {
+    "desc": {
+      "ko": "화성행궁 광장 옆에 있는 수원시 공립 미술관이다.",
+      "en": "Suwon's public art museum beside Hwaseong Haenggung Plaza."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm42a702b8": {
+    "desc": {
+      "ko": "일산 고양아람누리 복합문화시설 안에 있는 고양문화재단의 미술관이다.",
+      "en": "An art museum inside the Goyang Aram Nuri arts complex in Ilsan."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme5a28137": {
+    "desc": {
+      "ko": "한국화가 월전 장우성의 작품을 중심으로 설봉공원 안에 있는 이천시립 미술관이다.",
+      "en": "Icheon's municipal museum in Seolbong Park centered on works by ink painter Woljeon Chang Woo-soung."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9f810a94": {
+    "desc": {
+      "ko": "남양주 화도읍에 있는 조각 공원 중심의 사립 미술관이다.",
+      "en": "A private art museum with a sculpture garden in Hwado-eup, Namyangju."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0d27b413": {
+    "desc": {
+      "ko": "'집'을 콘셉트로 현대미술과 디자인 작품을 전시하는 양평 서종면의 사립 미술관이다.",
+      "en": "A private museum in Seojong-myeon, Yangpyeong, showing contemporary art and design in a house-like setting."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1674227f": {
+    "desc": {
+      "ko": "단원 김홍도를 기리기 위해 2013년 안산 성포동에 개관한 공립 미술관이다.",
+      "en": "A public art museum opened in 2013 in Seongpo-dong, Ansan, honoring painter Kim Hong-do (Danwon)."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2f39f4a8": {
+    "desc": {
+      "ko": "한미사진미술관이 2022년 삼청동에 연 사진 전문 미술관이다.",
+      "en": "A photography museum opened in Samcheong-dong in 2022 by the Museum Hanmi."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm34b6e439": {
+    "desc": {
+      "ko": "한국화가 박노수의 옥인동 가옥을 종로구가 미술관으로 운영하는 곳이다.",
+      "en": "Painter Park No-soo's former house in Ogin-dong, run as a museum by Jongno-gu."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9d9689ac": {
+    "desc": {
+      "ko": "성북동에 있는 성북구 공립 미술관이다.",
+      "en": "Seongbuk-gu's public art museum in Seongbuk-dong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3f00fbee": {
+    "desc": {
+      "ko": "1976년 문을 연 평창동의 사립 현대미술관이다.",
+      "en": "A private contemporary art museum in Pyeongchang-dong founded in 1976."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm19c6cc27": {
+    "desc": {
+      "ko": "성남아트센터 안에 있는 성남문화재단의 공립 미술관이다.",
+      "en": "Seongnam Cultural Foundation's public art museum in Seongnam Arts Center."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmedc4f35b": {
+    "desc": {
+      "ko": "옛 청주 연초제조창 건물을 고쳐 만든 국립현대미술관의 개방형 수장고 미술관이다.",
+      "en": "MMCA's visible-storage museum in the converted former Cheongju tobacco factory."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm20da3a62": {
+    "desc": {
+      "ko": "옛 KBS 청주방송국 건물을 활용한 청주시의 공립 미술관이다.",
+      "en": "Cheongju's municipal art museum in the former KBS Cheongju broadcasting building."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme9f0b3aa": {
+    "desc": {
+      "ko": "대청호 문의문화유산단지 인근에 있는 청주시립미술관 분관이다.",
+      "en": "Branch of Cheongju Museum of Art by Daecheong Lake near the Munui heritage complex."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4979ae4d": {
+    "desc": {
+      "ko": "청주 내수읍에 있는 현대미술 중심의 사립 미술관이다.",
+      "en": "Private contemporary art museum in Naesu-eup, Cheongju."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm44440bab": {
+    "desc": {
+      "ko": "해운대 센텀시티에 있는 부산시의 대표 공립 미술관으로 2026년 9월 리노베이션을 마치고 재개관했다.",
+      "en": "Busan's main public art museum in Centum City, reopened in September 2026 after renovation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm45acd3f4": {
+    "desc": {
+      "ko": "해운대에 있는 사진 전문 사립 미술관이다.",
+      "en": "Private photography museum in Haeundae."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1fd68b7b": {
+    "desc": {
+      "ko": "센텀시티에 있는 미디어아트 중심의 사립 미술관이다.",
+      "en": "Private media-art museum in Centum City."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcaf9b617": {
+    "desc": {
+      "ko": "영도에 있는 몰입형 미디어아트 전시관이다.",
+      "en": "Immersive media-art exhibition hall in Yeongdo."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7414053c": {
+    "desc": {
+      "ko": "광주비엔날레 본전시가 열리는 중외공원 안의 전시관이다.",
+      "en": "Main venue of the Gwangju Biennale in Jungoe Park."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcfd6ea4b": {
+    "desc": {
+      "ko": "무등산 증심사 계곡에 있는 남종화가 의재 허백련의 기념 미술관이다.",
+      "en": "Museum dedicated to Southern-school painter Heo Baek-ryeon (Uijae) in the Jeungsimsa valley of Mudeungsan."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc3514a17": {
+    "desc": {
+      "ko": "빛을 소재로 한 추상화가 우제길이 세운 사립 미술관이다.",
+      "en": "Private museum founded by abstract painter Woo Jae-gil, known for light-themed works."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmce31a6e3": {
+    "desc": {
+      "ko": "양림동에 있는 화가 이강하를 기리는 남구 공립 미술관이다.",
+      "en": "Nam-gu public museum in Yangnim-dong honoring painter Lee Kang-ha."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd358afb": {
+    "desc": {
+      "ko": "대전시립미술관 옆에 있는 화가 이응노의 작품을 전시하는 시립 미술관이다.",
+      "en": "Municipal museum of painter Lee Ungno's works beside Daejeon Museum of Art."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma500e676": {
+    "desc": {
+      "ko": "옛 동양척식주식회사 대전지점 건물을 복원한 복합문화예술공간이다.",
+      "en": "Art space in the restored former Oriental Development Company Daejeon branch building."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm442da92f": {
+    "desc": {
+      "ko": "2022년 개관한 울산시의 공립 미술관으로 중구 객사 터 옆에 있다.",
+      "en": "Ulsan's public art museum opened in 2022 in Jung-gu."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmaf7f1f20": {
+    "desc": {
+      "ko": "교동 솔올지구에 있는 강릉시립미술관 분관으로 2025년 4월 시립으로 개관했다.",
+      "en": "Gangneung Museum of Art's Solol branch, opened as a municipal venue in April 2025."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm08829f30": {
+    "desc": {
+      "ko": "고성 토성면에 있는 조각 전문 사립 미술관이다.",
+      "en": "Private sculpture museum in Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb94d6853": {
+    "desc": {
+      "ko": "화가 이상원의 작품을 전시하는 춘천 사북면의 사립 미술관이다.",
+      "en": "Private museum of painter Lee Sang-won's work in Sabuk-myeon, Chuncheon."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb6d6848c": {
+    "desc": {
+      "ko": "봉평의 폐교된 무이초등학교를 고쳐 만든 미술관이다.",
+      "en": "Art center in the converted former Mui Elementary School in Bongpyeong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4f371fd2": {
+    "desc": {
+      "ko": "횡성 우천면의 자작나무 숲 속에 조성된 사립 미술관이다.",
+      "en": "Private art museum set in a birch forest in Ucheon-myeon, Hoengseong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmafb79133": {
+    "desc": {
+      "ko": "김삿갓면에 있는 조선 민화 전문 박물관이다.",
+      "en": "Museum of Joseon folk painting (minhwa) in Gimsatgat-myeon, Yeongwol."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf9c7726e": {
+    "desc": {
+      "ko": "화가 이종무가 말년을 보낸 송악면 작업 터에 세운 충남 최초의 미술관이다.",
+      "en": "Chungnam's first art museum, on painter Yi Jong-mu's former studio site in Songak-myeon."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm29e3ade3": {
+    "desc": {
+      "ko": "공주 계룡면에 있는 화가 임립이 세운 사립 미술관이다.",
+      "en": "Private museum founded by painter Lim Lip in Gyeryong-myeon, Gongju."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8beb23f0": {
+    "desc": {
+      "ko": "불당동에 있는 천안시의 공립 미술관이다.",
+      "en": "Cheonan's municipal art museum in Buldang-dong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf7ea2c1b": {
+    "desc": {
+      "ko": "창원 용지호수 옆에 있는 경상남도의 도립 미술관이다.",
+      "en": "Gyeongsangnam-do's provincial art museum by Yongji Lake in Changwon."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb1beb469": {
+    "desc": {
+      "ko": "진주 출신 재불화가 이성자의 작품을 전시하는 시립 미술관이다.",
+      "en": "Municipal museum of Jinju-born, Paris-based painter Rhee Seundja."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmacb8a341": {
+    "desc": {
+      "ko": "통영 전통 옻칠공예와 옻칠회화를 전시하는 미술관이다.",
+      "en": "Museum of Tongyeong lacquer (ottchil) craft and lacquer painting."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme37d77d3": {
+    "desc": {
+      "ko": "환호공원 안에 있는 스틸아트 특화 포항시 공립 미술관이다.",
+      "en": "Pohang's municipal art museum specializing in steel art, in Hwanho Park."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9e0ac193": {
+    "desc": {
+      "ko": "경주엑스포대공원 안에 있는 한국화가 박대성의 작품 중심 공립 미술관이다.",
+      "en": "Public museum centered on Korean painter Park Dae-sung, inside Gyeongju Expo Park."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm734dc0e3": {
+    "desc": {
+      "ko": "보문관광단지에 있는 옛 선재미술관을 이은 현대미술관이다.",
+      "en": "Contemporary art museum in Bomun Resort, successor to the Sonje Museum."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc2fc0f17": {
+    "desc": {
+      "ko": "영천 화산면의 폐교를 고쳐 만든 사립 현대미술관이다.",
+      "en": "Private contemporary art museum in a converted closed school in Hwasan-myeon, Yeongcheon."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm094a694a": {
+    "desc": {
+      "ko": "한국화가 야송 이원좌의 작품을 중심으로 한 청송군립 미술관이다.",
+      "en": "County museum centered on Korean painter Yasong Lee Won-jwa."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm83ccfb73": {
+    "desc": {
+      "ko": "재일교포 수집가 하정웅이 기증한 작품을 바탕으로 한 영암군립 미술관이다.",
+      "en": "County museum built on the collection donated by Korean-Japanese collector Ha Jung-woong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm30f5400a": {
+    "desc": {
+      "ko": "옛 남송창고(양곡창고)를 고쳐 만든 담양의 미술관 겸 카페다.",
+      "en": "Art space and cafe in a converted former grain warehouse in Damyang."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1dc62f17": {
+    "desc": {
+      "ko": "행촌문화재단이 운영하는 해남의 미술관이다.",
+      "en": "Haenam art museum run by the Haengchon Culture Foundation."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4be44dfb": {
+    "desc": {
+      "ko": "압해도 송공산 분재공원 안에 있는 신안군 공립 미술관이다.",
+      "en": "Sinan County art museum in the bonsai garden on Songgongsan, Aphae Island."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme1100517": {
+    "desc": {
+      "ko": "남종화가 남농 허건이 1985년 세운 운림산방 화맥 기념 미술관이다.",
+      "en": "Museum founded in 1985 by Southern-school painter Heo Geon (Namnong)."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd3f70855": {
+    "desc": {
+      "ko": "운림산방 인근에 있는 한국화 전문 진도군립 미술관이다.",
+      "en": "Jindo County museum of traditional Korean painting near Unrim Sanbang."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdbeba050": {
+    "desc": {
+      "ko": "진도 출신 서예가 소전 손재형을 기려 2003년 문을 연 미술관이다.",
+      "en": "Museum opened in 2003 honoring Jindo-born calligrapher Son Jae-hyeong (Sojeon)."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8541c269": {
+    "desc": {
+      "ko": "여수 돌산에 있는 몰입형 미디어아트 전시관이다.",
+      "en": "Immersive media-art exhibition hall on Dolsan, Yeosu."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma5b79b02": {
+    "desc": {
+      "ko": "군산 원도심 옛 영화빌딩에 있는 사립 미술관이다.",
+      "en": "Private art museum in the old Younghwa Building in Gunsan's old town."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd950e425": {
+    "desc": {
+      "ko": "신비의 도로 인근에 있는 제주특별자치도의 도립 미술관이다.",
+      "en": "Jeju's provincial art museum near the Mysterious Road."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma369e9a7": {
+    "desc": {
+      "ko": "물방울 화가 김창열의 기증 작품을 전시하는 저지문화예술인마을의 도립 미술관이다.",
+      "en": "Provincial museum in Jeoji Art Village showing works donated by 'water-drop' painter Kim Tschang-yeul."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcb5437cb": {
+    "desc": {
+      "ko": "건축가 이타미 준(유동룡)의 건축 세계를 소개하는 저지마을의 사립 미술관이다.",
+      "en": "Private museum in Jeoji presenting the work of architect Itami Jun (Yoo Dong-ryong)."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm23a58b84": {
+    "desc": {
+      "ko": "서귀포 출신 재일교포 기당 강구범이 세운 국내 최초의 시립 미술관이다.",
+      "en": "Korea's first municipal art museum, founded by Gidang Kang Gu-beom, in Seogwipo."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmce168765": {
+    "desc": {
+      "ko": "서귀포 출신 서예가 소암 현중화를 기리는 공립 미술관이다.",
+      "en": "Public museum honoring Seogwipo-born calligrapher Soam Hyeon Jung-hwa."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2f7b9546": {
+    "desc": {
+      "ko": "정방폭포 입구에 있는 화가 이왈종의 사립 미술관이다.",
+      "en": "Private museum of painter Lee Walchong at the entrance to Jeongbang Falls."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf549f65a": {
+    "desc": {
+      "ko": "옛 탑동 극장을 고쳐 만든 현대미술관이다.",
+      "en": "Contemporary art museum in a converted former cinema in Tapdong."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma3d8c285": {
+    "desc": {
+      "ko": "동문시장 인근 옛 모텔 건물들을 고쳐 만든 현대미술관이다.",
+      "en": "Contemporary art museum in converted former motel buildings near Dongmun Market."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm61a312f7": {
+    "desc": {
+      "ko": "제주 출신 화가 김택화의 작품을 전시하는 조천읍 신흥리의 사립 미술관이다.",
+      "en": "Private museum of Jeju painter Kim Taek-hwa in Sinheung-ri, Jocheon."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6259b473": {
+    "desc": {
+      "ko": "섭지코지에 안도 다다오가 설계한 건물에 아르누보 유리공예를 전시하는 미술관이다.",
+      "en": "Art Nouveau glass museum in a Tadao Ando building at Seopjikoji."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표"
+    }
+  },
+  "ctmd53f6f2b": {
+    "desc": {
+      "ko": "서귀포 안덕면에 있는 사립 미술관 겸 복합문화공간이다.",
+      "en": "Private art museum and cultural space in Andeok-myeon, Seogwipo."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd5038f6a": {
+    "desc": {
+      "ko": "제주 풍경을 찍은 사진가 김영갑이 폐교를 고쳐 만든 사진 갤러리다.",
+      "en": "Photo gallery in a converted school created by Jeju landscape photographer Kim Young-gap."
+    },
+    "src": {
+      "ko": "미술관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmafaaa38e": {
+    "desc": {
+      "ko": "「메밀꽃 필 무렵」의 작가 이효석의 생애와 작품을 소개하는 평창 봉평의 문학관이다.",
+      "en": "Museum in Bongpyeong, Pyeongchang, on Lee Hyo-seok, author of \"When the Buckwheat Blooms\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmac9032de": {
+    "desc": {
+      "ko": "박경리가 「토지」를 집필하며 18년간 살던 옛집과 박경리문학의집이 있는 원주의 문학공원이다.",
+      "en": "Park in Wonju around the house where Park Kyong-ni lived for 18 years while writing \"Toji\", with an exhibition house."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm58956b49": {
+    "desc": {
+      "ko": "조정래의 대하소설 「아리랑」의 원고와 자료를 전시하는 김제 벽골제 인근의 문학관이다.",
+      "en": "Museum near Byeokgolje, Gimje, displaying manuscripts and materials of Jo Jung-rae's saga novel \"Arirang\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0f5a3da4": {
+    "desc": {
+      "ko": "조정래의 소설 「아리랑」 속 마을과 일제강점기 수탈 현장을 재현한 김제 죽산의 문학 테마마을이다.",
+      "en": "Theme village in Juksan, Gimje, recreating settings from Jo Jung-rae's novel \"Arirang\" and colonial-era exploitation."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm29804866": {
+    "desc": {
+      "ko": "「혼불」의 작가 최명희의 육필 원고와 유품을 전시하는 전주한옥마을 안의 문학관이다.",
+      "en": "Museum in Jeonju Hanok Village with manuscripts and belongings of Choi Myung-hee, author of \"Honbul\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma362d7cf": {
+    "desc": {
+      "ko": "시인 미당 서정주의 고향 선운리에 폐교를 고쳐 세운 문학관이다.",
+      "en": "Museum on poet Seo Jeong-ju (Midang), set in a converted school in his home village of Seonun-ri."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb3c8ee5e": {
+    "desc": {
+      "ko": "전원시인 신석정의 생애와 작품을 소개하는 부안의 문학관이다.",
+      "en": "Museum in Buan on the pastoral poet Shin Seok-jeong."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm74dfc44f": {
+    "desc": {
+      "ko": "소설 「탁류」의 무대인 금강변에 자리한 작가 채만식의 문학관이다.",
+      "en": "Museum on novelist Chae Man-sik on the Geumgang riverside, setting of his novel \"Muddy Stream\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmab31fb47": {
+    "desc": {
+      "ko": "시조 시인이자 국문학자 가람 이병기가 태어난 초가로 승운정과 수우재가 남아 있다.",
+      "en": "Thatched birthplace of sijo poet and scholar Yi Byeong-gi (Garam) in Yeosan, Iksan."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3032f44b": {
+    "desc": {
+      "ko": "폐 물탱크를 고쳐 만든 부암동의 시인 윤동주 문학관이다.",
+      "en": "Museum on poet Yun Dong-ju in Buam-dong, Seoul, built from disused water tanks."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6fb10b16": {
+    "desc": {
+      "ko": "시인 김수영의 육필 원고와 유품을 전시하는 도봉구 방학동의 문학관이다.",
+      "en": "Museum in Banghak-dong, Dobong-gu, with manuscripts and belongings of poet Kim Soo-young."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmce092465": {
+    "desc": {
+      "ko": "시인이자 소설가 이상이 어린 시절을 보낸 집터에 마련된 서촌의 문화공간이다.",
+      "en": "Small cultural space in Seochon on the site of writer Yi Sang's childhood home."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm37420295": {
+    "desc": {
+      "ko": "만해 한용운이 말년을 보낸 성북동의 북향 한옥으로 국가지정 사적이다.",
+      "en": "North-facing hanok in Seongbuk-dong where Han Yong-un (Manhae) spent his last years; a national historic site."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3a6b16c8": {
+    "desc": {
+      "ko": "개항장 창고를 고쳐 한국 근대문학의 흐름을 전시하는 인천문화재단의 문학관이다.",
+      "en": "Incheon Foundation for Arts and Culture museum on modern Korean literature in converted port warehouses."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfce067e6": {
+    "desc": {
+      "ko": "만해 한용운의 생애와 독립운동, 문학 자료를 전시하는 남한산성 안의 기념관이다.",
+      "en": "Memorial hall in Namhansanseong on the life, independence activism and writings of Han Yong-un."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6802042c": {
+    "desc": {
+      "ko": "「백조」 동인 시인 노작 홍사용을 기리는 동탄의 문학관이다.",
+      "en": "Museum in Dongtan honoring poet Hong Sa-yong (Nojak) of the Baekjo coterie."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma8e22f6b": {
+    "desc": {
+      "ko": "청록파 시인 박두진의 생애와 작품을 소개하는 안성맞춤랜드 안의 문학관이다.",
+      "en": "Museum in Anseong Machum Land on Cheongnokpa poet Park Du-jin."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm27495a40": {
+    "desc": {
+      "ko": "시인 조병화의 고향 난실리에 세워진 문학관이다.",
+      "en": "Museum in poet Jo Byung-hwa's home village of Nansil-ri, Anseong."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm118ccf4a": {
+    "desc": {
+      "ko": "시인 기형도의 생애와 작품을 소개하는 광명의 문학관이다.",
+      "en": "Museum in Gwangmyeong on poet Ki Hyung-do."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0a036629": {
+    "desc": {
+      "ko": "시인 수주 변영로를 기리는 고강선사유적공원 안의 문학관이다.",
+      "en": "Museum in Gogang Prehistoric Site Park, Bucheon, honoring poet Byeon Yeong-ro (Suju)."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9eca0513": {
+    "desc": {
+      "ko": "「내 마음은」의 시인 김동명의 생가 옆에 세운 문학관이다.",
+      "en": "Museum beside the birthplace of poet Kim Dong-myeong in Sacheon, Gangneung."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm18aa775e": {
+    "desc": {
+      "ko": "「목마와 숙녀」의 시인 박인환의 고향 인제에 있는 문학관이다.",
+      "en": "Museum in Inje, hometown of poet Park In-hwan (\"A Wooden Horse and a Lady\")."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme28bcc1d": {
+    "desc": {
+      "ko": "소설가 이외수가 머물던 상서면 다목리 감성마을 안의 문학관이다.",
+      "en": "Museum in Gamseong Village, Hwacheon, where novelist Lee Oisoo lived and wrote."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf387b4f0": {
+    "desc": {
+      "ko": "시인 오장환의 생가 옆에 세운 보은 회인의 문학관이다.",
+      "en": "Museum beside the birthplace of poet Oh Jang-hwan in Hoein, Boeun."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0efd73ae": {
+    "desc": {
+      "ko": "민족문학 작가 포석 조명희를 기리는 진천의 문학관이다.",
+      "en": "Museum in Jincheon honoring writer Jo Myeong-hui (Poseok)."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc14bec4a": {
+    "desc": {
+      "ko": "「상록수」의 작가 심훈이 직접 지은 필경사 옆에 세운 기념관이다.",
+      "en": "Memorial hall beside Pilgyeongsa, the house novelist Sim Hun built and where he wrote \"Evergreen\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm678791d8": {
+    "desc": {
+      "ko": "「인간시장」의 작가 김홍신의 원고와 기록을 전시하는 논산의 문학관이다.",
+      "en": "Museum in Nonsan displaying manuscripts and records of Kim Hong-shin, author of \"Human Market\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5b3c3794": {
+    "desc": {
+      "ko": "대전 지역 문학의 역사와 문인 자료를 전시하는 대전문화재단의 문학관이다.",
+      "en": "Daejeon Cultural Foundation museum on the literary history and writers of Daejeon."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7b4328d9": {
+    "desc": {
+      "ko": "향촌문화관 건물에 있는 대구 근현대 문학 전시관이다.",
+      "en": "Museum of modern Daegu literature in the Hyangchon Cultural Center building."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3b49ca7b": {
+    "desc": {
+      "ko": "「빼앗긴 들에도 봄은 오는가」의 시인 이상화가 말년을 보낸 계산동 고택이다.",
+      "en": "House in Gyesan-dong where poet Yi Sang-hwa (\"Does Spring Come to Stolen Fields?\") spent his last years."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm20550086": {
+    "desc": {
+      "ko": "경주 출신 소설가 김동리와 시인 박목월을 기리는 불국사 입구의 문학관이다.",
+      "en": "Museum near Bulguksa honoring Gyeongju-born novelist Kim Dong-ni and poet Park Mok-wol."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm98495e9c": {
+    "desc": {
+      "ko": "청록파 시인 박목월이 태어난 건천읍 모량리의 복원 생가다.",
+      "en": "Restored birthplace of Cheongnokpa poet Park Mok-wol in Geoncheon, Gyeongju."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma090610f": {
+    "desc": {
+      "ko": "시인 구상이 머물던 왜관에 세운 문학관이다.",
+      "en": "Museum in Waegwan, Chilgok, where poet Gu Sang lived."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdfa3c5ec": {
+    "desc": {
+      "ko": "현대시조 시인 백수 정완영을 기리는 직지사 인근의 문학관이다.",
+      "en": "Museum near Jikjisa honoring modern sijo poet Jeong Wan-yeong (Baeksu)."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3720bbd6": {
+    "desc": {
+      "ko": "청록파 시인 조지훈의 고향 주실마을에 세운 문학관이다.",
+      "en": "Museum in Jusil Village, Yeongyang, hometown of Cheongnokpa poet Jo Ji-hun."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme5b44e79": {
+    "desc": {
+      "ko": "김주영의 소설 「객주」를 주제로 폐교를 고쳐 만든 청송 진보의 문학관이다.",
+      "en": "Museum in Jinbo, Cheongsong, built in a former school around Kim Joo-young's novel \"Gaekju\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0fd63f2f": {
+    "desc": {
+      "ko": "「강아지똥」의 동화작가 권정생을 기리는 일직면의 폐교 활용 기념 공간이다.",
+      "en": "Memorial space in a former school in Iljik, Andong, for children's author Kwon Jeong-saeng (\"Doggy Poo\")."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmceba1648": {
+    "desc": {
+      "ko": "단편소설 작가 난계 오영수를 기리는 울주군 언양의 문학관이다.",
+      "en": "Museum in Eonyang, Ulju, honoring short-story writer Oh Young-soo."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3ca4bc02": {
+    "desc": {
+      "ko": "소설가 요산 김정한의 생가 옆에 세운 금정구 남산동의 문학관이다.",
+      "en": "Museum beside novelist Kim Jeong-han's birthplace in Namsan-dong, Geumjeong-gu, Busan."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc9646de0": {
+    "desc": {
+      "ko": "추리작가 김성종이 1992년 달맞이언덕에 세운 추리문학 전문 도서관이다.",
+      "en": "Library of detective fiction founded in 1992 by mystery writer Kim Seong-jong on Dalmaji Hill, Haeundae."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9da766ce": {
+    "desc": {
+      "ko": "마산 출신 문인과 지역 문학사를 전시하는 노비산의 문학관이다.",
+      "en": "Museum on Nobisan, Masan, on writers and literary history of Masan."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6556b7cf": {
+    "desc": {
+      "ko": "시인 김달진의 생가와 함께 조성된 진해 소사동의 문학관이다.",
+      "en": "Museum with the restored birthplace of poet Kim Dal-jin in Sosa-dong, Jinhae."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6126a3a8": {
+    "desc": {
+      "ko": "동요 「고향의 봄」을 지은 아동문학가 이원수를 기리는 고향의봄도서관 안의 문학관이다.",
+      "en": "Museum in the Gohyang-ui Bom Library honoring children's writer Lee Won-su, lyricist of \"Spring of Hometown\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm30397406": {
+    "desc": {
+      "ko": "시인 청마 유치환의 생애와 작품을 소개하는 통영 정량동의 문학관이다.",
+      "en": "Museum in Jeongnyang-dong, Tongyeong, on poet Yu Chi-hwan (Cheongma)."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma78c7d1a": {
+    "desc": {
+      "ko": "시인 유치환의 생가 옆에 세운 거제 둔덕면의 기념관이다.",
+      "en": "Memorial hall beside poet Yu Chi-hwan's birthplace in Dundeok, Geoje."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0781d449": {
+    "desc": {
+      "ko": "소설가 나림 이병주의 생애와 작품을 소개하는 하동 북천의 문학관이다.",
+      "en": "Museum in Bukcheon, Hadong, on novelist Lee Byung-ju."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3a9c2b40": {
+    "desc": {
+      "ko": "「토지」의 무대인 악양 평사리 최참판댁 옆에 2016년 문을 연 박경리 문학관이다.",
+      "en": "Museum opened in 2016 beside Choi Champan House in Pyeongsa-ri, the setting of Park Kyong-ni's \"Toji\"."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm86ab059f": {
+    "desc": {
+      "ko": "김만중 등 남해로 유배된 문인들의 유배문학을 전시하는 문학관이다.",
+      "en": "Museum in Namhae on the literature of writers exiled there, such as Kim Man-jung."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5659abd8": {
+    "desc": {
+      "ko": "「모란이 피기까지는」의 시인 김영랑이 태어난 강진읍의 초가로 국가민속문화유산이다.",
+      "en": "Thatched birthplace of poet Kim Yeong-rang in Gangjin; a national folklore heritage."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma838b0ec": {
+    "desc": {
+      "ko": "1930년대 「시문학」 동인의 자료를 전시하는 영랑생가 옆의 기념관이다.",
+      "en": "Hall beside Yeongnang's Birthplace on the 1930s Simunhak poetry coterie."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma30e46c7": {
+    "desc": {
+      "ko": "김우진·박화성·차범석·김현 등 목포 출신 문인을 기리는 갓바위 인근의 문학관이다.",
+      "en": "Museum near Gatbawi honoring Mokpo writers Kim U-jin, Park Hwa-seong, Cha Beom-seok and Kim Hyeon."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7cc4e73b": {
+    "desc": {
+      "ko": "소설가 김승옥과 동화작가 정채봉을 기리는 순천만 인근 초가 문학관이다.",
+      "en": "Thatched-house museum near Suncheon Bay honoring novelist Kim Seung-ok and children's writer Jeong Chae-bong."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfad784fe": {
+    "desc": {
+      "ko": "송강 정철 등 조선 가사문학 자료를 전시하는 담양의 문학관이다.",
+      "en": "Museum in Damyang on Joseon gasa poetry such as that of Jeong Cheol."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm04e97ccc": {
+    "desc": {
+      "ko": "고산 윤선도에서 김남주·고정희까지 해남 출신 시인을 소개하는 녹우당 옆 문학관이다.",
+      "en": "Museum beside Nogudang introducing Haenam poets from Yun Seon-do to Kim Nam-ju and Ko Jeong-hui."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6678fa8a": {
+    "desc": {
+      "ko": "송기숙·이청준·한승원 등 장흥 출신 작가를 소개하는 천관산 기슭의 문학관이다.",
+      "en": "Museum at the foot of Cheongwansan introducing Jangheung writers such as Song Gi-suk, Yi Cheong-jun and Han Seung-won."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm81e2975e": {
+    "desc": {
+      "ko": "2023년 각화동 시화문화마을에 문을 연 광주 지역 문학 전시관이다.",
+      "en": "Museum of Gwangju literature opened in 2023 in Gakhwa-dong's poetry-mural village."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm10a688f8": {
+    "desc": {
+      "ko": "「시문학」 동인 시인 용아 박용철이 태어난 광산구 소촌동의 생가다.",
+      "en": "Birthplace of Simunhak poet Park Yong-cheol (Yong-a) in Socheon-dong, Gwangsan-gu."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm09142e2e": {
+    "desc": {
+      "ko": "2021년 문을 연 제주 지역 문학의 전시·창작 공간이다.",
+      "en": "Museum of Jeju literature, exhibition and writing space opened in 2021."
+    },
+    "src": {
+      "ko": "문학관 · 주소 기준 좌표 · 대략 위치"
     }
   }
 }
