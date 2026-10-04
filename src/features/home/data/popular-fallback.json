@@ -496,6 +496,130 @@
         "en": "Yeongnangho Beombawi",
         "evidence": "수기(집중률 상위 상례)"
       }
+    ],
+    "대구": [
+      {
+        "id": "nax102",
+        "ko": "동성로",
+        "en": "Dongseong-ro",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax101",
+        "ko": "서문시장",
+        "en": "Seomun Market",
+        "evidence": "수기(한국관광 100선 · 집중률 상위 상례)"
+      },
+      {
+        "id": "nax105",
+        "ko": "이월드 83타워",
+        "en": "E-World & 83 Tower",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax108",
+        "ko": "수성못",
+        "en": "Suseong Lake",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax106",
+        "ko": "팔공산 동화사",
+        "en": "Donghwasa Temple",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax768",
+        "ko": "팔공산 갓바위",
+        "en": "Gatbawi Buddha",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax103",
+        "ko": "김광석다시그리기길",
+        "en": "Kim Kwang-seok Road",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax766",
+        "ko": "대구 근대골목",
+        "en": "Modern History Alley",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax104",
+        "ko": "앞산전망대",
+        "en": "Apsan Observatory",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax1520",
+        "ko": "사유원",
+        "en": "Sayuwon",
+        "evidence": "수기(한국관광 100선)"
+      }
+    ],
+    "춘천": [
+      {
+        "id": "nax230",
+        "ko": "남이섬",
+        "en": "Nami Island",
+        "evidence": "수기(한국관광 100선 · 집중률 상위 상례)"
+      },
+      {
+        "id": "nax231",
+        "ko": "소양강 스카이워크",
+        "en": "Soyanggang Skywalk",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ro411",
+        "ko": "레고랜드코리아리조트",
+        "en": "LEGOLAND Korea Resort",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax234",
+        "ko": "명동 닭갈비골목",
+        "en": "Dakgalbi Alley",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax233",
+        "ko": "김유정문학촌",
+        "en": "Kim Yu-jeong Literary Village",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax232",
+        "ko": "청평사",
+        "en": "Cheongpyeongsa Temple",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax734",
+        "ko": "강촌레일파크",
+        "en": "Gangchon Rail Park",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax735",
+        "ko": "제이드가든",
+        "en": "Jade Garden",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "ctt236",
+        "ko": "춘천삼악산호수케이블카",
+        "en": "Chuncheon Samaksan Mountain Lake Cable Car",
+        "evidence": "수기(집중률 상위 상례)"
+      },
+      {
+        "id": "nax737",
+        "ko": "애니메이션박물관",
+        "en": "Animation Museum",
+        "evidence": "수기(집중률 상위 상례)"
+      }
     ]
   }
 }

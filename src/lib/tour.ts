@@ -76,7 +76,7 @@ export type TourCrowd = {
 };
 
 /**
- * 홈 「지금 인기 관광지」의 도시(칩 순서). 플래너 주요 도시(서울 · 부산 · 제주)와 관광객이 많은 도시.
+ * 홈 「지금 인기 관광지」의 도시(칩 순서). 플래너 주요 도시(서울 · 부산 · 제주)와 관광객이 많은 도시(대구 · 춘천은 2026-10-04 추가).
  * 서버가 도시마다 장소가 많은 시군구(최대 4곳)의 관광지 집중률을 모은다(lib/tour-popular.ts)
  */
 export const POPULAR_CITIES = [
@@ -88,6 +88,8 @@ export const POPULAR_CITIES = [
   "전주",
   "인천",
   "속초",
+  "대구",
+  "춘천",
 ] as const;
 export type PopularCity = (typeof POPULAR_CITIES)[number];
 

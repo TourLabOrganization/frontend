@@ -46,6 +46,9 @@ describe("도시 · 시군구", () => {
     expect(citySigngu("서울")).toEqual(["11110", "11710", "11170", "11440"]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("인천")).toHaveLength(4);
+    // 대구 · 춘천(2026-10-04 추가): 달성 22 · 수성 10 · 군위 10 · 달서 9(같은 10곳은 코드 순), 춘천은 시 하나
+    expect(citySigngu("대구")).toEqual(["27710", "27260", "27720", "27290"]);
+    expect(citySigngu("춘천")).toEqual(["51110"]);
     expect(POPULAR_CITIES).not.toContain("여수");
     expect(citySigngu("없는도시")).toEqual([]);
   });

@@ -111,8 +111,8 @@ export function PopularAttractions() {
       <div
         role="group"
         aria-label={t("citiesLabel")}
-        // 도시 8곳을 4칸 두 줄로(좌우 스크롤 없이)
-        className="mt-3 grid grid-cols-4 gap-2"
+        // 도시 10곳을 5칸 두 줄로(좌우 스크롤 없이)
+        className="mt-3 grid grid-cols-5 gap-2"
       >
         {POPULAR_CITIES.map((c) => {
           const pressed = c === city;
