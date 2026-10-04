@@ -15687,7 +15687,8 @@
   },
   "rs119": {
     "desc": {
-      "ko": "리조트·콘도 · 고한야한구공탄시장, 병방치스카이워크 등을 찾은 여행자들이 함께 많이 머문 곳 (연관 10회)"
+      "ko": "리조트·콘도 · 고한야한구공탄시장, 병방치스카이워크 등을 찾은 여행자들이 함께 많이 머문 곳 (연관 10회)",
+      "en": "Hotel-style condo opened in 2010 at 820 m altitude near High1 Resort and Kangwon Land, with 12 floors and 339 rooms."
     },
     "src": {
       "ko": "강원특별자치도 정선군 사북읍 하이원길 202 · 한국관광공사 연관 관광지(숙박) · 카카오 좌표"
@@ -46914,15 +46915,6 @@
     "desc": {
       "ko": "모나용평 리조트 안의 9층 182실 규모 콘도로 수영장·볼링장 등을 갖추고 스키장·골프장과 가깝다.",
       "en": "Nine-storey, 182-room condo inside Mona Yongpyong resort with pool and bowling, close to the ski slopes and golf course."
-    },
-    "src": {
-      "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
-    }
-  },
-  "ctme6c9701c": {
-    "desc": {
-      "ko": "하이원리조트·강원랜드 인근 해발 820m에 2010년 문을 연 지상 12층, 339실 규모의 호텔식 콘도다.",
-      "en": "Hotel-style condo opened in 2010 at 820 m altitude near High1 Resort and Kangwon Land, with 12 floors and 339 rooms."
     },
     "src": {
       "ko": "주요 리조트 · 호텔 · 공개 자료 좌표"
