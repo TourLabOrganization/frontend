@@ -20859,16 +20859,6 @@
       "en": "Address-based: 26 Mokbeol-an-gil"
     }
   },
-  "nax40": {
-    "desc": {
-      "ko": "야간 조명 테마파크. 호수 옆 산책 코스와 이어진다.",
-      "en": "A night-lighting theme park beside the lake walking course."
-    },
-    "src": {
-      "ko": "충주호수로 １ 주소 기반 좌표",
-      "en": "Address-based: Chungju Lake area"
-    }
-  },
   "nax101": {
     "desc": {
       "ko": "조선 3대 시장에서 이어진 대구 최대 시장. 저녁에는 야시장이 선다.",
@@ -40788,6 +40778,1824 @@
     },
     "src": {
       "ko": "전시컨벤션센터 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma4c599bc": {
+    "desc": {
+      "ko": "고성군 현내면 명파리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Myeongpa-ri, Hyeonnae-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8a3177fa": {
+    "desc": {
+      "ko": "고성군 현내면 마차진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Machajin-ri, Hyeonnae-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0172eaa3": {
+    "desc": {
+      "ko": "고성군 현내면 대진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Daejin-ri, Hyeonnae-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5be31c4d": {
+    "desc": {
+      "ko": "고성군 현내면 대진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Daejin-ri, Hyeonnae-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm03d6df8b": {
+    "desc": {
+      "ko": "고성군 현내면 초도리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Chodo-ri, Hyeonnae-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbba397ca": {
+    "desc": {
+      "ko": "고성군 거진읍 거진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Geojin-ri, Geojin-eup, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc380668c": {
+    "desc": {
+      "ko": "고성군 거진읍 거진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Geojin-ri, Geojin-eup, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm834f2d8a": {
+    "desc": {
+      "ko": "고성군 거진읍 반암리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Banam-ri, Geojin-eup, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdbb95218": {
+    "desc": {
+      "ko": "고성군 죽왕면 가진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Gajin-ri, Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3b8f131a": {
+    "desc": {
+      "ko": "고성군 죽왕면 공현진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Gonghyeonjin-ri, Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9c8b5f8a": {
+    "desc": {
+      "ko": "고성군 죽왕면 공현진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Gonghyeonjin-ri, Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf4f4e8fa": {
+    "desc": {
+      "ko": "고성군 죽왕면에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme90769d2": {
+    "desc": {
+      "ko": "고성군 죽왕면 삼포리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Sampo-ri, Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm47c9ce84": {
+    "desc": {
+      "ko": "고성군 죽왕면에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6c30e953": {
+    "desc": {
+      "ko": "고성군 죽왕면 문암진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Munamjin-ri, Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm176f1386": {
+    "desc": {
+      "ko": "고성군 죽왕면 문암진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Munamjin-ri, Jugwang-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm435e89e2": {
+    "desc": {
+      "ko": "고성군 토성면 교암리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Gyoam-ri, Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8b112996": {
+    "desc": {
+      "ko": "고성군 토성면 아야진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Ayajin-ri, Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm885329fd": {
+    "desc": {
+      "ko": "고성군 토성면 청간리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Cheonggan-ri, Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5a648aa0": {
+    "desc": {
+      "ko": "고성군 토성면 천진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Cheonjin-ri, Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc7700b9e": {
+    "desc": {
+      "ko": "고성군 토성면 봉포리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Bongpo-ri, Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc4ca323d": {
+    "desc": {
+      "ko": "고성군 토성면 봉포리 켄싱턴리조트 앞에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in in front of the Kensington Resort, Bongpo-ri, Toseong-myeon, Goseong."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma29139ee": {
+    "desc": {
+      "ko": "양양군 강현면 정암리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Jeongam-ri, Ganghyeon-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb48c2db2": {
+    "desc": {
+      "ko": "양양군 강현면에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Ganghyeon-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm98e26930": {
+    "desc": {
+      "ko": "양양군 손양면 송전리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Songjeon-ri, Sonyang-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm508edd6b": {
+    "desc": {
+      "ko": "양양군 손양면 동호리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Dongho-ri, Sonyang-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm32dec237": {
+    "desc": {
+      "ko": "양양군 현북면 중광정리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Junggwangjeong-ri, Hyeonbuk-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm95e34c25": {
+    "desc": {
+      "ko": "양양군 현북면 기사문리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Gisamun-ri, Hyeonbuk-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5dbf553a": {
+    "desc": {
+      "ko": "양양군 현북면 잔교리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Jangyo-ri, Hyeonbuk-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma8836a69": {
+    "desc": {
+      "ko": "양양군 현남면 북분리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Bukbun-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm615070fa": {
+    "desc": {
+      "ko": "양양군 현남면 동산리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Dongsan-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm29133190": {
+    "desc": {
+      "ko": "양양군 현남면 동산리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Dongsan-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2c3e2c59": {
+    "desc": {
+      "ko": "양양군 현남면 인구리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Ingu-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2b17d194": {
+    "desc": {
+      "ko": "양양군 현남면 광진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Gwangjin-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc318d886": {
+    "desc": {
+      "ko": "양양군 현남면에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9b0db30f": {
+    "desc": {
+      "ko": "양양군 현남면 남애리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Namae-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm21c6d876": {
+    "desc": {
+      "ko": "양양군 현남면 원포리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Wonpo-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma3b8f2fb": {
+    "desc": {
+      "ko": "양양군 현남면 지경리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Jigyeong-ri, Hyeonnam-myeon, Yangyang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm30ac32d1": {
+    "desc": {
+      "ko": "강릉시 연곡면 영진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Yeongjin-ri, Yeongok-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc4141fa6": {
+    "desc": {
+      "ko": "강릉시 북부 해안에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in the northern coast of Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6b0096f7": {
+    "desc": {
+      "ko": "강릉시 사천면 사천진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Sacheonjin-ri, Sacheon-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb50f91ac": {
+    "desc": {
+      "ko": "강릉시 사천면에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Sacheon-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm044a45e9": {
+    "desc": {
+      "ko": "강릉시 경포 북쪽 해안에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in the coast north of Gyeongpo, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9e0e16bf": {
+    "desc": {
+      "ko": "강릉시 송정동에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Songjeong-dong, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8f33167f": {
+    "desc": {
+      "ko": "강릉시 남항진동에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Namhangjin-dong, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9842c0cc": {
+    "desc": {
+      "ko": "강릉시 강동면 안인리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Anin-ri, Gangdong-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd9c9ff56": {
+    "desc": {
+      "ko": "강릉시 강동면 정동진 북쪽 해안에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in the coast north of Jeongdongjin, Gangdong-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm57389bf4": {
+    "desc": {
+      "ko": "강릉시 옥계면 금진리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Geumjin-ri, Okgye-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm99e293eb": {
+    "desc": {
+      "ko": "강릉시 옥계면에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Okgye-myeon, Gangneung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc325d17a": {
+    "desc": {
+      "ko": "동해시 대진동에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Daejin-dong, Donghae."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm658b7a0f": {
+    "desc": {
+      "ko": "동해시 대진항과 어달항 사이 해안에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in the coast between Daejin and Eodal ports, Donghae."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4f18d7d2": {
+    "desc": {
+      "ko": "삼척시 증산동 추암 남쪽에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Jeungsan-dong, just south of Chuam, Samcheok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4a63e748": {
+    "desc": {
+      "ko": "삼척시 삼척해수욕장 남쪽 해안에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in the coast just south of Samcheok Beach, Samcheok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme3e7cad6": {
+    "desc": {
+      "ko": "삼척시 근덕면 하맹방리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Hamaengbang-ri, Geundeok-myeon, Samcheok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm58b44409": {
+    "desc": {
+      "ko": "삼척시 근덕면 덕산리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Deoksan-ri, Geundeok-myeon, Samcheok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma481f6f8": {
+    "desc": {
+      "ko": "삼척시 근덕면 원평리에 있는 동해안의 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in Wonpyeong-ri, Geundeok-myeon, Samcheok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7176bca2": {
+    "desc": {
+      "ko": "삼척시 남부 해안에 있는 지정 해수욕장이다.",
+      "en": "A designated East Sea beach in the southern coast of Samcheok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5f38ece1": {
+    "desc": {
+      "ko": "울산 동구 일산동에 있는 길이 약 850m의 백사장으로, 수심이 얕고 경사가 완만한 해수욕장이다.",
+      "en": "An 850 m sandy beach in Ilsan-dong, Dong-gu, Ulsan, with shallow water and a gentle slope."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctm5654a347": {
+    "desc": {
+      "ko": "경주시 감포읍 오류리에 있는 약 1km 길이의 백사장으로, 소나무 숲이 해변을 따라 이어진다.",
+      "en": "A roughly 1 km sandy beach in Oryu-ri, Gampo-eup, Gyeongju, backed by a pine grove."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9b915637": {
+    "desc": {
+      "ko": "경주시 양남면 수렴리에 있는 해변으로, 해변 뒤편 솔밭이 캠핑지로 이용된다.",
+      "en": "A beach in Suryeom-ri, Yangnam-myeon, Gyeongju, with a pine grove behind it used for camping."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9a1373eb": {
+    "desc": {
+      "ko": "포항시 남구 송도동에 있는 도심 해수욕장으로, 2025년 18년 만에 다시 개장했다.",
+      "en": "An urban beach in Songdo-dong, Nam-gu, Pohang, reopened in 2025 for the first time in 18 years."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb4b3afc4": {
+    "desc": {
+      "ko": "포항시 북구 송라면 화진리에 있는 백사장 약 400m의 해수욕장으로, 주변에 솔숲이 있다.",
+      "en": "A beach with about 400 m of sand in Hwajin-ri, Songna-myeon, Buk-gu, Pohang, lined with pine trees."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1146a7fe": {
+    "desc": {
+      "ko": "포항시 북구 흥해읍 칠포리에 있는 넓은 백사장의 해수욕장으로, 서핑과 캠핑으로 알려져 있다.",
+      "en": "A wide sandy beach in Chilpo-ri, Heunghae-eup, Buk-gu, Pohang, known for surfing and camping."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmde67a39b": {
+    "desc": {
+      "ko": "포항시 남구 구룡포읍에 있는 반달 모양의 해수욕장으로, 구룡포항과 가깝다.",
+      "en": "A crescent-shaped beach in Guryongpo-eup, Nam-gu, Pohang, close to Guryongpo Harbor."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd7a49c4a": {
+    "desc": {
+      "ko": "포항시 남구 동해면 도구리에 있는 해수욕장으로, 포스코와 구룡포 사이 영일만 연안에 있다.",
+      "en": "A beach in Dogu-ri, Donghae-myeon, Nam-gu, Pohang, on Yeongil Bay between POSCO and Guryongpo."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3150d8f3": {
+    "desc": {
+      "ko": "포항시 남구 장기면 신창리에 있는 소규모 해수욕장으로, 구룡포와 경주 감포 사이에 있다.",
+      "en": "A small beach in Sinchang-ri, Janggi-myeon, Nam-gu, Pohang, between Guryongpo and Gampo."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm61e71d4a": {
+    "desc": {
+      "ko": "영덕군 영덕읍에 있는 백사장 약 600m의 작은 해수욕장으로, 굵은 규사질 모래로 이루어져 있다.",
+      "en": "A small beach in Yeongdeok-eup, Yeongdeok, with about 600 m of coarse quartz sand."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctm6a48fa67": {
+    "desc": {
+      "ko": "영덕군 축산면 경정리에 있는 작은 해수욕장으로, 영덕 블루로드 해안길에 있다.",
+      "en": "A small beach in Gyeongjeong-ri, Chuksan-myeon, Yeongdeok, on the Yeongdeok Blue Road coastal trail."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctm777f2dd6": {
+    "desc": {
+      "ko": "영덕군 강구면 하저리에 있는 작은 해수욕장으로, 강구항 북쪽 해안에 있다.",
+      "en": "A small beach in Hajeo-ri, Ganggu-myeon, Yeongdeok, on the coast north of Ganggu Harbor."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd1c8ff9": {
+    "desc": {
+      "ko": "영덕군 남정면 남호리에 있는 작은 해수욕장으로, 동해대로 변에 있다.",
+      "en": "A small beach in Namho-ri, Namjeong-myeon, Yeongdeok, beside the Donghae-daero coastal road."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcf2e7ec3": {
+    "desc": {
+      "ko": "울진군 북면 나곡리에 있는 조용한 백사장 해수욕장으로, 경북 최북단 해안에 가깝다.",
+      "en": "A quiet sandy beach in Nagok-ri, Buk-myeon, Uljin, near the northern tip of the Gyeongbuk coast."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3f3ed1b0": {
+    "desc": {
+      "ko": "울진군 죽변면 후정리에 있는 백사장 약 300m의 해수욕장으로, 수심이 얕고 경사가 완만하다.",
+      "en": "A beach with about 300 m of sand in Hujeong-ri, Jukbyeon-myeon, Uljin, with shallow water and a gentle slope."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4cbd9e40": {
+    "desc": {
+      "ko": "울진군 죽변면 봉평리에 있는 해수욕장이다.",
+      "en": "A beach in Bongpyeong-ri, Jukbyeon-myeon, Uljin."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm30e97d46": {
+    "desc": {
+      "ko": "울진군 후포면 삼율리에 있는 백사장 약 250m의 작은 해수욕장으로, 후포면 가장 남쪽에 있다.",
+      "en": "A small beach with about 250 m of sand in Samyul-ri, Hupo-myeon, Uljin, the southernmost in Hupo-myeon."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2fc62ea9": {
+    "desc": {
+      "ko": "거제시 일운면 와현리에 있는 모래 해변으로, 해변 뒤편에 솔숲이 있다.",
+      "en": "A sandy beach backed by a pine grove in Wahyeon-ri, Irun-myeon, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbe613a43": {
+    "desc": {
+      "ko": "거제시 일운면 망치리에 있는 몽돌(조약돌) 해수욕장이다.",
+      "en": "A pebble (mongdol) beach in Mangchi-ri, Irun-myeon, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf6a31d9c": {
+    "desc": {
+      "ko": "거제시 남부면 저구리에 있는 모래 해수욕장으로, 반려동물 동반 해수욕장으로 운영된다.",
+      "en": "A sandy beach in Jeogu-ri, Nambu-myeon, Geoje, operated as a pet-friendly beach."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9664e0ef": {
+    "desc": {
+      "ko": "거제시 남부면 갈곶리 해금강 인근에 있는 작은 몽돌 해변이다.",
+      "en": "A small pebble beach in Galgot-ri, Nambu-myeon, near Haegeumgang, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcbe326ed": {
+    "desc": {
+      "ko": "거제시 동부면 가배리에 있는 해수욕장이다.",
+      "en": "A beach in Gabae-ri, Dongbu-myeon, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3877a866": {
+    "desc": {
+      "ko": "거제시 사등면 사곡리 사곡만에 있는 해수욕장이다.",
+      "en": "A beach on Sagok Bay in Sagok-ri, Sadeung-myeon, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8ec03c71": {
+    "desc": {
+      "ko": "거제시 하청면 칠천도 어온리에 있는 해수욕장이다.",
+      "en": "A beach in Eoon-ri on Chilcheondo Island, Hacheong-myeon, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4df8c782": {
+    "desc": {
+      "ko": "거제시 하청면 칠천도 연구리에 있는 해수욕장이다.",
+      "en": "A beach in Yeongu-ri on Chilcheondo Island, Hacheong-myeon, Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd87f1b5f": {
+    "desc": {
+      "ko": "거제시 장목면 구영리에 있는 해수욕장이다.",
+      "en": "A beach in Guyeong-ri, Jangmok-myeon, northern Geoje."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb483aeec": {
+    "desc": {
+      "ko": "거제시 장목면 거제 북동부 해안에 있는 해수욕장이다.",
+      "en": "A beach on the northeastern coast of Geoje in Jangmok-myeon."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm612993d7": {
+    "desc": {
+      "ko": "남해군 미조면 송정리 설리마을 앞에 있는 모래 해수욕장이다.",
+      "en": "A sandy beach in front of Seolli village, Mijo-myeon, Namhae."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmba058803": {
+    "desc": {
+      "ko": "남해군 남면 홍현리 두곡·월포 마을 앞에 이어진 해수욕장이다.",
+      "en": "A beach fronting Dugok and Wolpo villages in Hongheon-ri, Nam-myeon, Namhae."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9f3d3513": {
+    "desc": {
+      "ko": "통영시 사량면 사량도 상도에 있는 해수욕장으로, 캠핑장이 함께 운영된다.",
+      "en": "A beach on Sangdo, Saryangdo Island, Saryang-myeon, Tongyeong, with an adjoining campsite."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma3e3ed82": {
+    "desc": {
+      "ko": "여수시 신덕동 만성리 북쪽 해안에 있는 작은 모래 해수욕장입니다.",
+      "en": "A small sandy beach in Sindeok-dong, Yeosu, on the coast north of Manseong-ri."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc780be02": {
+    "desc": {
+      "ko": "여수시 돌산읍 죽포리 돌산도 동쪽 해안에 있는 송림을 낀 해수욕장입니다.",
+      "en": "A pine-backed beach in Jukpo-ri, Dolsan-eup, on the east coast of Dolsando, Yeosu."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm443957c8": {
+    "desc": {
+      "ko": "여수시 화양면 장수리 화양반도 남쪽 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Jangsu-ri, Hwayang-myeon, on the southern coast of the Hwayang Peninsula, Yeosu."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbbd8ed0a": {
+    "desc": {
+      "ko": "여수시 화정면 낭도리 낭도에 있는 섬 해수욕장입니다.",
+      "en": "An island beach on Nangdo in Hwajeong-myeon, Yeosu."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd30be86a": {
+    "desc": {
+      "ko": "여수시 삼산면 덕촌리 거문도 서도에 있는 유림해수욕장으로도 불리는 작은 해수욕장입니다.",
+      "en": "A small beach, also called Yurim Beach, on Seodo island of Geomundo in Deokchon-ri, Samsan-myeon, Yeosu."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0592f995": {
+    "desc": {
+      "ko": "여수시 남면 안도리 안도에 있는 섬 해수욕장입니다.",
+      "en": "An island beach on Ando in Nam-myeon, Yeosu."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5fa3eb5f": {
+    "desc": {
+      "ko": "고흥군 영남면 남열리에 있는 해송 숲을 낀 일출 명소 해수욕장입니다.",
+      "en": "A pine-fringed sunrise beach in Namyeol-ri, Yeongnam-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6effd619": {
+    "desc": {
+      "ko": "고흥군 도화면 발포리 남해안에 있는 해수욕장입니다.",
+      "en": "A south-coast beach in Balpo-ri, Dohwa-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfba92f06": {
+    "desc": {
+      "ko": "고흥군 금산면 거금도 해안에 있는 해수욕장입니다.",
+      "en": "A beach on the coast of Geogeumdo island in Geumsan-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6ce12079": {
+    "desc": {
+      "ko": "고흥군 금산면 거금도 해안에 있는 해수욕장입니다.",
+      "en": "A beach on the coast of Geogeumdo island in Geumsan-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2b0bb013": {
+    "desc": {
+      "ko": "고흥군 금산면 신전리 거금도 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Sinjeon-ri on Geogeumdo island, Geumsan-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc402dcdd": {
+    "desc": {
+      "ko": "고흥군 봉래면 신금리 외나로도에 있는 해수욕장입니다.",
+      "en": "A beach in Singeum-ri on Oenarodo island, Bongnae-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5e6c542a": {
+    "desc": {
+      "ko": "고흥군 봉래면 외초리 외나로도에 있는 해수욕장입니다.",
+      "en": "A beach in Oecho-ri on Oenarodo island, Bongnae-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb467e811": {
+    "desc": {
+      "ko": "고흥군 동일면 덕흥리 내나로도에 있는 해수욕장입니다.",
+      "en": "A beach in Deokheung-ri on Naenarodo island, Dongil-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd558ad88": {
+    "desc": {
+      "ko": "고흥군 두원면 득량만 쪽 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Duwon-myeon, Goheung, on the Deungnyangman Bay coast."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm279650f2": {
+    "desc": {
+      "ko": "고흥군 두원면 풍류리 득량만 쪽 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Pungnyu-ri, Duwon-myeon, Goheung, on the Deungnyangman Bay coast."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm29780873": {
+    "desc": {
+      "ko": "고흥군 도덕면 용동리 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Yongdong-ri, Dodeok-myeon, Goheung."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6b497e16": {
+    "desc": {
+      "ko": "완도군 신지면 동고리 신지도 동쪽에 있는 해수욕장입니다.",
+      "en": "A beach in Donggo-ri at the east end of Sinjido, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm729a5f5f": {
+    "desc": {
+      "ko": "완도군 보길면 중리 보길도 남쪽 해안에 있는 모래 해수욕장입니다.",
+      "en": "A sandy beach in Jung-ri on the south coast of Bogildo, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm642df500": {
+    "desc": {
+      "ko": "완도군 보길면 중통리 보길도 남쪽 해안에 있는 모래 해수욕장입니다.",
+      "en": "A sandy beach in Jungtong-ri on the south coast of Bogildo, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmca79d8e9": {
+    "desc": {
+      "ko": "완도군 보길면 예송리에 있는 검은 갯돌이 깔린 몽돌 해변입니다.",
+      "en": "A black-pebble beach in Yesong-ri, Bogil-myeon, Wando, backed by an evergreen windbreak forest."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9bad9abe": {
+    "desc": {
+      "ko": "완도군 생일면 금곡리 생일도에 있는 상록수림에 둘러싸인 해수욕장입니다.",
+      "en": "A beach in Geumgok-ri on Saengildo island, Wando, surrounded by evergreen forest."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm183e6460": {
+    "desc": {
+      "ko": "완도군 청산면 신흥리 청산도에 있는 해수욕장입니다.",
+      "en": "A beach in Sinheung-ri on Cheongsando island, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm47e14969": {
+    "desc": {
+      "ko": "완도군 청산면 지리 청산도에 있는 소나무 숲을 낀 해수욕장입니다.",
+      "en": "A pine-backed beach in Ji-ri on Cheongsando island, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3e2e4662": {
+    "desc": {
+      "ko": "완도군 약산면 해동리 약산도에 있는 동백숲을 낀 해수욕장입니다.",
+      "en": "A beach with a camellia grove in Haedong-ri on Yaksando island, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm09cc30b9": {
+    "desc": {
+      "ko": "완도군 금일읍 금일도에 있는 긴 모래 해수욕장입니다.",
+      "en": "A long sandy beach on Geumildo island, Geumil-eup, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm65c7ccde": {
+    "desc": {
+      "ko": "완도군 소안면 진산리 소안도에 있는 갯돌 해변입니다.",
+      "en": "A pebble beach in Jinsan-ri on Soando island, Wando."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma00b8cbe": {
+    "desc": {
+      "ko": "신안군 증도면 증도에 있는 해수욕장으로 갯벌 위를 건너는 짱뚱어다리가 있습니다.",
+      "en": "A beach on Jeungdo island, Sinan, with the Jjangttungeo boardwalk bridge across the mudflat."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmceafa77f": {
+    "desc": {
+      "ko": "신안군 증도면 증도 끝자락에 있는 캠핑시설을 갖춘 작은 해수욕장입니다.",
+      "en": "A small beach with camping facilities at the tip of Jeungdo island, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd980a5ef": {
+    "desc": {
+      "ko": "신안군 임자면 임자도 서쪽 해안에 길게 뻗은 모래 해수욕장입니다.",
+      "en": "A long sandy beach on the west coast of Imjado island, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3913b20b": {
+    "desc": {
+      "ko": "신안군 자은면 자은도 서쪽에 있는 해송 숲을 낀 모래 해수욕장입니다.",
+      "en": "A pine-fringed sandy beach on the west side of Jaeundo island, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmde379d57": {
+    "desc": {
+      "ko": "신안군 자은면 백길리 자은도에 있는 솔숲을 낀 모래 해수욕장입니다.",
+      "en": "A pine-backed sandy beach in Baekgil-ri on Jaeundo island, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb800f247": {
+    "desc": {
+      "ko": "신안군 비금면 비금도에 있는 해안선이 하트 모양으로 보이는 해변입니다.",
+      "en": "A beach on Bigeumdo island, Sinan, whose shoreline appears heart-shaped from above."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf71f8fd0": {
+    "desc": {
+      "ko": "신안군 도초면 시목리 도초도에 있는 반달 모양 백사장의 해수욕장입니다.",
+      "en": "A crescent-shaped sandy beach in Simok-ri on Dochodo island, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb8d01f6f": {
+    "desc": {
+      "ko": "신안군 도초면 우이도에 있는 모래 해수욕장입니다.",
+      "en": "A sandy beach on Uido island, Docho-myeon, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm715b9d24": {
+    "desc": {
+      "ko": "신안군 암태면 추포도에 있는 해수욕장입니다.",
+      "en": "A beach on Chupodo island, Amtae-myeon, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm36e57258": {
+    "desc": {
+      "ko": "신안군 흑산면 진리 흑산도에 있는 해수욕장입니다.",
+      "en": "A beach in Jin-ri on Heuksando island, Sinan."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbed29490": {
+    "desc": {
+      "ko": "진도군 고군면 회동리 신비의 바닷길 인근 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Hoedong-ri, Gogun-myeon, Jindo, near the Mysterious Sea Road."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme760b262": {
+    "desc": {
+      "ko": "진도군 의신면 금갑리 진도 남동쪽 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Geumgap-ri, Uisin-myeon, on the southeast coast of Jindo."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf6a7bc91": {
+    "desc": {
+      "ko": "진도군 조도면 조도에 있는 섬 해수욕장입니다.",
+      "en": "An island beach on Jodo in Jodo-myeon, Jindo."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbaeb509e": {
+    "desc": {
+      "ko": "진도군 조도면 관매도에 있는 곰솔 숲을 낀 모래 해수욕장입니다.",
+      "en": "A sandy beach backed by black pines on Gwanmaedo island, Jindo."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6aa0dba7": {
+    "desc": {
+      "ko": "무안군 망운면 피서리에 있는 곰솔 숲과 약 500m 백사장을 갖춘 해수욕장입니다.",
+      "en": "A beach in Piseo-ri, Mangun-myeon, Muan, with a black-pine grove and about 500 m of sand."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm229f5752": {
+    "desc": {
+      "ko": "무안군 현경면에 있는 해송과 긴 백사장을 갖춘 파도가 잔잔한 해수욕장입니다.",
+      "en": "A calm-water beach in Hyeongyeong-myeon, Muan, with pines and a long stretch of sand."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4ee40bb7": {
+    "desc": {
+      "ko": "무안군 망운면 송현리 낙지공원 앞 해안에 있는 해수욕장입니다.",
+      "en": "A beach in Songhyeon-ri, Mangun-myeon, Muan, on the shore by Nakji Park."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0457d6de": {
+    "desc": {
+      "ko": "영광군 홍농읍 계마리에 있는 송림을 낀 해수욕장입니다.",
+      "en": "A pine-backed beach in Gyema-ri, Hongnong-eup, Yeonggwang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf8d7167d": {
+    "desc": {
+      "ko": "영광군 낙월면 송이도에 있는 섬 해수욕장입니다.",
+      "en": "An island beach on Songido, Nagwol-myeon, Yeonggwang."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme9686447": {
+    "desc": {
+      "ko": "장흥군 안양면 수문리 득량만에 면한 해수욕장입니다.",
+      "en": "A beach in Sumun-ri, Anyang-myeon, Jangheung, facing Deungnyangman Bay."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9f76630f": {
+    "desc": {
+      "ko": "목포 앞바다 외달도에 있는 섬 해수욕장입니다.",
+      "en": "An island beach on Oedaldo off the coast of Mokpo."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf1ba265d": {
+    "desc": {
+      "ko": "인천 중구 을왕동 을왕리해수욕장 북쪽에 있는 해수욕장으로 서해 낙조로 알려져 있다.",
+      "en": "A beach in Eulwang-dong, Jung-gu, Incheon, just north of Eurwangni Beach, known for its sunsets over the Yellow Sea."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctmb8741d0a": {
+    "desc": {
+      "ko": "옹진군 북도면 장봉도 선착장 인근에 있는 해수욕장이다.",
+      "en": "A beach near the ferry pier on Jangbongdo Island, Bukdo-myeon, Ongjin-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm16d50910": {
+    "desc": {
+      "ko": "옹진군 덕적도 서포리에 있는 해수욕장으로 해변 뒤로 소나무 숲이 이어진다.",
+      "en": "A beach at Seopo-ri on Deokjeokdo Island, Ongjin-gun, backed by a pine grove."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdb76f258": {
+    "desc": {
+      "ko": "옹진군 덕적면 소야도에 있는 해수욕장으로 야영장을 갖추고 있다.",
+      "en": "A beach with a campground on Soyado Island, Deokjeok-myeon, Ongjin-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcf3096e9": {
+    "desc": {
+      "ko": "옹진군 자월면 자월도에 있는 해수욕장이다.",
+      "en": "A beach on Jawoldo Island, Jawol-myeon, Ongjin-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0f999348": {
+    "desc": {
+      "ko": "옹진군 자월면 승봉도에 있는 해수욕장이다.",
+      "en": "A beach on Seungbongdo Island, Jawol-myeon, Ongjin-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm67c3ff2c": {
+    "desc": {
+      "ko": "옹진군 영흥도 서쪽 해안에 있는 해수욕장으로 해변을 따라 노송 숲이 있다.",
+      "en": "A beach on the west coast of Yeongheungdo Island, Ongjin-gun, lined with old pine trees."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf564a578": {
+    "desc": {
+      "ko": "부안군 위도면 위도에 있는 해수욕장으로 격포항에서 여객선으로 들어간다.",
+      "en": "A beach on Wido Island, Buan-gun, reached by ferry from Gyeokpo Port."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc2b3d1b7": {
+    "desc": {
+      "ko": "당진시 석문면 대난지도에 있는 해수욕장으로 도비도항에서 배로 들어간다.",
+      "en": "A beach on Daenanjido Island, Seongmun-myeon, Dangjin, reached by boat from Dobido Port."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmeeaac190": {
+    "desc": {
+      "ko": "태안군 안면읍 방포항 인근에 있는 해수욕장으로 꽃지해수욕장 남쪽에 있다.",
+      "en": "A beach near Bangpo Port in Anmyeon-eup, Taean-gun, just south of Kkotji Beach."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3fd964c8": {
+    "desc": {
+      "ko": "태안군 안면도 서쪽 해안에 있는 모래와 자갈이 섞인 해수욕장이다.",
+      "en": "A sand-and-pebble beach on the west coast of Anmyeondo Island, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf3ad7466": {
+    "desc": {
+      "ko": "태안군 고남면 안면도 서쪽 해안에 길게 뻗은 해수욕장이다.",
+      "en": "A long beach on the west coast of Anmyeondo Island in Gonam-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdc074baa": {
+    "desc": {
+      "ko": "태안군 고남면 안면도 남쪽에 있는 해수욕장이다.",
+      "en": "A beach in Gonam-myeon at the southern end of Anmyeondo Island, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1f149b16": {
+    "desc": {
+      "ko": "태안군 남면 달산리에 있는 경사가 완만한 해수욕장으로 몽산포와 청포대 사이에 있다.",
+      "en": "A gently sloping beach in Dalsan-ri, Nam-myeon, Taean-gun, between Mongsanpo and Cheongpodae."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1f76c60b": {
+    "desc": {
+      "ko": "태안군 남면 몽산포해수욕장 남쪽에 있는 해수욕장으로 소나무 숲을 끼고 있다.",
+      "en": "A beach with a pine grove in Nam-myeon, Taean-gun, just south of Mongsanpo Beach."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm22a332e9": {
+    "desc": {
+      "ko": "태안군 남면 마검포항 인근에 있는 해수욕장이다.",
+      "en": "A beach near Mageompo Port in Nam-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc7cc9588": {
+    "desc": {
+      "ko": "태안군 근흥면 도황리에 있는 해수욕장이다.",
+      "en": "A beach in Dohwang-ri, Geunheung-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctm25c59ee6": {
+    "desc": {
+      "ko": "태안군 근흥면에 있는 해수욕장으로 소나무 숲에 둘러싸여 있다.",
+      "en": "A beach surrounded by pine forest in Geunheung-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctmf88155db": {
+    "desc": {
+      "ko": "태안군 소원면 만리포해수욕장 북쪽, 천리포수목원 앞에 있는 해수욕장이다.",
+      "en": "A beach in Sowon-myeon, Taean-gun, north of Mallipo Beach and in front of Chollipo Arboretum."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctmac03cd11": {
+    "desc": {
+      "ko": "태안군 소원면 의항리에 있는 모래와 자갈이 섞인 해수욕장이다.",
+      "en": "A sand-and-pebble beach in Uihang-ri, Sowon-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdf001259": {
+    "desc": {
+      "ko": "태안군 소원면 만리포 남쪽에 있는 해수욕장으로 해옥이라 불리는 작은 자갈로 알려져 있다.",
+      "en": "A beach south of Mallipo in Sowon-myeon, Taean-gun, known for its small polished pebbles called haeok."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctmdcb3134a": {
+    "desc": {
+      "ko": "태안군 소원면 파도리 남쪽에 있는 모래와 자갈이 섞인 해수욕장이다.",
+      "en": "A sand-and-pebble beach south of Padori in Sowon-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme2b8963e": {
+    "desc": {
+      "ko": "태안군 원북면 태안해안국립공원 북쪽 끝에 있는 해수욕장이다.",
+      "en": "A beach at the northern end of Taeanhaean National Park in Wonbuk-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctmc817a32a": {
+    "desc": {
+      "ko": "태안군 원북면 황촌리에 있는 해수욕장으로 학암포해수욕장 남쪽에 있다.",
+      "en": "A beach in Hwangchon-ri, Wonbuk-myeon, Taean-gun, south of Hakampo Beach."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctmd2238899": {
+    "desc": {
+      "ko": "태안군 원북면 신두리 해안사구 앞에 길게 뻗은 해수욕장이다.",
+      "en": "A long beach in front of the Sinduri coastal dunes in Wonbuk-myeon, Taean-gun."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표"
+    }
+  },
+  "ctm767aede2": {
+    "desc": {
+      "ko": "태안군 이원면 내리에 있는 작은 해수욕장으로 태안 솔향기길 1코스의 종점이다.",
+      "en": "A small beach in Nae-ri, Iwon-myeon, Taean-gun, at the end of Course 1 of the Taean Solhyanggi-gil trail."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd6c1266e": {
+    "desc": {
+      "ko": "서귀포시 안덕면 화순리에 있는 금빛 모래 해수욕장으로 제주도 지정 해수욕장 12곳 중 하나입니다.",
+      "en": "A golden-sand beach in Hwasun-ri, Andeok-myeon, Seogwipo, and one of Jeju's 12 designated public beaches."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmebb81c48": {
+    "desc": {
+      "ko": "서귀포시 안덕면 사계리 산방산과 송악산 사이 해안에 있는 해변입니다.",
+      "en": "A beach in Sagye-ri, Andeok-myeon, Seogwipo, on the coast between Sanbangsan and Songaksan."
+    },
+    "src": {
+      "ko": "제주 해변 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6e86f78d": {
+    "desc": {
+      "ko": "제주시 우도면 우도 북동쪽 해안에 있는 하얀 모래 해변입니다.",
+      "en": "A white-sand beach on the northeast coast of Udo island, Udo-myeon, Jeju City."
+    },
+    "src": {
+      "ko": "제주 해변 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1e122d34": {
+    "desc": {
+      "ko": "제주시 우도면 우도 서쪽 해안에 있는 홍조단괴 해변으로 우도 산호해변이라고도 불립니다.",
+      "en": "A rhodolith (coralline algae) beach on the west coast of Udo island, Jeju City, also known as Udo Coral Beach."
+    },
+    "src": {
+      "ko": "제주 해변 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm84588d3e": {
+    "desc": {
+      "ko": "포천 백운산에서 흘러내려 흥룡사 앞을 지나는 약 10km 길이의 여름 피서 계곡이다.",
+      "en": "A roughly 10 km summer valley flowing down from Baegunsan past Heungryongsa Temple in Pocheon."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6007f67a": {
+    "desc": {
+      "ko": "연인산도립공원 승안리 들머리에 이어지는 맑은 계곡으로 여름 물놀이와 계곡 트레킹 명소다.",
+      "en": "A clear valley at the Seungan-ri entrance to Yeoninsan Provincial Park, popular for summer wading and valley walks."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8311c78e": {
+    "desc": {
+      "ko": "어비산과 유명산 사이 설악면 가일리를 흐르는 계곡으로 여름 물놀이와 겨울 얼음 풍경으로 알려져 있다.",
+      "en": "A valley in Gail-ri, Seorak-myeon, between Eobisan and Yumyeongsan, known for summer wading and winter ice scenery."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm994d3407": {
+    "desc": {
+      "ko": "화악산과 석룡산 사이 북면 적목리에 약 6km 이어지는 가평천 최상류 계곡이다.",
+      "en": "An approximately 6 km headwater valley of Gapyeongcheon in Jeongmok-ri between Hwaaksan and Seongnyongsan."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm95636bf7": {
+    "desc": {
+      "ko": "북한산국립공원 송추 지역 장흥면 울대리에 자리한 서울 근교 여름 계곡이다.",
+      "en": "A summer valley near Seoul in Uldae-ri, Jangheung-myeon, within the Songchu area of Bukhansan National Park."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7945a348": {
+    "desc": {
+      "ko": "남양주 수동면 비룡로를 따라 흐르는 물골안 계곡으로 수심이 다양해 물놀이객이 많이 찾는다.",
+      "en": "A stream valley along Biryong-ro in Sudong-myeon, Namyangju, popular for swimming thanks to its varied depths."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2f89322c": {
+    "desc": {
+      "ko": "중원산과 도일봉 사이 약 6km 계곡으로 높이 약 10m의 3단 중원폭포가 있다.",
+      "en": "A roughly 6 km valley between Jungwonsan and Doilbong peaks, featuring the three-tier, 10 m Jungwon Falls."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma68a3e84": {
+    "desc": {
+      "ko": "광덕산과 백운산 사이 사내천 상류의 청정 계곡으로 수심이 얕아 가족 물놀이에 알맞다.",
+      "en": "A clean upper-Sanaecheon valley between Gwangdeoksan and Baegunsan, shallow enough for family wading."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfed8c512": {
+    "desc": {
+      "ko": "방태산 자락 기린면 진동리의 원시림 계곡으로 조경동 다리에서 진동1리까지 약 6.2km 트레킹 코스가 있다.",
+      "en": "A primeval-forest valley in Jindong-ri on the slopes of Bangtaesan, with a 6.2 km trek from Jogyeongdong Bridge to Jindong 1-ri."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm903b6ca0": {
+    "desc": {
+      "ko": "응복산에서 발원해 남대천 상류를 이루는 현북면 법수치리의 오지 계곡이다.",
+      "en": "A remote valley in Beopsuchi-ri, Hyeonbuk-myeon, rising on Eungboksan and feeding the upper Namdaecheon."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme15507fe": {
+    "desc": {
+      "ko": "양양 서면 황이리 미천골자연휴양림을 따라 약 12km 이어지는 계곡으로 입구에 선림원지가 있다.",
+      "en": "A valley of about 12 km through Micheongol Recreational Forest in Hwangi-ri, with the Seollimwon temple site at its mouth."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2eacd2f6": {
+    "desc": {
+      "ko": "설악산 오색약수터에서 용소폭포까지 약 3.2km 탐방로가 이어지는 기암 계곡으로 단풍 명소다.",
+      "en": "A rocky Seoraksan valley with a 3.2 km trail from Osaek Mineral Spring to Yongso Falls, famed for autumn colors."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm70942415": {
+    "desc": {
+      "ko": "설악산 비선대에서 대청봉 방향으로 약 7km 이어지는 계곡으로 명승으로 지정되어 있다.",
+      "en": "A Seoraksan valley running about 7 km from Biseondae toward Daecheongbong, designated a Scenic Site."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme6a0bf83": {
+    "desc": {
+      "ko": "오대산국립공원 연곡면 삼산리의 계곡으로 무릉계와 구룡폭포 등이 이어지는 명승이다.",
+      "en": "An Odaesan National Park valley in Samsan-ri, Yeongok-myeon, a designated Scenic Site with Mureunggye and Guryong Falls."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6b5e721b": {
+    "desc": {
+      "ko": "사자산 법흥사 아래에서 주천강으로 약 20km 흐르는 수주면 법흥리의 청정 계곡이다.",
+      "en": "A clean valley in Beopheung-ri, Suju-myeon, running about 20 km from below Beopheungsa Temple to the Jucheon River."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmefdc66cb": {
+    "desc": {
+      "ko": "화암면 북동리와 정선읍 여탄리 사이 약 12km에 층암절벽이 둘러싼 오지 트레킹 계곡이다.",
+      "en": "A remote 12 km trekking valley lined by tall cliffs between Bukdong-ri, Hwaam-myeon and Yeotan-ri, Jeongseon-eup."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4c631aa8": {
+    "desc": {
+      "ko": "치악산국립공원 판부면 금대리에 있는 원주의 대표 여름 계곡이다.",
+      "en": "Wonju's best-known summer valley, in Geumdae-ri, Panbu-myeon, within Chiaksan National Park."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm27e443e8": {
+    "desc": {
+      "ko": "단성면 가산리에서 대잠리까지 약 10km 이어지며 단양팔경인 상·중·하선암을 품은 계곡이다.",
+      "en": "A valley of about 10 km from Gasan-ri to Daejam-ri in Danseong-myeon, holding the Sangseonam, Jungseonam and Haseonam rocks of the Eight Scenic Views of Danyang."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc9ce38fb": {
+    "desc": {
+      "ko": "속리산국립공원 화양천 약 3km 구간에 아홉 경승이 이어지는 명승 계곡이다.",
+      "en": "A Scenic Site valley with nine named spots along about 3 km of Hwayangcheon in Songnisan National Park."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdaacc4d4": {
+    "desc": {
+      "ko": "선유동문에서 은선암까지 약 2km에 아홉 굽이 경승이 이어지는 괴산 송면리의 계곡이다.",
+      "en": "A valley in Songmyeon-ri, Goesan, with nine scenic bends over about 2 km from Seonyudongmun to Eunseonam."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm81e76af7": {
+    "desc": {
+      "ko": "칠보산과 군자산 사이를 약 10.5km 흐르며 쌍곡구곡으로 알려진 칠성면의 계곡이다.",
+      "en": "A valley flowing about 10.5 km between Chilbosan and Gunjasan in Chilseong-myeon, known for its nine scenic bends."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3ed08597": {
+    "desc": {
+      "ko": "민주지산과 삼도봉 등 높은 산 사이로 약 20km 이어지는 상촌면의 1급수 계곡이다.",
+      "en": "A Grade-1 clean-water valley running about 20 km among Minjujisan, Samdobong and other peaks in Sangchon-myeon."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma1492b4e": {
+    "desc": {
+      "ko": "지리산국립공원 주천면 육모정에서 구룡폭포까지 약 3.1km 탐방로가 이어지는 계곡이다.",
+      "en": "A Jirisan National Park valley with a 3.1 km trail from Yungmojeong Pavilion to Guryong Falls in Jucheon-myeon."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm093628d4": {
+    "desc": {
+      "ko": "덕유산국립공원 안성면에 일곱 폭포와 일곱 소가 이어진 칠연폭포가 있는 계곡이다.",
+      "en": "A Deogyusan National Park valley in Anseong-myeon where Chillyeon Falls links seven cascades and seven pools."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd3b72ec3": {
+    "desc": {
+      "ko": "반야봉에서 발원해 연곡사를 지나 섬진강으로 흐르는 지리산 계곡으로 지리산 10경의 단풍 명소다.",
+      "en": "A Jirisan valley rising below Banyabong and flowing past Yeongoksa to the Seomjin River, one of the Ten Views of Jirisan for autumn leaves."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9805b595": {
+    "desc": {
+      "ko": "용추봉 아래 영산강 시원인 용소와 출렁다리가 있는 용면 용연리의 계곡 생태공원이다.",
+      "en": "A valley eco-park in Yongyeon-ri, Yong-myeon, below Yongchubong, with Yongso Pool, the source of the Yeongsan River, and a suspension bridge."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0acb600c": {
+    "desc": {
+      "ko": "마천면 추성리에서 천왕봉으로 이어지는 지리산 계곡으로 7개 폭포와 33개 소가 있다.",
+      "en": "A Jirisan valley from Chuseong-ri, Macheon-myeon toward Cheonwangbong, with seven waterfalls and 33 pools."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf110df7e": {
+    "desc": {
+      "ko": "백무동에서 세석평전까지 약 10km에 20여 개 폭포가 이어지는 명승 지리산 계곡이다.",
+      "en": "A Jirisan Scenic Site valley with some 20 waterfalls over about 10 km from Baengmudong to Seseok Plateau."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm68739004": {
+    "desc": {
+      "ko": "지리산 동쪽 삼장면 유평리의 계곡으로 대원사를 지나 유평마을까지 계곡길이 이어진다.",
+      "en": "A valley on the east side of Jirisan in Yupyeong-ri, Samjang-myeon, with a trail past Daewonsa Temple to Yupyeong village."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8d675a46": {
+    "desc": {
+      "ko": "주왕산국립공원 대전사에서 용추폭포·용연폭포로 이어지는 약 4km 협곡으로 명승이다.",
+      "en": "A roughly 4 km gorge in Juwangsan National Park from Daejeonsa to Yongchu and Yongyeon Falls, designated a Scenic Site."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm61d767c1": {
+    "desc": {
+      "ko": "포항 죽장면 하옥리 동사동에서 새태양지까지 이어지는 맑은 물놀이 계곡이다.",
+      "en": "A clear swimming valley in Haok-ri, Jukjang-myeon, Pohang, stretching from Dongsadong to Saetaeyangji."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm044b9eab": {
+    "desc": {
+      "ko": "가야산 자락 가천면 법전리와 용사리에 약 7km 이어지는 성주의 계곡이다.",
+      "en": "A valley of about 7 km in Beopjeon-ri and Yongsa-ri, Gacheon-myeon, on the slopes of Gayasan in Seongju."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6b4faf72": {
+    "desc": {
+      "ko": "한강 정구가 경영한 대가천의 아홉 굽이 계곡으로 성주 수륜면에서 김천 증산면까지 약 35km 이어진다.",
+      "en": "A nine-bend valley of the Daegacheon associated with scholar Jeong Gu, running about 35 km from Suryun-myeon, Seongju to Jeungsan-myeon, Gimcheon."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme1294342": {
+    "desc": {
+      "ko": "가은읍 완장리에 너럭바위가 약 1.7km 이어지는 선유구곡 계곡이다.",
+      "en": "The Seonyu Gugok valley in Wanjang-ri, Gaeun-eup, with broad granite ledges over about 1.7 km."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5c10e653": {
+    "desc": {
+      "ko": "팔공산 북쪽 신녕면 치산리에 공산폭포와 약 6km 숲길이 이어지는 계곡이다.",
+      "en": "A valley in Chisan-ri, Sinnyeong-myeon on the north side of Palgongsan, with Gongsan Falls and about 6 km of forest."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcaf8c59a": {
+    "desc": {
+      "ko": "감산리 창고천 양옆 절벽 사이에 난대 상록수림이 남은 천연기념물 계곡이다.",
+      "en": "A Natural Monument valley in Gamsan-ri where warm-temperate evergreen forest survives between cliffs along Changgocheon."
+    },
+    "src": {
+      "ko": "계곡 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7f0cda97": {
+    "desc": {
+      "ko": "문무대왕릉(대왕암)이 바라보이는 경주 양북면 봉길리의 해수욕장.",
+      "en": "A beach at Bonggil-ri, Gyeongju, facing the underwater tomb of King Munmu (Daewangam)."
+    },
+    "src": {
+      "ko": "지정 해수욕장 · 주소 기준 좌표 · 대략 위치"
     }
   }
 }

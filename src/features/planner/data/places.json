@@ -44056,28 +44056,6 @@
     "pickCity": "충주"
   },
   {
-    "id": "nax40",
-    "n": null,
-    "ko": "충주 라이트월드",
-    "en": "Chungju Light World",
-    "locKo": "충주",
-    "cat": "activity",
-    "lat": 36.988,
-    "lng": 127.892,
-    "min": 80,
-    "hrs": "일몰 후 개장 · 유료",
-    "open": null,
-    "close": null,
-    "yt": false,
-    "off": true,
-    "k100": false,
-    "un": false,
-    "bf": false,
-    "auto": true,
-    "macro": "chungcheong",
-    "pickCity": "충주"
-  },
-  {
     "id": "nax101",
     "n": null,
     "ko": "서문시장",
