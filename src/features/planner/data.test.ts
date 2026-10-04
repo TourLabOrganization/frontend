@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 import addedPlaces from "./data/added-places.json";
 import {
   CITY_GROUPS,
+  findPlace,
+  isPlannerPlace,
+  PLACE_ALIASES,
   PLACE_COUNT_BY_CITY,
-  PLANNER_PLACES,
   placesInScope,
+  PLANNER_PLACES,
 } from "./data";
 import { BADGE_KEYS, hasBadge } from "./badges";
 import { sortPlaces } from "./list-order";
@@ -33,9 +36,11 @@ const REGION_CITY_COUNT = {
   jeju: 2,
 };
 
-// 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 3,109곳 뒤에 붙는다
+// 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 뒤에 붙는다.
+// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 60곳을 뺀 3,049곳
+const BASE = 3049;
 const ADDED = addedPlaces.length;
-const TOTAL = 3109 + ADDED;
+const TOTAL = BASE + ADDED;
 /** 추가 장소 수(도시 · 권역별). 아래 기대값은 빌드 장소 수 + 이 값 */
 const addedIn = (city: string) =>
   addedPlaces.filter((p) => p.pickCity === city).length;
@@ -43,7 +48,7 @@ const addedMacro = (key: string) =>
   addedPlaces.filter((p) => p.macro === key).length;
 /** 추가 장소로만 생긴 도시(빌드 장소가 없던 김포 · 부천 · 광명) */
 const BASE_CITIES = new Set(
-  PLANNER_PLACES.slice(0, 3109).map((p) => p.pickCity),
+  PLANNER_PLACES.slice(0, BASE).map((p) => p.pickCity),
 );
 const addedCityList = [
   ...new Set(
@@ -57,14 +62,14 @@ const addedCitiesIn = (key: string) =>
   ).length;
 
 describe("플래너 데이터", () => {
-  it("장소는 3,109곳(원천 3,118곳에서 맥도날드 9곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
+  it("장소는 3,049곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 60곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
     expect(PLANNER_PLACES).toHaveLength(TOTAL);
     expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(TOTAL);
   });
 
   it("추가 장소는 pop<contentid> · odii<tid> · ctm<해시> id · 도시 고르기 도시 · 시군구 코드가 있고 빌드 장소와 이름 · 위치가 겹치지 않는다", () => {
-    const base = PLANNER_PLACES.slice(0, 3109);
-    for (const p of PLANNER_PLACES.slice(3109)) {
+    const base = PLANNER_PLACES.slice(0, BASE);
+    for (const p of PLANNER_PLACES.slice(BASE)) {
       expect(p.id, p.id).toMatch(/^(pop\d{1,12}|odii\d+|ctm[0-9a-f]{8})$/);
       expect(p.pickCity).toBe(p.locKo);
       expect(REGION_KEYS).toContain(p.macro);
@@ -83,11 +88,11 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      서울: 256 + addedIn("서울"),
-      부산: 182 + addedIn("부산"),
+      서울: 254 + addedIn("서울"),
+      부산: 177 + addedIn("부산"),
       제주: 171 + addedIn("제주"),
       영월: 28 + addedIn("영월"),
-      경주: 70 + addedIn("경주"),
+      경주: 69 + addedIn("경주"),
       거제: 45 + addedIn("거제"),
     });
   });
@@ -96,8 +101,8 @@ describe("플래너 데이터", () => {
     const sum = [...PLACE_COUNT_BY_CITY.values()].reduce((a, b) => a + b, 0);
     const nationOnly = PLANNER_PLACES.filter((p) => !p.pickCity).length;
     expect(PLACE_COUNT_BY_CITY.size).toBe(124 + addedCities);
-    expect(sum).toBe(3095 + ADDED);
-    expect(nationOnly).toBe(14);
+    expect(sum).toBe(BASE + ADDED);
+    expect(nationOnly).toBe(0);
     expect(sum + nationOnly).toBe(TOTAL);
     for (const [city, n] of PLACE_COUNT_BY_CITY) {
       const list = placesInScope({ kind: "city", city });
@@ -124,17 +129,17 @@ describe("플래너 데이터", () => {
       ]),
     );
     expect(byRegion).toEqual({
-      capital: 683 + addedMacro("capital"),
-      gangwon: 372 + addedMacro("gangwon"),
-      chungcheong: 440 + addedMacro("chungcheong"),
-      daegyeong: 369 + addedMacro("daegyeong"),
-      dongnam: 640 + addedMacro("dongnam"),
-      honam: 432 + addedMacro("honam"),
-      jeju: 173 + addedMacro("jeju"),
+      capital: 673 + addedMacro("capital"),
+      gangwon: 361 + addedMacro("gangwon"),
+      chungcheong: 435 + addedMacro("chungcheong"),
+      daegyeong: 361 + addedMacro("daegyeong"),
+      dongnam: 624 + addedMacro("dongnam"),
+      honam: 424 + addedMacro("honam"),
+      jeju: 171 + addedMacro("jeju"),
     });
   });
 
-  it("도시 고르기 묶음별 도시 수는 목업과 같고, 장소 수는 권역 장소 수와 같다(같은 장소 중복 14곳 제외)", () => {
+  it("도시 고르기 묶음별 도시 수는 목업과 같고, 장소 수는 권역 장소 수와 같다(같은 장소는 합쳐서 하나)", () => {
     expect(
       Object.fromEntries(
         CITY_GROUPS.map((g) => [
@@ -146,18 +151,18 @@ describe("플래너 데이터", () => {
         ]),
       ),
     ).toEqual({
-      capital: [21 + addedCitiesIn("capital"), 681 + addedMacro("capital")],
-      gangwon: [18 + addedCitiesIn("gangwon"), 369 + addedMacro("gangwon")],
+      capital: [21 + addedCitiesIn("capital"), 673 + addedMacro("capital")],
+      gangwon: [18 + addedCitiesIn("gangwon"), 361 + addedMacro("gangwon")],
       chungcheong: [
         19 + addedCitiesIn("chungcheong"),
-        440 + addedMacro("chungcheong"),
+        435 + addedMacro("chungcheong"),
       ],
       daegyeong: [
         16 + addedCitiesIn("daegyeong"),
-        366 + addedMacro("daegyeong"),
+        361 + addedMacro("daegyeong"),
       ],
-      dongnam: [19 + addedCitiesIn("dongnam"), 636 + addedMacro("dongnam")],
-      honam: [30 + addedCitiesIn("honam"), 432 + addedMacro("honam")],
+      dongnam: [19 + addedCitiesIn("dongnam"), 624 + addedMacro("dongnam")],
+      honam: [30 + addedCitiesIn("honam"), 424 + addedMacro("honam")],
       jeju: [1 + addedCitiesIn("jeju"), 171 + addedMacro("jeju")],
     });
   });
@@ -193,7 +198,7 @@ describe("플래너 데이터", () => {
   });
 
   // 데이터랩 인기 · 관광특구 · 관광단지는 data-server(develop ac9eb34) popRank · zone 기준
-  it("배지 필터 장소 수: 데이터랩 인기 173 · 유네스코 69 · 100선 99 · 열린관광지 99 · 관광특구 · 관광단지 210", () => {
+  it("배지 필터 장소 수: 데이터랩 인기 173 · 유네스코 69 · 100선 98 · 열린관광지 99 · 관광특구 · 관광단지 204", () => {
     expect(
       Object.fromEntries(
         BADGE_KEYS.map((b) => [
@@ -201,7 +206,7 @@ describe("플래너 데이터", () => {
           PLANNER_PLACES.filter((p) => hasBadge(p, b)).length,
         ]),
       ),
-    ).toEqual({ pop: 173, un: 69, k100: 99, bf: 99, zone: 210 });
+    ).toEqual({ pop: 173, un: 69, k100: 98, bf: 99, zone: 204 });
   });
 
   it("좌표는 한국 안(위도 33~39 · 경도 124~132)이다", () => {
@@ -268,8 +273,8 @@ describe("도시별 장소 수(regions.json placeCounts)", () => {
 });
 
 describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목록 장소도 그 도시에", () => {
-  // 전용 화면 묶음과 전국 목록에 함께 있는 같은 장소(scripts/build-planner.mjs samePlace). [남긴 id, 도시에서 뺀 id]
-  // 전용 화면 쪽을 남기고, 인기 순위가 전국 목록 쪽에만 있으면(서울스카이 · 올레시장 · 사려니숲길) 전국 목록 쪽을 남긴다
+  // 전용 화면 묶음과 전국 목록에 함께 있던 같은 장소는 하나로 합쳐 뺐다(scripts/merge-same-places.mjs, 2026-10-03). [남긴 id, 뺀 id]
+  // 뺀 id는 place-aliases.json으로 남긴 장소에 이어진다. 전용 화면 쪽을 남기고 전국 목록 쪽의 인기 순위를 옮겼다(서울스카이 · 올레시장 · 사려니숲길)
   const SAME: readonly [string, string][] = [
     ["bc10", "ctt7"], // 부산 BIFF 광장 = BIFF광장
     ["ywx1", "ro106"], // 고씨굴 = 영월 고씨굴
@@ -277,16 +282,15 @@ describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목�
     ["bcx42", "ro177"], // 동백섬 · 누리마루 = 동백섬
     ["yw2", "ro188"], // 영월 장릉 = 장릉
     ["bcx28", "ro226"], // 달맞이길 문탠로드 = 해운대달맞이길
-    ["ro666", "kd5"], // 서울스카이(인기 78위) = 롯데월드타워 서울스카이
-    ["ro15", "jdx29"], // 서귀포매일올레시장(인기 3위) = 제주 올레시장
-    ["ro261", "jdx5"], // 한라산둘레길 사려니숲길(인기 15위) = 사려니숲길
+    ["kd5", "ro666"], // 롯데월드타워 서울스카이 = 서울스카이(인기 78위)
+    ["jdx29", "ro15"], // 제주 올레시장 = 서귀포매일올레시장(인기 3위)
+    ["jdx5", "ro261"], // 사려니숲길 = 한라산둘레길 사려니숲길(인기 15위)
     ["bcx31", "ro762"], // 부산 F1963 = F1963
     ["gjx19", "rs60"], // 힐튼 경주 = 힐튼호텔 경주
     ["kdx26", "nax701"], // 서울숲 = 서울숲
     ["gjx8", "nax773"], // 경주 양남 주상절리 = 양남 주상절리 파도소리길
     ["yw1", "nax893"], // 청령포 = 청령포 관음송
   ];
-  const DROPPED = SAME.map(([, drop]) => drop);
   // 이름 규칙에 걸리지만 다른 장소라 둘 다 도시에 남긴다(안에 든 시설 · 행사, 인사동 근처 호텔)
   const DIFFERENT: readonly [string, string][] = [
     ["ro17", "kdx9"], // 코엑스 · 코엑스 별마당도서관
@@ -297,39 +301,32 @@ describe("도시 고르기 도시(pickCity): 전용 화면 도시의 전국 목�
   const SCREEN_CITIES = ["서울", "부산", "제주", "영월", "경주", "거제"];
   const byId = new Map(PLANNER_PLACES.map((p) => [p.id, p]));
 
-  it("도시 장소 수 = 그 도시(locKo) 장소 수 − 중복으로 뺀 장소 수", () => {
+  it("도시 장소 수 = 그 도시(locKo) 장소 수(같은 장소는 합쳐서 하나)", () => {
     for (const city of SCREEN_CITIES) {
       const inCity = PLANNER_PLACES.filter((p) => p.locKo === city);
-      const dup = inCity.filter((p) => DROPPED.includes(p.id)).length;
-      expect(PLACE_COUNT_BY_CITY.get(city), city).toBe(inCity.length - dup);
+      expect(PLACE_COUNT_BY_CITY.get(city), city).toBe(inCity.length);
     }
-    const gyeongju = PLANNER_PLACES.filter((p) => p.locKo === "경주");
-    expect(PLACE_COUNT_BY_CITY.get("경주")).toBe(gyeongju.length - 3);
   });
 
-  it("pickCity가 있으면 locKo와 같고, 없는 장소는 중복으로 뺀 장소뿐", () => {
-    for (const p of PLANNER_PLACES)
-      if (p.pickCity) expect(p.pickCity, p.id).toBe(p.locKo);
-    expect(
-      PLANNER_PLACES.filter((p) => !p.pickCity)
-        .map((p) => p.id)
-        .sort(),
-    ).toEqual([...DROPPED].sort());
+  it("모든 장소에 pickCity가 있고 locKo와 같다(같은 장소를 합쳐 뺀 뒤로 도시에서 뺀 장소가 없다)", () => {
+    for (const p of PLANNER_PLACES) expect(p.pickCity, p.id).toBe(p.locKo);
   });
 
-  it("같은 장소 쌍은 도시 목록에 한 번만, 전국 보기에는 둘 다 남는다", () => {
-    const nation = placesInScope({ kind: "nation", region: null });
+  it("같은 장소 쌍은 남긴 쪽만 데이터에 있고, 뺀 id는 남긴 장소로 이어진다", () => {
     for (const [keep, drop] of SAME) {
-      const city = byId.get(keep)!.locKo;
-      const ids = placesInScope({ kind: "city", city }).map((p) => p.id);
-      expect(ids, keep).toContain(keep);
-      expect(ids, drop).not.toContain(drop);
-      expect(nation.some((p) => p.id === drop)).toBe(true);
+      expect(byId.has(keep), keep).toBe(true);
+      expect(byId.has(drop), drop).toBe(false);
+      expect(PLACE_ALIASES[drop], drop).toBe(keep);
+      expect(findPlace(drop)?.id, drop).toBe(keep);
+      expect(isPlannerPlace(drop), drop).toBe(true);
     }
     const seoul = placesInScope({ kind: "city", city: "서울" });
     expect(seoul.filter((p) => p.ko === "서울숲").map((p) => p.id)).toEqual([
       "kdx26",
     ]);
+    expect(byId.get("kd5")?.popRank).toBe(78);
+    expect(byId.get("jdx29")?.popRank).toBe(3);
+    expect(byId.get("jdx5")?.popRank).toBe(15);
   });
 
   it("다른 장소 쌍은 둘 다 도시 목록에 있다", () => {
