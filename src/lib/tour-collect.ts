@@ -38,7 +38,7 @@ import {
   NEAR_SPOT_M,
   NEAR_SPOT_OVERLAP,
   pickSpotItem,
-  pickSpotItemLoose,
+  boundaryMatch,
   POPULAR_COUNT,
   rankSpots,
   SAME_SPOT_M,
@@ -184,7 +184,10 @@ export type CollectResult = {
   places: AddedPlace[];
 };
 
-/** 풀에서 이름이 맞는 장소(수기 대조표 → 같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳). matchPlace와 같은 규칙을 풀에 적용한다 */
+/**
+ * 풀에서 이름이 맞는 장소(수기 대조표 → 같은 시군구, 이름 점수 2 이상 중 가장 높은 곳, 같으면 먼저 나온 곳). matchPlace와 같은 규칙을 풀에 적용한다.
+ * 시군구 경계 장소는 관광정보 검색 뒤 boundaryMatch(그 지역 장소만)로 본다
+ */
 function matchInPool(
   spot: { name: string; signgu: string },
   region: string,
@@ -198,20 +201,15 @@ function matchInPool(
   }
   let best: PlannerPlace | null = null;
   let bestScore = 1;
-  // 시군구 경계 장소: 같은 시군구에 없으면 이름이 같은(3점) 장소(matchPlace와 같다)
-  let exactElsewhere: PlannerPlace | null = null;
   for (const p of pool) {
+    if (spot.signgu && signguOf(p.id) !== spot.signgu) continue;
     const score = nameScore(spot.name, p.ko, region);
-    if (spot.signgu && signguOf(p.id) !== spot.signgu) {
-      if (score === 3 && !exactElsewhere) exactElsewhere = p;
-      continue;
-    }
     if (score > bestScore) {
       best = p;
       bestScore = score;
     }
   }
-  return best ?? exactElsewhere;
+  return best;
 }
 
 /** 풀에서 좌표 근처 장소(matchByLocation과 같은 규칙: 250m 안, 또는 1km 안에서 이름 절반 겹침) */
@@ -305,8 +303,9 @@ export async function collectPopular(
         continue;
       }
       let item = null;
+      let found: TourItem[] = [];
       try {
-        const found = await fetchTourItems(
+        found = await fetchTourItems(
           tourApiUrl("KorService2/searchKeyword2", key, {
             numOfRows: "30",
             pageNo: "1",
@@ -316,27 +315,22 @@ export async function collectPopular(
           "no-store",
         );
         item = pickSpotItem(found, s);
-        if (!item) {
-          // 경계 장소: 같은 시도의 이름 같은 관광정보로 풀의 장소만 찾는다(신규로 만들지 않는다)
-          const loose = pickSpotItemLoose(found, s);
-          const looseKto = loose ? toKtoPlace(loose) : null;
-          const near = looseKto
-            ? nearInPool(
-                { name: s.name, lat: looseKto.lat, lng: looseKto.lng },
-                pool,
-              )
-            : null;
-          if (near) {
-            candidates.push({
-              ...base,
-              verdict: "existing-location",
-              id: near.id,
-            });
-            continue;
-          }
-        }
       } catch {
         log(`${t.region} ${s.name}: 관광정보 검색 실패`);
+      }
+      if (!item) {
+        // 시군구 경계 장소(홈 findPopular와 같은 boundaryMatch): 그 도시 장소만 보고, 신규로 만들지 않는다.
+        // 풀에는 이번 실행에서 다른 지역이 만든 장소도 있지만 boundaryMatch가 locKo === 지역으로 거른다
+        const boundary = boundaryMatch(s, t.region, found, pool);
+        if (boundary) {
+          candidates.push({
+            ...base,
+            verdict:
+              boundary.how === "name" ? "existing-name" : "existing-location",
+            id: boundary.place.id,
+          });
+          continue;
+        }
       }
       const kto = item ? toKtoPlace(item) : null;
       if (!item || !kto) {
