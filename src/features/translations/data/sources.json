@@ -34,5 +34,17 @@
     "zh": "基于地址的坐标",
     "ja": "住所ベースの座標",
     "es": "Coordenadas por dirección"
+  },
+  "주소 기준 좌표": {
+    "en": "Coordinates from address",
+    "zh": "按地址定位的坐标",
+    "ja": "住所に基づく座標",
+    "es": "Coordenadas según la dirección"
+  },
+  "대략 위치": {
+    "en": "Approximate location",
+    "zh": "大致位置",
+    "ja": "おおよその位置",
+    "es": "Ubicación aproximada"
   }
 }

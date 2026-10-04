@@ -22,6 +22,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { mergeAdded } from "./add-popular-places.mjs";
+import { cleanSource } from "./clean-place-sources.mjs";
 
 // lib/tour-popular.ts의 SAME_SPOT_M · NEAR_SPOT_M · NEAR_SPOT_OVERLAP · meters · spotName · nameOverlap와 같다
 // (그 모듈은 플래너 데이터를 끌어와 node가 바로 못 읽는다)
@@ -230,7 +231,10 @@ export function manualPlaces(rows, pool, date = DATE, regions = []) {
       zh: "",
       ja: "",
       // coord 열: 좌표 근거(비면 「좌표 수기 입력(지도 검증 필요, 날짜)」). 지오코딩한 표(scripts/geocode-heritage-places.mjs)는 「카카오 로컬 좌표(주소 · 장소 검색)」
-      source: `${row.source?.trim() || `시티투어 경유지(${tours}개 노선, 노선 표기 「${row.stopName.trim() || ko}」)`} · ${row.coord?.trim() || `좌표 수기 입력(지도 검증 필요, ${date})`}`,
+      // 화면 「좌표 기준」 줄에는 작업 기록(날짜 · 사용자 요청 · 검증 필요 메모)을 남기지 않는다(clean-place-sources.mjs)
+      source: cleanSource(
+        `${row.source?.trim() || `시티투어 경유지(${tours}개 노선, 노선 표기 「${row.stopName.trim() || ko}」)`} · ${row.coord?.trim() || `좌표 수기 입력(지도 검증 필요, ${date})`}`,
+      ),
       desc: row.desc.trim() || `${region} 시티투어 경유지(${tours}개 노선)`,
       descEn: row.descEn?.trim() ?? "",
     };
