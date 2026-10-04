@@ -559,7 +559,9 @@ describe("GET /api/tour/related", () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     stubRelated({ "searchKeyword1 202607": searchBulguksa });
     const res = await call("id=gjx1&locale=ko");
-    expect(res.headers.get("Cache-Control")).toBe("public, max-age=86400");
+    expect(res.headers.get("Cache-Control")).toBe(
+      "public, max-age=600, s-maxage=86400",
+    );
     const body = (await res.json()) as {
       month: string;
       items: { rank: number; name: string; placeId?: string }[];

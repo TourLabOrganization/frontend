@@ -208,7 +208,9 @@ describe("GET /api/tour/crowd", () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     stubCrowd({ 불국사: crowdBulguksa });
     const res = await call("id=gjx1");
-    expect(res.headers.get("Cache-Control")).toBe("public, max-age=21600");
+    expect(res.headers.get("Cache-Control")).toBe(
+      "public, max-age=600, s-maxage=21600",
+    );
     const body = (await res.json()) as { name: string; days: unknown[] };
     expect(body.name).toBe("경주 불국사 [유네스코 세계유산]");
     expect(body.days).toHaveLength(30);

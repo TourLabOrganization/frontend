@@ -598,12 +598,12 @@ describe("findPopular: 이름 · 위치 · 신규 관광지", () => {
       new Date("2026-09-29T03:00:00Z"),
     );
     const ids = popular!.items.map((x) => [x.name, x.id, x.district]);
+    // 「1100고지」도 위치 + 이름으로 같은 장소(jdx74)로 이어져, 같은 장소 두 줄은 순위 높은 한 줄로 합쳐진다
     expect(ids).toEqual([
-      ["1100고지 습지", "jdx74", "제주시"],
       ["1100고지 습지", "jdx74", "제주시"],
       ["다른구시장", null, "제주시"],
     ]);
-    expect(popular!.items[2].place).toBeUndefined();
+    expect(popular!.items[1].place).toBeUndefined();
   });
 
   it("같은 시군구 관광정보가 있으면 그것이 먼저다(다른 구의 같은 이름 앱 장소에 잇지 않고 신규 관광지로)", async () => {
@@ -782,5 +782,59 @@ describe("districtItems: 그 시군구 행만", () => {
     );
     expect(await districtItems("50110", "KEY")).toEqual([]);
     expect(asked).toEqual(["50110"]);
+  });
+});
+
+describe("findPopular: 같은 장소로 이어진 줄 합치기", () => {
+  afterEach(() => vi.unstubAllGlobals());
+  const tourBody = (item: unknown[]) =>
+    Response.json({
+      response: {
+        header: { resultCode: "0000" },
+        body: { items: item.length ? { item } : "", totalCount: item.length },
+      },
+    });
+
+  it("이중섭 문화거리 · 서귀포 이중섭거리는 한 줄(순위 높은 쪽)만, 빈자리는 다음 순위로 채워 10곳", async () => {
+    const names = [
+      "이중섭 문화거리",
+      "서귀포 이중섭거리",
+      ...Array.from({ length: 12 }, (_, i) => `없는관광지${i + 1}`),
+    ];
+    const crowd = names.map((name, i) => ({
+      tAtsNm: name,
+      baseYmd: "20261004",
+      cnctrRate: String(99 - i),
+      signguCd: "50130",
+      signguNm: "서귀포시",
+    }));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        if (url.pathname.endsWith("tatsCnctrRatedList"))
+          return tourBody(
+            url.searchParams.get("signguCd") === "50130" ? crowd : [],
+          );
+        return tourBody([]);
+      }),
+    );
+    const popular = await findPopular(
+      "제주",
+      "KEY",
+      "ko",
+      undefined,
+      new Date("2026-10-04T03:00:00Z"),
+    );
+    const items = popular!.items;
+    expect(items).toHaveLength(10);
+    expect(items.filter((x) => x.id === "jdx57")).toHaveLength(1);
+    expect(items[0]).toMatchObject({
+      id: "jdx57",
+      name: "서귀포 이중섭거리",
+      rate: 99,
+    });
+    expect(items[1].name).toBe("없는관광지1");
+    expect(items[9].name).toBe("없는관광지9");
   });
 });

@@ -29,6 +29,12 @@ export const POPULAR_MATCH: readonly PopularPin[] = [
     id: "kdx11",
     note: "잠실 롯데월드 어드벤처",
   },
+  {
+    city: "제주",
+    name: "이중섭 문화거리",
+    id: "jdx57",
+    note: "서귀포 이중섭거리(같은 거리, 2026-10-04 앱 화면)",
+  },
 ];
 
 /** 대조표 키: 도시 | 괄호 · 공백 · 가운뎃점을 뺀 이름 */

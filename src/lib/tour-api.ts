@@ -499,10 +499,21 @@ export function tourUnavailable(): Response {
  * 결과(결과 없음 { empty: true } 포함). 같은 장소는 maxAge초 동안 다시 부르지 않는다.
  * maxAge가 0이면 캐시하지 않는다(키 없음 · 외부 실패 때 대신 보내는 스토리텔링 — 키가 생기거나 외부가 돌아오면 바로 바뀌게)
  */
+/** 브라우저가 공공 API 응답을 다시 묻지 않고 쓰는 최대 시간(초). 긴 캐시는 CDN(s-maxage)에 둔다 */
+export const TOUR_BROWSER_SECONDS = 600;
+
+/**
+ * 공공 API 응답. 브라우저 캐시는 짧게(TOUR_BROWSER_SECONDS), CDN 캐시는 maxAge.
+ * Vercel CDN 캐시는 새 배포마다 비워지므로, 연결 규칙을 고쳐 배포하면 사용자가 옛 응답(브라우저에 최대 maxAge 남던 것)을 보지 않는다
+ * (2026-10-04: 인기 관광지 연결 수정 배포 뒤에도 휴대폰이 6시간 캐시된 옛 목록을 보였다)
+ */
 export function tourJson(body: unknown, maxAge: number): Response {
   return Response.json(body, {
     headers: {
-      "Cache-Control": maxAge > 0 ? `public, max-age=${maxAge}` : "no-store",
+      "Cache-Control":
+        maxAge > 0
+          ? `public, max-age=${Math.min(maxAge, TOUR_BROWSER_SECONDS)}, s-maxage=${maxAge}`
+          : "no-store",
     },
   });
 }
