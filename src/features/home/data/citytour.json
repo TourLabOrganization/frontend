@@ -1862,7 +1862,7 @@
       "nax278",
       "ctt180",
       "ro318",
-      "ctm9a1fa7ea"
+      "nax1074"
     ]
   },
   {
@@ -4509,7 +4509,7 @@
     "url": "http://www.gongju.go.kr/tour/",
     "date": "2022-11-21",
     "city": "공주",
-    "placeIds": ["nax273", "nax272", "nax276", "ro365", "ctt361"]
+    "placeIds": ["nax273", "nax272", "nax276", "nax1094", "ctt361"]
   },
   {
     "region": "공주",
@@ -4525,7 +4525,7 @@
     "url": "http://www.gongju.go.kr/tour/",
     "date": "2022-11-21",
     "city": "공주",
-    "placeIds": ["nax273", "nax272", "nax276", "ro122", "ctt362"]
+    "placeIds": ["nax273", "nax272", "nax276", "nax1097", "ctt362"]
   },
   {
     "region": "공주",

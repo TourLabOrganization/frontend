@@ -4922,7 +4922,8 @@
   },
   "ctt344": {
     "desc": {
-      "ko": "수목원,식물원 · 예술맛집 코스 시티투어 경유지"
+      "ko": "수목원,식물원 · 예술맛집 코스 시티투어 경유지",
+      "en": "Korea's largest indoor greenhouse garden in Dogo-myeon."
     },
     "src": {
       "ko": "충남 아산시 도고면 아산만로 37-37 · 전국시티투어 경유지 · 카카오 좌표"
@@ -6393,19 +6394,6 @@
     },
     "ja": "墨湖灯台",
     "url": "http://place.map.kakao.com/7880709",
-    "rs": true
-  },
-  "ro122": {
-    "desc": {
-      "ko": "도시공원 · 고란사, 궁남지 등과 함께 많이 찾는 곳 (연관 20회)",
-      "en": "Hydrangea garden in Yugu-eup with a June flower festival."
-    },
-    "src": {
-      "ko": "충남 공주시 유구읍 유구리 648-17 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "zh": "维鸠彩带绣球花庭园",
-    "ja": "維鳩セクトンアジサイ庭園",
-    "url": "http://place.map.kakao.com/2039968542",
     "rs": true
   },
   "ro123": {
@@ -8476,18 +8464,6 @@
     "url": "http://place.map.kakao.com/1793369966",
     "rs": true
   },
-  "ro346": {
-    "desc": {
-      "ko": "기타레저스포츠 · 가리왕산자연휴양림, 고한야한구공탄시장 등과 함께 많이 찾는 곳 (연관 11회)"
-    },
-    "src": {
-      "ko": "강원특별자치도 정선군 여량면 노추산로 745 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "zh": "旌善铁轨自行车",
-    "ja": "旌善レールバイク",
-    "url": "http://place.map.kakao.com/10713257",
-    "rs": true
-  },
   "ro347": {
     "desc": {
       "ko": "시장 · 수원박물관, 매산시장 등과 함께 많이 찾는 곳 (연관 11회)"
@@ -8650,18 +8626,6 @@
       "ko": "울산 울주군 언양읍 장터1길 12-1 · 한국관광공사 연관 관광지 · 카카오 좌표"
     },
     "url": "http://place.map.kakao.com/27485292",
-    "rs": true
-  },
-  "ro365": {
-    "desc": {
-      "ko": "전시시설 · 공산성, 공주산림휴양마을 등과 함께 많이 찾는 곳 (연관 11회)"
-    },
-    "src": {
-      "ko": "충남 공주시 금벽로 990 · 한국관광공사 연관 관광지 · 카카오 좌표"
-    },
-    "zh": "石壮里博物馆",
-    "ja": "石壮里博物館",
-    "url": "http://place.map.kakao.com/7945986",
     "rs": true
   },
   "ro367": {
@@ -10698,7 +10662,8 @@
   },
   "ro573": {
     "desc": {
-      "ko": "역사유적지 · 땅끝해양자연사박물관, 신지명사십리해수욕장 등과 함께 많이 찾는 곳 (연관 8회)"
+      "ko": "역사유적지 · 땅끝해양자연사박물관, 신지명사십리해수욕장 등과 함께 많이 찾는 곳 (연관 8회)",
+      "en": "Jangdo island, headquarters of Jang Bogo's Cheonghaejin."
     },
     "src": {
       "ko": "전남광주통합특별시 완도군 완도읍 장좌리 734 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -20706,7 +20671,11 @@
     "src": {
       "ko": "여량면 구절리 주소 기반 좌표",
       "en": "Address-based: Gujeol-ri, Yeoryang-myeon"
-    }
+    },
+    "zh": "旌善铁轨自行车",
+    "ja": "旌善レールバイク",
+    "url": "http://place.map.kakao.com/10713257",
+    "rs": true
   },
   "nax35": {
     "desc": {
@@ -27750,7 +27719,11 @@
     "src": {
       "ko": "공주시 금벽로 990 구글 지오코딩",
       "en": "Google geocoding: 공주시 금벽로 990"
-    }
+    },
+    "zh": "石壮里博物馆",
+    "ja": "石壮里博物館",
+    "url": "http://place.map.kakao.com/7945986",
+    "rs": true
   },
   "nax1095": {
     "desc": {
@@ -27780,7 +27753,11 @@
     "src": {
       "ko": "공주시 유구읍 백교리 구글 지오코딩",
       "en": "Google geocoding: 공주 유구색동수국정원"
-    }
+    },
+    "zh": "维鸠彩带绣球花庭园",
+    "ja": "維鳩セクトンアジサイ庭園",
+    "url": "http://place.map.kakao.com/2039968542",
+    "rs": true
   },
   "nax1110": {
     "desc": {
@@ -33329,15 +33306,6 @@
       "ko": "시티투어 경유지(1개 노선, 노선 표기 「철도관사마을」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
   },
-  "ctm71ca2f54": {
-    "desc": {
-      "ko": "장보고 청해진 본영 장도.",
-      "en": "Jangdo island, headquarters of Jang Bogo's Cheonghaejin."
-    },
-    "src": {
-      "ko": "시티투어 경유지(1개 노선, 노선 표기 「장보고유적지」) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
-    }
-  },
   "ctmed1598d6": {
     "desc": {
       "ko": "세종대왕이 머문 탄산 약수.",
@@ -33725,15 +33693,6 @@
       "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
   },
-  "ctm9a1fa7ea": {
-    "desc": {
-      "ko": "만수산 자락 극락전으로 이름난 고찰.",
-      "en": "Old temple on Mansusan known for its two-story main hall."
-    },
-    "src": {
-      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 3회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
-    }
-  },
   "ctmb293b5b2": {
     "desc": {
       "ko": "해녀가 바로 잡은 해산물을 내는 연화리 포구.",
@@ -33927,15 +33886,6 @@
     "desc": {
       "ko": "내연산 12폭포 들머리의 고찰.",
       "en": "Old temple at the entrance to the twelve waterfalls of Naeyeonsan."
-    },
-    "src": {
-      "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
-    }
-  },
-  "ctm0f3dbb84": {
-    "desc": {
-      "ko": "도고면의 국내 최대 실내 온실 식물원.",
-      "en": "Korea's largest indoor greenhouse garden in Dogo-myeon."
     },
     "src": {
       "ko": "한국관광공사 연관 관광지(기존 장소 설명에 2회 언급) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
@@ -34398,6 +34348,312 @@
     },
     "src": {
       "ko": "국보 소재지(2026-10-04 점검) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm3fef3f51": {
+    "desc": {
+      "ko": "국보 도갑사 해탈문이 있는 월출산 절.",
+      "en": "Wolchulsan temple with the Haetalmun gate (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1cb2d4e0": {
+    "desc": {
+      "ko": "국보 월출산 마애여래좌상. 구정봉 아래 바위에 새긴 큰 불상(산행).",
+      "en": "National Treasure rock-carved Buddha below Gujeongbong (hiking)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmaa1b3ff0": {
+    "desc": {
+      "ko": "국보 청룡사지 보각국사탑이 있는 절터.",
+      "en": "Temple site with the stupa of National Preceptor Bogak (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm84814311": {
+    "desc": {
+      "ko": "국보 장항리 서 오층석탑이 있는 토함산 동쪽 절터.",
+      "en": "Temple site east of Tohamsan with the west five-story pagoda (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm10be465d": {
+    "desc": {
+      "ko": "국보 화암사 극락전이 있는 불명산 절.",
+      "en": "Bulmyeongsan temple with the Geungnakjeon hall (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9f5aa0dc": {
+    "desc": {
+      "ko": "국보 적인선사탑이 있는 동리산 절.",
+      "en": "Dongnisan temple with the stupa of Master Jeogin (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmabc7fd1b": {
+    "desc": {
+      "ko": "국보 개심사지 오층석탑. 예천읍 들판의 고려 석탑.",
+      "en": "National Treasure Goryeo pagoda in Yecheon town."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmee4610e4": {
+    "desc": {
+      "ko": "국보 북지리 마애여래좌상. 바위 감실에 새긴 큰 불상.",
+      "en": "National Treasure seated Buddha carved in a rock niche."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc7384de8": {
+    "desc": {
+      "ko": "국보 동문리 마애삼존불입상. 백화산 중턱의 백제 마애불.",
+      "en": "National Treasure Baekje rock-carved triad on Baekhwasan."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm9f7ebdff": {
+    "desc": {
+      "ko": "국보 철조약사여래좌상 · 미륵불 괘불탱이 있는 칠갑산 절.",
+      "en": "Chilgapsan temple holding an iron Medicine Buddha and a hanging painting (National Treasures)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmf2dda889": {
+    "desc": {
+      "ko": "국보 봉선사 동종이 있는 광릉 옆 절.",
+      "en": "Temple beside Gwangneung holding the Bongseonsa bronze bell (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd77ba558": {
+    "desc": {
+      "ko": "국보 목각아미타여래설법상이 있는 사불산 절.",
+      "en": "Sabulsan temple with a wooden Amitabha preaching relief (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm39cc7095": {
+    "desc": {
+      "ko": "국보 도리사 세존사리탑 금동 사리기를 둔 황악산 절(성보박물관).",
+      "en": "Hwangaksan temple whose museum holds a gilt-bronze reliquary (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc04f3f79": {
+    "desc": {
+      "ko": "국보 오불회 괘불탱이 있는 칠현산 절.",
+      "en": "Chilhyeonsan temple with the Five Buddhas hanging painting (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm88488670": {
+    "desc": {
+      "ko": "국보 영산회 괘불탱이 있는 절.",
+      "en": "Temple with the Vulture Peak assembly hanging painting (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm17097f4c": {
+    "desc": {
+      "ko": "국보 석남암사지 석조비로자나불좌상이 있는 지리산 절.",
+      "en": "Jirisan temple with a stone Vairocana Buddha (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmee4caa23": {
+    "desc": {
+      "ko": "국보 영산회 괘불탱이 있는 월아산 절(문화박물관).",
+      "en": "Wolasan temple with the Vulture Peak hanging painting (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmb1ed318e": {
+    "desc": {
+      "ko": "국보 분청사기 · 동궐도 등을 소장한 대학 박물관.",
+      "en": "University museum holding National Treasures such as Donggwoldo."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm181d93e4": {
+    "desc": {
+      "ko": "국보 삼국유사 등을 소장한 대학 박물관.",
+      "en": "University museum holding National Treasures such as Samguk Yusa."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7c7d1448": {
+    "desc": {
+      "ko": "국보 백자 청화 항아리 · 보협인석탑을 소장한 대학 박물관.",
+      "en": "University museum holding National Treasures."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme4086be9": {
+    "desc": {
+      "ko": "국보 정문경 등을 소장한 숭실대 박물관.",
+      "en": "Soongsil University museum holding National Treasures such as a bronze mirror."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm26fc0133": {
+    "desc": {
+      "ko": "국보 초조본 유가사지론을 소장한 박물관.",
+      "en": "Museum holding a first-edition Tripitaka volume (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm929afd6f": {
+    "desc": {
+      "ko": "국보 황복사지 삼층석탑. 낭산 북쪽 절터의 통일신라 석탑.",
+      "en": "National Treasure Unified Silla pagoda at a temple site north of Nangsan."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm1a5026da": {
+    "desc": {
+      "ko": "국보 용두사지 철당간. 성안길 한가운데 선 고려 철당간.",
+      "en": "National Treasure Goryeo iron flagpole in the middle of Seongan-gil."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0777c6ae": {
+    "desc": {
+      "ko": "국보 측우기 · 측우대를 전시하는 기상 박물관.",
+      "en": "Weather museum displaying the rain gauge and its stand (National Treasures)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm519208e6": {
+    "desc": {
+      "ko": "국보 동국정운을 소장한 대학 박물관.",
+      "en": "University museum holding the Dongguk Jeongun (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmdf0ccafd": {
+    "desc": {
+      "ko": "국보 초조본 유가사지론을 소장한 대학 박물관.",
+      "en": "University museum holding a first-edition Tripitaka volume (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctme04184d1": {
+    "desc": {
+      "ko": "국보 신선사 마애불상군. 단석산 중턱 바위 석굴의 신라 불상(산행).",
+      "en": "National Treasure Silla rock carvings in a cave temple on Danseoksan (hiking)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmd8fd903d": {
+    "desc": {
+      "ko": "국보 목조아미타여래좌상 및 복장유물이 있는 절.",
+      "en": "Temple with a wooden Amitabha Buddha and its interior relics (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7f9502a1": {
+    "desc": {
+      "ko": "국보 대장전과 윤장대가 있는 소백산 절.",
+      "en": "Sobaeksan temple with the Daejangjeon hall and revolving sutra cases (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm0baded4c": {
+    "desc": {
+      "ko": "국보 청제비. 청못 둑 쌓기를 새긴 신라 비석.",
+      "en": "National Treasure Silla stele recording the building of the Cheongmot reservoir dike."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm597ef608": {
+    "desc": {
+      "ko": "훈민정음 해례본 · 신윤복 풍속도 화첩 등 국보를 소장한 미술관(봄 · 가을 전시).",
+      "en": "Museum holding National Treasures such as the Hunminjeongeum Haerye and Sin Yun-bok's genre album."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctm7b3f6667": {
+    "desc": {
+      "ko": "국보 백자 철화포도문 항아리 등을 소장한 대학 박물관.",
+      "en": "University museum holding National Treasures such as a white porcelain jar with grapevine design."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
+    }
+  },
+  "ctmc0eb3074": {
+    "desc": {
+      "ko": "국보 초조본 대반야바라밀다경을 소장한 박물관.",
+      "en": "Museum holding a first-edition Tripitaka sutra (National Treasure)."
+    },
+    "src": {
+      "ko": "국보 목록 재점검(2026-10-04 국가유산 기본정보) · 좌표 수기 입력(지도 검증 필요, 2026-10-03)"
     }
   }
 }

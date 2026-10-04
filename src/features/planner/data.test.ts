@@ -38,8 +38,8 @@ const REGION_CITY_COUNT = {
 };
 
 // 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 뒤에 붙는다.
-// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 60곳을 뺀 3,049곳
-const BASE = 3049;
+// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 63곳을 뺀 3,046곳
+const BASE = 3046;
 const ADDED = addedPlaces.length;
 const TOTAL = BASE + ADDED;
 /** 추가 장소 수(도시 · 권역별). 아래 기대값은 빌드 장소 수 + 이 값 */
@@ -63,7 +63,7 @@ const addedCitiesIn = (key: string) =>
   ).length;
 
 describe("플래너 데이터", () => {
-  it("장소는 3,049곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 60곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
+  it("장소는 3,046곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 63곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
     expect(PLANNER_PLACES).toHaveLength(TOTAL);
     expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(TOTAL);
   });
@@ -131,8 +131,8 @@ describe("플래너 데이터", () => {
     );
     expect(byRegion).toEqual({
       capital: 673 + addedMacro("capital"),
-      gangwon: 361 + addedMacro("gangwon"),
-      chungcheong: 435 + addedMacro("chungcheong"),
+      gangwon: 360 + addedMacro("gangwon"),
+      chungcheong: 433 + addedMacro("chungcheong"),
       daegyeong: 361 + addedMacro("daegyeong"),
       dongnam: 624 + addedMacro("dongnam"),
       honam: 424 + addedMacro("honam"),
@@ -153,10 +153,10 @@ describe("플래너 데이터", () => {
       ),
     ).toEqual({
       capital: [21 + addedCitiesIn("capital"), 673 + addedMacro("capital")],
-      gangwon: [18 + addedCitiesIn("gangwon"), 361 + addedMacro("gangwon")],
+      gangwon: [18 + addedCitiesIn("gangwon"), 360 + addedMacro("gangwon")],
       chungcheong: [
         19 + addedCitiesIn("chungcheong"),
-        435 + addedMacro("chungcheong"),
+        433 + addedMacro("chungcheong"),
       ],
       daegyeong: [
         16 + addedCitiesIn("daegyeong"),
@@ -247,7 +247,7 @@ describe("플래너 데이터", () => {
         "나주",
         "안성",
         "김포", // 수기 장소로 생긴 도시(2026-10-03). 부천 · 광명은 부천역 · 광명역을 관문으로 적었다
-        // 국보 소재지로 생긴 김제 · 구례 · 강진 · 영천 · 의성 · 영양(2026-10-04)은 역 · 터미널을 관문으로 적었다
+        // 국보 소재지로 생긴 김제 · 구례 · 강진 · 영천 · 의성 · 영양 · 영암 · 예천 · 청양 · 김천(2026-10-04)은 역 · 터미널을 관문으로 적었다
       ].sort(),
     );
     expect(Object.keys(CITY_HUBS)).toHaveLength(cities.size - 15);
