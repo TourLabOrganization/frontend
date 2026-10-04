@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// 장소의 도시 · 좌표를 수정 표(scripts/data/place-fixes.csv)대로 고친다(2026-10-04 점검).
+// 장소의 도시 · 좌표 · 이름을 수정 표(scripts/data/place-fixes.csv)대로 고친다(2026-10-04 점검).
 //   열: id · city(새 도시, 비면 그대로) · lat · lng(새 좌표, 비면 그대로) · reason(고친 까닭)
+//       ko · en(새 이름, 비면 그대로) · zh · ja · es(앱이 옮긴 이름 표 translations/data/place-names.*, 비면 그대로)
 //   - 도시를 바꾸면 pickCity · 권역(macro)도 그 도시 것으로 바꾸고, regions.json 도시별 장소 수(placeCounts)를 다시 센다
 //   - 표에 적힌 id가 플래너 장소에 없으면 멈춘다
 // build-planner.mjs · add-manual-places.mjs로 장소를 다시 만든 뒤에도 이 스크립트를 돌린다(여러 번 돌려도 같다).
@@ -40,7 +41,21 @@ export function applyFixes(places, fixes, regions) {
       p.lat = Number(f.lat);
       p.lng = Number(f.lng);
     }
+    if (f.ko?.trim()) p.ko = f.ko.trim();
+    if (f.en?.trim()) p.en = f.en.trim();
     if (JSON.stringify(p) !== before) changed++;
+  }
+  return changed;
+}
+
+/** 이름 표(id → 이름)를 수정 표의 lang 열대로 고친다. 바뀐 항목 수 */
+export function applyNameFixes(table, fixes, lang) {
+  let changed = 0;
+  for (const f of fixes) {
+    const name = f[lang]?.trim();
+    if (!name || !(f.id in table) || table[f.id] === name) continue;
+    table[f.id] = name;
+    changed++;
   }
   return changed;
 }
@@ -77,8 +92,26 @@ function main() {
     if (counts[k]) next[k] = counts[k];
   for (const [k, v] of Object.entries(counts)) if (!(k in next)) next[k] = v;
   regions.placeCounts = next;
-  console.log(`수정 표 ${fixes.length}행 · 바뀐 장소 ${n}곳`);
+  const nameFiles = Object.fromEntries(
+    ["en", "zh", "ja", "es"].map((l) => [
+      l,
+      resolve(ROOT, `src/features/translations/data/place-names.${l}.json`),
+    ]),
+  );
+  const names = Object.fromEntries(
+    Object.entries(nameFiles).map(([l, f]) => [
+      l,
+      JSON.parse(readFileSync(f, "utf8")),
+    ]),
+  );
+  const m = Object.entries(names).reduce(
+    (s, [l, t]) => s + applyNameFixes(t, fixes, l),
+    0,
+  );
+  console.log(`수정 표 ${fixes.length}행 · 바뀐 장소 ${n}곳 · 이름 표 ${m}건`);
   if (dry) return console.log("--dry: 파일은 그대로");
+  for (const [l, f] of Object.entries(nameFiles))
+    writeFileSync(f, JSON.stringify(names[l], null, 2) + "\n", "utf8");
   const write = (f, d) =>
     writeFileSync(resolve(DATA, f), JSON.stringify(d, null, 2) + "\n", "utf8");
   write("places.json", base);
