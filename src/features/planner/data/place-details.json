@@ -2169,7 +2169,8 @@
   },
   "ctt73": {
     "desc": {
-      "ko": "릉,묘,총 · 열차와 하루, 모두와 하루(무장애 여행) 시티투어 경유지"
+      "ko": "릉,묘,총 · 열차와 하루, 모두와 하루(무장애 여행) 시티투어 경유지",
+      "en": "Royal tombs of Crown Prince Sado and King Jeongjo."
     },
     "src": {
       "ko": "경기 화성시 병점구 효행로481번길 21 · 전국시티투어 경유지 · 카카오 좌표"
@@ -33985,15 +33986,6 @@
       "ko": "시티투어 경유지(1개 노선) · 주소 기준 좌표"
     }
   },
-  "ctme94cdb0e": {
-    "desc": {
-      "ko": "사도세자와 정조의 능.",
-      "en": "Royal tombs of Crown Prince Sado and King Jeongjo."
-    },
-    "src": {
-      "ko": "시티투어 경유지(1개 노선) · 주소 기준 좌표"
-    }
-  },
   "ctmcc963b42": {
     "desc": {
       "ko": "금강 변 숲 속 설치미술 공원.",
@@ -44640,6 +44632,132 @@
     },
     "src": {
       "ko": "전통시장 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbbd693d5": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 중종 계비 문정왕후의 태릉과 명종·인순왕후의 강릉이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tombs of Queen Munjeong (Taereung) and King Myeongjong with Queen Insun (Gangneung)."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표 · 대략 위치"
+    }
+  },
+  "ctme2b93483": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 조선 20대 경종과 선의왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Gyeongjong and Queen Seonui."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm27a72e44": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 태조의 계비 신덕왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of Queen Sindeok, second consort of King Taejo."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctmc63a1cdd": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 희릉·효릉·예릉 세 능이 모인 왕릉군이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, a cluster of three royal tombs (Huireung, Hyoreung, Yereung)."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm94baf12a": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 조선 16대 인조와 인열왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Injo and Queen Inyeol."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctma7847a78": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 인조의 부모인 원종과 인헌왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Wonjong and Queen Inheon, parents of King Injo."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm0b12ab86": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 단종의 왕비 정순왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of Queen Jeongsun, consort of King Danjong."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm97c61549": {
+    "desc": {
+      "ko": "유네스코 세계유산 '조선왕릉'의 하나로 조선 7대 세조와 정희왕후의 능이다.",
+      "en": "Part of the UNESCO World Heritage Royal Tombs of the Joseon Dynasty, tomb of King Sejo and Queen Jeonghui."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표 · 대략 위치"
+    }
+  },
+  "ctmceca2f69": {
+    "desc": {
+      "ko": "유네스코 세계자연유산 '한국의 갯벌'의 하나로 곰소만 일대에 넓게 펼쳐진 개방형 갯벌이다.",
+      "en": "Part of the UNESCO World Natural Heritage Getbol, Korean Tidal Flats, an open-embayment mudflat on Gomso Bay."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm2c59e441": {
+    "desc": {
+      "ko": "유네스코 세계유산 '가야고분군'의 하나로 운봉고원에 자리한 가야 시대 고분군이다.",
+      "en": "Part of the UNESCO World Heritage Gaya Tumuli, a group of Gaya-period burial mounds on the Unbong Plateau."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm2fd620b6": {
+    "desc": {
+      "ko": "유네스코 세계유산 '가야고분군'의 하나로 황강변 구릉에 조성된 다라국 지배층의 고분군이다.",
+      "en": "Part of the UNESCO World Heritage Gaya Tumuli, burial mounds of the Dara polity's elite on a hill by the Hwanggang River."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm3a1ba3e5": {
+    "desc": {
+      "ko": "유네스코 세계유산 '경주역사유적지구'의 하나로 신라 왕경을 지키던 산성이다.",
+      "en": "Part of the UNESCO World Heritage Gyeongju Historic Areas, a Silla mountain fortress that guarded the capital."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctm707be467": {
+    "desc": {
+      "ko": "유네스코 세계유산 '백제역사유적지구'의 하나로 사비 시기 백제 왕궁터로 추정되는 유적이다.",
+      "en": "Part of the UNESCO World Heritage Baekje Historic Areas, the presumed royal palace site of Sabi-period Baekje."
+    },
+    "src": {
+      "ko": "유네스코 세계유산 구성요소 · 공개 자료 좌표"
+    }
+  },
+  "ctmab43ede6": {
+    "desc": {
+      "ko": "김해 장유 신문동의 대형 아웃렛 쇼핑몰로, 롯데워터파크 · 롯데호텔앤리조트 김해와 이웃한다.",
+      "en": "A large outlet mall in Sinmun-dong, Jangyu, Gimhae, next to Lotte Water Park and Lotte Hotel & Resort Gimhae."
+    },
+    "src": {
+      "ko": "쇼핑 · 주소 기준 좌표"
     }
   }
 }

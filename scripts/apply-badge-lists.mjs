@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// 한국관광 100선(k100) · 열린관광지(bf) 배지를 공식 명단 표로 다시 매긴다(PoC 체류시간 CSV 플래그를 덮는다).
+// 한국관광 100선(k100) · 열린관광지(bf) · 유네스코 세계유산(un) 배지를 공식 명단 표로 다시 매긴다(PoC 체류시간 CSV 플래그를 덮는다).
 //   scripts/data/k100-list.csv          2025~2026 한국관광 100선 100건. 열: no · edition(선정 판, 2025~2026) · sido · sigungu · name · status · placeIds · note · source
 //   scripts/data/open-tourism-list.csv  열린관광지 2015~2026 선정지. 열: year · sido · sigungu · name · placeIds · note · source
+//   scripts/data/unesco-list.csv        한국의 유네스코 세계유산 17건(2025 반구천의 암각화까지). 열: site · year · placeIds · names(확인용 장소 이름)
 //   placeIds: 그 명단 항목에 해당하는 앱 장소 id(공백으로 여럿). 명단 한 건이 여러 장소를 묶으면(5대 고궁, 에버랜드&한국민속촌 …) 모두 적는다.
 //   비어 있으면 대응 장소가 없는 항목(제주올레길처럼 길 전체, 주민 시설)이다.
 //
@@ -91,14 +92,16 @@ export function applyK100Details(details, info) {
 }
 
 /** 장소 목록의 k100 · bf를 두 집합대로 맞춘다. 바뀐 장소 수를 돌려준다 */
-export function applyBadges(places, k100, bf) {
+export function applyBadges(places, k100, bf, un) {
   let changed = 0;
   for (const p of places) {
     const k = k100.has(p.id);
     const b = bf.has(p.id);
-    if (p.k100 !== k || p.bf !== b) changed++;
+    const u = un ? un.has(p.id) : p.un;
+    if (p.k100 !== k || p.bf !== b || p.un !== u) changed++;
     p.k100 = k;
     p.bf = b;
+    p.un = u;
   }
   return changed;
 }
@@ -110,6 +113,11 @@ function main() {
     readFileSync(resolve(ROOT, "scripts/data/k100-list.csv"), "utf8"),
   );
   const k100 = listIds(k100Rows);
+  const un = listIds(
+    parseCsv(
+      readFileSync(resolve(ROOT, "scripts/data/unesco-list.csv"), "utf8"),
+    ),
+  );
   const bf = listIds(
     parseCsv(
       readFileSync(resolve(ROOT, "scripts/data/open-tourism-list.csv"), "utf8"),
@@ -120,20 +128,20 @@ function main() {
   const course = read(COURSE);
   const details = read(resolve(PLANNER, "place-details.json"));
   const known = new Set([...base, ...added].map((p) => p.id));
-  const missing = [...k100, ...bf].filter((id) => !known.has(id));
+  const missing = [...k100, ...bf, ...un].filter((id) => !known.has(id));
   if (missing.length > 0) {
     console.error(`플래너 장소에 없는 id: ${missing.join(", ")}`);
     process.exit(1);
   }
-  const n = applyBadges(base, k100, bf) + applyBadges(added, k100, bf);
+  const n = applyBadges(base, k100, bf, un) + applyBadges(added, k100, bf, un);
   // 테마 코스 데이터는 테마 → 장소 목록
   const c = Object.values(course).reduce(
-    (sum, list) => sum + applyBadges(list, k100, bf),
+    (sum, list) => sum + applyBadges(list, k100, bf, un),
     0,
   );
   const d = applyK100Details(details, k100Info(k100Rows));
   console.log(
-    `100선 ${k100.size}곳 · 열린관광지 ${bf.size}곳 → 플래너 ${n}곳 · 테마 코스 ${c}곳 · 100선 설명 ${d}곳 바뀜`,
+    `100선 ${k100.size}곳 · 열린관광지 ${bf.size}곳 · 유네스코 ${un.size}곳 → 플래너 ${n}곳 · 테마 코스 ${c}곳 · 100선 설명 ${d}곳 바뀜`,
   );
   if (dry) return console.log("--dry: 파일은 그대로");
   const write = (f, data) =>

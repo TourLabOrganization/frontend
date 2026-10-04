@@ -15,6 +15,7 @@ const read = (f: string) =>
   parseCsv(readFileSync(new URL(`./data/${f}`, import.meta.url), "utf8"));
 const k100Rows = read("k100-list.csv");
 const bfRows = read("open-tourism-list.csv");
+const unRows = read("unesco-list.csv");
 const all = [...places, ...addedPlaces] as {
   id: string;
   k100: boolean;
@@ -84,5 +85,17 @@ describe("한국관광 100선 · 열린관광지 명단 → 배지", () => {
     expect(applyK100Details(d, info)).toBe(2);
     expect(d.zz.k100).toBeUndefined();
     expect(d.kd10.k100).toEqual(info.get("kd10"));
+  });
+  it("유네스코 세계유산 17건(2025 반구천의 암각화까지), 배지는 표의 장소에만", () => {
+    expect(unRows).toHaveLength(17);
+    const bangu = unRows.find((r) => r.site === "반구천의 암각화")!;
+    expect(bangu.year).toBe("2025");
+    expect(bangu.placeIds.split(" ")).toEqual(["nax310", "nax994"]);
+    const un = listIds(unRows);
+    expect(
+      new Set(all.filter((p) => (p as { un?: boolean }).un).map((p) => p.id)),
+    ).toEqual(un);
+    // 오대산 월정사는 산사 7곳에 들지 않는다(옛 플래그)
+    expect(un.has("nax521")).toBe(false);
   });
 });

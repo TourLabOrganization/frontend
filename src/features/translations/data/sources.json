@@ -46,5 +46,11 @@
     "zh": "大致位置",
     "ja": "おおよその位置",
     "es": "Ubicación aproximada"
+  },
+  "공개 자료 좌표": {
+    "en": "Coordinates from public sources",
+    "zh": "公开资料坐标",
+    "ja": "公開資料の座標",
+    "es": "Coordenadas de fuentes públicas"
   }
 }

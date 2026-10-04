@@ -761,7 +761,7 @@
     "url": "http://tour.hscity.go.kr/citytour/",
     "date": "2026-08-01",
     "city": "화성",
-    "placeIds": ["ctt80", "ctme94cdb0e"]
+    "placeIds": ["ctt80"]
   },
   {
     "region": "화성",
@@ -3915,7 +3915,7 @@
     "url": "",
     "date": "2020-12-17",
     "city": "대전",
-    "placeIds": ["ctt307", "ctm12e9fdbb", "ctma9910ee7"]
+    "placeIds": ["ctt307", "ctm12e9fdbb"]
   },
   {
     "region": "대전",
