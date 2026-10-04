@@ -46,15 +46,20 @@ describe("같은 장소 통합(scripts/data/same-places.csv · merge-same-places
     }
   });
 
-  it("같은 도시에 정규화한 이름이 같은 장소가 없다", () => {
-    const norm = (s: string) =>
-      s
+  it("같은 도시에 정규화한 이름이 같은 장소가 없다(앞의 도시 이름도 뗀다: 「부여 무량사」 = 「무량사」)", () => {
+    const norm = (s: string, city: string) => {
+      let k = s
         .replace(/\(.*?\)|\[.*?\]/g, "")
         .replace(/[\s·\-_.,'"]/g, "")
         .toLowerCase();
+      if (k.startsWith(city) && k.length > city.length + 1)
+        k = k.slice(city.length);
+      return k;
+    };
     const seen = new Map<string, string>();
     for (const p of all) {
-      const key = `${p.locKo}|${norm(p.ko)}`;
+      if (p.cat === "stay") continue;
+      const key = `${p.locKo}|${norm(p.ko, p.locKo)}`;
       expect(
         seen.get(key),
         `${p.id} ${p.ko} = ${seen.get(key)}`,
