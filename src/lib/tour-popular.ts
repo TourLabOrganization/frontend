@@ -66,12 +66,22 @@ export function isPopularCity(v: unknown): v is PopularCity {
   return (POPULAR_CITIES as readonly unknown[]).includes(v);
 }
 
-/** 도시의 시군구 코드: 플래너 장소(숙박 제외)가 많은 순(같으면 코드 순), 장소 5곳 이상, 최대 4곳 */
+/**
+ * 장소 수로 고르지 않고 못 박은 시군구. 서울은 보물 소재지(박물관 · 절, 2026-10-04)가 용산 · 성북에 몰려
+ * 장소 수 순서가 바뀌어도 관광 중심인 종로 · 마포 · 영등포 · 중구를 그대로 부른다
+ */
+export const POPULAR_DISTRICTS: Readonly<Record<string, readonly string[]>> = {
+  서울: ["11110", "11440", "11560", "11140"],
+};
+
+/** 도시의 시군구 코드: POPULAR_DISTRICTS에 있으면 그 값, 아니면 플래너 장소(숙박 제외)가 많은 순(같으면 코드 순), 장소 5곳 이상, 최대 4곳 */
 export function citySigngu(
   city: string,
   places: readonly PlannerPlace[] = PLANNER_PLACES,
   signguOf: (id: string) => string = tourPlaceSigngu,
 ): string[] {
+  const pinned = POPULAR_DISTRICTS[city];
+  if (pinned && places === PLANNER_PLACES) return [...pinned];
   const counts = new Map<string, number>();
   for (const p of places) {
     if (p.locKo !== city || p.cat === "stay") continue;
