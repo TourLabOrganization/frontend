@@ -319,8 +319,10 @@ const cityDuplicates = [];
 /**
  * 앱에 넣지 않는 장소(대표 결정). 원천에는 남아 있어도 places.json · place-details.json에서 뺀다.
  * 2026-09-29: 맥도날드 드라이브스루 9곳(투어 플래너 장소로 맞지 않는다) — 이름에 「맥도날드」가 든 곳
+ * 2026-10-04: 문을 닫은 곳 — 충주 라이트월드(nax40, 2020년 임대 종료 · 2022년 1월 철거)
  */
-const EXCLUDED = (p) => /맥도날드/.test(p.ko ?? "");
+const CLOSED_IDS = new Set(["nax40"]);
+const EXCLUDED = (p) => /맥도날드/.test(p.ko ?? "") || CLOSED_IDS.has(p.id);
 let excluded = 0;
 
 const places = [];

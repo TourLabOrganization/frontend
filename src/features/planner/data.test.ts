@@ -38,8 +38,9 @@ const REGION_CITY_COUNT = {
 };
 
 // 인기 관광지에서 누적한 추가 장소(added-places.json, scripts/add-popular-places.mjs)는 빌드 장소 뒤에 붙는다.
-// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 63곳을 뺀 3,046곳
-const BASE = 3046;
+// 빌드 장소 3,109곳에서 같은 장소 통합(scripts/data/same-places.csv, scripts/merge-same-places.mjs)으로 63곳을 뺀 3,046곳,
+// 문을 닫은 충주 라이트월드(nax40, build-planner.mjs CLOSED_IDS, 2026-10-04)를 뺀 3,045곳
+const BASE = 3045;
 const ADDED = addedPlaces.length;
 const TOTAL = BASE + ADDED;
 /** 추가 장소 수(도시 · 권역별). 아래 기대값은 빌드 장소 수 + 이 값 */
@@ -63,7 +64,7 @@ const addedCitiesIn = (key: string) =>
   ).length;
 
 describe("플래너 데이터", () => {
-  it("장소는 3,046곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 63곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
+  it("장소는 3,045곳(원천 3,118곳에서 맥도날드 9곳 · 같은 장소 63곳 · 폐장 1곳 제외) + 추가 장소이고 id가 겹치지 않는다", () => {
     expect(PLANNER_PLACES).toHaveLength(TOTAL);
     expect(new Set(PLANNER_PLACES.map((p) => p.id)).size).toBe(TOTAL);
   });
@@ -132,7 +133,7 @@ describe("플래너 데이터", () => {
     expect(byRegion).toEqual({
       capital: 673 + addedMacro("capital"),
       gangwon: 360 + addedMacro("gangwon"),
-      chungcheong: 433 + addedMacro("chungcheong"),
+      chungcheong: 432 + addedMacro("chungcheong"),
       daegyeong: 361 + addedMacro("daegyeong"),
       dongnam: 624 + addedMacro("dongnam"),
       honam: 424 + addedMacro("honam"),
@@ -156,7 +157,7 @@ describe("플래너 데이터", () => {
       gangwon: [18 + addedCitiesIn("gangwon"), 360 + addedMacro("gangwon")],
       chungcheong: [
         19 + addedCitiesIn("chungcheong"),
-        433 + addedMacro("chungcheong"),
+        432 + addedMacro("chungcheong"),
       ],
       daegyeong: [
         16 + addedCitiesIn("daegyeong"),
