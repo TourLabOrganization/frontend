@@ -6818,7 +6818,8 @@
   },
   "ro163": {
     "desc": {
-      "ko": "간이음식 · 갓바위, 고하도전망대 등과 함께 많이 찾는 곳 (연관 18회)"
+      "ko": "간이음식 · 갓바위, 고하도전망대 등과 함께 많이 찾는 곳 (연관 18회) 식신 「전국 빵지도」 전라도 편에 새우바게트 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Jeolla) for its shrimp baguette."
     },
     "src": {
       "ko": "전남광주통합특별시 목포시 영산로75번길 7 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -7718,7 +7719,8 @@
   },
   "ro264": {
     "desc": {
-      "ko": "간이음식 · 전주역사박물관, 광한루원 등과 함께 많이 찾는 곳 (연관 14회)"
+      "ko": "간이음식 · 전주역사박물관, 광한루원 등과 함께 많이 찾는 곳 (연관 14회) 식신 「전국 빵지도」 전라도 편에 생크림소보로 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Jeolla) for its fresh-cream soboro bread."
     },
     "src": {
       "ko": "전북특별자치도 남원시 용성로 56 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -12632,7 +12634,8 @@
   },
   "ro771": {
     "desc": {
-      "ko": "간이음식 · 각원사, 천안상록리조트 등과 함께 많이 찾는 곳 (연관 6회)"
+      "ko": "간이음식 · 각원사, 천안상록리조트 등과 함께 많이 찾는 곳 (연관 6회) 식신 「전국 빵지도」 충청도 편에 거북이빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its turtle bread."
     },
     "src": {
       "ko": "충남 천안시 서북구 백석로 270 · 한국관광공사 연관 관광지 · 카카오 좌표"
@@ -20255,8 +20258,8 @@
   },
   "na6": {
     "desc": {
-      "ko": "빵투어의 출발점. 튀김소보로 대기 줄은 평일 오전이 가장 짧다.",
-      "en": "The start of the bread tour; the queue is shortest on weekday mornings."
+      "ko": "빵투어의 출발점. 튀김소보로 대기 줄은 평일 오전이 가장 짧다. 식신 「전국 빵지도」 대전 편에 튀김소보로와 부추빵 맛집으로 소개됐다.",
+      "en": "The start of the bread tour; the queue is shortest on weekday mornings. Listed in Siksin's Korea Bakery Map (Daejeon) for its fried soboro and chive bread."
     },
     "img": "https://commons.wikimedia.org/wiki/Special:FilePath/Sungsimdang_2019.jpg?width=960",
     "imgCredit": "Wikimedia Commons",
@@ -22789,8 +22792,8 @@
   },
   "nax286": {
     "desc": {
-      "ko": "1945년에 연 한국에서 가장 오래된 빵집.",
-      "en": "The oldest bakery in Korea, open since 1945."
+      "ko": "1945년에 연 한국에서 가장 오래된 빵집. 식신 「전국 빵지도」 전라도 편에 단팥빵 맛집으로 소개됐다.",
+      "en": "The oldest bakery in Korea, open since 1945. Listed in Siksin's Korea Bakery Map (Jeolla) for its red-bean bun."
     },
     "src": {
       "ko": "군산시 중앙로 177 구글 지오코딩",
@@ -45233,8 +45236,8 @@
   },
   "ctmda2ea78c": {
     "desc": {
-      "ko": "교동에 있는 빵집으로 마늘바게트와 '연인의 빵'으로 알려져 있다.",
-      "en": "Bakery in Gyo-dong known for its garlic baguette and 'lovers' bread'."
+      "ko": "교동에 있는 빵집으로 마늘바게트와 '연인의 빵'으로 알려져 있다. 식신 「전국 빵지도」 강원도 편에 마늘바게트 맛집으로 소개됐다.",
+      "en": "Bakery in Gyo-dong known for its garlic baguette and 'lovers' bread'. Listed in Siksin's Korea Bakery Map (Gangwon) for its garlic baguette."
     },
     "src": {
       "ko": "속초 로컬 상권 · 주소 기준 좌표 · 대략 위치"
@@ -48037,6 +48040,825 @@
     },
     "src": {
       "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm6e17307a": {
+    "desc": {
+      "ko": "대한민국 제과명장 홍종흔이 운영하는 베이커리카페로, 2015년 홍종흔베이커리 본점으로 문을 열어 현재 골드헤겔로 운영된다. 식신 「전국 빵지도」 경기 남부 편에 호두빵과 양파 크림치즈 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its walnut bread with onion cream cheese."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm43ae3ecb": {
+    "desc": {
+      "ko": "매장에서 직접 배양한 과일 천연발효종으로 빵을 굽는 수원의 발효빵 전문 빵집이다. 식신 「전국 빵지도」 경기 남부 편에 치즈바게트 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its cheese baguette."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3826e6dc": {
+    "desc": {
+      "ko": "우리밀과 천연발효종으로 화학첨가물 없이 건강빵을 굽는 안양 동편마을의 빵집이다. 식신 「전국 빵지도」 경기 남부 편에 밤콩밤콩 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its 'Bamkong Bamkong' chestnut-and-bean bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9c8a07e1": {
+    "desc": {
+      "ko": "광교 카페거리에 있는 프랑스풍 베이커리 카페다. 식신 「전국 빵지도」 경기 남부 편에 크루아상 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfcf7ac9a": {
+    "desc": {
+      "ko": "부천 신중동역 인근 상가에 있는 동네 빵집으로 쑥을 넣은 빵으로 알려졌다. 식신 「전국 빵지도」 경기 남부 편에 쑥 모찌빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its mugwort mochi bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbe92eacc": {
+    "desc": {
+      "ko": "2015 제빵 월드컵 준우승자 이장권 셰프가 판교 삼평동에서 운영하는 빵집이다. 식신 「전국 빵지도」 경기 남부 편에 바질 크림 크런치빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its crunchy bread with basil cream."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm78b9c69d": {
+    "desc": {
+      "ko": "안양 동편마을에서 오픈 전부터 줄을 서는 프랑스식 빵집이다. 식신 「전국 빵지도」 경기 남부 편에 고래버터빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its 'whale' butter bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm12f5233b": {
+    "desc": {
+      "ko": "30년 전통의 분당 서현동 제과점으로 천재 제과사 앙토냉 카렘의 이름을 땄다. 식신 「전국 빵지도」 경기 남부 편에 화이트롤 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its white roll cake."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctma63f8363": {
+    "desc": {
+      "ko": "샌프란시스코에서 온 베이커리 카페 타르틴의 서울 1호점이다. 식신 「전국 빵지도」 서울 편에 컨트리 브레드 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Seoul) for its country bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm551663db": {
+    "desc": {
+      "ko": "1946년 문을 연 서울에서 가장 오래된 빵집 중 하나다. 식신 「전국 빵지도」 서울 편에 모나카 아이스크림 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Seoul) for its monaka ice cream."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7dbaafb4": {
+    "desc": {
+      "ko": "1968년 문을 연 성북동의 노포 제과점이다. 식신 「전국 빵지도」 서울 편에 사라다빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Seoul) for its salad bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd850eb8d": {
+    "desc": {
+      "ko": "강릉 포남동 남강초교 인근에 있는 빵집으로, 인절미 크림빵 등 크림을 가득 채운 빵으로 알려져 있다. 식신 「전국 빵지도」 강원도 편에 크림빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its cream bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm82fddcf0": {
+    "desc": {
+      "ko": "춘천 동면 금옥길에 있는 베이커리 카페다. 식신 「전국 빵지도」 강원도 편에 데니쉬와 몽블랑 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its Danish pastries and mont blanc."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme7af5014": {
+    "desc": {
+      "ko": "강릉 내곡동에 있는 빵집으로, 100% 우리밀로 만든 통밀빵 등 건강빵을 굽는다. 식신 「전국 빵지도」 강원도 편에 통밀빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its whole-wheat bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc157172a": {
+    "desc": {
+      "ko": "2017년 문을 연 춘천의 빈티지풍 베이커리 카페다. 식신 「전국 빵지도」 강원도 편에 프레첼과 크로와상 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its pretzels and croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctme41a6162": {
+    "desc": {
+      "ko": "강릉역 인근의 오래된 동네 빵집으로, 양배추와 케첩을 넣은 야채빵으로 유명하다. 식신 「전국 빵지도」 강원도 편에 야채빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its vegetable bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm375dd9da": {
+    "desc": {
+      "ko": "춘천 퇴계로에 있는 역사 깊은 빵집으로, 크림과 딸기잼을 반반 바른 구로맘모스빵이 대표 메뉴다. 식신 「전국 빵지도」 강원도 편에 구로맘모스 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its Guro mammoth bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2af2e9b5": {
+    "desc": {
+      "ko": "삼척 근덕면의 작은 빵집으로, 30년 넘게 만들어 온 꽈배기와 찹쌀도넛으로 생활의 달인에 소개됐다. 식신 「전국 빵지도」 강원도 편에 꽈배기 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its twisted doughnuts (kkwabaegi)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3f2a764e": {
+    "desc": {
+      "ko": "2015년 춘천 동면 산자락에 문을 연 정원 딸린 베이커리 카페다. 식신 「전국 빵지도」 강원도 편에 코코팡야 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its coco panya."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8e3f1881": {
+    "desc": {
+      "ko": "유기농 밀과 천연 발효종으로 무설탕·무버터 치아바타와 통밀빵을 만드는 춘천 동내면의 빵집이다. 식신 「전국 빵지도」 강원도 편에 치아바타 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its ciabatta."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfee2c13b": {
+    "desc": {
+      "ko": "강릉 교동에 있는 식빵 전문 베이커리 카페로, 먹물치즈식빵이 대표 메뉴다. 식신 「전국 빵지도」 강원도 편에 먹물치즈식빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its squid-ink cheese bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm083853d4": {
+    "desc": {
+      "ko": "앙버터와 팥버터로 알려진 청주의 빵집으로, 중앙동에서 가경동으로 확장 이전했다. 식신 「전국 빵지도」 충청도 편에 앙버터 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its anko butter bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4c0d3714": {
+    "desc": {
+      "ko": "구례산 통밀과 천연 발효종으로 빵을 굽는 충주의 우리밀 발효빵 전문점으로, 생활의 달인에 소개됐다. 식신 「전국 빵지도」 충청도 편에 식빵과 깜빠뉴 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its sandwich loaves and campagne."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb8924938": {
+    "desc": {
+      "ko": "천안 서북구에 있는 베이커리 카페로, 바게트와 통밀빵, 몽상밤파이 등을 판다. 식신 「전국 빵지도」 충청도 편에 바게트 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its baguettes."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm99b533a5": {
+    "desc": {
+      "ko": "부여버스터미널 인근의 지역 빵집으로, 튀김소보로와 튀김샌드위치로 알려져 있다. 식신 「전국 빵지도」 충청도 편에 소보루 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its soboro (streusel) bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfe210cb3": {
+    "desc": {
+      "ko": "세종 나성동에 있는 베이커리로, 아로니아 천연 발효종으로 당일 구운 빵을 판다. 식신 「전국 빵지도」 충청도 편에 데니쉬 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its Danish pastries."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm29257dc2": {
+    "desc": {
+      "ko": "세종 고운동에 있는 빵집으로, 바게트와 크루아상 등 식사빵으로 알려져 있다. 식신 「전국 빵지도」 충청도 편에 올리브푸가스 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its olive fougasse."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmaba6d4a4": {
+    "desc": {
+      "ko": "서승호 셰프가 운영하는 유기농 밀과 천연 발효종 건강빵집이다. 식신 「전국 빵지도」 충청도 편에 식빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its sandwich loaves."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb70bcf3d": {
+    "desc": {
+      "ko": "유성구청과 유림공원 인근 어은동에 있는 베이커리다. 식신 「전국 빵지도」 대전 편에 끼리바나나빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daejeon) for its kiri banana bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm681d1db4": {
+    "desc": {
+      "ko": "대전 유성구 지족동에 있는 2층 규모의 베이커리 카페다. 식신 「전국 빵지도」 대전 편에 앙버터 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daejeon) for its anko butter bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm267a58f2": {
+    "desc": {
+      "ko": "대전 유성구 봉명동에 있는 빵집으로, 프랑스산 버터로 만든 크루아상과 페이스트리가 대표 메뉴다. 식신 「전국 빵지도」 대전 편에 크로와상 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daejeon) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm15eada4a": {
+    "desc": {
+      "ko": "우송대 인근 자양동의 베이커리 카페로, 작은 파이집 '파이한모금'으로 시작해 확장 이전하며 이름을 바꿨다. 식신 「전국 빵지도」 대전 편에 파이 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daejeon) for its pies."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdcfeb221": {
+    "desc": {
+      "ko": "1974년 안동 문화의거리에서 문을 연 제과점으로, 2011년 미쉐린 그린가이드에 소개됐다. 식신 「전국 빵지도」 경상도 편에 크림치즈빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its cream cheese bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm60150ccf": {
+    "desc": {
+      "ko": "황리단길에서 이름난 빵집으로, 지금은 노서동 고분군 옆으로 옮겨 베이커리 카페로 운영한다. 식신 「전국 빵지도」 경상도 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm784e232f": {
+    "desc": {
+      "ko": "마산 창동예술촌에 있는 오래된 빵집으로, 고려당과 함께 마산 빵집의 양대 산맥으로 꼽힌다. 식신 「전국 빵지도」 경상도 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm71631eaa": {
+    "desc": {
+      "ko": "마늘바게트로 알려진 포항 빵집으로, 효자동에서 두호동으로 옮겨 영업한다. 식신 「전국 빵지도」 경상도 편에 갈릭바게트 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its garlic baguette."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5686d8c2": {
+    "desc": {
+      "ko": "오래된 한옥을 고쳐 만든 경주의 작은 빵집으로, 말차 크루아상 등이 알려져 있다. 식신 「전국 빵지도」 경상도 편에 크루아상 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm01c73634": {
+    "desc": {
+      "ko": "구미 봉곡동의 우리밀 · 호밀빵 전문 빵집으로, 농가호밀빵과 호밀넛츠가 대표 메뉴다. 식신 「전국 빵지도」 경상도 편에 농가호밀빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its farmhouse rye bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbf6c4557": {
+    "desc": {
+      "ko": "1949년 문을 연 포항의 노포 제과점으로, 단팥빵과 수제 찹쌀떡이 유명하다. 식신 「전국 빵지도」 경상도 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm124903be": {
+    "desc": {
+      "ko": "'푸른 섬'이라는 뜻의 이름을 가진 거제의 베이커리 카페로, 몽블랑이 대표 메뉴다. 식신 「전국 빵지도」 경상도 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8c1271af": {
+    "desc": {
+      "ko": "경남 최초 제과제빵 명장 김덕규가 운영하는 김해의 빵집으로, 마늘크림빵과 코코넛 밀크번이 대표 메뉴다. 식신 「전국 빵지도」 경상도 편에 마늘크림빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its garlic cream bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm227786dc": {
+    "desc": {
+      "ko": "독일 IBA 컵 금메달 수상자 박용호 대표가 운영하는 창원의 빵집으로, 미니비스켓파이와 블루베리식빵이 대표 메뉴다. 식신 「전국 빵지도」 경상도 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc5962f57": {
+    "desc": {
+      "ko": "1959년 마산 창동에서 문을 연 빵집으로, 빠다빵과 생크림스틱이 대표 메뉴다. 식신 「전국 빵지도」 경상도 편에 빠다빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its butter bread (ppada-ppang)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm835ce14b": {
+    "desc": {
+      "ko": "1957년 대구 남문시장에서 시작한 빵집으로, 통옥수수빵(마약빵)과 구운고로케가 대표 메뉴다. 식신 「전국 빵지도」 대구 편에 마약옥수수빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu) for its corn bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcb54237b": {
+    "desc": {
+      "ko": "빵과 디저트, 브런치를 함께 내는 대구 신천동의 베이커리 카페로, 앙버터가 대표 메뉴다. 식신 「전국 빵지도」 대구 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm3039f314": {
+    "desc": {
+      "ko": "대구 교동의 디저트 베이커리 카페로, 슈를 대표 메뉴로 낸다. 식신 「전국 빵지도」 대구 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf8ab7eed": {
+    "desc": {
+      "ko": "국산 우리밀과 통밀로 버터 · 달걀 · 우유 없이 빵을 굽는 다사읍의 빵집이다. 식신 「전국 빵지도」 대구 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm7e0e6547": {
+    "desc": {
+      "ko": "천연 버터와 천연 발효종으로 만든 반죽에 매일 끓인 팥소를 넣는 대구의 단팥빵 전문점으로, 한국관광공사가 꼭 가봐야 할 빵집으로 소개했다. 식신 「전국 빵지도」 대구 편에 단팥빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu) for its red-bean buns."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8dc5fd9b": {
+    "desc": {
+      "ko": "프랑스 밀가루와 버터로 굽는 크루아상으로 알려진 대구의 베이커리 카페다. 식신 「전국 빵지도」 대구 편에 크루아상 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm78e4063d": {
+    "desc": {
+      "ko": "바게트 등 유럽식 빵을 굽는 대구 달서구의 빵집이다. 식신 「전국 빵지도」 대구 편에 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Daegu)."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfd0193a2": {
+    "desc": {
+      "ko": "인절미팥빵 등을 파는 울산 남구 달동의 빵집이다. 식신 「전국 빵지도」 울산 편에 인절미빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Ulsan) for its injeolmi bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5a6f549e": {
+    "desc": {
+      "ko": "에그타르트와 스콘, 수제 밤팥빵 등을 내는 울산 삼산동의 베이커리 카페다. 식신 「전국 빵지도」 울산 편에 끼리바나나빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Ulsan) for its Kiri cream-cheese banana bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf2ec99cd": {
+    "desc": {
+      "ko": "울산 중앙시장 시계탑 근처의 오래된 빵집으로, 단팥빵 · 소보로빵 · 사라다빵 같은 추억의 빵을 낸다. 식신 「전국 빵지도」 울산 편에 단팥빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Ulsan) for its red-bean buns."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm41ed9cdd": {
+    "desc": {
+      "ko": "울산 중구 남외동 선우시장 안의 빵집으로, 단팥빵이 꾸준한 인기 메뉴다. 식신 「전국 빵지도」 울산 편에 단팥빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Ulsan) for its red-bean buns."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2f6971bf": {
+    "desc": {
+      "ko": "이석원 제과 명인이 운영하는 울주군 구영리의 빵집으로, 명인앙금빵이 대표 메뉴다. 식신 「전국 빵지도」 울산 편에 명인앙금빵 맛집으로 소개됐다.",
+      "en": "Listed in Siksin's Korea Bakery Map (Ulsan) for its master baker's sweet bean bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmdbbdd2ca": {
+    "desc": {
+      "ko": "1973년 충장로에 문을 연 광주의 대표 노포 제과점이다. 식신 「전국 빵지도」 광주 편에 공룡알빵·나비파이 맛집으로 소개됐다.",
+      "en": "A landmark Gwangju bakery that opened on Chungjang-ro in 1973. Listed in Siksin's Korea Bakery Map (Gwangju) for its dinosaur-egg bread and butterfly pie."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm759ac59a": {
+    "desc": {
+      "ko": "1992년부터 양림동을 지켜 온 붉은 벽돌 외관의 동네 빵집이다. 식신 「전국 빵지도」 광주 편에 양파빵 맛집으로 소개됐다.",
+      "en": "A red-brick neighborhood bakery in Yangnim-dong since 1992. Listed in Siksin's Korea Bakery Map (Gwangju) for its onion bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmd7742c80": {
+    "desc": {
+      "ko": "1991년 개업해 유기농 밀가루와 발효종으로 빵을 굽는 광주의 향토 제과점이다. 식신 「전국 빵지도」 광주 편에 마왕파이 맛집으로 소개됐다.",
+      "en": "A Gwangju bakery founded in 1991 that bakes with organic flour and natural leaven. Listed in Siksin's Korea Bakery Map (Gwangju) for its Mawang pie."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm665b012e": {
+    "desc": {
+      "ko": "양림동에서 유기농 밀가루와 천연 발효종으로 빵을 굽는 제과점이다. 식신 「전국 빵지도」 광주 편에 에그타르트 맛집으로 소개됐다.",
+      "en": "A Yangnim-dong bakery baking with organic flour and natural leaven. Listed in Siksin's Korea Bakery Map (Gwangju) for its egg tarts."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmfa9443b3": {
+    "desc": {
+      "ko": "국립아시아문화전당 인근 남동의 빵집으로 콩크림빵 아문당이 시그니처다. 식신 「전국 빵지도」 광주 편에 부시맨빵 맛집으로 소개됐다.",
+      "en": "A bakery in Nam-dong near the Asia Culture Center, known for its bean-cream bun Amundang. Listed in Siksin's Korea Bakery Map (Gwangju) for its Bushman bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcb791c73": {
+    "desc": {
+      "ko": "동명동에서 유기농 재료로 천연발효 빵을 굽는 베이커리다. 식신 「전국 빵지도」 광주 편에 사워도우 맛집으로 소개됐다.",
+      "en": "A Dongmyeong-dong bakery making naturally leavened bread from organic ingredients. Listed in Siksin's Korea Bakery Map (Gwangju) for its sourdough."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm2fb08f1e": {
+    "desc": {
+      "ko": "화정동의 작은 베이커리로 두툼한 스콘과 브라우니로 알려졌다. 식신 「전국 빵지도」 광주 편에 스콘 맛집으로 소개됐다.",
+      "en": "A small Hwajeong-dong bakery known for thick scones and brownies. Listed in Siksin's Korea Bakery Map (Gwangju) for its scones."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcf20f588": {
+    "desc": {
+      "ko": "프랑스 유학파 파티시에가 운영하는 양림동 베이커리로 크로슈가 시그니처다. 식신 「전국 빵지도」 광주 편에 크루아상 맛집으로 소개됐다.",
+      "en": "A Yangnim-dong bakery run by a French-trained pâtissier, known for its croissant-choux. Listed in Siksin's Korea Bakery Map (Gwangju) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm43f0ba58": {
+    "desc": {
+      "ko": "유기농 밀과 우리밀로 하드 계열 빵을 굽는 용봉동 빵집이다. 식신 「전국 빵지도」 광주 편에 앙버터 맛집으로 소개됐다.",
+      "en": "A Yongbong-dong bakery baking crusty breads from organic and Korean wheat. Listed in Siksin's Korea Bakery Map (Gwangju) for its ang-butter."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm58a8c7d8": {
+    "desc": {
+      "ko": "동명동 주택을 개조한 디저트·구움과자 베이커리다. 식신 「전국 빵지도」 광주 편에 프레첼 맛집으로 소개됐다.",
+      "en": "A dessert and baked-goods bakery in a converted house in Dongmyeong-dong. Listed in Siksin's Korea Bakery Map (Gwangju) for its pretzels."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm67cce4f7": {
+    "desc": {
+      "ko": "수제 초코파이로 유명한 전주의 노포 제과점이다. 식신 「전국 빵지도」 전라도 편에 초코파이 맛집으로 소개됐다.",
+      "en": "A long-running Jeonju bakery famous for its handmade choco pies. Listed in Siksin's Korea Bakery Map (Jeolla) for its choco pie."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmcafeeeb5": {
+    "desc": {
+      "ko": "생활의 달인에 소개된 옥수수식빵으로 알려진 익산 마동의 제과점이다. 식신 「전국 빵지도」 전라도 편에 옥수수식빵 맛집으로 소개됐다.",
+      "en": "An Iksan bakery in Ma-dong known for its corn loaf bread. Listed in Siksin's Korea Bakery Map (Jeolla) for its corn loaf."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1c493a8c": {
+    "desc": {
+      "ko": "우리밀과 지역 곡물로 달걀·우유 없이 빵을 굽는 구례읍 빵집이다. 식신 「전국 빵지도」 전라도 편에 호밀빵 맛집으로 소개됐다.",
+      "en": "A Gurye bakery baking with Korean wheat and local grains, without eggs or milk. Listed in Siksin's Korea Bakery Map (Jeolla) for its rye bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmaed7b935": {
+    "desc": {
+      "ko": "벌교읍에서 천연효모로 통밀빵과 쌀식빵 등을 굽는 빵집이다. 식신 「전국 빵지도」 전라도 편에 아몬드크림빵 맛집으로 소개됐다.",
+      "en": "A Beolgyo bakery baking natural-yeast whole-wheat and rice breads. Listed in Siksin's Korea Bakery Map (Jeolla) for its almond cream bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9d2ccd56": {
+    "desc": {
+      "ko": "붉은 벽돌 외관의 베이커리 카페로 크루아상과 스콘이 인기다. 식신 「전국 빵지도」 전라도 편에 크루아상 맛집으로 소개됐다.",
+      "en": "A red-brick bakery cafe popular for its croissants and scones. Listed in Siksin's Korea Bakery Map (Jeolla) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmed29bb3f": {
+    "desc": {
+      "ko": "관문동에서 찐빵·사라다빵 등 옛날 빵을 파는 추억의 동네 빵집이다. 식신 「전국 빵지도」 전라도 편에 야채사라다빵 맛집으로 소개됐다.",
+      "en": "An old-fashioned neighborhood bakery in Gwanmun-dong selling steamed buns and salad rolls. Listed in Siksin's Korea Bakery Map (Jeolla) for its vegetable salad roll."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc6ac0128": {
+    "desc": {
+      "ko": "3대째 이어 온 순천의 노포 과자점으로 볼카스테라와 찹쌀떡이 유명하다. 식신 「전국 빵지도」 전라도 편에 볼카스테라 맛집으로 소개됐다.",
+      "en": "A third-generation Suncheon confectionery famous for ball castella and chapssal-tteok. Listed in Siksin's Korea Bakery Map (Jeolla) for its ball castella."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmf66c9106": {
+    "desc": {
+      "ko": "전주 객리단길의 베이커리 카페로 108겹 크루아상이 시그니처다. 식신 「전국 빵지도」 전라도 편에 크루아상 맛집으로 소개됐다.",
+      "en": "A bakery cafe on Jeonju's Gaekridan-gil known for its 108-layer croissants. Listed in Siksin's Korea Bakery Map (Jeolla) for its croissants."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm71859ff6": {
+    "desc": {
+      "ko": "양재동 아파트 상가에서 주 4일 문을 여는 작은 동네 빵집이다. 식신 「전국 빵지도」 서울 편에 크림치즈치아바타 맛집으로 소개됐다.",
+      "en": "A small neighborhood bakery in a Yangjae-dong apartment arcade, open four days a week. Listed in Siksin's Korea Bakery Map (Seoul) for its cream-cheese ciabatta."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm278144bd": {
+    "desc": {
+      "ko": "치아바타와 프레첼 등 식사빵으로 알려진 테이크아웃 전문 베이커리다. 식신 「전국 빵지도」 서울 편에 프레첼·치아바타 맛집으로 소개됐다.",
+      "en": "A takeout bakery known for ciabatta, pretzels and other hearty breads. Listed in Siksin's Korea Bakery Map (Seoul) for its pretzels and ciabatta."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5519faa2": {
+    "desc": {
+      "ko": "바게트와 호밀빵 등 담백한 식사빵으로 이름난 베이커리로, 이태원에서 한남동으로 옮겨 영업 중이다. 식신 「전국 빵지도」 서울 편에 호밀무화과빵 맛집으로 소개됐다.",
+      "en": "A bakery famed for baguettes and rye loaves, now operating in Hannam-dong after leaving Itaewon. Listed in Siksin's Korea Bakery Map (Seoul) for its rye fig bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4c87eea0": {
+    "desc": {
+      "ko": "남부터미널역 인근에서 크루아상과 데니쉬 등 프랑스식 빵을 굽는 베이커리다. 식신 「전국 빵지도」 서울 편에 크로와상·데니쉬 맛집으로 소개됐다.",
+      "en": "A French-style bakery near Nambu Bus Terminal station known for croissants and Danish pastries. Listed in Siksin's Korea Bakery Map (Seoul) for its croissants and Danish pastries."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb6075900": {
+    "desc": {
+      "ko": "계란·우유·설탕·버터 없이 건강빵을 굽는, 금·토·일에만 여는 망우동 빵집이다. 식신 「전국 빵지도」 서울 편에 호밀앙버터·맘모스빵 맛집으로 소개됐다.",
+      "en": "A Mangu-dong bakery open Friday to Sunday that bakes healthy breads without eggs, milk, sugar or butter. Listed in Siksin's Korea Bakery Map (Seoul) for its rye an-butter and mammoth bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm760d90b8": {
+    "desc": {
+      "ko": "낙성대역 근처에서 매일 아침부터 밤까지 문을 여는 동네 대표 빵집이다. 식신 「전국 빵지도」 서울 편에 단팥빵·맘모스빵 맛집으로 소개됐다.",
+      "en": "A popular neighborhood bakery near Nakseongdae station, open daily from morning to night. Listed in Siksin's Korea Bakery Map (Seoul) for its red-bean buns and mammoth bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm06a65487": {
+    "desc": {
+      "ko": "장승배기역 인근 상도동의 동네 베이커리로 앙버터와 식사빵이 인기다. 식신 「전국 빵지도」 서울 편에 프레첼·깜빠뉴 맛집으로 소개됐다.",
+      "en": "A Sangdo-dong neighborhood bakery near Jangseungbaegi station popular for an-butter and hearty breads. Listed in Siksin's Korea Bakery Map (Seoul) for its pretzels and campagne."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmb810567d": {
+    "desc": {
+      "ko": "망원시장 근처에서 투박한 모양의 크림빵과 사워도우를 굽는 빵집이다. 식신 「전국 빵지도」 서울 편에 사워도우·크림빵 맛집으로 소개됐다.",
+      "en": "A bakery near Mangwon Market known for its rustic-looking cream buns and sourdough. Listed in Siksin's Korea Bakery Map (Seoul) for its sourdough and cream buns."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc5a4e3e3": {
+    "desc": {
+      "ko": "제과명장 김영모가 운영하는 서초·강남 지역의 대표 제과점 지점이다. 식신 「전국 빵지도」 서울 편에 몽블랑 맛집으로 소개됐다.",
+      "en": "A branch of the patisserie run by master baker Kim Young-mo, a Gangnam-area institution. Listed in Siksin's Korea Bakery Map (Seoul) for its Mont Blanc pastry."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm0bd08e14": {
+    "desc": {
+      "ko": "1978년 문을 연 연희동의 오래된 동네 제과점이다. 식신 「전국 빵지도」 서울 편에 아기궁둥이빵 맛집으로 소개됐다.",
+      "en": "A long-running Yeonhui-dong bakery that opened in 1978. Listed in Siksin's Korea Bakery Map (Seoul) for its Agi-gungdung-i bun."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbf4f2258": {
+    "desc": {
+      "ko": "일산 대화동의 동네 베이커리로 스콘이 대표 메뉴다. 식신 「전국 빵지도」 경기 북부 편에 스콘 맛집으로 소개됐다.",
+      "en": "A neighborhood bakery in Daehwa-dong, Ilsan, best known for its scones. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its scones."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm547f1f12": {
+    "desc": {
+      "ko": "북한강변 서종면 문호리에 있는 넓은 정원의 한옥 베이커리 카페다. 식신 「전국 빵지도」 경기 북부 편에 대파치즈브레드 맛집으로 소개됐다.",
+      "en": "A hanok bakery café with a large garden on the Bukhangang river in Seojong-myeon. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its green-onion cheese bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmaf286951": {
+    "desc": {
+      "ko": "헤이리마을에서 유기농 재료로 치아바타와 사워도우 등 건강빵을 굽는 빵집이다. 식신 「전국 빵지도」 경기 북부 편에 치아바타 맛집으로 소개됐다.",
+      "en": "A Heyri Art Village bakery baking ciabatta, sourdough and other healthy breads with organic ingredients. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its ciabatta."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm53fdb215": {
+    "desc": {
+      "ko": "대한민국 제과기능장 곽지원이 두물머리 근처에서 운영하는 천연효모 빵집이다. 식신 「전국 빵지도」 경기 북부 편에 두물머리스페셜빵 맛집으로 소개됐다.",
+      "en": "A natural-yeast bakery near Dumulmeori run by certified master baker Kwak Ji-won. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its Dumulmeori special bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm5376ce5f": {
+    "desc": {
+      "ko": "마두역 근처에서 통밀빵과 사워도우 등 건강빵을 굽는 빵집이다. 식신 「전국 빵지도」 경기 북부 편에 밤팥바게트·팥빵 맛집으로 소개됐다.",
+      "en": "A bakery near Madu station baking whole-wheat loaves, sourdough and other healthy breads. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its chestnut red-bean baguette and red-bean buns."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmbf6eca7d": {
+    "desc": {
+      "ko": "가평읍 시내에서 아침부터 밤까지 문을 여는 빵집이다. 식신 「전국 빵지도」 경기 북부 편에 연유쌀바게트 맛집으로 소개됐다.",
+      "en": "A bakery in central Gapyeong-eup open from morning to night. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its condensed-milk rice baguette."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm05970ac8": {
+    "desc": {
+      "ko": "천연효소와 우리밀로 건강빵을 굽는 정원 있는 대형 베이커리 카페다. 식신 「전국 빵지도」 경기 북부 편에 자색고구마빵 맛집으로 소개됐다.",
+      "en": "A large bakery café with a garden that bakes healthy breads using natural leaven and Korean wheat. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its purple sweet potato bread."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1d3cfd9f": {
+    "desc": {
+      "ko": "행신동에서 시작한 고양의 베이커리로 엘리게이터 파이가 유명하다. 식신 「전국 빵지도」 경기 북부 편에 엘리게이터 맛집으로 소개됐다.",
+      "en": "A Goyang bakery founded in Haengsin-dong, famous for its alligator pie. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its alligator pie."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
     }
   }
 }
