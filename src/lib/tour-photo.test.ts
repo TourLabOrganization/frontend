@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   commonsUrl,
   httpsPhoto,
+  kakaoImageUrl,
   photoName,
   pickCommonsImage,
   pickGalleryImage,
+  pickKakaoImage,
   pickTourImage,
   pickWikiImage,
   wikiSummaryUrl,
@@ -193,5 +195,45 @@ describe("위키미디어 공용 좌표 검색(④)", () => {
     expect(u.searchParams.get("ggscoord")).toBe("35.79|129.33");
     expect(u.searchParams.get("ggsradius")).toBe("300");
     expect(u.searchParams.get("ggsnamespace")).toBe("6");
+  });
+});
+
+describe("카카오 이미지 검색(⑤)", () => {
+  const doc = (
+    image_url: string,
+    width = 800,
+    height = 600,
+    site = "티스토리",
+  ) => ({
+    image_url,
+    width,
+    height,
+    display_sitename: site,
+  });
+
+  it("https · 가로 500 · 세로 300px 이상 · 너무 길지 않은 첫 사진, 출처는 사이트 이름", () => {
+    const body = {
+      documents: [
+        doc("http://a.com/1.jpg"),
+        doc("https://a.com/small.jpg", 300, 200),
+        doc("https://a.com/banner.jpg", 2000, 400),
+        doc("https://a.com/anim.gif"),
+        doc("https://blog.example.com/ok.jpg", 1200, 800, "네이버블로그"),
+        doc("https://b.com/later.jpg"),
+      ],
+    };
+    expect(pickKakaoImage(body)).toEqual({
+      src: "https://blog.example.com/ok.jpg",
+      author: "네이버블로그",
+    });
+    expect(pickKakaoImage({})).toBeNull();
+  });
+
+  it("정확도순 10장을 부른다", () => {
+    const u = new URL(kakaoImageUrl("경주 불국사"));
+    expect(u.host).toBe("dapi.kakao.com");
+    expect(u.pathname).toBe("/v2/search/image");
+    expect(u.searchParams.get("query")).toBe("경주 불국사");
+    expect(u.searchParams.get("sort")).toBe("accuracy");
   });
 });
