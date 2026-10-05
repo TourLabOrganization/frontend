@@ -63,6 +63,7 @@ import {
   resolveDataServerDir,
 } from "./data-server.mjs";
 import { isOfficialName } from "./official-name-fixes.mjs";
+import { applyCityNames, loadCityNames } from "./city-names.mjs";
 import { applyManualRegions } from "./manual-regions.mjs";
 import { fillPlaceNames } from "./place-names.mjs";
 
@@ -557,6 +558,8 @@ for (const p of places)
   if (p.pickCity) placeCounts[p.pickCity] = (placeCounts[p.pickCity] ?? 0) + 1;
 // PoC에 없는 도시 · 관문 · 출발지(백령도 · 연평도 …)는 scripts/data/manual-regions.json에서 덧붙인다(scripts/manual-regions.mjs)
 applyManualRegions({ regions, cities, hubs, origins });
+// 도시 영어 이름은 사람이 관리하는 표(scripts/data/city-names.csv)가 정답이다(scripts/city-names.mjs)
+applyCityNames({ cities }, {}, loadCityNames());
 write(resolve(OUT_DIR, "regions.json"), {
   regions,
   cities,

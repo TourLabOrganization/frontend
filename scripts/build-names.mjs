@@ -15,11 +15,13 @@
 //   - 값이 없으면 넣지 않는다(지어내지 않는다). 화면은 영어 → 한국어 순으로 떨어진다(src/features/names/names.ts)
 //   - 스페인어 장소 이름은 원천에 없어 넣지 않는다(화면은 영어 이름을 쓴다)
 //   - 도시는 regions.json의 도시(플래너 · 테마 · 시티투어가 쓰는 한국어 도시 이름)만 넣는다
+//   - 도시 이름은 마지막에 scripts/data/city-names.csv(사람이 관리하는 도시 이름표)로 덮는다(scripts/city-names.mjs)
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
+import { applyCityNames, loadCityNames } from "./city-names.mjs";
 import { isOfficialName } from "./official-name-fixes.mjs";
 
 const [plannerPath, derivedDir] = process.argv.slice(2);
@@ -146,6 +148,9 @@ for (const lang of LANGS) {
       if (isOfficialName(lang, row.id, row[column]))
         places[row.id] = row[column].trim();
   }
+
+  // 도시 이름은 사람이 관리하는 표(scripts/data/city-names.csv)가 원천 값을 덮는다(원천에 없는 도시 · 고친 이름)
+  applyCityNames({ cities: {} }, { [lang]: { cities } }, loadCityNames());
 
   writeFileSync(
     resolve(OUT_DIR, `${lang}.json`),
