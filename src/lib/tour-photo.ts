@@ -5,8 +5,9 @@
 //   ③ 한국어 위키백과 요약(REST page/summary)의 대표 이미지(PoC tryOne). 키가 없어도 부른다
 //   ④ 위키미디어 공용(Wikimedia Commons) 좌표 검색(앱에서 더한 단계, PoC에 없다): 장소 좌표 300m 안 파일 중
 //      파일 이름에 장소 이름(한국어 · 영어)이 든 사진, 가까운 순. 자유 라이선스라 작성자 · 라이선스를 함께 돌려주고 화면에 적는다.
-//      나무위키는 공개 API가 없고 약관이 자동 수집을 막으며 사진 저작권이 제각각이라 쓰지 않는다(2026-10-05 결정)
-//   (PoC의 제주 브랜드 콘텐츠 이미지는 HTTP 주소라 HTTPS 앱에서 브라우저가 막아 옮기지 않았다)
+//   ⑤ 카카오 이미지 검색(Daum 검색, dapi.kakao.com/v2/search/image, 2026-10-05 요청으로 마지막 단계에 더함). 키 KAKAO_REST_KEY(서버 전용).
+//      「도시 장소이름」으로 정확도순 검색, 가로 500px · 세로 300px 이상 https 사진 중 첫째. 사진 저작권은 원 게시물에 있어
+//      앞 네 곳에 없을 때만 부르고 출처(사이트 이름)를 함께 적는다. 키가 없거나 실패하면 건너뛴다
 // 키(DATA_GO_KR_KEY)가 없으면 ①②를 건너뛰고 ③만 쓴다. 사진 주소는 https로 바꿔 돌려준다.
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 상대 경로로 import한다.
 import {
@@ -277,7 +278,72 @@ async function commonsPhoto(
   }
 }
 
-/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용까지 본다) */
+/** 카카오 REST API 키(서버 전용). 없으면 null */
+export function kakaoRestKey(): string | null {
+  const key = process.env.KAKAO_REST_KEY?.trim();
+  return key ? key : null;
+}
+
+/** 카카오 이미지 검색 주소(정확도순 10장) */
+export function kakaoImageUrl(query: string): string {
+  const q = new URLSearchParams({ query, sort: "accuracy", size: "10" });
+  return `https://dapi.kakao.com/v2/search/image?${q}`;
+}
+
+/** 카카오 이미지 검색에서 장소 사진으로 쓸 최소 크기(px) */
+const KAKAO_MIN_W = 500;
+const KAKAO_MIN_H = 300;
+
+/**
+ * 카카오 이미지 검색 결과에서 하나 고르기: https 사진 주소, 가로 500 · 세로 300px 이상, 가로가 세로의 3배를 넘지 않는 첫째(정확도순).
+ * 출처는 사이트 이름(display_sitename)
+ */
+export function pickKakaoImage(
+  body: unknown,
+): Omit<TourPhoto, "source"> | null {
+  const docs = ((body as { documents?: unknown[] } | null)?.documents ??
+    []) as {
+    image_url?: unknown;
+    width?: unknown;
+    height?: unknown;
+    display_sitename?: unknown;
+  }[];
+  for (const d of docs) {
+    const src = String(d.image_url ?? "");
+    const w = Number(d.width);
+    const h = Number(d.height);
+    if (!/^https:\/\//i.test(src) || /\.(svg|gif)(\?|$)/i.test(src)) continue;
+    if (!(w >= KAKAO_MIN_W && h >= KAKAO_MIN_H && w <= h * 3)) continue;
+    const site = plainText(d.display_sitename);
+    return { src, ...(site ? { author: site } : {}) };
+  }
+  return null;
+}
+
+async function kakaoPhoto(
+  place: TourPlace,
+): Promise<Omit<TourPhoto, "source"> | null> {
+  const key = kakaoRestKey();
+  if (!key) return null;
+  const city = String(place.locKo ?? "")
+    .replace(/\(.*\)/, "")
+    .trim();
+  const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
+  if (name.length < 2) return null;
+  try {
+    const res = await fetch(kakaoImageUrl(city ? `${city} ${name}` : name), {
+      headers: { Authorization: `KakaoAK ${key}` },
+      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
+      next: { revalidate: TOUR_PHOTO_SECONDS },
+    });
+    if (!res.ok) return null;
+    return pickKakaoImage(await res.json());
+  } catch {
+    return null;
+  }
+}
+
+/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 카카오 이미지 검색까지 본다) */
 export async function findPhoto(
   place: TourPlace,
   key: string | null,
@@ -322,17 +388,25 @@ export async function findPhoto(
   if (wiki) return { src: wiki, source: "wikipedia" };
   const commons = await commonsPhoto(place);
   const src = httpsPhoto(commons?.src ?? "");
-  return src && commons
+  if (src && commons)
+    return {
+      src,
+      source: "commons",
+      ...(commons.author ? { author: commons.author } : {}),
+      ...(commons.license ? { license: commons.license } : {}),
+    };
+  const kakao = await kakaoPhoto(place);
+  const ks = httpsPhoto(kakao?.src ?? "");
+  return ks && kakao
     ? {
-        src,
-        source: "commons",
-        ...(commons.author ? { author: commons.author } : {}),
-        ...(commons.license ? { license: commons.license } : {}),
+        src: ks,
+        source: "kakao",
+        ...(kakao.author ? { author: kakao.author } : {}),
       }
     : null;
 }
 
-/** GET /api/tour/photo 처리. 응답 { src, source, author?, license? } · 못 찾으면 { empty: true }. 키가 없어도 위키백과 · 위키미디어 공용은 본다 */
+/** GET /api/tour/photo 처리. 응답 { src, source, author?, license? } · 못 찾으면 { empty: true }. 키가 없어도 위키백과 · 위키미디어 공용은 본다(카카오는 KAKAO_REST_KEY가 있을 때) */
 export async function tourPhotoResponse(request: Request): Promise<Response> {
   const query = await parseTourQuery(request, false);
   if ("error" in query) return query.error;
