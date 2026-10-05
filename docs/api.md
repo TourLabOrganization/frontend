@@ -255,6 +255,10 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
   시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 위키미디어 공용 사진은 자유 라이선스 표시를 위해 작성자 · 라이선스를 함께 적는다
   (「사진: 위키미디어 공용 · Kim · CC BY-SA 4.0」, 작성자 이름은 원문 그대로). 한 단계가 실패해도 다음 단계로 넘어간다
+- **점검**(어느 장소가 몇 단계에서 사진을 받는지, 특히 ⑤ 카카오로 떨어지는 장소): 키와 인터넷이 있는 곳에서
+  `PHOTO_AUDIT=1 DATA_GO_KR_KEY=… KAKAO_REST_KEY=… npx vitest run scripts/photo-audit.test.ts`
+  (`PHOTO_AUDIT_CITY` 한 도시 · `PHOTO_AUDIT_LIMIT` 개수 · `PHOTO_AUDIT_OUT` 결과 파일 · `PHOTO_AUDIT_CONCURRENCY` 동시 호출).
+  결과 CSV(id · city · ko · cat · step · source · src · author · license)에서 step 5 행의 사진을 눈으로 확인한다. 평소 `npm run test`에서는 건너뛴다
 - **캐시**: 7일(대표 사진은 자주 바뀌지 않는다). 클라이언트는 하루
 - **옮기지 않은 것**: PoC 제주 브랜드 콘텐츠 이미지(`api.brandcontents.or.kr`)는 HTTP 주소라 HTTPS 앱에서 브라우저가 막는다
 
