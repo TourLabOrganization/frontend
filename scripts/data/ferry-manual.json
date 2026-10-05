@@ -1,0 +1,37 @@
+{
+  "_note": "PoC FERRY_ROUTES에 없는 항구 섬 항로(앱에서 더한 백령도 · 연평도). 2026-10 웹 검색으로 확인한 고려고속훼리 · 언론 보도 값이고, 철 · 물때에 따라 바뀌어 「무렵」 · 범위로 적었다. 출처는 docs/structure.md 「섬 여행」",
+  "routes": {
+    "baengnyeong": [
+      {
+        "k": "incheonBaengnyeong",
+        "ko": "인천항 연안여객터미널",
+        "en": "Incheon",
+        "op": "고려고속훼리 (코리아프라이드 · 코리아프린세스)",
+        "opEn": "Korea Express Ferry (Korea Pride, Korea Princess)",
+        "dur": "약 3시간 40분 – 4시간 (소청 · 대청 경유)",
+        "durEn": "about 3h40 – 4h (via Socheong · Daecheong)",
+        "day": "2회",
+        "first": "07:50 – 08:30 무렵",
+        "last": "12:30 무렵",
+        "arr": "용기포항",
+        "arrEn": "Yonggipo"
+      }
+    ],
+    "yeonpyeong": [
+      {
+        "k": "incheonYeonpyeong",
+        "ko": "인천항 연안여객터미널",
+        "en": "Incheon",
+        "op": "고려고속훼리 (코리아킹)",
+        "opEn": "Korea Express Ferry (Korea King)",
+        "dur": "약 2시간 – 2시간 30분 (소연평 경유)",
+        "durEn": "about 2h – 2h30 (via Soyeonpyeong)",
+        "day": "1 – 2회",
+        "first": "08:00 무렵",
+        "last": "13:00 무렵",
+        "arr": "연평항",
+        "arrEn": "Yeonpyeong"
+      }
+    ]
+  }
+}

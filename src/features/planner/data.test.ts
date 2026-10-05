@@ -26,9 +26,12 @@ import {
 // 도시별 장소 수만 목업과 다르다: 전용 화면 도시(서울 · 부산 · 제주 · 영월 · 경주 · 거제)의 전국 목록 장소도 그 도시에 넣는다
 // (대표 결정 2026-09-28, scripts/build-planner.mjs). 목업 cityRows는 그 447곳을 전국 보기에만 넣었다.
 
-// 권역별 도시 수: REG 도시 + MACRO_OF에만 있는 도시(_mcExtra)
+// 권역별 도시 수: REG 도시 + MACRO_OF에만 있는 도시(_mcExtra) + 수기 도시(scripts/data/manual-regions.json: 수도권 백령도 · 연평도)
+const findRegionOf = (city: string) =>
+  REGIONS.find((r) => r.cities.includes(city))?.key;
+
 const REGION_CITY_COUNT = {
-  capital: 33,
+  capital: 33 + 2,
   gangwon: 18,
   chungcheong: 28,
   daegyeong: 24,
@@ -185,8 +188,10 @@ describe("플래너 데이터", () => {
     expect(all.length).toBe(PLACE_COUNT_BY_CITY.size);
   });
 
-  it("출발지는 출발지.csv 61곳이고 수단에 전철(metro)이 들어 있다", () => {
-    expect(Object.keys(PLANNER_ORIGINS)).toHaveLength(61);
+  it("출발지는 출발지.csv 61곳 + 수기 2곳(인천항 연안여객터미널 백령 · 연평 항로)이고 수단에 전철(metro)이 들어 있다", () => {
+    expect(Object.keys(PLANNER_ORIGINS)).toHaveLength(61 + 2);
+    expect(PLANNER_ORIGINS.incheonPortBaengnyeong.route).toBe("baengnyeong");
+    expect(PLANNER_ORIGINS.incheonPortYeonpyeong.route).toBe("yeonpyeong");
     expect(PLANNER_ORIGINS.seoul.modes).toEqual(["ktx", "metro"]);
   });
 
@@ -259,7 +264,15 @@ describe("플래너 데이터", () => {
         // 오래된 한식당 100선으로 생긴 동두천(송월관, 2026-10-04)은 동두천중앙역을 관문으로 적었다
       ].sort(),
     );
-    expect(Object.keys(CITY_HUBS)).toHaveLength(cities.size - 15);
+    // 수기 관문(백령도 · 연평도, scripts/data/manual-regions.json)은 장소가 들기 전에도 있다
+    expect(Object.keys(CITY_HUBS).filter((c) => cities.has(c))).toHaveLength(
+      cities.size - 15,
+    );
+    for (const c of ["백령도", "연평도"]) {
+      expect(CITY_HUBS[c]?.modes, c).toEqual(["ship"]);
+      expect(CITY_INFO[c]?.lat, c).toBeTypeOf("number");
+      expect(findRegionOf(c), c).toBe("capital");
+    }
   });
 
   it("체류 · 운영시간 필드가 일정 모듈이 읽는 꼴이다", () => {

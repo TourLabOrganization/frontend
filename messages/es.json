@@ -1209,10 +1209,30 @@
         "ok": "Entendido",
         "close": "Cerrar"
       },
+      "baengnyeong": {
+        "kicker": "Ferry a Baengnyeong",
+        "title": "A Baengnyeongdo solo se llega en ferry",
+        "body": "No hay tren, autobús ni vuelo a la isla, así que la salida y el regreso se calculan solo desde la terminal de ferris costeros de Incheon, de donde salen los ferris a Baengnyeong. La salida se ha fijado en esa terminal.",
+        "portsLabel": "Puerto · duración",
+        "foot": "El tiempo es la travesía fija (con escalas en Socheong y Daecheong) más 30 minutos de embarque. Los ferris llegan al puerto de Yonggipo; la niebla y el oleaje del mar Amarillo abierto cancelan a menudo el trayecto.",
+        "ok": "Entendido",
+        "close": "Cerrar"
+      },
+      "yeonpyeong": {
+        "kicker": "Ferry a Yeonpyeong",
+        "title": "A Yeonpyeongdo solo se llega en ferry",
+        "body": "No hay tren, autobús ni vuelo a la isla, así que la salida y el regreso se calculan solo desde la terminal de ferris costeros de Incheon, de donde salen los ferris a Yeonpyeong. La salida se ha fijado en esa terminal.",
+        "portsLabel": "Puerto · duración",
+        "foot": "El tiempo es la travesía fija (con escala en Soyeonpyeong) más 30 minutos de embarque. Los ferris llegan al puerto de Yeonpyeong, en Daeyeonpyeong, y el trayecto puede cancelarse con mal tiempo.",
+        "ok": "Entendido",
+        "close": "Cerrar"
+      },
       "ferry": {
         "title": {
           "jeju": "Ferris a Jeju",
-          "ulleung": "Ferris a Ulleungdo"
+          "ulleung": "Ferris a Ulleungdo",
+          "baengnyeong": "Ferris a Baengnyeongdo",
+          "yeonpyeong": "Ferris a Yeonpyeongdo"
         },
         "port": "Puerto de salida",
         "rows": {

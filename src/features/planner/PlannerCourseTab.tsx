@@ -92,7 +92,7 @@ import { FerryCard } from "./FerryCard";
 import { showFerryCard } from "./ferry";
 import { FlightCard } from "./FlightCard";
 import { jejuAirportFor, showBusanFlights, showJejuFlights } from "./flights";
-import { ulleungSync } from "./island";
+import { islandSync, type PortIsland } from "./island";
 import { plannerHref, scopeHref } from "./query";
 import {
   CITY_HUBS,
@@ -126,7 +126,7 @@ import {
   toggleNightStay,
 } from "./stays";
 import { TripCalendar } from "./TripCalendar";
-import { UlleungNotice } from "./UlleungNotice";
+import { IslandNotice } from "./IslandNotice";
 import {
   airTwin,
   type ChainPoint,
@@ -325,16 +325,18 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
     applyPlan(pendingPlan);
   });
 
-  // 울릉을 고를 때 한 번(PoC syncUlleung): 안내 창을 띄우고 출발지 · 귀가지를 울릉 항로 항구로 바꾼다.
-  // 이 화면에서 울릉이 아니던 여행이 울릉이 되었을 때, 또는 화면을 열 때 울릉 여행인데 저장된 출발지가 울릉 항로 항구가 아닐 때
-  const ulWas = useRef<boolean | null>(null);
+  // 항구 섬(울릉 · 백령도 · 연평도)을 고를 때 한 번(PoC syncUlleung): 안내 창을 띄우고 출발지 · 귀가지를 그 섬 항로 항구로 바꾼다.
+  // 이 화면에서 그 섬이 아니던 여행이 그 섬 여행이 되었을 때(다른 항구 섬에서 바뀐 때 포함),
+  // 또는 화면을 열 때 항구 섬 여행인데 저장된 출발지가 그 섬 항로 항구가 아닐 때. undefined = 아직 한 번도 보지 않음
+  const islandWas = useRef<PortIsland | null | undefined>(undefined);
   useEffect(() => {
     if (!hydrated) return;
-    const was = ulWas.current;
-    ulWas.current = plan.ulleung;
-    if (!plan.ulleung || was === true) return;
-    const fix = ulleungSync(course.origin, course.originEnd);
-    if (was === null && fix.origin === undefined) return;
+    const was = islandWas.current;
+    const pi = plan.portIsland;
+    islandWas.current = pi;
+    if (!pi || was === pi) return;
+    const fix = islandSync(pi, course.origin, course.originEnd);
+    if (was === undefined && fix.origin === undefined) return;
     store.setSettings(fix);
     store.setUlNotice(true);
   });
@@ -403,7 +405,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const originKeys = originOptions(
     plan.hub,
     plan.carFerry ? "ship" : pickedOpen ? picked : null,
-    plan.ulleung,
+    plan.portIsland,
   );
   // 제주 자가용이면 「제주도민인가요?」(PoC jejuOwn*). 도민이면 출발지 · 귀가지를 고르지 않는다(체인이 없다)
   const jejuOwn = own && plan.island === "jeju";
@@ -1507,10 +1509,13 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         <CourseBookingLinks stayLinks={courseStayLinks()} />
       </div>
 
-      <UlleungNotice
-        open={course.ulNotice}
-        onClose={() => store.setUlNotice(false)}
-      />
+      {plan.portIsland && (
+        <IslandNotice
+          island={plan.portIsland}
+          open={course.ulNotice}
+          onClose={() => store.setUlNotice(false)}
+        />
+      )}
       <RouteChoiceDialog
         open={dialogKind === null && askView !== null}
         kicker={askView?.kicker ?? ""}

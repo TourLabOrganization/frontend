@@ -5,20 +5,23 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useId, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { formatDuration } from "@/features/course/format-duration";
-import { ulleungPorts, ulleungSailMin } from "./island";
+import { islandPorts, islandSailMin, type PortIsland } from "./island";
 import { PLANNER_ORIGINS } from "./regions";
 
-// 울릉을 고를 때 한 번 띄우는 안내(PoC ulNotice*). 울릉 항로 네 항구와 소요(승선 수속 40분 + 항해 시간).
+// 항구 섬(울릉 · 백령도 · 연평도)을 고를 때 한 번 띄우는 안내(PoC ulNotice*). 그 섬 항로 항구와 소요(승선 수속 + 항해 시간).
+// 문구는 섬마다 Planner.course.<섬>(ulleung · baengnyeong · yeonpyeong), 칸 이름은 같다.
 // ConfirmDialog와 같은 규칙: showModal()이 초점을 안에 가두고, Esc · 바깥 누르기 · 닫기 · 확인으로 닫힌다.
 // 닫히면 브라우저가 초점을 열기 전 자리로 돌려준다
-export function UlleungNotice({
+export function IslandNotice({
+  island,
   open,
   onClose,
 }: {
+  island: PortIsland;
   open: boolean;
   onClose: () => void;
 }) {
-  const t = useTranslations("Planner.course.ulleung");
+  const t = useTranslations(`Planner.course.${island}`);
   const tc = useTranslations("Course");
   const locale = useLocale();
   const ref = useRef<HTMLDialogElement>(null);
@@ -67,9 +70,9 @@ export function UlleungNotice({
           {t("portsLabel")}
         </h3>
         <ul className="mt-2 divide-y divide-line border-y border-line">
-          {ulleungPorts().map((k) => {
+          {islandPorts(island).map((k) => {
             const o = PLANNER_ORIGINS[k];
-            // 「(울릉 항로)」 같은 괄호 꼬리는 뺀다(PoC ulNoticePorts)
+            // 「(울릉 항로)」 · 「(백령 항로)」 같은 괄호 꼬리는 뺀다(PoC ulNoticePorts)
             const name = (locale === "ko" ? o.ko : o.en || o.ko).replace(
               /\s*\([^)]*\)\s*$/,
               "",
@@ -81,7 +84,7 @@ export function UlleungNotice({
               >
                 <span className="min-w-0 text-body font-semibold">{name}</span>
                 <span className="shrink-0 text-label font-semibold text-primary tabular-nums">
-                  {formatDuration(tc, ulleungSailMin(o))}
+                  {formatDuration(tc, islandSailMin(island, o))}
                 </span>
               </li>
             );

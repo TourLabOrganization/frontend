@@ -50,6 +50,8 @@
 //   - 관문(hubs) · 출발지(origins)의 모양은 REGION_HUB · ORIGINS 그대로(항공 · 배 좌표, 울릉 항로 등). 지역거점.csv · 출발지.csv에
 //     없는 필드가 있어서다. 수단(modes)만 CSV 값(화면이 실행 중에 전철권 metro를 더한 값)으로 바꾸고, 이름 · 좌표는 CSV와 대조해 출력한다.
 //     course/data/hubs.json의 origins는 테마 코스용이라 따로 둔다(scripts/build-places.mjs)
+//   - PoC에 없는 도시 · 관문 · 출발지(백령도 · 연평도와 인천항 연안여객터미널 백령 · 연평 항로)는 scripts/data/manual-regions.json을
+//     쓰기 직전에 덧붙인다(scripts/manual-regions.mjs. 다시 빌드해도 남는다)
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -61,6 +63,7 @@ import {
   resolveDataServerDir,
 } from "./data-server.mjs";
 import { isOfficialName } from "./official-name-fixes.mjs";
+import { applyManualRegions } from "./manual-regions.mjs";
 import { fillPlaceNames } from "./place-names.mjs";
 
 const [csvPath, plannerPath, derivedDir, dataServerArg] = process.argv.slice(2);
@@ -552,6 +555,8 @@ write(resolve(OUT_DIR, "place-details.json"), details);
 const placeCounts = {};
 for (const p of places)
   if (p.pickCity) placeCounts[p.pickCity] = (placeCounts[p.pickCity] ?? 0) + 1;
+// PoC에 없는 도시 · 관문 · 출발지(백령도 · 연평도 …)는 scripts/data/manual-regions.json에서 덧붙인다(scripts/manual-regions.mjs)
+applyManualRegions({ regions, cities, hubs, origins });
 write(resolve(OUT_DIR, "regions.json"), {
   regions,
   cities,

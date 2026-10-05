@@ -6,7 +6,7 @@ import {
   regionLabel,
   type Ring,
 } from "./region-shapes";
-import { REGION_KEYS } from "./regions";
+import { CITY_INFO, REGION_KEYS } from "./regions";
 
 /** 점이 고리 안에 있는지(짝홀 규칙) */
 function inside(lat: number, lng: number, ring: Ring): boolean {
@@ -83,5 +83,19 @@ describe("권역 면 (region-shapes.json)", () => {
     expect(
       REGION_SHAPES.daegyeong.some((ring) => inside(37.5, 130.87, ring)),
     ).toBe(true);
+  });
+
+  // 백령도(약 51㎢)는 20㎢ 기준을 넘어 수도권 면에 남는다. 연평도(약 7㎢)는 다른 작은 섬처럼 면에서 빠지고 도시 묶음 · 핀만 그린다
+  it("백령도는 수도권 면에 들어 있고, 연평도는 작은 섬이라 면에 없다", () => {
+    const { lat, lng } = CITY_INFO["백령도"];
+    expect(REGION_SHAPES.capital.some((ring) => inside(lat!, lng!, ring))).toBe(
+      true,
+    );
+    const yp = CITY_INFO["연평도"];
+    expect(
+      REGION_KEYS.some((k) =>
+        REGION_SHAPES[k].some((ring) => inside(yp.lat!, yp.lng!, ring)),
+      ),
+    ).toBe(false);
   });
 });

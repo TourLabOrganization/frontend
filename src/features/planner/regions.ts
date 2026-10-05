@@ -6,7 +6,8 @@ import regionsData from "./data/regions.json";
 // 장소 목록(data/places.json, 3,109곳 · 약 850KB)이 필요 없는 곳(ME · 테마 화면 · 코스 저장소 · 일정 계산 · 도시 고르기 · 여행 정보 탭)은
 // data.ts 대신 이 파일을 쓴다. 도시별 장소 수도 regions.json(placeCounts)에 있다.
 // data/regions.json은 scripts/build-planner.mjs가 Tour Planner.dc.html의 REG · MACRO_REGION · MACRO_OF · CITY_NAME · REGION_HUB · ORIGINS와
-// 파생 데이터/지역거점.csv · 출발지.csv(수단)로 만든다.
+// 파생 데이터/지역거점.csv · 출발지.csv(수단)로 만든다. PoC에 없는 도시 · 관문 · 출발지(백령도 · 연평도 등)는
+// scripts/data/manual-regions.json에 두고 scripts/manual-regions.mjs가 덧붙인다(빌드 스크립트도 끝에 부른다).
 
 /** 권역 key. Tour Planner.dc.html REG 순서 */
 export const REGION_KEYS = [
@@ -61,8 +62,9 @@ export const CITY_HUBS = regionsData.hubs as Readonly<
 >;
 
 /**
- * 출발지 한 곳. route: 섬 항로 전용 항구(jeju · ulleung), sailMin: 울릉 항로 고정 항해 시간(분),
- * arrKo · arrEn: 울릉 도착 항구(PoC ORIGINS)
+ * 출발지 한 곳. route: 섬 항로 전용 항구(jeju · ulleung · baengnyeong · yeonpyeong),
+ * sailMin: 항구 섬(울릉 · 백령도 · 연평도) 항로 고정 항해 시간(분), arrKo · arrEn: 그 섬 도착 항구(PoC ORIGINS,
+ * 백령도 · 연평도는 scripts/data/manual-regions.json)
  */
 export type PlannerOrigin = Origin & {
   route?: string;
