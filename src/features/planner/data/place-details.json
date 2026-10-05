@@ -48044,7 +48044,7 @@
   },
   "ctm6e17307a": {
     "desc": {
-      "ko": "대한민국 제과명장 홍종흔이 운영하는 베이커리카페로, 2015년 홍종흔베이커리 본점으로 문을 열어 현재 골드헤겔로 운영된다. 식신 「전국 빵지도」 경기 남부 편에 호두빵과 양파 크림치즈 맛집으로 소개됐다.",
+      "ko": "대한민국 제과명장 홍종흔이 운영하는 베이커리카페로, 2015년 홍종흔베이커리 본점으로 문을 열어 현재 골드헤겔로 운영된다. 식신 「전국 빵지도」 경기 남부 편에 어니언킹(양파 · 크림치즈 호두빵) 맛집으로 소개됐다.",
       "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its walnut bread with onion cream cheese."
     },
     "src": {
@@ -48073,15 +48073,6 @@
     "desc": {
       "ko": "광교 카페거리에 있는 프랑스풍 베이커리 카페다. 식신 「전국 빵지도」 경기 남부 편에 크루아상 맛집으로 소개됐다.",
       "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its croissants."
-    },
-    "src": {
-      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
-    }
-  },
-  "ctmfcf7ac9a": {
-    "desc": {
-      "ko": "부천 신중동역 인근 상가에 있는 동네 빵집으로 쑥을 넣은 빵으로 알려졌다. 식신 「전국 빵지도」 경기 남부 편에 쑥 모찌빵 맛집으로 소개됐다.",
-      "en": "Listed in Siksin's Korea Bakery Map (Gyeonggi South) for its mugwort mochi bread."
     },
     "src": {
       "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
@@ -48204,15 +48195,6 @@
       "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
     }
   },
-  "ctm3f2a764e": {
-    "desc": {
-      "ko": "2015년 춘천 동면 산자락에 문을 연 정원 딸린 베이커리 카페다. 식신 「전국 빵지도」 강원도 편에 코코팡야 맛집으로 소개됐다.",
-      "en": "Listed in Siksin's Korea Bakery Map (Gangwon) for its coco panya."
-    },
-    "src": {
-      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctm8e3f1881": {
     "desc": {
       "ko": "유기농 밀과 천연 발효종으로 무설탕·무버터 치아바타와 통밀빵을 만드는 춘천 동내면의 빵집이다. 식신 「전국 빵지도」 강원도 편에 치아바타 맛집으로 소개됐다.",
@@ -48255,7 +48237,7 @@
       "en": "Listed in Siksin's Korea Bakery Map (Chungcheong) for its baguettes."
     },
     "src": {
-      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+      "ko": "식신 「전국 빵지도」 · 공개 자료 좌표"
     }
   },
   "ctm99b533a5": {
@@ -48368,7 +48350,7 @@
   },
   "ctm5686d8c2": {
     "desc": {
-      "ko": "오래된 한옥을 고쳐 만든 경주의 작은 빵집으로, 말차 크루아상 등이 알려져 있다. 식신 「전국 빵지도」 경상도 편에 크루아상 맛집으로 소개됐다.",
+      "ko": "오래된 한옥을 고쳐 만든 경주의 작은 빵집으로, 바닐라크림 크루아상과 말차 파운드케이크가 알려져 있다. 식신 「전국 빵지도」 경상도 편에 크루아상 맛집으로 소개됐다.",
       "en": "Listed in Siksin's Korea Bakery Map (Gyeongsang) for its croissants."
     },
     "src": {
@@ -48440,7 +48422,7 @@
   },
   "ctmcb54237b": {
     "desc": {
-      "ko": "빵과 디저트, 브런치를 함께 내는 대구 신천동의 베이커리 카페로, 앙버터가 대표 메뉴다. 식신 「전국 빵지도」 대구 편에 소개됐다.",
+      "ko": "빵과 디저트, 브런치를 함께 내는 대구 신천동의 베이커리 카페로, 소금빵과 에그타르트가 알려져 있다. 식신 「전국 빵지도」 대구 편에 소개됐다.",
       "en": "Listed in Siksin's Korea Bakery Map (Daegu)."
     },
     "src": {
@@ -48620,8 +48602,8 @@
   },
   "ctm58a8c7d8": {
     "desc": {
-      "ko": "동명동 주택을 개조한 디저트·구움과자 베이커리다. 식신 「전국 빵지도」 광주 편에 프레첼 맛집으로 소개됐다.",
-      "en": "A dessert and baked-goods bakery in a converted house in Dongmyeong-dong. Listed in Siksin's Korea Bakery Map (Gwangju) for its pretzels."
+      "ko": "동명동 주택을 개조한 디저트·구움과자 베이커리다. 식신 「전국 빵지도」 광주 편에 소개됐다.",
+      "en": "A dessert and baked-goods bakery in a converted house in Dongmyeong-dong. Listed in Siksin's Korea Bakery Map (Gwangju)."
     },
     "src": {
       "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
@@ -48647,8 +48629,8 @@
   },
   "ctm1c493a8c": {
     "desc": {
-      "ko": "우리밀과 지역 곡물로 달걀·우유 없이 빵을 굽는 구례읍 빵집이다. 식신 「전국 빵지도」 전라도 편에 호밀빵 맛집으로 소개됐다.",
-      "en": "A Gurye bakery baking with Korean wheat and local grains, without eggs or milk. Listed in Siksin's Korea Bakery Map (Jeolla) for its rye bread."
+      "ko": "우리밀과 지역 곡물로 달걀·우유 없이 빵을 굽는 구례읍 빵집이다. 식신 「전국 빵지도」 전라도 편에 계피빵 맛집으로 소개됐다.",
+      "en": "A Gurye bakery baking with Korean wheat and local grains, without eggs or milk. Listed in Siksin's Korea Bakery Map (Jeolla) for its cinnamon bread."
     },
     "src": {
       "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
@@ -48856,6 +48838,15 @@
     "desc": {
       "ko": "행신동에서 시작한 고양의 베이커리로 엘리게이터 파이가 유명하다. 식신 「전국 빵지도」 경기 북부 편에 엘리게이터 맛집으로 소개됐다.",
       "en": "A Goyang bakery founded in Haengsin-dong, famous for its alligator pie. Listed in Siksin's Korea Bakery Map (Northern Gyeonggi) for its alligator pie."
+    },
+    "src": {
+      "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm04d4ab2c": {
+    "desc": {
+      "ko": "공업탑 로터리 근처 신정동에서 눈꽃빵과 앙버터 등으로 알려진 베이커리 카페다. 식신 「전국 빵지도」 울산 편에 앙버터 맛집으로 소개됐다.",
+      "en": "A bakery café in Sinjeong-dong near the Gongeoptap rotary, known for its snow-flake cream bread and an-butter. Listed in Siksin's Korea Bakery Map (Ulsan) for its an-butter."
     },
     "src": {
       "ko": "식신 「전국 빵지도」 · 주소 기준 좌표 · 대략 위치"
