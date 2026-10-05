@@ -3,6 +3,7 @@
 //   열: id · city(새 도시, 비면 그대로) · lat · lng(새 좌표, 비면 그대로) · reason(고친 까닭)
 //       ko · en(새 이름, 비면 그대로) · zh · ja · es(앱이 옮긴 이름 표 translations/data/place-names.*, 비면 그대로)
 //   - 도시를 바꾸면 pickCity · 권역(macro)도 그 도시 것으로 바꾸고, regions.json 도시별 장소 수(placeCounts)를 다시 센다
+//   - 테마 코스 장소(course/data/places.json)에 같은 id가 있으면 그 좌표도 고친다
 //   - 표에 적힌 id가 플래너 장소에 없으면 멈춘다
 // build-planner.mjs · add-manual-places.mjs로 장소를 다시 만든 뒤에도 이 스크립트를 돌린다(여러 번 돌려도 같다).
 //
@@ -48,6 +49,25 @@ export function applyFixes(places, fixes, regions) {
   return changed;
 }
 
+/** 테마 코스 장소(course/data/places.json, 테마 키 → 장소 목록)의 좌표를 같은 id의 수정 표대로 고친다. 바뀐 장소 수 */
+export function applyCourseCoords(course, fixes) {
+  const byId = new Map(
+    fixes.filter((f) => f.lat?.trim() && f.lng?.trim()).map((f) => [f.id, f]),
+  );
+  let changed = 0;
+  for (const list of Object.values(course))
+    for (const p of list) {
+      const f = byId.get(p.id);
+      if (!f) continue;
+      const [lat, lng] = [Number(f.lat), Number(f.lng)];
+      if (p.lat === lat && p.lng === lng) continue;
+      p.lat = lat;
+      p.lng = lng;
+      changed++;
+    }
+  return changed;
+}
+
 /** 이름 표(id → 이름)를 수정 표의 lang 열대로 고친다. 바뀐 항목 수 */
 export function applyNameFixes(table, fixes, lang) {
   let changed = 0;
@@ -85,6 +105,9 @@ function main() {
   }
   const n =
     applyFixes(base, fixes, regions) + applyFixes(added, fixes, regions);
+  const COURSE = resolve(ROOT, "src/features/course/data/places.json");
+  const course = JSON.parse(readFileSync(COURSE, "utf8"));
+  const nc = applyCourseCoords(course, fixes);
   const counts = placeCounts([...base, ...added]);
   // 기존 키 순서를 지키고 새 도시는 끝에, 장소가 없어진 도시는 뺀다
   const next = {};
@@ -108,7 +131,9 @@ function main() {
     (s, [l, t]) => s + applyNameFixes(t, fixes, l),
     0,
   );
-  console.log(`수정 표 ${fixes.length}행 · 바뀐 장소 ${n}곳 · 이름 표 ${m}건`);
+  console.log(
+    `수정 표 ${fixes.length}행 · 바뀐 장소 ${n}곳 · 테마 코스 ${nc}곳 · 이름 표 ${m}건`,
+  );
   if (dry) return console.log("--dry: 파일은 그대로");
   for (const [l, f] of Object.entries(nameFiles))
     writeFileSync(f, JSON.stringify(names[l], null, 2) + "\n", "utf8");
@@ -117,6 +142,7 @@ function main() {
   write("places.json", base);
   write("added-places.json", added);
   write("regions.json", regions);
+  writeFileSync(COURSE, JSON.stringify(course, null, 2) + "\n", "utf8");
   console.log("썼다. npm run format 을 돌려 포맷을 맞추세요");
 }
 

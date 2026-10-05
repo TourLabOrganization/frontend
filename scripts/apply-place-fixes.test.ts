@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseCsv } from "./apply-badge-lists.mjs";
 import {
+  applyCourseCoords,
   applyFixes,
   applyNameFixes,
   placeCounts,
@@ -9,6 +10,7 @@ import {
 import addedPlaces from "../src/features/planner/data/added-places.json";
 import places from "../src/features/planner/data/places.json";
 import regions from "../src/features/planner/data/regions.json";
+import course from "../src/features/course/data/places.json";
 
 const fixes = parseCsv(
   readFileSync(new URL("./data/place-fixes.csv", import.meta.url), "utf8"),
@@ -32,6 +34,24 @@ describe("장소 도시 · 좌표 수정 표", () => {
         expect([p.lat, p.lng], f.id).toEqual([Number(f.lat), Number(f.lng)]);
     }
     expect(byId.get("ctm12e9fdbb")!.locKo).toBe("옥천");
+  });
+
+  it("테마 코스 장소에 같은 id가 있으면 그 좌표도 표대로다(광치기해변 · 흰여울문화마을 …)", () => {
+    const fixed = new Map(fixes.filter((f) => f.lat).map((f) => [f.id, f]));
+    const lists = Object.values(course) as {
+      id: string;
+      lat: number;
+      lng: number;
+    }[][];
+    for (const p of lists.flat()) {
+      const f = fixed.get(p.id);
+      if (f)
+        expect([p.lat, p.lng], p.id).toEqual([Number(f.lat), Number(f.lng)]);
+    }
+    const xs = { t: [{ id: "a", lat: 1, lng: 2 }] };
+    expect(applyCourseCoords(xs, [{ id: "a", lat: "3", lng: "4" }])).toBe(1);
+    expect(applyCourseCoords(xs, [{ id: "a", lat: "3", lng: "4" }])).toBe(0);
+    expect(xs.t[0]).toEqual({ id: "a", lat: 3, lng: 4 });
   });
 
   it("이름 열이 있으면 장소 이름과 옮긴 이름 표를 고친다(주왕산온천관광호텔)", () => {
