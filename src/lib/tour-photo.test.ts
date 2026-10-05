@@ -3,10 +3,14 @@ import {
   commonsUrl,
   httpsPhoto,
   kakaoImageUrl,
+  kakaoLocalUrl,
+  kakaoPlaceInfoUrl,
   photoName,
   pickCommonsImage,
   pickGalleryImage,
   pickKakaoImage,
+  pickKakaoMapPhoto,
+  pickKakaoPlace,
   pickTourImage,
   pickWikiImage,
   wikiSummaryUrl,
@@ -235,5 +239,61 @@ describe("카카오 이미지 검색(⑤)", () => {
     expect(u.pathname).toBe("/v2/search/image");
     expect(u.searchParams.get("query")).toBe("경주 불국사");
     expect(u.searchParams.get("sort")).toBe("accuracy");
+  });
+});
+
+describe("카카오맵 기반(⑤)", () => {
+  const doc = (
+    id: string,
+    place_name: string,
+    distance: number,
+    address_name = "전북 전주시 완산구 풍남동3가 64",
+  ) => ({
+    id,
+    place_name,
+    distance: String(distance),
+    address_name,
+  });
+
+  it("좌표 500m 안 · 이름이 서로를 품는 가장 가까운 카카오맵 장소, 동 이름도", () => {
+    const body = {
+      documents: [
+        doc("1", "전주한옥마을 주차장", 50),
+        doc("2", "가족회관", 120),
+        doc("3", "가족회관 2호점", 90),
+        doc("4", "가족회관", 900),
+      ],
+    };
+    expect(pickKakaoPlace(body, "가족회관")).toEqual({
+      id: "3",
+      name: "가족회관 2호점",
+      dong: "풍남동3가",
+    });
+    expect(
+      pickKakaoPlace({ documents: [doc("4", "가족회관", 900)] }, "가족회관"),
+    ).toBeNull();
+    expect(
+      pickKakaoPlace({ documents: [doc("1", "다른식당", 10)] }, "가족회관"),
+    ).toBeNull();
+  });
+
+  it("카카오맵 대표 사진은 https만, 호출 주소", () => {
+    expect(
+      pickKakaoMapPhoto({
+        basicInfo: { mainphotourl: "http://t1.daumcdn.net/place/a.jpg" },
+      }),
+    ).toBe("https://t1.daumcdn.net/place/a.jpg");
+    expect(pickKakaoMapPhoto({ basicInfo: {} })).toBeNull();
+    expect(pickKakaoMapPhoto(null)).toBeNull();
+    const u = new URL(kakaoLocalUrl("가족회관", 35.8148, 127.1454));
+    expect(u.pathname).toBe("/v2/local/search/keyword.json");
+    expect([
+      u.searchParams.get("x"),
+      u.searchParams.get("y"),
+      u.searchParams.get("radius"),
+    ]).toEqual(["127.1454", "35.8148", "500"]);
+    expect(kakaoPlaceInfoUrl("123")).toBe(
+      "https://place.map.kakao.com/main/v/123",
+    );
   });
 });

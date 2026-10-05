@@ -5,9 +5,11 @@
 //   ③ 한국어 위키백과 요약(REST page/summary)의 대표 이미지(PoC tryOne). 키가 없어도 부른다
 //   ④ 위키미디어 공용(Wikimedia Commons) 좌표 검색(앱에서 더한 단계, PoC에 없다): 장소 좌표 300m 안 파일 중
 //      파일 이름에 장소 이름(한국어 · 영어)이 든 사진, 가까운 순. 자유 라이선스라 작성자 · 라이선스를 함께 돌려주고 화면에 적는다.
-//   ⑤ 카카오 이미지 검색(Daum 검색, dapi.kakao.com/v2/search/image, 2026-10-05 요청으로 마지막 단계에 더함). 키 KAKAO_REST_KEY(서버 전용).
-//      「도시 장소이름」으로 정확도순 검색, 가로 500px · 세로 300px 이상 https 사진 중 첫째. 사진 저작권은 원 게시물에 있어
-//      앞 네 곳에 없을 때만 부르고 출처(사이트 이름)를 함께 적는다. 키가 없거나 실패하면 건너뛴다
+//   ⑤ 카카오맵 기반(2026-10-05 요청으로 마지막 단계에 더함, 키 KAKAO_REST_KEY 서버 전용):
+//      (a) 카카오 로컬 키워드 검색(dapi.kakao.com/v2/local/search/keyword)으로 장소 좌표 500m 안, 이름이 맞는 카카오맵 장소를 찾는다
+//      (b) 그 장소의 카카오맵 대표 사진(place.map.kakao.com 장소 정보의 mainphotourl, 공개 문서가 없는 주소라 실패하면 건너뛴다)
+//      (c) 대표 사진이 없으면 카카오 이미지 검색(dapi.kakao.com/v2/search/image)을 「카카오맵 장소 이름 + 동」으로 좁혀 가로 500 · 세로 300px 이상 첫 사진.
+//      카카오맵에서 같은 장소를 못 찾으면 사진을 쓰지 않는다(엉뚱한 사진 방지). 이미지 검색 사진은 출처에 원 사이트 이름을 적는다
 // 키(DATA_GO_KR_KEY)가 없으면 ①②를 건너뛰고 ③만 쓴다. 사진 주소는 https로 바꿔 돌려준다.
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 상대 경로로 import한다.
 import {
@@ -320,30 +322,115 @@ export function pickKakaoImage(
   return null;
 }
 
-async function kakaoPhoto(
-  place: TourPlace,
-): Promise<Omit<TourPhoto, "source"> | null> {
-  const key = kakaoRestKey();
-  if (!key) return null;
-  const city = String(place.locKo ?? "")
-    .replace(/\(.*\)/, "")
-    .trim();
-  const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
-  if (name.length < 2) return null;
+/** 카카오 로컬 키워드 검색 주소(좌표 반경 500m, 가까운 순 15곳) */
+export const KAKAO_PLACE_RADIUS_M = 500;
+export function kakaoLocalUrl(query: string, lat: number, lng: number): string {
+  const q = new URLSearchParams({
+    query,
+    x: String(lng),
+    y: String(lat),
+    radius: String(KAKAO_PLACE_RADIUS_M),
+    sort: "distance",
+    size: "15",
+  });
+  return `https://dapi.kakao.com/v2/local/search/keyword.json?${q}`;
+}
+
+/** 카카오맵 장소 정보(대표 사진이 든 JSON) 주소 */
+export function kakaoPlaceInfoUrl(id: string): string {
+  return `https://place.map.kakao.com/main/v/${encodeURIComponent(id)}`;
+}
+
+export type KakaoPlace = { id: string; name: string; dong: string };
+
+/**
+ * 카카오 로컬 검색 결과에서 같은 장소 고르기: 이름(괄호 · 공백 뺌)이 서로를 품고(2글자 이상), 거리 500m 이내, 가까운 순 첫째.
+ * dong: 지번 주소의 읍면동(이미지 검색을 좁힐 때)
+ */
+export function pickKakaoPlace(body: unknown, name: string): KakaoPlace | null {
+  const docs = ((body as { documents?: unknown[] } | null)?.documents ??
+    []) as {
+    id?: unknown;
+    place_name?: unknown;
+    distance?: unknown;
+    address_name?: unknown;
+  }[];
+  const key = photoName(name);
+  if (key.length < 2) return null;
+  const hits = docs
+    .map((d) => ({
+      id: String(d.id ?? ""),
+      name: String(d.place_name ?? ""),
+      d: Number(d.distance),
+      addr: String(d.address_name ?? ""),
+    }))
+    .filter((d) => {
+      const t = photoName(d.name);
+      return (
+        d.id &&
+        t.length >= 2 &&
+        (t.includes(key) || key.includes(t)) &&
+        Number.isFinite(d.d) &&
+        d.d <= KAKAO_PLACE_RADIUS_M
+      );
+    })
+    .sort((a, b) => a.d - b.d);
+  const h = hits[0];
+  if (!h) return null;
+  const dong =
+    h.addr.split(/\s+/).find((w) => /[읍면동가리]$/.test(w) && w.length >= 2) ??
+    "";
+  return { id: h.id, name: h.name, dong };
+}
+
+/** 카카오맵 장소 정보 JSON의 대표 사진(basicInfo.mainphotourl). https만 */
+export function pickKakaoMapPhoto(body: unknown): string | null {
+  const src = String(
+    (body as { basicInfo?: { mainphotourl?: unknown } } | null)?.basicInfo
+      ?.mainphotourl ?? "",
+  );
+  return httpsPhoto(src);
+}
+
+async function kakaoGet(url: string, key?: string): Promise<unknown> {
   try {
-    const res = await fetch(kakaoImageUrl(city ? `${city} ${name}` : name), {
-      headers: { Authorization: `KakaoAK ${key}` },
+    const res = await fetch(url, {
+      ...(key ? { headers: { Authorization: `KakaoAK ${key}` } } : {}),
       signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
       next: { revalidate: TOUR_PHOTO_SECONDS },
     });
-    if (!res.ok) return null;
-    return pickKakaoImage(await res.json());
+    return res.ok ? await res.json() : null;
   } catch {
     return null;
   }
 }
 
-/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 카카오 이미지 검색까지 본다) */
+/** ⑤ 카카오맵 기반 사진. 카카오맵에서 같은 장소를 못 찾으면 null */
+async function kakaoPhoto(place: TourPlace): Promise<TourPhoto | null> {
+  const key = kakaoRestKey();
+  if (!key || !place.lat || !place.lng) return null;
+  const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
+  if (name.length < 2) return null;
+  const kp = pickKakaoPlace(
+    await kakaoGet(kakaoLocalUrl(name, place.lat, place.lng), key),
+    name,
+  );
+  if (!kp) return null;
+  const main = pickKakaoMapPhoto(await kakaoGet(kakaoPlaceInfoUrl(kp.id)));
+  if (main) return { src: main, source: "kakaomap" };
+  const img = pickKakaoImage(
+    await kakaoGet(
+      kakaoImageUrl(kp.dong ? `${kp.name} ${kp.dong}` : kp.name),
+      key,
+    ),
+  );
+  const src = httpsPhoto(img?.src ?? "");
+  return src && img
+    ? { src, source: "kakao", ...(img.author ? { author: img.author } : {}) }
+    : null;
+}
+
+/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 카카오맵까지 본다) */
 export async function findPhoto(
   place: TourPlace,
   key: string | null,
@@ -395,15 +482,7 @@ export async function findPhoto(
       ...(commons.author ? { author: commons.author } : {}),
       ...(commons.license ? { license: commons.license } : {}),
     };
-  const kakao = await kakaoPhoto(place);
-  const ks = httpsPhoto(kakao?.src ?? "");
-  return ks && kakao
-    ? {
-        src: ks,
-        source: "kakao",
-        ...(kakao.author ? { author: kakao.author } : {}),
-      }
-    : null;
+  return kakaoPhoto(place);
 }
 
 /** GET /api/tour/photo 처리. 응답 { src, source, author?, license? } · 못 찾으면 { empty: true }. 키가 없어도 위키백과 · 위키미디어 공용은 본다(카카오는 KAKAO_REST_KEY가 있을 때) */

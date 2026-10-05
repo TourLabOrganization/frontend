@@ -49,7 +49,8 @@
       "ktoGallery": "Korea Tourism Organization photo gallery",
       "wikipedia": "Wikipedia",
       "commons": "Wikimedia Commons",
-      "kakao": "Kakao image search"
+      "kakao": "Kakao image search",
+      "kakaomap": "Kakao Map"
     },
     "hours": "Opening hours",
     "checkIn": "Check-in {time}",

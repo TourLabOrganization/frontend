@@ -3,7 +3,7 @@
 
 /** 사진 출처(messages PlaceSheet.photoSources) */
 export type PlacePhotoSource =
-  "kto" | "ktoGallery" | "wikipedia" | "commons" | "kakao";
+  "kto" | "ktoGallery" | "wikipedia" | "commons" | "kakaomap" | "kakao";
 
 /** GET /api/tour/photo 응답 */
 export type PlacePhotoResponse =
@@ -16,7 +16,7 @@ export type PlacePhotoResponse =
     }
   | { empty: true };
 
-/** 호출 시간 제한(ms). 서버가 최대 다섯 곳(관광정보 · 관광사진 · 위키백과 · 위키미디어 공용 · 카카오 이미지 검색)을 차례로 부른다 */
+/** 호출 시간 제한(ms). 서버가 최대 다섯 곳(관광정보 · 관광사진 · 위키백과 · 위키미디어 공용 · 카카오맵)을 차례로 부른다 */
 export const PHOTO_TIMEOUT_MS = 20000;
 /** 한 번 찾은 사진은 하루 동안 다시 부르지 않는다(서버는 7일 캐시) */
 export const PHOTO_STALE_MS = 24 * 3600 * 1000;
