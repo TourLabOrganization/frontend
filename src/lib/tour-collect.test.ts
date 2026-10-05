@@ -33,8 +33,16 @@ describe("조회 대상", () => {
     const regions = new Set(
       PLANNER_PLACES.filter((p) => p.cat !== "stay").map((p) => p.locKo),
     );
-    expect(new Set(targets.map((t) => t.region))).toEqual(regions);
+    // 도시는 모두 조회 대상이거나, 그 도시 장소의 시군구가 다른 대상에 들어 있다
+    // (옹진군 28720은 인천 · 백령도 · 연평도가 나눠 쓴다: 장소가 가장 많은 도시 한 곳에서 한 번만 조회하고 풀에 모두 넣는다)
+    const targetRegions = new Set(targets.map((t) => t.region));
     const codes = targets.flatMap((t) => t.codes);
+    for (const r of regions)
+      if (!targetRegions.has(r))
+        for (const p of PLANNER_PLACES)
+          if (p.locKo === r && p.cat !== "stay")
+            expect(codes, `${r} ${p.id}`).toContain(tourPlaceSigngu(p.id));
+    for (const r of targetRegions) expect(regions.has(r), r).toBe(true);
     expect(new Set(codes).size).toBe(codes.length);
     for (const c of codes) expect(c).toMatch(/^\d{5}$/);
     // 기장군(26710)은 부산(17곳)에 붙고 양산에서는 빠진다
