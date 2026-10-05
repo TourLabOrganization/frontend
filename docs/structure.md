@@ -51,13 +51,13 @@ public/                 정적 파일
 
 ### 투어 플래너 주소 (`/planner`)
 
-| 쿼리     | 값                         | 쓰임                                                                                                                                        |
-| -------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `city`   | 도시 한국어 이름(`경주`)   | 도시 보기. 없거나 장소가 없는 도시면 전국 보기                                                                                              |
-| `plan`   | 저장된 플래너 플랜 id      | 코스 탭에서 그 플랜을 코스로 불러온다(담은 코스가 있고 다르면 먼저 묻는다). 불러오면 주소에서 뗀다                                          |
-| `region` | 권역 key(`capital` 등 7개) | 전국 보기에서 고른 권역. 지도는 그 권역 도시들(울릉 · 독도 제외)의 가운데를 축척 32km(레벨 12)로 보이고 목록을 거른다. `city`가 있으면 무시 |
-| `tab`    | `map` · `course` · `info`  | 고른 탭. 없거나 모르는 값이면 `map`                                                                                                         |
-| `place`  | 장소 id                    | 지도 탭에서 그 장소 시트를 연 채로 시작                                                                                                     |
+| 쿼리     | 값                         | 쓰임                                                                                                                                                          |
+| -------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `city`   | 도시 한국어 이름(`경주`)   | 도시 보기. 없거나 장소가 없는 도시면 전국 보기                                                                                                                |
+| `plan`   | 저장된 플래너 플랜 id      | 코스 탭에서 그 플랜을 코스로 불러온다(담은 코스가 있고 다르면 먼저 묻는다). 불러오면 주소에서 뗀다                                                            |
+| `region` | 권역 key(`capital` 등 7개) | 전국 보기에서 고른 권역. 지도는 그 권역 도시들(울릉 · 독도 · 백령도 · 연평도 제외)의 가운데를 축척 32km(레벨 12)로 보이고 목록을 거른다. `city`가 있으면 무시 |
+| `tab`    | `map` · `course` · `info`  | 고른 탭. 없거나 모르는 값이면 `map`                                                                                                                           |
+| `place`  | 장소 id                    | 지도 탭에서 그 장소 시트를 연 채로 시작                                                                                                                       |
 
 - 주소는 `features/planner/query.ts`의 `plannerHref` · `scopeHref`로 만든다. 기본값(전국 · `map`)은 주소에 적지 않는다
 - 지역 탭 · 도시 고르기는 탭을 남기고 범위만 바꾸고, 하단 탭은 범위를 남기고 탭만 바꾼다
@@ -114,7 +114,7 @@ public/                 정적 파일
   고른 광역 경로 · 환승 관문 · 지하철 호선과 역 · 제주도민 여부 `jejuResident`)은 주소가 아니라 localStorage `tn.planner.course`에 둔다(`features/planner/course-store.ts`).
   없는 필드는 기본값(오늘 · 당일 · 서울역 · 귀가지 = 출발지 · 08:00 · 19:00 · 고른 경로 · 관문 · 역 없음).
   장소별로 바꾼 체류 분(`stayOv`, PoC `stayOv`)과 덮어쓰기 대상 플랜 id(`planId`, PoC `planId`), 경로 선택 창을 닫은 도착 도시(`routeSkip`),
-  배편 시간표 카드에서 고른 출발 항구(`ferryPort`, 섬별), 울릉 안내 창이 열려 있는지(`ulNotice`)도 같은 값에 둔다.
+  배편 시간표 카드에서 고른 출발 항구(`ferryPort`, 섬별), 항구 섬(울릉 · 백령도 · 연평도) 안내 창이 열려 있는지(`ulNotice`, 어느 섬인지는 일정의 `portIsland`)도 같은 값에 둔다.
   저장된 플랜의 `settings`에는 `routeSkip` · `ferryPort` · `ulNotice`를 뺀 설정이 들어간다(PoC 플랜 필드와 같다. `jejuResident`는 PoC 플랜 필드에 없지만 일정이 달라져 넣는다).
   날짜는 PoC `planSave`처럼 고른 그대로 저장한다(고르지 않았으면 `null`이라 불러오는 날의 오늘 · 당일로 계산된다). 「저장됨」 비교도 같은 값으로 한다(`planContentKey`).
   예전 플랜은 없는 필드를 기본값으로 읽는다(`jejuResident` 없음 = 아직 답하지 않음)
@@ -157,7 +157,7 @@ PoC `Tour Planner.dc.html`의 광역 체인 규칙을 그대로 옮겼다(식 ·
 - 출발지를 고르면 그 관문 종류로 광역 교통이 정해진다(`gwWideOf`: 공항 = 항공, 항만 = 배, 역 = 기차, 터미널 = 버스, 섞인 관문은 그대로).
   광역 교통을 바꿨는데 출발지가 맞지 않으면 그 수단의 첫 관문으로, 귀가지가 맞지 않으면 「출발지와 동일」로(`fixOriginsForWide`)
 - 광역 교통 칸은 도착 관문에 없는 버스 · 기차 · 항공 · 배, 섬의 자가용(제주 제외, 아래 섬 여행)을 막는다. 지하철은 출발 · 귀가역을 고르는 칸이라 막지 않지만,
-  도착 관문에 육로 수단이 없는 섬(울릉)이면 자가용처럼 막는다(「서울역 → 목포연안여객터미널 → 도동항」 같은 경로가 나오지 않게). 제주는 항공 · 배 · 자가용 3칸 그대로
+  도착 관문에 육로 수단이 없는 섬(울릉 · 백령도 · 연평도)이면 자가용처럼 막는다(「서울역 → 목포연안여객터미널 → 도동항」 같은 경로가 나오지 않게). 제주는 항공 · 배 · 자가용 3칸 그대로
 - **지하철**: 광역 교통이 지하철이면 출발지 · 귀가지를 호선 → 역명으로 고른다(귀가역 기본 「출발역과 동일」). 도착 도시가 전철권(`METRO_CITY`)이면 「출발 전철역」 하나를 고른다.
   역은 `data/wide.json`(PoC `METRO_STATIONS` 262역 · `BUSAN_STATIONS` 46역). 호선 이름은 PoC `metroLineLabel` · `BUSAN_LINE_LABEL`(부산 호선의 중 · 일 · 스페인어는 영어)
 - **체인**(`wideChain`): 출발점 → (전철 접근 15 + km × 1.2) → 출발 관문 → 본 구간(KTX · SRT 18 + km × 0.30, 버스 20 + km × 0.68, 항공 90 + km × 0.11, 배 60 + km × 0.85,
@@ -173,28 +173,49 @@ PoC `Tour Planner.dc.html`의 광역 체인 규칙을 그대로 옮겼다(식 ·
 - **키가 필요해 옮기지 않은 것**: TAGO 열차 · 고속버스 · 지하철 시간표(`getTrains` · `getBuses` · `getSubwayDeps` · `getBusanMetroDeps`), 공항 수속 실측(`getAirportProcess`, 없으면 90분),
   카카오 역 이름 검색(`metroQSearch`), 지도 검색으로 출발지 추가(`custom` · `custAsk`), Google 대중교통 실측(`fetchTransit`). 시각은 모두 거리 기반 예상치라 카드에 안내 한 줄을 둔다
 
-#### 섬 여행 — 제주 · 울릉 (`features/planner/island.ts` · `wide-chain.ts` · `schedule.ts` · `ferry.ts`)
+#### 섬 여행 — 제주 · 울릉 · 백령도 · 연평도 (`features/planner/island.ts` · `wide-chain.ts` · `schedule.ts` · `ferry.ts`)
 
 PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 손계산 대조).
 
-- **섬 판정**(`islandOf`): 도착 도시가 제주 · 서귀포면 제주, 울릉이면 울릉(PoC `isJejuTrip` · `ulleungTrip` · `ferryVals`)
+- **섬 판정**(`islandOf`): 도착 도시가 제주 · 서귀포면 제주, 울릉이면 울릉(PoC `isJejuTrip` · `ulleungTrip` · `ferryVals`), 백령도 · 연평도면 그 섬(앱에서 더함)
 - **제주 광역 교통**: 항공 · 배 · 자가용 3칸만 보인다(PoC `wideOpts` `_jeju`). 예전에 고른 버스 · 기차 · 지하철은 고르지 않은 것으로 읽는다.
   자가용을 고르면 출발지를 배의 관문(항만)으로 맞추고(PoC `wideOpts` pick) 「제주는 섬이라 자가용만으로는 갈 수 없어요. 제주도민인가요?」 두 선택(PoC `jejuOwn*`)
   - **예, 제주도민 — 자가용만**(`jejuResident: true`): 광역 체인 없이 섬 안에서 자가용만. 출발지 · 귀가지 선택을 감추고, 첫날은 출발 시각부터(체인이 없으면 `accIn` 0, 공용 식대로 09:00보다 이르면 09:00)
   - **아니요 — 카페리**(`false`) · 아직 답하지 않음(`null`): 배 칸도 함께 강조하고 출발지 목록은 항만만(PoC `wideOriginFilter(…, 'ship')`).
     체인 = (출발지가 항만이 아니면) 항만까지 운전(`car`, `ownDriveMin`) + 카페리(`carferry`, 배 본 구간 60 + km × 0.85에 선적 · 하선 **30분**). 현지 이동은 자가용.
     본 구간 앞 환승 올림은 PoC `chainSchedule` 그대로(카페리는 항공 · 배가 아니라 운전 뒤면 올림이 붙는다). 경로 후보 · 환승 관문 · 예매 버튼은 없다(자가용, PoC `transBtns`)
-- **울릉**: 출발지 · 귀가지는 울릉 항로 항구만(후포 → 묵호 → 강릉 → 포항, 항해 시간이 짧은 순), 울릉이 아니면 울릉 항로 항구는 목록에 없다(PoC `originOptions`).
-  저장된 값은 두고 계산할 때만 고친다(`tripOriginKey`, PoC `oKey`: 울릉이면 울릉 항구가 아닌 값 → 포항여객선터미널, 울릉이 아니면 울릉 항구 → 서울역).
-  코스 탭에서 여행이 울릉이 되면 한 번 안내 창(PoC `ulNotice*`)을 띄우고 출발지를 포항여객선터미널, 맞지 않는 귀가지를 「출발지와 동일」로 바꾼다(`ulleungSync`, PoC `syncUlleung`).
-  화면을 열 때 이미 울릉 항구면 다시 띄우지 않는다. 배 본 구간 = 승선 수속 **40분** + 항구별 항해 시간(`sailMin`, 없으면 190분, PoC `accessMin` 울릉 분기)
-- **배편 시간표 카드**(`FerryCard`, PoC `ferryVals`): 섬 여행에서 광역 교통이 배이거나, 제주 자가용에서 「아니요 — 카페리」를 골랐을 때만.
+- **항구 섬(울릉 · 백령도 · 연평도)**: 여객선으로만 들어가는 섬. PoC의 울릉 규칙을 섬 설정표(`PORT_ISLANDS`: 항로 `route` · 기본 항구 · 승선 수속 · 기본 항해 시간)로 넓혔다.
+  울릉 값과 `island.test.ts`의 울릉 대조는 그대로이고, 예전 이름(`ulleungPorts` · `ulleungSailMin` · `ulleungSync`, `TripPlan.ulleung`)도 남겼다.
+  일정의 `portIsland`는 가는 쪽 도착 도시의 항구 섬, 없으면 오는 쪽(출발지는 가는 쪽, 귀가지는 오는 쪽 섬을 먼저 따른다)
+
+  | 섬     | 출발 항구(`route`)                        | 기본 항구        | 승선 수속 | 항해 시간(`sailMin`)                       | 도착 항구          |
+  | ------ | ----------------------------------------- | ---------------- | --------- | ------------------------------------------ | ------------------ |
+  | 울릉   | 후포 · 묵호 · 강릉 · 포항(`ulleung`, PoC) | 포항여객선터미널 | 40분      | 항구별 140 – 200분(없으면 190)             | 도동 · 사동 · 저동 |
+  | 백령도 | 인천항 연안여객터미널(`baengnyeong`)      | 같음             | 30분      | 230분(소청 · 대청 경유 3시간 40분 – 4시간) | 용기포신항         |
+  | 연평도 | 인천항 연안여객터미널(`yeonpyeong`)       | 같음             | 30분      | 150분(소연평 경유 약 2시간 – 2시간 30분)   | 연평항             |
+  - 출발지 · 귀가지는 그 섬 항로 항구만(항해 시간이 짧은 순), 항구 섬 여행이 아니면 항구 섬 항로 항구는 목록 · 환승 관문 · 가까운 관문 찾기에 없다(PoC `originOptions`).
+    인천항 연안여객터미널은 항로마다 출발지가 따로 있어(`incheonPortBaengnyeong` · `incheonPortYeonpyeong`) 육지 여행 · 제주 카페리 목록에는 나오지 않는다
+  - 저장된 값은 두고 계산할 때만 고친다(`tripOriginKey`, PoC `oKey`: 그 섬 항구가 아닌 값 → 그 섬 기본 항구, 항구 섬이 아니면 섬 항구 → 서울역)
+  - 코스 탭에서 여행이 항구 섬이 되면(다른 항구 섬에서 바뀐 때 포함) 한 번 안내 창(`IslandNotice`, PoC `ulNotice*`, 문구 `Planner.course.ulleung` · `baengnyeong` · `yeonpyeong`)을 띄우고
+    출발지를 기본 항구, 맞지 않는 귀가지를 「출발지와 동일」로 바꾼다(`islandSync`, PoC `syncUlleung`). 화면을 열 때 이미 그 섬 항구면 다시 띄우지 않는다
+  - 배 본 구간 = 승선 수속 + 항구별 항해 시간(`islandSailMin`, PoC `accessMin` 울릉 분기). 백령도 · 연평도 수속 30분은 앱에서 정한 값이다
+  - 관문 · 출발지는 PoC에 없어 `scripts/data/manual-regions.json`에 적고 `scripts/manual-regions.mjs`가 `regions.json`에 덧붙인다(`build-planner.mjs`도 쓰기 직전에 부른다).
+    좌표: 인천항 연안여객터미널 옹진행 37.4541, 126.5985(위키백과 「인천항연안여객터미널」), 백령도 37.9667, 124.65(위키백과 섬 좌표 37°58′N 124°39′E),
+    용기포신항 37.9583, 124.735(선박 위치 자료 · UN/LOCODE 37°57′N 124°43′E, 대략), 연평도 37.6667, 125.6964(위키백과), 연평항 37.659, 125.703(당섬 선착장 어림값, 확인 못 함).
+    장소 수(`placeCounts`)는 장소를 더하는 스크립트가 센다. 권역 면(`region-shapes.json`)에는 백령도(약 51㎢)만 들고 연평도(약 7㎢)는 20㎢ 기준으로 빠진다.
+    지도 권역 처음 화면은 경도 125.9보다 서쪽 도시(백령도 · 연평도)를 가운데 잡기에서 뺀다(울릉 · 독도와 같은 방식, 핀은 그린다)
+
+- **배편 시간표 카드**(`FerryCard`, PoC `ferryVals`): 섬(제주 · 울릉 · 백령도 · 연평도) 여행에서 광역 교통이 배이거나, 제주 자가용에서 「아니요 — 카페리」를 골랐을 때만.
   출발 항구 고르기 · 표(운항 선사 · 소요 시간 · 운항 횟수 · 첫 출항 · 막 출항 · 도착 항구) · 안내 · 「가보고싶은섬 예매」(`island.theksa.co.kr`) · 「선사 시간표 검색」(네이버, 「선사 항구 섬 시간표」).
-  한국어가 아니면 PoC 영어 값(`opEn` · `durEn`)과 PoC가 만드는 영어 표기(「무렵」 빼기 · `/day` · `/week` · 도착 항구)를 쓴다. 중 · 일 · 스페인어 값은 PoC에 없어 영어
+  한국어가 아니면 PoC 영어 값(`opEn` · `durEn`)과 PoC가 만드는 영어 표기(「무렵」 빼기 · `/day` · `/week` · 도착 항구, 수기 항로는 `arrEn`)를 쓴다. 중 · 일 · 스페인어 값은 PoC에 없어 영어
 - **운항 실적**(`FERRY_STATS`가 있는 항로만, 제주 부산 항로는 없다): 기간 · 항차 수, 연중 통제(결항)율, 여행월 통제율(출발일이 없으면 가장 궂은 달), 1–12월 막대(여행월 강조,
   화면 읽기용 달별 숫자 목록), 최근 1년 주요 출항, 여행월 통제율 **6%** 이상이면 경고 문장, 출처 한 줄. 단계 색은 6% 이상 `warning` · 15% 이상 `danger`(PoC `lvl`). 월 · 숫자 · 기간은 `Intl`
 - 데이터 `data/ferry.json`은 `scripts/build-ferry.mjs`가 PoC `FERRY_ROUTES`(제주 6항 · 울릉 4항) · `FERRY_STATS`(한국해양교통안전공단 항로별 여객선 운항상황,
-  odcloud 15146814, 2022-12 ~ 2026-05 실적 중 제주 · 울릉 9개 항로 집계)에서 만든다. 갱신은 PoC 값이 바뀐 뒤 스크립트를 다시 돌린다(실적을 직접 다시 집계하지 않는다)
+  odcloud 15146814, 2022-12 ~ 2026-05 실적 중 제주 · 울릉 9개 항로 집계)와 수기 항로 `scripts/data/ferry-manual.json`(백령도 · 연평도 각 1항, 실적 없음)에서 만든다.
+  갱신은 PoC 값이 바뀐 뒤 스크립트를 다시 돌린다(실적을 직접 다시 집계하지 않는다)
+  - 수기 항로(2026-10 웹 검색, 철마다 바뀌어 「무렵」 · 범위로 적었다): 인천 → 백령 고려고속훼리 코리아프라이드 · 코리아프린세스, 하루 2회, 07:50 – 08:30 무렵 · 12:30 무렵,
+    3시간 40분 – 4시간(고려고속훼리 kefship.com 시간표 검색 결과 · 백령도 여행 안내글. 대형 카페리 하모니플라워는 2022-11 선령 만료로 끊겼고 대체선은 2028년 취항 예정, 경향신문 2025-06).
+    인천 → 연평 고려고속훼리 코리아킹(플라잉카페리 대체), 하루 1 – 2회, 08:00 · 13:00 무렵, 소연평 경유 약 2시간 – 2시간 30분(인천투데이 · 인천항만공사 연안여객터미널 운임 안내 검색 결과)
 - **항공편 카드**(`FlightCard`, PoC `flightBoard*` · `busanAir*`): 광역 교통이 항공이고 자가용이 아닐 때, 제주 · 서귀포 여행이면 「제주 노선 운항 현황」,
   첫 도시가 부산 · 김해 · 양산 · 창원 · 거제면 「김해공항 노선 운항 현황」. 방향 · 공항 고르기(제주 카드는 출발지가 공항이면 그 공항, 아니면 김포부터) →
   편성 요약 표(운항 항공사 · 일 운항 · 첫 · 막 출발 · 비행 시간) → 항공사별 운항 개요(편도 편수 가운데 값의 비중 막대) → 지금 수속 소요(한국공항공사, `/api/airport/process`, 키가 있을 때) →
@@ -220,7 +241,8 @@ PoC의 섬 규칙을 그대로 옮겼다(식 · 숫자는 `island.test.ts`의 �
 | `scripts/build-theme-extras.mjs`     | 테마 화면 5개 `*.dc.html`                                                                                                                                                  | `features/theme/data/extras.json`(사진 · 설명 · 장면 연결 · 좌표 기준) · `scenes.json`(RESCENE 조회수 포함) · `cities.json`(도시 칩 · center)                                  |
 | `scripts/build-stays.mjs`            | `Tour Planner.dc.html`(`STAYS`)                                                                                                                                            | `features/planner/data/stays.json`(숙소 표본 153곳, 가격대 `band` 제외)                                                                                                        |
 | `scripts/build-region-shapes.mjs`    | 통계청(KOSTAT) 센서스용 행정구역경계 2018 시도 경계(southkorea/southkorea-maps `kostat/2018/json/skorea-provinces-2018-geo.json`). Turf.js는 `npm i --no-save`로 받아 쓴다 | `features/planner/data/region-shapes.json`(시도 17곳을 권역 7곳으로 합쳐 단순화한 바깥 경계, 20㎢ 미만 섬 제외)                                                                |
-| `scripts/build-ferry.mjs`            | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`)                                                                                                                     | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4, 운항 실적 9개 항로)                                                                                              |
+| `scripts/build-ferry.mjs`            | `Tour Planner.dc.html`(`FERRY_ROUTES` · `FERRY_STATS`) · `scripts/data/ferry-manual.json`(백령도 · 연평도 수기 항로)                                                       | `features/planner/data/ferry.json`(배편 항로 제주 6 · 울릉 4 · 백령도 1 · 연평도 1, 운항 실적 9개 항로)                                                                        |
+| `scripts/manual-regions.mjs`         | `scripts/data/manual-regions.json`(PoC에 없는 도시 · 관문 · 출발지: 백령도 · 연평도, 인천항 연안여객터미널 백령 · 연평 항로). `build-planner.mjs`도 부른다                 | `features/planner/data/regions.json`에 덧붙인다(여러 번 돌려도 같다)                                                                                                           |
 | `scripts/build-flights.mjs`          | `Tour Planner.dc.html`(`JEJU_SCHED` · `JEJU_AIR_ROUTES` · `BUSAN_ROUTES` · `BUSAN_SCHED` · `ROUTE_AIRLINES` · `AIRLINE_SCHED`)                                             | `features/planner/data/flights.json`(제주 노선 10개 공항 · 김해 3개 노선 요약, 항공사표 5개 노선, 항공사 시간표 링크 10개)                                                     |
 | `scripts/build-names.mjs`            | `Tour Planner.dc.html`(`REG` · `CITY_NAME` · `I18N.locs`) · `파생 데이터/장소.csv`(중 · 일 장소명)                                                                         | `features/names/data/zh.json` · `ja.json` · `es.json`(권역 · 도시 · 장소 이름표, 그 언어 화면일 때만 싣는다)                                                                   |
 | `scripts/official-name-fixes.mjs`    | (원천 없음) 그 장소가 아닌 중 · 일 공식 명칭 id 목록 `WRONG_OFFICIAL_NAMES`와 판정 `isOfficialName`                                                                        | `build-names.mjs` · `build-planner.mjs`가 공식 명칭을 거를 때 쓴다(`docs/i18n.md`)                                                                                             |

@@ -69,6 +69,8 @@ const PAGE_SIZE = 60;
 const REGION_LEVEL = 12;
 /** 동해 먼 섬(울릉 · 독도)의 경도. 이보다 동쪽 도시는 권역 처음 화면 가운데를 잡을 때 뺀다(동쪽으로 끌면 보인다) */
 const FAR_EAST_LNG = 130;
+/** 서해 먼 섬(백령도 · 연평도)의 경도. 이보다 서쪽 도시도 뺀다(수도권 화면이 서쪽 바다로 끌려가지 않게, 서쪽으로 끌면 보인다) */
+const FAR_WEST_LNG = 125.9;
 
 type Filter = "all" | CategoryKey;
 
@@ -331,8 +333,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
     }));
   }
   // 전국은 권역 가운데들에 맞추고, 도시는 걸러진 핀에 맞춘다.
-  // 권역은 도시 가운데들(울릉 · 독도는 뺀다)의 가운데를 정해진 축척(REGION_LEVEL)으로 보인다 — 권역마다 축척이 달라지지 않게.
-  // 울릉의 묶음은 그려 두어 동쪽으로 끌면 나온다
+  // 권역은 도시 가운데들(울릉 · 독도 · 백령도 · 연평도는 뺀다)의 가운데를 정해진 축척(REGION_LEVEL)으로 보인다 — 권역마다 축척이 달라지지 않게.
+  // 먼 섬의 묶음은 그려 두어 동쪽(울릉) · 서쪽(백령도 · 연평도)으로 끌면 나온다
   const fitPoints =
     scope.kind === "city"
       ? filtered
@@ -342,7 +344,8 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
             const info = CITY_INFO[c];
             return info?.lat !== undefined &&
               info.lng !== undefined &&
-              info.lng < FAR_EAST_LNG
+              info.lng < FAR_EAST_LNG &&
+              info.lng > FAR_WEST_LNG
               ? [{ lat: info.lat, lng: info.lng }]
               : [];
           });

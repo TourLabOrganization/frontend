@@ -37,7 +37,9 @@
         "동두천",
         "과천",
         "구리",
-        "연천"
+        "연천",
+        "백령도",
+        "연평도"
       ]
     },
     {
@@ -1009,6 +1011,16 @@
     },
     "서귀포": {
       "en": "Seogwipo"
+    },
+    "백령도": {
+      "en": "Baengnyeongdo",
+      "lat": 37.9667,
+      "lng": 124.65
+    },
+    "연평도": {
+      "en": "Yeonpyeongdo",
+      "lat": 37.6667,
+      "lng": 125.6964
     }
   },
   "hubs": {
@@ -2585,6 +2597,28 @@
       "busKo": "동두천중앙역",
       "busEn": "Dongducheon Jungang Stn",
       "modes": ["bus"]
+    },
+    "백령도": {
+      "lat": 37.9583,
+      "lng": 124.735,
+      "shipLat": 37.9583,
+      "shipLng": 124.735,
+      "shipKo": "용기포신항 여객터미널 (여객선)",
+      "shipEn": "Yonggipo Port (ferry)",
+      "ko": "용기포신항 여객터미널 (여객선)",
+      "en": "Yonggipo Port (ferry)",
+      "modes": ["ship"]
+    },
+    "연평도": {
+      "lat": 37.659,
+      "lng": 125.703,
+      "shipLat": 37.659,
+      "shipLng": 125.703,
+      "shipKo": "연평항 여객터미널 (여객선)",
+      "shipEn": "Yeonpyeong Port (ferry)",
+      "ko": "연평항 여객터미널 (여객선)",
+      "en": "Yeonpyeong Port (ferry)",
+      "modes": ["ship"]
     }
   },
   "origins": {
@@ -3035,6 +3069,28 @@
       "lat": 36.1097,
       "lng": 128.1936,
       "modes": ["ktx"]
+    },
+    "incheonPortBaengnyeong": {
+      "ko": "인천항 연안여객터미널 (백령 항로)",
+      "en": "Incheon Coastal Ferry Terminal (Baengnyeong)",
+      "lat": 37.4541,
+      "lng": 126.5985,
+      "modes": ["ship"],
+      "route": "baengnyeong",
+      "sailMin": 230,
+      "arrKo": "용기포항",
+      "arrEn": "Yonggipo Port"
+    },
+    "incheonPortYeonpyeong": {
+      "ko": "인천항 연안여객터미널 (연평 항로)",
+      "en": "Incheon Coastal Ferry Terminal (Yeonpyeong)",
+      "lat": 37.4541,
+      "lng": 126.5985,
+      "modes": ["ship"],
+      "route": "yeonpyeong",
+      "sailMin": 150,
+      "arrKo": "연평항",
+      "arrEn": "Yeonpyeong Port"
     }
   },
   "placeCounts": {

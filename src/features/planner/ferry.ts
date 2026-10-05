@@ -3,8 +3,9 @@ import type { Island } from "./island";
 import type { WideChoice } from "./wide-chain";
 
 // 투어 플래너 코스 탭 「배편 시간표」 카드(PoC ferryVals). 순수 함수만 둔다. 화면(FerryCard)은 이 값만 그린다.
-// 데이터 data/ferry.json은 scripts/build-ferry.mjs가 PoC FERRY_ROUTES · FERRY_STATS에서 만든다.
-//  - 보이는 조건: 제주 · 울릉 여행에서 광역 교통이 배이거나, 제주 자가용에서 「아니요 — 카페리」를 골랐을 때
+// 데이터 data/ferry.json은 scripts/build-ferry.mjs가 PoC FERRY_ROUTES · FERRY_STATS와 수기 항로(백령도 · 연평도,
+// scripts/data/ferry-manual.json)에서 만든다.
+//  - 보이는 조건: 섬(제주 · 울릉 · 백령도 · 연평도) 여행에서 광역 교통이 배이거나, 제주 자가용에서 「아니요 — 카페리」를 골랐을 때
 //  - 표(선사 · 소요 · 운항 횟수 · 첫 · 막 출항 · 도착 항구): 한국어는 PoC 값 그대로, 그 밖의 언어는 PoC 영어 값과 PoC가 만드는 영어 표기
 //  - 운항 실적(FERRY_STATS가 있는 항로만): 연중 통제(결항)율, 여행월 통제율(날짜가 없으면 가장 궂은 달), 1–12월 막대,
 //    최근 1년 주요 출항 시각, 여행월 통제율 6% 이상이면 경고. 단계는 6% · 15%(PoC lvl)
@@ -24,6 +25,8 @@ export type FerryRoute = {
   last: string;
   /** 도착 항구(한국어) */
   arr: string;
+  /** 도착 항구(영어). 수기 항로(백령도 · 연평도)만 있다. PoC 항로는 PoC 영어 표기 규칙으로 만든다 */
+  arrEn?: string;
 };
 
 export type FerryStats = {
@@ -62,6 +65,8 @@ const BAR_FLOOR_PCT = 5;
 const ISLAND_NAME: Record<Island, { ko: string; en: string }> = {
   jeju: { ko: "제주", en: "Jeju" },
   ulleung: { ko: "울릉도", en: "Ulleungdo" },
+  baengnyeong: { ko: "백령도", en: "Baengnyeongdo" },
+  yeonpyeong: { ko: "연평도", en: "Yeonpyeongdo" },
 };
 
 /** 가보고싶은섬 예매(PoC ferryBook) */
@@ -127,12 +132,14 @@ export function ferryRows(
         .replace(" /day", r.day.includes("주") ? " /week" : " /day");
   const arr = ko
     ? r.arr
-    : island === "jeju"
-      ? "Jeju Port"
-      : r.arr
-          .replace("도동항", "Dodong")
-          .replace("사동항", "Sadong")
-          .replace("저동항", "Jeodong");
+    : r.arrEn
+      ? r.arrEn
+      : island === "jeju"
+        ? "Jeju Port"
+        : r.arr
+            .replace("도동항", "Dodong")
+            .replace("사동항", "Sadong")
+            .replace("저동항", "Jeodong");
   return [
     { key: "op", value: ko ? r.op : r.opEn },
     { key: "dur", value: ko ? r.dur : r.durEn },

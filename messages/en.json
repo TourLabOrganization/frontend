@@ -1209,10 +1209,30 @@
         "ok": "Got it",
         "close": "Close"
       },
+      "baengnyeong": {
+        "kicker": "Baengnyeong ferry",
+        "title": "Baengnyeongdo is reached only by ferry",
+        "body": "There is no rail, bus or air service to the island, so departure and return are counted only from Incheon Coastal Ferry Terminal, where the Baengnyeong ferries leave. Departure has been set to Incheon Coastal Ferry Terminal.",
+        "portsLabel": "Port served · duration",
+        "foot": "The duration is the fixed sailing time (calling at Socheong and Daecheong) plus 30 minutes for boarding. Ferries arrive at Yonggipo Port; fog and high seas in the open Yellow Sea often cancel crossings.",
+        "ok": "Got it",
+        "close": "Close"
+      },
+      "yeonpyeong": {
+        "kicker": "Yeonpyeong ferry",
+        "title": "Yeonpyeongdo is reached only by ferry",
+        "body": "There is no rail, bus or air service to the island, so departure and return are counted only from Incheon Coastal Ferry Terminal, where the Yeonpyeong ferries leave. Departure has been set to Incheon Coastal Ferry Terminal.",
+        "portsLabel": "Port served · duration",
+        "foot": "The duration is the fixed sailing time (calling at Soyeonpyeong) plus 30 minutes for boarding. Ferries arrive at Yeonpyeong Port on Daeyeonpyeong and crossings can be cancelled in rough weather.",
+        "ok": "Got it",
+        "close": "Close"
+      },
       "ferry": {
         "title": {
           "jeju": "Jeju ferry timetable",
-          "ulleung": "Ulleungdo ferry timetable"
+          "ulleung": "Ulleungdo ferry timetable",
+          "baengnyeong": "Baengnyeongdo ferry timetable",
+          "yeonpyeong": "Yeonpyeongdo ferry timetable"
         },
         "port": "Departure port",
         "rows": {

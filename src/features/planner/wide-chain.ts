@@ -5,7 +5,13 @@ import {
   straightKm,
 } from "../course/schedule";
 import wideData from "./data/wide.json";
-import { ulleungPorts, ulleungSailMin } from "./island";
+import {
+  type Island,
+  islandPorts,
+  islandSailMin,
+  isPortRoute,
+  portIslandArg,
+} from "./island";
 import { PLANNER_ORIGINS, type PlannerHub } from "./regions";
 
 // 투어 플래너 광역 체인. PoC Tour Planner.dc.html의 규칙을 그대로 옮긴 순수 함수만 둔다.
@@ -15,7 +21,7 @@ import { PLANNER_ORIGINS, type PlannerHub } from "./regions";
 // 옮긴 것(PoC 이름): WIDE_ALLOW · wideOriginFilter · airTwin · gwWideOf · wideOrder · ORIGIN_ALT(data/wide.json)
 //   · originOptions(출발지 목록 거르기 · 정렬) · wideChain · routeCands · chainSchedule(시간표 API가 없을 때의 분기)
 //   · dayPlan의 gw(환승 관문 고르기)
-//   · wideChain의 제주 자가용 카페리(carFerry) · 울릉 배 본 구간(accessMin 울릉 분기, island.ts)
+//   · wideChain의 제주 자가용 카페리(carFerry) · 항구 섬(울릉 · 백령도 · 연평도) 배 본 구간(accessMin 울릉 분기, island.ts)
 // 옮기지 않은 것:
 //   - 시간표 API(TAGO 열차 · 고속버스 · 지하철, 부산교통공사) 분기와 공항 수속 실측(getAirportProcess). 키가 필요하다.
 //     공항 본 구간은 수속 실측이 없을 때의 PoC 기본값 90분을 쓴다
@@ -30,7 +36,7 @@ export type ChainPoint = {
   lng: number;
   modes?: readonly AccessMode[];
   route?: string;
-  /** 울릉 항로 고정 항해 시간(분) */
+  /** 항구 섬(울릉 · 백령도 · 연평도) 항로 고정 항해 시간(분) */
   sailMin?: number;
 };
 
@@ -185,7 +191,8 @@ function originRank(k: string): number {
 
 /**
  * 출발지 · 귀가지 목록(PoC originOptions).
- *  - 울릉 여행이면 울릉 항로 항구만(항해 시간이 짧은 순, 수단 거르기 없음), 아니면 울릉 항로 항구를 뺀다
+ *  - 항구 섬(울릉 · 백령도 · 연평도) 여행이면 그 섬 항로 항구만(항해 시간이 짧은 순, 수단 거르기 없음),
+ *    아니면 항구 섬 항로 항구를 모두 뺀다. island: 항구 섬(true는 울릉, 예전 boolean 인자), 제주 · null · false는 육지
  *  - 도착 관문이 받는 수단의 출발지만(관문이 없으면 기차 · 버스 · 항공 · 배 전부)
  *  - 기차역 → 버스터미널 → 공항 → 항만 순
  *  - 고른 광역 교통에 맞는 관문만(wideOriginFilter, 자가용은 거르지 않는다)
@@ -194,9 +201,10 @@ function originRank(k: string): number {
 export function originOptions(
   hub: PlannerHub | undefined,
   choice: WideChoice | null,
-  ulleung = false,
+  island: Island | boolean | null = false,
 ): string[] {
-  if (ulleung) return ulleungPorts();
+  const pi = portIslandArg(island);
+  if (pi) return islandPorts(pi);
   const hm: readonly string[] = hub?.modes ?? [
     "ktx",
     "srt",
@@ -206,7 +214,7 @@ export function originOptions(
   ];
   const all = Object.keys(ORIGINS)
     .filter((k) => {
-      if (ORIGINS[k].route === "ulleung") return false;
+      if (isPortRoute(ORIGINS[k].route)) return false;
       return modesOf(ORIGINS[k]).some((x) => hm.includes(x));
     })
     .sort((a, b) => originRank(a) - originRank(b));
@@ -231,7 +239,7 @@ export function fixOriginsForWide(
       modesOf(ORIGINS[key]).some((x) => al.includes(x)));
   const cand = al
     ? Object.keys(ORIGINS).filter(
-        (x) => ORIGINS[x].route !== "ulleung" && ok(x),
+        (x) => !isPortRoute(ORIGINS[x].route) && ok(x),
       )
     : [];
   const fix: { origin?: string; originEnd?: null } = {};
@@ -271,8 +279,10 @@ export type ChainOptions = {
   gwPick?: Readonly<Record<string, string>>;
   /** 제주 자가용 = 항만까지 운전 + 카페리(PoC wideChain carFerry). own과 함께 true */
   carFerry?: boolean;
-  /** 도착 도시가 울릉(배 본 구간 = 승선 수속 40 + 항구별 항해 시간) */
+  /** 도착 도시가 울릉(배 본 구간 = 승선 수속 40 + 항구별 항해 시간). portIsland: "ulleung"과 같다(예전 이름) */
   ulleung?: boolean;
+  /** 도착 도시의 항구 섬(울릉 · 백령도 · 연평도. 배 본 구간 = 그 섬 승선 수속 + 항구별 항해 시간) */
+  portIsland?: Island | null;
 };
 
 /** 도착 관문 점(PoC wideChain hubPt): 항공 · 배 · 버스면 그 좌표, 없으면 관문 좌표 */
@@ -314,11 +324,11 @@ const isOwnKey = (o: ChainPoint, oKey: string) => ORIGINS[oKey] === o;
  * 광역 체인(PoC wideChain). o: 출발점(originFor), oKey: 출발지 key, h: 도착 관문, force: 이 수단으로 확정.
  *  - 자가용: 출발점 → 관문 한 구간(accessMin own)
  *  - 제주 자가용 카페리(carFerry): 배로 확정. 출발점이 항만이 아니면 항만까지 운전(car, ownDriveMin) + 카페리(carferry, 배 본 구간 + 선적 · 하선 30분)
- *  - 울릉 배 본 구간: 승선 수속 40 + 항구별 항해 시간(sailMin, 없으면 190). 거리 식을 쓰지 않는다
+ *  - 항구 섬 배 본 구간: 승선 수속(울릉 40 · 백령도 · 연평도 30) + 항구별 항해 시간(sailMin, 없으면 섬별 기본값). 거리 식을 쓰지 않는다
  *  - 수단: force → 고른 경로(picked) → 고른 칸(pref)의 첫 수단 → 출발점과 관문이 함께 가진 첫 수단 → 관문의 첫 수단.
  *    출발점이 관문(출발지 key)이고 그 수단이 도착 관문에 닿으면 그 수단으로 확정한다
  *  - 출발 관문: 출발점에 그 수단이 없으면 고른 환승 관문 → 대체 관문(ORIGIN_ALT) → 서울권 기본 관문(70km 안)
- *    → 그 수단이 서는 가장 가까운 출발지(울릉 항로 제외)
+ *    → 그 수단이 서는 가장 가까운 출발지(항구 섬 항로 제외)
  */
 export function wideChain(
   o: ChainPoint | undefined,
@@ -382,7 +392,7 @@ export function wideChain(
       let bd = 1e9;
       for (const x of Object.keys(ORIGINS)) {
         const g = ORIGINS[x];
-        if (g.route === "ulleung" || !modesOf(g).includes(mode)) continue;
+        if (isPortRoute(g.route) || !modesOf(g).includes(mode)) continue;
         const d = straightKm(o, g);
         if (d < bd) {
           bd = d;
@@ -407,8 +417,11 @@ export function wideChain(
   }
   const d2 = straightKm(gw, hubPt) * DETOUR;
   const f = mode in MAIN ? MAIN[mode as keyof typeof MAIN] : MAIN_BUS;
+  const portIsland = portIslandArg(opts.portIsland ?? opts.ulleung);
   const main =
-    mode === "ship" && opts.ulleung ? ulleungSailMin(gw) : Math.round(f(d2));
+    mode === "ship" && portIsland
+      ? islandSailMin(portIsland, gw)
+      : Math.round(f(d2));
   legs.push({
     from: gw,
     to: hubPt,
@@ -500,7 +513,7 @@ export function chainPoints(c: WideChain, o: ChainPoint, out = false) {
 
 /**
  * 환승 관문 고르기(PoC dayPlan gw). 자가용 · 카페리 · 출발점이 곧 관문이면 없다.
- * 출발점에서 90km 안, 그 수단이 서는 출발지(울릉 항로 제외) 가까운 순 8곳. 지금 관문이 없으면 맨 앞에 넣는다.
+ * 출발점에서 90km 안, 그 수단이 서는 출발지(항구 섬 항로 제외) 가까운 순 8곳. 지금 관문이 없으면 맨 앞에 넣는다.
  * 2곳 이상일 때만 고르게 한다(1곳 이하면 빈 배열)
  */
 export function gatewayOptions(c: WideChain | null, o: ChainPoint): string[] {
@@ -510,7 +523,7 @@ export function gatewayOptions(c: WideChain | null, o: ChainPoint): string[] {
     .filter((k) => {
       const g = ORIGINS[k];
       return (
-        g.route !== "ulleung" &&
+        !isPortRoute(g.route) &&
         modesOf(g).includes(mode) &&
         straightKm(o, g) < GW_PICK_KM
       );

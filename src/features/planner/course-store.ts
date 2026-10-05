@@ -16,7 +16,7 @@ import { PLANNER_ORIGINS } from "./regions";
 //     metroLine, metroOrigin, metroEndLine, metroEnd,   (지하철 출발 · 귀가 호선과 역 이름. PoC metroLine · metroOrigin · metroEndLine · metroEnd)
 //     jejuResident,   (제주 자가용일 때 「제주도민인가요?」 답. true 도민 · false 카페리 · null 아직. PoC jejuResident)
 //     ferryPort: { jeju: "mokpo" },   (배편 시간표 카드에서 고른 출발 항구. PoC ferryPort. 저장된 플랜에는 넣지 않는다)
-//     ulNotice,   (울릉 항로 안내 창이 열려 있는지. PoC ulNotice. 저장된 플랜에는 넣지 않는다)
+//     ulNotice,   (항구 섬(울릉 · 백령도 · 연평도) 항로 안내 창이 열려 있는지. PoC ulNotice. 저장된 플랜에는 넣지 않는다)
 //     routeSkip: { 경주: true },   (경로 선택 창을 닫은 도착 도시. 다시 스스로 열지 않는다. 저장된 플랜에는 넣지 않는다)
 //     stayOv: { gj2: 90, … },   (장소별로 바꾼 체류 분. 추천값과 같으면 두지 않는다. course-edit.ts)
 //     planId }   (지금 불러와 보고 있거나 방금 저장한 플랜 id. 「덮어쓰기」 대상. PoC planId)
@@ -94,9 +94,9 @@ export type PlannerCourse = PlannerSettings & {
   planId: string | null;
   /** 경로 선택 창을 닫은 도착 도시(PoC routeSkip). 저장된 플랜에는 넣지 않는다 */
   routeSkip: Record<string, true>;
-  /** 섬(jeju · ulleung)별로 배편 시간표 카드에서 고른 출발 항구(PoC ferryPort). 저장된 플랜에는 넣지 않는다 */
+  /** 섬(jeju · ulleung · baengnyeong · yeonpyeong)별로 배편 시간표 카드에서 고른 출발 항구(PoC ferryPort). 저장된 플랜에는 넣지 않는다 */
   ferryPort: Record<string, string>;
-  /** 울릉 항로 안내 창이 열려 있는지(PoC ulNotice). 저장된 플랜에는 넣지 않는다 */
+  /** 항구 섬(울릉 · 백령도 · 연평도) 항로 안내 창이 열려 있는지(PoC ulNotice). 어느 섬인지는 일정(portIsland)으로 정한다. 저장된 플랜에는 넣지 않는다 */
   ulNotice: boolean;
 };
 
@@ -418,7 +418,7 @@ export function usePlannerCourse(
     /** 배편 시간표 카드의 출발 항구를 고른다(섬별) */
     setFerryPort: (island: string, port: string) =>
       patch({ ferryPort: { ...course.ferryPort, [island]: port } }),
-    /** 울릉 항로 안내 창을 열고 닫는다 */
+    /** 항구 섬 항로 안내 창을 열고 닫는다 */
     setUlNotice: (open: boolean) => patch({ ulNotice: open }),
     /** 덮어쓰기 대상 플랜을 정한다(저장한 뒤 · 지운 뒤) */
     setPlanId: (planId: string | null) => patch({ planId }),

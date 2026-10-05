@@ -21,6 +21,11 @@ import {
 } from "./ferry";
 import {
   islandOf,
+  islandPorts,
+  islandSailMin,
+  islandSync,
+  isPortRoute,
+  portIslandOf,
   tripOriginKey,
   ulleungPorts,
   ulleungSailMin,
@@ -298,6 +303,166 @@ describe("울릉 (PoC ulleungTrip · oKey · syncUlleung · accessMin 울릉 분
     );
     expect(plan.ulleung).toBe(false);
     expect(plan.originKey).toBe("seoul");
+  });
+});
+
+describe("백령도 · 연평도 (울릉 규칙을 넓힌 항구 섬, 인천항 연안여객터미널 한 곳)", () => {
+  it("섬 판정: 백령도 · 연평도는 항구 섬, 제주는 항구 섬이 아니다", () => {
+    expect(islandOf("백령도")).toBe("baengnyeong");
+    expect(islandOf("연평도")).toBe("yeonpyeong");
+    expect(portIslandOf("백령도")).toBe("baengnyeong");
+    expect(portIslandOf("울릉")).toBe("ulleung");
+    expect(portIslandOf("제주")).toBeNull();
+    expect(portIslandOf("인천")).toBeNull();
+    expect(isPortRoute("baengnyeong")).toBe(true);
+    expect(isPortRoute("jeju")).toBe(false);
+  });
+
+  it("출발지 목록은 그 섬 항로 항구만, 다른 섬 · 육지 여행에는 나오지 않는다", () => {
+    expect(islandPorts("baengnyeong")).toEqual(["incheonPortBaengnyeong"]);
+    expect(islandPorts("yeonpyeong")).toEqual(["incheonPortYeonpyeong"]);
+    expect(originOptions(H["백령도"], "ship", "baengnyeong")).toEqual([
+      "incheonPortBaengnyeong",
+    ]);
+    expect(originOptions(H["연평도"], null, "yeonpyeong")).toEqual([
+      "incheonPortYeonpyeong",
+    ]);
+    // 울릉 목록 · 육지 · 제주 카페리 목록에는 인천항 섬 항로가 없다
+    expect(ulleungPorts()).not.toContain("incheonPortBaengnyeong");
+    for (const keys of [
+      originOptions(H["인천"], null),
+      originOptions(H["제주"], "ship"),
+      originOptions(H["경주"], null, "jeju"),
+    ])
+      expect(keys.some((k) => isPortRoute(O[k].route))).toBe(false);
+  });
+
+  it("계산에 쓰는 출발지: 그 섬 항구가 아니면 인천항(그 섬 항로), 육지 여행이면 섬 항구 대신 서울역", () => {
+    expect(tripOriginKey("seoul", "baengnyeong")).toBe(
+      "incheonPortBaengnyeong",
+    );
+    expect(tripOriginKey("incheonPortYeonpyeong", "baengnyeong")).toBe(
+      "incheonPortBaengnyeong",
+    );
+    expect(tripOriginKey("hupoPort", "yeonpyeong")).toBe(
+      "incheonPortYeonpyeong",
+    );
+    expect(tripOriginKey("incheonPortBaengnyeong", "ulleung")).toBe(
+      "pohangPort",
+    );
+    expect(tripOriginKey("incheonPortBaengnyeong", null)).toBe("seoul");
+    expect(tripOriginKey("incheonPortYeonpyeong", "jeju")).toBe("seoul");
+    expect(tripOriginKey("incheonPortYeonpyeong", false)).toBe("seoul");
+  });
+
+  it("섬을 고를 때 바꿀 값(syncUlleung을 넓힌 islandSync)", () => {
+    expect(islandSync("baengnyeong", "seoul", "busanStn")).toEqual({
+      origin: "incheonPortBaengnyeong",
+      originEnd: null,
+    });
+    expect(islandSync("yeonpyeong", "incheonPortBaengnyeong", null)).toEqual({
+      origin: "incheonPortYeonpyeong",
+    });
+    expect(
+      islandSync(
+        "baengnyeong",
+        "incheonPortBaengnyeong",
+        "incheonPortBaengnyeong",
+      ),
+    ).toEqual({});
+  });
+
+  it("광역 교통: 배만 고를 수 있고 지하철 · 자가용은 섬이라 막는다", () => {
+    for (const [city, island] of [
+      ["백령도", "baengnyeong"],
+      ["연평도", "yeonpyeong"],
+    ] as const)
+      expect(
+        wideOptions(H[city], island).map((o) => [o.choice, o.block]),
+      ).toEqual([
+        ["bus", "hub"],
+        ["rail", "hub"],
+        ["air", "hub"],
+        ["ship", null],
+        ["metro", "island"],
+        ["own", "island"],
+      ]);
+  });
+
+  it("배 본 구간 = 승선 수속 30 + 항해 시간: 백령 230 → 260분, 연평 150 → 180분", () => {
+    expect(islandSailMin("baengnyeong", O.incheonPortBaengnyeong)).toBe(260);
+    expect(islandSailMin("yeonpyeong", O.incheonPortYeonpyeong)).toBe(180);
+    expect(islandSailMin("baengnyeong", {})).toBe(260);
+    expect(islandSailMin("yeonpyeong", undefined)).toBe(180);
+    const c = wideChain(
+      O.incheonPortBaengnyeong,
+      "incheonPortBaengnyeong",
+      H["백령도"],
+      { own: false, pref: "ship", portIsland: "baengnyeong" },
+    )!;
+    expect(c.hubPt.ko).toContain("용기포");
+    expect(c.legs).toEqual([
+      expect.objectContaining({ mode: "ship", min: 260, main: true }),
+    ]);
+    expect(chainSchedule(c, at("08:00")).end).toBe(at("12:20"));
+  });
+
+  it("일정: 저장된 출발지가 서울역이어도 인천항에서 배로 들어간다(장소가 없어도 도시로)", () => {
+    const plan = buildPlannerSchedule(
+      [],
+      settings({ origin: "seoul" }),
+      "연평도",
+    );
+    expect(plan.island).toBe("yeonpyeong");
+    expect(plan.portIsland).toBe("yeonpyeong");
+    expect(plan.ulleung).toBe(false);
+    expect(plan.originKey).toBe("incheonPortYeonpyeong");
+    expect(plan.originEndKey).toBe("incheonPortYeonpyeong");
+    expect(plan.choice).toBe("ship");
+    expect(plan.inbound?.chain.legs.map((l) => l.min)).toEqual([180]);
+    expect(plan.outbound?.chain.legs.map((l) => l.min)).toEqual([180]);
+    // 울릉은 그대로
+    const ul = buildPlannerSchedule([place("ro356")], settings({}));
+    expect(ul.portIsland).toBe("ulleung");
+    expect(ul.ulleung).toBe(true);
+  });
+
+  it("배편 카드: 인천항 한 항로, 영어 도착 항구는 수기 값, 운항 실적은 없다", () => {
+    expect(
+      showFerryCard({
+        island: "baengnyeong",
+        own: false,
+        choice: "ship",
+        jejuResident: null,
+      }),
+    ).toBe(true);
+    expect(FERRY_ROUTES.baengnyeong.map((r) => r.k)).toEqual([
+      "incheonBaengnyeong",
+    ]);
+    expect(FERRY_ROUTES.yeonpyeong.map((r) => r.k)).toEqual([
+      "incheonYeonpyeong",
+    ]);
+    const r = ferryRoute("baengnyeong", undefined);
+    expect(ferryPortLabel(r, "baengnyeong", true)).toBe(
+      "인천항 연안여객터미널 → 용기포항",
+    );
+    expect(ferryPortLabel(r, "baengnyeong", false)).toBe(
+      "Incheon → Baengnyeongdo",
+    );
+    const en = Object.fromEntries(
+      ferryRows(r, "baengnyeong", false).map((x) => [x.key, x.value]),
+    );
+    expect(en).toMatchObject({ day: "2 /day", last: "12:30", arr: "Yonggipo" });
+    expect(
+      ferryRows(ferryRoute("yeonpyeong", undefined), "yeonpyeong", true).find(
+        (x) => x.key === "day",
+      )?.value,
+    ).toBe("하루 1 – 2회");
+    expect(ferryStatView("incheonBaengnyeong", "2026-01-10")).toBeNull();
+    expect(ferryStatView("incheonYeonpyeong", null)).toBeNull();
+    expect(
+      decodeURIComponent(ferryOperatorUrl(r, "baengnyeong").split("query=")[1]),
+    ).toBe("고려고속훼리 인천항 연안여객터미널 백령도 시간표");
   });
 });
 

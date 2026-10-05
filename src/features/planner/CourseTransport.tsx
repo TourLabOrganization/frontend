@@ -97,7 +97,7 @@ export function CourseTransport({
                         : "wide.reason.island",
                     )
                   : null;
-            // 섬(울릉)의 지하철 칸은 「차로 못 가요」 대신 「배로만 가요」
+            // 항구 섬(울릉 · 백령도 · 연평도)의 지하철 칸은 「차로 못 가요」 대신 「배로만 가요」
             const short =
               o.block === "island" && o.choice === "metro"
                 ? "islandMetro"
