@@ -4,6 +4,7 @@ import { placeName } from "../theme/place-meta";
 import es from "./data/es.json";
 import ja from "./data/ja.json";
 import zh from "./data/zh.json";
+import addedPlaces from "../planner/data/added-places.json";
 import plannerPlaces from "../planner/data/places.json";
 import appEs from "../translations/data/place-names.es.json";
 import appJa from "../translations/data/place-names.ja.json";
@@ -54,7 +55,8 @@ describe("언어별 이름표 (features/names)", () => {
 });
 
 describe("앱이 옮긴 장소 이름 (translations/data/place-names.<언어>.json)", () => {
-  const ids = plannerPlaces.map((p) => p.id);
+  // 플래너 장소 = 원천 장소(places.json) + 손으로 붙인 장소(added-places.json)
+  const ids = [...plannerPlaces, ...addedPlaces].map((p) => p.id);
   const tables = [
     [
       "zh",
