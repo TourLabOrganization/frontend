@@ -52,5 +52,17 @@
     "zh": "公开资料坐标",
     "ja": "公開資料の座標",
     "es": "Coordenadas de fuentes públicas"
+  },
+  "위키백과 좌표": {
+    "en": "Wikipedia coordinates",
+    "zh": "维基百科坐标",
+    "ja": "ウィキペディアの座標",
+    "es": "Coordenadas de Wikipedia"
+  },
+  "관광공사 좌표": {
+    "en": "Korea Tourism Organization coordinates",
+    "zh": "韩国观光公社坐标",
+    "ja": "韓国観光公社の座標",
+    "es": "Coordenadas de la Organización de Turismo de Corea"
   }
 }
