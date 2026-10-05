@@ -85,7 +85,7 @@ export function PlaceSheet({
   const titleId = useId();
   // 받지 못한 사진 주소. 깨진 사진 칸 대신 사진 없이 보인다
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  // 장소 자료에 사진이 없으면 대표 사진을 서버에서 찾는다(한국관광공사 관광정보 · 관광사진 → 위키백과, app/api/tour/photo)
+  // 장소 자료에 사진이 없으면 대표 사진을 서버에서 찾는다(한국관광공사 관광정보 · 관광사진 → 위키백과 → 위키미디어 공용, app/api/tour/photo)
   const lookupId = place && !place.photo && place.id ? place.id : null;
   const found = useQuery({
     queryKey: ["place-photo", lookupId],
@@ -106,7 +106,14 @@ export function PlaceSheet({
     (lookupId && found.data && "src" in found.data
       ? {
           src: found.data.src,
-          credit: t(`photoSources.${found.data.source}`),
+          // 위키미디어 공용 사진은 작성자 · 라이선스를 함께 적는다(자유 라이선스 표시 의무)
+          credit: [
+            t(`photoSources.${found.data.source}`),
+            found.data.author,
+            found.data.license,
+          ]
+            .filter(Boolean)
+            .join(" · "),
         }
       : null);
 

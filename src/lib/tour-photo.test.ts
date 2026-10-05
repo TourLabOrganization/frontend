@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  commonsUrl,
   httpsPhoto,
   photoName,
+  pickCommonsImage,
   pickGalleryImage,
   pickTourImage,
   pickWikiImage,
@@ -122,5 +124,74 @@ describe("위키백과 · 주소", () => {
     );
     expect(httpsPhoto("javascript:alert(1)")).toBeNull();
     expect(httpsPhoto("")).toBeNull();
+  });
+});
+
+describe("위키미디어 공용 좌표 검색(④)", () => {
+  const page = (
+    title: string,
+    lat: number,
+    lon: number,
+    extra: Record<string, unknown> = {},
+  ) => ({
+    title: `File:${title}`,
+    coordinates: [{ lat, lon }],
+    imageinfo: [
+      {
+        thumburl: `https://upload.wikimedia.org/thumb/${encodeURIComponent(title)}/800px.jpg`,
+        extmetadata: {
+          Artist: {
+            value: '<a href="//commons.wikimedia.org/wiki/User:Kim">Kim</a>',
+          },
+          LicenseShortName: { value: "CC BY-SA 4.0" },
+        },
+      },
+    ],
+    ...extra,
+  });
+  const spot = {
+    ko: "불국사",
+    en: "Bulguksa Temple",
+    lat: 35.7901,
+    lng: 129.3321,
+  };
+
+  it("파일 이름에 장소 이름이 든 사진만, 가까운 순, 작성자 · 라이선스와 함께", () => {
+    const body = {
+      query: {
+        pages: [
+          page("Seokguram 01.jpg", 35.79, 129.332),
+          page("불국사 대웅전 02.jpg", 35.7905, 129.3325),
+          page("Bulguksa Temple gate.jpg", 35.7901, 129.3321),
+        ],
+      },
+    };
+    expect(pickCommonsImage(body, spot)).toEqual({
+      src: "https://upload.wikimedia.org/thumb/Bulguksa%20Temple%20gate.jpg/800px.jpg",
+      author: "Kim",
+      license: "CC BY-SA 4.0",
+    });
+  });
+
+  it("지도 · 로고 · SVG · 이름이 맞지 않는 파일은 쓰지 않는다", () => {
+    const body = {
+      query: {
+        pages: [
+          page("불국사 map.jpg", 35.7901, 129.3321),
+          page("불국사.svg", 35.7901, 129.3321),
+          page("Gyeongju street.jpg", 35.7901, 129.3321),
+        ],
+      },
+    };
+    expect(pickCommonsImage(body, spot)).toBeNull();
+    expect(pickCommonsImage({}, spot)).toBeNull();
+  });
+
+  it("좌표 300m 안 파일 이름공간을 부른다", () => {
+    const u = new URL(commonsUrl(35.79, 129.33));
+    expect(u.host).toBe("commons.wikimedia.org");
+    expect(u.searchParams.get("ggscoord")).toBe("35.79|129.33");
+    expect(u.searchParams.get("ggsradius")).toBe("300");
+    expect(u.searchParams.get("ggsnamespace")).toBe("6");
   });
 });

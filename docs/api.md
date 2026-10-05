@@ -245,10 +245,14 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 
 - **순서**(PoC `loadPhoto`): ① 한국관광공사 국문 관광정보 `KorService2/searchKeyword2`의 대표 이미지(`firstimage`) — 제목이 이름과 같음 0 · 이름으로 끝남 1 · 이름으로 시작 2,
   같지 않으면 제목이 8글자 넘게 길면 제외, 거리 같은 이름 12km · 나머지 3km 이내, 숙박 · 쇼핑 · 코스 제외, 관광지 · 문화시설 · 레포츠가 음식점보다 먼저 →
-  ② 관광사진 `PhotoGalleryService1/gallerySearchList1`(제목이 같거나 서로 품는 사진) → ③ 한국어 위키백과 요약의 대표 이미지(SVG 제외, 800px)
-- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). 키가 없으면 ③만 본다(위키백과는 키가 없다)
-- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
-  시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 한 단계가 실패해도 다음 단계로 넘어간다
+  ② 관광사진 `PhotoGalleryService1/gallerySearchList1`(제목이 같거나 서로 품는 사진) → ③ 한국어 위키백과 요약의 대표 이미지(SVG 제외, 800px) →
+  ④ 위키미디어 공용 좌표 검색(앱에서 더한 단계, 2026-10-05): `commons.wikimedia.org/w/api.php` `generator=geosearch`(장소 좌표 300m · 파일 이름공간 · 30개) —
+  파일 이름에 장소 한국어 이름(2글자 이상) 또는 영어 이름(4글자 이상)이 든 사진(jpg · png · webp, 지도 · 로고 · 도면 제외), 가까운 순, 800px 썸네일
+- **나무위키는 쓰지 않는다**(2026-10-05 결정): 공개 API가 없고 약관이 자동 수집을 막으며, 문서 사진은 공정 이용 · 저작권 사진이 섞여 앱에 싣기 어렵다
+- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). 키가 없으면 ③④만 본다(위키백과 · 위키미디어 공용은 키가 없다)
+- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
+  시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 위키미디어 공용 사진은 자유 라이선스 표시를 위해 작성자 · 라이선스를 함께 적는다
+  (「사진: 위키미디어 공용 · Kim · CC BY-SA 4.0」, 작성자 이름은 원문 그대로). 한 단계가 실패해도 다음 단계로 넘어간다
 - **캐시**: 7일(대표 사진은 자주 바뀌지 않는다). 클라이언트는 하루
 - **옮기지 않은 것**: PoC 제주 브랜드 콘텐츠 이미지(`api.brandcontents.or.kr`)는 HTTP 주소라 HTTPS 앱에서 브라우저가 막는다
 
