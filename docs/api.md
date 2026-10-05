@@ -248,11 +248,13 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   ② 관광사진 `PhotoGalleryService1/gallerySearchList1`(제목이 같거나 서로 품는 사진) → ③ 한국어 위키백과 요약의 대표 이미지(SVG 제외, 800px) →
   ④ 위키미디어 공용 좌표 검색(앱에서 더한 단계, 2026-10-05): `commons.wikimedia.org/w/api.php` `generator=geosearch`(장소 좌표 300m · 파일 이름공간 · 30개) —
   파일 이름에 장소 한국어 이름(2글자 이상) 또는 영어 이름(4글자 이상)이 든 사진(jpg · png · webp, 지도 · 로고 · 도면 제외), 가까운 순, 800px 썸네일
-  → ⑤ 카카오 이미지 검색(2026-10-05 요청으로 마지막 단계에 더함): `dapi.kakao.com/v2/search/image`(「도시 장소이름」, 정확도순 10장) —
-  https · 가로 500 · 세로 300px 이상 · 가로가 세로의 3배 이하인 첫 사진. 사진 저작권은 원 게시물(블로그 · 카페 등)에 있어 출처에 사이트 이름을 함께 적는다
-  (「사진: 카카오 이미지 검색 · 티스토리」). 나무위키는 공개 API가 없어 쓰지 않는다
+  → ⑤ 카카오맵 기반(2026-10-05 요청): (a) 카카오 로컬 키워드 검색 `dapi.kakao.com/v2/local/search/keyword`(장소 이름, 좌표 반경 500m, 가까운 순)에서
+  이름이 서로를 품는 가장 가까운 카카오맵 장소를 찾고 → (b) 그 장소의 카카오맵 대표 사진(`place.map.kakao.com/main/v/<id>`의 `basicInfo.mainphotourl`,
+  공개 문서가 없는 주소라 실패하면 건너뛴다, 출처 「카카오맵」) → (c) 없으면 카카오 이미지 검색 `dapi.kakao.com/v2/search/image`를 「카카오맵 장소 이름 + 동」으로 좁혀
+  https · 가로 500 · 세로 300px 이상 · 가로가 세로의 3배 이하인 첫 사진(출처 「카카오 이미지 검색 · 원 사이트 이름」).
+  카카오맵에서 같은 장소를 못 찾으면 사진을 쓰지 않는다(엉뚱한 사진 방지). 나무위키는 공개 API가 없어 쓰지 않는다
 - **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). ⑤는 `KAKAO_REST_KEY`(서버 전용). 키가 없으면 그 단계를 건너뛴다(③④ 위키백과 · 위키미디어 공용은 키가 없다)
-- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
+- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "kakaomap" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
   시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 위키미디어 공용 사진은 자유 라이선스 표시를 위해 작성자 · 라이선스를 함께 적는다
   (「사진: 위키미디어 공용 · Kim · CC BY-SA 4.0」, 작성자 이름은 원문 그대로). 한 단계가 실패해도 다음 단계로 넘어간다
 - **점검**(어느 장소가 몇 단계에서 사진을 받는지, 특히 ⑤ 카카오로 떨어지는 장소): 키와 인터넷이 있는 곳에서

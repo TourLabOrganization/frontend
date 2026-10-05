@@ -49,7 +49,8 @@
       "ktoGallery": "Galería de fotos de la Organización de Turismo de Corea",
       "wikipedia": "Wikipedia",
       "commons": "Wikimedia Commons",
-      "kakao": "Búsqueda de imágenes de Kakao"
+      "kakao": "Búsqueda de imágenes de Kakao",
+      "kakaomap": "Kakao Map"
     },
     "hours": "Horario",
     "checkIn": "Entrada {time}",

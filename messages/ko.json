@@ -49,7 +49,8 @@
       "ktoGallery": "한국관광공사 관광사진",
       "wikipedia": "위키백과",
       "commons": "위키미디어 공용",
-      "kakao": "카카오 이미지 검색"
+      "kakao": "카카오 이미지 검색",
+      "kakaomap": "카카오맵"
     },
     "hours": "운영시간",
     "checkIn": "체크인 {time}",
