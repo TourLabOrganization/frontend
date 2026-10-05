@@ -3,6 +3,9 @@
 //   ① 한국관광공사 국문 관광정보 KorService2 searchKeyword2의 대표 이미지(firstimage). 이름 · 거리로 점수를 매겨 한 곳만 고른다(PoC tourTry score)
 //   ② 한국관광공사 관광사진 정보 PhotoGalleryService1 gallerySearchList1. 사진 제목이 장소 이름과 같거나 서로 품는 사진(PoC galleryTry)
 //   ③ 한국어 위키백과 요약(REST page/summary)의 대표 이미지(PoC tryOne). 키가 없어도 부른다
+//   ④ 위키미디어 공용(Wikimedia Commons) 좌표 검색(앱에서 더한 단계, PoC에 없다): 장소 좌표 300m 안 파일 중
+//      파일 이름에 장소 이름(한국어 · 영어)이 든 사진, 가까운 순. 자유 라이선스라 작성자 · 라이선스를 함께 돌려주고 화면에 적는다.
+//      나무위키는 공개 API가 없고 약관이 자동 수집을 막으며 사진 저작권이 제각각이라 쓰지 않는다(2026-10-05 결정)
 //   (PoC의 제주 브랜드 콘텐츠 이미지는 HTTP 주소라 HTTPS 앱에서 브라우저가 막아 옮기지 않았다)
 // 키(DATA_GO_KR_KEY)가 없으면 ①②를 건너뛰고 ③만 쓴다. 사진 주소는 https로 바꿔 돌려준다.
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 상대 경로로 import한다.
@@ -25,7 +28,12 @@ export const TOUR_PHOTO_SECONDS = 7 * 24 * 3600;
 export type PhotoSource = PlacePhotoSource;
 
 /** GET /api/tour/photo 응답. 찾지 못하면 { empty: true } */
-export type TourPhoto = { src: string; source: PhotoSource };
+export type TourPhoto = {
+  src: string;
+  source: PhotoSource;
+  author?: string;
+  license?: string;
+};
 
 /** 제목 정규화(PoC strip · norm): 대괄호 태그 · 괄호 병기(전각 · 반각, 겹친 것 3단계까지)를 빼고 공백 · 가운뎃점을 지운다 */
 export function photoName(value: unknown): string {
@@ -159,7 +167,117 @@ async function wikiPhoto(place: TourPlace): Promise<string | null> {
   return null;
 }
 
-/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과까지 본다) */
+/** 위키미디어 공용 좌표 검색 반경(m)과 후보 수 */
+export const COMMONS_RADIUS_M = 300;
+const COMMONS_LIMIT = 30;
+
+/** 위키미디어 공용 좌표 검색 주소(파일 이름공간 6, 800px 썸네일 · 작성자 · 라이선스) */
+export function commonsUrl(lat: number, lng: number): string {
+  const q = new URLSearchParams({
+    action: "query",
+    format: "json",
+    formatversion: "2",
+    origin: "*",
+    generator: "geosearch",
+    ggscoord: `${lat}|${lng}`,
+    ggsradius: String(COMMONS_RADIUS_M),
+    ggslimit: String(COMMONS_LIMIT),
+    ggsnamespace: "6",
+    prop: "imageinfo|coordinates",
+    iiprop: "url|extmetadata",
+    iiurlwidth: "800",
+    iiextmetadatafilter: "Artist|LicenseShortName",
+  });
+  return `https://commons.wikimedia.org/w/api.php?${q}`;
+}
+
+/** HTML 태그를 뺀 짧은 글(작성자 칸은 링크 HTML로 온다) */
+const plainText = (v: unknown) =>
+  String(v ?? "")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 80);
+
+type CommonsPage = {
+  title?: string;
+  index?: number;
+  coordinates?: { lat?: number; lon?: number }[];
+  imageinfo?: {
+    thumburl?: string;
+    url?: string;
+    extmetadata?: Record<string, { value?: unknown }>;
+  }[];
+};
+
+/**
+ * 위키미디어 공용 좌표 검색 결과에서 사진 하나 고르기.
+ * 파일 이름(「File:」 · 확장자 뺌)에 장소 한국어 이름(2글자 이상) 또는 영어 이름(4글자 이상)이 들어 있어야 한다.
+ * 사진(jpg · jpeg · png · webp)만, 지도 · 로고 · 도면은 뺀다. 가까운 순(없으면 검색 순)
+ */
+export function pickCommonsImage(
+  body: unknown,
+  place: Pick<TourPlace, "ko" | "en" | "lat" | "lng">,
+): Omit<TourPhoto, "source"> | null {
+  const pages = ((body as { query?: { pages?: CommonsPage[] } } | null)?.query
+    ?.pages ?? []) as CommonsPage[];
+  const ko = photoName(place.ko);
+  const en = photoName(place.en ?? "").replace(/[^a-z0-9]/g, "");
+  const scored = pages.flatMap((p) => {
+    const title = String(p.title ?? "").replace(/^File:/i, "");
+    if (!/\.(jpe?g|png|webp)$/i.test(title)) return [];
+    const base = title.replace(/\.[a-z]+$/i, "");
+    if (/map|logo|plan|diagram|지도|로고|도면|배치도/i.test(base)) return [];
+    const t = photoName(base);
+    const tEn = t.replace(/[^a-z0-9]/g, "");
+    const hit =
+      (ko.length >= 2 && t.includes(ko)) ||
+      (en.length >= 4 && tEn.includes(en));
+    if (!hit) return [];
+    const info = p.imageinfo?.[0];
+    const src = String(info?.thumburl ?? info?.url ?? "");
+    if (!src) return [];
+    const c = p.coordinates?.[0];
+    const d =
+      c && Number.isFinite(c.lat) && Number.isFinite(c.lon)
+        ? km(place.lat, place.lng, Number(c.lat), Number(c.lon))
+        : 1e9;
+    const meta = info?.extmetadata ?? {};
+    return [
+      {
+        src,
+        d,
+        i: p.index ?? 0,
+        author: plainText(meta.Artist?.value) || undefined,
+        license: plainText(meta.LicenseShortName?.value) || undefined,
+      },
+    ];
+  });
+  scored.sort((a, b) => a.d - b.d || a.i - b.i);
+  const best = scored[0];
+  return best
+    ? { src: best.src, author: best.author, license: best.license }
+    : null;
+}
+
+async function commonsPhoto(
+  place: TourPlace,
+): Promise<Omit<TourPhoto, "source"> | null> {
+  if (!place.lat || !place.lng) return null;
+  try {
+    const res = await fetch(commonsUrl(place.lat, place.lng), {
+      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
+      next: { revalidate: TOUR_PHOTO_SECONDS },
+    });
+    if (!res.ok) return null;
+    return pickCommonsImage(await res.json(), place);
+  } catch {
+    return null;
+  }
+}
+
+/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용까지 본다) */
 export async function findPhoto(
   place: TourPlace,
   key: string | null,
@@ -201,10 +319,20 @@ export async function findPhoto(
     }
   }
   const wiki = httpsPhoto((await wikiPhoto(place)) ?? "");
-  return wiki ? { src: wiki, source: "wikipedia" } : null;
+  if (wiki) return { src: wiki, source: "wikipedia" };
+  const commons = await commonsPhoto(place);
+  const src = httpsPhoto(commons?.src ?? "");
+  return src && commons
+    ? {
+        src,
+        source: "commons",
+        ...(commons.author ? { author: commons.author } : {}),
+        ...(commons.license ? { license: commons.license } : {}),
+      }
+    : null;
 }
 
-/** GET /api/tour/photo 처리. 응답 { src, source } · 못 찾으면 { empty: true }. 키가 없어도 위키백과는 본다 */
+/** GET /api/tour/photo 처리. 응답 { src, source, author?, license? } · 못 찾으면 { empty: true }. 키가 없어도 위키백과 · 위키미디어 공용은 본다 */
 export async function tourPhotoResponse(request: Request): Promise<Response> {
   const query = await parseTourQuery(request, false);
   if ("error" in query) return query.error;

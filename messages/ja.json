@@ -47,7 +47,8 @@
     "photoSources": {
       "kto": "韓国観光公社",
       "ktoGallery": "韓国観光公社 観光写真",
-      "wikipedia": "ウィキペディア"
+      "wikipedia": "ウィキペディア",
+      "commons": "ウィキメディア・コモンズ"
     },
     "hours": "営業時間",
     "checkIn": "チェックイン {time}",

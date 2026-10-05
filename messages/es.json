@@ -47,7 +47,8 @@
     "photoSources": {
       "kto": "Organización de Turismo de Corea",
       "ktoGallery": "Galería de fotos de la Organización de Turismo de Corea",
-      "wikipedia": "Wikipedia"
+      "wikipedia": "Wikipedia",
+      "commons": "Wikimedia Commons"
     },
     "hours": "Horario",
     "checkIn": "Entrada {time}",
