@@ -47492,8 +47492,8 @@
   },
   "ctm8ae05855": {
     "desc": {
-      "ko": "1919년 함경도 흥남 내호리에서 시작해 1952년 부산 우암동에 다시 문을 연 밀면 · 냉면집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다.",
-      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation."
+      "ko": "1919년 함경도 흥남 내호리에서 시작해 1952년 부산 우암동에 다시 문을 연 밀면 · 냉면집이다. 2012년 농림수산식품부 · 한식재단의 「한국인이 사랑하는 오래된 한식당 100선」에 뽑혔다. 허영만 만화 『식객』 제27권 제135화 「밀면」에 나온 식당이다.",
+      "en": "Selected in 2012 for the 'Korea's 100 Beloved Old Korean Restaurants' list by the agriculture ministry and the Korean Food Foundation. Featured in Huh Young-man's manga Sikgaek, vol. 27 ep. 135 \"Milmyeon (Wheat Cold Noodles)\"."
     },
     "src": {
       "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
@@ -47965,6 +47965,69 @@
     },
     "src": {
       "ko": "한국인이 사랑하는 오래된 한식당 100선 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctmc12ffec3": {
+    "desc": {
+      "ko": "성북구 월곡동에서 오래 영업해 온 민물매운탕집으로 메기매운탕과 송어회가 대표 메뉴다. 허영만 만화 『식객』 제4권 제19화 「천렵」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 4 ep. 19 \"Cheollyeop (Stream Fishing)\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm1df91469": {
+    "desc": {
+      "ko": "메밀 함량 60% 이상의 메밀면 막국수와 메밀묵, 녹두전을 내는 오두산막국수의 통일로 지점이다. 허영만 만화 『식객』 제12권 제60화 「메밀묵」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 12 ep. 60 \"Buckwheat Jelly (Memilmuk)\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm519e12d0": {
+    "desc": {
+      "ko": "대구 최대 산지인 거제 외포항의 생대구 전문 횟집으로, 겨울철 생대구탕과 대구찜이 대표 메뉴다. 허영만 만화 『식객』 제14권 제66화 「대구」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 14 ep. 66 \"Cod\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm4d7ca0a2": {
+    "desc": {
+      "ko": "종로 트윈트리타워 지하의 한식뷔페로, 점심 한식뷔페가 대표 메뉴다. 허영만 만화 『식객』 제14권 제70화 「닭강정」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 14 ep. 70 \"Dakgangjeong (Sweet Crispy Chicken)\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm8fbf1af9": {
+    "desc": {
+      "ko": "괴산버스터미널 인근 올갱이국 골목의 노포로, 집된장에 밀가루·달걀 입힌 올갱이를 넣어 끓인 올갱이국이 대표 메뉴다. 허영만 만화 『식객』 제22권 제107화 「올갱이국」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 22 ep. 107 \"Marsh Snail Soup\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm82ea8b61": {
+    "desc": {
+      "ko": "섬진강·보성강이 만나는 압록의 민물요리집으로, 은어회·은어튀김과 참게탕이 대표 메뉴다. 허영만 만화 『식객』 제22권 제108화 「은어 수박 향기」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 22 ep. 108 \"Sweetfish with a Watermelon Scent\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
+    }
+  },
+  "ctm9c355712": {
+    "desc": {
+      "ko": "1965년 무렵부터 한자리를 지킨 전주비빔밥 백년가게로, 밥과 고추장을 미리 비벼 놋그릇에 내는 육회비빔밥이 대표 메뉴다. 허영만 만화 『식객』 제23권 제113화 「비빔밥 또는 비빌밥」에 나온 식당이다.",
+      "en": "Featured in Huh Young-man's manga Sikgaek, vol. 23 ep. 113 \"Bibimbap\"."
+    },
+    "src": {
+      "ko": "허영만 『식객』 등장 식당 · 주소 기준 좌표 · 대략 위치"
     }
   }
 }
