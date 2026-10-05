@@ -83,7 +83,9 @@ export const FEATURED_CITIES = ["서울", "부산", "제주"] as const;
 export const MAJOR_CITIES: ReadonlySet<string> = new Set([
   "서울",
   "인천",
+  "속초",
   "강릉",
+  "대구",
   "경주",
   "부산",
   "전주",
