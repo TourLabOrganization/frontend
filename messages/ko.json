@@ -50,7 +50,9 @@
       "wikipedia": "위키백과",
       "commons": "위키미디어 공용",
       "kakao": "카카오 이미지 검색",
-      "kakaomap": "카카오맵"
+      "kakaomap": "카카오맵",
+      "khs": "국가유산청",
+      "google": "Google 지도"
     },
     "hours": "운영시간",
     "checkIn": "체크인 {time}",

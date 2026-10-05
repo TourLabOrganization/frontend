@@ -1,12 +1,12 @@
 // 장소 대표 사진 점검: 사진이 없는 플래너 장소마다 대표 사진 찾기(lib/tour-photo.ts findPhoto)를 실제로 돌려
-// 어느 단계(① 관광공사 관광정보 · ② 관광사진 · ③ 위키백과 · ④ 위키미디어 공용 · ⑤ 카카오맵 · 그 장소 이름으로 좁힌 카카오 이미지 검색)에서 찾았는지 표로 남긴다.
-// ⑤ 카카오 이미지 검색으로 떨어진 장소는 엉뚱한 사진일 수 있어 사람이 눈으로 확인한다(2026-10-05).
+// 어느 단계(① 관광공사 관광정보 · ② 관광사진 · ③ 위키백과 · ④ 위키미디어 공용 · ⑤ 국가유산청 · ⑥ Google Places · ⑦ 카카오맵 · 그 장소 이름으로 좁힌 카카오 이미지 검색)에서 찾았는지 표로 남긴다.
+// ⑥ Google · ⑦ 카카오로 떨어진 장소는 엉뚱한 사진일 수 있어 사람이 눈으로 확인한다(2026-10-05).
 //
 // 외부 API를 수천 번 부르므로 평소 `npm run test`에서는 건너뛴다. 키와 인터넷이 있는 곳에서만:
 //   PHOTO_AUDIT=1 DATA_GO_KR_KEY=… KAKAO_REST_KEY=… npx vitest run scripts/photo-audit.test.ts
 //   선택: PHOTO_AUDIT_CITY=전주(한 도시만) · PHOTO_AUDIT_LIMIT=200(앞에서 몇 곳) · PHOTO_AUDIT_OUT=파일(기본 photo-audit.csv)
 //   · PHOTO_AUDIT_CONCURRENCY=4(동시 호출 수, 공공데이터포털 하루 호출 한도에 주의)
-// 결과 CSV 열: id · city · ko · cat · step(1–5, 못 찾으면 none) · source · src · author · license
+// 결과 CSV 열: id · city · ko · cat · step(1–7, 못 찾으면 none) · source · src · author · license
 import { writeFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import addedPlaces from "../src/features/planner/data/added-places.json";
@@ -23,8 +23,10 @@ export const PHOTO_STEP: Readonly<Record<TourPhoto["source"], number>> = {
   ktoGallery: 2,
   wikipedia: 3,
   commons: 4,
-  kakaomap: 5,
-  kakao: 5,
+  khs: 5,
+  google: 6,
+  kakaomap: 7,
+  kakao: 7,
 };
 
 type Row = {
@@ -64,7 +66,7 @@ describe("장소 대표 사진 점검(PHOTO_AUDIT=1일 때만)", () => {
     const det = details as Record<string, { img?: string }>;
     expect(t.length).toBeGreaterThan(0);
     expect(t.every((p) => !det[p.id]?.img)).toBe(true);
-    expect(PHOTO_STEP.kakao).toBe(5);
+    expect(PHOTO_STEP.kakao).toBe(7);
   });
 
   it.skipIf(!RUN)(
@@ -116,7 +118,7 @@ describe("장소 대표 사진 점검(PHOTO_AUDIT=1일 때만)", () => {
       for (const r of rows) count[r.step] = (count[r.step] ?? 0) + 1;
       console.log(
         `사진 점검 ${rows.length}곳 → ${out}\n` +
-          ["1", "2", "3", "4", "5", "none"]
+          ["1", "2", "3", "4", "5", "6", "7", "none"]
             .map(
               (s) =>
                 `  ${s === "none" ? "못 찾음" : `${s}단계`}: ${count[s] ?? 0}`,
@@ -124,8 +126,10 @@ describe("장소 대표 사진 점검(PHOTO_AUDIT=1일 때만)", () => {
             .join("\n"),
       );
       if (!key) console.log("  (DATA_GO_KR_KEY가 없어 ①②를 건너뛰었다)");
+      if (!process.env.GOOGLE_MAPS_API_KEY)
+        console.log("  (GOOGLE_MAPS_API_KEY가 없어 ⑥을 건너뛰었다)");
       if (!process.env.KAKAO_REST_KEY)
-        console.log("  (KAKAO_REST_KEY가 없어 ⑤를 건너뛰었다)");
+        console.log("  (KAKAO_REST_KEY가 없어 ⑦을 건너뛰었다)");
       expect(rows.length).toBe(targets.length);
     },
     60 * 60 * 1000,
