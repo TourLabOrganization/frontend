@@ -36000,15 +36000,6 @@
       "ko": "국가유산 보물 소재지(보물 2건) · 주소 기준 좌표 · 대략 위치"
     }
   },
-  "ctmffc3269b": {
-    "desc": {
-      "ko": "보물 불과환오선사벽암록 1건을 소장한 사찰.",
-      "en": "A temple holding 1 Treasure, a Blue Cliff Record edition."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctmec919607": {
     "desc": {
       "ko": "보물로 지정된 경포호 옆 누각 강릉 경포대.",
@@ -36112,15 +36103,6 @@
     "desc": {
       "ko": "거제면 옛 관아 객사로 보물로 지정된 거제 기성관.",
       "en": "Giseonggwan, the former guesthouse of the Geoje county office, designated a treasure."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctmb63e2927": {
-    "desc": {
-      "ko": "보물 예념미타도량참법 권6∼10을 소장한 장승포의 사찰.",
-      "en": "A temple in Jangseungpo holding the treasure Yenyeom Mitadoryang Chambeop, vols. 6–10."
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
@@ -36585,15 +36567,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctm53c46ad2": {
-    "desc": {
-      "ko": "보물 대불정여래밀인수증요의제보살만행수능엄경(언해) 권3을 소장한 초월읍의 사찰.",
-      "en": "A temple in Chowol-eup holding the treasure Korean-annotated Surangama Sutra, vol. 3."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctm12f1b3fb": {
     "desc": {
       "ko": "보물 광주 덕림사 목조지장보살삼존상 및 시왕상 일괄을 모신 월산동의 사찰.",
@@ -36765,15 +36738,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
-  "ctmd211c139": {
-    "desc": {
-      "ko": "보물 몽산화상법어약록(언해)을 소장한 도개면의 사찰.",
-      "en": "A temple in Dogae-myeon holding the treasure Korean-annotated Dharma Talks of Monk Mengshan."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctma9600fae": {
     "desc": {
       "ko": "황상동 큰 바위에 새긴 통일신라 마애불 보물 구미 황상동 마애여래입상.",
@@ -36882,15 +36846,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
-  "ctm11387746": {
-    "desc": {
-      "ko": "보물 묘법연화경 권4~7(1988)을 간직한 김해의 사찰.",
-      "en": "A Buddhist temple in Gimhae that holds a designated Treasure: volumes 4-7 of the Lotus Sutra."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctmb5382896": {
     "desc": {
       "ko": "보물로 지정된 나주의 객사 건물, 나주 금성관.",
@@ -36934,15 +36889,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctm5c184c5b": {
-    "desc": {
-      "ko": "보물 불조삼경(2012)를 간직한 나주의 사찰.",
-      "en": "A Buddhist temple in Naju that holds a designated Treasure: the Buljo Samgyeong texts."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
     }
   },
   "ctm6f1b7661": {
@@ -37080,15 +37026,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctmed5471a1": {
-    "desc": {
-      "ko": "보물 묘법연화경 권7(1988)을 간직한 단양의 사찰.",
-      "en": "A Buddhist temple in Danyang that holds a designated Treasure: volume 7 of the Lotus Sutra."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctmc5e924e4": {
     "desc": {
       "ko": "보물로 지정된 단양의 석탑, 단양 향산리 삼층석탑.",
@@ -37179,15 +37116,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctm782e0cfe": {
-    "desc": {
-      "ko": "보물 금강반야바라밀경 및 제경을 간직한 대구의 사찰.",
-      "en": "A Buddhist temple in Daegu that holds a designated Treasure: the Diamond Sutra and other sutras."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctm785e8401": {
     "desc": {
       "ko": "보물 군위 대율리 석조여래입상을 간직한 대구의 사찰.",
@@ -37219,15 +37147,6 @@
     "desc": {
       "ko": "보물 대구 서봉사 지장시왕도를 간직한 대구의 사찰.",
       "en": "A Buddhist temple in Daegu that holds a designated Treasure: a Ksitigarbha and Ten Kings painting."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
-  "ctm71cc14c9": {
-    "desc": {
-      "ko": "보물 대승기신론소 권하를 간직한 대구의 사찰.",
-      "en": "A Buddhist temple in Daegu that holds a designated Treasure: volume 2 of a commentary on the Awakening of Faith."
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
@@ -37449,15 +37368,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctmcb7b01e1": {
-    "desc": {
-      "ko": "보물 대방광원각수다라요의경(언해) 권하1의1~2, 2의1~2를 간직한 부산의 사찰.",
-      "en": "A Buddhist temple in Busan that holds a designated Treasure: an annotated Korean edition of the Sutra of Perfect Enlightenment."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctm171ce834": {
     "desc": {
       "ko": "보물 부산 국청사 청동북을 간직한 부산의 사찰.",
@@ -37467,24 +37377,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
     }
   },
-  "ctm55e471ab": {
-    "desc": {
-      "ko": "보물 묘법연화경 권5~7(2016)을 간직한 부산의 사찰.",
-      "en": "A Buddhist temple in Busan that holds a designated Treasure: volumes 5-7 of the Lotus Sutra."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctme668b69c": {
-    "desc": {
-      "ko": "보물 예념미타도량참법 권6∼10을 간직한 부산의 사찰.",
-      "en": "A Buddhist temple in Busan that holds a designated Treasure: volumes 6-10 of a Buddhist repentance text."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctm0f5c0ffe": {
     "desc": {
       "ko": "보물 김해 양동리 322호분 출토 목걸이를 소장한 박물관.",
@@ -37492,24 +37384,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctm1ffe2951": {
-    "desc": {
-      "ko": "보물 인천안목(1991)을 간직한 부산의 사찰.",
-      "en": "A Buddhist temple in Busan that holds a designated Treasure: the Incheon Anmok Seon text."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
-  "ctm5e72a40b": {
-    "desc": {
-      "ko": "보물 묘법연화경 권4~7(2013)을 간직한 부산의 사찰.",
-      "en": "A Buddhist temple in Busan that holds a designated Treasure: volumes 4-7 of the Lotus Sutra."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
   "ctm575b55d8": {
@@ -37564,15 +37438,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
-    }
-  },
-  "ctm9b0e49af": {
-    "desc": {
-      "ko": "보물 불조삼경(2023)을 간직한 부천의 사찰.",
-      "en": "A Buddhist temple in Bucheon that holds a designated Treasure: the Buljo Samgyeong texts."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 관광공사 좌표"
     }
   },
   "ctm2e3354a2": {
@@ -37755,15 +37620,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctmb28625a4": {
-    "desc": {
-      "ko": "보물 상교정본자비도량참법 권3을 소장한 흑석동의 사찰.",
-      "en": "A temple in Heukseok-dong holding a Treasure volume of the Compassionate Repentance Rites."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
   "ctm70788daa": {
     "desc": {
       "ko": "보물로 지정된 관우를 모신 숭인동의 사당, 동관왕묘.",
@@ -37890,15 +37746,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctmf3954dd9": {
-    "desc": {
-      "ko": "보물 묘법연화경 권4~7을 소장한 응암동의 사찰.",
-      "en": "A temple in Eungam-dong holding Treasure volumes 4–7 of the Lotus Sutra."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctma73a0aa9": {
     "desc": {
       "ko": "보물 서울 옥천암 마애보살좌상을 품은 홍은동 홍제천 변의 암자.",
@@ -38007,15 +37854,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
     }
   },
-  "ctm50b2a8ec": {
-    "desc": {
-      "ko": "보물 길흉축월횡간 고려목판을 소장한 가야산 자락의 사찰.",
-      "en": "A temple at the foot of Gayasan holding the Treasure Goryeo woodblock of a monthly almanac."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
-    }
-  },
   "ctm6fc53666": {
     "desc": {
       "ko": "보물 속초 향성사지 삼층석탑이 남은 설악동의 절터.",
@@ -38038,15 +37876,6 @@
     "desc": {
       "ko": "보물 화령전 운한각·복도각·이안청이 있는 정조의 사당.",
       "en": "King Jeongjo's portrait shrine, whose Unhangak, corridor and Iancheong halls are Treasures."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctm7624a3e8": {
-    "desc": {
-      "ko": "보물 월인석보 권15를 소장한 복흥면 영구산의 사찰.",
-      "en": "A temple in Bokheung-myeon holding Treasure volume 15 of the Worinseokbo."
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
@@ -38095,15 +37924,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctmce79fb9e": {
-    "desc": {
-      "ko": "보물 불설대보부모은중경(언해) 목판을 소장한 영인산 자락의 사찰.",
-      "en": "A temple on Yeonginsan holding the Treasure woodblocks of the vernacular Sutra on Parental Kindness."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
   "ctmefd375fe": {
@@ -38347,15 +38167,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctm9d835b30": {
-    "desc": {
-      "ko": "보물 반야심경소현정기(언해)를 간직한 양주의 사찰.",
-      "en": "A temple in Yangju that holds a Treasure-designated Buddhist scripture."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
     }
   },
   "ctm96cbf9d5": {
@@ -38754,15 +38565,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
-  "ctm8d1a4568": {
-    "desc": {
-      "ko": "보물 대방광원각수다라요의경 권1을 간직한 용인의 사찰.",
-      "en": "A temple in Yongin that holds a Treasure-designated Buddhist scripture."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctme330181a": {
     "desc": {
       "ko": "보물 용인 서봉사지 현오국사탑비가 남아 있는 용인의 옛 절터.",
@@ -38790,15 +38592,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
     }
   },
-  "ctm8009fe26": {
-    "desc": {
-      "ko": "보물 대혜보각선사서를 간직한 울산의 사찰.",
-      "en": "A temple in Ulsan that holds a Treasure-designated Buddhist text."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
-    }
-  },
   "ctm40c676c9": {
     "desc": {
       "ko": "보물 울주 망해사지 승탑이 남아 있는 울산의 옛 절터.",
@@ -38824,15 +38617,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctm79d83469": {
-    "desc": {
-      "ko": "보물 육경합부를 간직한 울산의 사찰.",
-      "en": "A temple in Ulsan that holds a Treasure-designated Buddhist scripture."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
     }
   },
   "ctm646c815d": {
@@ -39031,15 +38815,6 @@
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표"
-    }
-  },
-  "ctmc1dab85e": {
-    "desc": {
-      "ko": "보물 불정심관세음보살대다라니경을 간직한 장흥의 사찰.",
-      "en": "A temple in Jangheung that holds a Treasure-designated Buddhist scripture."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
     }
   },
   "ctmc5e3b6f3": {
@@ -39348,15 +39123,6 @@
       "ko": "국가유산 보물 소재지(보물 1건) · 위키백과 좌표"
     }
   },
-  "ctm281be6c6": {
-    "desc": {
-      "ko": "보물 묘법연화경을 소장한 각북면의 사찰.",
-      "en": "A temple in Gakbuk-myeon holding a Treasure edition of the Lotus Sutra."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
   "ctmffdef4a9": {
     "desc": {
       "ko": "청도 금천면 박곡리의 보물 석조여래좌상.",
@@ -39649,15 +39415,6 @@
     "desc": {
       "ko": "기북면 덕동마을의 보물 포항 용계정.",
       "en": "Yonggyejeong, a Treasure pavilion in Deokdong village, Pohang."
-    },
-    "src": {
-      "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
-    }
-  },
-  "ctmf4bf0f42": {
-    "desc": {
-      "ko": "보물 대방광원각수다라요의경을 소장한 하남 사찰.",
-      "en": "A Hanam temple holding a Treasure edition of the Sutra of Perfect Enlightenment."
     },
     "src": {
       "ko": "국가유산 보물 소재지(보물 1건) · 주소 기준 좌표 · 대략 위치"
