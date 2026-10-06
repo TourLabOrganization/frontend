@@ -51,7 +51,12 @@ export function photoName(value: unknown): string {
 }
 
 /** 두 좌표 사이 거리(km) */
-function km(lat1: number, lng1: number, lat2: number, lng2: number): number {
+export function km(
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number,
+): number {
   const r = Math.PI / 180;
   const a =
     Math.sin(((lat2 - lat1) * r) / 2) ** 2 +
