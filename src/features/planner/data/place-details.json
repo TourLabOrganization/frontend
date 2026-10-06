@@ -49562,5 +49562,131 @@
     "src": {
       "ko": "연평도 로컬 상권 · 주소 기준 좌표 · 대략 위치"
     }
+  },
+  "ctm50438ab1": {
+    "desc": {
+      "ko": "길안면 계명산 자락의 자연휴양림으로 숲속의 집과 산책로를 갖추고 있다.",
+      "en": "A recreational forest on the slopes of Gyemyeongsan in Gilan-myeon with forest cabins and walking trails."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm9d37277a": {
+    "desc": {
+      "ko": "남산 북쪽 기슭에 1962년 드라마센터로 문을 연 공연장이다.",
+      "en": "A theater on the northern slope of Namsan that opened in 1962 as the Drama Center."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm7d6b143a": {
+    "desc": {
+      "ko": "대학로 한국방송통신대학교 안에 남은 대한제국 시기의 근대 건축물로 사적이다.",
+      "en": "A Korean Empire-era modern building preserved on the Korea National Open University campus in Daehak-ro; a Historic Site."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctmfa951eac": {
+    "desc": {
+      "ko": "서귀포 시내 북쪽의 오름으로 정상에서 서귀포 앞바다와 섬들이 내려다보인다.",
+      "en": "An oreum north of downtown Seogwipo whose summit overlooks the sea and islands off the coast."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm6d532edd": {
+    "desc": {
+      "ko": "보문관광단지 연못가의 정자로 벚꽃과 연꽃 철에 사진 명소로 알려져 있다.",
+      "en": "A pavilion by a pond in the Bomun Tourist Complex known as a photo spot in cherry-blossom and lotus season."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm657b5155": {
+    "desc": {
+      "ko": "양남면 토함산 자락에 리조트와 골프장이 모인 관광단지다.",
+      "en": "A tourist complex of a resort and golf course on the slopes of Tohamsan in Yangnam-myeon."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 마우나오션리조트 카카오 좌표(같은 주소 동남로 1021)"
+    }
+  },
+  "ctm1a439d22": {
+    "desc": {
+      "ko": "연곡면 소금강 계곡 아래쪽의 마을로 계곡 물놀이와 농촌 체험을 할 수 있다.",
+      "en": "A village at the lower end of the Sogeumgang valley in Yeongok-myeon offering stream play and farm experiences."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm14f2e272": {
+    "desc": {
+      "ko": "대구 혁신도시 한국가스공사 본사에 있는 천연가스 과학 체험관이다.",
+      "en": "A natural-gas science experience hall at the Korea Gas Corporation headquarters in Daegu Innovation City."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm15a2c728": {
+    "desc": {
+      "ko": "대포항 바로 앞의 호텔로 설악산과 동해를 함께 볼 수 있다.",
+      "en": "A hotel right by Daepo Port with views of both Seoraksan and the East Sea."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctma1d3d23e": {
+    "desc": {
+      "ko": "달서구 호림동 낙동강 가의 수변 공원으로 산책로와 체육 시설이 있다.",
+      "en": "A riverside park on the Nakdonggang in Horim-dong with walking paths and sports facilities."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctmc0a5b19a": {
+    "desc": {
+      "ko": "중원로터리 둘레 근대 건축물과 옛 거리를 잇는 도보 탐방길이다.",
+      "en": "A walking trail linking modern-era buildings and old streets around Jungwon Rotary in Jinhae."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctmb0c1ffab": {
+    "desc": {
+      "ko": "마산 용마산 산호공원 산책로에 지역 시인들의 시비가 늘어선 거리다.",
+      "en": "A walking path in Sanho Park on Yongmasan in Masan lined with monuments of poems by local poets."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctm6d0240cd": {
+    "desc": {
+      "ko": "문무대왕면에 있는 어린이 체험 시설로 놀이와 자연 체험 공간을 갖추고 있다.",
+      "en": "A children's experience facility in Munmudaewang-myeon with play and nature-experience spaces."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
+  },
+  "ctmfd2bc6cb": {
+    "desc": {
+      "ko": "학동 몽돌해변 뒤 해안을 따라 자라는 동백나무 군락으로 천연기념물이다.",
+      "en": "A natural-monument camellia grove growing along the coast behind Hakdong Pebble Beach."
+    },
+    "src": {
+      "ko": "인기 관광지(방문 집중률) 명단 · 주소 기준 대략 위치"
+    }
   }
 }
