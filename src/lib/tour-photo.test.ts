@@ -3,6 +3,7 @@ import {
   commonsUrl,
   googlePhotoMediaUrl,
   googleSearchBody,
+  khsDetailUrl,
   khsImageUrl,
   khsListUrl,
   httpsPhoto,
@@ -13,6 +14,7 @@ import {
   pickCommonsImage,
   pickGalleryImage,
   pickGooglePhoto,
+  pickKhsDescription,
   pickKhsHeritage,
   pickKhsImage,
   pickKakaoImage,
@@ -340,6 +342,23 @@ describe("국가유산청(⑤)", () => {
     expect(new URL(khsImageUrl("13", "A", "35")).pathname).toBe(
       "/cha/SearchImageOpenapi.do",
     );
+  });
+
+  it("상세 설명문: CDATA · 태그 · 엔티티를 풀고 문단은 줄바꿈 하나로, 설명문이 없으면 null", () => {
+    const u = new URL(khsDetailUrl("13", "A", "35"));
+    expect(u.pathname).toBe("/cha/SearchKindOpenapiDt.do");
+    expect(u.searchParams.get("ccbaAsno")).toBe("A");
+    const xml =
+      "<result><item><ccmaName>사적</ccmaName><ccbaMnm1><![CDATA[전주 경기전]]></ccbaMnm1>" +
+      "<content><![CDATA[첫 문단&nbsp; 입니다.<br/><br>  둘째 &lt;문단&gt; &amp; 끝.]]></content></item></result>";
+    expect(pickKhsDescription(xml)).toEqual({
+      name: "전주 경기전",
+      kind: "사적",
+      content: "첫 문단 입니다.\n둘째 <문단> & 끝.",
+    });
+    expect(
+      pickKhsDescription("<result><item><content></content></item></result>"),
+    ).toBeNull();
   });
 });
 

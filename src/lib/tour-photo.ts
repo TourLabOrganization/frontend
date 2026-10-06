@@ -437,8 +437,9 @@ async function kakaoPhoto(place: TourPlace): Promise<TourPhoto | null> {
 
 // ── ⑤ 국가유산청 ─────────────────────────────────────────────────
 
-/** 국가유산청 오픈 API 주인(키 없음) */
-const KHS = "https://www.khs.go.kr/cha";
+/** 국가유산청 오픈 API 주인(키 없음). KHS_API_BASE는 로컬에서 가짜 서버로 화면을 확인할 때만 쓴다(운영은 비워 둔다) */
+const KHS = () =>
+  process.env.KHS_API_BASE?.trim() || "https://www.khs.go.kr/cha";
 /** 국가유산청: 좌표가 있을 때 장소와 국가유산 사이 최대 거리(km) */
 const KHS_MAX_KM = 2;
 
@@ -449,7 +450,7 @@ export function khsListUrl(name: string): string {
     pageUnit: "20",
     pageIndex: "1",
   });
-  return `${KHS}/SearchKindOpenapiList.do?${q}`;
+  return `${KHS()}/SearchKindOpenapiList.do?${q}`;
 }
 
 /** 국가유산 이미지 주소(종목 · 지정번호 · 시도 코드) */
@@ -459,7 +460,17 @@ export function khsImageUrl(kdcd: string, asno: string, ctcd: string): string {
     ccbaAsno: asno,
     ccbaCtcd: ctcd,
   });
-  return `${KHS}/SearchImageOpenapi.do?${q}`;
+  return `${KHS()}/SearchImageOpenapi.do?${q}`;
+}
+
+/** 국가유산 상세 주소(종목 · 지정번호 · 시도 코드). 설명문(content)이 들어 있다 */
+export function khsDetailUrl(kdcd: string, asno: string, ctcd: string): string {
+  const q = new URLSearchParams({
+    ccbaKdcd: kdcd,
+    ccbaAsno: asno,
+    ccbaCtcd: ctcd,
+  });
+  return `${KHS()}/SearchKindOpenapiDt.do?${q}`;
 }
 
 /** XML 조각에서 태그 값(CDATA 포함). 없으면 빈 값 */
@@ -526,7 +537,9 @@ async function getText(
     const res = await fetch(url, {
       ...init,
       signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
-      ...(init.cache ? {} : { next: { revalidate: TOUR_PHOTO_SECONDS } }),
+      ...(init.cache || init.next
+        ? {}
+        : { next: { revalidate: TOUR_PHOTO_SECONDS } }),
     });
     return res.ok ? await res.text() : null;
   } catch {
@@ -534,13 +547,63 @@ async function getText(
   }
 }
 
-/** ⑤ 국가유산청 사진(국가유산 장소만) */
-async function khsPhoto(place: TourPlace): Promise<string | null> {
+/** 장소와 같은 국가유산(국가유산 장소만, 이름 검색 → pickKhsHeritage). 사진(⑤)과 오디오 가이드 설명문이 함께 쓴다 */
+export async function khsHeritageFor(
+  place: TourPlace,
+  revalidate: number = TOUR_PHOTO_SECONDS,
+): Promise<KhsHeritage | null> {
   if (place.cat !== "herit") return null;
   const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
   if (name.length < 2) return null;
-  const list = await getText(khsListUrl(name));
-  const h = list ? pickKhsHeritage(list, place) : null;
+  const list = await getText(khsListUrl(name), { next: { revalidate } });
+  return list ? pickKhsHeritage(list, place) : null;
+}
+
+/** HTML 조각 → 글자(태그 · 엔티티를 풀고 문단은 줄바꿈 하나로, 길이 제한 없음) */
+function htmlText(html: string): string {
+  return html
+    .replace(/<br\s*\/?>|<\/p>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/[ \t\u00a0]+/g, " ")
+    .replace(/ *\n[\s]*/g, "\n")
+    .trim();
+}
+
+/** 국가유산 상세(XML) → 이름 · 종목 · 설명문. 설명문이 없으면 null */
+export function pickKhsDescription(
+  xml: string,
+): { name: string; kind: string; content: string } | null {
+  const content = htmlText(xmlTag(xml, "content"));
+  if (!content) return null;
+  return {
+    name: htmlText(xmlTag(xml, "ccbaMnm1")),
+    kind: htmlText(xmlTag(xml, "ccmaName")),
+    content,
+  };
+}
+
+/** 국가유산 설명문(국가유산 장소만). 없으면 null */
+export async function khsDescription(
+  place: TourPlace,
+  revalidate: number,
+): Promise<{ name: string; kind: string; content: string } | null> {
+  const h = await khsHeritageFor(place, revalidate);
+  if (!h) return null;
+  const xml = await getText(khsDetailUrl(h.kdcd, h.asno, h.ctcd), {
+    next: { revalidate },
+  });
+  return xml ? pickKhsDescription(xml) : null;
+}
+
+/** ⑤ 국가유산청 사진(국가유산 장소만) */
+async function khsPhoto(place: TourPlace): Promise<string | null> {
+  const h = await khsHeritageFor(place);
   if (!h) return null;
   const img = await getText(khsImageUrl(h.kdcd, h.asno, h.ctcd));
   return img ? pickKhsImage(img) : null;

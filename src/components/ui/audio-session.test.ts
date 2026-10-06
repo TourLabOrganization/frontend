@@ -16,7 +16,12 @@ describe("오디오 이어듣기 · Media Session", () => {
   });
 
   it("잠금 화면 제목 · 출처 · 칸 이름", () => {
-    const labels = { album: "오디오 가이드", odii: "오디", story: "스토리" };
+    const labels = {
+      album: "오디오 가이드",
+      odii: "오디",
+      khs: "국가유산청",
+      story: "스토리",
+    };
     expect(audioMetadata({ title: "천왕문", source: "odii" }, labels)).toEqual({
       title: "천왕문",
       artist: "오디",

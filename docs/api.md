@@ -315,7 +315,11 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   카카오 지도 JS SDK `services`의 `Geocoder.coord2RegionCode`로 장소마다 미리 구해 `features/planner/data/signgu.json`에 두었다(`scripts/build-signgu.mjs`, 모두 구함. 지금 3,211곳 = 빌드 3,049 + 추가 162).
   Route Handler만 읽는다(클라이언트 번들에 넣지 않는다, `lib/tour-api.test.ts`)
 - **응답**
-  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "story", others?: [...] }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 앞에 두고
+  - 한국어 화면에서 오디 해설이 없으면(키 없음 · 실패 포함) 관광 스토리텔링(31곳) → **국가유산청 국가유산 설명문**(`source: "khs"`, 2026-10-06) 차례로 대신한다.
+    설명문은 국가유산 장소(`cat=herit`)만, 키 없이 국가유산청 오픈 API로 부른다: 이름 검색 `SearchKindOpenapiList.do`에서 사진 ⑤와 같은 기준(이름이 서로를 품고 2km 안, 가까운 순)으로 국가유산을 고르고
+    상세 `SearchKindOpenapiDt.do`의 `content`(태그 · 엔티티를 풀고 문단은 줄바꿈)를 대본으로, `ccbaMnm1`을 제목으로 쓴다. 음성 파일은 없다. 하루 캐시. 외국어 화면은 부르지 않는다(설명문이 한국어뿐).
+    출처 표기는 「국가유산 설명 · 국가유산청」. `KHS_API_BASE`는 로컬에서 가짜 서버로 화면을 확인할 때만 쓰는 주소이고 운영에서는 비워 둔다
+  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "khs" | "story", others?: [...] }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 앞에 두고
     나머지 해설(천왕문 · 다보탑 · 대웅전 같은 세부 해설, 오디 순서, 각 항목은 같은 모양에 `others` 없음)을 `others`에 담는다(2026-10-02). 화면은 대표와 나머지를 좌우로 넘기는 카드(`CardCarousel`, `docs/ui.md`)로 보인다(밑으로 늘리지 않는다, 2026-10-02). 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다). 이야기 검색은 30건까지 받는다(관광지 하나의 세부 해설을 다 담게). 외국어 화면은 한글이 섞인 항목을 `others`에서도 뺀다.
     대표는 음성 파일(`audioUrl`)이 있는 해설 먼저, 그 안에서 제목이 기준 이름(한국어 화면은 장소 이름, 외국어 화면은 그 언어 관광지 제목)과 같은 것 → 품는 것 → 첫째.
     음성 있는 해설이 없으면 대본만 있는 해설에서 같은 기준(2026-09-29 팀 결정 — 이 칸은 「오디오 가이드」다). 음성 주소(https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
