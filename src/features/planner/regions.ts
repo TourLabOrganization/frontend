@@ -87,6 +87,7 @@ export const MAJOR_CITIES: ReadonlySet<string> = new Set([
   "인천",
   "속초",
   "강릉",
+  "대구",
   "경주",
   "대구",
   "부산",
