@@ -7,10 +7,7 @@
 //      파일 이름에 장소 이름(한국어 · 영어)이 든 사진, 가까운 순. 자유 라이선스라 작성자 · 라이선스를 함께 돌려주고 화면에 적는다.
 //   ⑤ 국가유산청 국가유산 검색 · 이미지 오픈 API(키 없음, 국가유산 장소(herit)만): 이름으로 목록을 찾고(SearchKindOpenapiList)
 //      이름이 서로를 품고 좌표 2km 안(좌표가 있으면)인 가장 가까운 국가유산의 첫 이미지(SearchImageOpenapi). 출처 「국가유산청」(공공누리)
-//   ⑥ Google Places API(New)(키 GOOGLE_MAPS_API_KEY 서버 전용, 유료 · 무료 한도 있음): Text Search를 장소 좌표 500m로 치우쳐 부르고
-//      이름이 서로를 품고 500m 안인 장소의 첫 사진. 사진 주소는 skipHttpRedirect로 받은 photoUri(키가 들어가지 않는 주소)를 쓴다.
-//      출처 「Google 지도 · 사진 올린 사람」(Google 표시 의무). Google 약관상 장소 내용은 오래 저장하지 않는다(이 단계만 캐시하지 않는다)
-//   ⑦ 카카오맵 기반(2026-10-05 요청으로 마지막 단계에 더함, 키 KAKAO_REST_KEY 서버 전용):
+//   ⑥ 카카오맵 기반(2026-10-05 요청으로 마지막 단계에 더함. Google Places 단계는 2026-10-06 요청으로 뺐다, 키 KAKAO_REST_KEY 서버 전용):
 //      (a) 카카오 로컬 키워드 검색(dapi.kakao.com/v2/local/search/keyword)으로 장소 좌표 500m 안, 이름이 맞는 카카오맵 장소를 찾는다
 //      (b) 그 장소의 카카오맵 대표 사진(place.map.kakao.com 장소 정보의 mainphotourl, 공개 문서가 없는 주소라 실패하면 건너뛴다)
 //      (c) 대표 사진이 없으면 카카오 이미지 검색(dapi.kakao.com/v2/search/image)을 「카카오맵 장소 이름 + 동」으로 좁혀 가로 500 · 세로 300px 이상 첫 사진.
@@ -410,7 +407,7 @@ async function kakaoGet(url: string, key?: string): Promise<unknown> {
   }
 }
 
-/** ⑦ 카카오맵 기반 사진. 카카오맵에서 같은 장소를 못 찾으면 null */
+/** ⑥ 카카오맵 기반 사진. 카카오맵에서 같은 장소를 못 찾으면 null */
 async function kakaoPhoto(place: TourPlace): Promise<TourPhoto | null> {
   const key = kakaoRestKey();
   if (!key || !place.lat || !place.lng) return null;
@@ -546,116 +543,7 @@ async function khsPhoto(place: TourPlace): Promise<string | null> {
   return img ? pickKhsImage(img) : null;
 }
 
-// ── ⑥ Google Places ──────────────────────────────────────────────
-
-/** Google Maps Platform 키(서버 전용). 없으면 null */
-export function googleMapsKey(): string | null {
-  const key = process.env.GOOGLE_MAPS_API_KEY?.trim();
-  return key ? key : null;
-}
-const GOOGLE_RADIUS_M = 500;
-export const GOOGLE_TEXT_SEARCH =
-  "https://places.googleapis.com/v1/places:searchText";
-
-/** Text Search 요청 본문(장소 좌표 500m로 치우침, 한국어) */
-export function googleSearchBody(name: string, lat: number, lng: number) {
-  return {
-    textQuery: name,
-    languageCode: "ko",
-    maxResultCount: 10,
-    locationBias: {
-      circle: {
-        center: { latitude: lat, longitude: lng },
-        radius: GOOGLE_RADIUS_M,
-      },
-    },
-  };
-}
-
-/** Text Search 결과에서 같은 장소의 첫 사진: 이름이 서로를 품고 500m 안, 가까운 순. { photo: 사진 리소스 이름, author } */
-export function pickGooglePhoto(
-  body: unknown,
-  place: Pick<TourPlace, "ko" | "lat" | "lng">,
-): { photo: string; author?: string } | null {
-  const key = photoName(place.ko);
-  if (key.length < 2) return null;
-  const list = ((body as { places?: unknown[] } | null)?.places ?? []) as {
-    displayName?: { text?: unknown };
-    location?: { latitude?: unknown; longitude?: unknown };
-    photos?: {
-      name?: unknown;
-      authorAttributions?: { displayName?: unknown }[];
-    }[];
-  }[];
-  const hits = list.flatMap((p) => {
-    const t = photoName(p.displayName?.text);
-    if (t.length < 2 || !(t.includes(key) || key.includes(t))) return [];
-    const lat = Number(p.location?.latitude);
-    const lng = Number(p.location?.longitude);
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return [];
-    const d = km(place.lat, place.lng, lat, lng) * 1000;
-    const ph = p.photos?.[0];
-    if (d > GOOGLE_RADIUS_M || !ph?.name) return [];
-    const author = plainText(ph.authorAttributions?.[0]?.displayName);
-    return [{ photo: String(ph.name), d, ...(author ? { author } : {}) }];
-  });
-  hits.sort((a, b) => a.d - b.d);
-  const h = hits[0];
-  return h
-    ? { photo: h.photo, ...(h.author ? { author: h.author } : {}) }
-    : null;
-}
-
-/** 사진 리소스의 주소를 받는 요청(skipHttpRedirect=true면 JSON { photoUri }로 키 없는 주소를 준다) */
-export function googlePhotoMediaUrl(photo: string, key: string): string {
-  const q = new URLSearchParams({
-    maxWidthPx: "800",
-    skipHttpRedirect: "true",
-    key,
-  });
-  return `https://places.googleapis.com/v1/${photo}/media?${q}`;
-}
-
-/** ⑥ Google Places 사진. Google 약관상 장소 내용은 저장하지 않아 이 단계는 캐시하지 않는다 */
-async function googlePhoto(
-  place: TourPlace,
-): Promise<Omit<TourPhoto, "source"> | null> {
-  const key = googleMapsKey();
-  if (!key || !place.lat || !place.lng) return null;
-  const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
-  if (name.length < 2) return null;
-  try {
-    const res = await fetch(GOOGLE_TEXT_SEARCH, {
-      method: "POST",
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": key,
-        "X-Goog-FieldMask": "places.displayName,places.location,places.photos",
-      },
-      body: JSON.stringify(googleSearchBody(name, place.lat, place.lng)),
-      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
-    });
-    if (!res.ok) return null;
-    const pick = pickGooglePhoto(await res.json(), place);
-    if (!pick) return null;
-    const media = await fetch(googlePhotoMediaUrl(pick.photo, key), {
-      cache: "no-store",
-      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
-    });
-    if (!media.ok) return null;
-    const uri = httpsPhoto(
-      String(((await media.json()) as { photoUri?: unknown }).photoUri ?? ""),
-    );
-    return uri
-      ? { src: uri, ...(pick.author ? { author: pick.author } : {}) }
-      : null;
-  } catch {
-    return null;
-  }
-}
-
-/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 국가유산청 · Google · 카카오맵까지 본다) */
+/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 국가유산청 · 카카오맵까지 본다) */
 export async function findPhoto(
   place: TourPlace,
   key: string | null,
@@ -709,8 +597,6 @@ export async function findPhoto(
     };
   const khs = await khsPhoto(place);
   if (khs) return { src: khs, source: "khs" };
-  const google = await googlePhoto(place);
-  if (google) return { ...google, source: "google" };
   return kakaoPhoto(place);
 }
 
