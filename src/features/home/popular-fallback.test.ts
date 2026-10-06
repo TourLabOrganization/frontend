@@ -4,11 +4,11 @@ import { POPULAR_CITIES } from "../../lib/tour";
 import { POPULAR_FALLBACK, popularFallback } from "./popular-fallback";
 
 describe("인기 관광지 수기 목록 (scripts/build-popular-fallback.mjs)", () => {
-  it("홈 칩 도시 10곳마다 10곳, 모두 그 도시의 플래너 장소(숙박 제외)이고 겹치지 않는다", () => {
+  it("홈 칩 도시마다 10곳, 모두 그 도시의 플래너 장소(숙박 제외)이고 겹치지 않는다", () => {
     const byId = new Map(PLANNER_PLACES.map((p) => [p.id, p]));
-    expect(Object.keys(POPULAR_FALLBACK.cities).sort()).toEqual(
-      [...POPULAR_CITIES].sort(),
-    );
+    // 칩 도시는 모두 수기 목록이 있다(춘천은 칩에서 빠졌지만 목록은 남아 있다, 2026-10-06)
+    for (const c of POPULAR_CITIES)
+      expect(Object.keys(POPULAR_FALLBACK.cities)).toContain(c);
     expect(POPULAR_FALLBACK.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     for (const city of POPULAR_CITIES) {
       const list = popularFallback(city);

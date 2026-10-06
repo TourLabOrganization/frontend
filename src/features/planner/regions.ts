@@ -81,12 +81,14 @@ export const PLANNER_ORIGINS = regionsData.origins as Readonly<
 /** 지역 탭에 따로 칸이 있는 도시 (목업: 전국 · 서울 · 부산 · 제주 · 도시 ▾) */
 export const FEATURED_CITIES = ["서울", "부산", "제주"] as const;
 
-/** 도시 고르기에서 칩을 강조하는 주요 도시 (Tour Planner.dc.html cityGroups GOLD) */
+/** 도시 고르기에서 칩을 강조하는 주요 도시 (Tour Planner.dc.html cityGroups GOLD, 속초 · 대구는 2026-10-06 요청) */
 export const MAJOR_CITIES: ReadonlySet<string> = new Set([
   "서울",
   "인천",
+  "속초",
   "강릉",
   "경주",
+  "대구",
   "부산",
   "전주",
   "제주",

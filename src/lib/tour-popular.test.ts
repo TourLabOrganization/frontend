@@ -2,7 +2,11 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { PLANNER_PLACES } from "../features/planner/data";
 import { tourPlaceSigngu } from "./tour-api";
 import { isPlannerCity } from "../features/planner/regions";
-import { POPULAR_CITIES } from "./tour";
+import {
+  POPULAR_CITIES,
+  POPULAR_SEARCH_CITIES,
+  POPULAR_SEARCH_MIN_PLACES,
+} from "./tour";
 import {
   citySigngu,
   POPULAR_DISTRICTS,
@@ -40,6 +44,24 @@ describe("도시 · 시군구", () => {
     expect(isPopularCity("평양")).toBe(false);
   });
 
+  it("검색칸 도시 = 관광지(숙박 제외) 50곳 이상인 도시, 많은 순. 칩 도시를 모두 품고 춘천은 없다(2026-10-06)", () => {
+    const counts = new Map<string, number>();
+    for (const p of PLANNER_PLACES)
+      if (p.cat !== "stay") counts.set(p.locKo, (counts.get(p.locKo) ?? 0) + 1);
+    const expected = [...counts.entries()]
+      .filter(([, n]) => n >= POPULAR_SEARCH_MIN_PLACES)
+      .sort((a, b) => b[1] - a[1])
+      .map(([c]) => c);
+    expect([...POPULAR_SEARCH_CITIES].sort()).toEqual([...expected].sort());
+    for (const c of POPULAR_CITIES) expect(POPULAR_SEARCH_CITIES).toContain(c);
+    for (const c of POPULAR_SEARCH_CITIES) {
+      expect(isPopularCity(c), c).toBe(true);
+      expect(citySigngu(c).length, c).toBeGreaterThan(0);
+    }
+    expect(POPULAR_CITIES).not.toContain("춘천");
+    expect(isPopularCity("춘천")).toBe(false);
+  });
+
   it("도시마다 장소가 많은 시군구 최대 4곳(5곳 이상)", () => {
     for (const c of POPULAR_CITIES) {
       const codes = citySigngu(c);
@@ -58,9 +80,9 @@ describe("도시 · 시군구", () => {
     ]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
     expect(citySigngu("인천")).toHaveLength(4);
-    // 대구 · 춘천(2026-10-04 추가): 대구는 달성 · 군위 · 수성 · 달서를 못 박았다(POPULAR_DISTRICTS), 춘천은 시 하나
+    // 대구(2026-10-04 추가): 달성 · 군위 · 수성 · 달서를 못 박았다(POPULAR_DISTRICTS)
     expect(citySigngu("대구")).toEqual(["27710", "27720", "27260", "27290"]);
-    expect(citySigngu("춘천")).toEqual(["51110"]);
+    // 여수는 칩이 아니라 검색칸으로 고른다
     expect(POPULAR_CITIES).not.toContain("여수");
     expect(citySigngu("없는도시")).toEqual([]);
   });
