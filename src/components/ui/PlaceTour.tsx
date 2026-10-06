@@ -154,6 +154,13 @@ function TourHeader({
  * 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다). 한 건이 끝나면 다음 카드로 이어서 재생하고(AudioCards),
  * 잠금 화면 · 이어폰 버튼으로 재생 · 일시정지 · 다음 · 이전을 할 수 있다(Media Session, audio-session.ts)
  */
+/** 해설 출처 → 출처 표기 문구 키 */
+const AUDIO_SOURCE = {
+  odii: "sourceOdii",
+  khs: "sourceKhs",
+  story: "sourceStory",
+} as const satisfies Record<TourAudio["source"], string>;
+
 function AudioGuide({ id }: { id: string }) {
   const t = useTranslations("PlaceSheet.tour.audio");
   const locale = useLocale();
@@ -180,7 +187,7 @@ function AudioGuide({ id }: { id: string }) {
           <AudioCards cards={cards} />
         )}
         <p className="mt-1 text-micro text-fg-subtle">
-          {audio.source === "odii" ? t("sourceOdii") : t("sourceStory")}
+          {t(AUDIO_SOURCE[audio.source])}
         </p>
       </div>
     </section>
@@ -263,6 +270,7 @@ function AudioCard({
   const long = folded !== audio.script;
   const album = t("title");
   const odii = t("sourceOdii");
+  const khs = t("sourceKhs");
   const story = t("sourceStory");
 
   useEffect(() => {
@@ -277,14 +285,18 @@ function AudioCard({
     const session = mediaSessionOf();
     if (!el || !session) return;
     const onPlay = () => {
-      applyMediaSession(session, audioMetadata(audio, { album, odii, story }), {
-        play: () => {
-          el.play().catch(() => {});
+      applyMediaSession(
+        session,
+        audioMetadata(audio, { album, odii, khs, story }),
+        {
+          play: () => {
+            el.play().catch(() => {});
+          },
+          pause: () => el.pause(),
+          next: onNext,
+          prev: onPrev,
         },
-        pause: () => el.pause(),
-        next: onNext,
-        prev: onPrev,
-      });
+      );
       setPlaybackState(session, "playing");
     };
     const onPause = () => setPlaybackState(session, "paused");
@@ -297,7 +309,7 @@ function AudioCard({
       el.removeEventListener("pause", onPause);
       clearMediaSession(session);
     };
-  }, [audio, onNext, onPrev, album, odii, story]);
+  }, [audio, onNext, onPrev, album, odii, khs, story]);
 
   return (
     <>

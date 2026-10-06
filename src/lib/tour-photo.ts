@@ -5,7 +5,12 @@
 //   ③ 한국어 위키백과 요약(REST page/summary)의 대표 이미지(PoC tryOne). 키가 없어도 부른다
 //   ④ 위키미디어 공용(Wikimedia Commons) 좌표 검색(앱에서 더한 단계, PoC에 없다): 장소 좌표 300m 안 파일 중
 //      파일 이름에 장소 이름(한국어 · 영어)이 든 사진, 가까운 순. 자유 라이선스라 작성자 · 라이선스를 함께 돌려주고 화면에 적는다.
-//   ⑤ 카카오맵 기반(2026-10-05 요청으로 마지막 단계에 더함, 키 KAKAO_REST_KEY 서버 전용):
+//   ⑤ 국가유산청 국가유산 검색 · 이미지 오픈 API(키 없음, 국가유산 장소(herit)만): 이름으로 목록을 찾고(SearchKindOpenapiList)
+//      이름이 서로를 품고 좌표 2km 안(좌표가 있으면)인 가장 가까운 국가유산의 첫 이미지(SearchImageOpenapi). 출처 「국가유산청」(공공누리)
+//   ⑥ Google Places API(New)(키 GOOGLE_MAPS_API_KEY 서버 전용, 유료 · 무료 한도 있음): Text Search를 장소 좌표 500m로 치우쳐 부르고
+//      이름이 서로를 품고 500m 안인 장소의 첫 사진. 사진 주소는 skipHttpRedirect로 받은 photoUri(키가 들어가지 않는 주소)를 쓴다.
+//      출처 「Google 지도 · 사진 올린 사람」(Google 표시 의무). Google 약관상 장소 내용은 오래 저장하지 않는다(이 단계만 캐시하지 않는다)
+//   ⑦ 카카오맵 기반(2026-10-05 요청으로 마지막 단계에 더함, 키 KAKAO_REST_KEY 서버 전용):
 //      (a) 카카오 로컬 키워드 검색(dapi.kakao.com/v2/local/search/keyword)으로 장소 좌표 500m 안, 이름이 맞는 카카오맵 장소를 찾는다
 //      (b) 그 장소의 카카오맵 대표 사진(place.map.kakao.com 장소 정보의 mainphotourl, 공개 문서가 없는 주소라 실패하면 건너뛴다)
 //      (c) 대표 사진이 없으면 카카오 이미지 검색(dapi.kakao.com/v2/search/image)을 「카카오맵 장소 이름 + 동」으로 좁혀 가로 500 · 세로 300px 이상 첫 사진.
@@ -405,7 +410,7 @@ async function kakaoGet(url: string, key?: string): Promise<unknown> {
   }
 }
 
-/** ⑤ 카카오맵 기반 사진. 카카오맵에서 같은 장소를 못 찾으면 null */
+/** ⑦ 카카오맵 기반 사진. 카카오맵에서 같은 장소를 못 찾으면 null */
 async function kakaoPhoto(place: TourPlace): Promise<TourPhoto | null> {
   const key = kakaoRestKey();
   if (!key || !place.lat || !place.lng) return null;
@@ -430,7 +435,290 @@ async function kakaoPhoto(place: TourPlace): Promise<TourPhoto | null> {
     : null;
 }
 
-/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 카카오맵까지 본다) */
+// ── ⑤ 국가유산청 ─────────────────────────────────────────────────
+
+/** 국가유산청 오픈 API 주인(키 없음). KHS_API_BASE는 로컬에서 가짜 서버로 화면을 확인할 때만 쓴다(운영은 비워 둔다) */
+const KHS = () =>
+  process.env.KHS_API_BASE?.trim() || "https://www.khs.go.kr/cha";
+/** 국가유산청: 좌표가 있을 때 장소와 국가유산 사이 최대 거리(km) */
+const KHS_MAX_KM = 2;
+
+/** 국가유산 이름 검색 주소 */
+export function khsListUrl(name: string): string {
+  const q = new URLSearchParams({
+    ccbaMnm1: name,
+    pageUnit: "20",
+    pageIndex: "1",
+  });
+  return `${KHS()}/SearchKindOpenapiList.do?${q}`;
+}
+
+/** 국가유산 이미지 주소(종목 · 지정번호 · 시도 코드) */
+export function khsImageUrl(kdcd: string, asno: string, ctcd: string): string {
+  const q = new URLSearchParams({
+    ccbaKdcd: kdcd,
+    ccbaAsno: asno,
+    ccbaCtcd: ctcd,
+  });
+  return `${KHS()}/SearchImageOpenapi.do?${q}`;
+}
+
+/** 국가유산 상세 주소(종목 · 지정번호 · 시도 코드). 설명문(content)이 들어 있다 */
+export function khsDetailUrl(kdcd: string, asno: string, ctcd: string): string {
+  const q = new URLSearchParams({
+    ccbaKdcd: kdcd,
+    ccbaAsno: asno,
+    ccbaCtcd: ctcd,
+  });
+  return `${KHS()}/SearchKindOpenapiDt.do?${q}`;
+}
+
+/** XML 조각에서 태그 값(CDATA 포함). 없으면 빈 값 */
+function xmlTag(xml: string, tag: string): string {
+  const m = xml.match(
+    new RegExp(`<${tag}>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?</${tag}>`),
+  );
+  return m ? m[1].trim() : "";
+}
+const xmlItems = (xml: string) => xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
+
+export type KhsHeritage = {
+  kdcd: string;
+  asno: string;
+  ctcd: string;
+  name: string;
+};
+
+/** 국가유산 검색 결과(XML)에서 같은 장소 고르기: 이름이 서로를 품고, 좌표가 있으면 2km 안, 가까운 순(좌표 없으면 검색 순) */
+export function pickKhsHeritage(
+  xml: string,
+  place: Pick<TourPlace, "ko" | "lat" | "lng">,
+): KhsHeritage | null {
+  const key = photoName(place.ko);
+  if (key.length < 2) return null;
+  const hits = xmlItems(xml).flatMap((it, i) => {
+    const name = xmlTag(it, "ccbaMnm1");
+    const t = photoName(name);
+    if (t.length < 2 || !(t.includes(key) || key.includes(t))) return [];
+    const lat = Number(xmlTag(it, "latitude"));
+    const lng = Number(xmlTag(it, "longitude"));
+    const d =
+      lat && lng && place.lat ? km(place.lat, place.lng, lat, lng) : null;
+    if (d !== null && d > KHS_MAX_KM) return [];
+    return [
+      {
+        kdcd: xmlTag(it, "ccbaKdcd"),
+        asno: xmlTag(it, "ccbaAsno"),
+        ctcd: xmlTag(it, "ccbaCtcd"),
+        name,
+        d: d ?? 1e6 + i,
+      },
+    ];
+  });
+  hits.sort((a, b) => a.d - b.d);
+  const h = hits.find((x) => x.kdcd && x.asno && x.ctcd);
+  return h ? { kdcd: h.kdcd, asno: h.asno, ctcd: h.ctcd, name: h.name } : null;
+}
+
+/** 국가유산 이미지 결과(XML)의 첫 사진 주소(https로) */
+export function pickKhsImage(xml: string): string | null {
+  for (const v of xml.match(/<imageUrl>[\s\S]*?<\/imageUrl>/g) ?? []) {
+    const src = httpsPhoto(xmlTag(v, "imageUrl"));
+    if (src && !/\.svg(\?|$)/i.test(src)) return src;
+  }
+  return null;
+}
+
+async function getText(
+  url: string,
+  init: RequestInit = {},
+): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      ...init,
+      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
+      ...(init.cache || init.next
+        ? {}
+        : { next: { revalidate: TOUR_PHOTO_SECONDS } }),
+    });
+    return res.ok ? await res.text() : null;
+  } catch {
+    return null;
+  }
+}
+
+/** 장소와 같은 국가유산(국가유산 장소만, 이름 검색 → pickKhsHeritage). 사진(⑤)과 오디오 가이드 설명문이 함께 쓴다 */
+export async function khsHeritageFor(
+  place: TourPlace,
+  revalidate: number = TOUR_PHOTO_SECONDS,
+): Promise<KhsHeritage | null> {
+  if (place.cat !== "herit") return null;
+  const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
+  if (name.length < 2) return null;
+  const list = await getText(khsListUrl(name), { next: { revalidate } });
+  return list ? pickKhsHeritage(list, place) : null;
+}
+
+/** HTML 조각 → 글자(태그 · 엔티티를 풀고 문단은 줄바꿈 하나로, 길이 제한 없음) */
+function htmlText(html: string): string {
+  return html
+    .replace(/<br\s*\/?>|<\/p>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/[ \t\u00a0]+/g, " ")
+    .replace(/ *\n[\s]*/g, "\n")
+    .trim();
+}
+
+/** 국가유산 상세(XML) → 이름 · 종목 · 설명문. 설명문이 없으면 null */
+export function pickKhsDescription(
+  xml: string,
+): { name: string; kind: string; content: string } | null {
+  const content = htmlText(xmlTag(xml, "content"));
+  if (!content) return null;
+  return {
+    name: htmlText(xmlTag(xml, "ccbaMnm1")),
+    kind: htmlText(xmlTag(xml, "ccmaName")),
+    content,
+  };
+}
+
+/** 국가유산 설명문(국가유산 장소만). 없으면 null */
+export async function khsDescription(
+  place: TourPlace,
+  revalidate: number,
+): Promise<{ name: string; kind: string; content: string } | null> {
+  const h = await khsHeritageFor(place, revalidate);
+  if (!h) return null;
+  const xml = await getText(khsDetailUrl(h.kdcd, h.asno, h.ctcd), {
+    next: { revalidate },
+  });
+  return xml ? pickKhsDescription(xml) : null;
+}
+
+/** ⑤ 국가유산청 사진(국가유산 장소만) */
+async function khsPhoto(place: TourPlace): Promise<string | null> {
+  const h = await khsHeritageFor(place);
+  if (!h) return null;
+  const img = await getText(khsImageUrl(h.kdcd, h.asno, h.ctcd));
+  return img ? pickKhsImage(img) : null;
+}
+
+// ── ⑥ Google Places ──────────────────────────────────────────────
+
+/** Google Maps Platform 키(서버 전용). 없으면 null */
+export function googleMapsKey(): string | null {
+  const key = process.env.GOOGLE_MAPS_API_KEY?.trim();
+  return key ? key : null;
+}
+const GOOGLE_RADIUS_M = 500;
+export const GOOGLE_TEXT_SEARCH =
+  "https://places.googleapis.com/v1/places:searchText";
+
+/** Text Search 요청 본문(장소 좌표 500m로 치우침, 한국어) */
+export function googleSearchBody(name: string, lat: number, lng: number) {
+  return {
+    textQuery: name,
+    languageCode: "ko",
+    maxResultCount: 10,
+    locationBias: {
+      circle: {
+        center: { latitude: lat, longitude: lng },
+        radius: GOOGLE_RADIUS_M,
+      },
+    },
+  };
+}
+
+/** Text Search 결과에서 같은 장소의 첫 사진: 이름이 서로를 품고 500m 안, 가까운 순. { photo: 사진 리소스 이름, author } */
+export function pickGooglePhoto(
+  body: unknown,
+  place: Pick<TourPlace, "ko" | "lat" | "lng">,
+): { photo: string; author?: string } | null {
+  const key = photoName(place.ko);
+  if (key.length < 2) return null;
+  const list = ((body as { places?: unknown[] } | null)?.places ?? []) as {
+    displayName?: { text?: unknown };
+    location?: { latitude?: unknown; longitude?: unknown };
+    photos?: {
+      name?: unknown;
+      authorAttributions?: { displayName?: unknown }[];
+    }[];
+  }[];
+  const hits = list.flatMap((p) => {
+    const t = photoName(p.displayName?.text);
+    if (t.length < 2 || !(t.includes(key) || key.includes(t))) return [];
+    const lat = Number(p.location?.latitude);
+    const lng = Number(p.location?.longitude);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return [];
+    const d = km(place.lat, place.lng, lat, lng) * 1000;
+    const ph = p.photos?.[0];
+    if (d > GOOGLE_RADIUS_M || !ph?.name) return [];
+    const author = plainText(ph.authorAttributions?.[0]?.displayName);
+    return [{ photo: String(ph.name), d, ...(author ? { author } : {}) }];
+  });
+  hits.sort((a, b) => a.d - b.d);
+  const h = hits[0];
+  return h
+    ? { photo: h.photo, ...(h.author ? { author: h.author } : {}) }
+    : null;
+}
+
+/** 사진 리소스의 주소를 받는 요청(skipHttpRedirect=true면 JSON { photoUri }로 키 없는 주소를 준다) */
+export function googlePhotoMediaUrl(photo: string, key: string): string {
+  const q = new URLSearchParams({
+    maxWidthPx: "800",
+    skipHttpRedirect: "true",
+    key,
+  });
+  return `https://places.googleapis.com/v1/${photo}/media?${q}`;
+}
+
+/** ⑥ Google Places 사진. Google 약관상 장소 내용은 저장하지 않아 이 단계는 캐시하지 않는다 */
+async function googlePhoto(
+  place: TourPlace,
+): Promise<Omit<TourPhoto, "source"> | null> {
+  const key = googleMapsKey();
+  if (!key || !place.lat || !place.lng) return null;
+  const name = place.ko.replace(/\s*\(.*?\)\s*/g, "").trim();
+  if (name.length < 2) return null;
+  try {
+    const res = await fetch(GOOGLE_TEXT_SEARCH, {
+      method: "POST",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": key,
+        "X-Goog-FieldMask": "places.displayName,places.location,places.photos",
+      },
+      body: JSON.stringify(googleSearchBody(name, place.lat, place.lng)),
+      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
+    });
+    if (!res.ok) return null;
+    const pick = pickGooglePhoto(await res.json(), place);
+    if (!pick) return null;
+    const media = await fetch(googlePhotoMediaUrl(pick.photo, key), {
+      cache: "no-store",
+      signal: AbortSignal.timeout(TOUR_TIMEOUT_MS),
+    });
+    if (!media.ok) return null;
+    const uri = httpsPhoto(
+      String(((await media.json()) as { photoUri?: unknown }).photoUri ?? ""),
+    );
+    return uri
+      ? { src: uri, ...(pick.author ? { author: pick.author } : {}) }
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+/** 장소의 대표 사진을 찾는다. 공공데이터포털 실패는 다음 단계로 넘어간다(한 곳이 막혀도 위키백과 · 위키미디어 공용 · 국가유산청 · Google · 카카오맵까지 본다) */
 export async function findPhoto(
   place: TourPlace,
   key: string | null,
@@ -482,6 +770,10 @@ export async function findPhoto(
       ...(commons.author ? { author: commons.author } : {}),
       ...(commons.license ? { license: commons.license } : {}),
     };
+  const khs = await khsPhoto(place);
+  if (khs) return { src: khs, source: "khs" };
+  const google = await googlePhoto(place);
+  if (google) return { ...google, source: "google" };
   return kakaoPhoto(place);
 }
 

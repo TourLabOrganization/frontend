@@ -3,13 +3,15 @@
 // 한국어 이름으로 이야기 검색(storySearchList) → 대본이 있고 좌표가 ±0.12도 안인 것 중 이름이 겹치는 것, 없으면 그 첫째.
 // 외국어 화면은 이름이 언어마다 달라(우리 영어 이름 Hwangnidan-gil ↔ 오디 Hwanglidan-gil) 오디 관광지 번호 tid로 잇는다(foreignAudio).
 // 언어 코드는 2026-09-29 실제 호출로 확인한 값이다(ODII_LANG).
-// 한국어 화면은 오디 결과가 없으면 한국관광공사 관광 스토리텔링(PoC STORY_DB · d_story*, data/stories.json)으로 대신한다.
+// 한국어 화면은 오디 결과가 없으면 한국관광공사 관광 스토리텔링(PoC STORY_DB · d_story*, data/stories.json) →
+// 국가유산청 국가유산 설명문(국가유산 장소만, 키 없음, 2026-10-06) 차례로 대신한다.
 // PoC는 대본만 보였지만 요청이 「오디오북」이라 응답의 음성 주소(audioUrl)로 재생한다.
 import { loadNameTable } from "../features/names/server";
 import storiesData from "../features/planner/data/stories.json";
 import type { AppLocale } from "../i18n/locales";
 import { hasHangul } from "./hangul";
 import { type TourAudio, TOUR_DAY_SECONDS } from "./tour";
+import { khsDescription } from "./tour-photo";
 import {
   fetchTourItems,
   fetchTourPage,
@@ -354,6 +356,20 @@ export function storyFor(ko: string): TourAudio | null {
   return { title: t, script: s, source: "story" };
 }
 
+/**
+ * 국가유산청 국가유산 설명문(한국어 화면, 국가유산 장소만). 사진 ⑤와 같은 기준(이름이 서로를 품고 2km 안)으로 국가유산을 고르고
+ * 상세(SearchKindOpenapiDt)의 설명문(content)을 대본으로 쓴다. 음성 파일은 없다. 없거나 실패면 null
+ */
+export async function khsAudio(place: TourPlace): Promise<TourAudio | null> {
+  try {
+    const d = await khsDescription(place, TOUR_DAY_SECONDS);
+    if (!d) return null;
+    return { title: d.name || place.ko, script: d.content, source: "khs" };
+  } catch {
+    return null;
+  }
+}
+
 /** 외국어 화면은 제목 · 대본에 한글이 섞이면 버린다(docs/i18n.md 외국어 화면 한글 0). 한국어 화면은 그대로 */
 export function audioForLocale(
   audio: TourAudio | null,
@@ -375,14 +391,15 @@ export async function tourAudioResponse(request: Request): Promise<Response> {
   const query = await parseTourQuery(request, true);
   if ("error" in query) return query.error;
   const { place, locale } = query;
-  // 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 스토리텔링을 보인다(PoC d_storyShow)
-  const story = locale === "ko" ? storyFor(place.ko) : null;
+  // 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 스토리텔링(PoC d_storyShow) → 국가유산 설명문을 보인다
+  const fallback = async () =>
+    locale === "ko" ? (storyFor(place.ko) ?? (await khsAudio(place))) : null;
   const key = tourApiKey();
-  // 키가 없으면: 한국어 화면은 스토리텔링 또는 결과 없음(스토리텔링은 키 없이 보이는 칸이라 장소 시트가 키 없이도 부른다,
+  // 키가 없으면: 한국어 화면은 스토리텔링 · 국가유산 설명문 또는 결과 없음(둘 다 키 없이 보이는 칸이라 장소 시트가 키 없이도 부른다,
   // components/ui/tour-api-context.tsx), 외국어 화면은 503. 키가 생기면 바로 바뀌게 캐시하지 않는다
   if (!key) {
     if (locale !== "ko") return tourNotConfigured();
-    return tourJson(story ?? { empty: true }, 0);
+    return tourJson((await fallback()) ?? { empty: true }, 0);
   }
   let audio: TourAudio | null;
   try {
@@ -395,9 +412,13 @@ export async function tourAudioResponse(request: Request): Promise<Response> {
       });
     } else audio = await foreignAudio(key, place, locale);
   } catch {
-    return story ? tourJson(story, 0) : tourUnavailable();
+    const other = await fallback();
+    return other ? tourJson(other, 0) : tourUnavailable();
   }
-  return tourJson(audio ?? story ?? { empty: true }, TOUR_DAY_SECONDS);
+  return tourJson(
+    audio ?? (await fallback()) ?? { empty: true },
+    TOUR_DAY_SECONDS,
+  );
 }
 
 /**

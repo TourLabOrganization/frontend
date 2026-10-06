@@ -399,6 +399,58 @@ describe("GET /api/tour/audio", () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
+  /** 국가유산청 응답(검색 · 상세)을 흉내 낸다. 모양은 tour-photo.test.ts 국가유산청(⑤)과 같다. 그 밖의 주소는 오디 빈 응답 */
+  function stubKhs(content: string) {
+    const asked: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: string) => {
+        const url = new URL(input);
+        asked.push(`${url.host}${url.pathname}`);
+        if (url.pathname.endsWith("/SearchKindOpenapiList.do"))
+          return new Response(
+            "<result><item><ccbaKdcd>13</ccbaKdcd><ccbaAsno>00030000</ccbaAsno><ccbaCtcd>35</ccbaCtcd>" +
+              "<ccbaMnm1><![CDATA[전주 경기전]]></ccbaMnm1><latitude>35.8153</latitude><longitude>127.1498</longitude></item></result>",
+          );
+        if (url.pathname.endsWith("/SearchKindOpenapiDt.do"))
+          return new Response(
+            `<result><item><ccmaName>사적</ccmaName><ccbaMnm1><![CDATA[전주 경기전]]></ccbaMnm1><content><![CDATA[${content}]]></content></item></result>`,
+          );
+        return Response.json(emptyRes);
+      }),
+    );
+    return asked;
+  }
+
+  it("한국어 화면 · 국가유산 장소: 오디 · 스토리텔링이 없으면 국가유산청 설명문(키 없어도)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "");
+    const asked = stubKhs("경기전 설명문.");
+    const res = await call("id=nax110&locale=ko");
+    expect(await res.json()).toEqual({
+      title: "전주 경기전",
+      script: "경기전 설명문.",
+      source: "khs",
+    });
+    expect(asked).toEqual([
+      "www.khs.go.kr/cha/SearchKindOpenapiList.do",
+      "www.khs.go.kr/cha/SearchKindOpenapiDt.do",
+    ]);
+    // 키가 있어도 오디가 비면 같은 설명문
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    stubKhs("경기전 설명문.");
+    expect(await (await call("id=nax110&locale=ko")).json()).toMatchObject({
+      source: "khs",
+    });
+    // 설명문이 비면 결과 없음, 외국어 화면은 부르지 않는다(한국어뿐)
+    stubKhs("");
+    expect(await (await call("id=nax110&locale=ko")).json()).toEqual({
+      empty: true,
+    });
+    const en = stubKhs("경기전 설명문.");
+    await call("id=nax110&locale=en");
+    expect(en.some((x) => x.startsWith("www.khs.go.kr"))).toBe(false);
+  });
+
   it("id · 언어가 없거나 틀리면 400, 모르는 장소는 404", async () => {
     vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
     expect((await call("locale=ko")).status).toBe(400);

@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   commonsUrl,
+  googlePhotoMediaUrl,
+  googleSearchBody,
+  khsDetailUrl,
+  khsImageUrl,
+  khsListUrl,
   httpsPhoto,
   kakaoImageUrl,
   kakaoLocalUrl,
@@ -8,6 +13,10 @@ import {
   photoName,
   pickCommonsImage,
   pickGalleryImage,
+  pickGooglePhoto,
+  pickKhsDescription,
+  pickKhsHeritage,
+  pickKhsImage,
   pickKakaoImage,
   pickKakaoMapPhoto,
   pickKakaoPlace,
@@ -295,5 +304,101 @@ describe("카카오맵 기반(⑤)", () => {
     expect(kakaoPlaceInfoUrl("123")).toBe(
       "https://place.map.kakao.com/main/v/123",
     );
+  });
+});
+
+describe("국가유산청(⑤)", () => {
+  const item = (name: string, lat: string, lng: string, asno = "00010000") =>
+    `<item><ccbaKdcd>13</ccbaKdcd><ccbaAsno>${asno}</ccbaAsno><ccbaCtcd>35</ccbaCtcd><ccbaMnm1><![CDATA[${name}]]></ccbaMnm1><latitude>${lat}</latitude><longitude>${lng}</longitude></item>`;
+  const site = { ko: "전주 경기전", lat: 35.8153, lng: 127.1498 };
+
+  it("이름이 서로를 품고 2km 안인 가장 가까운 국가유산(좌표 0이면 검색 순)", () => {
+    const xml = `<result>${item("전주 경기전 정전", "35.8155", "127.1500", "A")}${item("전주 경기전", "36.5", "127.1", "B")}${item("다른 절", "35.8153", "127.1498", "C")}</result>`;
+    expect(pickKhsHeritage(xml, site)).toEqual({
+      kdcd: "13",
+      asno: "A",
+      ctcd: "35",
+      name: "전주 경기전 정전",
+    });
+    expect(
+      pickKhsHeritage(
+        `<result>${item("전주 경기전", "0", "0", "D")}</result>`,
+        site,
+      )?.asno,
+    ).toBe("D");
+    expect(pickKhsHeritage("<result></result>", site)).toBeNull();
+  });
+
+  it("이미지는 https 첫 사진, 호출 주소", () => {
+    expect(
+      pickKhsImage(
+        "<result><item><imageUrl>http://www.khs.go.kr/unisearch/images/a.jpg</imageUrl></item></result>",
+      ),
+    ).toBe("https://www.khs.go.kr/unisearch/images/a.jpg");
+    expect(pickKhsImage("<result></result>")).toBeNull();
+    expect(new URL(khsListUrl("경기전")).searchParams.get("ccbaMnm1")).toBe(
+      "경기전",
+    );
+    expect(new URL(khsImageUrl("13", "A", "35")).pathname).toBe(
+      "/cha/SearchImageOpenapi.do",
+    );
+  });
+
+  it("상세 설명문: CDATA · 태그 · 엔티티를 풀고 문단은 줄바꿈 하나로, 설명문이 없으면 null", () => {
+    const u = new URL(khsDetailUrl("13", "A", "35"));
+    expect(u.pathname).toBe("/cha/SearchKindOpenapiDt.do");
+    expect(u.searchParams.get("ccbaAsno")).toBe("A");
+    const xml =
+      "<result><item><ccmaName>사적</ccmaName><ccbaMnm1><![CDATA[전주 경기전]]></ccbaMnm1>" +
+      "<content><![CDATA[첫 문단&nbsp; 입니다.<br/><br>  둘째 &lt;문단&gt; &amp; 끝.]]></content></item></result>";
+    expect(pickKhsDescription(xml)).toEqual({
+      name: "전주 경기전",
+      kind: "사적",
+      content: "첫 문단 입니다.\n둘째 <문단> & 끝.",
+    });
+    expect(
+      pickKhsDescription("<result><item><content></content></item></result>"),
+    ).toBeNull();
+  });
+});
+
+describe("Google Places(⑥)", () => {
+  const gp = (
+    text: string,
+    lat: number,
+    lng: number,
+    photo = "places/x/photos/p1",
+  ) => ({
+    displayName: { text },
+    location: { latitude: lat, longitude: lng },
+    photos: [{ name: photo, authorAttributions: [{ displayName: "Lee" }] }],
+  });
+  const spot = { ko: "가족회관", lat: 35.8148, lng: 127.1454 };
+
+  it("이름이 서로를 품고 500m 안인 가장 가까운 장소의 첫 사진과 올린 사람", () => {
+    const body = {
+      places: [
+        gp("가족회관", 35.83, 127.1454, "far"),
+        gp("전주 가족회관", 35.8149, 127.1455, "near"),
+        gp("다른 식당", 35.8148, 127.1454, "other"),
+      ],
+    };
+    expect(pickGooglePhoto(body, spot)).toEqual({
+      photo: "near",
+      author: "Lee",
+    });
+    expect(
+      pickGooglePhoto({ places: [gp("가족회관", 35.83, 127.1454)] }, spot),
+    ).toBeNull();
+    expect(pickGooglePhoto({}, spot)).toBeNull();
+  });
+
+  it("좌표 치우침 · 사진 주소는 키 없는 photoUri를 받는 요청", () => {
+    expect(
+      googleSearchBody("가족회관", 35.81, 127.14).locationBias.circle.radius,
+    ).toBe(500);
+    const u = new URL(googlePhotoMediaUrl("places/x/photos/p1", "K"));
+    expect(u.pathname).toBe("/v1/places/x/photos/p1/media");
+    expect(u.searchParams.get("skipHttpRedirect")).toBe("true");
   });
 });
