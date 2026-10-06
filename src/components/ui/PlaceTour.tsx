@@ -159,6 +159,7 @@ const AUDIO_SOURCE = {
   odii: "sourceOdii",
   khs: "sourceKhs",
   story: "sourceStory",
+  kto: "sourceKto",
 } as const satisfies Record<TourAudio["source"], string>;
 
 function AudioGuide({ id }: { id: string }) {
@@ -272,6 +273,7 @@ function AudioCard({
   const odii = t("sourceOdii");
   const khs = t("sourceKhs");
   const story = t("sourceStory");
+  const kto = t("sourceKto");
 
   useEffect(() => {
     const el = player.current;
@@ -287,7 +289,7 @@ function AudioCard({
     const onPlay = () => {
       applyMediaSession(
         session,
-        audioMetadata(audio, { album, odii, khs, story }),
+        audioMetadata(audio, { album, odii, khs, story, kto }),
         {
           play: () => {
             el.play().catch(() => {});
@@ -309,7 +311,7 @@ function AudioCard({
       el.removeEventListener("pause", onPause);
       clearMediaSession(session);
     };
-  }, [audio, onNext, onPrev, album, odii, khs, story]);
+  }, [audio, onNext, onPrev, album, odii, khs, story, kto]);
 
   return (
     <>

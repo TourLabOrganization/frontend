@@ -21,6 +21,7 @@ describe("오디오 이어듣기 · Media Session", () => {
       odii: "오디",
       khs: "국가유산청",
       story: "스토리",
+      kto: "관광정보",
     };
     expect(audioMetadata({ title: "천왕문", source: "odii" }, labels)).toEqual({
       title: "천왕문",

@@ -341,8 +341,10 @@ describe("GET /api/tour/audio", () => {
         const url = new URL(input);
         const q = url.searchParams;
         const op = url.pathname.split("/").pop();
-        const k =
-          op === "themeBasedList"
+        const svc = url.pathname.match(/\/(\w+Service2)\//)?.[1];
+        const k = svc
+          ? `kto ${svc}/${op}`
+          : op === "themeBasedList"
             ? `theme ${q.get("langCode")}|${q.get("pageNo")}`
             : op === "storyLocationBasedList"
               ? `near ${q.get("langCode")}|${q.get("mapX")},${q.get("mapY")}`
@@ -536,8 +538,13 @@ describe("GET /api/tour/audio", () => {
         playTime: 111,
       });
       expect(hasHangul(JSON.stringify(body))).toBe(false);
+      // 중국어 · 스페인어는 그 언어 관광정보 소개문을 먼저 본다(여기는 빈 응답)
+      if (locale !== "en")
+        expect(asked[0]).toBe(
+          `kto ${locale === "zh" ? "Chs" : "Spn"}Service2/locationBasedList2`,
+        );
       // en 관광지는 1,356곳이라 1,000개씩 두 쪽
-      expect(asked).toEqual([
+      expect(asked.filter((k) => !k.startsWith("kto "))).toEqual([
         "story ko|불국사",
         "theme en|1",
         "theme en|2",
@@ -622,7 +629,48 @@ describe("GET /api/tour/audio", () => {
     expect(await (await call("id=gj1&locale=en")).json()).toEqual({
       empty: true,
     });
-    expect(asked).toEqual(["story ko|효우당", "story en|Hyowoodang"]);
+    // 오디에 없으면 영어 관광정보 소개문을 찾는다(여기는 빈 응답)
+    expect(asked).toEqual([
+      "story ko|효우당",
+      "story en|Hyowoodang",
+      "kto EngService2/locationBasedList2",
+    ]);
+  });
+
+  it("외국어 화면: 오디에 없으면 그 언어 관광정보 소개문(가까운 같은 이름의 곳, 상세 overview)", async () => {
+    vi.stubEnv("DATA_GO_KR_KEY", "SECRET-KEY");
+    clearOdiiCache();
+    const p = place("gj1");
+    const near = (title: string, dLat: number, contentid: string) => ({
+      title,
+      contentid,
+      mapy: String(p.lat + dLat),
+      mapx: String(p.lng),
+    });
+    const ok = (item: unknown[]) => ({
+      response: {
+        header: { resultCode: "0000" },
+        body: { items: { item }, totalCount: item.length },
+      },
+    });
+    const asked = stubOdii({
+      "kto EngService2/locationBasedList2": ok([
+        near("Some Cafe", 0.0001, "1"),
+        near(p.en, 0.001, "2"),
+      ]),
+      "kto EngService2/detailCommon2": ok([
+        { title: p.en, overview: "A hanok stay.<br>Tea in the morning." },
+      ]),
+    });
+    expect(await (await call("id=gj1&locale=en")).json()).toEqual({
+      title: p.en,
+      script: "A hanok stay.\nTea in the morning.",
+      source: "kto",
+    });
+    expect(asked.slice(-2)).toEqual([
+      "kto EngService2/locationBasedList2",
+      "kto EngService2/detailCommon2",
+    ]);
   });
 
   it("관광지 목록은 서버 메모리에 두고 한 번만 받는다", async () => {
