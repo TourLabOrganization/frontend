@@ -10,6 +10,7 @@ import {
   ferryPortLabel,
   ferryRoute,
   ferryRows,
+  ferryStatRoute,
   ferryStatView,
 } from "./ferry";
 import type { Island } from "./island";
@@ -121,7 +122,9 @@ export function FerryCard({ island, port, onPort, startDate }: FerryCardProps) {
         <div className="mt-4 border-t border-line pt-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
             <h4 className="text-label font-semibold">
-              {t("stat.label", { route: view.stats.route })}
+              {t("stat.label", {
+                route: ferryStatRoute(view.stats.route, route, island, ko),
+              })}
             </h4>
             <p className="text-caption text-fg-muted tabular-nums">
               {t("stat.range", {

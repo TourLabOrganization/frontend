@@ -114,6 +114,26 @@ export function ferryPortLabel(
   return ko ? `${r.ko} → ${r.arr}` : `${r.en} → ${ISLAND_NAME[island].en}`;
 }
 
+/**
+ * 운항 실적 항로 이름(통계의 「포항-울릉」). 한국어가 아니면 구간마다 영어 이름으로 바꾼다(「Pohang–Ulleungdo」).
+ * 섬 쪽은 섬 이름, 항구 쪽은 고른 항로의 영어 이름(괄호 앞)을 쓴다
+ */
+export function ferryStatRoute(
+  route: string,
+  r: FerryRoute,
+  island: Island,
+  ko: boolean,
+): string {
+  if (ko) return route;
+  const isle = ISLAND_NAME[island];
+  const port = r.en.split(" (")[0];
+  const parts = route.split("-");
+  if (parts.length !== 2) return `${port}–${isle.en}`;
+  const part = (p: string) => (isle.ko.startsWith(p) ? isle.en : port);
+  const [a, b] = parts.map(part);
+  return a === b ? `${port}–${isle.en}` : `${a}–${b}`;
+}
+
 export type FerryRowKey = "op" | "dur" | "day" | "first" | "last" | "arr";
 
 /** 표 값(PoC ferrySched). 한국어가 아니면 PoC 영어 표기 규칙을 그대로 쓴다 */

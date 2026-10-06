@@ -13,6 +13,7 @@ import {
   ferryPortLabel,
   ferryRoute,
   ferryRows,
+  ferryStatRoute,
   ferryStatView,
   showFerryCard,
   tripMonth,
@@ -20,6 +21,7 @@ import {
   FERRY_STATS,
 } from "./ferry";
 import {
+  type Island,
   islandOf,
   islandPorts,
   islandSailMin,
@@ -598,5 +600,33 @@ describe("코스 설정 저장 (jejuResident)", () => {
     expect(pickSettings(parseSettings({ jejuResident: true }))).toMatchObject({
       jejuResident: true,
     });
+  });
+});
+
+describe("배편 운항 실적 항로 이름", () => {
+  it("한국어 밖에서는 한글 없이 구간 순서를 지킨다", () => {
+    for (const [island, routes] of Object.entries(FERRY_ROUTES)) {
+      for (const r of routes) {
+        const stats = FERRY_STATS[r.k];
+        if (!stats) continue;
+        expect(ferryStatRoute(stats.route, r, island as Island, true)).toBe(
+          stats.route,
+        );
+        expect(
+          ferryStatRoute(stats.route, r, island as Island, false),
+        ).not.toMatch(/[ㄱ-ㆎ가-힣]/);
+      }
+    }
+    expect(
+      ferryStatRoute(
+        "포항-울릉",
+        ferryRoute("ulleung", "pohang"),
+        "ulleung",
+        false,
+      ),
+    ).toBe("Pohang–Ulleungdo");
+    expect(
+      ferryStatRoute("제주-완도", ferryRoute("jeju", "wando"), "jeju", false),
+    ).toBe("Jeju–Wando");
   });
 });
