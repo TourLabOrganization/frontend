@@ -51,8 +51,7 @@
       "commons": "Wikimedia Commons",
       "kakao": "Kakao image search",
       "kakaomap": "Kakao Map",
-      "khs": "Korea Heritage Service",
-      "google": "Google Maps"
+      "khs": "Korea Heritage Service"
     },
     "hours": "Opening hours",
     "checkIn": "Check-in {time}",
