@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   commonsUrl,
-  googlePhotoMediaUrl,
-  googleSearchBody,
   khsDetailUrl,
   khsImageUrl,
   khsListUrl,
@@ -13,7 +11,6 @@ import {
   photoName,
   pickCommonsImage,
   pickGalleryImage,
-  pickGooglePhoto,
   pickKhsDescription,
   pickKhsHeritage,
   pickKhsImage,
@@ -359,46 +356,5 @@ describe("국가유산청(⑤)", () => {
     expect(
       pickKhsDescription("<result><item><content></content></item></result>"),
     ).toBeNull();
-  });
-});
-
-describe("Google Places(⑥)", () => {
-  const gp = (
-    text: string,
-    lat: number,
-    lng: number,
-    photo = "places/x/photos/p1",
-  ) => ({
-    displayName: { text },
-    location: { latitude: lat, longitude: lng },
-    photos: [{ name: photo, authorAttributions: [{ displayName: "Lee" }] }],
-  });
-  const spot = { ko: "가족회관", lat: 35.8148, lng: 127.1454 };
-
-  it("이름이 서로를 품고 500m 안인 가장 가까운 장소의 첫 사진과 올린 사람", () => {
-    const body = {
-      places: [
-        gp("가족회관", 35.83, 127.1454, "far"),
-        gp("전주 가족회관", 35.8149, 127.1455, "near"),
-        gp("다른 식당", 35.8148, 127.1454, "other"),
-      ],
-    };
-    expect(pickGooglePhoto(body, spot)).toEqual({
-      photo: "near",
-      author: "Lee",
-    });
-    expect(
-      pickGooglePhoto({ places: [gp("가족회관", 35.83, 127.1454)] }, spot),
-    ).toBeNull();
-    expect(pickGooglePhoto({}, spot)).toBeNull();
-  });
-
-  it("좌표 치우침 · 사진 주소는 키 없는 photoUri를 받는 요청", () => {
-    expect(
-      googleSearchBody("가족회관", 35.81, 127.14).locationBias.circle.radius,
-    ).toBe(500);
-    const u = new URL(googlePhotoMediaUrl("places/x/photos/p1", "K"));
-    expect(u.pathname).toBe("/v1/places/x/photos/p1/media");
-    expect(u.searchParams.get("skipHttpRedirect")).toBe("true");
   });
 });

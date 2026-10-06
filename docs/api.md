@@ -250,19 +250,17 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   파일 이름에 장소 한국어 이름(2글자 이상) 또는 영어 이름(4글자 이상)이 든 사진(jpg · png · webp, 지도 · 로고 · 도면 제외), 가까운 순, 800px 썸네일
   → ⑤ 국가유산청 오픈 API(키 없음, 국가유산 장소(herit)만): `www.khs.go.kr/cha/SearchKindOpenapiList.do`(이름) → 이름이 서로를 품고 좌표 2km 안인 가장 가까운 국가유산 →
   `SearchImageOpenapi.do`의 첫 이미지(출처 「국가유산청」, 공공누리)
-  → ⑥ Google Places API(New)(`GOOGLE_MAPS_API_KEY`, 유료 · 무료 한도): `places:searchText`(장소 좌표 500m 치우침, 한국어) → 이름이 서로를 품고 500m 안인 장소의 첫 사진 →
-  `/{photo}/media?skipHttpRedirect=true`로 키 없는 `photoUri`를 받아 쓴다(출처 「Google 지도 · 올린 사람」). Google 약관상 장소 내용을 저장하지 않아 이 단계는 캐시하지 않는다
-  → ⑦ 카카오맵 기반(2026-10-05 요청): (a) 카카오 로컬 키워드 검색 `dapi.kakao.com/v2/local/search/keyword`(장소 이름, 좌표 반경 500m, 가까운 순)에서
+  → ⑥ 카카오맵 기반(2026-10-05 요청): (a) 카카오 로컬 키워드 검색 `dapi.kakao.com/v2/local/search/keyword`(장소 이름, 좌표 반경 500m, 가까운 순)에서
   이름이 서로를 품는 가장 가까운 카카오맵 장소를 찾고 → (b) 그 장소의 카카오맵 대표 사진(`place.map.kakao.com/main/v/<id>`의 `basicInfo.mainphotourl`,
   공개 문서가 없는 주소라 실패하면 건너뛴다, 출처 「카카오맵」) → (c) 없으면 카카오 이미지 검색 `dapi.kakao.com/v2/search/image`를 「카카오맵 장소 이름 + 동」으로 좁혀
   https · 가로 500 · 세로 300px 이상 · 가로가 세로의 3배 이하인 첫 사진(출처 「카카오 이미지 검색 · 원 사이트 이름」).
   카카오맵에서 같은 장소를 못 찾으면 사진을 쓰지 않는다(엉뚱한 사진 방지). 나무위키는 공개 API가 없어 쓰지 않는다
-- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). ⑥은 `GOOGLE_MAPS_API_KEY`, ⑦은 `KAKAO_REST_KEY`(둘 다 서버 전용). 키가 없으면 그 단계를 건너뛴다(③④⑤ 위키백과 · 위키미디어 공용 · 국가유산청은 키가 없다)
-- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "khs" | "google" | "kakaomap" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
+- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). ⑥은 `KAKAO_REST_KEY`(서버 전용). Google Places(유료)는 쓰지 않는다(2026-10-06 요청). 키가 없으면 그 단계를 건너뛴다(③④⑤ 위키백과 · 위키미디어 공용 · 국가유산청은 키가 없다)
+- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "khs" | "kakaomap" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
   시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 위키미디어 공용 사진은 자유 라이선스 표시를 위해 작성자 · 라이선스를 함께 적는다
   (「사진: 위키미디어 공용 · Kim · CC BY-SA 4.0」, 작성자 이름은 원문 그대로). 한 단계가 실패해도 다음 단계로 넘어간다
-- **점검**(어느 장소가 몇 단계에서 사진을 받는지, 특히 ⑥ Google · ⑦ 카카오로 떨어지는 장소): 키와 인터넷이 있는 곳에서
-  `PHOTO_AUDIT=1 DATA_GO_KR_KEY=… GOOGLE_MAPS_API_KEY=… KAKAO_REST_KEY=… npx vitest run scripts/photo-audit.test.ts`
+- **점검**(어느 장소가 몇 단계에서 사진을 받는지, 특히 ⑥ 카카오로 떨어지는 장소): 키와 인터넷이 있는 곳에서
+  `PHOTO_AUDIT=1 DATA_GO_KR_KEY=… KAKAO_REST_KEY=… npx vitest run scripts/photo-audit.test.ts`
   (`PHOTO_AUDIT_CITY` 한 도시 · `PHOTO_AUDIT_LIMIT` 개수 · `PHOTO_AUDIT_OUT` 결과 파일 · `PHOTO_AUDIT_CONCURRENCY` 동시 호출).
   결과 CSV(id · city · ko · cat · step · source · src · author · license)에서 step 6 · 7 행의 사진을 눈으로 확인한다. 평소 `npm run test`에서는 건너뛴다
 - **캐시**: 7일(대표 사진은 자주 바뀌지 않는다). 클라이언트는 하루
