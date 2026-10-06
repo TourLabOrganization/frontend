@@ -1,10 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { ChevronRight, UsersRound } from "lucide-react";
+import { ChevronRight, Search, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useId } from "react";
+import { useId, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { useTourApi } from "@/components/ui/tour-api-context";
 import { useNameTable } from "@/features/names/NamesProvider";
@@ -16,14 +16,17 @@ import {
   POPULAR_FALLBACK,
   popularFallback,
 } from "@/features/home/popular-fallback";
+import { searchCities } from "@/features/home/popular-search";
 import { POPULAR_CITY_KEY, useLocalValue, writeLocal } from "@/lib/local-store";
 import { markSheetReturn } from "@/lib/sheet-return";
 import {
   type CrowdLevel,
   crowdLevel,
   POPULAR_CITIES,
+  POPULAR_SEARCH_CITIES,
   type PopularCity,
   popularPath,
+  POPULAR_SEARCH_MIN_PLACES,
   TOUR_CROWD_SECONDS,
   TOUR_TIMEOUT_MS,
   type TourEmpty,
@@ -61,8 +64,18 @@ export function PopularAttractions() {
   // 고른 도시는 이 브라우저에 둔다(장소를 열었다가 돌아오면 같은 도시 · 같은 자리). 서버 렌더와 첫 수화는 첫 도시
   const stored = useLocalValue(POPULAR_CITY_KEY);
   const city: PopularCity =
-    POPULAR_CITIES.find((c) => c === stored) ?? POPULAR_CITIES[0];
+    POPULAR_SEARCH_CITIES.find((c) => c === stored) ?? POPULAR_CITIES[0];
   const setCity = (c: PopularCity) => writeLocal(POPULAR_CITY_KEY, c);
+  // 검색칸(춘천 칩 자리, 2026-10-06): 관광지 50곳 이상인 도시를 이름으로 찾아 고른다
+  const [searching, setSearching] = useState(false);
+  const [q, setQ] = useState("");
+  const chipCity = (POPULAR_CITIES as readonly string[]).includes(city);
+  const matches = searchCities(q, locale, names);
+  const pick = (c: PopularCity) => {
+    setCity(c);
+    setSearching(false);
+    setQ("");
+  };
   const query = useQuery({
     queryKey: ["popular", city, locale],
     queryFn: () => fetchPopular(city, locale),
@@ -111,7 +124,7 @@ export function PopularAttractions() {
       <div
         role="group"
         aria-label={t("citiesLabel")}
-        // 도시 10곳을 5칸 두 줄로(좌우 스크롤 없이)
+        // 도시 칩 9곳 + 검색칸을 5칸 두 줄로(좌우 스크롤 없이)
         className="mt-3 grid grid-cols-5 gap-2"
       >
         {POPULAR_CITIES.map((c) => {
@@ -132,7 +145,72 @@ export function PopularAttractions() {
             </button>
           );
         })}
+        <button
+          type="button"
+          aria-expanded={searching}
+          aria-controls={`${id}-search`}
+          aria-pressed={!chipCity}
+          onClick={() => setSearching((v) => !v)}
+          className={`flex min-h-11 min-w-0 items-center justify-center gap-1 rounded-xl px-1 text-center text-label break-keep transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+            !chipCity
+              ? "bg-primary-weak font-semibold text-primary-strong"
+              : "bg-fill font-medium text-fg-muted active:bg-line"
+          }`}
+        >
+          <Search size={16} aria-hidden className="shrink-0" />
+          <span className="truncate">
+            {chipCity ? t("search") : cityName(city, locale, names)}
+          </span>
+        </button>
       </div>
+
+      {searching && (
+        <div id={`${id}-search`} className="mt-2 rounded-card bg-fill p-3">
+          <label htmlFor={`${id}-q`} className="sr-only">
+            {t("search")}
+          </label>
+          <input
+            id={`${id}-q`}
+            type="search"
+            autoFocus
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setSearching(false);
+              if (e.key === "Enter" && matches.length > 0) pick(matches[0]);
+            }}
+            placeholder={t("searchPlaceholder", {
+              count: POPULAR_SEARCH_MIN_PLACES,
+            })}
+            className="h-11 w-full rounded-xl bg-surface px-3 text-body ring-1 ring-line focus-visible:outline-2 focus-visible:outline-primary-bright"
+          />
+          {matches.length > 0 ? (
+            <ul
+              aria-label={t("citiesLabel")}
+              className="mt-2 flex flex-wrap gap-2"
+            >
+              {matches.map((c) => (
+                <li key={c}>
+                  <button
+                    type="button"
+                    aria-pressed={c === city}
+                    onClick={() => pick(c)}
+                    className={`min-h-11 rounded-xl px-3 text-label transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                      c === city
+                        ? "bg-primary-weak font-semibold text-primary-strong"
+                        : "bg-surface font-medium text-fg-muted ring-1 ring-line active:bg-line"
+                    }`}
+                  >
+                    {cityName(c, locale, names)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-2 text-label text-fg-muted">{t("searchEmpty")}</p>
+          )}
+        </div>
+      )}
 
       <div aria-live="polite" aria-busy={enabled && query.isFetching}>
         {fallback.length > 0 ? (
@@ -173,6 +251,10 @@ export function PopularAttractions() {
               ))}
             </ol>
           </>
+        ) : !enabled ? (
+          <p className="mt-3 rounded-card bg-fill p-4 text-label text-fg-muted">
+            {t("empty", { city: cityName(city, locale, names) })}
+          </p>
         ) : query.isPending ? (
           <ul aria-hidden className="mt-3 flex flex-col gap-2">
             {Array.from({ length: 5 }, (_, i) => (

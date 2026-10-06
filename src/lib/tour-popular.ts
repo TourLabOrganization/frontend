@@ -18,7 +18,7 @@ import { PLANNER_PLACES, type PlannerPlace } from "../features/planner/data";
 import type { NameTable } from "../features/names/names";
 import { placeName } from "../features/theme/place-meta";
 import {
-  POPULAR_CITIES,
+  POPULAR_SEARCH_CITIES,
   type PopularCity,
   TOUR_CROWD_SECONDS,
   type TourPopular,
@@ -63,7 +63,7 @@ const MAX_PAGES = 5;
 const ROWS = 1000;
 
 export function isPopularCity(v: unknown): v is PopularCity {
-  return (POPULAR_CITIES as readonly unknown[]).includes(v);
+  return (POPULAR_SEARCH_CITIES as readonly unknown[]).includes(v);
 }
 
 /**

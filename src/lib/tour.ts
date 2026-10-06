@@ -79,8 +79,8 @@ export type TourCrowd = {
 };
 
 /**
- * 홈 「지금 인기 관광지」의 도시(칩 순서). 플래너 주요 도시(서울 · 부산 · 제주)와 관광객이 많은 도시(대구 · 춘천은 2026-10-04 추가).
- * 서버가 도시마다 장소가 많은 시군구(최대 4곳)의 관광지 집중률을 모은다(lib/tour-popular.ts)
+ * 홈 「지금 인기 관광지」의 도시 칩(순서대로). 플래너 주요 도시(서울 · 부산 · 제주)와 관광객이 많은 도시(대구 2026-10-04 추가).
+ * 춘천 칩은 빼고 그 자리를 도시 검색칸으로 바꿨다(2026-10-06). 서버가 도시마다 장소가 많은 시군구(최대 4곳)의 관광지 집중률을 모은다(lib/tour-popular.ts)
  */
 export const POPULAR_CITIES = [
   "서울",
@@ -92,9 +92,34 @@ export const POPULAR_CITIES = [
   "인천",
   "속초",
   "대구",
-  "춘천",
 ] as const;
-export type PopularCity = (typeof POPULAR_CITIES)[number];
+
+/** 인기 관광지 검색칸에서 고를 수 있는 도시의 최소 관광지 수(숙박 제외 플래너 장소) */
+export const POPULAR_SEARCH_MIN_PLACES = 50;
+
+/**
+ * 인기 관광지 검색칸에서 고를 수 있는 도시: 관광지(숙박 제외 플래너 장소)가 50곳 이상인 도시, 많은 순(2026-10-06).
+ * 칩 도시는 모두 들어 있다. 장소 데이터가 바뀌면 tour-popular.test.ts가 이 목록과 실제 개수를 맞춰 본다
+ */
+export const POPULAR_SEARCH_CITIES = [
+  "서울",
+  "부산",
+  "제주",
+  "인천",
+  "강릉",
+  "경주",
+  "대구",
+  "전주",
+  "속초",
+  "창원",
+  "대전",
+  "여수",
+  "울산",
+  "거제",
+  "안동",
+] as const;
+/** 인기 관광지를 볼 수 있는 도시(칩 · 검색) */
+export type PopularCity = (typeof POPULAR_SEARCH_CITIES)[number];
 
 /** 인기 관광지 한 곳 */
 export type TourPopularItem = {
