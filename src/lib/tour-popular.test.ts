@@ -66,22 +66,44 @@ describe("도시 · 시군구", () => {
     for (const c of POPULAR_CITIES) {
       const codes = citySigngu(c);
       expect(codes.length, c).toBeGreaterThan(0);
-      expect(codes.length).toBeLessThanOrEqual(POPULAR_MAX_DISTRICTS);
+      // 못 박은 도시(광역시 · 서울 · 창원의 구 · 군 전부)는 상한이 없다
+      if (!POPULAR_DISTRICTS[c])
+        expect(codes.length).toBeLessThanOrEqual(POPULAR_MAX_DISTRICTS);
       for (const code of codes) expect(code).toMatch(/^\d{5}$/);
     }
     expect(citySigngu("경주")).toEqual(["47130"]);
-    // 서울: 종로 · 마포 · 영등포 · 중구를 못 박았다(POPULAR_DISTRICTS). 보물 소재지 추가(2026-10-04)로 장소 수는 용산 · 성북이 앞선다
-    expect(citySigngu("서울")).toEqual(["11110", "11440", "11560", "11140"]);
-    expect(POPULAR_DISTRICTS.서울).toEqual([
-      "11110",
-      "11440",
-      "11560",
-      "11140",
-    ]);
     expect(citySigngu("제주")).toEqual(["50110", "50130"]);
-    expect(citySigngu("인천")).toHaveLength(4);
-    // 대구(2026-10-04 추가): 달성 · 군위 · 수성 · 달서를 못 박았다(POPULAR_DISTRICTS)
-    expect(citySigngu("대구")).toEqual(["27710", "27720", "27260", "27290"]);
+    // 서울 · 부산 · 대구 · 인천 · 대전 · 울산 · 창원은 구 · 군 전부(POPULAR_DISTRICTS, 2026-10-06)
+    const counts: Record<string, number> = {
+      서울: 25,
+      부산: 16,
+      대구: 9,
+      대전: 5,
+      울산: 5,
+      창원: 5,
+    };
+    for (const [city, n] of Object.entries(counts)) {
+      expect(citySigngu(city), city).toHaveLength(n);
+      expect(new Set(citySigngu(city)).size, city).toBe(n);
+    }
+    // 인천: 옛 10개 구 · 군과 2026 개편 코드를 함께. 앱 장소의 인천 시군구 코드(숙박 제외)가 모두 들어 있다
+    const incheon = new Set(citySigngu("인천"));
+    for (const p of PLANNER_PLACES)
+      if (p.locKo === "인천" && p.cat !== "stay") {
+        const code = tourPlaceSigngu(p.id);
+        if (code.startsWith("28")) expect(incheon.has(code), p.id).toBe(true);
+      }
+    // 다른 도시도 앱 장소가 있는 구는 빠지지 않는다(시도 밖 경계 장소 코드는 뺀다)
+    for (const city of Object.keys(counts)) {
+      const codes = new Set(citySigngu(city));
+      const prefix = citySigngu(city)[0].slice(0, 2);
+      for (const p of PLANNER_PLACES)
+        if (p.locKo === city && p.cat !== "stay") {
+          const code = tourPlaceSigngu(p.id);
+          if (code.startsWith(prefix))
+            expect(codes.has(code), `${city} ${p.id}`).toBe(true);
+        }
+    }
     // 여수는 칩이 아니라 검색칸으로 고른다
     expect(POPULAR_CITIES).not.toContain("여수");
     expect(citySigngu("없는도시")).toEqual([]);
