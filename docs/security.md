@@ -14,7 +14,6 @@
   지금 등록한 주소는 `http://localhost:5173`, `https://tour-navigator.vercel.app`이다.
   로컬은 `127.0.0.1`이 아니라 `localhost`로 연다. 배포 주소를 새로 쓰면 먼저 도메인을 등록한다
 - 같은 카카오 앱의 REST API 키(`KAKAO_REST_KEY`)는 서버 전용이라 `NEXT_PUBLIC_`을 붙이지 않는다
-- Google Maps Platform 키(`GOOGLE_MAPS_API_KEY`, 장소 대표 사진 ⑥)도 서버 전용이다. 사진은 `skipHttpRedirect`로 받은 키 없는 주소만 브라우저에 넘긴다
 - 그 외 키에는 붙이지 않는다
 
 ## 키가 필요한 외부 API

@@ -10,8 +10,14 @@ export type AudioMeta = { title: string; artist: string; album: string };
 
 /** 잠금 화면에 보일 제목 · 출처 · 칸 이름. 제목이 없으면 칸 이름 */
 export function audioMetadata(
-  audio: { title: string; source: "odii" | "khs" | "story" },
-  labels: { album: string; odii: string; khs: string; story: string },
+  audio: { title: string; source: "odii" | "khs" | "story" | "kto" },
+  labels: {
+    album: string;
+    odii: string;
+    khs: string;
+    story: string;
+    kto: string;
+  },
 ): AudioMeta {
   return {
     title: audio.title || labels.album,

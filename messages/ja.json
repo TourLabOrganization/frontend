@@ -51,8 +51,7 @@
       "commons": "ウィキメディア・コモンズ",
       "kakao": "Kakao画像検索",
       "kakaomap": "カカオマップ",
-      "khs": "韓国国家遺産庁",
-      "google": "Googleマップ"
+      "khs": "韓国国家遺産庁"
     },
     "hours": "営業時間",
     "checkIn": "チェックイン {time}",
@@ -134,6 +133,7 @@
         "sourceOdii": "韓国観光公社 音声ガイド（Odii）",
         "sourceKhs": "国家遺産の説明 · 国家遺産庁",
         "sourceStory": "観光ストーリー · 韓国観光公社",
+        "sourceKto": "観光情報 · 韓国観光公社",
         "list": "音声解説 {count}件",
         "autoNext": "再生が終わると次の解説が続けて流れます。ロック画面からも操作できます"
       },

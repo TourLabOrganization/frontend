@@ -51,8 +51,7 @@
       "commons": "위키미디어 공용",
       "kakao": "카카오 이미지 검색",
       "kakaomap": "카카오맵",
-      "khs": "국가유산청",
-      "google": "Google 지도"
+      "khs": "국가유산청"
     },
     "hours": "운영시간",
     "checkIn": "체크인 {time}",
@@ -134,6 +133,7 @@
         "sourceOdii": "한국관광공사 오디오 가이드(오디)",
         "sourceKhs": "국가유산 설명 · 국가유산청",
         "sourceStory": "관광 스토리텔링 · 한국관광공사",
+        "sourceKto": "관광정보 소개 · 한국관광공사",
         "list": "오디오 해설 {count}건",
         "autoNext": "끝나면 다음 해설이 이어서 재생돼요. 잠금 화면에서도 넘길 수 있어요"
       },

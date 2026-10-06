@@ -250,19 +250,17 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   파일 이름에 장소 한국어 이름(2글자 이상) 또는 영어 이름(4글자 이상)이 든 사진(jpg · png · webp, 지도 · 로고 · 도면 제외), 가까운 순, 800px 썸네일
   → ⑤ 국가유산청 오픈 API(키 없음, 국가유산 장소(herit)만): `www.khs.go.kr/cha/SearchKindOpenapiList.do`(이름) → 이름이 서로를 품고 좌표 2km 안인 가장 가까운 국가유산 →
   `SearchImageOpenapi.do`의 첫 이미지(출처 「국가유산청」, 공공누리)
-  → ⑥ Google Places API(New)(`GOOGLE_MAPS_API_KEY`, 유료 · 무료 한도): `places:searchText`(장소 좌표 500m 치우침, 한국어) → 이름이 서로를 품고 500m 안인 장소의 첫 사진 →
-  `/{photo}/media?skipHttpRedirect=true`로 키 없는 `photoUri`를 받아 쓴다(출처 「Google 지도 · 올린 사람」). Google 약관상 장소 내용을 저장하지 않아 이 단계는 캐시하지 않는다
-  → ⑦ 카카오맵 기반(2026-10-05 요청): (a) 카카오 로컬 키워드 검색 `dapi.kakao.com/v2/local/search/keyword`(장소 이름, 좌표 반경 500m, 가까운 순)에서
+  → ⑥ 카카오맵 기반(2026-10-05 요청): (a) 카카오 로컬 키워드 검색 `dapi.kakao.com/v2/local/search/keyword`(장소 이름, 좌표 반경 500m, 가까운 순)에서
   이름이 서로를 품는 가장 가까운 카카오맵 장소를 찾고 → (b) 그 장소의 카카오맵 대표 사진(`place.map.kakao.com/main/v/<id>`의 `basicInfo.mainphotourl`,
   공개 문서가 없는 주소라 실패하면 건너뛴다, 출처 「카카오맵」) → (c) 없으면 카카오 이미지 검색 `dapi.kakao.com/v2/search/image`를 「카카오맵 장소 이름 + 동」으로 좁혀
   https · 가로 500 · 세로 300px 이상 · 가로가 세로의 3배 이하인 첫 사진(출처 「카카오 이미지 검색 · 원 사이트 이름」).
   카카오맵에서 같은 장소를 못 찾으면 사진을 쓰지 않는다(엉뚱한 사진 방지). 나무위키는 공개 API가 없어 쓰지 않는다
-- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). ⑥은 `GOOGLE_MAPS_API_KEY`, ⑦은 `KAKAO_REST_KEY`(둘 다 서버 전용). 키가 없으면 그 단계를 건너뛴다(③④⑤ 위키백과 · 위키미디어 공용 · 국가유산청은 키가 없다)
-- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "khs" | "google" | "kakaomap" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
+- **키**: ①②는 `DATA_GO_KR_KEY`(「한국관광공사_국문 관광정보 서비스_GW」 · 「한국관광공사_관광사진 정보_GW」 활용신청). ⑥은 `KAKAO_REST_KEY`(서버 전용). Google Places(유료)는 쓰지 않는다(2026-10-06 요청). 키가 없으면 그 단계를 건너뛴다(③④⑤ 위키백과 · 위키미디어 공용 · 국가유산청은 키가 없다)
+- **응답**: `{ "src", "source": "kto" | "ktoGallery" | "wikipedia" | "commons" | "khs" | "kakaomap" | "kakao", "author"?, "license"? }` · 못 찾으면 `{ "empty": true }`. 사진 주소는 https로 바꾼다.
   시트는 출처를 「사진: 한국관광공사」처럼 적는다(`PlaceSheet.photoSources`). 위키미디어 공용 사진은 자유 라이선스 표시를 위해 작성자 · 라이선스를 함께 적는다
   (「사진: 위키미디어 공용 · Kim · CC BY-SA 4.0」, 작성자 이름은 원문 그대로). 한 단계가 실패해도 다음 단계로 넘어간다
-- **점검**(어느 장소가 몇 단계에서 사진을 받는지, 특히 ⑥ Google · ⑦ 카카오로 떨어지는 장소): 키와 인터넷이 있는 곳에서
-  `PHOTO_AUDIT=1 DATA_GO_KR_KEY=… GOOGLE_MAPS_API_KEY=… KAKAO_REST_KEY=… npx vitest run scripts/photo-audit.test.ts`
+- **점검**(어느 장소가 몇 단계에서 사진을 받는지, 특히 ⑥ 카카오로 떨어지는 장소): 키와 인터넷이 있는 곳에서
+  `PHOTO_AUDIT=1 DATA_GO_KR_KEY=… KAKAO_REST_KEY=… npx vitest run scripts/photo-audit.test.ts`
   (`PHOTO_AUDIT_CITY` 한 도시 · `PHOTO_AUDIT_LIMIT` 개수 · `PHOTO_AUDIT_OUT` 결과 파일 · `PHOTO_AUDIT_CONCURRENCY` 동시 호출).
   결과 CSV(id · city · ko · cat · step · source · src · author · license)에서 step 6 · 7 행의 사진을 눈으로 확인한다. 평소 `npm run test`에서는 건너뛴다
 - **캐시**: 7일(대표 사진은 자주 바뀌지 않는다). 클라이언트는 하루
@@ -319,13 +317,19 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
     설명문은 국가유산 장소(`cat=herit`)만, 키 없이 국가유산청 오픈 API로 부른다: 이름 검색 `SearchKindOpenapiList.do`에서 사진 ⑤와 같은 기준(이름이 서로를 품고 2km 안, 가까운 순)으로 국가유산을 고르고
     상세 `SearchKindOpenapiDt.do`의 `content`(태그 · 엔티티를 풀고 문단은 줄바꿈)를 대본으로, `ccbaMnm1`을 제목으로 쓴다. 음성 파일은 없다. 하루 캐시. 외국어 화면은 부르지 않는다(설명문이 한국어뿐).
     출처 표기는 「국가유산 설명 · 국가유산청」. `KHS_API_BASE`는 로컬에서 가짜 서버로 화면을 확인할 때만 쓰는 주소이고 운영에서는 비워 둔다
-  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "khs" | "story", others?: [...] }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 앞에 두고
+  - audio `{ title, script, audioUrl?, playTime?, source: "odii" | "khs" | "story" | "kto", others?: [...] }`: 좌표 ±0.12도 안 · 이름 겹침으로 관광지(`tid`)를 정하고, 그 `tid`의 해설 중 대표 하나를 앞에 두고
     나머지 해설(천왕문 · 다보탑 · 대웅전 같은 세부 해설, 오디 순서, 각 항목은 같은 모양에 `others` 없음)을 `others`에 담는다(2026-10-02). 화면은 대표와 나머지를 좌우로 넘기는 카드(`CardCarousel`, `docs/ui.md`)로 보인다(밑으로 늘리지 않는다, 2026-10-02). 음성 플레이어는 보이는 카드에만 붙인다(안 보이는 해설의 음성은 받지 않는다). 이야기 검색은 30건까지 받는다(관광지 하나의 세부 해설을 다 담게). 외국어 화면은 한글이 섞인 항목을 `others`에서도 뺀다.
     대표는 음성 파일(`audioUrl`)이 있는 해설 먼저, 그 안에서 제목이 기준 이름(한국어 화면은 장소 이름, 외국어 화면은 그 언어 관광지 제목)과 같은 것 → 품는 것 → 첫째.
     음성 있는 해설이 없으면 대본만 있는 해설에서 같은 기준(2026-09-29 팀 결정 — 이 칸은 「오디오 가이드」다). 음성 주소(https mp3)가 있으면 화면이 `<audio controls preload="none">`로 재생하고
     재생 시간(`playTime`, 초)을 보인다(PoC는 대본만 보였다). 한국어 화면은 오디 결과가 없으면(키 없음 · 외부 실패 포함) 한국관광공사 관광 스토리텔링 31곳
     (`features/planner/data/stories.json`, `scripts/build-stories.mjs`로 PoC `STORY_DB`에서 옮김)
   - 오디 언어 코드(2026-09-29 실제 호출로 확인, PoC와 다르다): 오디에는 ko · en · jp 자료만 있다(PoC의 `ja` · `ch`는 0건). 화면 언어 → 코드는 ko → ko, en → en, ja → jp, zh → en, es → en
+  - **외국어 화면의 대체 해설(2026-10-06)**: 한국관광공사 다국어 관광정보(영 `EngService2` · 일 `JpnService2` · 중 `ChsService2` · 스페인어 `SpnService2`)의 소개문(`source: "kto"`).
+    차례는 영어 · 일본어 = 오디 → 소개문, 중국어 · 스페인어 = 소개문 → 오디(오디에 그 언어가 없어 영어 해설). 그 언어 서비스의 `locationBasedList2`(장소 좌표 반경 300m, 가까운 순)에서
+    제목이 그 언어 장소 이름(영어 이름, 중 · 일 · 스페인어는 이름표 → 없으면 영어 이름)과 서로를 품는 가장 가까운 곳 → 없으면 50m 안의 가장 가까운 곳을 고르고
+    `detailCommon2`의 `overview`(태그 · 엔티티를 풀고 줄바꿈 정리)를 대본으로 쓴다. 음성 파일은 없다. 하루 캐시. 한글이 섞이면 버린다.
+    키는 `DATA_GO_KR_KEY`이고 언어마다 공공데이터포털 활용신청이 따로 있다(「한국관광공사_영문 관광정보 서비스_GW」 등). 소개문 쪽 실패는 없는 것으로 보고 오디 결과를 그대로 쓴다.
+    출처 표기는 「관광정보 소개 · 한국관광공사」(5개 언어). Google Places(유료)는 쓰지 않는다(2026-10-06 요청)
   - 외국어 화면은 오디 관광지 번호 `tid`로 잇는다(`tid`는 언어가 달라도 같다, 해설 번호 `stid`는 다르다). 이름은 언어마다 달라서
     (우리 영어 이름 Hwangnidan-gil ↔ 오디 관광지 Hwanglidan-gil ↔ 오디 해설 Hwangnidan Street) 이름 검색이 자주 비었다
     1. 한국어 이름으로 ko 해설을 찾아(한국어 화면과 같은 기준: 좌표 ±0.12도 · 이름 겹침) `tid`를 얻는다. 같은 기준의 해설이 `tid`만 달리 여럿이면 차례로 본다.

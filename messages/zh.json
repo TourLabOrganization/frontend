@@ -51,8 +51,7 @@
       "commons": "维基共享资源",
       "kakao": "Kakao图片搜索",
       "kakaomap": "Kakao地图",
-      "khs": "韩国国家遗产厅",
-      "google": "Google地图"
+      "khs": "韩国国家遗产厅"
     },
     "hours": "营业时间",
     "checkIn": "入住 {time}",
@@ -134,6 +133,7 @@
         "sourceOdii": "韩国观光公社语音导览（Odii）",
         "sourceKhs": "国家遗产说明 · 国家遗产厅",
         "sourceStory": "旅游故事 · 韩国观光公社",
+        "sourceKto": "旅游信息 · 韩国观光公社",
         "list": "语音解说 {count} 条",
         "autoNext": "本条结束后会自动播放下一条解说，锁屏时也可以切换"
       },

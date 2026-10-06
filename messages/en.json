@@ -51,8 +51,7 @@
       "commons": "Wikimedia Commons",
       "kakao": "Kakao image search",
       "kakaomap": "Kakao Map",
-      "khs": "Korea Heritage Service",
-      "google": "Google Maps"
+      "khs": "Korea Heritage Service"
     },
     "hours": "Opening hours",
     "checkIn": "Check-in {time}",
@@ -134,6 +133,7 @@
         "sourceOdii": "Korea Tourism Organization audio guide (Odii)",
         "sourceKhs": "Heritage description · Korea Heritage Service",
         "sourceStory": "Travel stories · Korea Tourism Organization",
+        "sourceKto": "Tourist information · Korea Tourism Organization",
         "list": "{count} audio commentaries",
         "autoNext": "The next commentary plays automatically when this one ends. You can skip from the lock screen too"
       },

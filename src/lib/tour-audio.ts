@@ -11,6 +11,7 @@ import storiesData from "../features/planner/data/stories.json";
 import type { AppLocale } from "../i18n/locales";
 import { hasHangul } from "./hangul";
 import { type TourAudio, TOUR_DAY_SECONDS } from "./tour";
+import { ktoOverview } from "./tour-overview";
 import { khsDescription } from "./tour-photo";
 import {
   fetchTourItems,
@@ -410,7 +411,7 @@ export async function tourAudioResponse(request: Request): Promise<Response> {
         lat: place.lat,
         lng: place.lng,
       });
-    } else audio = await foreignAudio(key, place, locale);
+    } else audio = await foreignGuide(key, place, locale);
   } catch {
     const other = await fallback();
     return other ? tourJson(other, 0) : tourUnavailable();
@@ -460,6 +461,37 @@ async function searchAudio(
     if (audio) return audio;
   }
   return null;
+}
+
+/**
+ * 외국어 화면의 해설 차례(2026-10-06): 영어 · 일본어 = 오디(foreignAudio) → 그 언어 관광정보 소개문(ktoOverview),
+ * 중국어 · 스페인어 = 그 언어 관광정보 소개문 → 오디(오디에 그 언어가 없어 영어 해설). 소개문 쪽 실패(활용신청 안 된 언어 등)는 없는 것으로 본다.
+ * 오디가 실패하고 소개문도 없으면 오디의 실패를 그대로 던진다(503)
+ */
+async function foreignGuide(
+  key: string,
+  place: TourPlace,
+  locale: AppLocale,
+): Promise<TourAudio | null> {
+  const overview = async () => {
+    const name =
+      locale === "en"
+        ? place.en
+        : (await loadNameTable(locale).catch(() => null))?.places[place.id] ||
+          place.en;
+    return ktoOverview(key, place, locale, name, TOUR_DAY_SECONDS).catch(
+      () => null,
+    );
+  };
+  if (locale === "zh" || locale === "es")
+    return (await overview()) ?? foreignAudio(key, place, locale);
+  try {
+    return (await foreignAudio(key, place, locale)) ?? (await overview());
+  } catch (e) {
+    const other = await overview();
+    if (other) return other;
+    throw e;
+  }
 }
 
 /**
