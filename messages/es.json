@@ -1094,6 +1094,7 @@
       },
       "legs": {
         "leg": "{mode} · {duration} · {km} km",
+        "legRoad": "{mode} · {duration} · {km} km por carretera",
         "modes": {
           "transit": "Transporte",
           "driving": "Coche de alquiler",

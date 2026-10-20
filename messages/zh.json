@@ -1094,6 +1094,7 @@
       },
       "legs": {
         "leg": "{mode} · {duration} · {km}公里",
+        "legRoad": "{mode} · {duration} · 道路{km}公里",
         "modes": {
           "transit": "公共交通",
           "driving": "租车",

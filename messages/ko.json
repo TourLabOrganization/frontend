@@ -1094,6 +1094,7 @@
       },
       "legs": {
         "leg": "{mode} · {duration} · {km}km",
+        "legRoad": "{mode} · {duration} · 도로 {km}km",
         "modes": {
           "transit": "대중교통",
           "driving": "렌트카",
