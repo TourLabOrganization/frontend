@@ -291,6 +291,37 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **캐시**: 5분(공사가 5분마다 갱신)
 - **옮기지 않은 것**: PoC 실시간 운항 편성(`loadFlights`)은 PoC에서도 요청 주소(`KAC_ENDPOINT`)가 비어 꺼져 있다. 편성은 PoC 하드코딩 요약(`data/flights.json`)을 보인다
 
+### 도로 경로 `GET /api/route?from=..&to=..[&by=distance]`
+
+코스 빌더 지도(플래너 지도 탭 `PlannerMap` 코스 선 · 테마 코스 탭 `ThemeMap`)의 구간 선과 플래너 코스 탭의 구간 거리 · 요약 총 거리
+(2026-10-20 요청 「직선 거리 대신 실제 이동 경로를 그려 달라」). 코드는 `app/api/route/route.ts`, 처리는 `lib/road-route.ts`(서버 전용),
+구간 규칙은 `features/planner/course-map.ts`(`roadLegQuery` · `themeRoadLegQuery`), 브라우저 호출은 `features/planner/use-road-legs.ts`. 앱(Flutter)도 같은 주소를 부른다.
+
+- **원천**: 카카오모빌리티 자동차 길찾기 `apis-navi.kakaomobility.com/v1/directions`(`origin` · `destination`은 경도,위도, `priority` `RECOMMEND` · `DISTANCE`,
+  `alternatives=false` · `road_details=false` · `summary=false`), 헤더 `Authorization: KakaoAK <키>`. 키 `KAKAO_REST_KEY`(서버 전용),
+  카카오 개발자 앱에서 카카오내비 API를 켜야 한다(`docs/security.md`). 시간 제한 8초
+- **도보 · 대중교통**: 카카오 도보 길찾기는 카카오모빌리티 제휴 전용이라 쓰지 않는다. 대중교통 · 도보 구간도 자동차 도로 최단 경로(`by=distance`)를 그린다
+  (실제 걷는 길 · 버스 노선과 같지 않다)
+- **규칙**(`lib/road-route.ts`): `routes[0].sections[].roads[].vertexes`(`[x1, y1, x2, y2, …]`, x 경도 · y 위도)를 차례로 잇고 바로 앞과 같은 점 · 한국 범위 밖 점은 버린다 →
+  도로 끝이 핀에서 1m 넘게 떨어져 있으면 출발 · 도착 좌표를 앞뒤에 붙인다(선이 핀에 닿게) → Douglas–Peucker(허용 오차 = 경로 km × 0.5m, 3 ~ 40m, 위도 보정 평면 m) → 소수 5자리.
+  도로 꼭짓점이 2개 미만이거나 줄인 뒤 2점 미만이면 경로 없음
+- **구간 규칙**(`roadLegQuery`, 앱 `course_map.dart`와 같다): 좌표는 일정이 쓰는 장소 좌표를 소수 5자리로(같은 구간이 같은 캐시). 직선 20m 안은 부르지 않는다.
+  자가용 → 추천 경로. 도시가 다른 광역 구간(`legInfo` wide)은 시외버스(`wideLegMode` bus)면 추천 경로, 기차 · 광역전철이면 부르지 않는다(도로가 아니다).
+  같은 도시는 대중교통 → `by=distance`, 렌트카 → 추천 경로. 테마 코스(`themeRoadLegQuery`)는 20m 안만 빼고 모두 부르고, 같은 도시 · 도시를 모르면 `by=distance`, 도시가 다르면 추천 경로.
+  한 코스에서 80구간(같은 조회는 한 번)까지만 부르고 나머지는 직선
+- **입력**: `from` · `to`는 「위도,경도」 소수. 숫자가 아니거나 한국 범위(위도 32.5–39.5 · 경도 124–132.5) 밖이면 400 `{ "message": "invalid from/to" }`, 소수 5자리로 반올림해 쓴다.
+  `by`는 없거나 `distance`만(그 밖은 400 `{ "message": "invalid by" }`). 직선 20m 안이면 카카오를 부르지 않고 `{ "empty": true }`, 700km 넘으면 400 `{ "message": "too far" }`.
+  호스트 · 경로는 코드에 고정했다
+- **응답**: `{ "km", "min", "path": [[위도, 경도], …] }` — `km` 도로 거리(소수 1자리), `min` 카카오 소요 시간(분, 반올림). 길이 없으면(routes 없음 · `result_code` ≠ 0: 섬 건너기 · 주변 도로 없음 등)
+  `{ "empty": true }`. 키가 없거나 카카오 401 · 403(카카오내비 권한 없음)이면 503 `{ "message": "not configured" }`, 그 밖의 실패(HTTP 오류 · 시간 초과 · JSON 아님)는
+  502 `{ "message": "upstream" }`. 키 · 카카오 오류 문구는 응답 · 로그에 넣지 않는다
+- **화면**: 경로를 받은 구간은 그 길을 따라 실선, 나머지(부르지 않는 구간 · 받는 중 · 경로 없음 · 오류)는 두 핀을 잇는 직선 점선. 플래너 지도 범례 아래에 점선이 하나라도 있으면
+  안내 한 줄(`Planner.map.courseRoadNote`). 코스 탭 구간 줄은 「… · 도로 3.2km」(`Planner.course.legs.legRoad`), 요약 총 거리는 받은 구간만 도로 km로 바꾼 합.
+  **일정 시각 · 이동 시간(분)은 바꾸지 않는다**(일정 계산은 그대로 `legInfo` 어림값이고 `min`은 쓰지 않는다). 화면 맞추기는 핀 · 숙소 기준 그대로
+- **캐시**: 카카오 정책상 길찾기 결과를 우리 서버에 저장 · 재사용하지 않는다. 서버 fetch 캐시 없음(`cache: "no-store"`), 200(경로 · 경로 없음)만
+  `Cache-Control: private, max-age=3600`(브라우저 · 앱만), 400 · 502 · 503은 `no-store`. 브라우저는 TanStack Query `["route", from, to, by]` 1시간(지도 · 코스 탭이 함께 쓴다),
+  재시도 없음, 시간 제한 10초. 503을 한 번 받으면 그 화면을 새로 열 때까지 더 부르지 않는다
+
 ### 한국관광공사 칸 `GET /api/tour/audio` · `/api/tour/related` · `/api/tour/crowd`
 
 장소 시트(`components/ui/PlaceTour`)의 날씨 칸 다음 세 칸(2026-09-29 팀 요청). 코드는 `app/api/tour/*/route.ts`,
