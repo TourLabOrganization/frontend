@@ -13,7 +13,8 @@ import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
 import { bubbleText } from "./bubble-text";
 import { categoryDot } from "./category";
 import { CategoryIcon } from "./CategoryIcon";
-import type { CourseOverlay } from "./course-map";
+import { type CourseOverlay, roadLegKey } from "./course-map";
+import type { RoadLeg } from "./use-road-legs";
 
 // 투어 플래너 지도(카카오). 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.
 // 전국 보기는 권역 면(행정구역 경계를 권역으로 합친 도형, region-shapes.ts), 권역을 고르면 도시 묶음, 도시 보기는 분류 색 핀을 그린다.
@@ -58,6 +59,8 @@ export type MapPin = LatLng & {
 /** 담은 코스 표시(course-map.ts). 이름은 쓰는 쪽이 화면 언어로 만든다 */
 export type CourseLayerProps = {
   overlay: CourseOverlay<LatLng & { id: string }>;
+  /** 받은 도로 경로(roadLegKey → 경로, use-road-legs.ts). 없는 구간은 직선 점선 */
+  roads: ReadonlyMap<string, RoadLeg>;
   /** 핀 · 숙소 핀의 이름(aria-label · 툴팁) */
   pinTitle: (
     pin: CourseOverlay<LatLng & { id: string }>["pins"][number],
@@ -158,25 +161,31 @@ export function PlannerMap({
 
 /**
  * 담은 코스(2026-10-03): 날짜마다 색 하나로 경유지 순서 선(Polyline)과 번호 핀(그날 몇 번째), 마지막 날을 뺀 날마다 그날 밤 숙소 핀(침대 아이콘).
+ * 선은 구간마다 하나(2026-10-20): 도로 경로를 받은 구간은 그 길을 따라 실선, 나머지(부르지 않는 구간 · 받는 중 · 경로 없음 · 실패)는 직선 점선.
  * 번호 핀은 분류 핀 위에 그려지고 누르면 장소 시트가 열린다(onPin). 숙소 핀은 누르는 동작이 없다(표본은 지도 검색만 있어서)
  */
 function CourseLayer({
   overlay,
+  roads,
   pinTitle,
   stayTitle,
   onPin,
 }: CourseLayerProps & { onPin?: (id: string) => void }) {
   return (
     <>
-      {overlay.paths.map((path) => (
-        <Polyline
-          key={path.day}
-          path={path.points.map(({ lat, lng }) => ({ lat, lng }))}
-          strokeColor={path.color}
-          strokeOpacity={0.85}
-          strokeWeight={4}
-        />
-      ))}
+      {overlay.legs.map((leg, i) => {
+        const road = leg.query ? roads.get(roadLegKey(leg.query)) : undefined;
+        return (
+          <Polyline
+            key={`${leg.day}-${i}-${road ? "road" : "line"}`}
+            path={road ? road.points : [leg.from, leg.to]}
+            strokeColor={leg.color}
+            strokeOpacity={0.85}
+            strokeWeight={4}
+            strokeStyle={road ? "solid" : "shortdash"}
+          />
+        );
+      })}
       {overlay.pins.map((pin) => {
         const title = pinTitle(pin);
         return (

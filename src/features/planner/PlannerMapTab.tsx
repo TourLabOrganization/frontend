@@ -54,12 +54,18 @@ import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
 import { hasHangul } from "@/lib/hangul";
 import { useNameTable } from "@/features/names/NamesProvider";
-import { courseOverlay, dayColor } from "./course-map";
+import {
+  courseOverlay,
+  dayColor,
+  roadLegKey,
+  roadLegQuery,
+} from "./course-map";
 import { withStayOverrides } from "./course-edit";
 import { usePlannerCourse, useToday } from "./course-store";
 import { canonicalKnownId, findAnyPlace, isKnownPlace } from "./place-lookup";
 import { buildPlannerSchedule } from "./schedule";
 import { splitStays, STAY_SAMPLES } from "./stays";
+import { useRoadLegs } from "./use-road-legs";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */
 const INITIAL_ROWS = 10;
@@ -151,16 +157,26 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       },
       scope.kind === "city" ? scope.city : null,
     );
+    // 구간 선: 코스 탭 구간 거리와 같은 조회(roadLegQuery)로 도로 경로를 받아 실선, 못 받은 구간은 직선 점선
     return courseOverlay(
       plan.days,
       splitStays(coursePlaces).stays,
       STAY_SAMPLES,
+      (p, q) => roadLegQuery(p, q, plan.local),
     );
     // store.course 전체가 바뀔 때마다(설정 포함) 다시 계산한다
   }, [coursePlaces, store.course, today, scope]);
   const courseDays = overlay
     ? [...new Set(overlay.pins.map((x) => x.day))].sort((a, b) => a - b)
     : [];
+  // 지도에 코스를 그릴 때만 받는다(코스 탭과 같은 캐시)
+  const roads = useRoadLegs(
+    apiKey && showCourse && overlay ? overlay.legs.map((l) => l.query) : [],
+  );
+  // 직선 점선 구간이 하나라도 있으면 범례 아래에 실선 · 점선 안내
+  const dashedLeg =
+    overlay?.legs.some((l) => !l.query || !roads.has(roadLegKey(l.query))) ??
+    false;
 
   const nation = scope.kind === "nation";
   const categories = CATEGORY_KEYS.filter((c) =>
@@ -439,6 +455,7 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
               showCourse && overlay
                 ? {
                     overlay,
+                    roads,
                     pinTitle: (pin) =>
                       t("coursePin", {
                         day: pin.day,
@@ -483,46 +500,53 @@ export function PlannerMapTab({ scope, initialPlace }: PlannerMapTabProps) {
       </div>
 
       {overlay && apiKey && (
-        <div
-          role="group"
-          aria-label={t("courseLegendLabel")}
-          className="flex flex-wrap items-center gap-2 border-b border-line px-5 py-2"
-        >
-          <button
-            type="button"
-            aria-pressed={showCourse}
-            onClick={() => setShowCourse((v) => !v)}
-            className={`flex min-h-9 items-center gap-1.5 rounded-xl px-3 text-caption font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
-              showCourse
-                ? "bg-primary-weak text-primary-strong"
-                : "bg-fill text-fg-muted active:bg-line"
-            }`}
+        <div className="border-b border-line px-5 py-2">
+          <div
+            role="group"
+            aria-label={t("courseLegendLabel")}
+            className="flex flex-wrap items-center gap-2"
           >
-            <Route size={14} aria-hidden />
-            {t("courseLayer", { count: overlay.pins.length })}
-          </button>
-          {showCourse &&
-            courseDays.map((day) => (
-              <span
-                key={day}
-                className="inline-flex items-center gap-1 text-caption text-fg-muted tabular-nums"
-              >
-                <span
-                  aria-hidden
-                  className="inline-block size-2.5 rounded-full"
-                  style={{ backgroundColor: dayColor(day) }}
-                />
-                {t("courseDay", { day })}
-              </span>
-            ))}
-          {showCourse && (
             <button
               type="button"
-              onClick={() => setCourseFit((n) => n + 1)}
-              className="ml-auto inline-flex min-h-9 items-center rounded-xl px-2 text-caption font-semibold text-primary focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+              aria-pressed={showCourse}
+              onClick={() => setShowCourse((v) => !v)}
+              className={`flex min-h-9 items-center gap-1.5 rounded-xl px-3 text-caption font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-bright motion-reduce:transition-none ${
+                showCourse
+                  ? "bg-primary-weak text-primary-strong"
+                  : "bg-fill text-fg-muted active:bg-line"
+              }`}
             >
-              {t("courseFit")}
+              <Route size={14} aria-hidden />
+              {t("courseLayer", { count: overlay.pins.length })}
             </button>
+            {showCourse &&
+              courseDays.map((day) => (
+                <span
+                  key={day}
+                  className="inline-flex items-center gap-1 text-caption text-fg-muted tabular-nums"
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block size-2.5 rounded-full"
+                    style={{ backgroundColor: dayColor(day) }}
+                  />
+                  {t("courseDay", { day })}
+                </span>
+              ))}
+            {showCourse && (
+              <button
+                type="button"
+                onClick={() => setCourseFit((n) => n + 1)}
+                className="ml-auto inline-flex min-h-9 items-center rounded-xl px-2 text-caption font-semibold text-primary focus-visible:outline-2 focus-visible:outline-primary-bright active:bg-fill"
+              >
+                {t("courseFit")}
+              </button>
+            )}
+          </div>
+          {showCourse && dashedLeg && (
+            <p className="mt-1 text-caption text-fg-muted">
+              {t("courseRoadNote")}
+            </p>
           )}
         </div>
       )}

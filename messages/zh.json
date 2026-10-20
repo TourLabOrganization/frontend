@@ -902,7 +902,8 @@
       "courseFit": "按行程缩放",
       "coursePin": "第{day}天第{order}站：{name}",
       "courseStay": "第{day}晚住宿：{name}",
-      "courseStaySample": "第{day}晚住宿（示例）：{name}"
+      "courseStaySample": "第{day}晚住宿（示例）：{name}",
+      "courseRoadNote": "实线沿道路绘制，虚线为直线连接。"
     },
     "sheet": {
       "add": "加入行程",

@@ -902,7 +902,8 @@
       "courseFit": "코스에 맞춰 보기",
       "coursePin": "{day}일차 {order}번째: {name}",
       "courseStay": "{day}일차 밤 숙소: {name}",
-      "courseStaySample": "{day}일차 밤 숙소(예시): {name}"
+      "courseStaySample": "{day}일차 밤 숙소(예시): {name}",
+      "courseRoadNote": "실선은 도로를 따라간 길, 점선은 직선으로 이은 구간이에요"
     },
     "sheet": {
       "add": "코스에 담기",

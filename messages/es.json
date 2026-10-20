@@ -902,7 +902,8 @@
       "courseFit": "Ajustar a la ruta",
       "coursePin": "Día {day}, parada {order}: {name}",
       "courseStay": "Noche {day}, alojamiento: {name}",
-      "courseStaySample": "Noche {day}, alojamiento (ejemplo): {name}"
+      "courseStaySample": "Noche {day}, alojamiento (ejemplo): {name}",
+      "courseRoadNote": "Las líneas continuas siguen las carreteras; las discontinuas son tramos en línea recta."
     },
     "sheet": {
       "add": "Añadir a la ruta",
