@@ -323,7 +323,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   **일정 시각 · 이동 시간(분)은 바꾸지 않는다**(일정 계산은 그대로 `legInfo` 어림값이고 `min`은 쓰지 않는다). 화면 맞추기는 핀 · 숙소 기준 그대로
 - **캐시**: 카카오 정책상 길찾기 결과를 우리 서버에 저장 · 재사용하지 않는다. 서버 fetch 캐시 없음(`cache: "no-store"`), 200(경로 · 경로 없음)만
   `Cache-Control: private, max-age=3600`(브라우저 · 앱만), 400 · 403 · 429 · 502 · 503은 `no-store`. 브라우저는 TanStack Query `["route", from, to, by]` 1시간(지도 · 코스 탭이 함께 쓴다),
-  재시도 없음. 첫 답을 받기 전에는 하나만, 그 뒤로는 6개까지 함께 보낸다(`roadLegFetcher`, 앱 `RoadRouteGate`와 같다). 시간 제한 10초는 보낼 때부터 잰다.
+  앱은 실행 동안 메모리(`roadRouteProvider`, 경로 없음 · 실패의 null도 그대로 두고 껐다 켤 때까지 다시 부르지 않는다).
+  둘 다 재시도 없음. 첫 답을 받기 전에는 하나만, 그 뒤로는 6개까지 함께 보낸다(`roadLegFetcher`, 앱 `RoadRouteGate`와 같다). 시간 제한 10초는 보낼 때부터 잰다.
   503을 한 번 받으면 페이지를 새로 고칠 때까지 더 부르지 않는다(화면 이동은 모듈을 그대로 둔다) — 키가 없는 서버에는 한 번만 묻는다
 
 ### 한국관광공사 칸 `GET /api/tour/audio` · `/api/tour/related` · `/api/tour/crowd`
