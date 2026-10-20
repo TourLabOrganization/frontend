@@ -6,6 +6,7 @@
 //   - 카카오 정책상 길찾기 결과를 우리 쪽에 저장 · 재사용하지 않는다: 서버 fetch 캐시를 쓰지 않고(cache: "no-store"),
 //     응답은 브라우저 · 앱만 1시간 캐시한다(private)
 //   - 꼭짓점(vertexes, [경도, 위도, 경도, 위도, …])을 이어 [위도, 경도] 목록으로 바꾸고, 양 끝을 핀에 붙인 뒤 Douglas–Peucker로 줄인다
+//   - 저장하지 못해 같은 요청도 매번 카카오를 부르므로, 카카오 앞에서 다른 사이트 페이지의 브라우저 요청(403)과 IP마다 토큰 버킷(429)으로 막는다
 // 키 · 카카오 오류 문구는 응답 · 로그에 넣지 않는다. 일정 시각(분)은 바꾸지 않는다: 화면은 선 · 구간 거리 · 요약 거리에만 쓴다.
 // 테스트(vitest)가 "@/" 경로를 풀지 못해 처리를 이 파일에 두고 Route Handler(app/api/route)는 부르기만 한다.
 import { kakaoRestKey } from "./kakao-rest";
@@ -30,6 +31,15 @@ export const ROUTE_BOUNDS = {
 export const ROUTE_MIN_M = 20;
 /** 이보다 먼 두 점(직선 km)은 400 */
 export const ROUTE_MAX_KM = 700;
+
+/**
+ * IP마다 카카오까지 가는 요청 상한(토큰 버킷, 서버 인스턴스 메모리): 한꺼번에 ROUTE_IP_BURST개(80구간 코스 둘), 그 뒤 시간당 ROUTE_IP_PER_HOUR개.
+ * 시간당 300이면 IP 하나가 하루 무료 쿼터(약 1만 건)를 다 쓰지 못한다(160 + 300 × 24 = 7,360)
+ */
+export const ROUTE_IP_BURST = 160;
+export const ROUTE_IP_PER_HOUR = 300;
+/** 기억하는 IP 수 상한. 넘으면 다 찬 버킷(한동안 안 온 IP)부터 지운다 */
+const ROUTE_IP_KEEP = 10000;
 
 /** 카카오 priority. by 없음 → 추천, by=distance → 최단 거리 */
 export type RoutePriority = "RECOMMEND" | "DISTANCE";
@@ -229,6 +239,45 @@ export function toRoadRoute(
   return { km, min: Math.round(duration / 60), path };
 }
 
+const buckets = new Map<string, { tokens: number; at: number }>();
+const TOKENS_PER_MS = ROUTE_IP_PER_HOUR / (3600 * 1000);
+
+/** 요청한 곳의 IP. Vercel은 x-forwarded-for · x-real-ip를 자기가 본 IP로 덮어쓴다. 없으면 ""(모두 한 버킷) */
+export function clientIp(request: Request): string {
+  const forwarded = request.headers
+    .get("x-forwarded-for")
+    ?.split(",")[0]
+    ?.trim();
+  return forwarded || request.headers.get("x-real-ip")?.trim() || "";
+}
+
+function refilled(b: { tokens: number; at: number }, now: number): number {
+  return Math.min(ROUTE_IP_BURST, b.tokens + (now - b.at) * TOKENS_PER_MS);
+}
+
+/** IP 하나의 토큰을 하나 쓴다. 남은 게 없으면 false(429) */
+export function takeRouteToken(ip: string, now = Date.now()): boolean {
+  const b = buckets.get(ip);
+  if (!b && buckets.size >= ROUTE_IP_KEEP) {
+    for (const [k, v] of buckets)
+      if (refilled(v, now) >= ROUTE_IP_BURST) buckets.delete(k);
+    // 모두 쓰는 중이면 먼저 들어온 IP부터
+    for (const k of buckets.keys()) {
+      if (buckets.size < ROUTE_IP_KEEP) break;
+      buckets.delete(k);
+    }
+  }
+  const tokens = b ? refilled(b, now) : ROUTE_IP_BURST;
+  const ok = tokens >= 1;
+  buckets.set(ip, { tokens: ok ? tokens - 1 : tokens, at: now });
+  return ok;
+}
+
+/** 버킷을 비운다(테스트) */
+export function resetRouteLimit(): void {
+  buckets.clear();
+}
+
 /** 응답. 200(경로 · 경로 없음)은 브라우저 · 앱만 1시간, 오류는 저장하지 않는다 */
 function routeJson(body: unknown, status = 200): Response {
   return Response.json(body, {
@@ -245,9 +294,13 @@ function routeJson(body: unknown, status = 200): Response {
 /**
  * GET /api/route 처리.
  * 400 좌표 · by가 틀림 · 700km 넘음, 503 키 없음 · 카카오 401/403(카카오내비 API 권한 없음),
- * 502 카카오 실패(그 밖의 HTTP 오류 · 시간 초과 · JSON 아님 · 모양 다름)
+ * 502 카카오 실패(그 밖의 HTTP 오류 · 시간 초과 · JSON 아님 · 모양 다름),
+ * 403 다른 사이트 페이지의 브라우저 요청(Sec-Fetch-Site: cross-site), 429 그 IP의 상한을 넘음
  */
 export async function roadRouteResponse(request: Request): Promise<Response> {
+  // 우리 화면은 same-origin, 앱 · curl은 이 헤더가 없다. 다른 사이트가 방문자 브라우저로 쿼터를 쓰지 못하게 한다
+  if (request.headers.get("sec-fetch-site") === "cross-site")
+    return routeJson({ message: "forbidden" }, 403);
   const q = parseRouteQuery(new URL(request.url).searchParams);
   if ("error" in q) return routeJson({ message: q.error }, 400);
   const d = distM(q.from, q.to);
@@ -255,6 +308,8 @@ export async function roadRouteResponse(request: Request): Promise<Response> {
   if (d > ROUTE_MAX_KM * 1000) return routeJson({ message: "too far" }, 400);
   const key = kakaoRestKey();
   if (!key) return routeJson({ message: "not configured" }, 503);
+  if (!takeRouteToken(clientIp(request)))
+    return routeJson({ message: "too many requests" }, 429);
   try {
     const res = await fetch(kakaoDirectionsUrl(q), {
       headers: { Authorization: `KakaoAK ${key}` },

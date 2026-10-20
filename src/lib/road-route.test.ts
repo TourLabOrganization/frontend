@@ -1,15 +1,20 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  clientIp,
   distM,
   kakaoDirectionsUrl,
   parseLatLng,
   parseRouteQuery,
+  ROUTE_IP_BURST,
+  ROUTE_IP_PER_HOUR,
   type RoadRoute,
   type RouteQuery,
+  resetRouteLimit,
   roadRouteResponse,
   routeVertices,
   simplifyPath,
   simplifyTolerance,
+  takeRouteToken,
   toRoadRoute,
 } from "./road-route";
 
@@ -269,14 +274,57 @@ describe("경로 줄이기 (simplifyPath · Douglas–Peucker)", () => {
   });
 });
 
+describe("IP마다 상한 (takeRouteToken · clientIp)", () => {
+  afterEach(() => resetRouteLimit());
+
+  it("한꺼번에 ROUTE_IP_BURST개, 그 뒤로는 시간당 ROUTE_IP_PER_HOUR개(12초에 하나). IP마다 따로 센다", () => {
+    expect(ROUTE_IP_BURST).toBe(160);
+    expect(ROUTE_IP_PER_HOUR).toBe(300);
+    const t0 = 1_000_000;
+    for (let i = 0; i < ROUTE_IP_BURST; i++)
+      expect(takeRouteToken("203.0.113.7", t0)).toBe(true);
+    expect(takeRouteToken("203.0.113.7", t0)).toBe(false);
+    expect(takeRouteToken("203.0.113.8", t0)).toBe(true);
+    expect(takeRouteToken("203.0.113.7", t0 + 11_000)).toBe(false);
+    expect(takeRouteToken("203.0.113.7", t0 + 12_000)).toBe(true);
+    expect(takeRouteToken("203.0.113.7", t0 + 12_000)).toBe(false);
+    // 오래 쉬어도 ROUTE_IP_BURST개까지만 찬다
+    const later = t0 + 24 * 3600 * 1000;
+    for (let i = 0; i < ROUTE_IP_BURST; i++)
+      expect(takeRouteToken("203.0.113.7", later)).toBe(true);
+    expect(takeRouteToken("203.0.113.7", later)).toBe(false);
+  });
+
+  it("하루 내내 불러도 IP 하나는 무료 일일 쿼터(약 1만 건)를 다 쓰지 못한다", () => {
+    let n = 0;
+    for (let s = 0; s < 24 * 3600; s++)
+      if (takeRouteToken("203.0.113.9", s * 1000)) n++;
+    expect(n).toBeLessThan(10000);
+    expect(n).toBeGreaterThan(ROUTE_IP_BURST + 24 * ROUTE_IP_PER_HOUR - 5);
+  });
+
+  it("IP는 x-forwarded-for 첫 값 → x-real-ip, 없으면 빈 글자", () => {
+    const req = (headers: Record<string, string>) =>
+      new Request("http://localhost/api/route", { headers });
+    expect(clientIp(req({ "x-forwarded-for": "203.0.113.7, 10.0.0.1" }))).toBe(
+      "203.0.113.7",
+    );
+    expect(clientIp(req({ "x-real-ip": "198.51.100.2" }))).toBe("198.51.100.2");
+    expect(clientIp(req({}))).toBe("");
+  });
+});
+
 describe("GET /api/route", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.unstubAllGlobals();
+    resetRouteLimit();
   });
   const KEY = "SECRET-REST-KEY";
-  const call = (qs: string) =>
-    roadRouteResponse(new Request(`http://localhost/api/route?${qs}`));
+  const call = (qs: string, headers?: Record<string, string>) =>
+    roadRouteResponse(
+      new Request(`http://localhost/api/route?${qs}`, { headers }),
+    );
   const qs = `from=${FROM.lat},${FROM.lng}&to=${TO.lat},${TO.lng}`;
   const stubKakao = (res: () => Response | Promise<Response>) => {
     const fn = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
@@ -407,5 +455,45 @@ describe("GET /api/route", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ empty: true });
     expect(res.headers.get("Cache-Control")).toBe("private, max-age=3600");
+  });
+
+  it("다른 사이트 페이지의 브라우저 요청(Sec-Fetch-Site: cross-site)은 카카오를 부르지 않고 403", async () => {
+    vi.stubEnv("KAKAO_REST_KEY", KEY);
+    const fn = stubKakao(() =>
+      Response.json(kakao([[129.21118, 35.83811, 129.21901, 35.83469]])),
+    );
+    const res = await call(qs, { "sec-fetch-site": "cross-site" });
+    expect(res.status).toBe(403);
+    expect(await res.json()).toEqual({ message: "forbidden" });
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+    expect(fn).not.toHaveBeenCalled();
+    // 우리 화면(same-origin) · 같은 사이트 · 주소창(none) · 앱(헤더 없음)은 받는다
+    for (const site of ["same-origin", "same-site", "none"])
+      expect((await call(qs, { "sec-fetch-site": site })).status).toBe(200);
+    expect((await call(qs)).status).toBe(200);
+    expect(fn).toHaveBeenCalledTimes(4);
+  });
+
+  it("한 IP가 상한을 넘으면 카카오를 부르지 않고 429. 다른 IP는 그대로, 카카오를 부르지 않는 응답은 세지 않는다", async () => {
+    vi.stubEnv("KAKAO_REST_KEY", KEY);
+    const fn = stubKakao(() =>
+      Response.json(kakao([[129.21118, 35.83811, 129.21901, 35.83469]])),
+    );
+    const ip = { "x-forwarded-for": "203.0.113.7" };
+    // 20m 안 · 좌표가 틀림은 카카오를 부르지 않아 세지 않는다
+    for (let i = 0; i < 5; i++) {
+      await call("from=35.8,129.2&to=35.80015,129.2", ip);
+      await call("from=1,2&to=35.9,129.3", ip);
+    }
+    for (let i = 0; i < ROUTE_IP_BURST; i++)
+      expect((await call(qs, ip)).status).toBe(200);
+    const res = await call(qs, ip);
+    expect(res.status).toBe(429);
+    expect(await res.json()).toEqual({ message: "too many requests" });
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+    expect(fn).toHaveBeenCalledTimes(ROUTE_IP_BURST);
+    expect((await call(qs, { "x-forwarded-for": "203.0.113.8" })).status).toBe(
+      200,
+    );
   });
 });

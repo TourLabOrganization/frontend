@@ -315,11 +315,14 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **응답**: `{ "km", "min", "path": [[위도, 경도], …] }` — `km` 도로 거리(소수 1자리), `min` 카카오 소요 시간(분, 반올림). 길이 없으면(routes 없음 · `result_code` ≠ 0: 섬 건너기 · 주변 도로 없음 등)
   `{ "empty": true }`. 키가 없거나 카카오 401 · 403(카카오내비 권한 없음)이면 503 `{ "message": "not configured" }`, 그 밖의 실패(HTTP 오류 · 시간 초과 · JSON 아님)는
   502 `{ "message": "upstream" }`. 키 · 카카오 오류 문구는 응답 · 로그에 넣지 않는다
+- **남용 막기**: 결과를 저장하지 못해 같은 요청도 매번 카카오를 부르므로 카카오 앞에서 막는다(`docs/security.md`). 다른 사이트 페이지의 브라우저 요청(`Sec-Fetch-Site: cross-site`)은
+  403 `{ "message": "forbidden" }`, IP마다 토큰 버킷(한꺼번에 160 · 그 뒤 시간당 300, 서버 인스턴스 메모리)을 넘으면 429 `{ "message": "too many requests" }`.
+  카카오를 부르지 않는 응답(400 · 20m 안 · 키 없음)은 세지 않는다. 브라우저 · 앱은 403 · 429도 다른 실패처럼 직선 점선으로 그린다
 - **화면**: 경로를 받은 구간은 그 길을 따라 실선, 나머지(부르지 않는 구간 · 받는 중 · 경로 없음 · 오류)는 두 핀을 잇는 직선 점선. 플래너 지도 범례 아래에 점선이 하나라도 있으면
   안내 한 줄(`Planner.map.courseRoadNote`). 코스 탭 구간 줄은 「… · 도로 3.2km」(`Planner.course.legs.legRoad`), 요약 총 거리는 받은 구간만 도로 km로 바꾼 합.
   **일정 시각 · 이동 시간(분)은 바꾸지 않는다**(일정 계산은 그대로 `legInfo` 어림값이고 `min`은 쓰지 않는다). 화면 맞추기는 핀 · 숙소 기준 그대로
 - **캐시**: 카카오 정책상 길찾기 결과를 우리 서버에 저장 · 재사용하지 않는다. 서버 fetch 캐시 없음(`cache: "no-store"`), 200(경로 · 경로 없음)만
-  `Cache-Control: private, max-age=3600`(브라우저 · 앱만), 400 · 502 · 503은 `no-store`. 브라우저는 TanStack Query `["route", from, to, by]` 1시간(지도 · 코스 탭이 함께 쓴다),
+  `Cache-Control: private, max-age=3600`(브라우저 · 앱만), 400 · 403 · 429 · 502 · 503은 `no-store`. 브라우저는 TanStack Query `["route", from, to, by]` 1시간(지도 · 코스 탭이 함께 쓴다),
   재시도 없음. 첫 답을 받기 전에는 하나만, 그 뒤로는 6개까지 함께 보낸다(`roadLegFetcher`, 앱 `RoadRouteGate`와 같다). 시간 제한 10초는 보낼 때부터 잰다.
   503을 한 번 받으면 페이지를 새로 고칠 때까지 더 부르지 않는다(화면 이동은 모듈을 그대로 둔다) — 키가 없는 서버에는 한 번만 묻는다
 
