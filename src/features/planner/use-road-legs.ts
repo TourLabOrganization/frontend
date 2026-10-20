@@ -12,32 +12,63 @@ export type RoadLeg = { km: number; min: number; points: LatLng[] };
 
 /** 브라우저 캐시(ms). 서버 Cache-Control(1시간)과 같다 */
 const ROAD_CACHE_MS = 3600 * 1000;
-/** 시간 제한(ms). 서버의 카카오 시간 제한(8초)보다 길게 */
+/** 시간 제한(ms). 서버의 카카오 시간 제한(8초)보다 길게. 자리를 받은 뒤부터 잰다 */
 const ROAD_TIMEOUT_MS = 10000;
+/** 동시에 보내는 요청 수(첫 답을 받은 뒤). 앱 road_route.dart roadRouteParallel과 같다 */
+export const ROAD_PARALLEL = 6;
 
-// 서버에 키가 없거나 카카오내비 권한이 없으면(503) 이 화면을 새로 열 때까지 더 부르지 않는다
-let notConfigured = false;
+/**
+ * 구간 도로 경로를 받는 함수. 앱 road_route.dart RoadRouteGate와 같은 문지기를 둔다:
+ * 첫 답을 받기 전에는 하나만, 그 뒤로는 ROAD_PARALLEL개까지 보낸다(코스 하나에 80구간까지라 한꺼번에 보내지 않는다).
+ * 시간 제한은 자리를 받은 뒤부터 잰다(기다린 시간은 넣지 않는다).
+ * 503(키 없음 · 카카오내비 권한 없음)을 받으면 이 함수는 더 부르지 않는다 — 키가 없는 서버에는 한 번만 묻는다
+ */
+export function roadLegFetcher(): (q: RoadLegQuery) => Promise<RoadLeg | null> {
+  let off = false;
+  let answered = false;
+  let running = 0;
+  const waiting: (() => void)[] = [];
+  const limit = () => (answered ? ROAD_PARALLEL : 1);
 
-async function fetchRoadLeg(q: RoadLegQuery): Promise<RoadLeg | null> {
-  if (notConfigured) return null;
-  try {
-    const res = await fetch(roadRoutePath(q), {
-      signal: AbortSignal.timeout(ROAD_TIMEOUT_MS),
-    });
-    if (res.status === 503) notConfigured = true;
-    if (!res.ok) return null;
-    const body = (await res.json()) as RoadRouteBody;
-    if ("empty" in body || !Array.isArray(body.path) || body.path.length < 2)
+  async function fetchOne(q: RoadLegQuery): Promise<RoadLeg | null> {
+    try {
+      const res = await fetch(roadRoutePath(q), {
+        signal: AbortSignal.timeout(ROAD_TIMEOUT_MS),
+      });
+      if (res.status === 503) off = true;
+      if (!res.ok) return null;
+      const body = (await res.json()) as RoadRouteBody;
+      if ("empty" in body || !Array.isArray(body.path) || body.path.length < 2)
+        return null;
+      return {
+        km: body.km,
+        min: body.min,
+        points: body.path.map(([lat, lng]) => ({ lat, lng })),
+      };
+    } catch {
       return null;
-    return {
-      km: body.km,
-      min: body.min,
-      points: body.path.map(([lat, lng]) => ({ lat, lng })),
-    };
-  } catch {
-    return null;
+    }
   }
+
+  return async (q) => {
+    if (running < limit()) running++;
+    // 자리를 받고 깨어난다(running은 깨운 쪽이 셌다)
+    else await new Promise<void>((wake) => waiting.push(wake));
+    try {
+      return off ? null : await fetchOne(q);
+    } finally {
+      answered = true;
+      running--;
+      while (waiting.length > 0 && running < limit()) {
+        running++;
+        waiting.shift()!();
+      }
+    }
+  };
 }
+
+// 페이지를 새로 고칠 때까지 문지기 하나를 쓴다(App Router 화면 이동은 모듈을 그대로 두므로 503 뒤에는 새로 고칠 때까지 부르지 않는다)
+const fetchRoadLeg = roadLegFetcher();
 
 /**
  * 구간 조회들의 도로 경로. 받은 구간만 roadLegKey → 경로로 담는다(받는 중 · 없음 · 실패는 빠진다).
