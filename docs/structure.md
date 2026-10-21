@@ -146,7 +146,8 @@ public/                 정적 파일
   날짜는 로컬 날짜로 만든다(`addLocalDays`, `toISOString`은 한국 시간에서 하루 밀린다)
 - 숙소 표본 `features/planner/data/stays.json`은 PoC `STAYS`(「임의 구성 — 실제 예약 정보 아님」, 153곳)다. PoC의 가격대(`band`)는 임의로 만든 숫자라
   옮기지 않고 화면에도 가격을 보이지 않는다. 표본에는 「예시」와 안내 한 줄을 둔다. 중 · 일 · 스페인어는 영어 값을 쓴다
-- 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
+- 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다
+  (요약 총 거리만 도로 경로를 받은 구간을 도로 km로 바꿔 더한다, `docs/api.md` 「도로 경로」).
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
 
 #### 광역 체인 (`features/planner/wide-chain.ts` · `schedule.ts` · `metro.ts`)
