@@ -13,7 +13,8 @@ import { type BubbleBox, visibleBubbleIds } from "./bubble-overlap";
 import { bubbleText } from "./bubble-text";
 import { categoryDot } from "./category";
 import { CategoryIcon } from "./CategoryIcon";
-import { type CourseOverlay, roadLegKey } from "./course-map";
+import type { CourseOverlay } from "./course-map";
+import { roadLegKey } from "./road-legs";
 import type { RoadLeg } from "./use-road-legs";
 
 // 투어 플래너 지도(카카오). 키 · 불러오기 실패 안내 · 화면 맞추기는 공통 지도 틀(components/ui/MapFrame)이 한다.

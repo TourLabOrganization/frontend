@@ -295,7 +295,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 
 코스 빌더 지도(플래너 지도 탭 `PlannerMap` 코스 선 · 테마 코스 탭 `ThemeMap`)의 구간 선과 플래너 코스 탭의 구간 거리 · 요약 총 거리
 (2026-10-20 요청 「직선 거리 대신 실제 이동 경로를 그려 달라」). 코드는 `app/api/route/route.ts`, 처리는 `lib/road-route.ts`(서버 전용),
-구간 규칙은 `features/planner/course-map.ts`(`roadLegQuery` · `themeRoadLegQuery`), 브라우저 호출은 `features/planner/use-road-legs.ts`. 앱(Flutter)도 같은 주소를 부른다.
+구간 규칙은 `features/planner/course-map.ts`(`roadLegQuery`) · `road-legs.ts`(`themeRoadLegQuery`, 상한 · 키 · 주소), 브라우저 호출은 `features/planner/use-road-legs.ts`. 앱(Flutter)도 같은 주소를 부른다.
+테마 화면이 쓰는 `road-legs.ts` · `use-road-legs.ts`는 장소 · 일정 데이터 JSON을 import하지 않는다(`roadLegQuery`는 광역 수단 `wideLegMode`가 필요해 `course-map.ts`에 둔다, `theme/map-bundle.test.ts`).
 
 - **원천**: 카카오모빌리티 자동차 길찾기 `apis-navi.kakaomobility.com/v1/directions`(`origin` · `destination`은 경도,위도, `priority` `RECOMMEND` · `DISTANCE`,
   `alternatives=false` · `road_details=false` · `summary=false`), 헤더 `Authorization: KakaoAK <키>`. 키 `KAKAO_REST_KEY`(서버 전용),

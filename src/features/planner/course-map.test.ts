@@ -1,16 +1,18 @@
 import { describe, expect, it } from "vitest";
 import {
   courseOverlay,
-  courseRoadQueries,
   DAY_COLORS,
   dayColor,
+  roadLegQuery,
+} from "./course-map";
+import {
+  courseRoadQueries,
   ROAD_LEG_CAP,
   type RoadLegQuery,
   roadLegKey,
-  roadLegQuery,
   roadRoutePath,
   themeRoadLegQuery,
-} from "./course-map";
+} from "./road-legs";
 import type { StaySample } from "./stays";
 
 const p = (id: string, lat: number, lng: number) => ({ id, lat, lng });

@@ -5,7 +5,7 @@ import {
   QueryObserver,
 } from "@tanstack/react-query";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { RoadLegQuery } from "./course-map";
+import type { RoadLegQuery } from "./road-legs";
 import {
   ROAD_PARALLEL,
   ROAD_RETRY,

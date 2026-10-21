@@ -45,7 +45,8 @@ import {
   weatherKind,
   weatherPath,
 } from "@/lib/weather";
-import { courseRoadQueries, roadLegKey, roadLegQuery } from "./course-map";
+import { roadLegQuery } from "./course-map";
+import { courseRoadQueries, roadLegKey } from "./road-legs";
 import { courseWeather, forecastRange } from "./course-weather";
 import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";

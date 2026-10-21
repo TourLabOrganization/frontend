@@ -7,7 +7,7 @@ import {
   courseRoadQueries,
   roadLegKey,
   themeRoadLegQuery,
-} from "@/features/planner/course-map";
+} from "@/features/planner/road-legs";
 import { useRoadLegs } from "@/features/planner/use-road-legs";
 
 // 테마 화면의 카카오 지도. 지도 탭과 코스 탭이 함께 쓴다.

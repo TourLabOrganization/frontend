@@ -54,17 +54,13 @@ import { useCourseToggle } from "./use-course-toggle";
 import { usePlaceDetail } from "./use-place-detail";
 import { hasHangul } from "@/lib/hangul";
 import { useNameTable } from "@/features/names/NamesProvider";
-import {
-  courseOverlay,
-  dayColor,
-  roadLegKey,
-  roadLegQuery,
-} from "./course-map";
+import { courseOverlay, dayColor, roadLegQuery } from "./course-map";
 import { withStayOverrides } from "./course-edit";
 import { usePlannerCourse, useToday } from "./course-store";
 import { canonicalKnownId, findAnyPlace, isKnownPlace } from "./place-lookup";
 import { buildPlannerSchedule } from "./schedule";
 import { splitStays, STAY_SAMPLES } from "./stays";
+import { roadLegKey } from "./road-legs";
 import { useRoadLegs } from "./use-road-legs";
 
 /** 목록에 처음 보이는 수. 스크롤이 길어지지 않게 적게 보이고 나머지는 「더 보기」로 */

@@ -4,7 +4,7 @@ import {
   useQueries,
 } from "@tanstack/react-query";
 import type { LatLng } from "@/features/course/schedule";
-import { type RoadLegQuery, roadLegKey, roadRoutePath } from "./course-map";
+import { type RoadLegQuery, roadLegKey, roadRoutePath } from "./road-legs";
 
 // 코스 구간의 도로 경로(GET /api/route, lib/road-route.ts). 지도 탭 · 코스 탭 · 테마 코스 지도가 같은 queryKey로 부르므로
 // 한 구간은 한 번만 받는다. 서버는 결과를 저장하지 않고(카카오 정책) 브라우저가 들고 있는다(앱 road_route.dart roadRouteProvider와 같은 규칙):
