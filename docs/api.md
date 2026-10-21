@@ -325,7 +325,8 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
   `Cache-Control: private, max-age=3600`(브라우저 · 앱만), 400 · 403 · 429 · 502 · 503은 `no-store`. 브라우저(TanStack Query `["route", from, to, by]`, 지도 · 코스 탭이 함께 쓴다,
   `use-road-legs.ts` `roadLegOptions`)와 앱(`roadRouteProvider`)은 답을 같은 규칙으로 나눈다
   - **그대로 두는 답**: 경로 · 경로 없음(`{ "empty": true }`) · 400(입력이 틀림 · 너무 멂) · 403(`forbidden`), 429 말고 다른 4xx도. 다시 물어도 같은 답이라
-    브라우저는 1시간(`staleTime` · `gcTime`), 앱은 실행 동안 메모리(껐다 켤 때까지) 그대로 쓴다
+    브라우저는 1시간(`staleTime` · `gcTime`), 앱은 실행 동안 메모리(껐다 켤 때까지) 그대로 쓴다.
+    브라우저가 1시간 뒤 다시 물어 잠깐의 실패(아래)를 받으면 받은 경로를 그대로 두고 1시간 더 쓴다(`structuralSharing`, 실선이 점선으로 돌아가지 않는다)
   - **잠깐의 실패**: 시간 초과(10초) · 연결 없음 · JSON이 아니거나 모양이 다른 2xx(가로챈 페이지 등) · `not configured`가 아닌 5xx(502 등) · 429(`too many requests`).
     지금은 경로 없음처럼 그리고 5분 뒤 다시 묻는다: 그 구간을 보고 있으면 그때(브라우저 `refetchInterval` · 앱 타이머), 아니면 다음에 볼 때.
     경로나 그대로 두는 답을 받으면 멈추고, 또 실패하면 다시 5분 뒤

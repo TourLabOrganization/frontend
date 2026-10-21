@@ -274,6 +274,38 @@ describe("도로 경로 조회 (roadLegOptions): 받은 답은 1시간, 잠깐�
     for (const w of [...ws, ...again]) w.stop();
   });
 
+  it("1시간 뒤 다시 물었을 때 잠깐의 실패(429 · 502 · 연결 없음)면 받은 경로를 그대로 두고 1시간 더 쓴다", async () => {
+    const fn = answerFetch(
+      ok,
+      status(429, "too many requests"),
+      status(502, "upstream"),
+      () => Promise.reject(new TypeError("network")),
+    );
+    client.mount();
+    const w = watch(leg(0), roadLegFetcher());
+    await flush();
+    expect(w.data()).toEqual(okLeg);
+    const hour = 3600 * 1000;
+    // 보고 있어도 저절로 다시 묻지는 않는다. 1시간이 지난 뒤 창에 돌아오면 묻는다
+    await vi.advanceTimersByTimeAsync(hour + 1000);
+    expect(fn).toHaveBeenCalledTimes(1);
+    for (let n = 2; n <= 4; n++) {
+      focusManager.setFocused(false);
+      focusManager.setFocused(true);
+      await flush();
+      expect(fn).toHaveBeenCalledTimes(n);
+      expect(w.data()).toEqual(okLeg);
+      // 경로로 남아 5분마다 다시 묻지 않고, 1시간 안에 창에 돌아와도 묻지 않는다
+      await vi.advanceTimersByTimeAsync(ROAD_RETRY_MS * 11);
+      focusManager.setFocused(false);
+      focusManager.setFocused(true);
+      await flush();
+      expect(fn).toHaveBeenCalledTimes(n);
+      await vi.advanceTimersByTimeAsync(ROAD_RETRY_MS + 1000);
+    }
+    w.stop();
+  });
+
   it("503 not configured를 받으면 null이고 그 뒤로는 어느 구간도 서버에 묻지 않는다", async () => {
     const fn = answerFetch(status(503, "not configured"));
     const get = roadLegFetcher();

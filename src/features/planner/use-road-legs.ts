@@ -1,10 +1,15 @@
-import { queryOptions, useQueries } from "@tanstack/react-query";
+import {
+  queryOptions,
+  replaceEqualDeep,
+  useQueries,
+} from "@tanstack/react-query";
 import type { LatLng } from "@/features/course/schedule";
 import { type RoadLegQuery, roadLegKey, roadRoutePath } from "./course-map";
 
 // 코스 구간의 도로 경로(GET /api/route, lib/road-route.ts). 지도 탭 · 코스 탭 · 테마 코스 지도가 같은 queryKey로 부르므로
 // 한 구간은 한 번만 받는다. 서버는 결과를 저장하지 않고(카카오 정책) 브라우저가 들고 있는다(앱 road_route.dart roadRouteProvider와 같은 규칙):
-//   - 받은 경로 · 경로 없음({ empty: true }) · 400 · 403(429 말고 다른 4xx도)은 1시간(ROAD_CACHE_MS) 그대로 쓴다
+//   - 받은 경로 · 경로 없음({ empty: true }) · 400 · 403(429 말고 다른 4xx도)은 1시간(ROAD_CACHE_MS) 그대로 쓴다.
+//     1시간 뒤 다시 물어 잠깐의 실패면 받은 경로를 그대로 두고 1시간 더 쓴다(앱은 실행 동안 다시 묻지 않는다)
 //   - 잠깐의 실패(시간 초과 · 연결 없음 · JSON이 아니거나 모양이 다른 2xx · not configured가 아닌 5xx · 429)는 ROAD_RETRY로 두고
 //     ROAD_RETRY_MS(5분) 뒤 다시 부른다: 그 구간을 보고 있으면 그때, 아니면 다음에 볼 때
 //   - 503 not configured(키 없음 · 카카오내비 권한 없음)를 받으면 페이지를 새로 고칠 때까지 더 부르지 않는다(roadLegFetcher)
@@ -120,9 +125,15 @@ const fetchRoadLeg = roadLegFetcher();
 const retrying = (query: { state: { data?: RoadLegResult } }) =>
   query.state.data === ROAD_RETRY;
 
+/** 답이 경로인지(없음 · 잠깐의 실패 · 받는 중이 아님) */
+function isRoadLeg(r: unknown): r is RoadLeg {
+  return typeof r === "object" && r !== null;
+}
+
 /**
  * 구간 하나의 조회 옵션. 잠깐의 실패만 ROAD_RETRY_MS 뒤 낡은 값이 되고(그 뒤 화면에 다시 나오거나 창에 돌아오면 부른다),
- * 보고 있는 동안은 그 간격으로 다시 부른다. 경로 · 없음을 받으면 멈춘다. get은 테스트가 문지기를 바꿔 끼운다
+ * 보고 있는 동안은 그 간격으로 다시 부른다. 경로 · 없음을 받으면 멈춘다. 받은 경로는 다시 물어 잠깐의 실패여도 그대로 둔다.
+ * get은 테스트가 문지기를 바꿔 끼운다
  */
 export function roadLegOptions(q: RoadLegQuery, get = fetchRoadLeg) {
   return queryOptions({
@@ -137,12 +148,9 @@ export function roadLegOptions(q: RoadLegQuery, get = fetchRoadLeg) {
     refetchInterval: (query) => (retrying(query) ? ROAD_RETRY_MS : false),
     gcTime: ROAD_CACHE_MS,
     retry: false,
+    structuralSharing: (old, next) =>
+      next === ROAD_RETRY && isRoadLeg(old) ? old : replaceEqualDeep(old, next),
   });
-}
-
-/** 답이 경로인지(없음 · 잠깐의 실패 · 받는 중이 아님) */
-function isRoadLeg(r: RoadLegResult | undefined): r is RoadLeg {
-  return typeof r === "object" && r !== null;
 }
 
 /**
