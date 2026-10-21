@@ -4,7 +4,8 @@
 //   - 입력은 한국 안 좌표 두 개와 우선순위(by 없음 RECOMMEND · by=distance DISTANCE)뿐이다. 호스트 · 경로는 고정(아무 주소나 대신 불러 주지 않는다)
 //   - 도보 길찾기는 카카오모빌리티 제휴 전용이라 대중교통 · 도보 구간은 자동차 도로 최단 경로(by=distance)로 그린다
 //   - 카카오 정책상 길찾기 결과를 우리 쪽에 저장 · 재사용하지 않는다: 서버 fetch 캐시를 쓰지 않고(cache: "no-store"),
-//     응답은 private라 브라우저(1시간) · 앱(실행 동안 메모리)만 들고 있는다
+//     응답은 private라 브라우저 · 앱만 들고 있는다(받은 답은 브라우저 1시간 · 앱 실행 동안 메모리, 잠깐의 실패(5xx · 429 등)는 5분 뒤 다시 묻는다:
+//     features/planner/use-road-legs.ts · 앱 road_route.dart)
 //   - 꼭짓점(vertexes, [경도, 위도, 경도, 위도, …])을 이어 [위도, 경도] 목록으로 바꾸고, 양 끝을 핀에 붙인 뒤 Douglas–Peucker로 줄인다
 //   - 저장하지 못해 같은 요청도 매번 카카오를 부르므로, 카카오 앞에서 다른 사이트 페이지의 브라우저 요청(403)과 IP마다 토큰 버킷(429)으로 막는다
 // 키 · 카카오 오류 문구는 응답 · 로그에 넣지 않는다. 일정 시각(분)은 바꾸지 않는다: 화면은 선 · 구간 거리 · 요약 거리에만 쓴다.
@@ -18,7 +19,7 @@ export const KAKAO_DIRECTIONS_URL =
   "https://apis-navi.kakaomobility.com/v1/directions";
 /** 호출 시간 제한(ms) */
 export const ROUTE_TIMEOUT_MS = 8000;
-/** 브라우저 · 앱 캐시(초). 서버는 저장하지 않는다 */
+/** 200 응답 Cache-Control max-age(초). 브라우저 TanStack Query도 같은 시간 들고 있는다. 서버는 저장하지 않는다 */
 export const ROUTE_CLIENT_SECONDS = 3600;
 /** 받는 좌표 범위(한국, 마라도 · 독도 · 백령도를 넉넉히 품는다). 밖이면 400, 경로 꼭짓점은 버린다 */
 export const ROUTE_BOUNDS = {
