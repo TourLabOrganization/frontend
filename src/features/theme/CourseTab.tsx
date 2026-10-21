@@ -23,6 +23,7 @@ import { ThemePlans } from "./ThemePlans";
 import { loadNameTable } from "@/features/names/server";
 
 // 코스 탭. 조건(일정 · 이동수단) → 3안 탭 → 설명 · 안내 → 내 플랜(이름 · 저장 · 덮어쓰기 · 저장소) · 요약 칩 → 코스 지도 → 일자별 일정.
+// 코스 지도 선은 도로 경로(실선) · 직선(점선)이다(ThemeMap). 일정 시각 · 이동 시간은 그대로다.
 // 조건은 ?a=(여행 조건 Q10~Q14, features/course/trip.ts)의 q11 · q12만 바꾼 링크다. 다른 조건은 그대로 둔다.
 // 3안 규칙과 대체 규칙(트렌드·혼잡도 데이터가 아직 없음)은 features/course/scenarios.ts 머리 주석에 있다.
 
@@ -101,8 +102,13 @@ export async function CourseTab({ slug, a, plan }: CourseTabProps) {
       label: ++order,
     })),
   );
+  // 도로 경로 우선순위(같은 도시면 최단 거리)를 정하려고 도시를 함께 넘긴다(ThemeMap · themeRoadLegQuery)
   const paths = scenario.days.map((day) =>
-    day.stops.map((stop) => ({ lat: stop.place.lat, lng: stop.place.lng })),
+    day.stops.map((stop) => ({
+      lat: stop.place.lat,
+      lng: stop.place.lng,
+      locKo: stop.place.locKo,
+    })),
   );
 
   return (

@@ -902,7 +902,8 @@
       "courseFit": "コースに合わせる",
       "coursePin": "{day}日目 {order}番目: {name}",
       "courseStay": "{day}日目の宿: {name}",
-      "courseStaySample": "{day}日目の宿（例）: {name}"
+      "courseStaySample": "{day}日目の宿（例）: {name}",
+      "courseRoadNote": "実線は道路に沿ったルート、点線は直線でつないだ区間です。"
     },
     "sheet": {
       "add": "コースに追加",
@@ -1093,6 +1094,7 @@
       },
       "legs": {
         "leg": "{mode} · {duration} · {km}km",
+        "legRoad": "{mode} · {duration} · 道路{km}km",
         "modes": {
           "transit": "公共交通",
           "driving": "レンタカー",

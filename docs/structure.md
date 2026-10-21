@@ -64,6 +64,7 @@ public/                 정적 파일
 - 권역 key와 도시 목록은 `features/planner/data/regions.json`(PoC `REG` + `MACRO_OF`)에 있다. 권역 이름은 목업 지도가 그리는 `MACRO_REGION` 이름(경북권 · 경남권 · 전라권 …)이다
 - 도시별 장소 수(`placeCounts`, `pickCity` 기준. 도시 보기 규칙은 아래 「도시 보기」)도 `regions.json`에 있다(빌드 스크립트가 센다). 도시 고르기 · 여행 정보 탭 도시 선택은 이 값(`regions.ts` `PLACE_COUNT_BY_CITY` · `CITY_GROUPS`)을 쓰고
   `data.ts`(places.json)를 import하지 않는다. 여행 정보 탭 클라이언트 컴포넌트가 places.json에 닿지 않는지는 `planner/info-bundle.test.ts`가 확인한다
+  (테마 화면 클라이언트 컴포넌트가 장소 · 숙소 · 권역 · 광역 JSON에 닿지 않는지는 `theme/map-bundle.test.ts`, 둘 다 `lib/import-graph.ts`로 import를 따라간다)
 - 지도 탭 전국 보기는 권역을 행정구역 경계 면으로 칠한다(`region-shapes.ts`, 통계청 2018 시도 경계를 권역으로 합친 것). 땅은 흰빛으로 눌러 바탕 지도 글씨를 줄이고, 경계선 · 마우스를 올린 권역 · 이름표는 브랜드 파랑이다(`PlannerMap` `AREA_FILL` · `AREA_ACCENT`, 값은 globals.css 토큰). 면 가운데에 「수도권」 이름표를 두고, 면이나 이름표를 누르면 그 권역(`?region=`)의 도시 묶음(원형)으로 들어간다
 - 지도 탭은 분류 칩과 배지 칩(데이터랩 인기 · 유네스코 · 한국관광 100선 · 열린관광지 · 관광특구 · 관광단지, `features/planner/badges.ts`)을 AND로 거른다. 배지 칩은 한 번에 하나, 다시 누르면 꺼진다
   - 한국관광 100선(`k100`) · 열린관광지(`bf`) 배지는 공식 명단 표로 매긴다(`scripts/apply-badge-lists.mjs`, 2026-10-04): `scripts/data/k100-list.csv`(2025~2026 100선 100건 → 장소 154곳. 한 건이 여러 장소를 묶으면 모두, 제주올레길은 길 전체라 장소 없음) · `scripts/data/open-tourism-list.csv`(열린관광지 2015~2026 선정 211건 → 장소 203곳). 표 밖 장소는 배지를 끈다(플래너 · 테마 코스 데이터 모두). 100선 장소는 `place-details.json`에 `k100`(선정 판 · 명단 이름 · 그 건의 장소 수)을 적고, 장소 시트 설명 끝에 「2025~2026 한국관광 100선 선정지.」(묶음 건은 「5대 고궁(…)」처럼 명단 이름도, 외국어 화면은 영어 문장)를 붙인다(`k100Sentence`, `app/api/planner/places/[id]/route.ts`). 설명 원문은 번역 표의 키라 고치지 않는다. PoC 체류시간 CSV 플래그(100선 98 · 열린관광지 99)는 옛 판이라 2023년 이후 선정지가 빠지고 지난 판 100선(서울랜드 · 절물자연휴양림 …)이 남아 있었다. 명단에 있지만 앱에 없던 열린관광지 32곳은 `scripts/data/open-tourism-places.csv`로 수기 좌표를 넣었다(`add-manual-places.mjs`). 장소를 다시 만들면 이 스크립트를 다시 돌린다. 명단은 보도자료 · 지자체 발표 검색으로 모았다(한국관광공사 목록 페이지는 작업 환경에서 막혀 있었다): 100선은 경기 남한산성 1건이 불확실, 열린관광지는 2026년 5곳 안팎을 찾지 못했다
@@ -91,6 +92,7 @@ public/                 정적 파일
 
 - **담은 코스 표시**(`course-map.ts` · `PlannerMap` `CourseLayer`, 2026-10-03): 코스에 담은 장소가 있으면 코스 탭과 같은 입력으로 일정을 계산해(`buildPlannerSchedule`) 날짜마다 색 하나(7가지 hex, `DAY_COLORS`)로
   경유지 순서 선(Polyline)과 번호 핀(그날 몇 번째, 누르면 장소 시트), 마지막 날을 뺀 날마다 그날 밤 숙소 핀(침대 아이콘, 코스 탭 「숙박」과 같은 `pickNightStay`: 담은 숙박 장소 → 표본, 25km 밖이면 없음).
+  선은 구간마다 하나다(2026-10-20): 도로 경로(`GET /api/route`, `roadLegQuery`, `docs/api.md` 「도로 경로」)를 받은 구간은 그 길을 따라 실선, 나머지는 직선 점선이고, 점선이 있으면 범례 아래 안내(`Planner.map.courseRoadNote`).
   지도 아래 범례 줄: 「코스 n곳 표시」 토글(aria-pressed) · 날짜 색 점 · 「코스에 맞춰 보기」(코스 점들에 화면을 맞춤, 범위가 바뀌면 다시 범위에 맞춘다). 문구 `Planner.map.course*`
 - 도시 보기(`city`)는 장소의 `pickCity`(도시 고르기에서 속한 도시)로 거른다. **도시를 고르면 그 도시(`locKo`)의 장소가 전부 나온다**:
   `pickCity`는 전용 화면 장소면 그 화면 도시, 전국 목록 장소면 `locKo`다(`scripts/build-planner.mjs`)
@@ -123,7 +125,7 @@ public/                 정적 파일
 - 체류 시간은 담은 장소 행에서 15분씩 바꾼다(15~600분, 추천값과 같으면 덮어쓰기를 지운다, PoC `setStay`). 일정 계산은 장소의 `min` 대신 이 값을 받을 뿐 식은 그대로다(`course-edit.ts`)
 - 일자별 일정의 「장소 추가」는 그 날 마지막 장소 뒤에 끼워 넣는다(PoC `addCourseAt`, 빈 날은 맨 뒤). 날짜 나누기가 다시 계산되므로 그 날이 꽉 차면 다음 날로 밀린다.
   검색어가 없으면 그 날 도시(첫 장소 도시, 없으면 앞뒤 날)의 장소를 보이고, 검색어가 있으면 다른 도시 장소까지 찾는다(여러 도시 코스, 2026-10-02)
-- 일자별 일정의 구간마다 수단 · 시간 · 거리(`legInfo` km, 요약 총 거리와 같은 값)를 붙이고, 첫날 위 · 마지막 날 아래에 광역 체인(아래)과 본 구간 수단 예매 링크(`data/booking.ts` `wideBookingLink`)를 둔다
+- 일자별 일정의 구간마다 수단 · 시간 · 거리(`legInfo` km, 요약 총 거리와 같은 값. 도로 경로를 받은 구간은 도로 km 「도로 3.2km」, 시간은 그대로)를 붙이고, 첫날 위 · 마지막 날 아래에 광역 체인(아래)과 본 구간 수단 예매 링크(`data/booking.ts` `wideBookingLink`)를 둔다
 - **여러 도시 코스**(2026-10-02, 그 전에는 한 도시만 담고 다른 도시 장소를 담으려면 비울지 물었다): 어느 도시 장소든 그대로 담긴다. `city`는 처음 담은 장소의 도시(대표 도시: 추천 코스 후보 · 제목의 기준).
   - 도시가 다른 장소 사이는 `legInfo`가 광역 구간으로 잰다(둘 다 전철권이면 광역전철 12 + km × 0.95 + 환승 15, 둘 다 KTX · SRT 관문이면 기차 18 + km × 0.30 + 35, 아니면 버스 18 + km × 0.68 + 35. `schedule.ts` `wideLegMode`가 같은 규칙으로 수단을 정한다).
     일자별 일정의 그 구간은 「기차(광역 이동) · 시간 · km」처럼 수단을 붙이고 그 수단의 예매 링크(`wideBookingLink`, 자가용은 없음)를 둔다(`CourseDaySection` `legLinks`)
@@ -144,7 +146,8 @@ public/                 정적 파일
   날짜는 로컬 날짜로 만든다(`addLocalDays`, `toISOString`은 한국 시간에서 하루 밀린다)
 - 숙소 표본 `features/planner/data/stays.json`은 PoC `STAYS`(「임의 구성 — 실제 예약 정보 아님」, 153곳)다. PoC의 가격대(`band`)는 임의로 만든 숫자라
   옮기지 않고 화면에도 가격을 보이지 않는다. 표본에는 「예시」와 안내 한 줄을 둔다. 중 · 일 · 스페인어는 영어 값을 쓴다
-- 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다.
+- 코스 탭의 일정 · 요약은 `features/planner/schedule.ts`의 `buildPlannerSchedule`이 계산하고 화면은 그 결과만 그린다
+  (요약 총 거리만 도로 경로를 받은 구간을 도로 km로 바꿔 더한다, `docs/api.md` 「도로 경로」).
   날짜 나누기는 테마 코스와 같은 `course/scenarios.ts`의 `splitDays`, 출발지는 `data/regions.json`의 `origins`(PoC `ORIGINS` 61곳)
 
 #### 광역 체인 (`features/planner/wide-chain.ts` · `schedule.ts` · `metro.ts`)

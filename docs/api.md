@@ -291,6 +291,51 @@ const tfi = await api<TfiResponse>("/api/v1/tfi", {
 - **캐시**: 5분(공사가 5분마다 갱신)
 - **옮기지 않은 것**: PoC 실시간 운항 편성(`loadFlights`)은 PoC에서도 요청 주소(`KAC_ENDPOINT`)가 비어 꺼져 있다. 편성은 PoC 하드코딩 요약(`data/flights.json`)을 보인다
 
+### 도로 경로 `GET /api/route?from=..&to=..[&by=distance]`
+
+코스 빌더 지도(플래너 지도 탭 `PlannerMap` 코스 선 · 테마 코스 탭 `ThemeMap`)의 구간 선과 플래너 코스 탭의 구간 거리 · 요약 총 거리
+(2026-10-20 요청 「직선 거리 대신 실제 이동 경로를 그려 달라」). 코드는 `app/api/route/route.ts`, 처리는 `lib/road-route.ts`(서버 전용),
+구간 규칙은 `features/planner/course-map.ts`(`roadLegQuery`) · `road-legs.ts`(`themeRoadLegQuery`, 상한 · 키 · 주소), 브라우저 호출은 `features/planner/use-road-legs.ts`. 앱(Flutter)도 같은 주소를 부른다.
+테마 화면이 쓰는 `road-legs.ts` · `use-road-legs.ts`는 장소 · 일정 데이터 JSON을 import하지 않는다(`roadLegQuery`는 광역 수단 `wideLegMode`가 필요해 `course-map.ts`에 둔다, `theme/map-bundle.test.ts`).
+
+- **원천**: 카카오모빌리티 자동차 길찾기 `apis-navi.kakaomobility.com/v1/directions`(`origin` · `destination`은 경도,위도, `priority` `RECOMMEND` · `DISTANCE`,
+  `alternatives=false` · `road_details=false` · `summary=false`), 헤더 `Authorization: KakaoAK <키>`. 키 `KAKAO_REST_KEY`(서버 전용),
+  카카오 개발자 앱에서 카카오내비 API를 켜야 한다(`docs/security.md`). 시간 제한 8초
+- **도보 · 대중교통**: 카카오 도보 길찾기는 카카오모빌리티 제휴 전용이라 쓰지 않는다. 대중교통 · 도보 구간도 자동차 도로 최단 경로(`by=distance`)를 그린다
+  (실제 걷는 길 · 버스 노선과 같지 않다)
+- **규칙**(`lib/road-route.ts`): `routes[0].sections[].roads[].vertexes`(`[x1, y1, x2, y2, …]`, x 경도 · y 위도)를 차례로 잇고 바로 앞과 같은 점 · 한국 범위 밖 점은 버린다 →
+  도로 끝이 핀에서 1m 넘게 떨어져 있으면 출발 · 도착 좌표를 앞뒤에 붙인다(선이 핀에 닿게) → Douglas–Peucker(허용 오차 = 경로 km × 0.5m, 3 ~ 40m, 위도 보정 평면 m) → 소수 5자리.
+  도로 꼭짓점이 2개 미만이거나 줄인 뒤 2점 미만이면 경로 없음
+- **구간 규칙**(`roadLegQuery`, 앱 `course_map.dart`와 같다): 좌표는 일정이 쓰는 장소 좌표를 소수 5자리로(같은 구간이 같은 캐시). 직선 20m 안은 부르지 않는다.
+  자가용 → 추천 경로. 도시가 다른 광역 구간(`legInfo` wide)은 시외버스(`wideLegMode` bus)면 추천 경로, 기차 · 광역전철이면 부르지 않는다(도로가 아니다).
+  같은 도시는 대중교통 → `by=distance`, 렌트카 → 추천 경로. 테마 코스(`themeRoadLegQuery`)는 20m 안만 빼고 모두 부르고, 같은 도시 · 도시를 모르면 `by=distance`, 도시가 다르면 추천 경로.
+  한 코스에서 80구간(같은 조회는 한 번)까지만 부르고 나머지는 직선
+- **입력**: `from` · `to`는 「위도,경도」 소수. 숫자가 아니거나 한국 범위(위도 32.5–39.5 · 경도 124–132.5) 밖이면 400 `{ "message": "invalid from/to" }`, 소수 5자리로 반올림해 쓴다.
+  `by`는 없거나 `distance`만(그 밖은 400 `{ "message": "invalid by" }`). 직선 20m 안이면 카카오를 부르지 않고 `{ "empty": true }`, 700km 넘으면 400 `{ "message": "too far" }`.
+  호스트 · 경로는 코드에 고정했다
+- **응답**: `{ "km", "min", "path": [[위도, 경도], …] }` — `km` 도로 거리(소수 1자리), `min` 카카오 소요 시간(분, 반올림). 길이 없으면(routes 없음 · `result_code` ≠ 0: 섬 건너기 · 주변 도로 없음 등)
+  `{ "empty": true }`. 키가 없거나 카카오 401 · 403(카카오내비 권한 없음)이면 503 `{ "message": "not configured" }`, 그 밖의 실패(HTTP 오류 · 시간 초과 · JSON 아님)는
+  502 `{ "message": "upstream" }`. 키 · 카카오 오류 문구는 응답 · 로그에 넣지 않는다
+- **남용 막기**: 결과를 저장하지 못해 같은 요청도 매번 카카오를 부르므로 카카오 앞에서 막는다(`docs/security.md`). 다른 사이트 페이지의 브라우저 요청(`Sec-Fetch-Site: cross-site`)은
+  403 `{ "message": "forbidden" }`, IP마다 토큰 버킷(한꺼번에 160 · 그 뒤 시간당 300, 서버 인스턴스 메모리)을 넘으면 429 `{ "message": "too many requests" }`.
+  카카오를 부르지 않는 응답(400 · 20m 안 · 키 없음)은 세지 않는다. 브라우저 · 앱은 403 · 429도 직선 점선으로 그린다(403은 다시 묻지 않고 429는 5분 뒤 다시 묻는다, 아래 「캐시」)
+- **화면**: 경로를 받은 구간은 그 길을 따라 실선, 나머지(부르지 않는 구간 · 받는 중 · 경로 없음 · 오류 · 다시 묻기 전)는 두 핀을 잇는 직선 점선. 플래너 지도 범례 아래에 점선이 하나라도 있으면
+  안내 한 줄(`Planner.map.courseRoadNote`). 코스 탭 구간 줄은 「… · 도로 3.2km」(`Planner.course.legs.legRoad`), 요약 총 거리는 받은 구간만 도로 km로 바꾼 합.
+  **일정 시각 · 이동 시간(분)은 바꾸지 않는다**(일정 계산은 그대로 `legInfo` 어림값이고 `min`은 쓰지 않는다). 화면 맞추기는 핀 · 숙소 기준 그대로
+- **캐시**: 카카오 정책상 길찾기 결과를 우리 서버에 저장 · 재사용하지 않는다. 서버 fetch 캐시 없음(`cache: "no-store"`), 200(경로 · 경로 없음)만
+  `Cache-Control: private, max-age=3600`(브라우저 · 앱만), 400 · 403 · 429 · 502 · 503은 `no-store`. 브라우저(TanStack Query `["route", from, to, by]`, 지도 · 코스 탭이 함께 쓴다,
+  `use-road-legs.ts` `roadLegOptions`)와 앱(`roadRouteProvider`)은 답을 같은 규칙으로 나눈다
+  - **그대로 두는 답**: 경로 · 경로 없음(`{ "empty": true }`) · 400(입력이 틀림 · 너무 멂) · 403(`forbidden`), 429 말고 다른 4xx도. 다시 물어도 같은 답이라
+    브라우저는 1시간(`staleTime` · `gcTime`), 앱은 실행 동안 메모리(껐다 켤 때까지) 그대로 쓴다.
+    브라우저가 1시간 뒤 다시 물어 잠깐의 실패(아래)를 받으면 받은 경로를 그대로 두고 1시간 더 쓴다(`structuralSharing`, 실선이 점선으로 돌아가지 않는다)
+  - **잠깐의 실패**: 시간 초과(10초) · 연결 없음 · JSON이 아니거나 모양이 다른 2xx(가로챈 페이지 등) · `not configured`가 아닌 5xx(502 등) · 429(`too many requests`).
+    지금은 경로 없음처럼 그리고 5분 뒤 다시 묻는다: 그 구간을 보고 있으면 그때(브라우저 `refetchInterval` · 앱 타이머), 아니면 다음에 볼 때.
+    경로나 그대로 두는 답을 받으면 멈추고, 또 실패하면 다시 5분 뒤
+  - **503 `{ "message": "not configured" }`**: 그 뒤로 어느 구간도 서버에 묻지 않는다 — 브라우저는 페이지를 새로 고칠 때까지(화면 이동은 모듈을 그대로 둔다), 앱은 실행 동안.
+    키가 없는 서버에는 한 번만 묻는다
+  - 그 밖의 재시도는 없다(`retry: false`). 첫 답을 받기 전에는 하나만, 그 뒤로는 6개까지 함께 보낸다(`roadLegFetcher`, 앱 `RoadRouteGate`와 같다). 시간 제한 10초는 보낼 때부터 잰다
+  - 경로가 없는 동안(받는 중 · 없음 · 실패 · 다시 묻기 전) 그 구간은 직선 점선이고 거리는 일정의 어림값이다
+
 ### 한국관광공사 칸 `GET /api/tour/audio` · `/api/tour/related` · `/api/tour/crowd`
 
 장소 시트(`components/ui/PlaceTour`)의 날씨 칸 다음 세 칸(2026-09-29 팀 요청). 코드는 `app/api/tour/*/route.ts`,

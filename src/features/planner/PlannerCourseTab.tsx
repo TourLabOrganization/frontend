@@ -45,6 +45,8 @@ import {
   weatherKind,
   weatherPath,
 } from "@/lib/weather";
+import { roadLegQuery } from "./course-map";
+import { courseRoadQueries, roadLegKey } from "./road-legs";
 import { courseWeather, forecastRange } from "./course-weather";
 import { CategoryIcon } from "./CategoryIcon";
 import { ConfirmDialog } from "./ConfirmDialog";
@@ -126,6 +128,7 @@ import {
   toggleNightStay,
 } from "./stays";
 import { TripCalendar } from "./TripCalendar";
+import { useRoadLegs } from "./use-road-legs";
 import { IslandNotice } from "./IslandNotice";
 import {
   airTwin,
@@ -267,6 +270,33 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   const dError = startDate && endDate ? dateError(startDate, endDate) : null;
   const settings: PlannerSettings = { ...course, startDate, endDate };
   const plan = buildPlannerSchedule(places, settings, leadCity);
+  // 구간 도로 경로(지도 탭과 같은 조회 · 캐시, use-road-legs.ts). 받은 구간만 구간 거리 · 요약 거리를 도로 거리로 바꾼다(시각은 그대로)
+  const roadQueries = courseRoadQueries(
+    plan.days.map((d) => d.stops.map((s) => s.place)),
+    (p, q) => roadLegQuery(p, q, plan.local),
+  );
+  const roads = useRoadLegs(roadQueries.flat());
+  const roadOf = (day: number, k: number) => {
+    const q = roadQueries[day]?.[k];
+    return q ? roads.get(roadLegKey(q)) : undefined;
+  };
+  // 요약 총 거리: plan.km(같은 날 구간 legInfo km 합)에서 받은 구간만 도로 거리로 바꾼 합(소수 1자리)
+  let summaryKm = 0;
+  plan.days.forEach((d, i) =>
+    d.stops.forEach((s, k) => {
+      if (k === 0) return;
+      summaryKm +=
+        roadOf(i, k)?.km ??
+        legInfo(
+          d.stops[k - 1].place,
+          s.place,
+          plan.local,
+          CITY_HUBS,
+          METRO_CITY,
+        ).km;
+    }),
+  );
+  summaryKm = Math.round(summaryKm * 10) / 10;
 
   // 저장할 값(설정 + 체류 시간). 날짜는 고른 그대로(고르지 않았으면 null, PoC planSave) 저장하고 같은 값으로 비교한다.
   // 저장된 플랜 중 이 값과 같은 것이 있으면 「저장됨」
@@ -529,8 +559,9 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
   })();
 
   // 구간 정보: 같은 날 앞 장소 → 이 장소. 수단 · 시간 · 거리(요약 총 거리와 같은 legInfo km).
+  // 도로 경로를 받은 구간은 거리만 도로 거리(「도로 3.2km」)로 바꾼다. 시간은 일정 그대로다.
   // 도시가 다른 광역 구간은 수단(기차 · 버스 · 광역전철)을 이름에 붙이고 그 수단의 예매 링크를 둔다(자가용은 링크 없음)
-  const legLabels = (stops: (typeof plan.days)[number]["stops"]) =>
+  const legLabels = (stops: (typeof plan.days)[number]["stops"], day: number) =>
     stops.map((s, k) => {
       if (k === 0) return undefined;
       const L = legInfo(
@@ -541,7 +572,8 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         METRO_CITY,
       );
       const wideMode = L.wide ? wideLegMode(stops[k - 1].place, s.place) : null;
-      return t("legs.leg", {
+      const road = roadOf(day, k);
+      return t(road ? "legs.legRoad" : "legs.leg", {
         mode:
           wideMode && !L.own
             ? t(`legs.modes.wide_${wideMode}`)
@@ -549,7 +581,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               ? t("legs.modes.wide")
               : t(`legs.modes.${plan.local}`),
         duration: duration(s.move),
-        km: L.km.toFixed(1),
+        km: (road?.km ?? L.km).toFixed(1),
       });
     });
   const legLinks = (stops: (typeof plan.days)[number]["stops"]) =>
@@ -1154,7 +1186,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
         {(
           [
             ["stops", t("summary.stopsValue", { count: plan.stops })],
-            ["km", t("summary.kmValue", { km: plan.km.toFixed(1) })],
+            ["km", t("summary.kmValue", { km: summaryKm.toFixed(1) })],
             ["time", duration(plan.minutes)],
           ] as const
         ).map(([key, value]) => (
@@ -1437,7 +1469,7 @@ export function PlannerCourseTab({ scope, planId }: PlannerCourseTabProps) {
               day={day}
               transport={plan.local === "transit" ? "public-transit" : "car"}
               date={dayDate(i)}
-              legLabels={legLabels(day.stops)}
+              legLabels={legLabels(day.stops, i)}
               legLinks={legLinks(day.stops)}
               before={
                 <>

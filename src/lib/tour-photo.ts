@@ -24,6 +24,7 @@ import {
   type TourPlace,
 } from "./tour-api";
 import type { PlacePhotoSource } from "../components/ui/place-photo";
+import { kakaoRestKey } from "./kakao-rest";
 import { TOUR_TIMEOUT_MS } from "./tour";
 
 /** 같은 장소의 사진을 다시 찾는 간격(초). 대표 사진은 자주 바뀌지 않는다 */
@@ -285,12 +286,6 @@ async function commonsPhoto(
   } catch {
     return null;
   }
-}
-
-/** 카카오 REST API 키(서버 전용). 없으면 null */
-export function kakaoRestKey(): string | null {
-  const key = process.env.KAKAO_REST_KEY?.trim();
-  return key ? key : null;
 }
 
 /** 카카오 이미지 검색 주소(정확도순 10장) */

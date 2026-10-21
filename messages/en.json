@@ -902,7 +902,8 @@
       "courseFit": "Fit to course",
       "coursePin": "Day {day}, stop {order}: {name}",
       "courseStay": "Night {day} stay: {name}",
-      "courseStaySample": "Night {day} stay (sample): {name}"
+      "courseStaySample": "Night {day} stay (sample): {name}",
+      "courseRoadNote": "Solid lines follow roads; dashed lines are straight connections."
     },
     "sheet": {
       "add": "Add to course",
@@ -1093,6 +1094,7 @@
       },
       "legs": {
         "leg": "{mode} · {duration} · {km} km",
+        "legRoad": "{mode} · {duration} · {km} km by road",
         "modes": {
           "transit": "Transit",
           "driving": "Rental car",
