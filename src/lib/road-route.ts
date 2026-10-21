@@ -40,7 +40,7 @@ export const ROUTE_MAX_KM = 700;
 export const ROUTE_IP_BURST = 160;
 export const ROUTE_IP_PER_HOUR = 300;
 /** 기억하는 IP 수 상한. 넘으면 다 찬 버킷(한동안 안 온 IP)부터 지운다 */
-const ROUTE_IP_KEEP = 10000;
+export const ROUTE_IP_KEEP = 10000;
 
 /** 카카오 priority. by 없음 → 추천, by=distance → 최단 거리 */
 export type RoutePriority = "RECOMMEND" | "DISTANCE";
@@ -232,6 +232,7 @@ export function toRoadRoute(
   for (const p of simplifyPath(road, simplifyTolerance(km))) {
     const lat = round5(p.lat);
     const lng = round5(p.lng);
+    // 반올림하면 같아지는 이웃 점은 하나만(줄이기 허용 오차가 3m 이상이라 거의 같은 양 끝뿐)
     const last = path.at(-1);
     if (last && last[0] === lat && last[1] === lng) continue;
     path.push([lat, lng]);
@@ -279,7 +280,12 @@ export function resetRouteLimit(): void {
   buckets.clear();
 }
 
-/** 응답. 200(경로 · 경로 없음)은 브라우저 · 앱만(private) 1시간, 오류는 저장하지 않는다 */
+/** 기억하고 있는 IP 수(테스트) */
+export function routeLimitSize(): number {
+  return buckets.size;
+}
+
+/** 응답. 200(경로 · 경로 없음)은 private, max-age=3600(브라우저 1시간 · 앱은 실행 동안 메모리), 오류는 no-store */
 function routeJson(body: unknown, status = 200): Response {
   return Response.json(body, {
     status,

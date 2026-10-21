@@ -6,11 +6,13 @@ import {
   parseLatLng,
   parseRouteQuery,
   ROUTE_IP_BURST,
+  ROUTE_IP_KEEP,
   ROUTE_IP_PER_HOUR,
   type RoadRoute,
   type RouteQuery,
   resetRouteLimit,
   roadRouteResponse,
+  routeLimitSize,
   routeVertices,
   simplifyPath,
   simplifyTolerance,
@@ -156,15 +158,20 @@ describe("경로 다듬기 (toRoadRoute)", () => {
   });
 
   it("도로 끝이 핀에서 1m 넘게 떨어져 있으면 핀을 앞 · 뒤에 붙인다(1m 안이면 붙이지 않는다)", () => {
-    // 첫 점은 핀에서 약 50m, 끝 점은 핀에서 약 0.3m
+    // 첫 점은 핀에서 약 50m, 끝 점은 핀에서 약 0.9m. 끝 점은 반올림해도 핀과 다른 점이라
+    // 핀을 붙였다면 줄이기가 끝 점(핀까지 3m 안)을 빼고 핀이 끝에 남는다
+    const end = { lat: 35.834696, lng: 129.219016 };
+    expect(distM(end, TO)).toBeGreaterThan(0.5);
+    expect(distM(end, TO)).toBeLessThan(1);
     const body = kakao([
-      [129.2117, 35.8383, 129.215, 35.837, 129.219013, 35.834692],
+      [129.2117, 35.8383, 129.215, 35.837, end.lng, end.lat],
     ]);
-    const out = toRoadRoute(body, query()) as RoadRoute;
-    expect(out.path[0]).toEqual([FROM.lat, FROM.lng]);
-    expect(out.path[1]).toEqual([35.8383, 129.2117]);
-    expect(out.path.at(-1)).toEqual([35.83469, 129.21901]);
-    expect(out.path).toHaveLength(4);
+    expect((toRoadRoute(body, query()) as RoadRoute).path).toEqual([
+      [FROM.lat, FROM.lng],
+      [35.8383, 129.2117],
+      [35.837, 129.215],
+      [35.8347, 129.21902],
+    ]);
   });
 
   it("좌표는 소수 5자리로 반올림한다", () => {
@@ -176,6 +183,18 @@ describe("경로 다듬기 (toRoadRoute)", () => {
       [35.837, 129.215],
       [35.83469, 129.21901],
     ]);
+  });
+
+  it("반올림하면 같아지는 이웃 점은 한 번만 둔다(그래서 2점 미만이면 경로 없음)", () => {
+    // 줄이기(3m 이상)가 1.4m 안 이웃 점을 함께 남기는 것은 양 끝뿐이라 두 핀이 거의 같은 경우로 본다(서버는 20m 안을 카카오에 묻지 않는다)
+    const at = { lat: 35.837, lng: 129.215 };
+    expect(
+      toRoadRoute(kakao([[129.215001, 35.837, 129.215004, 35.837]]), {
+        from: at,
+        to: at,
+        priority: "RECOMMEND",
+      }),
+    ).toEqual({ empty: true });
   });
 
   it("result_code가 0이 아니거나(길 없음 · 섬) routes가 없으면 경로 없음", () => {
@@ -303,6 +322,28 @@ describe("IP마다 상한 (takeRouteToken · clientIp)", () => {
     expect(n).toBeGreaterThan(ROUTE_IP_BURST + 24 * ROUTE_IP_PER_HOUR - 5);
   });
 
+  it("기억하는 IP는 ROUTE_IP_KEEP개까지: 넘으면 다 찬 버킷부터, 모두 쓰는 중이면 먼저 들어온 IP부터 지운다", () => {
+    expect(ROUTE_IP_KEEP).toBe(10000);
+    const t0 = 1_000_000;
+    // 처음 IP는 다 쓰고 나머지는 하나씩 써서 다 찬 버킷이 없다
+    for (let i = 0; i < ROUTE_IP_BURST; i++) takeRouteToken("ip-0", t0);
+    expect(takeRouteToken("ip-0", t0)).toBe(false);
+    for (let i = 1; i < ROUTE_IP_KEEP; i++) takeRouteToken(`ip-${i}`, t0);
+    expect(routeLimitSize()).toBe(ROUTE_IP_KEEP);
+    // 새 IP는 가장 먼저 들어온 ip-0을 지운다(ip-0은 새 버킷으로 다시 받는다)
+    expect(takeRouteToken("new", t0)).toBe(true);
+    expect(routeLimitSize()).toBe(ROUTE_IP_KEEP);
+    expect(takeRouteToken("ip-0", t0)).toBe(true);
+    expect(routeLimitSize()).toBe(ROUTE_IP_KEEP);
+    for (let i = 1; i < ROUTE_IP_BURST; i++) takeRouteToken("new", t0);
+    expect(takeRouteToken("new", t0)).toBe(false);
+    // 12초 뒤(토큰 하나가 찬다) 새 IP: 하나만 쓴 IP는 다 차서 지우고 다 쓴 new는 남긴다
+    expect(takeRouteToken("late", t0 + 12_000)).toBe(true);
+    expect(routeLimitSize()).toBe(2);
+    expect(takeRouteToken("new", t0 + 12_000)).toBe(true);
+    expect(takeRouteToken("new", t0 + 12_000)).toBe(false);
+  });
+
   it("IP는 x-forwarded-for 첫 값 → x-real-ip, 없으면 빈 글자", () => {
     const req = (headers: Record<string, string>) =>
       new Request("http://localhost/api/route", { headers });
@@ -336,7 +377,7 @@ describe("GET /api/route", () => {
     return fn;
   };
 
-  it("길을 찾으면 { km, min, path }, 캐시는 브라우저 · 앱만 1시간. 카카오는 키 헤더 · no-store로 부른다", async () => {
+  it("길을 찾으면 { km, min, path }, Cache-Control private, max-age=3600. 카카오는 키 헤더 · no-store로 부른다", async () => {
     vi.stubEnv("KAKAO_REST_KEY", KEY);
     const fn = stubKakao(() =>
       Response.json(
@@ -480,11 +521,14 @@ describe("GET /api/route", () => {
       Response.json(kakao([[129.21118, 35.83811, 129.21901, 35.83469]])),
     );
     const ip = { "x-forwarded-for": "203.0.113.7" };
-    // 20m 안 · 좌표가 틀림은 카카오를 부르지 않아 세지 않는다
+    // 20m 안 · 좌표가 틀림 · 키 없음은 카카오를 부르지 않아 세지 않는다
     for (let i = 0; i < 5; i++) {
       await call("from=35.8,129.2&to=35.80015,129.2", ip);
       await call("from=1,2&to=35.9,129.3", ip);
     }
+    vi.stubEnv("KAKAO_REST_KEY", "");
+    for (let i = 0; i < 5; i++) expect((await call(qs, ip)).status).toBe(503);
+    vi.stubEnv("KAKAO_REST_KEY", KEY);
     for (let i = 0; i < ROUTE_IP_BURST; i++)
       expect((await call(qs, ip)).status).toBe(200);
     const res = await call(qs, ip);
